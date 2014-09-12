@@ -1,0 +1,5 @@
+# List of files ignored by git.
+.classpath
+.project
+target/site/**
+target/surefire-reports/**
