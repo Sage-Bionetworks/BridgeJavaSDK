@@ -4,3 +4,4 @@
 .settings/**
 target/site/**
 target/surefire-reports/**
+'SDK Notes'

@@ -1,0 +1,32 @@
+SDK Notes
+~~~~~~~~~~~
+
+studies
+
+users
+
+survey data
+
+health data
+
+user = {
+    profile,
+    health data,
+    survey data,
+    studies = [{
+        role, 
+        studyname
+    }]    
+}
+
+study -> user -> user_data
+
+User is going to sign up, providing an email address, username, and password.
+Bridge sends consent link to that email address.
+User is signed in, and walks through consent process.
+User finishes consent process, and sends consent signature.
+User is forwarded to the main site, where they are authenticated and consented.
+User goes through a series of actions, and then wants to sign out.
+
+SDK, standard development kit.
+Authentication, how does this work? User signs in, out, up, and requests a password reset.
