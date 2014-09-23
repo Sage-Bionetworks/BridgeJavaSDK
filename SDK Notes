@@ -19,7 +19,7 @@ user = {
     }]    
 }
 
-study -> user -> user_data
+study -> user -> {data, profile, session}
 
 User is going to sign up, providing an email address, username, and password.
 Bridge sends consent link to that email address.
@@ -30,3 +30,8 @@ User goes through a series of actions, and then wants to sign out.
 
 SDK, standard development kit.
 Authentication, how does this work? User signs in, out, up, and requests a password reset.
+
+ClientProvider provider = new ClientProvider(Version.V1);
+provider.authenticate(username, password);
+
+BridgeUserClient client = provider.getUserClient(); // an interface "UserClient", impl. by admin, researcher, particip.
