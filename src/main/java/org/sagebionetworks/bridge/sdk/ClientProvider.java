@@ -19,12 +19,25 @@ public class ClientProvider {
         return new ClientProvider(version);
     }
 
+    public boolean isAuthenticated() {
+        return authenticatedSession != null;
+    }
+
     public void authenticate(SignInCredentials signIn) {
         if (signIn == null) {
             throw new IllegalArgumentException("SignInCredentials object must not be null.");
         }
         AuthenticationApiCaller auth = AuthenticationApiCaller.valueOf();
         authenticatedSession = auth.signIn(signIn.getUsername(), signIn.getPassword());
+    }
+
+    public void signOut() {
+        if (authenticatedSession == null) {
+            throw new IllegalStateException("A User needs to be signed in to call this method.");
+        }
+        AuthenticationApiCaller auth = AuthenticationApiCaller.valueOf();
+        auth.signOut(authenticatedSession);
+        authenticatedSession = null;
     }
 
     public BridgeUserClient getClient() {

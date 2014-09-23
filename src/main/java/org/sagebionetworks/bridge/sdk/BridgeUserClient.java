@@ -2,8 +2,12 @@ package org.sagebionetworks.bridge.sdk;
 
 public class BridgeUserClient {
 
+    private BridgeUserClient() {
+
+    }
+
     static BridgeUserClient valueOf(UserSession session) {
-        return null;
+        return new BridgeUserClient();
     }
 
     String getRole() {

@@ -12,8 +12,8 @@ public class AuthenticationApiCallerTest {
         String username = "d;fjasdl;kfjads";
         String password = "lalalalalala";
         try {
-            AuthenticationApiCaller authClient = AuthenticationApiCaller.valueOf();
-            UserSession session = authClient.signIn(username, password);
+            AuthenticationApiCaller auth = AuthenticationApiCaller.valueOf();
+            UserSession session = auth.signIn(username, password);
             assertNull(session);
         } catch (Exception e) {}
     }
@@ -22,11 +22,11 @@ public class AuthenticationApiCallerTest {
     public void canSignInAndOut() {
         String username = "cje";
         String password = "1";
-        AuthenticationApiCaller authClient = AuthenticationApiCaller.valueOf();
-        UserSession session = authClient.signIn(username, password);
+        AuthenticationApiCaller auth = AuthenticationApiCaller.valueOf();
+        UserSession session = auth.signIn(username, password);
         assertNotNull(session);
 
-        session = authClient.signOut(session);
+        session = auth.signOut(session);
         assertNull(session.getSessionToken());
     }
 }
