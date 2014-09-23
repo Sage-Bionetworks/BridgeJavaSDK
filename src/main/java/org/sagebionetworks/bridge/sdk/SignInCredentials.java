@@ -25,12 +25,18 @@ class SignInCredentials {
     public String getUsername() { return this.username; }
     public String getPassword() { return this.password; }
 
-    SignInCredentials setUsername(String username) {
+    public SignInCredentials setUsername(String username) {
+        if (username == null) {
+            throw new IllegalArgumentException("username cannot be null.");
+        }
         this.username = username;
         return this;
     }
 
-    SignInCredentials setPassword(String password) {
+    public SignInCredentials setPassword(String password) {
+        if (password == null) {
+            throw new IllegalArgumentException("password cannot be null.");
+        }
         this.password = password;
         return this;
     }

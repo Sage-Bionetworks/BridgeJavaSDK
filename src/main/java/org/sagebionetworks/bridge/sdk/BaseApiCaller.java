@@ -36,11 +36,8 @@ abstract class BaseApiCaller {
     }
 
     protected final void setHost(String hostname) {
-        if (HostName.isValidHostName(hostname)) {
-            HOST = hostname;
-        } else {
-            throw new AssertionError("Argument \"host\" not one of the accepted fields.");
-        }
+        assert HostName.isValidHostName(hostname);
+        HOST = hostname;
     }
 
     protected final Response get(String url) {

@@ -33,10 +33,12 @@ final class UserSession {
     }
 
     static UserSession valueOf(JsonNode json) {
+        assert json != null;
         return mapper.convertValue(json, UserSession.class);
     }
 
     static UserSession valueOf(String json) {
+        assert json != null;
         UserSession session = null;
         try {
             session = mapper.readValue(json, UserSession.class);

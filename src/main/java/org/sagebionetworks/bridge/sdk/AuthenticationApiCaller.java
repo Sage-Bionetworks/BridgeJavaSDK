@@ -36,6 +36,8 @@ final class AuthenticationApiCaller extends BaseApiCaller {
     }
 
     String signUp(String email, String username, String password) {
+        assert email != null && username != null && password != null;
+
         String signUp = null;
         try {
             signUp = mapper.writeValueAsString(SignUpCredentials.valueOf(email, username, password));
@@ -47,6 +49,8 @@ final class AuthenticationApiCaller extends BaseApiCaller {
     }
 
     UserSession signIn(String username, String password) {
+        assert username != null && password != null;
+
         String signIn = null;
         try {
             signIn = mapper.writeValueAsString(SignInCredentials.valueOf(username, password));
@@ -64,12 +68,17 @@ final class AuthenticationApiCaller extends BaseApiCaller {
     }
 
     UserSession signOut(UserSession session) {
+        assert session != null;
+        assert session.getSessionToken() != null;
+
         Header header = new BasicHeader("Bridge-Session", session.getSessionToken());
         get(SIGN_OUT, header);
         return session.signOut();
     }
 
     void requestResetPassword(String email) {
+        assert email != null;
+
         ObjectNode json = JsonNodeFactory.instance.objectNode();
         json.put("email", email);
         try {

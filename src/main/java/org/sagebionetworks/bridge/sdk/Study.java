@@ -14,6 +14,12 @@ final class Study {
     public int getMinAge() { return this.minAge; }
 
     public Study setActiveStudy(String name, int minAge) {
+        if (name == null) {
+            throw new IllegalArgumentException("name cannot be null.");
+        } else if (minAge <= 0 || minAge >= 100) {
+            throw new IllegalArgumentException("minAge is outside the valid range (0 < minAge < 100 years old: "
+                    + minAge);
+        }
         return new Study(name, minAge);
     }
 }
