@@ -16,10 +16,10 @@ import org.apache.http.impl.client.LaxRedirectStrategy;
 
 abstract class BaseApiCaller {
 
-    private static String HOST = HostName.getLocal();
-    private static String API = "api/";
-    private static String VERSION = "v1/";
-    private static String BASE_URL = HOST + API + VERSION;
+    private static String host = HostName.getLocal();
+    private static String api = "api/";
+    private static String version = "v1/";
+    private static String baseUrl = host + api + version;
 
     private static final HttpClient client = HttpClientBuilder.create()
             .setRedirectStrategy(new LaxRedirectStrategy())
@@ -27,17 +27,17 @@ abstract class BaseApiCaller {
             .build();
     private static final Executor exec = Executor.newInstance(client);
 
-    protected static final void setVersion(Version version) {
-        switch (version) {
+    protected static final void setVersion(Version v) {
+        switch (v) {
             case V1:
-                VERSION = "v1/";
+                version = "v1/";
                 break;
         }
     }
 
     protected final void setHost(String hostname) {
         assert HostName.isValidHostName(hostname);
-        HOST = hostname;
+        host = hostname;
     }
 
     protected final Response get(String url) {
@@ -47,7 +47,7 @@ abstract class BaseApiCaller {
     protected final Response get(String url, Header header) {
         Response response = null;
         try {
-            Request request = Request.Get(BASE_URL + url);
+            Request request = Request.Get(baseUrl + url);
             if (header != null) {
                 request = request.addHeader(header);
             }
@@ -63,7 +63,7 @@ abstract class BaseApiCaller {
     protected final Response post(String url, String json) {
         Response response = null;
         try {
-            Request request = Request.Post(BASE_URL + url).bodyString(json, ContentType.APPLICATION_JSON);
+            Request request = Request.Post(baseUrl + url).bodyString(json, ContentType.APPLICATION_JSON);
             response = exec.execute(request);
         } catch (ClientProtocolException e) {
             e.printStackTrace();

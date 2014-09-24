@@ -6,7 +6,7 @@ import org.apache.commons.validator.routines.UrlValidator;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.fluent.Response;
 
-public class HostName {
+class HostName {
 
     private static String[] schemes = { "http", "https" };
     private static UrlValidator validator = new UrlValidator(schemes);

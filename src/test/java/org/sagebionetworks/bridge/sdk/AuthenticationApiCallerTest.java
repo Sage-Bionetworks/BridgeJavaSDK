@@ -2,6 +2,7 @@ package org.sagebionetworks.bridge.sdk;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -13,7 +14,8 @@ public class AuthenticationApiCallerTest {
         String password = "lalalalalala";
         try {
             AuthenticationApiCaller auth = AuthenticationApiCaller.valueOf();
-            UserSession session = auth.signIn(username, password);
+            auth.signIn(username, password);
+            fail("If we did not throw an error or exception, then something has gone wrong.");
         } catch (Throwable t) {}
     }
 

@@ -73,7 +73,7 @@ final class AuthenticationApiCaller extends BaseApiCaller {
 
         Header header = new BasicHeader("Bridge-Session", session.getSessionToken());
         get(SIGN_OUT, header);
-        return session.signOut();
+        return UserSession.valueOfRemoveAuth(session);
     }
 
     void requestResetPassword(String email) {

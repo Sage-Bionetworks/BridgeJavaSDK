@@ -2,6 +2,4 @@
 .classpath
 .project
 .settings/**
-target/site/**
-target/surefire-reports/**
-'SDK Notes'
+target/**

@@ -3,7 +3,7 @@ package org.sagebionetworks.bridge.sdk;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-class SignInCredentials {
+public class SignInCredentials {
 
     private String username;
     private String password;
@@ -14,12 +14,12 @@ class SignInCredentials {
         this.password = password;
     }
 
-    static SignInCredentials valueOf() {
-        return new SignInCredentials(null, null);
-    }
-
     static SignInCredentials valueOf(String username, String password) {
         return new SignInCredentials(username, password);
+    }
+
+    public static SignInCredentials valueOf() {
+        return new SignInCredentials(null, null);
     }
 
     public String getUsername() { return this.username; }

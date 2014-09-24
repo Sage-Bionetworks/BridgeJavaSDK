@@ -52,8 +52,8 @@ final class UserSession {
         return session;
     }
 
-    UserSession signOut() {
-        return new UserSession(this.username, null, false, this.consented, this.dataSharing);
+    static UserSession valueOfRemoveAuth(UserSession session) {
+        return new UserSession(session.username, null, false, session.consented, session.dataSharing);
     }
 
     public String getUsername() { return this.username; }

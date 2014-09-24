@@ -21,6 +21,10 @@ public class SignUpCredentials {
         return new SignUpCredentials(email, username, password);
     }
 
+    public static SignUpCredentials valueOf() {
+        return new SignUpCredentials(null, null, null);
+    }
+
     public String getEmail() { return this.email; }
     public String getUsername() { return this.username; }
     public String getPassword() { return this.password; }
