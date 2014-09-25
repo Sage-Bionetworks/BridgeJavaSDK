@@ -1,13 +1,15 @@
 package org.sagebionetworks.bridge.sdk;
 
-public class BridgeUserClient {
+import org.sagebionetworks.bridge.sdk.models.UserProfile;
 
-    private BridgeUserClient() {
+public class BridgeUserClient extends BaseApiCaller {
 
+    private BridgeUserClient(ClientProvider provider) {
+        super(provider);
     }
 
-    static BridgeUserClient valueOf(UserSession session) {
-        return new BridgeUserClient();
+    static BridgeUserClient valueOf(ClientProvider provider) {
+        return new BridgeUserClient(provider);
     }
 
     String getRole() {

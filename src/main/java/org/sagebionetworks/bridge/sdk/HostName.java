@@ -11,10 +11,10 @@ public class HostName {
     private static String[] schemes = { "http", "https" };
     private static UrlValidator validator = new UrlValidator(schemes);
 
-    private static String LOCAL = "http://localhost:9000/";
-    private static String DEV = "http://pd-dev.sagebridge.org/";
-    private static String STAGING = "http://pd-staging.sagebridge.org/";
-    private static String PROD = "http://pd.sagebridge.org/";
+    private static String LOCAL = "localhost:9000";
+    private static String DEV = "bridge-develop.herokuapp.com";
+    private static String STAGING = "bridge-uat.herokuapp.com";
+    private static String PROD = "pd.sagebridge.org";
 
     public static boolean isConnectableUrl(String url, int timeout) {
         if (!validator.isValid(url)) {
