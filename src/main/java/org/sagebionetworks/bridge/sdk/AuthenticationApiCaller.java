@@ -2,9 +2,9 @@ package org.sagebionetworks.bridge.sdk;
 
 import java.io.IOException;
 
-import org.apache.http.Header;
 import org.apache.http.client.fluent.Response;
-import org.apache.http.message.BasicHeader;
+import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
+import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -14,25 +14,21 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 final class AuthenticationApiCaller extends BaseApiCaller {
 
-    private static ObjectMapper mapper = new ObjectMapper().configure(
+    private ObjectMapper mapper = new ObjectMapper().configure(
             DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-    private static final String AUTH = "auth/";
-    private static final String SIGN_UP = AUTH + "signUp";
-    private static final String SIGN_IN = AUTH + "signIn";
-    private static final String SIGN_OUT = AUTH + "signOut";
-    private static final String REQUEST_RESET = AUTH + "requestResetPassword";
+    private final String AUTH = "/api/v1/auth/";
+    private final String SIGN_UP = AUTH + "signUp";
+    private final String SIGN_IN = AUTH + "signIn";
+    private final String SIGN_OUT = AUTH + "signOut";
+    private final String REQUEST_RESET = AUTH + "requestResetPassword";
 
-    private AuthenticationApiCaller() {};
+    private AuthenticationApiCaller(ClientProvider provider) {
+        super(provider);
+    };
 
-    static AuthenticationApiCaller valueOf() {
-        return new AuthenticationApiCaller();
-    }
-
-    static AuthenticationApiCaller valueOf(String hostname) {
-        AuthenticationApiCaller authClient = new AuthenticationApiCaller();
-        authClient.setHost(hostname);
-        return authClient;
+    static AuthenticationApiCaller valueOf(ClientProvider provider) {
+        return new AuthenticationApiCaller(provider);
     }
 
     String signUp(String email, String username, String password) {
@@ -71,8 +67,7 @@ final class AuthenticationApiCaller extends BaseApiCaller {
         assert session != null;
         assert session.getSessionToken() != null;
 
-        Header header = new BasicHeader("Bridge-Session", session.getSessionToken());
-        get(SIGN_OUT, header);
+        authorizedGet(SIGN_OUT);
         return session.signOut();
     }
 
