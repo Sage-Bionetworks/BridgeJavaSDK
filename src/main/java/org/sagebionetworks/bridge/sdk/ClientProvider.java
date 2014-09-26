@@ -4,11 +4,14 @@ public class ClientProvider {
 
     private BridgeUserClient client;
     private UserSession authenticatedSession;
+    private Config config;
 
-    private ClientProvider(Version version) {
+    private ClientProvider(Version version, String configPath) {
         this.client = null;
         this.authenticatedSession = null;
+        this.config = (configPath == null ? Config.valueOfDefault() : Config.valueOf(configPath));
 
+        HostName.setUrl(config.getUrl());
         AuthenticationApiCaller.setVersion(version);
     }
 
@@ -16,7 +19,17 @@ public class ClientProvider {
         if (version == null) {
             throw new IllegalArgumentException("Version must not be null.");
         }
-        return new ClientProvider(version);
+        return new ClientProvider(version, null);
+    }
+
+    public static ClientProvider valueOf(Version version, String configPath) {
+        if (version == null) {
+            throw new IllegalArgumentException("Version must not be null.");
+        } else if (configPath == null || configPath.isEmpty() || !configPath.endsWith(".properties")) {
+            throw new IllegalArgumentException("ConfigPath must be non-null, non-empty, and end with \".properties\": "
+                    + "\"" + configPath + "\"");
+        }
+        return new ClientProvider(version, configPath);
     }
 
     public boolean isAuthenticated() {

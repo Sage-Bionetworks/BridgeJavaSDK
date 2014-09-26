@@ -16,7 +16,7 @@ import org.apache.http.impl.client.LaxRedirectStrategy;
 
 abstract class BaseApiCaller {
 
-    private static String host = HostName.getLocal();
+    private static String host = HostName.getUrl();
     private static String api = "api/";
     private static String version = "v1/";
     private static String baseUrl = host + api + version;
