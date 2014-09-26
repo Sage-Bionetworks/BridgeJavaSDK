@@ -49,7 +49,6 @@ abstract class BaseApiCaller {
     final Response authorizedGet(String url) {
         Response response = null;
         try {
-            System.out.println(getFullUrl(url));
             Request request = Request.Get(getFullUrl(url));
             request.setHeader("Bridge-Session", provider.getSessionToken());
             response = exec.execute(request);
@@ -80,8 +79,6 @@ abstract class BaseApiCaller {
         Response response = null;
         try {
             Request request = Request.Post(getFullUrl(url)).bodyString(json, ContentType.APPLICATION_JSON);
-            System.out.println(getFullUrl(url));
-
             request.setHeader("Bridge-Session", provider.getSessionToken());
             response = exec.execute(request);
         } catch (ClientProtocolException e) {
@@ -112,8 +109,6 @@ abstract class BaseApiCaller {
     }
 
     final String getFullUrl(String url) {
-        // TODO: If you put host with/without a slash or do/don't start the URL with a slash
-        // you get bad behavior, should use a URL parsing library or something to fix this.
-        return "http://" + provider.getHost() + url;
+        return provider.getHost() + url;
     }
 }

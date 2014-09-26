@@ -6,32 +6,36 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 
 final class Config {
 
-    private final String CONFIG;
     private static final String DEFAULT_CONFIG = "config.properties";
 
-    private static final String PARTICIPANT_EMAIL = "participant.email";
-    private static final String PARTICIPANT_PASSWORD = "participant.password";
+    private static final String[] fields = new String[5];
 
-    private static final String ADMIN_EMAIL = "admin.email";
-    private static final String ADMIN_PASSWORD = "admin.password";
+    private static final String PARTICIPANT_EMAIL = fields[0] = "PARTICIPANT_EMAIL";
+    private static final String PARTICIPANT_PASSWORD = fields[1] = "PARTICIPANT_PASSWORD";
 
-    private static final String URL = "url";
+    private static final String ADMIN_EMAIL = fields[2] = "ADMIN_EMAIL";
+    private static final String ADMIN_PASSWORD = fields[3] = "ADMIN_PASSWORD";
+
+    private static final String URL = fields[4] = "URL";
 
     private Configuration config;
 
     private Config(String configPath) {
-        if (configPath == null) {
-            CONFIG = DEFAULT_CONFIG;
-        } else {
-            assert configPath.endsWith(".properties");
-            CONFIG = configPath;
-        }
+        assert configPath != null;
+        assert configPath.endsWith(".properties");
+
+        // Set with config file.
         try {
-            config = new PropertiesConfiguration(CONFIG);
+            config = new PropertiesConfiguration(configPath);
         } catch (ConfigurationException e) {
             e.printStackTrace();
         }
+        System.out.println("config created.");
+        // Override any options with environment variables.
+        overrideWithEnvironmentVariables(config);
+        System.out.println("environment variables added");
         assertAllPropertiesPresent(config);
+        System.out.println("all properties present.");
     }
 
     static Config valueOf(String configPath) {
@@ -39,7 +43,7 @@ final class Config {
     }
 
     static Config valueOfDefault() {
-        return new Config(null);
+        return new Config(DEFAULT_CONFIG);
     }
 
     String getParticipantEmail() { return config.getString(PARTICIPANT_EMAIL); }
@@ -49,10 +53,33 @@ final class Config {
     String getUrl() { return config.getString(URL); }
 
     private void assertAllPropertiesPresent(Configuration config) {
-        assert config.getString(PARTICIPANT_EMAIL) != null;
-        assert config.getString(PARTICIPANT_PASSWORD) != null;
-        assert config.getString(ADMIN_EMAIL) != null;
-        assert config.getString(ADMIN_PASSWORD) != null;
-        assert config.getString(URL) != null;
+        for (String field : fields) {
+            assert config.getString(field) != null;
+        }
+    }
+
+    private void overrideWithEnvironmentVariables(Configuration config) {
+        String value;
+        for (String field : fields) {
+            value = System.getenv(field);
+            if (value != null) {
+                config.setProperty(field, value);
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        assert config != null;
+        assertAllPropertiesPresent(config);
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("Config[");
+        for (String field : fields) {
+            builder.append(field + "=" + config.getString(field) + ", ");
+        }
+        builder.delete(builder.length()-2, builder.length()); // remove last ", "
+        builder.append("]");
+        return builder.toString();
     }
 }
