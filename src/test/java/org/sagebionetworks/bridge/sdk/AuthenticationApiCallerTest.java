@@ -13,7 +13,7 @@ public class AuthenticationApiCallerTest {
         String username = "d;fjasdl;kfjads";
         String password = "lalalalalala";
         try {
-            AuthenticationApiCaller auth = AuthenticationApiCaller.valueOf();
+            AuthenticationApiCaller auth = AuthenticationApiCaller.valueOf(ClientProvider.valueOf());
             auth.signIn(username, password);
             fail("If we did not throw an error or exception, then something has gone wrong.");
         } catch (Throwable t) {}
@@ -23,7 +23,7 @@ public class AuthenticationApiCallerTest {
     public void canSignInAndOut() {
         String username = "cje";
         String password = "1";
-        AuthenticationApiCaller auth = AuthenticationApiCaller.valueOf();
+        AuthenticationApiCaller auth = AuthenticationApiCaller.valueOf(ClientProvider.valueOf());
         UserSession session = auth.signIn(username, password);
         assertNotNull(session);
 

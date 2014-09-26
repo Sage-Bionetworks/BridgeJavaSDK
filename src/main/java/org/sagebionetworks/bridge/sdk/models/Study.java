@@ -1,4 +1,4 @@
-package org.sagebionetworks.bridge.sdk;
+package org.sagebionetworks.bridge.sdk.models;
 
 final class Study {
 

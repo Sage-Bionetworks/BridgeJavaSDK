@@ -1,5 +1,6 @@
 # List of files ignored by git.
 .classpath
 .project
-.settings/**
-target/**
+.settings
+target
+'SDK Notes'

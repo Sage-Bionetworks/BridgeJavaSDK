@@ -2,7 +2,6 @@ package org.sagebionetworks.bridge.sdk;
 
 import java.io.IOException;
 
-import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -16,41 +15,28 @@ import org.apache.http.impl.client.LaxRedirectStrategy;
 
 abstract class BaseApiCaller {
 
-    private static String host = HostName.getUrl();
-    private static String api = "api/";
-    private static String version = "v1/";
-    private static String baseUrl = host + api + version;
-
-    private static final HttpClient client = HttpClientBuilder.create()
+    private final HttpClient client = HttpClientBuilder.create()
             .setRedirectStrategy(new LaxRedirectStrategy())
             .setRetryHandler(new DefaultHttpRequestRetryHandler(5, true))
             .build();
-    private static final Executor exec = Executor.newInstance(client);
+    private final Executor exec = Executor.newInstance(client);
 
-    protected static final void setVersion(Version v) {
-        switch (v) {
-            case V1:
-                version = "v1/";
-                break;
-        }
+    final ClientProvider provider;
+
+    BaseApiCaller(ClientProvider provider) {
+        this.provider = provider;
     }
 
-    protected final void setHost(String hostname) {
-        assert HostName.isValidHostName(hostname);
-        host = hostname;
+    // Developers may wish to hold on to the client, but if they do this, they'll need access
+    // to the provider in order to sign out/sign in again.
+    public ClientProvider getProvider() {
+        return provider;
     }
 
-    protected final Response get(String url) {
-        return get(url, null);
-    }
-
-    protected final Response get(String url, Header header) {
+    final Response get(String url) {
         Response response = null;
         try {
-            Request request = Request.Get(baseUrl + url);
-            if (header != null) {
-                request = request.addHeader(header);
-            }
+            Request request = Request.Get(getFullUrl(url));
             response = exec.execute(request);
         } catch (ClientProtocolException e) {
             e.printStackTrace();
@@ -60,10 +46,26 @@ abstract class BaseApiCaller {
         return response;
     }
 
-    protected final Response post(String url, String json) {
+    final Response authorizedGet(String url) {
         Response response = null;
         try {
-            Request request = Request.Post(baseUrl + url).bodyString(json, ContentType.APPLICATION_JSON);
+            System.out.println(getFullUrl(url));
+            Request request = Request.Get(getFullUrl(url));
+            request.setHeader("Bridge-Session", provider.getSessionToken());
+            response = exec.execute(request);
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    final Response post(String url) {
+        Response response = null;
+        try {
+            Request request = Request.Post(getFullUrl(url));
+            request.setHeader("Bridge-Session", provider.getSessionToken());
             response = exec.execute(request);
         } catch (ClientProtocolException e) {
             e.printStackTrace();
@@ -74,7 +76,24 @@ abstract class BaseApiCaller {
         return response;
     }
 
-    protected final String getSessionToken(Response response) {
+    final Response post(String url, String json) {
+        Response response = null;
+        try {
+            Request request = Request.Post(getFullUrl(url)).bodyString(json, ContentType.APPLICATION_JSON);
+            System.out.println(getFullUrl(url));
+
+            request.setHeader("Bridge-Session", provider.getSessionToken());
+            response = exec.execute(request);
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return response;
+    }
+
+    final String getSessionToken(Response response) {
         if (response == null) {
             throw new IllegalArgumentException("HttpResponse object is null.");
         }
@@ -90,6 +109,11 @@ abstract class BaseApiCaller {
         } else {
             throw new AssertionError("Session Token does not exist in this response.");
         }
+    }
 
+    final String getFullUrl(String url) {
+        // TODO: If you put host with/without a slash or do/don't start the URL with a slash
+        // you get bad behavior, should use a URL parsing library or something to fix this.
+        return "http://" + provider.getHost() + url;
     }
 }

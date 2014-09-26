@@ -1,4 +1,4 @@
-package org.sagebionetworks.bridge.sdk;
+package org.sagebionetworks.bridge.sdk.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,7 +14,7 @@ public class SignInCredentials {
         this.password = password;
     }
 
-    static SignInCredentials valueOf(String username, String password) {
+    public static SignInCredentials valueOf(String username, String password) {
         return new SignInCredentials(username, password);
     }
 

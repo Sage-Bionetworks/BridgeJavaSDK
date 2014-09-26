@@ -1,64 +1,66 @@
 package org.sagebionetworks.bridge.sdk;
 
+import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
+
 public class ClientProvider {
 
-    private BridgeUserClient client;
-    private UserSession authenticatedSession;
-    private Config config;
+    private UserSession session;
+    private String host;
+    private AuthenticationApiCaller auth;
 
-    private ClientProvider(Version version, String configPath) {
-        this.client = null;
-        this.authenticatedSession = null;
-        this.config = (configPath == null ? Config.valueOfDefault() : Config.valueOf(configPath));
-
-        HostName.setUrl(config.getUrl());
-        AuthenticationApiCaller.setVersion(version);
+    private ClientProvider(String host) {
+        this.host = host;
+        this.auth = AuthenticationApiCaller.valueOf(this);
     }
 
-    public static ClientProvider valueOf(Version version) {
-        if (version == null) {
-            throw new IllegalArgumentException("Version must not be null.");
+    public static ClientProvider valueOf(String host) {
+        if (host == null) {
+            throw new IllegalArgumentException("Host must not be null.");
         }
-        return new ClientProvider(version, null);
+        return new ClientProvider(host);
     }
 
-    public static ClientProvider valueOf(Version version, String configPath) {
-        if (version == null) {
-            throw new IllegalArgumentException("Version must not be null.");
-        } else if (configPath == null || configPath.isEmpty() || !configPath.endsWith(".properties")) {
-            throw new IllegalArgumentException("ConfigPath must be non-null, non-empty, and end with \".properties\": "
-                    + "\"" + configPath + "\"");
-        }
-        return new ClientProvider(version, configPath);
+    public static ClientProvider valueOf() {
+        return new ClientProvider(HostName.getProd());
     }
 
-    public boolean isAuthenticated() {
-        return authenticatedSession != null;
+    String getSessionToken() {
+        return (session != null) ? session.getSessionToken() : null;
     }
 
-    public void authenticate(SignInCredentials signIn) {
+    String getHost() {
+        return host;
+    }
+
+    public boolean isSignedIn() {
+        return session != null;
+    }
+
+    public void signIn(SignInCredentials signIn) {
         if (signIn == null) {
             throw new IllegalArgumentException("SignInCredentials object must not be null.");
         }
-        AuthenticationApiCaller auth = AuthenticationApiCaller.valueOf();
-        authenticatedSession = auth.signIn(signIn.getUsername(), signIn.getPassword());
+        session = auth.signIn(signIn.getUsername(), signIn.getPassword());
     }
 
     public void signOut() {
-        if (authenticatedSession == null) {
-            throw new IllegalStateException("A User needs to be signed in to call this method.");
+        if (session != null) {
+            auth.signOut(session);
+            session = null;
         }
-        AuthenticationApiCaller auth = AuthenticationApiCaller.valueOf();
-        auth.signOut(authenticatedSession);
-        authenticatedSession = null;
     }
 
     public BridgeUserClient getClient() {
-        if (authenticatedSession == null) {
+        if (session == null) {
             throw new IllegalStateException("A User needs to be signed in to call this method.");
         }
-        client = BridgeUserClient.valueOf(authenticatedSession);
-        return client;
+        return BridgeUserClient.valueOf(this);
     }
 
+    public BridgeResearcherClient getResearcherClient() {
+        if (session == null) {
+            throw new IllegalStateException("A User needs to be signed in to call this method.");
+        }
+        return BridgeResearcherClient.valueOf(this);
+    }
 }

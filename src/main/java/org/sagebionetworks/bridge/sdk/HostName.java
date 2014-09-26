@@ -6,12 +6,15 @@ import org.apache.commons.validator.routines.UrlValidator;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.fluent.Response;
 
-final class HostName {
+public class HostName {
 
     private static String[] schemes = { "http", "https" };
     private static UrlValidator validator = new UrlValidator(schemes);
 
-    private static String URL = "http://localhost:9000/";
+    private static String LOCAL = "localhost:9000";
+    private static String DEV = "bridge-develop.herokuapp.com";
+    private static String STAGING = "bridge-uat.herokuapp.com";
+    private static String PROD = "pd.sagebridge.org";
 
     public static boolean isConnectableUrl(String url, int timeout) {
         if (!validator.isValid(url)) {
@@ -33,21 +36,43 @@ final class HostName {
     public static boolean isValidHostName(String hostname) {
         if (hostname == null) {
             throw new IllegalArgumentException("hostname was null.");
-        } else if (hostname.equals(URL)) {
+        } else if (hostname.equals(LOCAL) || hostname.equals(DEV) || hostname.equals(STAGING) || hostname.equals(PROD)) {
             return true;
         } else {
             return false;
         }
     }
 
-    static String getUrl() { return URL; }
+    public static String getLocal() { return LOCAL; }
+    public static String getDev() { return DEV; }
+    public static String getStaging() { return STAGING; }
+    public static String getProd() { return PROD; }
 
-    static void setUrl(String url) {
-        if (!validator.isValid(url)) {
-            throw new IllegalArgumentException("url is not a valid URL: " + "\"" + url + "\"");
-        } else if (!isConnectableUrl(url, 1000)) {
-            throw new IllegalArgumentException("Cannot connect to URL: " + "\"" + url + "\"");
+    public static void setLocal(String localUrl) {
+        if (!validator.isValid(localUrl)) {
+            throw new IllegalArgumentException("localUrl is not a valid URL: " + localUrl);
         }
-        URL = url;
+        LOCAL = localUrl;
+    }
+
+    public static void setDev(String devUrl) {
+        if (!validator.isValid(devUrl)) {
+            throw new IllegalArgumentException("devUrl is not a valid URL: " + devUrl);
+        }
+        DEV = devUrl;
+    }
+
+    public static void setStaging(String stagingUrl) {
+        if (!validator.isValid(stagingUrl)) {
+            throw new IllegalArgumentException("stagingUrl is not a valid URL: " + stagingUrl);
+        }
+        STAGING = stagingUrl;
+    }
+
+    public static void setProd(String prodUrl) {
+        if (!validator.isValid(prodUrl)) {
+            throw new IllegalArgumentException("prodUrl is not a valid URL: " + prodUrl);
+        }
+        PROD = prodUrl;
     }
 }
