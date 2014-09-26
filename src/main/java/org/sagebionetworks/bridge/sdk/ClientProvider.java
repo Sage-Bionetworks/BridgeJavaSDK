@@ -10,13 +10,6 @@ public class ClientProvider {
     private Config conf;
 
     private ClientProvider(String host) {
-        this.host = host;
-        this.auth = AuthenticationApiCaller.valueOf(this);
-        this.conf = Config.valueOfDefault();
-
-    }
-
-    public static ClientProvider valueOf(String host) {
         if (host == null) {
             throw new IllegalArgumentException("Host must not be null.");
         } else if (!HostName.isValidUrl(host)) {
@@ -29,6 +22,12 @@ public class ClientProvider {
         else if (!host.endsWith("/")) {
             host = host + "/";
         }
+        this.host = host;
+        this.auth = AuthenticationApiCaller.valueOf(this);
+        this.conf = Config.valueOfDefault();
+    }
+
+    public static ClientProvider valueOf(String host) {
         return new ClientProvider(host);
     }
 
@@ -39,6 +38,16 @@ public class ClientProvider {
     String getSessionToken() { return (session != null) ? session.getSessionToken() : null; }
     String getHost() { return host; }
     Config getConfig() { return conf; }
+
+    public void configure(String configPath) {
+        if (configPath == null) {
+            throw new IllegalArgumentException("Argument configPath should not be null.");
+        } else if (!configPath.endsWith(".properties")) {
+            throw new IllegalArgumentException(
+                    "Argument must end with the suffix \".properties\": " + configPath);
+        }
+        conf = Config.valueOf(configPath);
+    }
 
     public boolean isSignedIn() {
         return session != null;
