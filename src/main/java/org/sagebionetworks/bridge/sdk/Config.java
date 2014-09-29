@@ -8,13 +8,13 @@ final class Config {
 
     private static final String DEFAULT_CONFIG = "config.properties";
 
-    private static final String[] fields = new String[4];
+    private static final String[] properties = new String[4];
 
-    private static final String PARTICIPANT_EMAIL = fields[0] = "PARTICIPANT_EMAIL";
-    private static final String PARTICIPANT_PASSWORD = fields[1] = "PARTICIPANT_PASSWORD";
+    private static final String PARTICIPANT_EMAIL = properties[0] = "PARTICIPANT_EMAIL";
+    private static final String PARTICIPANT_PASSWORD = properties[1] = "PARTICIPANT_PASSWORD";
 
-    private static final String ADMIN_EMAIL = fields[2] = "ADMIN_EMAIL";
-    private static final String ADMIN_PASSWORD = fields[3] = "ADMIN_PASSWORD";
+    private static final String ADMIN_EMAIL = properties[2] = "ADMIN_EMAIL";
+    private static final String ADMIN_PASSWORD = properties[3] = "ADMIN_PASSWORD";
 
     private Configuration config;
 
@@ -49,17 +49,17 @@ final class Config {
     String getAdminPassword() { return config.getString(ADMIN_PASSWORD); }
 
     private void assertAllPropertiesPresent(Configuration config) {
-        for (String field : fields) {
-            assert config.getString(field) != null;
+        for (String property : properties) {
+            assert config.getString(property) != null : property + " property is not present.";
         }
     }
 
     private void overrideWithEnvironmentVariables(Configuration config) {
         String value;
-        for (String field : fields) {
-            value = System.getenv(field);
+        for (String property : properties) {
+            value = System.getenv(property);
             if (value != null) {
-                config.setProperty(field, value);
+                config.setProperty(property, value);
             }
         }
     }
@@ -71,8 +71,8 @@ final class Config {
 
         StringBuilder builder = new StringBuilder();
         builder.append("Config[");
-        for (String field : fields) {
-            builder.append(field + "=" + config.getString(field) + ", ");
+        for (String property : properties) {
+            builder.append(property + "=" + config.getString(property) + ", ");
         }
         builder.delete(builder.length()-2, builder.length()); // remove last ", "
         builder.append("]");
