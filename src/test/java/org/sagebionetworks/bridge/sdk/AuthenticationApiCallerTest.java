@@ -21,7 +21,7 @@ public class AuthenticationApiCallerTest {
 
     @Test
     public void canSignInAndOut() {
-        ClientProvider provider = ClientProvider.valueOf(HostName.getDev());
+        ClientProvider provider = ClientProvider.valueOf("bridge-sdk.properties");
         Config config = provider.getConfig();
 
         String username = config.getAdminEmail();

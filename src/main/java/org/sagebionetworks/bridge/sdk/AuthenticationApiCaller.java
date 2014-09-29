@@ -68,7 +68,7 @@ final class AuthenticationApiCaller extends BaseApiCaller {
         assert session.getSessionToken() != null;
 
         authorizedGet(SIGN_OUT);
-        return UserSession.valueOfRemoveAuth(session);
+        return session.signOut();
     }
 
     void requestResetPassword(String email) {

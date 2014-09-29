@@ -5,49 +5,35 @@ import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
 public class ClientProvider {
 
     private UserSession session;
-    private String host;
     private AuthenticationApiCaller auth;
     private Config conf;
 
-    private ClientProvider(String host) {
-        if (host == null) {
-            throw new IllegalArgumentException("Host must not be null.");
-        } else if (!HostName.isValidUrl(host)) {
-            throw new IllegalArgumentException("Host name is not valid: " + host);
-        }
-        // Ignore this section for now - our system is not pingable.
-//        else if (!HostName.isConnectableUrl(host, 1000)) {
-//            throw new IllegalArgumentException("Cannot connect to host: " + host);
-//        }
-        else if (!host.endsWith("/")) {
-            host = host + "/";
-        }
-        this.host = host;
+    private ClientProvider(String configPath) {
         this.auth = AuthenticationApiCaller.valueOf(this);
-        this.conf = Config.valueOfDefault();
+        this.conf = (configPath == null) ? Config.valueOfDefault() : Config.valueOf(configPath);
     }
 
-    public static ClientProvider valueOf(String host) {
-        return new ClientProvider(host);
-    }
-
-    public static ClientProvider valueOf() {
-        return new ClientProvider(HostName.getProd());
-    }
-
-    String getSessionToken() { return (session != null) ? session.getSessionToken() : null; }
-    String getHost() { return host; }
-    Config getConfig() { return conf; }
-
-    public void configure(String configPath) {
+    public static ClientProvider valueOf(String configPath) {
         if (configPath == null) {
-            throw new IllegalArgumentException("Argument configPath should not be null.");
+            throw new IllegalArgumentException("Configuration path must not be null.");
         } else if (!configPath.endsWith(".properties")) {
             throw new IllegalArgumentException(
                     "Argument must end with the suffix \".properties\": " + configPath);
         }
-        conf = Config.valueOf(configPath);
+        return new ClientProvider(configPath);
     }
+
+    public static ClientProvider valueOf() {
+        return new ClientProvider(null);
+    }
+
+
+    public static boolean isConnectableUrl(String url, int timeout) {
+        return Config.isConnectableUrl(url, timeout);
+    }
+
+    String getSessionToken() { return (session != null) ? session.getSessionToken() : null; }
+    Config getConfig() { return conf; }
 
     public boolean isSignedIn() {
         return session != null;

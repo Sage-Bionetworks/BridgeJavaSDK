@@ -109,6 +109,6 @@ abstract class BaseApiCaller {
     }
 
     final String getFullUrl(String url) {
-        return provider.getHost() + url;
+        return provider.getConfig().getHost() + url;
     }
 }

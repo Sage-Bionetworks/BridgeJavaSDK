@@ -11,7 +11,7 @@ public class ClientProviderTest {
 
     @Test
     public void canAuthenticateAndCreateClientAndSignOut() {
-        ClientProvider provider = ClientProvider.valueOf(HostName.getDev());
+        ClientProvider provider = ClientProvider.valueOf("bridge-sdk.properties");
         assertNotNull(provider);
 
         Config conf = provider.getConfig();
