@@ -5,37 +5,40 @@ import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
 public class ClientProvider {
 
     private UserSession session;
-    private String host;
     private AuthenticationApiCaller auth;
+    private Config conf;
 
-    private ClientProvider(String host) {
-        this.host = host;
+    private ClientProvider(String configPath) {
         this.auth = AuthenticationApiCaller.valueOf(this);
+        this.conf = (configPath == null) ? Config.valueOfDefault() : Config.valueOf(configPath);
     }
 
-    public static ClientProvider valueOf(String host) {
-        if (host == null) {
-            throw new IllegalArgumentException("Host must not be null.");
+    public static ClientProvider valueOf(String configPath) {
+        if (configPath == null) {
+            throw new IllegalArgumentException("Configuration path must not be null.");
+        } else if (!configPath.endsWith(".properties")) {
+            throw new IllegalArgumentException(
+                    "Argument must end with the suffix \".properties\": " + configPath);
         }
-        return new ClientProvider(host);
-    }
-    
-    public static ClientProvider valueOf() {
-        return new ClientProvider(HostName.getProd());
-    }
-    
-    String getSessionToken() {
-        return (session != null) ? session.getSessionToken() : null;
+        return new ClientProvider(configPath);
     }
 
-    String getHost() {
-        return host;
+    public static ClientProvider valueOf() {
+        return new ClientProvider(null);
     }
+
+
+    public static boolean isConnectableUrl(String url, int timeout) {
+        return Config.isConnectableUrl(url, timeout);
+    }
+
+    String getSessionToken() { return (session != null) ? session.getSessionToken() : null; }
+    Config getConfig() { return conf; }
 
     public boolean isSignedIn() {
         return session != null;
     }
-    
+
     public void signIn(SignInCredentials signIn) {
         if (signIn == null) {
             throw new IllegalArgumentException("SignInCredentials object must not be null.");
@@ -44,10 +47,11 @@ public class ClientProvider {
     }
 
     public void signOut() {
-        if (session != null) {
-            auth.signOut(session);
-            session = null;
+        if (session == null) {
+            throw new IllegalStateException("A User needs to be signed in to call this method.");
         }
+        auth.signOut(session);
+        session = null;
     }
 
     public BridgeUserClient getClient() {
@@ -56,12 +60,11 @@ public class ClientProvider {
         }
         return BridgeUserClient.valueOf(this);
     }
-    
+
     public BridgeResearcherClient getResearcherClient() {
         if (session == null) {
             throw new IllegalStateException("A User needs to be signed in to call this method.");
         }
         return BridgeResearcherClient.valueOf(this);
     }
-
 }

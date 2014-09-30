@@ -18,6 +18,10 @@ public class SignInCredentials {
         return new SignInCredentials(username, password);
     }
 
+    public static SignInCredentials valueOf() {
+        return new SignInCredentials(null, null);
+    }
+
     public String getUsername() { return this.username; }
     public String getPassword() { return this.password; }
 

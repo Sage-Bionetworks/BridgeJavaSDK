@@ -10,6 +10,7 @@ survey data
 health data
 
 user = {
+    session,
     profile,
     health data,
     survey data,
@@ -18,8 +19,6 @@ user = {
         studyname
     }]    
 }
-
-study -> user -> {data, profile, session}
 
 User is going to sign up, providing an email address, username, and password.
 Bridge sends consent link to that email address.
@@ -35,3 +34,7 @@ ClientProvider provider = new ClientProvider(Version.V1);
 provider.authenticate(username, password);
 
 BridgeUserClient client = provider.getUserClient(); // an interface "UserClient", impl. by admin, researcher, particip.
+
+// client does stuff.
+
+provider.signOut();

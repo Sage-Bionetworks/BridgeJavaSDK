@@ -52,7 +52,7 @@ final class UserSession {
         return session;
     }
 
-    UserSession signOut() {
+    public UserSession signOut() {
         return new UserSession(this.username, null, false, this.consented, this.dataSharing);
     }
 

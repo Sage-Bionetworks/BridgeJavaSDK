@@ -20,19 +20,19 @@ abstract class BaseApiCaller {
             .setRetryHandler(new DefaultHttpRequestRetryHandler(5, true))
             .build();
     private final Executor exec = Executor.newInstance(client);
-    
+
     final ClientProvider provider;
 
     BaseApiCaller(ClientProvider provider) {
         this.provider = provider;
     }
-    
+
     // Developers may wish to hold on to the client, but if they do this, they'll need access
     // to the provider in order to sign out/sign in again.
     public ClientProvider getProvider() {
         return provider;
     }
-    
+
     final Response get(String url) {
         Response response = null;
         try {
@@ -44,12 +44,11 @@ abstract class BaseApiCaller {
             e.printStackTrace();
         }
         return response;
-    }    
-    
+    }
+
     final Response authorizedGet(String url) {
         Response response = null;
         try {
-            System.out.println(getFullUrl(url));
             Request request = Request.Get(getFullUrl(url));
             request.setHeader("Bridge-Session", provider.getSessionToken());
             response = exec.execute(request);
@@ -60,7 +59,7 @@ abstract class BaseApiCaller {
         }
         return response;
     }
-    
+
     final Response post(String url) {
         Response response = null;
         try {
@@ -80,8 +79,6 @@ abstract class BaseApiCaller {
         Response response = null;
         try {
             Request request = Request.Post(getFullUrl(url)).bodyString(json, ContentType.APPLICATION_JSON);
-            System.out.println(getFullUrl(url));
-            
             request.setHeader("Bridge-Session", provider.getSessionToken());
             response = exec.execute(request);
         } catch (ClientProtocolException e) {
@@ -110,10 +107,8 @@ abstract class BaseApiCaller {
             throw new AssertionError("Session Token does not exist in this response.");
         }
     }
-    
+
     final String getFullUrl(String url) {
-        // TODO: If you put host with/without a slash or do/don't start the URL with a slash
-        // you get bad behavior, should use a URL parsing library or something to fix this.
-        return "http://" + provider.getHost() + url;
+        return provider.getConfig().getHost() + url;
     }
 }

@@ -3,7 +3,6 @@ package org.sagebionetworks.bridge.sdk;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
@@ -12,12 +11,11 @@ public class ClientProviderTest {
 
     @Test
     public void canAuthenticateAndCreateClientAndSignOut() {
-        SignInCredentials signIn = SignInCredentials.valueOf("cje", "1");
-
-        ClientProvider provider = ClientProvider.valueOf(HostName.getDev());
+        ClientProvider provider = ClientProvider.valueOf("bridge-sdk.properties");
         assertNotNull(provider);
 
-        provider.signIn(signIn);
+        Config conf = provider.getConfig();
+        provider.signIn(SignInCredentials.valueOf(conf.getAdminEmail(), conf.getAdminPassword()));
         assertTrue(provider.isSignedIn());
 
         BridgeUserClient client = provider.getClient();
