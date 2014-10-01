@@ -29,9 +29,9 @@ public class AuthenticationApiCallerTest {
 
         AuthenticationApiCaller auth = AuthenticationApiCaller.valueOf(provider);
         UserSession session = auth.signIn(username, password);
-        assertNotNull(session);
+        assertNotNull("After signing in, session should not be  null.", session);
 
         session = auth.signOut(session);
-        assertNull(session.getSessionToken());
+        assertNull("After signing out, session token should be null.", session.getSessionToken());
     }
 }

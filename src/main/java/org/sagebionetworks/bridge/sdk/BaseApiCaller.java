@@ -13,6 +13,8 @@ import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.LaxRedirectStrategy;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 abstract class BaseApiCaller {
 
     private final HttpClient client = HttpClientBuilder.create()
@@ -20,6 +22,8 @@ abstract class BaseApiCaller {
             .setRetryHandler(new DefaultHttpRequestRetryHandler(5, true))
             .build();
     private final Executor exec = Executor.newInstance(client);
+
+    final ObjectMapper mapper = Utilities.getMapper();
 
     final ClientProvider provider;
 

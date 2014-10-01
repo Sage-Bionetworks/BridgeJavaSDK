@@ -20,7 +20,7 @@ An example using my Github name, [SartoriusEarth](https://github.com/SartoriusEa
 ```
 git clone https://github.com/SartoriusEarth/BridgeJavaSDK
 ```
-This will create an exact copy of the repository into a folder called "BridgeJavaSDK" in your current directory.
+This will create an exact copy of the repository into a folder called "BridgeJavaSDK". That folder will be placed into your current directory.
 
 #### Setup Remote Pointing to Official Repo
 Next, we need to setup a shortcut name for the official project, titled `upstream`. This can be done by adding a "remote":
