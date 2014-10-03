@@ -5,11 +5,11 @@ import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
 public class ClientProvider {
 
     private UserSession session;
-    private AuthenticationApiCaller auth;
-    private Config conf;
+    private final AuthenticationApiCaller authApi;
+    private final Config conf;
 
     private ClientProvider(String configPath) {
-        this.auth = AuthenticationApiCaller.valueOf(this);
+        this.authApi = AuthenticationApiCaller.valueOf(this);
         this.conf = (configPath == null) ? Config.valueOfDefault() : Config.valueOf(configPath);
     }
 
@@ -27,12 +27,8 @@ public class ClientProvider {
         return new ClientProvider(null);
     }
 
-
-    public static boolean isConnectableUrl(String url, int timeout) {
-        return Config.isConnectableUrl(url, timeout);
-    }
-
-    String getSessionToken() { return (session != null) ? session.getSessionToken() : null; }
+    UserSession getSession() { return session; }
+    String getSessionToken() { return isSignedIn() ? session.getSessionToken() : null; }
     Config getConfig() { return conf; }
 
     public boolean isSignedIn() {
@@ -43,14 +39,14 @@ public class ClientProvider {
         if (signIn == null) {
             throw new IllegalArgumentException("SignInCredentials object must not be null.");
         }
-        session = auth.signIn(signIn.getUsername(), signIn.getPassword());
+        session = authApi.signIn(signIn.getUsername(), signIn.getPassword());
     }
 
     public void signOut() {
         if (session == null) {
             throw new IllegalStateException("A User needs to be signed in to call this method.");
         }
-        auth.signOut(session);
+        authApi.signOut(session);
         session = null;
     }
 

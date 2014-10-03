@@ -1,25 +1,14 @@
 package org.sagebionetworks.bridge.sdk;
 
-import static org.apache.commons.validator.routines.UrlValidator.ALLOW_LOCAL_URLS;
-import static org.apache.commons.validator.routines.UrlValidator.NO_FRAGMENTS;
-
-import java.io.IOException;
-
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.validator.routines.EmailValidator;
-import org.apache.commons.validator.routines.UrlValidator;
-import org.apache.http.client.fluent.Request;
-import org.apache.http.client.fluent.Response;
 
 final class Config {
 
-    private static String[] schemes = { "http", "https" };
-    private static UrlValidator urlValidator = new UrlValidator(schemes, NO_FRAGMENTS + ALLOW_LOCAL_URLS);
-    private static final EmailValidator emailValidator = EmailValidator.getInstance();
+    Utilities utils = Utilities.getInstance();
 
-    private static final String DEFAULT_CONFIG = "config.properties";
+    private static final String DEFAULT_CONFIG = "bridge-sdk.properties";
 
     private static final String[] properties = new String[5];
 
@@ -59,23 +48,6 @@ final class Config {
         return new Config(DEFAULT_CONFIG);
     }
 
-    static boolean isConnectableUrl(String url, int timeout) {
-        if (!urlValidator.isValid(url)) {
-            throw new IllegalArgumentException("URL is not a valid one: " + url);
-        } else if (timeout <= 0 || 10 * 1000 <= timeout) {
-            throw new IllegalArgumentException("timeout isn't in the valid range (0 < timeout < 10 minutes): "
-                    + timeout);
-        }
-        url = url.replaceFirst("https", "http");
-        try {
-            Response response = Request.Head(url).connectTimeout(timeout).execute();
-            int statusCode = response.returnResponse().getStatusLine().getStatusCode();
-            return (200 <= statusCode && statusCode <= 399);
-        } catch (IOException exception) {
-            return false;
-        }
-    }
-
     String getParticipantEmail() { return config.getString(PARTICIPANT_EMAIL); }
     String getParticipantPassword() { return config.getString(PARTICIPANT_PASSWORD); }
     String getAdminEmail() { return config.getString(ADMIN_EMAIL); }
@@ -99,11 +71,11 @@ final class Config {
     }
 
     private void assertAllPropertiesValid() {
-        if (!emailValidator.isValid(getParticipantEmail())) {
+        if (!utils.isValidEmail(getParticipantEmail())) {
             throw new IllegalArgumentException(getParticipantEmail() + " is not a valid email address.");
-        } else if (!emailValidator.isValid(getAdminEmail())) {
+        } else if (!utils.isValidEmail(getAdminEmail())) {
             throw new IllegalArgumentException(getAdminEmail() + " is not a valid email address.");
-        } else if (!urlValidator.isValid(getHost()) || !getHost().endsWith("/")) {
+        } else if (!utils.isValidUrl(getHost()) || !getHost().endsWith("/")) {
             throw new IllegalArgumentException(getHost()
                     + " is not a valid URL. Needs to be of the form http://www.sagebase.org/");
         }
