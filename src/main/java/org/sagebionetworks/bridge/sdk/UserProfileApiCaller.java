@@ -2,16 +2,17 @@ package org.sagebionetworks.bridge.sdk;
 
 import java.io.IOException;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
 import org.apache.http.client.fluent.Response;
+import org.apache.http.util.EntityUtils;
 import org.sagebionetworks.bridge.sdk.models.UserProfile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 class UserProfileApiCaller extends BaseApiCaller {
 
-    private final Utilities utils = Utilities.getInstance();
-
-    private final String PROFILE = "/api/v1/profile";
+    private final String PROFILE = provider.getConfig().getProfileApi();
 
     UserProfileApiCaller(ClientProvider provider) {
         super(provider);
@@ -25,11 +26,14 @@ class UserProfileApiCaller extends BaseApiCaller {
         assert provider.isSignedIn();
 
         Response response = authorizedGet(PROFILE);
+        StatusLine statusLine = null;
         String profileJson = null;
         try {
-            profileJson = response.returnContent().asString();
+            HttpResponse hr = response.returnResponse();
+            statusLine = hr.getStatusLine();
+            profileJson = EntityUtils.toString(hr.getEntity());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new BridgeServerException(e, statusLine, getFullUrl(PROFILE));
         }
 
         return UserProfile.valueOf(profileJson);
@@ -38,18 +42,21 @@ class UserProfileApiCaller extends BaseApiCaller {
     void updateProfile(UserProfile profile) {
         assert provider.isSignedIn();
         assert provider.getSession().getUsername().equals(profile.getUsername());
-        assert profile.getFirstName() != null;
-        assert profile.getLastName() != null;
-        assert profile.getUsername() != null;
-        assert utils.isValidEmail(profile.getEmail());
 
         String profileJson = null;
         try {
             profileJson = mapper.writeValueAsString(profile);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            throw new BridgeSDKException("Could not process the following JSON: " + profileJson, e);
         }
-        post(PROFILE, profileJson);
+        Response response = post(PROFILE, profileJson);
+        StatusLine statusLine = null;
+        try {
+            HttpResponse hr = response.returnResponse();
+            statusLine = hr.getStatusLine();
+        } catch (IOException e) {
+            throw new BridgeServerException(e, statusLine, getFullUrl(PROFILE));
+        }
     }
 
 }

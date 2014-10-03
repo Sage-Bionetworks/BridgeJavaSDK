@@ -9,8 +9,9 @@ public class ClientProvider {
     private final Config conf;
 
     private ClientProvider(String configPath) {
-        this.authApi = AuthenticationApiCaller.valueOf(this);
+        // Need to create conf before authApi, as ApiCaller's depend on config file.
         this.conf = (configPath == null) ? Config.valueOfDefault() : Config.valueOf(configPath);
+        this.authApi = AuthenticationApiCaller.valueOf(this);
     }
 
     public static ClientProvider valueOf(String configPath) {

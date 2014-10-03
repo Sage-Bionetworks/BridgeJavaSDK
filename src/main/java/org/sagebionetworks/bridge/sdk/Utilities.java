@@ -55,7 +55,7 @@ public final class Utilities {
         if (!isValidUrl(url)) {
             throw new IllegalArgumentException("URL is not a valid one: " + url);
         } else if (timeout <= 0 || 10 * 1000 <= timeout) {
-            throw new IllegalArgumentException("timeout isn't in the valid range (0 < timeout < 10 minutes): "
+            throw new IndexOutOfBoundsException("timeout isn't in the valid range (0 < timeout < 10 minutes): "
                     + timeout);
         }
         url = url.replaceFirst("https", "http");
