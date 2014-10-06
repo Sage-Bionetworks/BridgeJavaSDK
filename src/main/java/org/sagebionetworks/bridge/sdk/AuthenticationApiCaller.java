@@ -2,7 +2,10 @@ package org.sagebionetworks.bridge.sdk;
 
 import java.io.IOException;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
 import org.apache.http.client.fluent.Response;
+import org.apache.http.util.EntityUtils;
 import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
 import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
 
@@ -12,11 +15,11 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 final class AuthenticationApiCaller extends BaseApiCaller {
 
-    private final String AUTH = "/api/v1/auth/";
-    private final String SIGN_UP = AUTH + "signUp";
-    private final String SIGN_IN = AUTH + "signIn";
-    private final String SIGN_OUT = AUTH + "signOut";
-    private final String REQUEST_RESET = AUTH + "requestResetPassword";
+    private final String AUTH = provider.getConfig().getAuthApi();
+    private final String SIGN_UP = AUTH + "/signUp";
+    private final String SIGN_IN = AUTH + "/signIn";
+    private final String SIGN_OUT = AUTH + "/signOut";
+    private final String REQUEST_RESET = AUTH + "/requestResetPassword";
 
     private AuthenticationApiCaller(ClientProvider provider) {
         super(provider);
@@ -33,10 +36,10 @@ final class AuthenticationApiCaller extends BaseApiCaller {
         try {
             signUp = mapper.writeValueAsString(SignUpCredentials.valueOf(email, username, password));
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            throw new BridgeSDKException("Could not process the following JSON: " + signUp, e);
         }
         Response response = post(SIGN_UP, signUp);
-        return getSessionToken(response);
+        return getSessionToken(response, SIGN_UP);
     }
 
     UserSession signIn(String username, String password) {
@@ -50,10 +53,13 @@ final class AuthenticationApiCaller extends BaseApiCaller {
         }
         Response response = post(SIGN_IN, signIn);
         String sessionJsonString = null;
+        StatusLine statusLine = null;
         try {
-            sessionJsonString = response.returnContent().asString();
+            HttpResponse hr = response.returnResponse();
+            statusLine = hr.getStatusLine();
+            sessionJsonString = EntityUtils.toString(hr.getEntity());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new BridgeServerException(e, statusLine, getFullUrl(SIGN_IN));
         }
         return UserSession.valueOf(sessionJsonString);
     }
@@ -62,7 +68,13 @@ final class AuthenticationApiCaller extends BaseApiCaller {
         assert session != null;
         assert session.getSessionToken() != null;
 
-        authorizedGet(SIGN_OUT);
+        Response response = authorizedGet(SIGN_OUT);
+        StatusLine statusLine = null;
+        try {
+            statusLine = response.returnResponse().getStatusLine();
+        } catch (IOException e) {
+            throw new BridgeServerException(e, statusLine, getFullUrl(SIGN_OUT));
+        }
         return session.signOut();
     }
 
@@ -71,11 +83,14 @@ final class AuthenticationApiCaller extends BaseApiCaller {
 
         ObjectNode json = JsonNodeFactory.instance.objectNode();
         json.put("email", email);
+        StatusLine statusLine = null;
         try {
             email = mapper.writeValueAsString(json);
-            post(REQUEST_RESET, email); // will error if email is invalid.
+            statusLine = post(REQUEST_RESET, email).returnResponse().getStatusLine();
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            throw new BridgeSDKException("Could not process the following JSON: " + email, e);
+        } catch (IOException e) {
+            throw new BridgeServerException(e, statusLine, getFullUrl(REQUEST_RESET));
         }
     }
 

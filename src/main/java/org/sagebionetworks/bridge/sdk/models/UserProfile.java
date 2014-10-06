@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public final class UserProfile {
 
-    private static final Utilities utils = Utilities.getInstance();
     private static final ObjectMapper mapper = Utilities.getMapper();
 
     private String firstName;
@@ -56,33 +55,21 @@ public final class UserProfile {
     public String getEmail() { return email; }
 
     public UserProfile setFirstName(String firstName) {
-        if (firstName == null) {
-            throw new IllegalArgumentException("firstName cannot be null.");
-        }
         this.firstName = firstName;
         return this;
     }
 
     public UserProfile setLastName(String lastName) {
-        if (lastName == null) {
-            throw new IllegalArgumentException("lastName cannot be null.");
-        }
         this.lastName = lastName;
         return this;
     }
 
     public UserProfile setUsername(String username) {
-        if (username == null) {
-            throw new IllegalArgumentException("username cannot be null.");
-        }
         this.username = username;
         return this;
     }
 
     public UserProfile setEmail(String email) {
-        if (!utils.isValidEmail(email)) {
-            throw new IllegalArgumentException("Email is not valid: " + email);
-        }
         this.email = email;
         return this;
     }

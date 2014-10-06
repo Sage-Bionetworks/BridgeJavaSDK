@@ -3,6 +3,7 @@ package org.sagebionetworks.bridge.sdk;
 import java.io.IOException;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.fluent.Executor;
@@ -94,15 +95,17 @@ abstract class BaseApiCaller {
         return response;
     }
 
-    final String getSessionToken(Response response) {
+    final String getSessionToken(Response response, String url) {
         if (response == null) {
             throw new IllegalArgumentException("HttpResponse object is null.");
         }
         HttpResponse hr = null;
+        StatusLine statusLine = null;
         try {
             hr = response.returnResponse();
+            statusLine = hr.getStatusLine();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new BridgeServerException(e, statusLine, getFullUrl(url));
         }
 
         if (hr.containsHeader("Bridge-Session")) {

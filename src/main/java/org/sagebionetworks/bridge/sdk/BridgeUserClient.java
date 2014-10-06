@@ -7,8 +7,6 @@ import org.sagebionetworks.bridge.sdk.models.UserProfile;
 
 public class BridgeUserClient {
 
-    private final Utilities utils = Utilities.getInstance();
-
     private final ClientProvider provider;
     private final UserProfileApiCaller profileApi;
     private final TrackerApiCaller trackerApi;
@@ -37,14 +35,6 @@ public class BridgeUserClient {
             throw new IllegalStateException("Provider must be signed in to call this method.");
         } else if (profile == null) {
             throw new IllegalArgumentException("Profile cannot be null.");
-        } else if (profile.getFirstName() == null) {
-            throw new IllegalArgumentException("Profile first name cannot be null.");
-        } else if (profile.getLastName() == null) {
-            throw new IllegalArgumentException("Profile last name cannot be null.");
-        } else if (profile.getUsername() == null) {
-            throw new IllegalArgumentException("Profile username cannot be null.");
-        } else if (!utils.isValidEmail(profile.getEmail())) {
-            throw new IllegalArgumentException("Profile email is not valid: " + profile.getEmail());
         }
         profileApi.updateProfile(profile);
     }
