@@ -12,6 +12,7 @@ import org.sagebionetworks.bridge.sdk.models.IdVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.Tracker;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class HealthDataApiCaller extends BaseApiCaller {
@@ -31,7 +32,7 @@ public class HealthDataApiCaller extends BaseApiCaller {
         assert provider.isSignedIn();
         assert tracker != null && recordId >= 0;
 
-        String url = getFullUrl(HEALTH_DATA) + trackerId(tracker.getId()) + recordId(recordId);
+        String url = getFullUrl(HEALTH_DATA) + trackerId(tracker) + recordId(recordId);
         HttpResponse response = authorizedGet(url);
         String responseBody = getResponseBody(response);
 
@@ -42,7 +43,7 @@ public class HealthDataApiCaller extends BaseApiCaller {
         assert provider.isSignedIn();
         assert tracker != null && record != null;
 
-        String url = getFullUrl(HEALTH_DATA) + trackerId(tracker.getId()) + recordId(record.getId());
+        String url = getFullUrl(HEALTH_DATA) + trackerId(tracker) + recordId(record.getId());
         String json = null;
         try {
             json = mapper.writeValueAsString(record);
@@ -60,7 +61,7 @@ public class HealthDataApiCaller extends BaseApiCaller {
         assert provider.isSignedIn();
         assert tracker != null;
 
-        String url = getFullUrl(HEALTH_DATA) + trackerId(tracker.getId()) + recordId(recordId);
+        String url = getFullUrl(HEALTH_DATA) + trackerId(tracker) + recordId(recordId);
         HttpResponse response = delete(url);
 
         return getPropertyFromResponse(response, "message").equals("Entry deleted.") ? true : false;
@@ -75,10 +76,12 @@ public class HealthDataApiCaller extends BaseApiCaller {
         queryParameters.put("startDate", startDate.toString(ISODateTimeFormat.dateTime()));
         queryParameters.put("endDate", endDate.toString(ISODateTimeFormat.dateTime()));
 
-        String url = getFullUrl(HEALTH_DATA) + addQueryParameters(queryParameters);
+        String url = getFullUrl(HEALTH_DATA) + trackerId(tracker) + addQueryParameters(queryParameters);
+        System.out.println(url);
+
         HttpResponse response = authorizedGet(url);
 
-        String items = getPropertyFromResponse(response, "items");
+        JsonNode items = getPropertyFromResponse(response, "items");
         List<HealthDataRecord> records = mapper.convertValue(items,
                 mapper.getTypeFactory().constructCollectionType(List.class, HealthDataRecord.class));
 
@@ -92,6 +95,7 @@ public class HealthDataApiCaller extends BaseApiCaller {
 
         ObjectNode json = mapper.createObjectNode();
         try {
+            // TODO change records so that it deserializes record's dates into ISO strings.
             json.put("items", mapper.writeValueAsString(records));
             json.put("size", records.size());
         } catch (JsonProcessingException e) {
@@ -99,18 +103,19 @@ public class HealthDataApiCaller extends BaseApiCaller {
                     "An error occurred while processing the List of HealthDataRecords. Are you sure it is correct?", e);
         }
 
-        String url = getFullUrl(HEALTH_DATA) + trackerId(tracker.getId());
-        HttpResponse response = post(url, json.asText());
+        String url = getFullUrl(HEALTH_DATA) + trackerId(tracker);
+        System.out.println("JSON add:" + "\"" + json.toString() + "\"");
+        HttpResponse response = post(url, json.toString());
 
-        String items = getPropertyFromResponse(response, "items");
+        JsonNode items = getPropertyFromResponse(response, "items");
         List<IdVersionHolder> holders = mapper.convertValue(items,
                 mapper.getTypeFactory().constructCollectionType(List.class, IdVersionHolder.class));
 
         return holders;
     }
 
-    private String trackerId(long trackerId) {
-        return "/" + String.valueOf(trackerId);
+    private String trackerId(Tracker tracker) {
+        return "/" + String.valueOf(tracker.getId());
     }
 
     private String recordId(long recordId) {

@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.http.HttpResponse;
 import org.sagebionetworks.bridge.sdk.models.Tracker;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 class TrackerApiCaller extends BaseApiCaller {
 
     private final String TRACKER = provider.getConfig().getTrackerApi();
@@ -21,7 +23,7 @@ class TrackerApiCaller extends BaseApiCaller {
         assert provider.isSignedIn();
 
         HttpResponse response = authorizedGet(getFullUrl(TRACKER));
-        String items = getPropertyFromResponse(response, "items");
+        JsonNode items = getPropertyFromResponse(response, "items");
         List<Tracker> trackers = mapper.convertValue(items,
                 mapper.getTypeFactory().constructCollectionType(List.class, Tracker.class));
 

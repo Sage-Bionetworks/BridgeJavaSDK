@@ -157,16 +157,18 @@ abstract class BaseApiCaller {
         return builder.toString();
     }
 
-    final String getPropertyFromResponse(HttpResponse response, String property) {
+    final JsonNode getPropertyFromResponse(HttpResponse response, String property) {
         JsonNode json;
         try {
+            System.out.println("Response body: \"" + getResponseBody(response) + "\"");
+            System.out.println(response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase());
             json = mapper.readTree(getResponseBody(response));
         } catch (IOException e) {
             throw new BridgeSDKException("A problem occurred while processing the response body.", e);
         }
 
         assert json.has(property);
-        return json.get(property).asText();
+        return json.get(property);
     }
 
     final BridgeServerException constructServerException(Throwable t, HttpResponse hr) {

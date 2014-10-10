@@ -2,12 +2,11 @@ package org.sagebionetworks.bridge.sdk.models;
 
 import java.io.IOException;
 
+import org.sagebionetworks.bridge.sdk.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.Utilities;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public final class UserProfile {
@@ -35,12 +34,9 @@ public final class UserProfile {
         UserProfile profile = null;
         try {
             profile = mapper.readValue(json, UserProfile.class);
-        } catch (JsonParseException e) {
-            e.printStackTrace();
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new BridgeSDKException("Something went wrong while converting JSON into IdVersionHolder: json="
+                    + json, e);
         }
         return profile;
     }

@@ -17,9 +17,9 @@ public final class HealthDataRecord {
 
     private final long version;
     private final long id;
-    private final String data;
     private final DateTime startDate;
     private final DateTime endDate;
+    private String data;
 
     @JsonCreator
     HealthDataRecord(@JsonProperty("version") long version, @JsonProperty("recordId") long id,
@@ -32,8 +32,16 @@ public final class HealthDataRecord {
         this.data = data;
     }
 
+    public static HealthDataRecord valueOf(long version, long id, DateTime startDate, DateTime endDate, String data) {
+        String start = startDate.toString(ISODateTimeFormat.dateTime());
+        String end = endDate.toString(ISODateTimeFormat.dateTime());
+        return new HealthDataRecord(version, id, start, end, data);
+    }
+
     public static HealthDataRecord valueOf(String json) {
-        assert json != null;
+        if (json == null) {
+            throw new IllegalArgumentException("json cannot be null.");
+        }
 
         HealthDataRecord record = null;
         try {
@@ -51,6 +59,8 @@ public final class HealthDataRecord {
     public String getData() { return this.data; }
     public DateTime getStartDate() { return this.startDate; }
     public DateTime getEndDate() { return this.endDate; }
+
+    public void setData(String data) { this.data = data; }
 
     @Override
     public String toString() {
