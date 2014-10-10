@@ -32,6 +32,11 @@ public class ClientProvider {
     String getSessionToken() { return isSignedIn() ? session.getSessionToken() : null; }
     Config getConfig() { return conf; }
 
+    void setSession(UserSession session) {
+        assert session != null;
+        this.session = session;
+    }
+
     public boolean isSignedIn() {
         return session != null;
     }

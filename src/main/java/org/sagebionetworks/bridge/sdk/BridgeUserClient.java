@@ -6,6 +6,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.sagebionetworks.bridge.sdk.models.HealthDataRecord;
 import org.sagebionetworks.bridge.sdk.models.IdVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.ResearchConsent;
 import org.sagebionetworks.bridge.sdk.models.Tracker;
 import org.sagebionetworks.bridge.sdk.models.UserProfile;
 
@@ -15,12 +16,14 @@ public class BridgeUserClient {
     private final UserProfileApiCaller profileApi;
     private final TrackerApiCaller trackerApi;
     private final HealthDataApiCaller healthDataApi;
+    private final ConsentApiCaller consentApi;
 
     private BridgeUserClient(ClientProvider provider) {
         this.provider = provider;
         this.profileApi = UserProfileApiCaller.valueOf(provider);
         this.trackerApi = TrackerApiCaller.valueOf(provider);
         this.healthDataApi = HealthDataApiCaller.valueOf(provider);
+        this.consentApi = ConsentApiCaller.valueOf(provider);
     }
 
     static BridgeUserClient valueOf(ClientProvider provider) {
@@ -129,5 +132,20 @@ public class BridgeUserClient {
         }
         return trackerApi.getSchema(tracker);
     }
+
+    /*
+     * Consent API
+     */
+    public void consentToResearch(ResearchConsent consent) {
+        if (consent == null) {
+            throw new IllegalArgumentException("Consent cannot be null.");
+        }
+
+        UserSession session = consentApi.consentToResearch(consent);
+        provider.setSession(session);
+    }
+
+
+
 
 }

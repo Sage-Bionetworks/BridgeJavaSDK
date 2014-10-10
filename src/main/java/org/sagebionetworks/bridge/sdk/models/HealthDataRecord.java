@@ -48,7 +48,7 @@ public final class HealthDataRecord {
             record = mapper.readValue(json, HealthDataRecord.class);
         } catch (IOException e) {
             throw new BridgeSDKException(
-                    "Something went wrong while converting JSON into IdVersionHolder: json="
+                    "Something went wrong while converting JSON into HealthDataRecord: json="
                             + json, e);
         }
         return record;

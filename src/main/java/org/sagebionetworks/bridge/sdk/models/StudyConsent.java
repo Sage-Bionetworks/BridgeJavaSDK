@@ -46,7 +46,7 @@ public class StudyConsent {
             record = mapper.readValue(json, StudyConsent.class);
         } catch (IOException e) {
             throw new BridgeSDKException(
-                    "Something went wrong while converting JSON into IdVersionHolder: json="
+                    "Something went wrong while converting JSON into StudyConsent: json="
                             + json, e);
         }
         return record;
