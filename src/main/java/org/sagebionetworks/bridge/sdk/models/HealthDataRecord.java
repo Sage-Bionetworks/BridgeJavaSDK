@@ -1,19 +1,12 @@
 package org.sagebionetworks.bridge.sdk.models;
 
-import java.io.IOException;
-
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
-import org.sagebionetworks.bridge.sdk.BridgeSDKException;
-import org.sagebionetworks.bridge.sdk.Utilities;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public final class HealthDataRecord {
-
-    private static final ObjectMapper mapper = Utilities.getMapper();
 
     private final long version;
     private final long id;
@@ -32,26 +25,11 @@ public final class HealthDataRecord {
         this.data = data;
     }
 
+    // Need this, but only for testing. How to get around?
     public static HealthDataRecord valueOf(long version, long id, DateTime startDate, DateTime endDate, String data) {
         String start = startDate.toString(ISODateTimeFormat.dateTime());
         String end = endDate.toString(ISODateTimeFormat.dateTime());
         return new HealthDataRecord(version, id, start, end, data);
-    }
-
-    public static HealthDataRecord valueOf(String json) {
-        if (json == null) {
-            throw new IllegalArgumentException("json cannot be null.");
-        }
-
-        HealthDataRecord record = null;
-        try {
-            record = mapper.readValue(json, HealthDataRecord.class);
-        } catch (IOException e) {
-            throw new BridgeSDKException(
-                    "Something went wrong while converting JSON into HealthDataRecord: json="
-                            + json, e);
-        }
-        return record;
     }
 
     public long getVersion() { return this.version; }

@@ -1,5 +1,6 @@
 package org.sagebionetworks.bridge.sdk;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,15 @@ public class HealthDataApiCaller extends BaseApiCaller {
         HttpResponse response = authorizedGet(url);
         String responseBody = getResponseBody(response);
 
-        return HealthDataRecord.valueOf(responseBody);
+        HealthDataRecord record = null;
+        try {
+            record = mapper.readValue(responseBody, HealthDataRecord.class);
+        } catch (IOException e) {
+            throw new BridgeSDKException(
+                    "Something went wrong while converting Response Body JSON into HealthDataRecord: json="
+                            + responseBody, e);
+        }
+        return record;
     }
 
     IdVersionHolder updateHealthDataRecord(Tracker tracker, HealthDataRecord record) {
@@ -54,7 +63,15 @@ public class HealthDataApiCaller extends BaseApiCaller {
         HttpResponse response = post(url, json);
         String responseBody = getResponseBody(response);
 
-        return IdVersionHolder.valueOf(responseBody);
+        IdVersionHolder holder;
+        try {
+            holder = mapper.readValue(responseBody, IdVersionHolder.class);
+        } catch (IOException e) {
+            throw new BridgeSDKException(
+                    "Something went wrong while converting Response Body JSON into IdVersionHolder: responseBody="
+                            + responseBody, e);
+        }
+        return holder;
     }
 
     boolean deleteHealthDataRecord(Tracker tracker, long recordId) {

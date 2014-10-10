@@ -19,10 +19,6 @@ public class Tracker {
         this.id = id;
     }
 
-    public static Tracker valueOf(String name, String type, String schemaUrl, long id) {
-        return new Tracker(name, type, schemaUrl, id);
-    }
-
     public String getName() { return this.name; }
     public String getType() { return this.type; }
     public String getSchemaUrl() { return this.schemaUrl; }

@@ -1,7 +1,10 @@
 package org.sagebionetworks.bridge.sdk;
 
+import java.io.IOException;
+
 import org.apache.http.HttpResponse;
 import org.sagebionetworks.bridge.sdk.models.ResearchConsent;
+import org.sagebionetworks.bridge.sdk.models.UserSession;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -34,21 +37,41 @@ public class ConsentApiCaller extends BaseApiCaller {
         HttpResponse response = post(getFullUrl(CONSENT), researchConsent);
         String sessionJson = getResponseBody(response);
 
-        return UserSession.valueOf(sessionJson);
+        UserSession session;
+        try {
+            session = mapper.readValue(sessionJson, UserSession.class);
+        } catch (IOException e) {
+            throw new BridgeSDKException(
+                    "Something went wrong while converting Response Body into UserProfile. responseBody=" + sessionJson,
+                    e);
+        }
+        return session;
     }
 
     UserSession suspendDataSharing() {
         HttpResponse response = post(getFullUrl(SUSPEND));
         String sessionJson = getResponseBody(response);
 
-        return UserSession.valueOf(sessionJson);
+        UserSession session;
+        try {
+            session = mapper.readValue(sessionJson, UserSession.class);
+        }  catch (IOException e) {
+            throw new BridgeSDKException("Could not read response body. responseBody=" + sessionJson, e);
+        }
+        return session;
     }
 
     UserSession resumeDataSharing() {
         HttpResponse response = post(getFullUrl(RESUME));
         String sessionJson = getResponseBody(response);
 
-        return UserSession.valueOf(sessionJson);
+        UserSession session;
+        try {
+            session = mapper.readValue(sessionJson, UserSession.class);
+        }  catch (IOException e) {
+            throw new BridgeSDKException("Could not read response body. responseBody=" + sessionJson, e);
+        }
+        return session;
     }
 
 }

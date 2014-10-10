@@ -9,6 +9,7 @@ import org.sagebionetworks.bridge.sdk.models.IdVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.ResearchConsent;
 import org.sagebionetworks.bridge.sdk.models.Tracker;
 import org.sagebionetworks.bridge.sdk.models.UserProfile;
+import org.sagebionetworks.bridge.sdk.models.UserSession;
 
 public class BridgeUserClient {
 
@@ -137,7 +138,9 @@ public class BridgeUserClient {
      * Consent API
      */
     public void consentToResearch(ResearchConsent consent) {
-        if (consent == null) {
+        if (!provider.isSignedIn()) {
+            throw new IllegalStateException("Provider must be signed in to call this method.");
+        } else if (consent == null) {
             throw new IllegalArgumentException("Consent cannot be null.");
         }
 
@@ -145,7 +148,21 @@ public class BridgeUserClient {
         provider.setSession(session);
     }
 
+    public void suspendDataSharing() {
+        if (!provider.isSignedIn()) {
+            throw new IllegalStateException("Provider must be signed in to call this method.");
+        }
+        UserSession session = consentApi.suspendDataSharing();
+        provider.setSession(session);
+    }
 
+    public void resumeDataSharing() {
+        if (!provider.isSignedIn()) {
+            throw new IllegalStateException("Provider must be signed in to call this method.");
+        }
+        UserSession session = consentApi.resumeDataSharing();
+        provider.setSession(session);
+    }
 
 
 }

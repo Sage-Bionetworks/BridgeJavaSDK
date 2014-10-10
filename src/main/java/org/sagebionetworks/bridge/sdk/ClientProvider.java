@@ -1,6 +1,7 @@
 package org.sagebionetworks.bridge.sdk;
 
 import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
+import org.sagebionetworks.bridge.sdk.models.UserSession;
 
 public class ClientProvider {
 

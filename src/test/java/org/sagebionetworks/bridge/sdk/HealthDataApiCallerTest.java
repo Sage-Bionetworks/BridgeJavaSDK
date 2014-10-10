@@ -34,9 +34,11 @@ public class HealthDataApiCallerTest {
     @Before
     public void before() {
         if (!provider.isSignedIn()) {
-            String adminEmail = provider.getConfig().getAdminEmail();
-            String adminPassword = provider.getConfig().getAdminPassword();
-            provider.signIn(SignInCredentials.valueOf(adminEmail, adminPassword));
+            Config conf = provider.getConfig();
+            SignInCredentials signIn = SignInCredentials.valueOf()
+                    .setUsername(conf.getAdminEmail())
+                    .setPassword(conf.getAdminPassword());
+            provider.signIn(signIn);
         }
 
         TrackerApiCaller trackerApi = TrackerApiCaller.valueOf(provider);

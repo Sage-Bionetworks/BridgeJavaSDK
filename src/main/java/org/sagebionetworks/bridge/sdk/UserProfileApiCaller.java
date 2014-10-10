@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk;
 
+import java.io.IOException;
+
 import org.apache.http.HttpResponse;
 import org.sagebionetworks.bridge.sdk.models.UserProfile;
 
@@ -23,7 +25,15 @@ class UserProfileApiCaller extends BaseApiCaller {
         HttpResponse response = authorizedGet(getFullUrl(PROFILE));
         String responseBody = getResponseBody(response);
 
-        return UserProfile.valueOf(responseBody);
+        UserProfile profile;
+        try {
+            profile = mapper.readValue(responseBody, UserProfile.class);
+        } catch (IOException e) {
+            throw new BridgeSDKException(
+                    "Something went wrong while converting Response Body into UserProfile: responseBody="
+                            + responseBody, e);
+        }
+        return profile;
     }
 
     void updateProfile(UserProfile profile) {

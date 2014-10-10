@@ -1,17 +1,9 @@
 package org.sagebionetworks.bridge.sdk.models;
 
-import java.io.IOException;
-
-import org.sagebionetworks.bridge.sdk.BridgeSDKException;
-import org.sagebionetworks.bridge.sdk.Utilities;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public final class UserProfile {
-
-    private static final ObjectMapper mapper = Utilities.getMapper();
 
     private String firstName;
     private String lastName;
@@ -25,20 +17,6 @@ public final class UserProfile {
         this.lastName = lastName;
         this.username = username;
         this.email = email;
-    }
-
-    public static UserProfile valueOf(String json) {
-        if (json == null) {
-            throw new IllegalArgumentException("JSON cannot be null.");
-        }
-        UserProfile profile = null;
-        try {
-            profile = mapper.readValue(json, UserProfile.class);
-        } catch (IOException e) {
-            throw new BridgeSDKException("Something went wrong while converting JSON into IdVersionHolder: json="
-                    + json, e);
-        }
-        return profile;
     }
 
     public static UserProfile valueOf() {

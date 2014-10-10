@@ -3,6 +3,7 @@ package org.sagebionetworks.bridge.sdk;
 import org.apache.http.HttpResponse;
 import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
 import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
+import org.sagebionetworks.bridge.sdk.models.UserSession;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -28,7 +29,8 @@ final class AuthenticationApiCaller extends BaseApiCaller {
 
         String signUp = null;
         try {
-            signUp = mapper.writeValueAsString(SignUpCredentials.valueOf(email, username, password));
+            SignUpCredentials cred = SignUpCredentials.valueOf().setEmail(email).setUsername(username).setPassword(password);
+            signUp = mapper.writeValueAsString(cred);
         } catch (JsonProcessingException e) {
             throw new BridgeSDKException(
                     "Could not process email, username, and password. Are they incorrect or malformed? "
@@ -43,7 +45,8 @@ final class AuthenticationApiCaller extends BaseApiCaller {
 
         String signIn = null;
         try {
-            signIn = mapper.writeValueAsString(SignInCredentials.valueOf(username, password));
+            SignInCredentials cred = SignInCredentials.valueOf().setUsername(username).setPassword(password);
+            signIn = mapper.writeValueAsString(cred);
         } catch (JsonProcessingException e) {
             throw new BridgeSDKException(
                     "Error occurred while processing SignInCredentials. Is there something wrong with the username and password fields? "
@@ -52,7 +55,7 @@ final class AuthenticationApiCaller extends BaseApiCaller {
         HttpResponse response = post(getFullUrl(SIGN_IN), signIn);
         String sessionJsonString = getResponseBody(response);
 
-        return UserSession.valueOf(sessionJsonString);
+        return mapper.convertValue(sessionJsonString, UserSession.class);
     }
 
     UserSession signOut(UserSession session) {
