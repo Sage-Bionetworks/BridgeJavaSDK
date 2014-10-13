@@ -15,7 +15,10 @@ public class ClientProviderTest {
         assertNotNull(provider);
 
         Config conf = provider.getConfig();
-        provider.signIn(SignInCredentials.valueOf(conf.getAdminEmail(), conf.getAdminPassword()));
+        SignInCredentials signIn = SignInCredentials.valueOf()
+                .setUsername(conf.getAdminEmail())
+                .setPassword(conf.getAdminPassword());
+        provider.signIn(signIn);
         assertTrue(provider.isSignedIn());
 
         BridgeUserClient client = provider.getClient();

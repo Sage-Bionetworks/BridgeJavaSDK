@@ -1,6 +1,7 @@
 package org.sagebionetworks.bridge.sdk;
 
 import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
+import org.sagebionetworks.bridge.sdk.models.UserSession;
 
 public class ClientProvider {
 
@@ -31,6 +32,11 @@ public class ClientProvider {
     UserSession getSession() { return session; }
     String getSessionToken() { return isSignedIn() ? session.getSessionToken() : null; }
     Config getConfig() { return conf; }
+
+    void setSession(UserSession session) {
+        assert session != null;
+        this.session = session;
+    }
 
     public boolean isSignedIn() {
         return session != null;

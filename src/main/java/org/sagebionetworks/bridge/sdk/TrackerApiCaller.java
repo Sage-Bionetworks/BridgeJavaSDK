@@ -1,12 +1,8 @@
 package org.sagebionetworks.bridge.sdk;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
-import org.apache.http.client.fluent.Response;
-import org.apache.http.util.EntityUtils;
 import org.sagebionetworks.bridge.sdk.models.Tracker;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -26,22 +22,8 @@ class TrackerApiCaller extends BaseApiCaller {
     List<Tracker> getAllTrackers() {
         assert provider.isSignedIn();
 
-
-        Response response = authorizedGet(TRACKER);
-        StatusLine statusLine = null;
-        JsonNode json = null;
-        try {
-            HttpResponse hr = response.returnResponse();
-            statusLine = hr.getStatusLine();
-            String jsonString = EntityUtils.toString(hr.getEntity());
-
-            json = mapper.readTree(jsonString);
-        } catch (IOException e) {
-            throw new BridgeServerException(e, statusLine, getFullUrl(TRACKER));
-        }
-
-        assert json != null : "JSON cannot be null, earlier HTTP call failed.";
-        JsonNode items = json.get("items");
+        HttpResponse response = authorizedGet(getFullUrl(TRACKER));
+        JsonNode items = getPropertyFromResponse(response, "items");
         List<Tracker> trackers = mapper.convertValue(items,
                 mapper.getTypeFactory().constructCollectionType(List.class, Tracker.class));
 
@@ -52,16 +34,9 @@ class TrackerApiCaller extends BaseApiCaller {
         assert provider.isSignedIn();
         assert tracker != null;
 
-        Response response = authorizedGet(tracker.getSchemaUrl());
-        StatusLine statusLine = null;
-        String schema = null;
-        try {
-            HttpResponse hr = response.returnResponse();
-            statusLine = hr.getStatusLine();
-            schema = EntityUtils.toString(hr.getEntity());
-        } catch (IOException e) {
-            throw new BridgeServerException(e, statusLine, getFullUrl(TRACKER));
-        }
+        String url = getFullUrl(tracker.getSchemaUrl().substring(1)); // remove beginning /
+        HttpResponse response = authorizedGet(url);
+        String schema = getResponseBody(response);
 
         return schema;
     }

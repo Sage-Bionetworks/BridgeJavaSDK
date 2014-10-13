@@ -1,10 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models;
 
-import org.apache.commons.validator.routines.EmailValidator;
 
 public class SignUpCredentials {
-
-    private static final EmailValidator validator = EmailValidator.getInstance();
 
     private String email;
     private String username;
@@ -14,11 +11,6 @@ public class SignUpCredentials {
         this.email = email;
         this.username = username;
         this.password = password;
-    }
-
-    public static SignUpCredentials valueOf(String email, String username, String password) {
-        assert validator.isValid(email);
-        return new SignUpCredentials(email, username, password);
     }
 
     public static SignUpCredentials valueOf() {

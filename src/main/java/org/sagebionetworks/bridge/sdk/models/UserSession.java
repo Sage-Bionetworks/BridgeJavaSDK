@@ -1,17 +1,9 @@
-package org.sagebionetworks.bridge.sdk;
-
-import java.io.IOException;
+package org.sagebionetworks.bridge.sdk.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-final class UserSession {
-
-    private static final ObjectMapper mapper = Utilities.getMapper();
+public final class UserSession {
 
     private final String username;
     private final String sessionToken;
@@ -28,26 +20,6 @@ final class UserSession {
         this.consented = consented;
         this.authenticated = authenticated;
         this.dataSharing = dataSharing;
-    }
-
-    static UserSession valueOf(JsonNode json) {
-        assert json != null;
-        return mapper.convertValue(json, UserSession.class);
-    }
-
-    static UserSession valueOf(String json) {
-        assert json != null;
-        UserSession session = null;
-        try {
-            session = mapper.readValue(json, UserSession.class);
-        } catch (JsonParseException e) {
-            e.printStackTrace();
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return session;
     }
 
     public UserSession signOut() {

@@ -1,16 +1,11 @@
 package org.sagebionetworks.bridge.sdk;
 
-import java.io.IOException;
-
 import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
-import org.apache.http.client.fluent.Response;
-import org.apache.http.util.EntityUtils;
 import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
 import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
+import org.sagebionetworks.bridge.sdk.models.UserSession;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 final class AuthenticationApiCaller extends BaseApiCaller {
@@ -34,11 +29,14 @@ final class AuthenticationApiCaller extends BaseApiCaller {
 
         String signUp = null;
         try {
-            signUp = mapper.writeValueAsString(SignUpCredentials.valueOf(email, username, password));
+            SignUpCredentials cred = SignUpCredentials.valueOf().setEmail(email).setUsername(username).setPassword(password);
+            signUp = mapper.writeValueAsString(cred);
         } catch (JsonProcessingException e) {
-            throw new BridgeSDKException("Could not process the following JSON: " + signUp, e);
+            throw new BridgeSDKException(
+                    "Could not process email, username, and password. Are they incorrect or malformed? "
+                            + "email=" + email + ", username=" + username + ", password=" + password, e);
         }
-        Response response = post(SIGN_UP, signUp);
+        HttpResponse response = post(getFullUrl(SIGN_UP), signUp);
         return getSessionToken(response, SIGN_UP);
     }
 
@@ -47,50 +45,37 @@ final class AuthenticationApiCaller extends BaseApiCaller {
 
         String signIn = null;
         try {
-            signIn = mapper.writeValueAsString(SignInCredentials.valueOf(username, password));
-        } catch (JsonProcessingException e1) {
-            e1.printStackTrace();
+            SignInCredentials cred = SignInCredentials.valueOf().setUsername(username).setPassword(password);
+            signIn = mapper.writeValueAsString(cred);
+        } catch (JsonProcessingException e) {
+            throw new BridgeSDKException(
+                    "Error occurred while processing SignInCredentials. Is there something wrong with the username and password fields? "
+                            + "username=" + username + ", password=" + password, e);
         }
-        Response response = post(SIGN_IN, signIn);
-        String sessionJsonString = null;
-        StatusLine statusLine = null;
-        try {
-            HttpResponse hr = response.returnResponse();
-            statusLine = hr.getStatusLine();
-            sessionJsonString = EntityUtils.toString(hr.getEntity());
-        } catch (IOException e) {
-            throw new BridgeServerException(e, statusLine, getFullUrl(SIGN_IN));
-        }
-        return UserSession.valueOf(sessionJsonString);
+        HttpResponse response = post(getFullUrl(SIGN_IN), signIn);
+        String sessionJsonString = getResponseBody(response);
+
+        return mapper.convertValue(sessionJsonString, UserSession.class);
     }
 
     UserSession signOut(UserSession session) {
         assert session != null;
         assert session.getSessionToken() != null;
 
-        Response response = authorizedGet(SIGN_OUT);
-        StatusLine statusLine = null;
-        try {
-            statusLine = response.returnResponse().getStatusLine();
-        } catch (IOException e) {
-            throw new BridgeServerException(e, statusLine, getFullUrl(SIGN_OUT));
-        }
+        authorizedGet(getFullUrl(SIGN_OUT));
         return session.signOut();
     }
 
     void requestResetPassword(String email) {
         assert email != null;
 
-        ObjectNode json = JsonNodeFactory.instance.objectNode();
+        ObjectNode json = mapper.createObjectNode();
         json.put("email", email);
-        StatusLine statusLine = null;
         try {
-            email = mapper.writeValueAsString(json);
-            statusLine = post(REQUEST_RESET, email).returnResponse().getStatusLine();
+            String emailJson = mapper.writeValueAsString(json);
+            post(getFullUrl(REQUEST_RESET), emailJson);
         } catch (JsonProcessingException e) {
-            throw new BridgeSDKException("Could not process the following JSON: " + email, e);
-        } catch (IOException e) {
-            throw new BridgeServerException(e, statusLine, getFullUrl(REQUEST_RESET));
+            throw new BridgeSDKException("Error occurred while processing email: email=" + email, e);
         }
     }
 

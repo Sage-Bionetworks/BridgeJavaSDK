@@ -14,10 +14,6 @@ public class SignInCredentials {
         this.password = password;
     }
 
-    public static SignInCredentials valueOf(String username, String password) {
-        return new SignInCredentials(username, password);
-    }
-
     public static SignInCredentials valueOf() {
         return new SignInCredentials(null, null);
     }

@@ -14,12 +14,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BridgeResearcherClient extends BaseApiCaller {
-    
+
     private static final ObjectMapper mapper = new ObjectMapper();
     static {
         mapper.setSerializationInclusion(Include.NON_NULL);
     }
-    
+
     private BridgeResearcherClient(ClientProvider provider) {
         super(provider);
     }
@@ -27,16 +27,16 @@ public class BridgeResearcherClient extends BaseApiCaller {
     static BridgeResearcherClient valueOf(ClientProvider provider) {
         return new BridgeResearcherClient(provider);
     }
-    
+
     public Survey getSurvey(String guid, DateTime timestamp) {
         Survey survey = null;
         try {
             String url = String.format("/researchers/v1/surveys/%s/%s", guid, timestamp.toString());
-            HttpResponse response = authorizedGet(url).returnResponse();
-            
+            HttpResponse response = authorizedGet(url);
+
             StatusLine status = response.getStatusLine();
-            HttpEntity entity = response.getEntity();            
-            
+            HttpEntity entity = response.getEntity();
+
             // There should be error handling before this, probably in the post method
             if (status.getStatusCode() != 200) {
                 throw new RuntimeException(status.getStatusCode() + ": " + status.getReasonPhrase());
@@ -47,17 +47,17 @@ public class BridgeResearcherClient extends BaseApiCaller {
         }
         return survey;
     }
-    
+
     public GuidVersionHolder createSurvey(Survey survey) {
         GuidVersionHolder holder = null;
         try {
             String json = mapper.writeValueAsString(survey);
             // Version is not in the place he's expecting at this point, it'll break.
-            HttpResponse response = post("/researchers/v1/surveys", json).returnResponse();
-            
+            HttpResponse response = post("/researchers/v1/surveys", json);
+
             StatusLine status = response.getStatusLine();
-            HttpEntity entity = response.getEntity();            
-            
+            HttpEntity entity = response.getEntity();
+
             // There should be error handling before this, probably in the post method
             if (status.getStatusCode() != 200) {
                 throw new RuntimeException(status.getStatusCode() + ": " + status.getReasonPhrase());
@@ -71,19 +71,15 @@ public class BridgeResearcherClient extends BaseApiCaller {
         }
         return holder;
     }
-    
+
     public void publishSurvey(String guid, DateTime timestamp) {
-        try {
-            String url = String.format("/researchers/v1/surveys/%s/%s/publish", guid, timestamp.toString());
-            HttpResponse response = post(url).returnResponse();
-            
-            StatusLine status = response.getStatusLine();
-            // There should be error handling before this, probably in the post method
-            if (status.getStatusCode() != 200) {
-                throw new RuntimeException(status.getStatusCode() + ": " + status.getReasonPhrase());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        String url = String.format("/researchers/v1/surveys/%s/%s/publish", guid, timestamp.toString());
+        HttpResponse response = post(url);
+
+        StatusLine status = response.getStatusLine();
+        // There should be error handling before this, probably in the post method
+        if (status.getStatusCode() != 200) {
+            throw new RuntimeException(status.getStatusCode() + ": " + status.getReasonPhrase());
         }
     }
 

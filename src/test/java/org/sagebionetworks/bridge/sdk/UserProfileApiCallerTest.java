@@ -36,10 +36,11 @@ public class UserProfileApiCallerTest {
     public void canRetrieveAndUpdateProfile() {
         ClientProvider provider = ClientProvider.valueOf();
 
-        String adminEmail = provider.getConfig().getAdminEmail();
-        String adminPassword = provider.getConfig().getAdminPassword();
-
-        provider.signIn(SignInCredentials.valueOf(adminEmail, adminPassword));
+        Config conf = provider.getConfig();
+        SignInCredentials signIn = SignInCredentials.valueOf()
+                .setUsername(conf.getAdminEmail())
+                .setPassword(conf.getAdminPassword());
+        provider.signIn(signIn);
 
         UserProfileApiCaller profileApi = UserProfileApiCaller.valueOf(provider);
         UserProfile profile = profileApi.getProfile();

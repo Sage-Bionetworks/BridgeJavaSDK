@@ -12,6 +12,7 @@ import org.apache.http.client.fluent.Response;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 
 public final class Utilities {
 
@@ -19,8 +20,9 @@ public final class Utilities {
     private static final UrlValidator urlValidator = new UrlValidator(schemes, NO_FRAGMENTS + ALLOW_LOCAL_URLS);
     private static final EmailValidator emailValidator = EmailValidator.getInstance();
 
-    private static final ObjectMapper mapper = new ObjectMapper().configure(
-            DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    private static final ObjectMapper mapper = new ObjectMapper()
+                            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                            .registerModule(new JodaModule());
 
     private static Utilities INSTANCE = null;
 

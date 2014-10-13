@@ -6,42 +6,49 @@ public class BridgeServerException extends RuntimeException {
 
     private static final long serialVersionUID = 1730838346722663310L;
 
-    private final StatusLine statusLine;
-    private final String url;
+    private final int statusCode;
+    private final String reasonPhrase;
+    private final String serverResponse;
 
-    BridgeServerException(String message, StatusLine statusLine, String url) {
+    BridgeServerException(String message, StatusLine statusLine, String serverResponseMessage) {
         super(message);
-        this.statusLine = statusLine;
-        this.url = url;
+        this.statusCode = statusLine == null ? -1 : statusLine.getStatusCode();
+        this.reasonPhrase = statusLine == null ? "No reason phrase." : statusLine.getReasonPhrase();
+        this.serverResponse = serverResponseMessage == null ? "No server response." : serverResponseMessage;
     }
 
-    BridgeServerException(Throwable cause, StatusLine statusLine, String url) {
-        this(cause.getMessage(), cause, statusLine, url);
-    }
-
-    BridgeServerException(String message, Throwable cause, StatusLine statusLine, String url) {
+    BridgeServerException(String message, Throwable cause, StatusLine statusLine, String serverResponseMessage) {
         super(message, cause);
-        this.statusLine = statusLine;
-        this.url = url;
+        this.statusCode = statusLine == null ? -1 : statusLine.getStatusCode();
+        this.reasonPhrase = statusLine == null ? "No reason phrase." : statusLine.getReasonPhrase();
+        this.serverResponse = serverResponseMessage == null ? "No server response." : serverResponseMessage;
     }
 
-    public String getUrl() {
-        return this.url;
+    BridgeServerException(Throwable cause, StatusLine statusLine, String serverResponseMessage) {
+        this(cause.getMessage(), cause, statusLine, serverResponseMessage);
+    }
+
+    BridgeServerException(String message, Throwable cause) {
+        this(message, cause, null, null);
     }
 
     public int getStatusCode() {
-        return statusLine.getStatusCode();
+        return this.statusCode;
     }
 
     public String getReasonPhrase() {
-        return statusLine.getReasonPhrase();
+        return this.reasonPhrase;
+    }
+
+    public String getServerResponseMessage() {
+        return this.serverResponse;
     }
 
     @Override
     public String toString() {
         return this.getClass().getName() + "[message=" + getMessage() +
-                ", url=" + getUrl() +
                 ", statusCode=" + getStatusCode() +
-                ", reasonPhrase=" + getReasonPhrase() + "]";
+                ", reasonPhrase=" + getReasonPhrase() +
+                ", serverResponseMessage=" + getServerResponseMessage() + "]";
     }
 }

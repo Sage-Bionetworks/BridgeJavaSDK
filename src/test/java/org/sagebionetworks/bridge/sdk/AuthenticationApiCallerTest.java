@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
+import org.sagebionetworks.bridge.sdk.models.UserSession;
 
 public class AuthenticationApiCallerTest {
 

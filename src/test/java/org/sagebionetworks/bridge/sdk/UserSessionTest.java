@@ -2,8 +2,12 @@ package org.sagebionetworks.bridge.sdk;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
+import java.io.IOException;
 
 import org.junit.Test;
+import org.sagebionetworks.bridge.sdk.models.UserSession;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -23,7 +27,12 @@ public class UserSessionTest {
         String json = "{\"username\":\"" + username + "\",\"sessionToken\":\"" + sessionToken + "\",\"authenticated\":"
                 + authenticated + ",\"consented\":" + consented + ",\"dataSharing\":" + dataSharing + "}";
 
-        UserSession session = UserSession.valueOf(json);
+        UserSession session = null;
+        try {
+            session = mapper.readValue(json, UserSession.class);
+        } catch (IOException e) {
+            fail("Something went wrong with converting the JSON string into a UserSession.");
+        }
         assertNotNull(session);
         assertEquals(session.getSessionToken(), sessionToken);
         assertEquals(session.getUsername(), username);
@@ -34,7 +43,7 @@ public class UserSessionTest {
         try {
             assertEquals(json, mapper.writeValueAsString(session));
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            fail("Couldn't write session into a string.");
         }
     }
 }

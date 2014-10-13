@@ -4,7 +4,7 @@ public class BridgeSDKException extends RuntimeException {
 
     private static final long serialVersionUID = -8415388154731660243L;
 
-    BridgeSDKException(String message, Throwable cause) {
+    public BridgeSDKException(String message, Throwable cause) {
         super(message, cause);
     }
 
