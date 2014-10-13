@@ -94,8 +94,6 @@ public class HealthDataApiCaller extends BaseApiCaller {
         queryParameters.put("endDate", endDate.toString(ISODateTimeFormat.dateTime()));
 
         String url = getFullUrl(HEALTH_DATA) + trackerId(tracker) + addQueryParameters(queryParameters);
-        System.out.println(url);
-
         HttpResponse response = authorizedGet(url);
 
         JsonNode items = getPropertyFromResponse(response, "items");
