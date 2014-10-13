@@ -22,8 +22,10 @@ public class UserProfileApiCallerTest {
     @Test
     public void cannotUpdateProfileWhenUnauthorized() {
         UserProfile profile = UserProfile.valueOf();
-        profile.setFirstName("first name").setLastName("last name").setUsername("fake-username")
-                .setEmail("fake-email@sagebase.org");
+        profile.setFirstName("first name")
+               .setLastName("last name")
+               .setUsername("fake-username")
+               .setEmail("fake-email@sagebase.org");
 
         UserProfileApiCaller profileApi = UserProfileApiCaller.valueOf(ClientProvider.valueOf());
         try {

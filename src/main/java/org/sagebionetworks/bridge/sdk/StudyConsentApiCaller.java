@@ -8,6 +8,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.sagebionetworks.bridge.sdk.models.StudyConsent;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 
 class StudyConsentApiCaller extends BaseApiCaller {
@@ -27,7 +28,7 @@ class StudyConsentApiCaller extends BaseApiCaller {
         assert provider.isSignedIn();
 
         String url = getFullUrl(STUDY_CONSENT);
-        HttpResponse response = get(url);
+        HttpResponse response = authorizedGet(url);
 
         JsonNode items = getPropertyFromResponse(response, "items");
         List<StudyConsent> consents = mapper.convertValue(items,
@@ -41,7 +42,7 @@ class StudyConsentApiCaller extends BaseApiCaller {
         assert timestamp != null;
 
         String url = getFullUrl(STUDY_CONSENT) + timestamp(timestamp);
-        HttpResponse response = get(url);
+        HttpResponse response = authorizedGet(url);
         String responseBody = getResponseBody(response);
 
         StudyConsent consent;
@@ -57,16 +58,53 @@ class StudyConsentApiCaller extends BaseApiCaller {
 
     StudyConsent getActiveStudyConsent() {
         assert provider.isSignedIn();
-        return null;
+
+        String url = getFullUrl(ACTIVE);
+        HttpResponse response = authorizedGet(url);
+        String responseBody = getResponseBody(response);
+
+        StudyConsent consent;
+        try {
+            consent = mapper.readValue(responseBody, StudyConsent.class);
+        } catch (IOException e) {
+            throw new BridgeSDKException(
+                    "Something went wrong while converting ResponseBody JSON into StudyConsent: responseBody="
+                            + responseBody, e);
+        }
+        return consent;
     }
 
     StudyConsent setActiveStudyConsent(DateTime timestamp) {
         assert provider.isSignedIn();
-        return null;
+
+        String url = getFullUrl(ACTIVE) + timestamp(timestamp);
+        HttpResponse response = post(url);
+        String responseBody = getResponseBody(response);
+
+        StudyConsent consent;
+        try {
+            consent = mapper.readValue(responseBody, StudyConsent.class);
+        } catch (IOException e) {
+            throw new BridgeSDKException(
+                    "Something when wrong while converting Response Body JSON into StudyConsent: responseBody="
+                            + responseBody, e);
+        }
+        return consent;
     }
 
     StudyConsent addStudyConsent(StudyConsent studyConsent) {
         assert provider.isSignedIn();
+
+        String url = getFullUrl(STUDY_CONSENT);
+        String json = null;
+        try {
+            json = mapper.writeValueAsString(studyConsent);
+        } catch (JsonProcessingException e) {
+            throw new BridgeSDKException("Could not process StudyConsent. Are you sure it is correct? "
+                    + studyConsent.toString(), e);
+        }
+
+
         return null;
     }
 

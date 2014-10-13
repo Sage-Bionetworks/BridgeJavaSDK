@@ -56,6 +56,13 @@ abstract class BaseApiCaller {
     }
 
     final HttpResponse authorizedGet(String url) {
+        return authorizedGet(url, null);
+    }
+
+    final HttpResponse authorizedGet(String url, Map<String,String> queryParameters) {
+        if (queryParameters != null) {
+            url += addQueryParameters(queryParameters);
+        }
         HttpResponse response = null;
         try {
             Request request = Request.Get(url);
@@ -100,6 +107,14 @@ abstract class BaseApiCaller {
     }
 
     final HttpResponse delete(String url) {
+        return delete(url, null);
+    }
+
+    final HttpResponse delete(String url, Map<String,String> queryParameters) {
+        if (queryParameters != null) {
+            url += addQueryParameters(queryParameters);
+        }
+
         HttpResponse response = null;
         try {
             Request request = Request.Delete(url);
@@ -144,19 +159,6 @@ abstract class BaseApiCaller {
         return responseBody;
     }
 
-    final String addQueryParameters(Map<String,String> parameters) {
-        assert parameters != null;
-
-        StringBuilder builder = new StringBuilder();
-        builder.append("?");
-        for (String parameter : parameters.keySet()) {
-            builder.append("&" + parameter + "=" + parameters.get(parameter));
-        }
-        builder.deleteCharAt(1); // remove first ampersand.
-
-        return builder.toString();
-    }
-
     final JsonNode getPropertyFromResponse(HttpResponse response, String property) {
         JsonNode json;
         try {
@@ -184,5 +186,18 @@ abstract class BaseApiCaller {
         }
 
         return new BridgeServerException(t, hr.getStatusLine(), serverResponse);
+    }
+
+    private final String addQueryParameters(Map<String,String> parameters) {
+        assert parameters != null;
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("?");
+        for (String parameter : parameters.keySet()) {
+            builder.append("&" + parameter + "=" + parameters.get(parameter));
+        }
+        builder.deleteCharAt(1); // remove first ampersand.
+
+        return builder.toString();
     }
 }

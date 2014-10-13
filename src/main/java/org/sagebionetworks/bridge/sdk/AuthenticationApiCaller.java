@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk;
 
+import java.io.IOException;
+
 import org.apache.http.HttpResponse;
 import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
 import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
@@ -55,7 +57,13 @@ final class AuthenticationApiCaller extends BaseApiCaller {
         HttpResponse response = post(getFullUrl(SIGN_IN), signIn);
         String sessionJsonString = getResponseBody(response);
 
-        return mapper.convertValue(sessionJsonString, UserSession.class);
+        UserSession session;
+        try {
+            session = mapper.readValue(sessionJsonString, UserSession.class);
+        } catch (IOException e) {
+            throw new BridgeSDKException("Error occurred while processing the UserSession.", e);
+        }
+        return session;
     }
 
     UserSession signOut(UserSession session) {
@@ -78,5 +86,4 @@ final class AuthenticationApiCaller extends BaseApiCaller {
             throw new BridgeSDKException("Error occurred while processing email: email=" + email, e);
         }
     }
-
 }
