@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -22,6 +23,10 @@ public class HealthDataApiCallerTest {
 
     private static ClientProvider provider;
     private static HealthDataApiCaller healthApi;
+    private static UserManagementApiCaller userManagementApi;
+    private static SignInCredentials adminSignIn;
+    private static SignInCredentials testUserSignIn;
+
     private List<Tracker> trackers;
     private List<HealthDataRecord> records;
 
@@ -29,20 +34,40 @@ public class HealthDataApiCallerTest {
     public static void initialSetup() {
         provider = ClientProvider.valueOf();
         healthApi = HealthDataApiCaller.valueOf(provider);
+        userManagementApi = UserManagementApiCaller.valueOf(provider);
+
+        Config conf = provider.getConfig();
+        adminSignIn = SignInCredentials.valueOf()
+                .setUsername(conf.getAdminEmail())
+                .setPassword(conf.getAdminPassword());
+
+        String testEmail = "testingggg@sagebase.org";
+        String testPassword = "p4ssw0rd";
+        testUserSignIn = SignInCredentials.valueOf().setUsername(testEmail).setPassword(testPassword);
     }
 
     @Before
     public void before() {
-        if (!provider.isSignedIn()) {
-            Config conf = provider.getConfig();
-            SignInCredentials signIn = SignInCredentials.valueOf()
-                    .setUsername(conf.getAdminEmail())
-                    .setPassword(conf.getAdminPassword());
-            provider.signIn(signIn);
-        }
+        provider.signIn(adminSignIn);
+
+        // Construct test user
+        String testUsername = "testUsername";
+        boolean consent = true;
+        userManagementApi.createUser(testUserSignIn.getUsername(), testUsername, testUserSignIn.getPassword(), consent);
+
+        // Sign out admin user, sign in test user.
+        provider.signOut();
+        provider.signIn(testUserSignIn);
 
         TrackerApiCaller trackerApi = TrackerApiCaller.valueOf(provider);
         trackers = trackerApi.getAllTrackers();
+    }
+
+    @After
+    public void after() {
+        provider.signOut();
+        provider.signIn(adminSignIn);
+        userManagementApi.deleteUser(testUserSignIn.getUsername());
     }
 
     @Test

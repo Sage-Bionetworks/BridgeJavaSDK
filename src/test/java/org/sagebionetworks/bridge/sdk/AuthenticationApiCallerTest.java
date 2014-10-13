@@ -4,12 +4,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.models.UserSession;
 
 public class AuthenticationApiCallerTest {
 
     @Test
+    @Ignore
     public void garbageSignInFails() {
         String username = "d;fjasdl;kfjads";
         String password = "lalalalalala";
@@ -17,7 +19,7 @@ public class AuthenticationApiCallerTest {
             AuthenticationApiCaller auth = AuthenticationApiCaller.valueOf(ClientProvider.valueOf());
             auth.signIn(username, password);
             fail("If we did not throw an error or exception, then something has gone wrong.");
-        } catch (Throwable t) {}
+        } catch (Exception e) {}
     }
 
     @Test

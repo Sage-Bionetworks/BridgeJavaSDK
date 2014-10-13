@@ -35,6 +35,7 @@ final class Config {
     private static final String TRACKER_API = "TRACKER_API";
     private static final String HEALTH_DATA_API = "HEALTH_DATA_API";
     private static final String UPLOAD_API = "UPLOAD_API";
+    private static final String USER_MANAGEMENT_API = "USER_MANAGEMENT_API";
 
     private Configuration config;
 
@@ -92,6 +93,7 @@ final class Config {
         properties.add(TRACKER_API);
         properties.add(HEALTH_DATA_API);
         properties.add(UPLOAD_API);
+        properties.add(USER_MANAGEMENT_API);
     }
 
     String getParticipantEmail() { return config.getString(PARTICIPANT_EMAIL); }
@@ -111,8 +113,7 @@ final class Config {
     String getTrackerApi() { return config.getString(TRACKER_API); }
     String getHealthDataApi() { return config.getString(HEALTH_DATA_API); }
     String getUploadApi() { return config.getString(UPLOAD_API); }
-
-
+    String getUserManagementApi() { return config.getString(USER_MANAGEMENT_API); }
 
     private void overrideWithEnvironmentVariables(Configuration config) {
         String value;
