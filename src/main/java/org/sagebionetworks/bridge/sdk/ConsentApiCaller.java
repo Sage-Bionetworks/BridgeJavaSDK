@@ -8,7 +8,7 @@ import org.sagebionetworks.bridge.sdk.models.UserSession;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-public class ConsentApiCaller extends BaseApiCaller {
+class ConsentApiCaller extends BaseApiCaller {
 
     private final String CONSENT = provider.getConfig().getConsentApi();
     private final String SUSPEND = CONSENT + "/dataSharing/suspend";

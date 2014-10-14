@@ -16,7 +16,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-public class HealthDataApiCaller extends BaseApiCaller {
+class HealthDataApiCaller extends BaseApiCaller {
 
     private final String HEALTH_DATA = provider.getConfig().getHealthDataApi();
 

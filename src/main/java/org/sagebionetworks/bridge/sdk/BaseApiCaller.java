@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 abstract class BaseApiCaller {
 
-    Utilities utils = Utilities.getInstance();
+    Utilities utils = Utilities.valueOf();
 
     private final HttpClient client = HttpClientBuilder.create()
             .setRedirectStrategy(new LaxRedirectStrategy())
@@ -98,8 +98,10 @@ abstract class BaseApiCaller {
             request.setHeader("Bridge-Session", provider.getSessionToken());
             response = exec.execute(request).returnResponse();
         } catch (ClientProtocolException e) {
+            e.printStackTrace();
             throw constructServerException(e, response);
         } catch (IOException e) {
+            e.printStackTrace();
             throw new BridgeServerException("Connection to server failed or aborted.", e);
         }
 

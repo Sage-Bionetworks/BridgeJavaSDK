@@ -16,8 +16,8 @@ public class ClientProviderTest {
 
         Config conf = provider.getConfig();
         SignInCredentials signIn = SignInCredentials.valueOf()
-                .setUsername(conf.getAdminEmail())
-                .setPassword(conf.getAdminPassword());
+                .setUsername(conf.get("admin.email"))
+                .setPassword(conf.get("admin.password"));
         provider.signIn(signIn);
         assertTrue(provider.isSignedIn());
 

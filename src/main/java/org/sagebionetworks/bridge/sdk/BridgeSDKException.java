@@ -8,6 +8,10 @@ public class BridgeSDKException extends RuntimeException {
         super(message, cause);
     }
 
+    public BridgeSDKException(String message) {
+        super(message);
+    }
+    
     @Override
     public String toString() {
         return this.getClass().getName() + "[Error message: " + getMessage() + "]";
