@@ -1,162 +1,176 @@
 package org.sagebionetworks.bridge.sdk;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
-import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
+import org.joda.time.DateTime;
 
 final class Config {
 
-    Utilities utils = Utilities.getInstance();
+    private static final String CONFIG_FILE = "bridge-sdk.properties";
+    private static final String USER_CONFIG_FILE = System.getProperty("user.home") + "/bridge-sdk.properties";
 
-    private static final String DEFAULT_CONFIG = "bridge-sdk.properties";
+    public static enum Props {
+        ACCOUNT_EMAIL,
+        ACCOUNT_PASSWORD,
+        HOST,
+        AUTH_API,
+        CONSENT_API,
+        HEALTH_DATA_API,
+        PROFILE_API,
+        SCHEDULES_API,
+        SCHEDULEPLAN_API,
+        SCHEDULEPLANS_API,
+        STUDY_CONSENT_API,
+        SURVEY_API,
+        SURVEY_PUBLISH_API,
+        SURVEYS_API,
+        SURVEY_RESPONSE_API,
+        TRACKER_API,
+        UPLOAD_API,
+        USER_MANAGEMENT_API;
+        
+        public String getPropertyName() {
+            return this.name().replace("_", ".").toLowerCase();
+        }
+    }
 
-    private static final List<String> properties = new ArrayList<String>();
+    private Properties config;
 
-    private static final String PARTICIPANT_EMAIL = "PARTICIPANT_EMAIL";
-    private static final String PARTICIPANT_PASSWORD = "PARTICIPANT_PASSWORD";
-
-    private static final String ADMIN_EMAIL = "ADMIN_EMAIL";
-    private static final String ADMIN_PASSWORD = "ADMIN_PASSWORD";
-
-    private static final String HOST = "HOST";
-
-    private static final String AUTH_API = "AUTH_API";
-    private static final String PROFILE_API = "PROFILE_API";
-    private static final String CONSENT_API = "CONSENT_API";
-    private static final String STUDY_CONSENT_API = "STUDY_CONSENT_API";
-    private static final String SCHEDULE_PLANNING_API = "SCHEDULE_PLANNING_API";
-    private static final String SCHEDULES_API = "SCHEDULES_API";
-    private static final String ACTIVITIES_API = "ACTIVITIES_API";
-    private static final String SURVEYS_API = "SURVEYS_API";
-    private static final String SURVEY_RESPONSE_API = "SURVEY_RESPONSE_API";
-    private static final String TRACKER_API = "TRACKER_API";
-    private static final String HEALTH_DATA_API = "HEALTH_DATA_API";
-    private static final String UPLOAD_API = "UPLOAD_API";
-    private static final String USER_MANAGEMENT_API = "USER_MANAGEMENT_API";
-
-    private Configuration config;
-
-    private Config(String configPath) {
-        assert configPath != null;
-        assert configPath.endsWith(".properties");
-        assert properties.size() > 0;
-
-        // Set with config file.
+    private Config() {
         try {
-            config = new PropertiesConfiguration(configPath);
-        } catch (ConfigurationException e) {
-            throw new BridgeSDKException(
-                    "Something went wrong while reading the config file. Is the path or file correct? path="
-                            + configPath, e);
+            config = new Properties();
+            loadProperties(new FileInputStream(new File(CONFIG_FILE)), config);
+
+            File userConfig = new File(USER_CONFIG_FILE);
+            if (userConfig.exists()) {
+                loadProperties(new FileInputStream(userConfig), config);
+            }
+            
+            for (Props key : Props.values()) {
+                String value = readEnv(key.name());
+                if (value == null) {
+                    value = readArg(key.name());
+                }
+                if (value != null) {
+                    config.setProperty(key.getPropertyName(), value);
+                }
+            }
+        } catch(FileNotFoundException e) {
+            throw new BridgeSDKException(e.getMessage(), e);
         }
-
-        // Override any options with environment variables.
-        overrideWithEnvironmentVariables(config);
-
-        assertAllPropertiesPresent();
-        assertHostAndEmailValid();
+    }
+    
+    private Config(String host) {
+        this();
+        Preconditions.checkNotEmpty(host, "Host is null or empty");
+        config.setProperty(Props.HOST.getPropertyName(), host);
     }
 
-    static Config valueOf(String configPath) {
-        if (properties.size() == 0) {
-            constructPropertiesList();
-        }
-        return new Config(configPath);
+    static Config valueOf() {
+        return new Config();
+    }
+    
+    static Config valueOf(String host) {
+        return new Config(host);
     }
 
-    static Config valueOfDefault() {
-        if (properties.size() == 0) {
-            constructPropertiesList();
-        }
-        return new Config(DEFAULT_CONFIG);
-    }
-
-    private static void constructPropertiesList() {
-        assert properties.size() == 0;
-        properties.add(PARTICIPANT_EMAIL);
-        properties.add(PARTICIPANT_PASSWORD);
-        properties.add(ADMIN_EMAIL);
-        properties.add(ADMIN_PASSWORD);
-        properties.add(HOST);
-        properties.add(AUTH_API);
-        properties.add(PROFILE_API);
-        properties.add(CONSENT_API);
-        properties.add(STUDY_CONSENT_API);
-        properties.add(SCHEDULE_PLANNING_API);
-        properties.add(SCHEDULES_API);
-        properties.add(ACTIVITIES_API);
-        properties.add(SURVEYS_API);
-        properties.add(SURVEY_RESPONSE_API);
-        properties.add(TRACKER_API);
-        properties.add(HEALTH_DATA_API);
-        properties.add(UPLOAD_API);
-        properties.add(USER_MANAGEMENT_API);
-    }
-
-    String getParticipantEmail() { return config.getString(PARTICIPANT_EMAIL); }
-    String getParticipantPassword() { return config.getString(PARTICIPANT_PASSWORD); }
-    String getAdminEmail() { return config.getString(ADMIN_EMAIL); }
-    String getAdminPassword() { return config.getString(ADMIN_PASSWORD); }
-    String getHost() { return config.getString(HOST); }
-    String getAuthApi() { return config.getString(AUTH_API); }
-    String getProfileApi() { return config.getString(PROFILE_API); }
-    String getConsentApi() { return config.getString(CONSENT_API); }
-    String getStudyConsentApi() { return config.getString(STUDY_CONSENT_API); }
-    String getSchedulePlanningApi() { return config.getString(SCHEDULE_PLANNING_API); }
-    String getSchedulesApi() { return config.getString(SCHEDULES_API); }
-    String getActivitiesApi() { return config.getString(ACTIVITIES_API); }
-    String getSurveyApi() { return config.getString(SURVEYS_API); }
-    String getSurveyResponsesApi() { return config.getString(SURVEY_RESPONSE_API); }
-    String getTrackerApi() { return config.getString(TRACKER_API); }
-    String getHealthDataApi() { return config.getString(HEALTH_DATA_API); }
-    String getUploadApi() { return config.getString(UPLOAD_API); }
-    String getUserManagementApi() { return config.getString(USER_MANAGEMENT_API); }
-
-    private void overrideWithEnvironmentVariables(Configuration config) {
-        String value;
-        for (String property : properties) {
-            value = System.getenv(property);
-            if (value != null) {
-                config.setProperty(property, value);
+    private void loadProperties(final InputStream inputStream, final Properties properties) {
+        try {
+            properties.load(inputStream);
+        } catch(IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                inputStream.close();
+            } catch(IOException e) {
+                throw new RuntimeException(e);
             }
         }
     }
-
-    private void assertAllPropertiesPresent() {
-        for (String property : properties) {
-            assert config.getString(property) != null : property + " property is not present.";
-        }
+    
+    private String readEnv(String name) {
+        // Change to a valid environment variable name
+        name = name.toUpperCase().replace('.', '_');
+        return System.getenv(name);
     }
-
-    private void assertHostAndEmailValid() {
-        if (!utils.isValidEmail(getParticipantEmail())) {
-            throw new IllegalArgumentException(getParticipantEmail() + " is not a valid email address.");
-        } else if (!utils.isValidEmail(getAdminEmail())) {
-            throw new IllegalArgumentException(getAdminEmail() + " is not a valid email address.");
-        } else if (!utils.isValidUrl(getHost()) || !getHost().endsWith("/")) {
-            throw new IllegalArgumentException(getHost()
-                    + " is not a valid URL. Needs to be of the form http://www.sagebase.org/");
-        }
-        // BridgePF is not currently pingable, so commenting out for now.
-        // else if (!isConnectableUrl(getHost(), 1000)) {
-        // throw new IllegalArgumentException("Could not connect to the URL: " + getHost());
-        // }
+    private String readArg(String name) {
+        return System.getProperty(name);
+    }
+    
+    String get(String key) {
+        return config.getProperty(key);
+    }
+    String getAccountEmail() {
+        return val(Props.ACCOUNT_EMAIL); 
+    }
+    String getAccountPassword() { 
+        return val(Props.ACCOUNT_PASSWORD); 
+    }
+    String getHost() {
+        return val(Props.HOST);
+    }
+    String getAuthApi() {
+        return val(Props.AUTH_API);
+    }
+    String getProfileApi() {
+        return val(Props.PROFILE_API);
+    }
+    String getConsentApi() {
+        return val(Props.CONSENT_API);
+    }
+    String getStudyConsentApi() {
+        return val(Props.STUDY_CONSENT_API);
+    }
+    String getTrackerApi() {
+        return val(Props.TRACKER_API);
+    }
+    String getHealthDataApi() {
+        return val(Props.HEALTH_DATA_API);
+    }
+    String getUploadApi() {
+        return val(Props.UPLOAD_API);
+    }
+    String getUserManagementApi() {
+        return val(Props.USER_MANAGEMENT_API);
+    }
+    String getSchedulesApi() { 
+        return val(Props.SCHEDULES_API);
+    }
+    String getSurveysApi() {
+        return val(Props.SURVEYS_API);
+    }
+    String getSurveyApi(String guid, DateTime timestamp) { 
+        return String.format(val(Props.SURVEY_API), guid, timestamp.toString());
+    }
+    String getPublishSurveyApi(String guid, DateTime timestamp) {
+        return String.format(val(Props.SURVEY_PUBLISH_API), guid, timestamp.toString());
+    }
+    String getSchedulePlansApi() {
+        return val(Props.SCHEDULEPLANS_API); 
+    }
+    String getSchedulePlanApi(String guid) {
+        return String.format(val(Props.SCHEDULEPLAN_API), guid); 
+    }
+    
+    private String val(Props prop) {
+        return config.getProperty(prop.getPropertyName());
     }
 
     @Override
     public String toString() {
-        assert config != null;
-        assertAllPropertiesPresent();
-
-        StringBuilder builder = new StringBuilder();
-        builder.append("Config[");
-        for (String property : properties) {
-            builder.append(property + "=" + config.getString(property) + ", ");
+        StringBuilder builder = new StringBuilder("Config[");
+        for (int i=0; i < Props.values().length; i++) {
+            String property = Props.values()[i].getPropertyName();
+            if (i > 0) {
+                builder.append(", ");
+            }
+            builder.append(property + "=" + config.getProperty(property));
         }
-        builder.delete(builder.length() - 2, builder.length()); // remove last ", "
         builder.append("]");
         return builder.toString();
     }

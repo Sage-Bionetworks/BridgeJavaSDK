@@ -1,16 +1,14 @@
 package org.sagebionetworks.bridge.sdk;
 
-import java.io.IOException;
+import java.util.List;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.GuidVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.GuidVersionedOnHolder;
+import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BridgeResearcherClient extends BaseApiCaller {
@@ -20,8 +18,13 @@ public class BridgeResearcherClient extends BaseApiCaller {
         mapper.setSerializationInclusion(Include.NON_NULL);
     }
 
+    private final SurveyApiCaller surveyApi;
+    private final SchedulePlanApiCaller schedulePlanApi;
+    
     private BridgeResearcherClient(ClientProvider provider) {
         super(provider);
+        this.surveyApi = SurveyApiCaller.valueOf(provider);
+        this.schedulePlanApi = SchedulePlanApiCaller.valueOf(provider);
     }
 
     static BridgeResearcherClient valueOf(ClientProvider provider) {
@@ -29,58 +32,44 @@ public class BridgeResearcherClient extends BaseApiCaller {
     }
 
     public Survey getSurvey(String guid, DateTime timestamp) {
-        Survey survey = null;
-        try {
-            String url = String.format("/researchers/v1/surveys/%s/%s", guid, timestamp.toString());
-            HttpResponse response = authorizedGet(url);
-
-            StatusLine status = response.getStatusLine();
-            HttpEntity entity = response.getEntity();
-
-            // There should be error handling before this, probably in the post method
-            if (status.getStatusCode() != 200) {
-                throw new RuntimeException(status.getStatusCode() + ": " + status.getReasonPhrase());
-            }
-            survey = mapper.readValue(entity.getContent(), Survey.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return survey;
+        Preconditions.checkNotEmpty(guid, "Guid is null or blank");
+        Preconditions.checkNotNull(timestamp, "Timestamp is null");
+        return surveyApi.getSurvey(guid, timestamp);
     }
 
-    public GuidVersionHolder createSurvey(Survey survey) {
-        GuidVersionHolder holder = null;
-        try {
-            String json = mapper.writeValueAsString(survey);
-            // Version is not in the place he's expecting at this point, it'll break.
-            HttpResponse response = post("/researchers/v1/surveys", json);
-
-            StatusLine status = response.getStatusLine();
-            HttpEntity entity = response.getEntity();
-
-            // There should be error handling before this, probably in the post method
-            if (status.getStatusCode() != 200) {
-                throw new RuntimeException(status.getStatusCode() + ": " + status.getReasonPhrase());
-            }
-            JsonNode node = mapper.readTree(entity.getContent());
-            String guid = node.get("guid").asText();
-            String versionedOn = node.get("versionedOn").asText();
-            holder = new GuidVersionHolder(guid, DateTime.parse(versionedOn));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return holder;
+    public GuidVersionedOnHolder createSurvey(Survey survey) {
+        Preconditions.checkNotNull(survey, "Survey object is null");
+        return surveyApi.createSurvey(survey);
     }
 
     public void publishSurvey(String guid, DateTime timestamp) {
-        String url = String.format("/researchers/v1/surveys/%s/%s/publish", guid, timestamp.toString());
-        HttpResponse response = post(url);
-
-        StatusLine status = response.getStatusLine();
-        // There should be error handling before this, probably in the post method
-        if (status.getStatusCode() != 200) {
-            throw new RuntimeException(status.getStatusCode() + ": " + status.getReasonPhrase());
-        }
+        Preconditions.checkNotEmpty(guid, "Guid is null or blank");
+        Preconditions.checkNotNull(timestamp, "Timestamp is null");
+        surveyApi.publishSurvey(guid, timestamp);
     }
-
+    
+    public List<SchedulePlan> getSchedulePlans() {
+        return schedulePlanApi.getSchedulePlans();
+    }
+    
+    public GuidVersionHolder createSchedulePlan(SchedulePlan plan) {
+        Preconditions.checkNotNull(plan, "Plan object is null");
+        return schedulePlanApi.createSchedulePlan(plan);
+    }
+    
+    public SchedulePlan getSchedulePlan(String guid) {
+        Preconditions.checkNotEmpty(guid, "Guid is null or blank");
+        return schedulePlanApi.getSchedulePlan(guid);
+    }
+    
+    public GuidVersionedOnHolder updateSchedulePlan(SchedulePlan plan) {
+        Preconditions.checkNotNull(plan, "Plan object is null");
+        return schedulePlanApi.updateSchedulePlan(plan);
+    }
+    
+    public void deleteSchedulePlan(String guid) {
+        Preconditions.checkNotEmpty(guid, "Guid is null or blank");
+        schedulePlanApi.deleteSchedulePlan(guid);
+    }
+    
 }

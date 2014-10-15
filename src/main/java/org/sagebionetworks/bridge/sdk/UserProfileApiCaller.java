@@ -22,7 +22,7 @@ class UserProfileApiCaller extends BaseApiCaller {
     UserProfile getProfile() {
         assert provider.isSignedIn();
 
-        HttpResponse response = authorizedGet(getFullUrl(PROFILE));
+        HttpResponse response = authorizedGet(PROFILE);
         String responseBody = getResponseBody(response);
 
         UserProfile profile;
@@ -46,7 +46,7 @@ class UserProfileApiCaller extends BaseApiCaller {
         } catch (JsonProcessingException e) {
             throw new BridgeSDKException("Could not process the profile. Is it correct? " + profile.toString(), e);
         }
-        post(getFullUrl(PROFILE), profileJson);
+        post(PROFILE, profileJson);
     }
 
 }

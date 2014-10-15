@@ -22,7 +22,7 @@ class TrackerApiCaller extends BaseApiCaller {
     List<Tracker> getAllTrackers() {
         assert provider.isSignedIn();
 
-        HttpResponse response = authorizedGet(getFullUrl(TRACKER));
+        HttpResponse response = authorizedGet(TRACKER);
         JsonNode items = getPropertyFromResponse(response, "items");
         List<Tracker> trackers = mapper.convertValue(items,
                 mapper.getTypeFactory().constructCollectionType(List.class, Tracker.class));
@@ -34,7 +34,7 @@ class TrackerApiCaller extends BaseApiCaller {
         assert provider.isSignedIn();
         assert tracker != null;
 
-        String url = getFullUrl(tracker.getSchemaUrl().substring(1)); // remove beginning /
+        String url = tracker.getSchemaUrl(); // remove beginning /
         HttpResponse response = authorizedGet(url);
         String schema = getResponseBody(response);
 

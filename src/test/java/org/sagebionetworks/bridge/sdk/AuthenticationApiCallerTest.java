@@ -24,11 +24,11 @@ public class AuthenticationApiCallerTest {
 
     @Test
     public void canSignInAndOut() {
-        ClientProvider provider = ClientProvider.valueOf("bridge-sdk.properties");
+        ClientProvider provider = ClientProvider.valueOf();
         Config config = provider.getConfig();
 
-        String username = config.getAdminEmail();
-        String password = config.getAdminPassword();
+        String username = config.get("admin.email");
+        String password = config.get("admin.password");
 
         AuthenticationApiCaller auth = AuthenticationApiCaller.valueOf(provider);
         UserSession session = auth.signIn(username, password);

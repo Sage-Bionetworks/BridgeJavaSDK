@@ -8,7 +8,7 @@ public class ConfigTest {
 
     @Test
     public void createConfig() {
-        Config conf = Config.valueOfDefault();
+        Config conf = Config.valueOf();
         assertNotNull(conf);
     }
 }

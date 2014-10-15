@@ -10,6 +10,7 @@ import org.sagebionetworks.bridge.sdk.models.ResearchConsent;
 import org.sagebionetworks.bridge.sdk.models.Tracker;
 import org.sagebionetworks.bridge.sdk.models.UserProfile;
 import org.sagebionetworks.bridge.sdk.models.UserSession;
+import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 
 public class BridgeUserClient {
 
@@ -18,6 +19,7 @@ public class BridgeUserClient {
     private final TrackerApiCaller trackerApi;
     private final HealthDataApiCaller healthDataApi;
     private final ConsentApiCaller consentApi;
+    private final ScheduleApiCaller scheduleApi;
 
     private BridgeUserClient(ClientProvider provider) {
         this.provider = provider;
@@ -25,6 +27,7 @@ public class BridgeUserClient {
         this.trackerApi = TrackerApiCaller.valueOf(provider);
         this.healthDataApi = HealthDataApiCaller.valueOf(provider);
         this.consentApi = ConsentApiCaller.valueOf(provider);
+        this.scheduleApi = ScheduleApiCaller.valueOf(provider);
     }
 
     static BridgeUserClient valueOf(ClientProvider provider) {
@@ -163,6 +166,11 @@ public class BridgeUserClient {
         UserSession session = consentApi.resumeDataSharing();
         provider.setSession(session);
     }
-
-
+    
+    public List<Schedule> getSchedules() {
+        if (!provider.isSignedIn()) {
+            throw new IllegalStateException("Provider must be signed in to call this method.");
+        }
+        return scheduleApi.getSchedules();
+    }
 }
