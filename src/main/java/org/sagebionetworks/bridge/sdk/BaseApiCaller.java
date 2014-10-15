@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
+import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.fluent.Executor;
@@ -44,16 +45,34 @@ abstract class BaseApiCaller {
     public ClientProvider getProvider() {
         return provider;
     }
+    
+    private void throwExceptionOnErrorStatus(HttpResponse response, String url) {
+        StatusLine status = response.getStatusLine();
+        int statusCode = status.getStatusCode();
+        if (statusCode < 200 || statusCode > 299) {
+            BridgeServerException e = null;
+            try {
+                String message = getPropertyFromResponse(response, "message").asText();
+                e = new BridgeServerException(message, status.getStatusCode(), url);
+            } catch(Throwable t) {
+                System.out.println("Something went wrong: " + t.getMessage());
+                throw new BridgeServerException(status.getReasonPhrase(), status.getStatusCode(), url);
+            }
+            throw e;
+        }
+    }
 
     final HttpResponse get(String url) {
+        String fullUrl = getFullUrl(url);
         HttpResponse response = null;
         try {
-            Request request = Request.Get(getFullUrl(url));
+            Request request = Request.Get(fullUrl);
             response = exec.execute(request).returnResponse();
+            throwExceptionOnErrorStatus(response, fullUrl);
         } catch (ClientProtocolException e) {
-            throw constructServerException(e, response);
+            throw new BridgeServerException("Connection to server failed or aborted.", e, fullUrl);
         } catch (IOException e) {
-            throw new BridgeServerException("Connection to server failed or aborted.", e);
+            throw new BridgeServerException("Connection to server failed or aborted.", e, fullUrl);
         }
         return response;
     }
@@ -66,48 +85,50 @@ abstract class BaseApiCaller {
         if (queryParameters != null) {
             url += addQueryParameters(queryParameters);
         }
+        String fullUrl = getFullUrl(url);
         HttpResponse response = null;
         try {
-            Request request = Request.Get(getFullUrl(url));
+            Request request = Request.Get(fullUrl);
             request.setHeader("Bridge-Session", provider.getSessionToken());
             response = exec.execute(request).returnResponse();
+            throwExceptionOnErrorStatus(response, fullUrl);
         } catch (ClientProtocolException e) {
-            throw constructServerException(e, response);
+            throw new BridgeServerException("Connection to server failed or aborted.", e, fullUrl);
         } catch (IOException e) {
-            throw new BridgeServerException("Connection to server failed or aborted.", e);
+            throw new BridgeServerException("Connection to server failed or aborted.", e, fullUrl);
         }
         return response;
     }
 
     final HttpResponse post(String url) {
+        String fullUrl = getFullUrl(url);
         HttpResponse response = null;
         try {
-            Request request = Request.Post(getFullUrl(url));
+            Request request = Request.Post(fullUrl);
             request.setHeader("Bridge-Session", provider.getSessionToken());
             response = exec.execute(request).returnResponse();
+            throwExceptionOnErrorStatus(response, fullUrl);
         } catch (ClientProtocolException e) {
-            throw constructServerException(e, response);
+            throw new BridgeServerException("Connection to server failed or aborted.", e, fullUrl);
         } catch (IOException e) {
-            throw new BridgeServerException("Connection to server failed or aborted.", e);
+            throw new BridgeServerException("Connection to server failed or aborted.", e, fullUrl);
         }
-
         return response;
     }
 
     final HttpResponse post(String url, String json) {
+        String fullUrl = getFullUrl(url);
         HttpResponse response = null;
         try {
-            Request request = Request.Post(getFullUrl(url)).bodyString(json, ContentType.APPLICATION_JSON);
+            Request request = Request.Post(fullUrl).bodyString(json, ContentType.APPLICATION_JSON);
             request.setHeader("Bridge-Session", provider.getSessionToken());
             response = exec.execute(request).returnResponse();
+            throwExceptionOnErrorStatus(response, fullUrl);
         } catch (ClientProtocolException e) {
-            e.printStackTrace();
-            throw constructServerException(e, response);
+            throw new BridgeServerException("Connection to server failed or aborted.", e, fullUrl);
         } catch (IOException e) {
-            e.printStackTrace();
-            throw new BridgeServerException("Connection to server failed or aborted.", e);
+            throw new BridgeServerException("Connection to server failed or aborted.", e, fullUrl);
         }
-
         return response;
     }
 
@@ -119,16 +140,17 @@ abstract class BaseApiCaller {
         if (queryParameters != null) {
             url += addQueryParameters(queryParameters);
         }
-
+        String fullUrl = getFullUrl(url);
         HttpResponse response = null;
         try {
-            Request request = Request.Delete(getFullUrl(url));
+            Request request = Request.Delete(fullUrl);
             request.setHeader("Bridge-Session", provider.getSessionToken());
             response = exec.execute(request).returnResponse();
+            throwExceptionOnErrorStatus(response, fullUrl);
         } catch (ClientProtocolException e) {
-            throw constructServerException(e, response);
+            throw new BridgeServerException("Connection to server failed or aborted.", e, fullUrl);
         } catch (IOException e) {
-            throw new BridgeServerException("Connection to server failed or aborted.", e);
+            throw new BridgeServerException("Connection to server failed or aborted.", e, fullUrl);
         }
 
         return response;
@@ -167,8 +189,6 @@ abstract class BaseApiCaller {
     final JsonNode getPropertyFromResponse(HttpResponse response, String property) {
         JsonNode json;
         try {
-            System.out.println("Response body: \"" + getResponseBody(response) + "\"");
-            System.out.println(response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase());
             json = mapper.readTree(getResponseBody(response));
         } catch (IOException e) {
             throw new BridgeSDKException("A problem occurred while processing the response body.", e);
@@ -176,21 +196,6 @@ abstract class BaseApiCaller {
 
         assert json.has(property);
         return json.get(property);
-    }
-
-    final BridgeServerException constructServerException(Throwable t, HttpResponse hr) {
-        assert t != null && hr != null;
-
-        String serverResponse = null;
-        try {
-            serverResponse = EntityUtils.toString(hr.getEntity());
-        } catch (ParseException e) {
-            throw new BridgeSDKException("Couldn't parse server response.", e);
-        } catch (IOException e) {
-            throw new BridgeSDKException("An error occurred while reading server response.", e);
-        }
-
-        return new BridgeServerException(t, hr.getStatusLine(), serverResponse);
     }
 
     private final String addQueryParameters(Map<String,String> parameters) {
