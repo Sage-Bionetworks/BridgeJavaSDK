@@ -23,7 +23,7 @@ class SchedulePlanApiCaller extends BaseApiCaller {
     }
     
     List<SchedulePlan> getSchedulePlans() {
-        HttpResponse response = authorizedGet(provider.getConfig().getHost() + provider.getConfig().getSchedulePlansApi());
+        HttpResponse response = authorizedGet(provider.getConfig().getSchedulePlansApi());
 
         JsonNode items = getPropertyFromResponse(response, "items");
         
@@ -33,7 +33,7 @@ class SchedulePlanApiCaller extends BaseApiCaller {
     
     GuidVersionHolder createSchedulePlan(SchedulePlan plan) {
         try {
-            HttpResponse response = post(provider.getConfig().getHost() + provider.getConfig().getSchedulePlansApi(),
+            HttpResponse response = post(provider.getConfig().getSchedulePlansApi(),
                     mapper.writeValueAsString(plan));
             
             String body = EntityUtils.toString(response.getEntity(), "UTF-8");
@@ -48,7 +48,7 @@ class SchedulePlanApiCaller extends BaseApiCaller {
     
     SchedulePlan getSchedulePlan(String guid) {
         try {
-            HttpResponse response = authorizedGet(provider.getConfig().getHost() + provider.getConfig().getSchedulePlanApi(guid));
+            HttpResponse response = authorizedGet(provider.getConfig().getSchedulePlanApi(guid));
             String body = EntityUtils.toString(response.getEntity(), "UTF-8");
             return mapper.readValue(body, SchedulePlan.class);
         } catch(JsonProcessingException e) {
@@ -63,7 +63,7 @@ class SchedulePlanApiCaller extends BaseApiCaller {
     }
     
     void deleteSchedulePlan(String guid) {
-        delete(provider.getConfig().getHost() + provider.getConfig().getSchedulePlanApi(guid));
+        delete(provider.getConfig().getSchedulePlanApi(guid));
     }
     
 }

@@ -9,8 +9,8 @@ public class ClientProvider {
     private final AuthenticationApiCaller authApi;
     private final Config config;
 
-    private ClientProvider(String configPath) {
-        this.config = Config.valueOf(configPath);
+    private ClientProvider(String host) {
+        this.config = Config.valueOf(host);
         this.authApi = AuthenticationApiCaller.valueOf(this);
     }
 
@@ -19,9 +19,9 @@ public class ClientProvider {
         this.authApi = AuthenticationApiCaller.valueOf(this);
     }
     
-    public static ClientProvider valueOf(String configPath) {
-        Preconditions.checkArgument(configPath != null, "Path to configuration file is invalid");
-        return new ClientProvider(configPath);
+    public static ClientProvider valueOf(String host) {
+        Preconditions.checkNotEmpty(host, "Host is null or empty");
+        return new ClientProvider(host);
     }
 
     public static ClientProvider valueOf() {
@@ -35,10 +35,6 @@ public class ClientProvider {
     void setSession(UserSession session) {
         assert session != null;
         this.session = session;
-    }
-
-    public void setHost(String host) {
-        config.set(Config.Props.HOST.getPropertyName(), host);
     }
 
     public boolean isSignedIn() {

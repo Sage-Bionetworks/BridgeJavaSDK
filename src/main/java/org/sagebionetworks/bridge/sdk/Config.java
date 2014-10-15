@@ -12,6 +12,7 @@ import org.joda.time.DateTime;
 final class Config {
 
     private static final String CONFIG_FILE = "bridge-sdk.properties";
+    private static final String USER_CONFIG_FILE = System.getProperty("user.home") + "/bridge-sdk.properties";
 
     public static enum Props {
         ACCOUNT_EMAIL,
@@ -39,16 +40,17 @@ final class Config {
     }
 
     private Properties config;
-    
-    private Config(File userConfig) {
+
+    private Config() {
         try {
             config = new Properties();
             loadProperties(new FileInputStream(new File(CONFIG_FILE)), config);
 
-            if (userConfig != null) {
+            File userConfig = new File(USER_CONFIG_FILE);
+            if (userConfig.exists()) {
                 loadProperties(new FileInputStream(userConfig), config);
             }
-
+            
             for (Props key : Props.values()) {
                 String value = readEnv(key.name());
                 if (value == null) {
@@ -63,14 +65,18 @@ final class Config {
         }
     }
     
+    private Config(String host) {
+        this();
+        Preconditions.checkNotEmpty(host, "Host is null or empty");
+        config.setProperty(Props.HOST.getPropertyName(), host);
+    }
+
     static Config valueOf() {
-        return new Config(null);
+        return new Config();
     }
     
-    static Config valueOf(String userConfig) {
-        File file = new File(userConfig);
-        Preconditions.checkArgument(file.exists(), "Path to configuration file is invalid");
-        return new Config(file);
+    static Config valueOf(String host) {
+        return new Config(host);
     }
 
     private void loadProperties(final InputStream inputStream, final Properties properties) {
@@ -87,18 +93,15 @@ final class Config {
         }
     }
     
-    public String readEnv(String name) {
+    private String readEnv(String name) {
         // Change to a valid environment variable name
         name = name.toUpperCase().replace('.', '_');
         return System.getenv(name);
     }
-
-    public String readArg(String name) {
+    private String readArg(String name) {
         return System.getProperty(name);
     }
-    void set(String key, String value) {
-        config.setProperty(key, value);
-    }
+    
     String get(String key) {
         return config.getProperty(key);
     }

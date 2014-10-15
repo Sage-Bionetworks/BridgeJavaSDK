@@ -13,7 +13,7 @@ public class CreateSurveys {
         SignInCredentials signIn = SignInCredentials.valueOf()
                 .setUsername("")
                 .setPassword("");
-        ClientProvider provider = ClientProvider.valueOf("bridge-uat.herokuapp.com");
+        ClientProvider provider = ClientProvider.valueOf();
         provider.signIn(signIn);
 
         BridgeResearcherClient client = provider.getResearcherClient();

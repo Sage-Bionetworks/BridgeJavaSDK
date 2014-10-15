@@ -1,6 +1,7 @@
 package org.sagebionetworks.bridge.sdk;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
@@ -17,6 +18,8 @@ import org.apache.http.util.EntityUtils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 
 abstract class BaseApiCaller {
 
@@ -45,7 +48,7 @@ abstract class BaseApiCaller {
     final HttpResponse get(String url) {
         HttpResponse response = null;
         try {
-            Request request = Request.Get(url);
+            Request request = Request.Get(getFullUrl(url));
             response = exec.execute(request).returnResponse();
         } catch (ClientProtocolException e) {
             throw constructServerException(e, response);
@@ -65,7 +68,7 @@ abstract class BaseApiCaller {
         }
         HttpResponse response = null;
         try {
-            Request request = Request.Get(url);
+            Request request = Request.Get(getFullUrl(url));
             request.setHeader("Bridge-Session", provider.getSessionToken());
             response = exec.execute(request).returnResponse();
         } catch (ClientProtocolException e) {
@@ -79,7 +82,7 @@ abstract class BaseApiCaller {
     final HttpResponse post(String url) {
         HttpResponse response = null;
         try {
-            Request request = Request.Post(url);
+            Request request = Request.Post(getFullUrl(url));
             request.setHeader("Bridge-Session", provider.getSessionToken());
             response = exec.execute(request).returnResponse();
         } catch (ClientProtocolException e) {
@@ -94,7 +97,7 @@ abstract class BaseApiCaller {
     final HttpResponse post(String url, String json) {
         HttpResponse response = null;
         try {
-            Request request = Request.Post(url).bodyString(json, ContentType.APPLICATION_JSON);
+            Request request = Request.Post(getFullUrl(url)).bodyString(json, ContentType.APPLICATION_JSON);
             request.setHeader("Bridge-Session", provider.getSessionToken());
             response = exec.execute(request).returnResponse();
         } catch (ClientProtocolException e) {
@@ -119,7 +122,7 @@ abstract class BaseApiCaller {
 
         HttpResponse response = null;
         try {
-            Request request = Request.Delete(url);
+            Request request = Request.Delete(getFullUrl(url));
             request.setHeader("Bridge-Session", provider.getSessionToken());
             response = exec.execute(request).returnResponse();
         } catch (ClientProtocolException e) {
@@ -141,7 +144,7 @@ abstract class BaseApiCaller {
         }
     }
 
-    final String getFullUrl(String url) {
+    private final String getFullUrl(String url) {
         assert url != null;
         String fullUrl = provider.getConfig().getHost() + url;
         assert utils.isValidUrl(fullUrl) : fullUrl;
@@ -193,13 +196,10 @@ abstract class BaseApiCaller {
     private final String addQueryParameters(Map<String,String> parameters) {
         assert parameters != null;
 
-        StringBuilder builder = new StringBuilder();
-        builder.append("?");
+        List<String> list = Lists.newArrayList();
         for (String parameter : parameters.keySet()) {
-            builder.append("&" + parameter + "=" + parameters.get(parameter));
+            list.add(parameter + "=" + parameters.get(parameter));
         }
-        builder.deleteCharAt(1); // remove first ampersand.
-
-        return builder.toString();
+        return "?" + Joiner.on("&").join(list);
     }
 }

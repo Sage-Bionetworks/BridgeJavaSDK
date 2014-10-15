@@ -38,7 +38,7 @@ final class AuthenticationApiCaller extends BaseApiCaller {
                     "Could not process email, username, and password. Are they incorrect or malformed? "
                             + "email=" + email + ", username=" + username + ", password=" + password, e);
         }
-        HttpResponse response = post(getFullUrl(SIGN_UP), signUp);
+        HttpResponse response = post(SIGN_UP, signUp);
         return getSessionToken(response, SIGN_UP);
     }
 
@@ -54,7 +54,7 @@ final class AuthenticationApiCaller extends BaseApiCaller {
                     "Error occurred while processing SignInCredentials. Is there something wrong with the username and password fields? "
                             + "username=" + username + ", password=" + password, e);
         }
-        HttpResponse response = post(getFullUrl(SIGN_IN), signIn);
+        HttpResponse response = post(SIGN_IN, signIn);
         String sessionJsonString = getResponseBody(response);
 
         UserSession session;
@@ -70,7 +70,7 @@ final class AuthenticationApiCaller extends BaseApiCaller {
         assert session != null;
         assert session.getSessionToken() != null;
 
-        authorizedGet(getFullUrl(SIGN_OUT));
+        authorizedGet(SIGN_OUT);
         return session.signOut();
     }
 
@@ -81,7 +81,7 @@ final class AuthenticationApiCaller extends BaseApiCaller {
         json.put("email", email);
         try {
             String emailJson = mapper.writeValueAsString(json);
-            post(getFullUrl(REQUEST_RESET), emailJson);
+            post(REQUEST_RESET, emailJson);
         } catch (JsonProcessingException e) {
             throw new BridgeSDKException("Error occurred while processing email: email=" + email, e);
         }

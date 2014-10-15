@@ -43,8 +43,7 @@ class UserManagementApiCaller extends BaseApiCaller {
                             + email + ", username=" + username + ", password=" + password + "consent=" + consent, e);
         }
 
-        String url = getFullUrl(ADMIN);
-        HttpResponse response = post(url, json);
+        HttpResponse response = post(ADMIN, json);
 
         return response.getStatusLine().getStatusCode() == 201;
     }
@@ -56,8 +55,7 @@ class UserManagementApiCaller extends BaseApiCaller {
         Map<String,String> queryParams = new HashMap<String,String>();
         queryParams.put("email", email);
 
-        String url = getFullUrl(ADMIN);
-        HttpResponse response = delete(url, queryParams);
+        HttpResponse response = delete(ADMIN, queryParams);
 
         return response.getStatusLine().getStatusCode() == 200;
     }
@@ -68,8 +66,7 @@ class UserManagementApiCaller extends BaseApiCaller {
         Map<String,String> queryParams = new HashMap<String,String>();
         queryParams.put("email", email);
 
-        String url = getFullUrl(CONSENT);
-        HttpResponse response = delete(url, queryParams);
+        HttpResponse response = delete(CONSENT, queryParams);
 
         return response.getStatusLine().getStatusCode() == 200;
     }

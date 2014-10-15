@@ -27,7 +27,7 @@ class StudyConsentApiCaller extends BaseApiCaller {
     List<StudyConsent> getAllStudyConsents() {
         assert provider.isSignedIn();
 
-        String url = getFullUrl(STUDY_CONSENT);
+        String url = STUDY_CONSENT;
         HttpResponse response = authorizedGet(url);
 
         JsonNode items = getPropertyFromResponse(response, "items");
@@ -41,7 +41,7 @@ class StudyConsentApiCaller extends BaseApiCaller {
         assert provider.isSignedIn();
         assert timestamp != null;
 
-        String url = getFullUrl(STUDY_CONSENT) + timestamp(timestamp);
+        String url = STUDY_CONSENT + timestamp(timestamp);
         HttpResponse response = authorizedGet(url);
         String responseBody = getResponseBody(response);
 
@@ -59,8 +59,7 @@ class StudyConsentApiCaller extends BaseApiCaller {
     StudyConsent getActiveStudyConsent() {
         assert provider.isSignedIn();
 
-        String url = getFullUrl(ACTIVE);
-        HttpResponse response = authorizedGet(url);
+        HttpResponse response = authorizedGet(ACTIVE);
         String responseBody = getResponseBody(response);
 
         StudyConsent consent;
@@ -77,7 +76,7 @@ class StudyConsentApiCaller extends BaseApiCaller {
     StudyConsent setActiveStudyConsent(DateTime timestamp) {
         assert provider.isSignedIn();
 
-        String url = getFullUrl(ACTIVE) + timestamp(timestamp);
+        String url = ACTIVE + timestamp(timestamp);
         HttpResponse response = post(url);
         String responseBody = getResponseBody(response);
 
@@ -95,7 +94,7 @@ class StudyConsentApiCaller extends BaseApiCaller {
     StudyConsent addStudyConsent(StudyConsent studyConsent) {
         assert provider.isSignedIn();
 
-        String url = getFullUrl(STUDY_CONSENT);
+        String url = STUDY_CONSENT;
         String json = null;
         try {
             json = mapper.writeValueAsString(studyConsent);

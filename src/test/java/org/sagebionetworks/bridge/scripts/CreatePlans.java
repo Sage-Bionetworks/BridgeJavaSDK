@@ -20,7 +20,7 @@ public class CreatePlans {
     }
     
     public static void main(String[] args) throws Exception {
-        ClientProvider provider = ClientProvider.valueOf("../bridge-sdk.properties");
+        ClientProvider provider = ClientProvider.valueOf();
         provider.signIn();
 
         BridgeResearcherClient client = provider.getResearcherClient();
