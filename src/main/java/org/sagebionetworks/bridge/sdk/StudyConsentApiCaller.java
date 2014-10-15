@@ -73,28 +73,15 @@ class StudyConsentApiCaller extends BaseApiCaller {
         return consent;
     }
 
-    StudyConsent setActiveStudyConsent(DateTime timestamp) {
+    void setActiveStudyConsent(DateTime timestamp) {
         assert provider.isSignedIn();
 
-        String url = ACTIVE + timestamp(timestamp);
-        HttpResponse response = post(url);
-        String responseBody = getResponseBody(response);
-
-        StudyConsent consent;
-        try {
-            consent = mapper.readValue(responseBody, StudyConsent.class);
-        } catch (IOException e) {
-            throw new BridgeSDKException(
-                    "Something when wrong while converting Response Body JSON into StudyConsent: responseBody="
-                            + responseBody, e);
-        }
-        return consent;
+        post(ACTIVE + timestamp(timestamp));
     }
 
     StudyConsent addStudyConsent(StudyConsent studyConsent) {
         assert provider.isSignedIn();
 
-        String url = STUDY_CONSENT;
         String json = null;
         try {
             json = mapper.writeValueAsString(studyConsent);
@@ -102,9 +89,18 @@ class StudyConsentApiCaller extends BaseApiCaller {
             throw new BridgeSDKException("Could not process StudyConsent. Are you sure it is correct? "
                     + studyConsent.toString(), e);
         }
+        HttpResponse response = post(STUDY_CONSENT, json);
+        String responseBody = getResponseBody(response);
 
-
-        return null;
+        StudyConsent consent;
+        try {
+            consent = mapper.readValue(responseBody, StudyConsent.class);
+        } catch (IOException e) {
+            throw new BridgeSDKException(
+                    "Something went wrong while converting Response Body Json into StudyConsent: responseBody="
+                            + responseBody, e);
+        }
+        return consent;
     }
 
     private String timestamp(DateTime date) {

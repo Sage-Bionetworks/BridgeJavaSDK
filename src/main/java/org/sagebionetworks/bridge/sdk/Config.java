@@ -15,6 +15,8 @@ final class Config {
     private static final String USER_CONFIG_FILE = System.getProperty("user.home") + "/bridge-sdk.properties";
 
     public static enum Props {
+        ADMIN_EMAIL,
+        ADMIN_PASSWORD,
         ACCOUNT_EMAIL,
         ACCOUNT_PASSWORD,
         HOST,
@@ -33,7 +35,7 @@ final class Config {
         TRACKER_API,
         UPLOAD_API,
         USER_MANAGEMENT_API;
-        
+
         public String getPropertyName() {
             return this.name().replace("_", ".").toLowerCase();
         }
@@ -50,7 +52,7 @@ final class Config {
             if (userConfig.exists()) {
                 loadProperties(new FileInputStream(userConfig), config);
             }
-            
+
             for (Props key : Props.values()) {
                 String value = readEnv(key.name());
                 if (value == null) {
@@ -64,7 +66,7 @@ final class Config {
             throw new BridgeSDKException(e.getMessage(), e);
         }
     }
-    
+
     private Config(String host) {
         this();
         Preconditions.checkNotEmpty(host, "Host is null or empty");
@@ -74,7 +76,7 @@ final class Config {
     static Config valueOf() {
         return new Config();
     }
-    
+
     static Config valueOf(String host) {
         return new Config(host);
     }
@@ -92,7 +94,7 @@ final class Config {
             }
         }
     }
-    
+
     private String readEnv(String name) {
         // Change to a valid environment variable name
         name = name.toUpperCase().replace('.', '_');
@@ -101,15 +103,21 @@ final class Config {
     private String readArg(String name) {
         return System.getProperty(name);
     }
-    
+
     String get(String key) {
         return config.getProperty(key);
     }
-    String getAccountEmail() {
-        return val(Props.ACCOUNT_EMAIL); 
+    String getAdminEmail() {
+        return val(Props.ADMIN_EMAIL);
     }
-    String getAccountPassword() { 
-        return val(Props.ACCOUNT_PASSWORD); 
+    String getAdminPassword() {
+        return val(Props.ADMIN_PASSWORD);
+    }
+    String getAccountEmail() {
+        return val(Props.ACCOUNT_EMAIL);
+    }
+    String getAccountPassword() {
+        return val(Props.ACCOUNT_PASSWORD);
     }
     String getHost() {
         return val(Props.HOST);
@@ -138,25 +146,25 @@ final class Config {
     String getUserManagementApi() {
         return val(Props.USER_MANAGEMENT_API);
     }
-    String getSchedulesApi() { 
+    String getSchedulesApi() {
         return val(Props.SCHEDULES_API);
     }
     String getSurveysApi() {
         return val(Props.SURVEYS_API);
     }
-    String getSurveyApi(String guid, DateTime timestamp) { 
+    String getSurveyApi(String guid, DateTime timestamp) {
         return String.format(val(Props.SURVEY_API), guid, timestamp.toString());
     }
     String getPublishSurveyApi(String guid, DateTime timestamp) {
         return String.format(val(Props.SURVEY_PUBLISH_API), guid, timestamp.toString());
     }
     String getSchedulePlansApi() {
-        return val(Props.SCHEDULEPLANS_API); 
+        return val(Props.SCHEDULEPLANS_API);
     }
     String getSchedulePlanApi(String guid) {
-        return String.format(val(Props.SCHEDULEPLAN_API), guid); 
+        return String.format(val(Props.SCHEDULEPLAN_API), guid);
     }
-    
+
     private String val(Props prop) {
         return config.getProperty(prop.getPropertyName());
     }

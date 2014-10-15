@@ -1,6 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
@@ -57,4 +58,29 @@ public class StudyConsent {
     public String getPath() { return path; }
     public int getMinAge() { return minAge; }
     public long getVersion() { return version; }
+
+    @Override
+    public String toString() {
+        return "StudyConsent[timestamp=" + timestamp.toString(ISODateTimeFormat.dateTime()) +
+                ", active=" + active +
+                ", path=" + path +
+                ", minAge=" + minAge +
+                ", version=" + version + "]";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        } else if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+        final StudyConsent that = (StudyConsent) obj;
+        return Objects.equals(this.timestamp, that.timestamp)
+                && Objects.equals(this.active, that.active)
+                && Objects.equals(this.path, that.path)
+                && Objects.equals(this.minAge, that.minAge)
+                && Objects.equals(this.version, that.version);
+    }
+
 }

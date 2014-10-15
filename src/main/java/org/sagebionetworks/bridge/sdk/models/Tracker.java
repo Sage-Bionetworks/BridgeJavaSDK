@@ -24,4 +24,12 @@ public class Tracker {
     public String getSchemaUrl() { return this.schemaUrl; }
     public long getId() { return this.id; }
 
+    @Override
+    public String toString() {
+        return "Tracker[name=" + name +
+                ", type=" + type +
+                ", schemeUrl=" + schemaUrl +
+                ", id=" + id + "]";
+    }
+
 }
