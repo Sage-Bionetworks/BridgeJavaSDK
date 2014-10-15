@@ -16,7 +16,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-public class HealthDataApiCaller extends BaseApiCaller {
+class HealthDataApiCaller extends BaseApiCaller {
 
     private final String HEALTH_DATA = provider.getConfig().getHealthDataApi();
 
@@ -33,7 +33,7 @@ public class HealthDataApiCaller extends BaseApiCaller {
         assert provider.isSignedIn();
         assert tracker != null && recordId >= 0;
 
-        String url = getFullUrl(HEALTH_DATA) + trackerId(tracker) + recordId(recordId);
+        String url = HEALTH_DATA + trackerId(tracker) + recordId(recordId);
         HttpResponse response = authorizedGet(url);
         String responseBody = getResponseBody(response);
 
@@ -52,7 +52,7 @@ public class HealthDataApiCaller extends BaseApiCaller {
         assert provider.isSignedIn();
         assert tracker != null && record != null;
 
-        String url = getFullUrl(HEALTH_DATA) + trackerId(tracker) + recordId(record.getId());
+        String url = HEALTH_DATA + trackerId(tracker) + recordId(record.getId());
         String json = null;
         try {
             json = mapper.writeValueAsString(record);
@@ -78,7 +78,7 @@ public class HealthDataApiCaller extends BaseApiCaller {
         assert provider.isSignedIn();
         assert tracker != null;
 
-        String url = getFullUrl(HEALTH_DATA) + trackerId(tracker) + recordId(recordId);
+        String url = HEALTH_DATA + trackerId(tracker) + recordId(recordId);
         HttpResponse response = delete(url);
 
         return getPropertyFromResponse(response, "message").equals("Entry deleted.") ? true : false;
@@ -93,7 +93,7 @@ public class HealthDataApiCaller extends BaseApiCaller {
         queryParameters.put("startDate", startDate.toString(ISODateTimeFormat.dateTime()));
         queryParameters.put("endDate", endDate.toString(ISODateTimeFormat.dateTime()));
 
-        String url = getFullUrl(HEALTH_DATA) + trackerId(tracker);
+        String url = HEALTH_DATA + trackerId(tracker);
         HttpResponse response = authorizedGet(url, queryParameters);
 
         JsonNode items = getPropertyFromResponse(response, "items");
@@ -118,8 +118,8 @@ public class HealthDataApiCaller extends BaseApiCaller {
                     "An error occurred while processing the List of HealthDataRecords. Are you sure it is correct?", e);
         }
 
-        String url = getFullUrl(HEALTH_DATA) + trackerId(tracker);
-        System.out.println("JSON add: " + "\"" + json.toString() + "\"");
+        String url = HEALTH_DATA + trackerId(tracker);
+        System.out.println("JSON add:" + "\"" + json.toString() + "\"");
         HttpResponse response = post(url, json.toString());
 
         JsonNode items = getPropertyFromResponse(response, "items");

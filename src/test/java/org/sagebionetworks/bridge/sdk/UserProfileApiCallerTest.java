@@ -40,8 +40,8 @@ public class UserProfileApiCallerTest {
 
         Config conf = provider.getConfig();
         SignInCredentials signIn = SignInCredentials.valueOf()
-                .setUsername(conf.getAdminEmail())
-                .setPassword(conf.getAdminPassword());
+                .setUsername(conf.get("admin.email"))
+                .setPassword(conf.get("admin.password"));
         provider.signIn(signIn);
 
         UserProfileApiCaller profileApi = UserProfileApiCaller.valueOf(provider);

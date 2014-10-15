@@ -8,7 +8,7 @@ import org.sagebionetworks.bridge.sdk.models.UserSession;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-public class ConsentApiCaller extends BaseApiCaller {
+class ConsentApiCaller extends BaseApiCaller {
 
     private final String CONSENT = provider.getConfig().getConsentApi();
     private final String SUSPEND = CONSENT + "/dataSharing/suspend";
@@ -34,7 +34,7 @@ public class ConsentApiCaller extends BaseApiCaller {
             throw new BridgeSDKException("Could not process researchConsent. Is it incorrect or malformed? " + consent.toString(), e);
         }
 
-        HttpResponse response = post(getFullUrl(CONSENT), researchConsent);
+        HttpResponse response = post(CONSENT, researchConsent);
         String sessionJson = getResponseBody(response);
 
         UserSession session;
@@ -49,7 +49,7 @@ public class ConsentApiCaller extends BaseApiCaller {
     }
 
     UserSession suspendDataSharing() {
-        HttpResponse response = post(getFullUrl(SUSPEND));
+        HttpResponse response = post(SUSPEND);
         String sessionJson = getResponseBody(response);
 
         UserSession session;
@@ -62,7 +62,7 @@ public class ConsentApiCaller extends BaseApiCaller {
     }
 
     UserSession resumeDataSharing() {
-        HttpResponse response = post(getFullUrl(RESUME));
+        HttpResponse response = post(RESUME);
         String sessionJson = getResponseBody(response);
 
         UserSession session;

@@ -11,13 +11,15 @@ public class ClientProviderTest {
 
     @Test
     public void canAuthenticateAndCreateClientAndSignOut() {
-        ClientProvider provider = ClientProvider.valueOf("bridge-sdk.properties");
+        ClientProvider provider = ClientProvider.valueOf();
         assertNotNull(provider);
 
         Config conf = provider.getConfig();
+        
         SignInCredentials signIn = SignInCredentials.valueOf()
-                .setUsername(conf.getAdminEmail())
-                .setPassword(conf.getAdminPassword());
+                .setUsername(conf.get("admin.email"))
+                .setPassword(conf.get("admin.password"));
+        
         provider.signIn(signIn);
         assertTrue(provider.isSignedIn());
 

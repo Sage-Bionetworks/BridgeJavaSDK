@@ -10,6 +10,7 @@ import org.apache.commons.validator.routines.UrlValidator;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.fluent.Response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -24,17 +25,14 @@ public final class Utilities {
     private static final ObjectMapper mapper = new ObjectMapper()
                             .registerModule(new JodaModule())
                             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+                            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+                            .setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
-
-    private static Utilities INSTANCE = null;
+    private static Utilities INSTANCE = new Utilities();
 
     private Utilities() {}
 
-    public static Utilities getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new Utilities();
-        }
+    public static Utilities valueOf() {
         return INSTANCE;
     }
 
@@ -42,21 +40,21 @@ public final class Utilities {
         return mapper;
     }
 
-    public boolean isValidEmail(String email) {
+    boolean isValidEmail(String email) {
         if (email == null) {
             throw new IllegalArgumentException("Email cannot be null.");
         }
         return emailValidator.isValid(email);
     }
 
-    public boolean isValidUrl(String url) {
+    boolean isValidUrl(String url) {
         if (url == null) {
             throw new IllegalArgumentException("URL cannot be null.");
         }
         return urlValidator.isValid(url);
     }
 
-    public boolean isConnectableUrl(String url, int timeout) {
+    boolean isConnectableUrl(String url, int timeout) {
         if (!isValidUrl(url)) {
             throw new IllegalArgumentException("URL is not a valid one: " + url);
         } else if (timeout <= 0 || 10 * 1000 <= timeout) {
