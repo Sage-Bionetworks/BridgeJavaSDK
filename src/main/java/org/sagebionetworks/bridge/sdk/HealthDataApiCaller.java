@@ -112,14 +112,14 @@ public class HealthDataApiCaller extends BaseApiCaller {
         try {
             // TODO change records so that it deserializes record's dates into ISO strings.
             json.put("items", mapper.writeValueAsString(records));
-            json.put("size", records.size());
+            json.put("total", records.size());
         } catch (JsonProcessingException e) {
             throw new BridgeSDKException(
                     "An error occurred while processing the List of HealthDataRecords. Are you sure it is correct?", e);
         }
 
         String url = getFullUrl(HEALTH_DATA) + trackerId(tracker);
-        System.out.println("JSON add:" + "\"" + json.toString() + "\"");
+        System.out.println("JSON add: " + "\"" + json.toString() + "\"");
         HttpResponse response = post(url, json.toString());
 
         JsonNode items = getPropertyFromResponse(response, "items");

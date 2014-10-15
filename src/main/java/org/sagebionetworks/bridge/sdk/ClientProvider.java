@@ -45,13 +45,15 @@ public class ClientProvider {
     public void signIn(SignInCredentials signIn) {
         if (signIn == null) {
             throw new IllegalArgumentException("SignInCredentials object must not be null.");
+        } else if (session != null) {
+            return; // already signed in, so don't do anything.
         }
         session = authApi.signIn(signIn.getUsername(), signIn.getPassword());
     }
 
     public void signOut() {
         if (session == null) {
-            throw new IllegalStateException("A User needs to be signed in to call this method.");
+            return; // already signed out, so don't do anything.
         }
         authApi.signOut(session);
         session = null;

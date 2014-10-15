@@ -112,7 +112,7 @@ public class HealthDataApiCallerTest {
 
         System.out.println("add data records.");
         List<IdVersionHolder> holders = healthApi.addHealthDataRecords(trackers.get(0), recordsToAdd);
-        assertTrue("", holders.size() == records.size() + recordsToAdd.size());
+        assertTrue("Number of holders = all records added", holders.size() == records.size() + recordsToAdd.size());
 
         for (HealthDataRecord record : recordsToAdd) {
             System.out.println("delete data record.");
