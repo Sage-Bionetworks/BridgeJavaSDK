@@ -38,7 +38,7 @@ class SurveyApiCaller extends BaseApiCaller {
     List<Survey> getPublishedVersionsAllSurveys() {
         assert provider.isSignedIn();
 
-        String url = provider.getConfig().getSurveysApi() + "/published";
+        String url = provider.getConfig().getSurveysPublishedApi();
         HttpResponse response = get(url);
 
         JsonNode items = getPropertyFromResponse(response, "items");
@@ -51,7 +51,7 @@ class SurveyApiCaller extends BaseApiCaller {
     List<Survey> getRecentVersionsAllSurveys() {
         assert provider.isSignedIn();
 
-        String url = provider.getConfig().getSurveysApi() + "/recent";
+        String url = provider.getConfig().getRecentSurveysApi();
         HttpResponse response = get(url);
 
         JsonNode items = getPropertyFromResponse(response, "items");
@@ -62,9 +62,6 @@ class SurveyApiCaller extends BaseApiCaller {
     }
 
     List<Survey> getAllVersionsForSurvey(String guid) {
-        assert provider.isSignedIn();
-        assert guid != null;
-
         String url = provider.getConfig().getSurveyVersionsApi(guid);
         HttpResponse response = get(url);
 
@@ -76,9 +73,6 @@ class SurveyApiCaller extends BaseApiCaller {
     }
 
     Survey getSurvey(String guid, DateTime timestamp) {
-        assert provider.isSignedIn();
-        assert guid != null && timestamp != null;
-
         String url = provider.getConfig().getSurveyApi(guid, timestamp);
         HttpResponse response = get(url);
 
@@ -86,9 +80,6 @@ class SurveyApiCaller extends BaseApiCaller {
     }
 
     GuidVersionedOnHolder createNewSurvey(Survey survey) {
-        assert provider.isSignedIn();
-        assert survey != null;
-
         String json;
         try {
             json = mapper.writeValueAsString(survey);
@@ -101,19 +92,13 @@ class SurveyApiCaller extends BaseApiCaller {
     }
 
     GuidVersionedOnHolder createNewVersionForSurvey(String guid, DateTime timestamp) {
-        assert provider.isSignedIn();
-        assert guid != null && timestamp != null;
-
-        String url = provider.getConfig().getSurveyApi(guid, timestamp) + "/version";
+        String url = provider.getConfig().getSurveyNewVersionApi(guid, timestamp);
         HttpResponse response = post(url);
 
         return getResponseBodyAsType(response, GuidVersionedOnHolder.class);
     }
 
     GuidVersionedOnHolder updateSurvey(String guid, DateTime timestamp) {
-        assert provider.isSignedIn();
-        assert guid != null && timestamp != null;
-
         String url = provider.getConfig().getSurveyApi(guid, timestamp);
         HttpResponse response = post(url);
 
@@ -121,18 +106,12 @@ class SurveyApiCaller extends BaseApiCaller {
     }
 
     void publishSurvey(String guid, DateTime timestamp) {
-        assert provider.isSignedIn();
-        assert guid != null && timestamp != null;
-
         String url = provider.getConfig().getPublishSurveyApi(guid, timestamp);
         post(url);
     }
 
     void closeSurvey(String guid, DateTime timestamp) {
-        assert provider.isSignedIn();
-        assert guid != null && timestamp != null;
-
-        String url = provider.getConfig().getSurveyApi(guid, timestamp) + "/close";
+        String url = provider.getConfig().getCloseSurveyApi(guid, timestamp);
         post(url);
     }
 }

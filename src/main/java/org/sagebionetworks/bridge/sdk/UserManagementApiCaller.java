@@ -13,9 +13,6 @@ class UserManagementApiCaller extends BaseApiCaller {
 
     private final ObjectMapper mapper = Utilities.getMapper();
 
-    private final String ADMIN = provider.getConfig().getUserManagementApi();
-    private final String CONSENT = ADMIN + "/consent";
-
     private UserManagementApiCaller(ClientProvider provider) {
         super(provider);
     }
@@ -43,7 +40,8 @@ class UserManagementApiCaller extends BaseApiCaller {
                             + email + ", username=" + username + ", password=" + password + "consent=" + consent, e);
         }
 
-        HttpResponse response = post(ADMIN, json);
+        String url = provider.getConfig().getUserManagementApi();
+        HttpResponse response = post(url, json);
 
         return response.getStatusLine().getStatusCode() == 201;
     }
@@ -55,7 +53,8 @@ class UserManagementApiCaller extends BaseApiCaller {
         Map<String,String> queryParams = new HashMap<String,String>();
         queryParams.put("email", email);
 
-        HttpResponse response = delete(ADMIN, queryParams);
+        String url = provider.getConfig().getUserManagementApi();
+        HttpResponse response = delete(url, queryParams);
 
         return response.getStatusLine().getStatusCode() == 200;
     }
@@ -66,7 +65,8 @@ class UserManagementApiCaller extends BaseApiCaller {
         Map<String,String> queryParams = new HashMap<String,String>();
         queryParams.put("email", email);
 
-        HttpResponse response = delete(CONSENT, queryParams);
+        String url = provider.getConfig().getUserManagementConsentApi();
+        HttpResponse response = delete(url, queryParams);
 
         return response.getStatusLine().getStatusCode() == 200;
     }
