@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SurveyResponse {
 
-    // TODO
+    // TODO need to create copies of all date time and survey objects so that sdk users can't change data.
     private final String guid;
     private final DateTime startedOn;
     private final DateTime completedOn;
@@ -48,5 +48,10 @@ public class SurveyResponse {
 
     public String getGuid() { return guid; }
     public DateTime getStartedOn() { return startedOn; }
+    public DateTime getCompletedOn() { return completedOn; }
+    public Status getStatus() { return status; }
+    public Survey getSurvey() { return survey; }
+    public List<SurveyAnswer<?>> getSurveyAnswers() { return answers; }
+
 
 }
