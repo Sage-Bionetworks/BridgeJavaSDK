@@ -36,13 +36,16 @@ abstract class BaseApiCaller {
 
     Utilities utils = Utilities.valueOf();
 
-    // Create an SSL context that does no certificate validation whatsoever. 
+    // Create an SSL context that does no certificate validation whatsoever.
     private static class DefaultTrustManager implements X509TrustManager {
+        @Override
         public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {}
+        @Override
         public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {}
+        @Override
         public X509Certificate[] getAcceptedIssuers() { return null; }
-    }    
-    
+    }
+
     private SSLContext getSSLContext() {
         try {
             SSLContext ctx = SSLContext.getInstance("TLS");
@@ -53,7 +56,7 @@ abstract class BaseApiCaller {
             throw new BridgeSDKException(e.getMessage(), e);
         }
     }
-    
+
     private final HttpClient client = HttpClientBuilder.create()
             .setRedirectStrategy(new LaxRedirectStrategy())
             .setRetryHandler(new DefaultHttpRequestRetryHandler(5, true))
@@ -191,6 +194,18 @@ abstract class BaseApiCaller {
         return responseBody;
     }
 
+    protected final <T> T getResponseBodyAsType(HttpResponse response, Class<T> c) {
+        String responseBody = getResponseBody(response);
+        Object obj;
+        try {
+            obj = mapper.readValue(responseBody, c);
+        } catch (IOException e) {
+            throw new BridgeSDKException("Something went wrong while converting Response Body Json into " + c.getSimpleName() + ": responseBody="
+                    + responseBody, e);
+        }
+        return c.cast(obj);
+    }
+
     protected final JsonNode getPropertyFromResponse(HttpResponse response, String property) {
         JsonNode json;
         try {
@@ -202,7 +217,7 @@ abstract class BaseApiCaller {
         assert json.has(property);
         return json.get(property);
     }
-    
+
     private void throwExceptionOnErrorStatus(HttpResponse response, String url) {
         StatusLine status = response.getStatusLine();
         int statusCode = status.getStatusCode();
@@ -226,7 +241,7 @@ abstract class BaseApiCaller {
 
         return fullUrl;
     }
-    
+
     private final String addQueryParameters(Map<String,String> parameters) {
         assert parameters != null;
 

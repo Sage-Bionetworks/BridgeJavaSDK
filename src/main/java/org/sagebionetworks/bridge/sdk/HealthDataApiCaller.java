@@ -14,7 +14,6 @@ import org.sagebionetworks.bridge.sdk.models.Tracker;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 class HealthDataApiCaller extends BaseApiCaller {
 
@@ -29,9 +28,9 @@ class HealthDataApiCaller extends BaseApiCaller {
         return new HealthDataApiCaller(provider);
     }
 
-    HealthDataRecord getHealthDataRecord(Tracker tracker, long recordId) {
+    HealthDataRecord getHealthDataRecord(Tracker tracker, String recordId) {
         assert provider.isSignedIn();
-        assert tracker != null && recordId >= 0;
+        assert tracker != null && recordId != null;
 
         String url = HEALTH_DATA + trackerId(tracker) + recordId(recordId);
         HttpResponse response = get(url);
@@ -52,7 +51,7 @@ class HealthDataApiCaller extends BaseApiCaller {
         assert provider.isSignedIn();
         assert tracker != null && record != null;
 
-        String url = HEALTH_DATA + trackerId(tracker) + recordId(record.getId());
+        String url = HEALTH_DATA + trackerId(tracker) + recordId(record.getRecordId());
         String json = null;
         try {
             json = mapper.writeValueAsString(record);
@@ -74,14 +73,12 @@ class HealthDataApiCaller extends BaseApiCaller {
         return holder;
     }
 
-    boolean deleteHealthDataRecord(Tracker tracker, long recordId) {
+    void deleteHealthDataRecord(Tracker tracker, String recordId) {
         assert provider.isSignedIn();
         assert tracker != null;
 
         String url = HEALTH_DATA + trackerId(tracker) + recordId(recordId);
-        HttpResponse response = delete(url);
-
-        return getPropertyFromResponse(response, "message").equals("Entry deleted.") ? true : false;
+        delete(url);
     }
 
     List<HealthDataRecord> getHealthDataRecordsInRange(Tracker tracker, DateTime startDate, DateTime endDate) {
@@ -108,19 +105,16 @@ class HealthDataApiCaller extends BaseApiCaller {
         assert tracker != null;
         assert records != null && records.size() > 0;
 
-        ObjectNode json = mapper.createObjectNode();
+        String json;
         try {
-            // TODO change records so that it deserializes record's dates into ISO strings.
-            json.put("items", mapper.writeValueAsString(records));
-            json.put("size", records.size());
+            json = mapper.writeValueAsString(records);
         } catch (JsonProcessingException e) {
             throw new BridgeSDKException(
                     "An error occurred while processing the List of HealthDataRecords. Are you sure it is correct?", e);
         }
 
         String url = HEALTH_DATA + trackerId(tracker);
-        System.out.println("JSON add:" + "\"" + json.toString() + "\"");
-        HttpResponse response = post(url, json.toString());
+        HttpResponse response = post(url, json);
 
         JsonNode items = getPropertyFromResponse(response, "items");
         List<IdVersionHolder> holders = mapper.convertValue(items,
@@ -133,7 +127,7 @@ class HealthDataApiCaller extends BaseApiCaller {
         return "/" + String.valueOf(tracker.getId());
     }
 
-    private String recordId(long recordId) {
-        return "/" + "record" + "/" + String.valueOf(recordId);
+    private String recordId(String recordId) {
+        return "/" + "record" + "/" + recordId;
     }
 }
