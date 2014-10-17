@@ -42,11 +42,11 @@ public class PAOCICSurvey extends Survey {
     
     private static final String PREAMBLE = "Over the past 6 months, when receiving medical care for my chronic illness, I was: ";
     private static final List<SurveyQuestionOption> options = Lists.newArrayList(
-        new SurveyQuestionOption("Almost Never", 1),
-        new SurveyQuestionOption("Generally Not", 2),
-        new SurveyQuestionOption("Sometimes", 3),
-        new SurveyQuestionOption("Most of the Time", 4),
-        new SurveyQuestionOption("Almost Always", 5)
+        new SurveyQuestionOption("Almost Never", "1", null),
+        new SurveyQuestionOption("Generally Not", "2", null),
+        new SurveyQuestionOption("Sometimes", "3", null),
+        new SurveyQuestionOption("Most of the Time", "4", null),
+        new SurveyQuestionOption("Almost Always", "5", null)
     );
     private static final MultiValueConstraints constraints = new MultiValueConstraints() {{
         setDataType(DataType.INTEGER);

@@ -31,11 +31,11 @@ public class PDQ8Survey extends Survey {
     
     private static final String PREAMBLE = "Due to having Parkinson’s disease, how often during the last month have you ";
     private static final List<SurveyQuestionOption> options = Lists.newArrayList(
-        new SurveyQuestionOption("Never", 0),
-        new SurveyQuestionOption("Occassionally", 1),
-        new SurveyQuestionOption("Sometimes", 2),
-        new SurveyQuestionOption("Often", 3),
-        new SurveyQuestionOption("Always (or cannot do at all)", 4)
+        new SurveyQuestionOption("Never", "0", null),
+        new SurveyQuestionOption("Occassionally", "1", null),
+        new SurveyQuestionOption("Sometimes", "2", null),
+        new SurveyQuestionOption("Often", "3", null),
+        new SurveyQuestionOption("Always (or cannot do at all)", "4", null)
     );
     private static final MultiValueConstraints constraints = new MultiValueConstraints() {
         {
