@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.ISODateTimeFormat;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
@@ -33,7 +34,9 @@ final class Config {
         SCHEDULEPLANS_API,
         STUDY_CONSENT_API,
         SURVEY_API,
+        SURVEY_USER_API,
         SURVEY_PUBLISH_API,
+        SURVEY_VERSIONS_API,
         SURVEYS_API,
         SURVEY_RESPONSE_API,
         TRACKER_API,
@@ -145,10 +148,16 @@ final class Config {
         return val(Props.SURVEYS_API);
     }
     String getSurveyApi(String guid, DateTime timestamp) {
-        return String.format(val(Props.SURVEY_API), guid, timestamp.toString());
+        return String.format(val(Props.SURVEY_API), guid, timestamp.toString(ISODateTimeFormat.dateTime()));
     }
     String getPublishSurveyApi(String guid, DateTime timestamp) {
-        return String.format(val(Props.SURVEY_PUBLISH_API), guid, timestamp.toString());
+        return String.format(val(Props.SURVEY_PUBLISH_API), guid, timestamp.toString(ISODateTimeFormat.dateTime()));
+    }
+    String getSurveyVersionsApi(String guid) {
+        return String.format(val(Props.SURVEY_VERSIONS_API), guid);
+    }
+    String getSurveyUserApi(String guid, DateTime timestamp) {
+        return String.format(val(Props.SURVEY_USER_API), guid, timestamp.toString(ISODateTimeFormat.dateTime()));
     }
     String getSurveyResponseApi(String guid) {
         return String.format(val(Props.SURVEY_RESPONSE_API), guid);

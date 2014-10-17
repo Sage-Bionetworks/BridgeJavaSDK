@@ -1,10 +1,9 @@
 package org.sagebionetworks.bridge.sdk;
 
 import java.io.IOException;
+import java.util.List;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.GuidVersionedOnHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
@@ -12,7 +11,9 @@ import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import com.fasterxml.jackson.databind.JsonNode;
 
 class SurveyApiCaller extends BaseApiCaller {
-    
+
+    // TODO change api callers so that all api urls come from the config file.
+
     private SurveyApiCaller(ClientProvider provider) {
         super(provider);
     }
@@ -20,44 +21,118 @@ class SurveyApiCaller extends BaseApiCaller {
     static SurveyApiCaller valueOf(ClientProvider provider) {
         return new SurveyApiCaller(provider);
     }
-    
-    Survey getSurvey(String guid, DateTime timestamp) {
-        Survey survey = null;
-        try {
-            String url = provider.getConfig().getSurveyApi(guid, timestamp);
-            HttpResponse response = get(url);
-            HttpEntity entity = response.getEntity();
-            survey = mapper.readValue(entity.getContent(), Survey.class);
-        } catch (IOException e) {
-            throw new BridgeSDKException(e.getMessage(), e);
-        }
-        return survey;
+
+    List<Survey> getAllVersionsAllSurveys() {
+        assert provider.isSignedIn();
+
+        String url = provider.getConfig().getSurveysApi();
+        HttpResponse response = get(url);
+
+        JsonNode items = getPropertyFromResponse(response, "items");
+        List<Survey> surveys = mapper.convertValue(items,
+                mapper.getTypeFactory().constructCollectionType(List.class, Survey.class));
+
+        return surveys;
     }
 
-    GuidVersionedOnHolder createSurvey(Survey survey) {
-        GuidVersionedOnHolder holder = null;
+    List<Survey> getPublishedVersionsAllSurveys() {
+        assert provider.isSignedIn();
+
+        String url = provider.getConfig().getSurveysApi() + "/published";
+        HttpResponse response = get(url);
+
+        JsonNode items = getPropertyFromResponse(response, "items");
+        List<Survey> surveys = mapper.convertValue(items,
+                mapper.getTypeFactory().constructCollectionType(List.class, Survey.class));
+
+        return surveys;
+    }
+
+    List<Survey> getRecentVersionsAllSurveys() {
+        assert provider.isSignedIn();
+
+        String url = provider.getConfig().getSurveysApi() + "/recent";
+        HttpResponse response = get(url);
+
+        JsonNode items = getPropertyFromResponse(response, "items");
+        List<Survey> surveys = mapper.convertValue(items,
+                mapper.getTypeFactory().constructCollectionType(List.class, Survey.class));
+
+        return surveys;
+    }
+
+    List<Survey> getAllVersionsForSurvey(String guid) {
+        assert provider.isSignedIn();
+        assert guid != null;
+
+        String url = provider.getConfig().getSurveyVersionsApi(guid);
+        HttpResponse response = get(url);
+
+        JsonNode items = getPropertyFromResponse(response, "items");
+        List<Survey> surveys = mapper.convertValue(items,
+                mapper.getTypeFactory().constructCollectionType(List.class, Survey.class));
+
+        return surveys;
+    }
+
+    Survey getSurvey(String guid, DateTime timestamp) {
+        assert provider.isSignedIn();
+        assert guid != null && timestamp != null;
+
+        String url = provider.getConfig().getSurveyApi(guid, timestamp);
+        HttpResponse response = get(url);
+
+        return getResponseBodyAsType(response, Survey.class);
+    }
+
+    GuidVersionedOnHolder createNewSurvey(Survey survey) {
+        assert provider.isSignedIn();
+        assert survey != null;
+
+        String json;
         try {
-            String json = mapper.writeValueAsString(survey);
-            HttpResponse response = post(provider.getConfig().getSurveysApi(), json);
-            HttpEntity entity = response.getEntity();
-            JsonNode node = mapper.readTree(entity.getContent());
-            String guid = node.get("guid").asText();
-            String versionedOn = node.get("versionedOn").asText();
-            holder = new GuidVersionedOnHolder(guid, DateTime.parse(versionedOn));
+            json = mapper.writeValueAsString(survey);
         } catch (IOException e) {
-            throw new BridgeSDKException(e.getMessage(), e);
+            throw new BridgeSDKException("Could not process Survey. Are you sure it is correct? survey=" + survey, e);
         }
-        return holder;
+        HttpResponse response = post(provider.getConfig().getSurveysApi(), json);
+
+        return getResponseBodyAsType(response, GuidVersionedOnHolder.class);
+    }
+
+    GuidVersionedOnHolder createNewVersionForSurvey(String guid, DateTime timestamp) {
+        assert provider.isSignedIn();
+        assert guid != null && timestamp != null;
+
+        String url = provider.getConfig().getSurveyApi(guid, timestamp) + "/version";
+        HttpResponse response = post(url);
+
+        return getResponseBodyAsType(response, GuidVersionedOnHolder.class);
+    }
+
+    GuidVersionedOnHolder updateSurvey(String guid, DateTime timestamp) {
+        assert provider.isSignedIn();
+        assert guid != null && timestamp != null;
+
+        String url = provider.getConfig().getSurveyApi(guid, timestamp);
+        HttpResponse response = post(url);
+
+        return getResponseBodyAsType(response, GuidVersionedOnHolder.class);
     }
 
     void publishSurvey(String guid, DateTime timestamp) {
-        String url = provider.getConfig().getPublishSurveyApi(guid, timestamp);
-        HttpResponse response = post(url);
+        assert provider.isSignedIn();
+        assert guid != null && timestamp != null;
 
-        StatusLine status = response.getStatusLine();
-        // There should be error handling before this, probably in the post method
-        if (status.getStatusCode() != 200) {
-            throw new BridgeSDKException(status.getStatusCode() + ": " + status.getReasonPhrase());
-        }
+        String url = provider.getConfig().getPublishSurveyApi(guid, timestamp);
+        post(url);
+    }
+
+    void closeSurvey(String guid, DateTime timestamp) {
+        assert provider.isSignedIn();
+        assert guid != null && timestamp != null;
+
+        String url = provider.getConfig().getSurveyApi(guid, timestamp) + "/close";
+        post(url);
     }
 }

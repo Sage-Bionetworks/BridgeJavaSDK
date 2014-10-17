@@ -20,7 +20,7 @@ public class BridgeResearcherClient extends BaseApiCaller {
 
     private final SurveyApiCaller surveyApi;
     private final SchedulePlanApiCaller schedulePlanApi;
-    
+
     private BridgeResearcherClient(ClientProvider provider) {
         super(provider);
         this.surveyApi = SurveyApiCaller.valueOf(provider);
@@ -39,7 +39,7 @@ public class BridgeResearcherClient extends BaseApiCaller {
 
     public GuidVersionedOnHolder createSurvey(Survey survey) {
         Preconditions.checkNotNull(survey, "Survey object is null");
-        return surveyApi.createSurvey(survey);
+        return surveyApi.createNewSurvey(survey);
     }
 
     public void publishSurvey(String guid, DateTime timestamp) {
@@ -47,29 +47,29 @@ public class BridgeResearcherClient extends BaseApiCaller {
         Preconditions.checkNotNull(timestamp, "Timestamp is null");
         surveyApi.publishSurvey(guid, timestamp);
     }
-    
+
     public List<SchedulePlan> getSchedulePlans() {
         return schedulePlanApi.getSchedulePlans();
     }
-    
+
     public GuidVersionHolder createSchedulePlan(SchedulePlan plan) {
         Preconditions.checkNotNull(plan, "Plan object is null");
         return schedulePlanApi.createSchedulePlan(plan);
     }
-    
+
     public SchedulePlan getSchedulePlan(String guid) {
         Preconditions.checkNotEmpty(guid, "Guid is null or blank");
         return schedulePlanApi.getSchedulePlan(guid);
     }
-    
+
     public GuidVersionHolder updateSchedulePlan(SchedulePlan plan) {
         Preconditions.checkNotNull(plan, "Plan object is null");
         return schedulePlanApi.updateSchedulePlan(plan);
     }
-    
+
     public void deleteSchedulePlan(String guid) {
         Preconditions.checkNotEmpty(guid, "Guid is null or blank");
         schedulePlanApi.deleteSchedulePlan(guid);
     }
-    
+
 }

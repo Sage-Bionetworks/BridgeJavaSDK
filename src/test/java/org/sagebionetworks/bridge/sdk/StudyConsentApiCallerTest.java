@@ -1,6 +1,7 @@
 package org.sagebionetworks.bridge.sdk;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -32,21 +33,19 @@ public class StudyConsentApiCallerTest {
     public void test() {
         StudyConsent current = StudyConsent.valueOf("/path/to", 18);
         StudyConsent returned = studyConsentApi.addStudyConsent(current);
-        System.out.println(returned);
         assertNotNull(returned);
 
         List<StudyConsent> studyConsents = studyConsentApi.getAllStudyConsents();
-        System.out.println(studyConsents);
         assertNotNull("studyConsents should not be null.", studyConsents);
         assertTrue("studyConsents should have at least one StudyConsent", studyConsents.size() > 0);
 
-        current = studyConsentApi.getStudyConsent(studyConsents.get(0).getTimestamp());
+        current = studyConsentApi.getStudyConsent(studyConsents.get(0).getCreatedOn());
         assertNotNull("studyConsent should not be null.", current);
         assertEquals(current, studyConsents.get(0));
 
-        studyConsentApi.setActiveStudyConsent(current.getTimestamp());
+        studyConsentApi.setActiveStudyConsent(current.getCreatedOn());
 
-        assertEquals(current, studyConsentApi.getActiveStudyConsent());
+        assertFalse(current.isActive() == studyConsentApi.getActiveStudyConsent().isActive());
     }
 
 }

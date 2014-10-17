@@ -16,16 +16,16 @@ public class StudyConsent {
 
     private static final ObjectMapper mapper = Utilities.getMapper();
 
-    private final DateTime timestamp;
+    private final DateTime createdOn;
     private final boolean active;
     private final String path;
     private final int minAge;
     private final long version;
 
     @JsonCreator
-    private StudyConsent(@JsonProperty("timestamp") String timestamp, @JsonProperty("active") boolean active,
+    private StudyConsent(@JsonProperty("timestamp") String createdOn, @JsonProperty("active") boolean active,
             @JsonProperty("path") String path, @JsonProperty("minAge") int minAge, @JsonProperty("version") long version) {
-        this.timestamp = timestamp == null ? null : DateTime.parse(timestamp, ISODateTimeFormat.dateTime());
+        this.createdOn = createdOn == null ? null : DateTime.parse(createdOn, ISODateTimeFormat.dateTime());
         this.active = active;
         this.path = path;
         this.minAge = minAge;
@@ -53,7 +53,7 @@ public class StudyConsent {
         return record;
     }
 
-    public DateTime getTimestamp() { return timestamp; }
+    public DateTime getCreatedOn() { return createdOn; }
     public boolean isActive() { return active; }
     public String getPath() { return path; }
     public int getMinAge() { return minAge; }
@@ -61,7 +61,7 @@ public class StudyConsent {
 
     @Override
     public String toString() {
-        return "StudyConsent[timestamp=" + timestamp.toString(ISODateTimeFormat.dateTime()) +
+        return "StudyConsent[createdOn=" + createdOn.toString(ISODateTimeFormat.dateTime()) +
                 ", active=" + active +
                 ", path=" + path +
                 ", minAge=" + minAge +
@@ -76,7 +76,7 @@ public class StudyConsent {
             return false;
         }
         final StudyConsent that = (StudyConsent) obj;
-        return Objects.equals(this.timestamp, that.timestamp)
+        return Objects.equals(this.createdOn, that.createdOn)
                 && Objects.equals(this.active, that.active)
                 && Objects.equals(this.path, that.path)
                 && Objects.equals(this.minAge, that.minAge)
