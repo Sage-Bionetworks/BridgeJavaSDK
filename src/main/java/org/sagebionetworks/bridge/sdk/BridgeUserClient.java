@@ -6,10 +6,8 @@ import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.sagebionetworks.bridge.sdk.models.HealthDataRecord;
 import org.sagebionetworks.bridge.sdk.models.IdVersionHolder;
-import org.sagebionetworks.bridge.sdk.models.ResearchConsent;
 import org.sagebionetworks.bridge.sdk.models.Tracker;
 import org.sagebionetworks.bridge.sdk.models.UserProfile;
-import org.sagebionetworks.bridge.sdk.models.UserSession;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 
 public class BridgeUserClient {
@@ -18,7 +16,6 @@ public class BridgeUserClient {
     private final UserProfileApiCaller profileApi;
     private final TrackerApiCaller trackerApi;
     private final HealthDataApiCaller healthDataApi;
-    private final ConsentApiCaller consentApi;
     private final ScheduleApiCaller scheduleApi;
 
     private BridgeUserClient(ClientProvider provider) {
@@ -26,7 +23,6 @@ public class BridgeUserClient {
         this.profileApi = UserProfileApiCaller.valueOf(provider);
         this.trackerApi = TrackerApiCaller.valueOf(provider);
         this.healthDataApi = HealthDataApiCaller.valueOf(provider);
-        this.consentApi = ConsentApiCaller.valueOf(provider);
         this.scheduleApi = ScheduleApiCaller.valueOf(provider);
     }
 
@@ -61,7 +57,7 @@ public class BridgeUserClient {
      * Health Data API
      */
 
-    public HealthDataRecord getHealthDataRecord(Tracker tracker, long recordId) {
+    public HealthDataRecord getHealthDataRecord(Tracker tracker, String recordId) {
         if (!provider.isSignedIn()) {
             throw new IllegalStateException("Provider must be signed in to call this method.");
         } else if (tracker == null) {
@@ -81,13 +77,13 @@ public class BridgeUserClient {
         return healthDataApi.updateHealthDataRecord(tracker, record);
     }
 
-    public boolean deleteHealthDataRecord(Tracker tracker, long recordId) {
+    public void deleteHealthDataRecord(Tracker tracker, String recordId) {
         if (!provider.isSignedIn()) {
             throw new IllegalStateException("Provider must be signed in to call this method.");
         } else if (tracker == null) {
             throw new IllegalArgumentException("Tracker cannot be null.");
         }
-        return healthDataApi.deleteHealthDataRecord(tracker, recordId);
+        healthDataApi.deleteHealthDataRecord(tracker, recordId);
     }
 
     public List<HealthDataRecord> getHealthDataRecordsInRange(Tracker tracker, DateTime startDate, DateTime endDate) {
@@ -137,36 +133,11 @@ public class BridgeUserClient {
         return trackerApi.getSchema(tracker);
     }
 
+    // TODO figure out what to do about consent. Can't be signed in when making consent calls.
+
     /*
-     * Consent API
+     * Schedules API
      */
-    public void consentToResearch(ResearchConsent consent) {
-        if (!provider.isSignedIn()) {
-            throw new IllegalStateException("Provider must be signed in to call this method.");
-        } else if (consent == null) {
-            throw new IllegalArgumentException("Consent cannot be null.");
-        }
-
-        UserSession session = consentApi.consentToResearch(consent);
-        provider.setSession(session);
-    }
-
-    public void suspendDataSharing() {
-        if (!provider.isSignedIn()) {
-            throw new IllegalStateException("Provider must be signed in to call this method.");
-        }
-        UserSession session = consentApi.suspendDataSharing();
-        provider.setSession(session);
-    }
-
-    public void resumeDataSharing() {
-        if (!provider.isSignedIn()) {
-            throw new IllegalStateException("Provider must be signed in to call this method.");
-        }
-        UserSession session = consentApi.resumeDataSharing();
-        provider.setSession(session);
-    }
-    
     public List<Schedule> getSchedules() {
         if (!provider.isSignedIn()) {
             throw new IllegalStateException("Provider must be signed in to call this method.");

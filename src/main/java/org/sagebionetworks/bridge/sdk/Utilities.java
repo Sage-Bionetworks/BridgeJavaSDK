@@ -24,10 +24,10 @@ public final class Utilities {
 
     // WRITE_DATES_AS_TIMESTAMPS causes JodaModule to use our preferred timestamp format. What a great module!
     private static final ObjectMapper mapper = new ObjectMapper()
+                            .registerModule(new JodaModule())
                             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                            .configure( SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false )
-                            .setSerializationInclusion(JsonInclude.Include.NON_NULL)
-                            .registerModule(new JodaModule());
+                            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+                            .setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
     private static Utilities INSTANCE = new Utilities();
 

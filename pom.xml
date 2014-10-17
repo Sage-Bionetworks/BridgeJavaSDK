@@ -6,7 +6,7 @@
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>BridgeJavaSDK</name>
-    <url>http://maven.apache.org</url>
+    <url>https://api.sagebridge.org</url>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>

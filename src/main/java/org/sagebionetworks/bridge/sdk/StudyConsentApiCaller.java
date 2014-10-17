@@ -1,6 +1,5 @@
 package org.sagebionetworks.bridge.sdk;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -43,58 +42,26 @@ class StudyConsentApiCaller extends BaseApiCaller {
 
         String url = STUDY_CONSENT + timestamp(timestamp);
         HttpResponse response = get(url);
-        String responseBody = getResponseBody(response);
 
-        StudyConsent consent;
-        try {
-            consent = mapper.readValue(responseBody, StudyConsent.class);
-        } catch (IOException e) {
-            throw new BridgeSDKException(
-                    "Something went wrong while converting Response Body JSON into StudyConsent: responseBody="
-                            + responseBody, e);
-        }
-        return consent;
+        return getResponseBodyAsType(response, StudyConsent.class);
     }
 
     StudyConsent getActiveStudyConsent() {
         assert provider.isSignedIn();
 
         HttpResponse response = get(ACTIVE);
-        String responseBody = getResponseBody(response);
-
-        StudyConsent consent;
-        try {
-            consent = mapper.readValue(responseBody, StudyConsent.class);
-        } catch (IOException e) {
-            throw new BridgeSDKException(
-                    "Something went wrong while converting ResponseBody JSON into StudyConsent: responseBody="
-                            + responseBody, e);
-        }
-        return consent;
+        return getResponseBodyAsType(response, StudyConsent.class);
     }
 
-    StudyConsent setActiveStudyConsent(DateTime timestamp) {
+    void setActiveStudyConsent(DateTime timestamp) {
         assert provider.isSignedIn();
 
-        String url = ACTIVE + timestamp(timestamp);
-        HttpResponse response = post(url);
-        String responseBody = getResponseBody(response);
-
-        StudyConsent consent;
-        try {
-            consent = mapper.readValue(responseBody, StudyConsent.class);
-        } catch (IOException e) {
-            throw new BridgeSDKException(
-                    "Something when wrong while converting Response Body JSON into StudyConsent: responseBody="
-                            + responseBody, e);
-        }
-        return consent;
+        post(ACTIVE + timestamp(timestamp));
     }
 
     StudyConsent addStudyConsent(StudyConsent studyConsent) {
         assert provider.isSignedIn();
 
-        String url = STUDY_CONSENT;
         String json = null;
         try {
             json = mapper.writeValueAsString(studyConsent);
@@ -102,9 +69,8 @@ class StudyConsentApiCaller extends BaseApiCaller {
             throw new BridgeSDKException("Could not process StudyConsent. Are you sure it is correct? "
                     + studyConsent.toString(), e);
         }
-
-
-        return null;
+        HttpResponse response = post(STUDY_CONSENT, json);
+        return getResponseBodyAsType(response, StudyConsent.class);
     }
 
     private String timestamp(DateTime date) {
