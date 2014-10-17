@@ -22,7 +22,7 @@ class UserProfileApiCaller extends BaseApiCaller {
     UserProfile getProfile() {
         assert provider.isSignedIn();
 
-        HttpResponse response = authorizedGet(PROFILE);
+        HttpResponse response = get(PROFILE);
         String responseBody = getResponseBody(response);
 
         UserProfile profile;

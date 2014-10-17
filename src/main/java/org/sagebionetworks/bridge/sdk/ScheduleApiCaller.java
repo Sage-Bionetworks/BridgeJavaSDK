@@ -18,7 +18,7 @@ class ScheduleApiCaller extends BaseApiCaller {
     }
     
     List<Schedule> getSchedules() {
-        HttpResponse response = authorizedGet(provider.getConfig().getSchedulesApi());
+        HttpResponse response = get(provider.getConfig().getSchedulesApi());
         
         JsonNode items = getPropertyFromResponse(response, "items");
         

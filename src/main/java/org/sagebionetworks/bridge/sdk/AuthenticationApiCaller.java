@@ -70,7 +70,7 @@ final class AuthenticationApiCaller extends BaseApiCaller {
         assert session != null;
         assert session.getSessionToken() != null;
 
-        authorizedGet(SIGN_OUT);
+        get(SIGN_OUT);
         return session.signOut();
     }
 

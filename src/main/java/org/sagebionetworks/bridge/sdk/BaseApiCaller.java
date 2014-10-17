@@ -1,8 +1,18 @@
 package org.sagebionetworks.bridge.sdk;
 
 import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.List;
 import java.util.Map;
+
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
@@ -26,9 +36,28 @@ abstract class BaseApiCaller {
 
     Utilities utils = Utilities.valueOf();
 
+    // Create an SSL context that does no certificate validation whatsoever. 
+    private static class DefaultTrustManager implements X509TrustManager {
+        public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {}
+        public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {}
+        public X509Certificate[] getAcceptedIssuers() { return null; }
+    }    
+    
+    private SSLContext getSSLContext() {
+        try {
+            SSLContext ctx = SSLContext.getInstance("TLS");
+            ctx.init(new KeyManager[0], new TrustManager[] {new DefaultTrustManager()}, new SecureRandom());
+            SSLContext.setDefault(ctx);
+            return ctx;
+        } catch (NoSuchAlgorithmException | KeyManagementException e) {
+            throw new BridgeSDKException(e.getMessage(), e);
+        }
+    }
+    
     private final HttpClient client = HttpClientBuilder.create()
             .setRedirectStrategy(new LaxRedirectStrategy())
             .setRetryHandler(new DefaultHttpRequestRetryHandler(5, true))
+            .setSslcontext(getSSLContext())
             .build();
     private final Executor exec = Executor.newInstance(client);
 
@@ -45,24 +74,8 @@ abstract class BaseApiCaller {
     public ClientProvider getProvider() {
         return provider;
     }
-    
-    private void throwExceptionOnErrorStatus(HttpResponse response, String url) {
-        StatusLine status = response.getStatusLine();
-        int statusCode = status.getStatusCode();
-        if (statusCode < 200 || statusCode > 299) {
-            BridgeServerException e = null;
-            try {
-                String message = getPropertyFromResponse(response, "message").asText();
-                e = new BridgeServerException(message, status.getStatusCode(), url);
-            } catch(Throwable t) {
-                System.out.println("Something went wrong: " + t.getMessage());
-                throw new BridgeServerException(status.getReasonPhrase(), status.getStatusCode(), url);
-            }
-            throw e;
-        }
-    }
 
-    final HttpResponse get(String url) {
+    protected final HttpResponse publicGet(String url) {
         String fullUrl = getFullUrl(url);
         HttpResponse response = null;
         try {
@@ -77,11 +90,11 @@ abstract class BaseApiCaller {
         return response;
     }
 
-    final HttpResponse authorizedGet(String url) {
-        return authorizedGet(url, null);
+    protected final HttpResponse get(String url) {
+        return get(url, null);
     }
 
-    final HttpResponse authorizedGet(String url, Map<String,String> queryParameters) {
+    protected final HttpResponse get(String url, Map<String,String> queryParameters) {
         if (queryParameters != null) {
             url += addQueryParameters(queryParameters);
         }
@@ -100,7 +113,7 @@ abstract class BaseApiCaller {
         return response;
     }
 
-    final HttpResponse post(String url) {
+    protected final HttpResponse post(String url) {
         String fullUrl = getFullUrl(url);
         HttpResponse response = null;
         try {
@@ -116,7 +129,7 @@ abstract class BaseApiCaller {
         return response;
     }
 
-    final HttpResponse post(String url, String json) {
+    protected final HttpResponse post(String url, String json) {
         String fullUrl = getFullUrl(url);
         HttpResponse response = null;
         try {
@@ -132,11 +145,11 @@ abstract class BaseApiCaller {
         return response;
     }
 
-    final HttpResponse delete(String url) {
+    protected final HttpResponse delete(String url) {
         return delete(url, null);
     }
 
-    final HttpResponse delete(String url, Map<String,String> queryParameters) {
+    protected final HttpResponse delete(String url, Map<String,String> queryParameters) {
         if (queryParameters != null) {
             url += addQueryParameters(queryParameters);
         }
@@ -156,7 +169,7 @@ abstract class BaseApiCaller {
         return response;
     }
 
-    final String getSessionToken(HttpResponse response, String url) {
+    protected final String getSessionToken(HttpResponse response, String url) {
         if (response == null) {
             throw new IllegalArgumentException("HttpResponse object is null.");
         } else if (response.containsHeader("Bridge-Session")) {
@@ -166,15 +179,7 @@ abstract class BaseApiCaller {
         }
     }
 
-    private final String getFullUrl(String url) {
-        assert url != null;
-        String fullUrl = provider.getConfig().getHost() + url;
-        assert utils.isValidUrl(fullUrl) : fullUrl;
-
-        return fullUrl;
-    }
-
-    final String getResponseBody(HttpResponse response) {
+    protected final String getResponseBody(HttpResponse response) {
         String responseBody;
         try {
             responseBody = EntityUtils.toString(response.getEntity());
@@ -186,7 +191,7 @@ abstract class BaseApiCaller {
         return responseBody;
     }
 
-    final JsonNode getPropertyFromResponse(HttpResponse response, String property) {
+    protected final JsonNode getPropertyFromResponse(HttpResponse response, String property) {
         JsonNode json;
         try {
             json = mapper.readTree(getResponseBody(response));
@@ -197,7 +202,31 @@ abstract class BaseApiCaller {
         assert json.has(property);
         return json.get(property);
     }
+    
+    private void throwExceptionOnErrorStatus(HttpResponse response, String url) {
+        StatusLine status = response.getStatusLine();
+        int statusCode = status.getStatusCode();
+        if (statusCode < 200 || statusCode > 299) {
+            BridgeServerException e = null;
+            try {
+                String message = getPropertyFromResponse(response, "message").asText();
+                e = new BridgeServerException(message, status.getStatusCode(), url);
+            } catch(Throwable t) {
+                System.out.println("Something went wrong: " + t.getMessage());
+                throw new BridgeServerException(status.getReasonPhrase(), status.getStatusCode(), url);
+            }
+            throw e;
+        }
+    }
 
+    private final String getFullUrl(String url) {
+        assert url != null;
+        String fullUrl = provider.getConfig().getHost() + url;
+        assert utils.isValidUrl(fullUrl) : fullUrl;
+
+        return fullUrl;
+    }
+    
     private final String addQueryParameters(Map<String,String> parameters) {
         assert parameters != null;
 

@@ -16,8 +16,8 @@ public class UserManagementApiCallerTest {
         provider = ClientProvider.valueOf();
         userManagementApi = UserManagementApiCaller.valueOf(provider);
 
-        String adminEmail = provider.getConfig().get("admin.email");
-        String adminPassword = provider.getConfig().get("admin.password");
+        String adminEmail = provider.getConfig().getAdminEmail();
+        String adminPassword = provider.getConfig().getAdminPassword();
         SignInCredentials signIn = SignInCredentials.valueOf().setUsername(adminEmail).setPassword(adminPassword);
         provider.signIn(signIn);
     }

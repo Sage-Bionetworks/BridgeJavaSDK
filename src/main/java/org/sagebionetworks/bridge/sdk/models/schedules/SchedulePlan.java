@@ -54,5 +54,11 @@ public class SchedulePlan {
     public void setStrategy(ScheduleStrategy strategy) {
         this.strategy = strategy;
     }
+
+    @Override
+    public String toString() {
+        return "SchedulePlan [guid=" + guid + ", modifiedOn=" + modifiedOn + ", version=" + version + ", strategy="
+                + strategy + "]";
+    }
     
 }

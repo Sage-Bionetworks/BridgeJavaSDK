@@ -13,6 +13,7 @@ import org.apache.http.client.fluent.Response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 
 public final class Utilities {
@@ -21,8 +22,10 @@ public final class Utilities {
     private static final UrlValidator urlValidator = new UrlValidator(schemes, NO_FRAGMENTS + ALLOW_LOCAL_URLS);
     private static final EmailValidator emailValidator = EmailValidator.getInstance();
 
+    // WRITE_DATES_AS_TIMESTAMPS causes JodaModule to use our preferred timestamp format. What a great module!
     private static final ObjectMapper mapper = new ObjectMapper()
                             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                            .configure( SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false )
                             .setSerializationInclusion(JsonInclude.Include.NON_NULL)
                             .registerModule(new JodaModule());
 

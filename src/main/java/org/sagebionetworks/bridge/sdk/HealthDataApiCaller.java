@@ -34,7 +34,7 @@ class HealthDataApiCaller extends BaseApiCaller {
         assert tracker != null && recordId >= 0;
 
         String url = HEALTH_DATA + trackerId(tracker) + recordId(recordId);
-        HttpResponse response = authorizedGet(url);
+        HttpResponse response = get(url);
         String responseBody = getResponseBody(response);
 
         HealthDataRecord record = null;
@@ -94,7 +94,7 @@ class HealthDataApiCaller extends BaseApiCaller {
         queryParameters.put("endDate", endDate.toString(ISODateTimeFormat.dateTime()));
 
         String url = HEALTH_DATA + trackerId(tracker);
-        HttpResponse response = authorizedGet(url, queryParameters);
+        HttpResponse response = get(url, queryParameters);
 
         JsonNode items = getPropertyFromResponse(response, "items");
         List<HealthDataRecord> records = mapper.convertValue(items,
