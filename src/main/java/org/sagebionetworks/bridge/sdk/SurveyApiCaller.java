@@ -25,15 +25,8 @@ class SurveyApiCaller extends BaseApiCaller {
         Survey survey = null;
         try {
             String url = provider.getConfig().getSurveyApi(guid, timestamp);
-            HttpResponse response = authorizedGet(url);
-
-            StatusLine status = response.getStatusLine();
+            HttpResponse response = get(url);
             HttpEntity entity = response.getEntity();
-
-            // There should be error handling before this, probably in the post method
-            if (status.getStatusCode() != 200) {
-                throw new RuntimeException(status.getStatusCode() + ": " + status.getReasonPhrase());
-            }
             survey = mapper.readValue(entity.getContent(), Survey.class);
         } catch (IOException e) {
             throw new BridgeSDKException(e.getMessage(), e);
@@ -46,14 +39,7 @@ class SurveyApiCaller extends BaseApiCaller {
         try {
             String json = mapper.writeValueAsString(survey);
             HttpResponse response = post(provider.getConfig().getSurveysApi(), json);
-
-            StatusLine status = response.getStatusLine();
             HttpEntity entity = response.getEntity();
-
-            // There should be error handling before this, probably in the post method
-            if (status.getStatusCode() != 200) {
-                throw new RuntimeException(status.getStatusCode() + ": " + status.getReasonPhrase());
-            }
             JsonNode node = mapper.readTree(entity.getContent());
             String guid = node.get("guid").asText();
             String versionedOn = node.get("versionedOn").asText();

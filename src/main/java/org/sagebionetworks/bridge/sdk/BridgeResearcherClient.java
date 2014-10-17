@@ -62,7 +62,7 @@ public class BridgeResearcherClient extends BaseApiCaller {
         return schedulePlanApi.getSchedulePlan(guid);
     }
     
-    public GuidVersionedOnHolder updateSchedulePlan(SchedulePlan plan) {
+    public GuidVersionHolder updateSchedulePlan(SchedulePlan plan) {
         Preconditions.checkNotNull(plan, "Plan object is null");
         return schedulePlanApi.updateSchedulePlan(plan);
     }

@@ -38,8 +38,8 @@ public class HealthDataApiCallerTest {
 
         Config conf = provider.getConfig();
         adminSignIn = SignInCredentials.valueOf()
-                .setUsername(conf.get("admin.email"))
-                .setPassword(conf.get("admin.password"));
+                .setUsername(conf.getAdminEmail())
+                .setPassword(conf.getAdminPassword());
 
         String testEmail = "testingggg@sagebase.org";
         String testPassword = "p4ssw0rd";
