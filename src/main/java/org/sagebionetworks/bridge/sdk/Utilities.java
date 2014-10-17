@@ -22,6 +22,7 @@ public final class Utilities {
     private static final UrlValidator urlValidator = new UrlValidator(schemes, NO_FRAGMENTS + ALLOW_LOCAL_URLS);
     private static final EmailValidator emailValidator = EmailValidator.getInstance();
 
+    // WRITE_DATES_AS_TIMESTAMPS causes JodaModule to use our preferred timestamp format. What a great module!
     private static final ObjectMapper mapper = new ObjectMapper()
                             .registerModule(new JodaModule())
                             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)

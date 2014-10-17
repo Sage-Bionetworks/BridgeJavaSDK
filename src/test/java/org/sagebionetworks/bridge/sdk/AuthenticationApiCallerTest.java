@@ -27,8 +27,8 @@ public class AuthenticationApiCallerTest {
         ClientProvider provider = ClientProvider.valueOf();
         Config config = provider.getConfig();
 
-        String username = config.get("admin.email");
-        String password = config.get("admin.password");
+        String username = config.getAdminEmail();
+        String password = config.getAdminPassword();
 
         AuthenticationApiCaller auth = AuthenticationApiCaller.valueOf(provider);
         UserSession session = auth.signIn(username, password);

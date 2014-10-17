@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.sagebionetworks.bridge.sdk.models.GuidVersionHolder;
-import org.sagebionetworks.bridge.sdk.models.GuidVersionedOnHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -23,8 +22,8 @@ class SchedulePlanApiCaller extends BaseApiCaller {
     }
     
     List<SchedulePlan> getSchedulePlans() {
-        HttpResponse response = authorizedGet(provider.getConfig().getSchedulePlansApi());
-
+        HttpResponse response = get(provider.getConfig().getSchedulePlansApi());
+        
         JsonNode items = getPropertyFromResponse(response, "items");
         
         return mapper.convertValue(items,
@@ -48,7 +47,7 @@ class SchedulePlanApiCaller extends BaseApiCaller {
     
     SchedulePlan getSchedulePlan(String guid) {
         try {
-            HttpResponse response = authorizedGet(provider.getConfig().getSchedulePlanApi(guid));
+            HttpResponse response = get(provider.getConfig().getSchedulePlanApi(guid));
             String body = EntityUtils.toString(response.getEntity(), "UTF-8");
             return mapper.readValue(body, SchedulePlan.class);
         } catch(JsonProcessingException e) {
@@ -58,8 +57,17 @@ class SchedulePlanApiCaller extends BaseApiCaller {
         }
     }
     
-    GuidVersionedOnHolder updateSchedulePlan(SchedulePlan plan) {
-        return null;
+    GuidVersionHolder updateSchedulePlan(SchedulePlan plan) {
+        try {
+            HttpResponse response = post(provider.getConfig().getSchedulePlanApi(plan.getGuid()),
+                    mapper.writeValueAsString(plan));
+            String body = EntityUtils.toString(response.getEntity(), "UTF-8");
+            return mapper.readValue(body, GuidVersionHolder.class);
+        } catch(JsonProcessingException e) {
+            throw new BridgeSDKException(e.getMessage(), e);
+        } catch (IOException e) {
+            throw new BridgeSDKException(e.getMessage(), e);
+        }
     }
     
     void deleteSchedulePlan(String guid) {

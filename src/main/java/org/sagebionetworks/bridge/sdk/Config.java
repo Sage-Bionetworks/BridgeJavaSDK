@@ -5,9 +5,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
 
 import org.joda.time.DateTime;
+
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 
 final class Config {
 
@@ -15,10 +19,10 @@ final class Config {
     private static final String USER_CONFIG_FILE = System.getProperty("user.home") + "/bridge-sdk.properties";
 
     public static enum Props {
-        ADMIN_EMAIL,
-        ADMIN_PASSWORD,
         ACCOUNT_EMAIL,
         ACCOUNT_PASSWORD,
+        ADMIN_EMAIL,
+        ADMIN_PASSWORD,
         HOST,
         AUTH_API,
         CONSENT_API,
@@ -54,9 +58,9 @@ final class Config {
             }
 
             for (Props key : Props.values()) {
-                String value = readEnv(key.name());
+                String value = System.getenv(key.name());
                 if (value == null) {
-                    value = readArg(key.name());
+                    value = System.getProperty(key.name());
                 }
                 if (value != null) {
                     config.setProperty(key.getPropertyName(), value);
@@ -95,29 +99,17 @@ final class Config {
         }
     }
 
-    private String readEnv(String name) {
-        // Change to a valid environment variable name
-        name = name.toUpperCase().replace('.', '_');
-        return System.getenv(name);
+    String getAccountEmail() {
+        return val(Props.ACCOUNT_EMAIL);
     }
-    private String readArg(String name) {
-        return System.getProperty(name);
-    }
-
-    String get(String key) {
-        return config.getProperty(key);
+    String getAccountPassword() {
+        return val(Props.ACCOUNT_PASSWORD);
     }
     String getAdminEmail() {
         return val(Props.ADMIN_EMAIL);
     }
     String getAdminPassword() {
         return val(Props.ADMIN_PASSWORD);
-    }
-    String getAccountEmail() {
-        return val(Props.ACCOUNT_EMAIL);
-    }
-    String getAccountPassword() {
-        return val(Props.ACCOUNT_PASSWORD);
     }
     String getHost() {
         return val(Props.HOST);
@@ -158,6 +150,9 @@ final class Config {
     String getPublishSurveyApi(String guid, DateTime timestamp) {
         return String.format(val(Props.SURVEY_PUBLISH_API), guid, timestamp.toString());
     }
+    String getSurveyResponseApi(String guid) {
+        return String.format(val(Props.SURVEY_RESPONSE_API), guid);
+    }
     String getSchedulePlansApi() {
         return val(Props.SCHEDULEPLANS_API);
     }
@@ -171,15 +166,12 @@ final class Config {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder("Config[");
+        List<String> list = Lists.newArrayList();
         for (int i=0; i < Props.values().length; i++) {
             String property = Props.values()[i].getPropertyName();
-            if (i > 0) {
-                builder.append(", ");
-            }
-            builder.append(property + "=" + config.getProperty(property));
+            String value = property.contains("password") ? "******" : config.getProperty(property);
+            list.add(property + "=" + value);
         }
-        builder.append("]");
-        return builder.toString();
+        return "Config[" + Joiner.on(", ").join(list) + "]";
     }
 }
