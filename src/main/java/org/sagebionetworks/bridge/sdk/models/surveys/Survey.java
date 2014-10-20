@@ -2,16 +2,17 @@ package org.sagebionetworks.bridge.sdk.models.surveys;
 
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.collect.Lists;
 
 @JsonIgnoreProperties(value={"type"})
 public class Survey {
 
     private String guid;
-    private long versionedOn;
-    private long modifiedOn;
+    private DateTime versionedOn;
+    private DateTime modifiedOn;
     private Long version;
     private String name;
     private String identifier;
@@ -28,18 +29,16 @@ public class Survey {
     public void setGuid(String guid) {
         this.guid = guid;
     }
-    public long getVersionedOn() {
+    public DateTime getVersionedOn() {
         return versionedOn;
     }
-    @JsonDeserialize(using = DateTimeDeserializer.class)
-    public void setVersionedOn(long versionedOn) {
+    public void setVersionedOn(DateTime versionedOn) {
         this.versionedOn = versionedOn;
     }
-    public long getModifiedOn() {
+    public DateTime getModifiedOn() {
         return modifiedOn;
     }
-    @JsonDeserialize(using = DateTimeDeserializer.class)
-    public void setModifiedOn(long modifiedOn) {
+    public void setModifiedOn(DateTime modifiedOn) {
         this.modifiedOn = modifiedOn;
     }
     public Long getVersion() {
@@ -79,12 +78,12 @@ public class Survey {
         int result = 1;
         result = prime * result + ((guid == null) ? 0 : guid.hashCode());
         result = prime * result + ((identifier == null) ? 0 : identifier.hashCode());
-        result = prime * result + (int) (modifiedOn ^ (modifiedOn >>> 32));
+        result = prime * result + ((modifiedOn == null) ? 0 : modifiedOn.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + (published ? 1231 : 1237);
         result = prime * result + ((questions == null) ? 0 : questions.hashCode());
         result = prime * result + ((version == null) ? 0 : version.hashCode());
-        result = prime * result + (int) (versionedOn ^ (versionedOn >>> 32));
+        result = prime * result + ((versionedOn == null) ? 0 : versionedOn.hashCode());
         return result;
     }
 
@@ -107,7 +106,10 @@ public class Survey {
                 return false;
         } else if (!identifier.equals(other.identifier))
             return false;
-        if (modifiedOn != other.modifiedOn)
+        if (modifiedOn == null) {
+            if (other.modifiedOn != null)
+                return false;
+        } else if (!modifiedOn.equals(other.modifiedOn))
             return false;
         if (name == null) {
             if (other.name != null)
@@ -126,16 +128,19 @@ public class Survey {
                 return false;
         } else if (!version.equals(other.version))
             return false;
-        if (versionedOn != other.versionedOn)
+        if (versionedOn == null) {
+            if (other.versionedOn != null)
+                return false;
+        } else if (!versionedOn.equals(other.versionedOn))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "Survey [guid=" + guid + ", versionedOn=" + versionedOn + ", modifiedOn="
-                + modifiedOn + ", version=" + version + ", name=" + name + ", identifier=" + identifier
-                + ", published=" + published + ", questions=" + questions + "]";
+        return "Survey [guid=" + guid + ", versionedOn=" + versionedOn + ", modifiedOn=" + modifiedOn + ", version="
+                + version + ", name=" + name + ", identifier=" + identifier + ", published=" + published
+                + ", questions=" + questions + "]";
     }
     
 }

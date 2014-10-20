@@ -8,6 +8,7 @@ import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.GuidVersionedOnHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 
 class SurveyApiCaller extends BaseApiCaller {
@@ -22,9 +23,7 @@ class SurveyApiCaller extends BaseApiCaller {
         return new SurveyApiCaller(provider);
     }
 
-    List<Survey> getAllVersionsAllSurveys() {
-        assert provider.isSignedIn();
-
+    List<Survey> getAllVersionsOfAllSurveys() {
         String url = provider.getConfig().getSurveysApi();
         HttpResponse response = get(url);
 
@@ -35,9 +34,7 @@ class SurveyApiCaller extends BaseApiCaller {
         return surveys;
     }
 
-    List<Survey> getPublishedVersionsAllSurveys() {
-        assert provider.isSignedIn();
-
+    List<Survey> getPublishedVersionsOfAllSurveys() {
         String url = provider.getConfig().getSurveysApi() + "/published";
         HttpResponse response = get(url);
 
@@ -48,9 +45,7 @@ class SurveyApiCaller extends BaseApiCaller {
         return surveys;
     }
 
-    List<Survey> getRecentVersionsAllSurveys() {
-        assert provider.isSignedIn();
-
+    List<Survey> getRecentVersionsOfAllSurveys() {
         String url = provider.getConfig().getSurveysApi() + "/recent";
         HttpResponse response = get(url);
 
@@ -62,9 +57,6 @@ class SurveyApiCaller extends BaseApiCaller {
     }
 
     List<Survey> getAllVersionsForSurvey(String guid) {
-        assert provider.isSignedIn();
-        assert guid != null;
-
         String url = provider.getConfig().getSurveyVersionsApi(guid);
         HttpResponse response = get(url);
 
@@ -75,20 +67,14 @@ class SurveyApiCaller extends BaseApiCaller {
         return surveys;
     }
 
-    Survey getSurvey(String guid, DateTime timestamp) {
-        assert provider.isSignedIn();
-        assert guid != null && timestamp != null;
-
-        String url = provider.getConfig().getSurveyApi(guid, timestamp);
+    Survey getSurvey(String guid, DateTime versionedOn) {
+        String url = provider.getConfig().getSurveyApi(guid, versionedOn);
         HttpResponse response = get(url);
 
         return getResponseBodyAsType(response, Survey.class);
     }
 
     GuidVersionedOnHolder createNewSurvey(Survey survey) {
-        assert provider.isSignedIn();
-        assert survey != null;
-
         String json;
         try {
             json = mapper.writeValueAsString(survey);
@@ -100,39 +86,31 @@ class SurveyApiCaller extends BaseApiCaller {
         return getResponseBodyAsType(response, GuidVersionedOnHolder.class);
     }
 
-    GuidVersionedOnHolder createNewVersionForSurvey(String guid, DateTime timestamp) {
-        assert provider.isSignedIn();
-        assert guid != null && timestamp != null;
-
-        String url = provider.getConfig().getSurveyApi(guid, timestamp) + "/version";
+    GuidVersionedOnHolder versionSurvey(String guid, DateTime versionedOn) {
+        String url = provider.getConfig().getSurveyApi(guid, versionedOn) + "/version";
         HttpResponse response = post(url);
 
         return getResponseBodyAsType(response, GuidVersionedOnHolder.class);
     }
 
-    GuidVersionedOnHolder updateSurvey(String guid, DateTime timestamp) {
-        assert provider.isSignedIn();
-        assert guid != null && timestamp != null;
+    GuidVersionedOnHolder updateSurvey(Survey survey) {
+        try {
+            String url = provider.getConfig().getSurveyApi(survey.getGuid(), new DateTime(survey.getVersionedOn()));
+            HttpResponse response = post(url, mapper.writeValueAsString(survey));
 
-        String url = provider.getConfig().getSurveyApi(guid, timestamp);
-        HttpResponse response = post(url);
-
-        return getResponseBodyAsType(response, GuidVersionedOnHolder.class);
+            return getResponseBodyAsType(response, GuidVersionedOnHolder.class);
+        } catch(JsonProcessingException e) {
+            throw new BridgeSDKException(e.getMessage(), e);
+        }
     }
 
-    void publishSurvey(String guid, DateTime timestamp) {
-        assert provider.isSignedIn();
-        assert guid != null && timestamp != null;
-
-        String url = provider.getConfig().getPublishSurveyApi(guid, timestamp);
+    void publishSurvey(String guid, DateTime versionedOn) {
+        String url = provider.getConfig().getPublishSurveyApi(guid, versionedOn);
         post(url);
     }
 
-    void closeSurvey(String guid, DateTime timestamp) {
-        assert provider.isSignedIn();
-        assert guid != null && timestamp != null;
-
-        String url = provider.getConfig().getSurveyApi(guid, timestamp) + "/close";
+    void closeSurvey(String guid, DateTime versionedOn) {
+        String url = provider.getConfig().getSurveyApi(guid, versionedOn) + "/close";
         post(url);
     }
 }
