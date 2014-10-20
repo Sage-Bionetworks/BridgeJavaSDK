@@ -8,25 +8,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class GuidVersionedOnHolder {
 
     private final String guid;
-    private final DateTime version;
+    private final DateTime versionedOn;
 
     @JsonCreator
-    public GuidVersionedOnHolder(@JsonProperty("guid") String guid, @JsonProperty("versionedOn") DateTime version) {
+    public GuidVersionedOnHolder(@JsonProperty("guid") String guid, @JsonProperty("versionedOn") DateTime versionedOn) {
         this.guid = guid;
-        this.version = version;
+        this.versionedOn = versionedOn;
     }
 
     public String getGuid() {
         return guid;
     }
 
-    public DateTime getVersion() {
-        return version;
+    public DateTime getVersionedOn() {
+        return versionedOn;
     }
 
     @Override
     public String toString() {
-        return "GuidVersionedOnHolder[guid=" + guid + ", version=" + version + "]";
+        return "GuidVersionedOnHolder[guid=" + guid + ", versionedOn=" + versionedOn + "]";
     }
 
 }

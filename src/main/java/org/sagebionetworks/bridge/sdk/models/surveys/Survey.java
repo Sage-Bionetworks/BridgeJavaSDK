@@ -6,11 +6,9 @@ import java.util.Objects;
 import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
 
-@JsonIgnoreProperties(value={"type"})
 public class Survey {
 
     private final String guid;
@@ -72,9 +70,9 @@ public class Survey {
 
     @Override
     public String toString() {
-        return "Survey [guid=" + guid + ", versionedOn=" + versionedOn + ", modifiedOn="
-                + modifiedOn + ", version=" + version + ", name=" + name + ", identifier=" + identifier
-                + ", published=" + published + ", questions=" + questions + "]";
+        return "Survey [guid=" + guid + ", versionedOn=" + versionedOn + ", modifiedOn=" + modifiedOn + ", version="
+                + version + ", name=" + name + ", identifier=" + identifier + ", published=" + published
+                + ", questions=" + questions + "]";
     }
 
 }
