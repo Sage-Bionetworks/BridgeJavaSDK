@@ -147,17 +147,17 @@ final class Config {
     String getSurveysApi() {
         return val(Props.SURVEYS_API);
     }
-    String getSurveyApi(String guid, DateTime timestamp) {
-        return String.format(val(Props.SURVEY_API), guid, timestamp.toString(ISODateTimeFormat.dateTime()));
+    String getSurveyApi(String guid, DateTime versionedOn) {
+        return String.format(val(Props.SURVEY_API), guid, versionedOn.toString(ISODateTimeFormat.dateTime()));
     }
-    String getPublishSurveyApi(String guid, DateTime timestamp) {
-        return String.format(val(Props.SURVEY_PUBLISH_API), guid, timestamp.toString(ISODateTimeFormat.dateTime()));
+    String getPublishSurveyApi(String guid, DateTime versionedOn) {
+        return String.format(val(Props.SURVEY_PUBLISH_API), guid, versionedOn.toString(ISODateTimeFormat.dateTime()));
     }
     String getSurveyVersionsApi(String guid) {
         return String.format(val(Props.SURVEY_VERSIONS_API), guid);
     }
-    String getSurveyUserApi(String guid, DateTime timestamp) {
-        return String.format(val(Props.SURVEY_USER_API), guid, timestamp.toString(ISODateTimeFormat.dateTime()));
+    String getSurveyUserApi(String guid, DateTime versionedOn) {
+        return String.format(val(Props.SURVEY_USER_API), guid, versionedOn.toString(ISODateTimeFormat.dateTime()));
     }
     String getSurveyResponseApi(String guid) {
         return String.format(val(Props.SURVEY_RESPONSE_API), guid);

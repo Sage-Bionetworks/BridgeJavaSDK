@@ -227,7 +227,6 @@ abstract class BaseApiCaller {
                 String message = getPropertyFromResponse(response, "message").asText();
                 e = new BridgeServerException(message, status.getStatusCode(), url);
             } catch(Throwable t) {
-                System.out.println("Something went wrong: " + t.getMessage());
                 throw new BridgeServerException(status.getReasonPhrase(), status.getStatusCode(), url);
             }
             throw e;

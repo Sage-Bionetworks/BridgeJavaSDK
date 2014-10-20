@@ -1,7 +1,14 @@
 package org.sagebionetworks.bridge.scripts;
 
+import java.util.List;
+
 import org.sagebionetworks.bridge.sdk.BridgeResearcherClient;
 import org.sagebionetworks.bridge.sdk.ClientProvider;
+import org.sagebionetworks.bridge.sdk.models.GuidVersionedOnHolder;
+import org.sagebionetworks.bridge.sdk.models.surveys.MultiValueConstraints;
+import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
+import org.sagebionetworks.bridge.sdk.models.surveys.SurveyQuestion;
+import org.sagebionetworks.bridge.sdk.models.surveys.SurveyQuestionOption;
 
 public class CreateSurveys {
 
@@ -12,10 +19,27 @@ public class CreateSurveys {
 
         BridgeResearcherClient client = provider.getResearcherClient();
         
-        //client.createSurvey(new PAOCICSurvey());
-        //client.createSurvey(new PDQ8Survey());
-        //client.publishSurvey("4aad1810-cef9-41bc-b0d9-73bcdf32df07", DateTime.parse("2014-10-16T21:36:44.386Z"));
-        //client.publishSurvey("708e249a-986c-4ce6-959e-337d5e787f02", DateTime.parse("2014-10-16T21:34:39.653Z"));
+        List<Survey> surveys = client.getAllVersionsOfAllSurveys();
+        for (Survey survey : surveys) {
+            survey = client.getSurvey(survey.getGuid(), survey.getVersionedOn());
+            
+            GuidVersionedOnHolder holder = client.versionSurvey(survey.getGuid(), survey.getVersionedOn());
+            survey = client.getSurvey(holder.getGuid(), holder.getVersionedOn());
+
+            for (SurveyQuestion question : survey.getQuestions()) {
+                if (question.getConstraints() instanceof MultiValueConstraints) {
+                    MultiValueConstraints con = (MultiValueConstraints)question.getConstraints();
+                    
+                    for (int i=0; i < con.getEnumeration().size(); i++) {
+                        SurveyQuestionOption option = con.getEnumeration().get(i);
+                        
+                        con.getEnumeration().set(i, new SurveyQuestionOption(option.getLabel(), (String)option.getValue(), option.getImage()));
+                    }
+                }
+            }
+            client.updateSurvey(survey);
+            client.publishSurvey(survey.getGuid(), survey.getVersionedOn());
+        }
     }
 
 }
