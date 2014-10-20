@@ -3,12 +3,14 @@ package org.sagebionetworks.bridge.sdk;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.ISODateTimeFormat;
+import org.sagebionetworks.bridge.sdk.models.GuidHolder;
 import org.sagebionetworks.bridge.sdk.models.HealthDataRecord;
 import org.sagebionetworks.bridge.sdk.models.IdVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.Tracker;
 import org.sagebionetworks.bridge.sdk.models.UserProfile;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
+import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
+import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 
 public class BridgeUserClient {
 
@@ -17,6 +19,7 @@ public class BridgeUserClient {
     private final TrackerApiCaller trackerApi;
     private final HealthDataApiCaller healthDataApi;
     private final ScheduleApiCaller scheduleApi;
+    private final SurveyResponseApiCaller surveyResponseApi;
 
     private BridgeUserClient(ClientProvider provider) {
         this.provider = provider;
@@ -24,6 +27,7 @@ public class BridgeUserClient {
         this.trackerApi = TrackerApiCaller.valueOf(provider);
         this.healthDataApi = HealthDataApiCaller.valueOf(provider);
         this.scheduleApi = ScheduleApiCaller.valueOf(provider);
+        this.surveyResponseApi = SurveyResponseApiCaller.valueOf(provider);
     }
 
     static BridgeUserClient valueOf(ClientProvider provider) {
@@ -37,19 +41,17 @@ public class BridgeUserClient {
     /*
      * UserProfile API
      */
+
     public UserProfile getProfile() {
-        if (!provider.isSignedIn()) {
-            throw new IllegalStateException("Provider must be signed in to call this method.");
-        }
+        Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
+
         return profileApi.getProfile();
     }
 
     public void saveProfile(UserProfile profile) {
-        if (!provider.isSignedIn()) {
-            throw new IllegalStateException("Provider must be signed in to call this method.");
-        } else if (profile == null) {
-            throw new IllegalArgumentException("Profile cannot be null.");
-        }
+        Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
+        Preconditions.checkNotNull(profile, "Profile cannot be null.");
+
         profileApi.updateProfile(profile);
     }
 
@@ -58,61 +60,44 @@ public class BridgeUserClient {
      */
 
     public HealthDataRecord getHealthDataRecord(Tracker tracker, String recordId) {
-        if (!provider.isSignedIn()) {
-            throw new IllegalStateException("Provider must be signed in to call this method.");
-        } else if (tracker == null) {
-            throw new IllegalArgumentException("Tracker cannot be null.");
-        }
+        Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
+        Preconditions.checkNotNull(tracker, "Tracker cannot be null.");
+        Preconditions.checkNotEmpty(recordId, "recordId cannot be null or empty.");
+
         return healthDataApi.getHealthDataRecord(tracker, recordId);
     }
 
     public IdVersionHolder updateHealthDataRecord(Tracker tracker, HealthDataRecord record) {
-        if (!provider.isSignedIn()) {
-            throw new IllegalStateException("Provider must be signed in to call this method.");
-        } else if (tracker == null) {
-            throw new IllegalArgumentException("Tracker cannot be null.");
-        } else if (record == null) {
-            throw new IllegalArgumentException("Record cannot be null.");
-        }
+        Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
+        Preconditions.checkNotNull(tracker, "Tracker cannot be null.");
+        Preconditions.checkNotNull(record, "Record cannot be null.");
+
         return healthDataApi.updateHealthDataRecord(tracker, record);
     }
 
     public void deleteHealthDataRecord(Tracker tracker, String recordId) {
-        if (!provider.isSignedIn()) {
-            throw new IllegalStateException("Provider must be signed in to call this method.");
-        } else if (tracker == null) {
-            throw new IllegalArgumentException("Tracker cannot be null.");
-        }
+        Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
+        Preconditions.checkNotNull(tracker, "Tracker cannot be null.");
+        Preconditions.checkNotEmpty(recordId, "recordId cannot be null or empty.");
+
         healthDataApi.deleteHealthDataRecord(tracker, recordId);
     }
 
     public List<HealthDataRecord> getHealthDataRecordsInRange(Tracker tracker, DateTime startDate, DateTime endDate) {
-        if (!provider.isSignedIn()) {
-            throw new IllegalStateException("Provider must be signed in to call this method.");
-        } else if (tracker == null) {
-            throw new IllegalArgumentException("Tracker cannot be null.");
-        } else if (startDate == null) {
-            throw new IllegalArgumentException("StartDate cannot be null.");
-        } else if (endDate == null) {
-            throw new IllegalArgumentException("EndDate cannot be null.");
-        } else if (endDate.isBefore(startDate)) {
-            throw new IndexOutOfBoundsException("EndDate cannot be before StartDate: " +
-                    "startDate=" + startDate.toString(ISODateTimeFormat.dateTime()) +
-                    ", endDate=" + endDate.toString(ISODateTimeFormat.dateTime()));
-        }
+        Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
+        Preconditions.checkNotNull(tracker, "Tracker cannot be null.");
+        Preconditions.checkNotNull(startDate, "startDate cannot be null.");
+        Preconditions.checkNotNull(endDate, "endDate cannot be null.");
+        Preconditions.checkArgument(endDate.isAfter(startDate), "endDate must be after startDate.");
+
         return healthDataApi.getHealthDataRecordsInRange(tracker, startDate, endDate);
     }
 
     public List<IdVersionHolder> addHealthDataRecords(Tracker tracker, List<HealthDataRecord> records) {
-        if (!provider.isSignedIn()) {
-            throw new IllegalStateException("Provider must be signed in to call this method.");
-        } else if (tracker == null) {
-            throw new IllegalArgumentException("Tracker cannot be null.");
-        } else if (records == null) {
-            throw new IllegalArgumentException("Records cannot be null.");
-        } else if (records.size() == 0) {
-            throw new IllegalArgumentException("Need to add at least one record. (records.size() = 0)");
-        }
+        Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
+        Preconditions.checkNotNull(tracker, "Tracker cannot be null.");
+        Preconditions.checkNotNull(records, "Records cannot be null.");
+
         return healthDataApi.addHealthDataRecords(tracker, records);
     }
 
@@ -120,16 +105,14 @@ public class BridgeUserClient {
      * Tracker API
      */
     public List<Tracker> getAllTrackers() {
-        if (!provider.isSignedIn()) {
-            throw new IllegalStateException("Provider must be signed in to call this method.");
-        }
+        Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
+
         return trackerApi.getAllTrackers();
     }
 
     public String getSchema(Tracker tracker) {
-        if (!provider.isSignedIn()) {
-            throw new IllegalStateException("Provider must be signed in to call this  method.");
-        }
+        Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
+
         return trackerApi.getSchema(tracker);
     }
 
@@ -139,9 +122,28 @@ public class BridgeUserClient {
      * Schedules API
      */
     public List<Schedule> getSchedules() {
-        if (!provider.isSignedIn()) {
-            throw new IllegalStateException("Provider must be signed in to call this method.");
-        }
+        Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
         return scheduleApi.getSchedules();
     }
+
+    /*
+     * Survey Response API
+     */
+
+   public Survey getSurvey(String surveyGuid, DateTime versionedOn) {
+       Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
+       Preconditions.checkNotEmpty(surveyGuid, "SurveyGuid cannot be null or empty.");
+       Preconditions.checkNotNull(versionedOn, "VersionedOn cannot be null.");
+
+       return surveyResponseApi.getSurvey(surveyGuid, versionedOn);
+   }
+
+   public GuidHolder submitAnswersToSurvey(Survey survey, List<SurveyAnswer> answers) {
+       Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
+       Preconditions.checkNotNull(survey, "Survey cannot be null.");
+
+       return surveyResponseApi.submitAnswers(answers, survey.getGuid(), survey.getVersionedOn());
+   }
+
+
 }
