@@ -25,7 +25,4 @@ public class SurveyTest {
         provider.signOut();
     }
     
-    @Test
-    
-
 }
