@@ -8,21 +8,14 @@ import org.sagebionetworks.bridge.sdk.models.GuidVersionedOnHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.ObjectMapper;
+public class BridgeResearcherClient {
 
-public class BridgeResearcherClient extends BaseApiCaller {
-
-    private static final ObjectMapper mapper = new ObjectMapper();
-    static {
-        mapper.setSerializationInclusion(Include.NON_NULL);
-    }
-
+    private final ClientProvider provider;
     private final SurveyApiCaller surveyApi;
     private final SchedulePlanApiCaller schedulePlanApi;
 
     private BridgeResearcherClient(ClientProvider provider) {
-        super(provider);
+        this.provider = provider;
         this.surveyApi = SurveyApiCaller.valueOf(provider);
         this.schedulePlanApi = SchedulePlanApiCaller.valueOf(provider);
     }

@@ -17,6 +17,7 @@ public class BridgeUserClient {
 
     private final ClientProvider provider;
     private final UserProfileApiCaller profileApi;
+    private final ConsentApiCaller consentApi;
     private final TrackerApiCaller trackerApi;
     private final HealthDataApiCaller healthDataApi;
     private final ScheduleApiCaller scheduleApi;
@@ -25,6 +26,7 @@ public class BridgeUserClient {
     private BridgeUserClient(ClientProvider provider) {
         this.provider = provider;
         this.profileApi = UserProfileApiCaller.valueOf(provider);
+        this.consentApi = ConsentApiCaller.valueOf(provider);
         this.trackerApi = TrackerApiCaller.valueOf(provider);
         this.healthDataApi = HealthDataApiCaller.valueOf(provider);
         this.scheduleApi = ScheduleApiCaller.valueOf(provider);
@@ -54,6 +56,20 @@ public class BridgeUserClient {
         Preconditions.checkNotNull(profile, "Profile cannot be null.");
 
         profileApi.updateProfile(profile);
+    }
+
+    /*
+     * Consent API
+     */
+
+    public void resumeDataSharing() {
+        Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
+
+        consentApi.resumeDataSharing();
+    }
+
+    public void suspendDataSharing() {
+        Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
     }
 
     /*
@@ -117,8 +133,6 @@ public class BridgeUserClient {
         return trackerApi.getSchema(tracker);
     }
 
-    // TODO figure out what to do about consent. Can't be signed in when making consent calls.
-
     /*
      * Schedules API
      */
@@ -168,10 +182,4 @@ public class BridgeUserClient {
 
        surveyResponseApi.deleteSurveyResponse(response.getGuid());
    }
-
-   /*
-    *
-    */
-
-
 }

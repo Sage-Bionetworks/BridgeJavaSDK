@@ -14,6 +14,10 @@ public class IdVersionHolder {
         this.version = version;
     }
 
+    public static IdVersionHolder valueOf(String id, long version) {
+        return new IdVersionHolder(id, version);
+    }
+
     public String getId() { return this.id; }
     public long getVersion() { return this.version; }
 
