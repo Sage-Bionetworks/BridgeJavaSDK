@@ -11,6 +11,7 @@ import org.sagebionetworks.bridge.sdk.models.UserProfile;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
+import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
 
 public class BridgeUserClient {
 
@@ -141,11 +142,36 @@ public class BridgeUserClient {
    public GuidHolder submitAnswersToSurvey(Survey survey, List<SurveyAnswer> answers) {
        Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
        Preconditions.checkNotNull(survey, "Survey cannot be null.");
+       Preconditions.checkNotNull(answers, "Answers cannot be null.");
 
        return surveyResponseApi.submitAnswers(answers, survey.getGuid(), survey.getVersionedOn());
    }
 
+   public SurveyResponse getSurveyResponse(String surveyResponseGuid) {
+       Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method");
+       Preconditions.checkNotEmpty(surveyResponseGuid, "SurveyResponseGuid cannot be null or empty.");
 
+       return surveyResponseApi.getSurveyResponse(surveyResponseGuid);
+   }
+
+   public void addAnswersToResponse(SurveyResponse response, List<SurveyAnswer> answers) {
+       Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method");
+       Preconditions.checkNotNull(response, "Response cannot be null.");
+       Preconditions.checkNotNull(answers, "Answers cannot be null.");
+
+       surveyResponseApi.addAnswersToSurveyResponse(answers, response.getGuid());
+   }
+
+   public void deleteSurveyResponse(SurveyResponse response) {
+       Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
+       Preconditions.checkNotNull(response, "Response cannot be null.");
+
+       surveyResponseApi.deleteSurveyResponse(response.getGuid());
+   }
+
+   /*
+    *
+    */
 
 
 }
