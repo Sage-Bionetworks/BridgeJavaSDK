@@ -25,23 +25,40 @@ final class Config {
         ADMIN_EMAIL,
         ADMIN_PASSWORD,
         HOST,
-        AUTH_API,
+        AUTH_SIGNUP_API,
+        AUTH_SIGNIN_API,
+        AUTH_SIGNOUT_API,
+        AUTH_VERIFYEMAIL_API,
+        AUTH_REQUESTRESET_API,
+        AUTH_RESET_API,
         CONSENT_API,
-        HEALTH_DATA_API,
+        CONSENT_SUSPEND_API,
+        CONSENT_RESUME_API,
+        HEALTH_DATA_TRACKER_API,
+        HEALTH_DATA_TRACKER_RECORD_API,
         PROFILE_API,
         SCHEDULES_API,
         SCHEDULEPLAN_API,
         SCHEDULEPLANS_API,
         STUDY_CONSENT_API,
+        STUDY_CONSENT_ACTIVE_API,
+        STUDY_CONSENT_TIMESTAMP_API,
+        STUDY_CONSENT_ACTIVE_TIMESTAMP_API,
         SURVEY_API,
         SURVEY_USER_API,
         SURVEY_PUBLISH_API,
+        SURVEY_CLOSE_API,
         SURVEY_VERSIONS_API,
+        SURVEY_VERSIONS_NEW_API,
         SURVEYS_API,
+        SURVEYS_RECENT_API,
+        SURVEYS_PUBLISHED_API,
         SURVEY_RESPONSE_API,
         TRACKER_API,
         UPLOAD_API,
-        USER_MANAGEMENT_API;
+        UPLOAD_COMPLETE_API,
+        USER_MANAGEMENT_API,
+        USER_MANAGEMENT_CONSENT_API;
 
         public String getPropertyName() {
             return this.name().replace("_", ".").toLowerCase();
@@ -117,8 +134,23 @@ final class Config {
     String getHost() {
         return val(Props.HOST);
     }
-    String getAuthApi() {
-        return val(Props.AUTH_API);
+    String getAuthSignUpApi() {
+        return val(Props.AUTH_SIGNUP_API);
+    }
+    String getAuthSignInApi() {
+        return val(Props.AUTH_SIGNIN_API);
+    }
+    String getAuthSignOutApi() {
+        return val(Props.AUTH_SIGNOUT_API);
+    }
+    String getAuthVerifyEmailApi() {
+        return val(Props.AUTH_VERIFYEMAIL_API);
+    }
+    String getAuthRequestResetApi() {
+        return val(Props.AUTH_REQUESTRESET_API);
+    }
+    String getAuthResetApi() {
+        return val(Props.AUTH_RESET_API);
     }
     String getProfileApi() {
         return val(Props.PROFILE_API);
@@ -126,20 +158,44 @@ final class Config {
     String getConsentApi() {
         return val(Props.CONSENT_API);
     }
+    String getConsentSuspendApi() {
+        return val(Props.CONSENT_SUSPEND_API);
+    }
+    String getConsentResumeApi() {
+        return val(Props.CONSENT_RESUME_API);
+    }
     String getStudyConsentApi() {
         return val(Props.STUDY_CONSENT_API);
+    }
+    String getStudyConsentActive() {
+        return val(Props.STUDY_CONSENT_ACTIVE_API);
+    }
+    String getStudyConsentTimestamp(DateTime timestamp) {
+        return String.format(val(Props.STUDY_CONSENT_TIMESTAMP_API), timestamp.toString(ISODateTimeFormat.dateTime()));
+    }
+    String getStudyConsentActiveTimestamp(DateTime timestamp) {
+        return String.format(val(Props.STUDY_CONSENT_ACTIVE_TIMESTAMP_API), timestamp.toString(ISODateTimeFormat.dateTime()));
     }
     String getTrackerApi() {
         return val(Props.TRACKER_API);
     }
-    String getHealthDataApi() {
-        return val(Props.HEALTH_DATA_API);
+    String getHealthDataTrackerApi(String trackerId) {
+        return String.format(val(Props.HEALTH_DATA_TRACKER_API), trackerId);
+    }
+    String getHealthDataTrackerRecordApi(String trackerId, String recordId) {
+        return String.format(val(Props.HEALTH_DATA_TRACKER_RECORD_API), trackerId, recordId);
     }
     String getUploadApi() {
         return val(Props.UPLOAD_API);
     }
+    String getUploadCompleteApi() {
+        return val(Props.UPLOAD_COMPLETE_API);
+    }
     String getUserManagementApi() {
         return val(Props.USER_MANAGEMENT_API);
+    }
+    String getUserManagementConsentApi() {
+        return val(Props.USER_MANAGEMENT_CONSENT_API);
     }
     String getSchedulesApi() {
         return val(Props.SCHEDULES_API);
@@ -147,14 +203,26 @@ final class Config {
     String getSurveysApi() {
         return val(Props.SURVEYS_API);
     }
-    String getSurveyApi(String guid, DateTime versionedOn) {
-        return String.format(val(Props.SURVEY_API), guid, versionedOn.toString(ISODateTimeFormat.dateTime()));
+    String getRecentSurveysApi() {
+        return val(Props.SURVEYS_RECENT_API);
     }
-    String getPublishSurveyApi(String guid, DateTime versionedOn) {
-        return String.format(val(Props.SURVEY_PUBLISH_API), guid, versionedOn.toString(ISODateTimeFormat.dateTime()));
+    String getSurveysPublishedApi() {
+        return val(Props.SURVEYS_PUBLISHED_API);
+    }
+    String getSurveyApi(String guid, DateTime timestamp) {
+        return String.format(val(Props.SURVEY_API), guid, timestamp.toString(ISODateTimeFormat.dateTime()));
     }
     String getSurveyVersionsApi(String guid) {
         return String.format(val(Props.SURVEY_VERSIONS_API), guid);
+    }
+    String getSurveyNewVersionApi(String guid, DateTime timestamp) {
+        return String.format(val(Props.SURVEY_VERSIONS_NEW_API), guid, timestamp.toString(ISODateTimeFormat.dateTime()));
+    }
+    String getPublishSurveyApi(String guid, DateTime timestamp) {
+        return String.format(val(Props.SURVEY_PUBLISH_API), guid, timestamp.toString(ISODateTimeFormat.dateTime()));
+    }
+    String getCloseSurveyApi(String guid, DateTime timestamp) {
+        return String.format(val(Props.SURVEY_CLOSE_API), guid, timestamp.toString(ISODateTimeFormat.dateTime()));
     }
     String getSurveyUserApi(String guid, DateTime versionedOn) {
         return String.format(val(Props.SURVEY_USER_API), guid, versionedOn.toString(ISODateTimeFormat.dateTime()));

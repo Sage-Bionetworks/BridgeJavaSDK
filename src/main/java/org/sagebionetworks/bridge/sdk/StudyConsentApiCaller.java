@@ -4,16 +4,12 @@ import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.joda.time.DateTime;
-import org.joda.time.format.ISODateTimeFormat;
 import org.sagebionetworks.bridge.sdk.models.StudyConsent;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 
 class StudyConsentApiCaller extends BaseApiCaller {
-
-    private final String STUDY_CONSENT = provider.getConfig().getStudyConsentApi();
-    private final String ACTIVE = STUDY_CONSENT + "/active";
 
     private StudyConsentApiCaller(ClientProvider provider) {
         super(provider);
@@ -24,9 +20,7 @@ class StudyConsentApiCaller extends BaseApiCaller {
     }
 
     List<StudyConsent> getAllStudyConsents() {
-        assert provider.isSignedIn();
-
-        String url = STUDY_CONSENT;
+        String url = provider.getConfig().getStudyConsentApi();
         HttpResponse response = get(url);
 
         JsonNode items = getPropertyFromResponse(response, "items");
@@ -37,26 +31,21 @@ class StudyConsentApiCaller extends BaseApiCaller {
     }
 
     StudyConsent getStudyConsent(DateTime timestamp) {
-        assert provider.isSignedIn();
-        assert timestamp != null;
-
-        String url = STUDY_CONSENT + timestamp(timestamp);
+        String url = provider.getConfig().getStudyConsentTimestamp(timestamp);
         HttpResponse response = get(url);
 
         return getResponseBodyAsType(response, StudyConsent.class);
     }
 
     StudyConsent getActiveStudyConsent() {
-        assert provider.isSignedIn();
-
-        HttpResponse response = get(ACTIVE);
+        String url = provider.getConfig().getStudyConsentActive();
+        HttpResponse response = get(url);
         return getResponseBodyAsType(response, StudyConsent.class);
     }
 
     void setActiveStudyConsent(DateTime timestamp) {
-        assert provider.isSignedIn();
-
-        post(ACTIVE + timestamp(timestamp));
+        String url = provider.getConfig().getStudyConsentActiveTimestamp(timestamp);
+        post(url);
     }
 
     StudyConsent addStudyConsent(StudyConsent studyConsent) {
@@ -69,11 +58,9 @@ class StudyConsentApiCaller extends BaseApiCaller {
             throw new BridgeSDKException("Could not process StudyConsent. Are you sure it is correct? "
                     + studyConsent.toString(), e);
         }
-        HttpResponse response = post(STUDY_CONSENT, json);
-        return getResponseBodyAsType(response, StudyConsent.class);
-    }
+        String url = provider.getConfig().getStudyConsentApi();
+        HttpResponse response = post(url, json);
 
-    private String timestamp(DateTime date) {
-        return "/" + date.toString(ISODateTimeFormat.dateTime());
+        return getResponseBodyAsType(response, StudyConsent.class);
     }
 }

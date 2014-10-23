@@ -13,8 +13,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 class SurveyApiCaller extends BaseApiCaller {
 
-    // TODO change api callers so that all api urls come from the config file.
-
     private SurveyApiCaller(ClientProvider provider) {
         super(provider);
     }
@@ -35,7 +33,7 @@ class SurveyApiCaller extends BaseApiCaller {
     }
 
     List<Survey> getPublishedVersionsOfAllSurveys() {
-        String url = provider.getConfig().getSurveysApi() + "/published";
+        String url = provider.getConfig().getSurveysPublishedApi();
         HttpResponse response = get(url);
 
         JsonNode items = getPropertyFromResponse(response, "items");
@@ -46,7 +44,7 @@ class SurveyApiCaller extends BaseApiCaller {
     }
 
     List<Survey> getRecentVersionsOfAllSurveys() {
-        String url = provider.getConfig().getSurveysApi() + "/recent";
+        String url = provider.getConfig().getRecentSurveysApi();
         HttpResponse response = get(url);
 
         JsonNode items = getPropertyFromResponse(response, "items");
@@ -86,8 +84,8 @@ class SurveyApiCaller extends BaseApiCaller {
         return getResponseBodyAsType(response, GuidVersionedOnHolder.class);
     }
 
-    GuidVersionedOnHolder versionSurvey(String guid, DateTime versionedOn) {
-        String url = provider.getConfig().getSurveyApi(guid, versionedOn) + "/version";
+    GuidVersionedOnHolder createNewVersionForSurvey(String guid, DateTime versionedOn) {
+        String url = provider.getConfig().getSurveyNewVersionApi(guid, versionedOn);
         HttpResponse response = post(url);
 
         return getResponseBodyAsType(response, GuidVersionedOnHolder.class);
@@ -110,7 +108,7 @@ class SurveyApiCaller extends BaseApiCaller {
     }
 
     void closeSurvey(String guid, DateTime versionedOn) {
-        String url = provider.getConfig().getSurveyApi(guid, versionedOn) + "/close";
+        String url = provider.getConfig().getCloseSurveyApi(guid, versionedOn);
         post(url);
     }
 }

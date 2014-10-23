@@ -1,6 +1,5 @@
 package org.sagebionetworks.bridge.sdk;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,9 +16,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 class HealthDataApiCaller extends BaseApiCaller {
 
-    private final String HEALTH_DATA = provider.getConfig().getHealthDataApi();
-
-
     private HealthDataApiCaller(ClientProvider provider) {
         super(provider);
     }
@@ -29,29 +25,14 @@ class HealthDataApiCaller extends BaseApiCaller {
     }
 
     HealthDataRecord getHealthDataRecord(Tracker tracker, String recordId) {
-        assert provider.isSignedIn();
-        assert tracker != null && recordId != null;
-
-        String url = HEALTH_DATA + trackerId(tracker) + recordId(recordId);
+        String trackerId = String.valueOf(tracker.getId());
+        String url = provider.getConfig().getHealthDataTrackerRecordApi(trackerId, recordId);
         HttpResponse response = get(url);
-        String responseBody = getResponseBody(response);
 
-        HealthDataRecord record = null;
-        try {
-            record = mapper.readValue(responseBody, HealthDataRecord.class);
-        } catch (IOException e) {
-            throw new BridgeSDKException(
-                    "Something went wrong while converting Response Body JSON into HealthDataRecord: json="
-                            + responseBody, e);
-        }
-        return record;
+        return getResponseBodyAsType(response, HealthDataRecord.class);
     }
 
     IdVersionHolder updateHealthDataRecord(Tracker tracker, HealthDataRecord record) {
-        assert provider.isSignedIn();
-        assert tracker != null && record != null;
-
-        String url = HEALTH_DATA + trackerId(tracker) + recordId(record.getRecordId());
         String json = null;
         try {
             json = mapper.writeValueAsString(record);
@@ -59,38 +40,26 @@ class HealthDataApiCaller extends BaseApiCaller {
             throw new BridgeSDKException("Could not process HealthDataRecord. Are you sure it is correct? "
                     + record.toString(), e);
         }
+        String trackerId = String.valueOf(tracker.getId());
+        String url = provider.getConfig().getHealthDataTrackerRecordApi(trackerId, record.getRecordId());
         HttpResponse response = post(url, json);
-        String responseBody = getResponseBody(response);
 
-        IdVersionHolder holder;
-        try {
-            holder = mapper.readValue(responseBody, IdVersionHolder.class);
-        } catch (IOException e) {
-            throw new BridgeSDKException(
-                    "Something went wrong while converting Response Body JSON into IdVersionHolder: responseBody="
-                            + responseBody, e);
-        }
-        return holder;
+        return getResponseBodyAsType(response, IdVersionHolder.class);
     }
 
     void deleteHealthDataRecord(Tracker tracker, String recordId) {
-        assert provider.isSignedIn();
-        assert tracker != null;
-
-        String url = HEALTH_DATA + trackerId(tracker) + recordId(recordId);
+        String trackerId = String.valueOf(tracker.getId());
+        String url = provider.getConfig().getHealthDataTrackerRecordApi(trackerId, recordId);
         delete(url);
     }
 
     List<HealthDataRecord> getHealthDataRecordsInRange(Tracker tracker, DateTime startDate, DateTime endDate) {
-        assert provider.isSignedIn();
-        assert tracker != null && startDate != null && endDate != null;
-        assert startDate.isBefore(endDate);
-
         Map<String,String> queryParameters = new HashMap<String,String>();
         queryParameters.put("startDate", startDate.toString(ISODateTimeFormat.dateTime()));
         queryParameters.put("endDate", endDate.toString(ISODateTimeFormat.dateTime()));
 
-        String url = HEALTH_DATA + trackerId(tracker);
+        String trackerId = String.valueOf(tracker.getId());
+        String url = provider.getConfig().getHealthDataTrackerApi(trackerId);
         HttpResponse response = get(url, queryParameters);
 
         JsonNode items = getPropertyFromResponse(response, "items");
@@ -101,10 +70,6 @@ class HealthDataApiCaller extends BaseApiCaller {
     }
 
     List<IdVersionHolder> addHealthDataRecords(Tracker tracker, List<HealthDataRecord> records) {
-        assert provider.isSignedIn();
-        assert tracker != null;
-        assert records != null && records.size() > 0;
-
         String json;
         try {
             json = mapper.writeValueAsString(records);
@@ -113,7 +78,8 @@ class HealthDataApiCaller extends BaseApiCaller {
                     "An error occurred while processing the List of HealthDataRecords. Are you sure it is correct?", e);
         }
 
-        String url = HEALTH_DATA + trackerId(tracker);
+        String trackerId = String.valueOf(tracker.getId());
+        String url = provider.getConfig().getHealthDataTrackerApi(trackerId);
         HttpResponse response = post(url, json);
 
         JsonNode items = getPropertyFromResponse(response, "items");
@@ -121,13 +87,5 @@ class HealthDataApiCaller extends BaseApiCaller {
                 mapper.getTypeFactory().constructCollectionType(List.class, IdVersionHolder.class));
 
         return holders;
-    }
-
-    private String trackerId(Tracker tracker) {
-        return "/" + String.valueOf(tracker.getId());
-    }
-
-    private String recordId(String recordId) {
-        return "/" + "record" + "/" + recordId;
     }
 }

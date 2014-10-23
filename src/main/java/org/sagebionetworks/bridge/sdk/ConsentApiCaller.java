@@ -3,10 +3,6 @@ package org.sagebionetworks.bridge.sdk;
 
 class ConsentApiCaller extends BaseApiCaller {
 
-    private final String CONSENT = provider.getConfig().getConsentApi();
-    private final String SUSPEND = CONSENT + "/dataSharing/suspend";
-    private final String RESUME = CONSENT + "/dataSharing/resume";
-
     private ConsentApiCaller(ClientProvider provider) {
         super(provider);
     }
@@ -16,15 +12,13 @@ class ConsentApiCaller extends BaseApiCaller {
     }
 
     void suspendDataSharing() {
-        assert provider.isSignedIn();
-
-        post(SUSPEND);
+        String url = provider.getConfig().getConsentSuspendApi();
+        post(url);
     }
 
     void resumeDataSharing() {
-        assert provider.isSignedIn();
-
-        post(RESUME);
+        String url = provider.getConfig().getConsentResumeApi();
+        post(url);
     }
 
 }

@@ -1,6 +1,9 @@
 package org.sagebionetworks.bridge;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -19,7 +22,7 @@ import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.schedules.SimpleScheduleStrategy;
 
 public class SchedulePlanTest {
-    
+
     public class TestABSchedulePlan extends SchedulePlan {
         private Schedule schedule1 = new Schedule() {{
             setCronTrigger("* * *");
@@ -50,7 +53,7 @@ public class SchedulePlanTest {
             setStrategy(strategy);
         }
     }
-    
+
     public class TestSimpleSchedulePlan extends SchedulePlan {
         private Schedule schedule = new Schedule() {{
             setCronTrigger("* * *");
@@ -69,16 +72,16 @@ public class SchedulePlanTest {
     private ClientProvider provider;
     private BridgeResearcherClient client;
     private GuidVersionHolder guidVersion;
-    
+
     @Before
     public void before() {
         // Assumes the default user is a researcher in the API test (which I am, for now)
         provider = ClientProvider.valueOf();
         provider.signIn();
-        
+
         client = provider.getResearcherClient();
     }
-    
+
     @After
     public void after() {
         provider.signOut();
@@ -87,30 +90,30 @@ public class SchedulePlanTest {
             client.deleteSchedulePlan(guidVersion.getGuid());
         }
     }
-    
+
     @Test
     public void crudSchedulePlan() throws Exception {
         SchedulePlan plan = new TestABSchedulePlan();
-        
+
         // Create
         guidVersion = client.createSchedulePlan(plan);
-        
+
         // Update
         plan = client.getSchedulePlan(guidVersion.getGuid());
         TestSimpleSchedulePlan simplePlan = new TestSimpleSchedulePlan();
         plan.setStrategy(simplePlan.getStrategy());
-        
+
         GuidVersionHolder newGuidVersion = client.updateSchedulePlan(plan);
         assertNotEquals("Version should be updated", guidVersion.getVersion(), newGuidVersion.getVersion());
 
         // Get
         plan = client.getSchedulePlan(guidVersion.getGuid());
         assertEquals("Strategy type has been changed", "SimpleScheduleStrategy", plan.getStrategy().getClass().getSimpleName());
-        
-        // Verify schedules have been created 
+
+        // Verify schedules have been created
         List<Schedule> schedules = provider.getClient().getSchedules();
         assertTrue("Schedules exist", !schedules.isEmpty());
-        
+
         // Delete
         client.deleteSchedulePlan(guidVersion.getGuid());
 
@@ -122,7 +125,7 @@ public class SchedulePlanTest {
             guidVersion = null;
         }
     }
-    
+
     // TODO Test to verify that schedules were created/deleted for users.
 
 }

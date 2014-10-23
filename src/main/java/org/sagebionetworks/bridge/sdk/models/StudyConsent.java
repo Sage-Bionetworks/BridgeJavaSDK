@@ -70,7 +70,9 @@ public class StudyConsent {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj) {
+            return true;
+        }else if (obj == null) {
             return false;
         } else if (obj.getClass() != this.getClass()) {
             return false;

@@ -16,14 +16,14 @@ public class SurveyResponse {
     private final DateTime completedOn;
     private final Status status;
     private final Survey survey;
-    private final List<SurveyAnswer<?>> answers;
+    private final List<SurveyAnswer> answers;
 
     private enum Status { UNSTARTED, IN_PROGRESS, FINISHED }
 
     @JsonCreator
     private SurveyResponse(@JsonProperty("guid") String guid, @JsonProperty("startedOn") DateTime startedOn,
             @JsonProperty("completedOn") DateTime completedOn, @JsonProperty("status") String status,
-            @JsonProperty("survey") Survey survey, @JsonProperty("answers") List<SurveyAnswer<?>> answers) {
+            @JsonProperty("survey") Survey survey, @JsonProperty("answers") List<SurveyAnswer> answers) {
         this.guid = guid;
         this.startedOn = startedOn;
         this.completedOn = completedOn;
@@ -51,7 +51,7 @@ public class SurveyResponse {
     public DateTime getCompletedOn() { return completedOn; }
     public Status getStatus() { return status; }
     public Survey getSurvey() { return survey; }
-    public List<SurveyAnswer<?>> getSurveyAnswers() { return answers; }
+    public List<SurveyAnswer> getSurveyAnswers() { return answers; }
 
 
 }
