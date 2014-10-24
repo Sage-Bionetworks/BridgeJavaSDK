@@ -14,7 +14,9 @@ import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.BridgeResearcherClient;
 import org.sagebionetworks.bridge.sdk.BridgeServerException;
 import org.sagebionetworks.bridge.sdk.ClientProvider;
+import org.sagebionetworks.bridge.sdk.Config.Props;
 import org.sagebionetworks.bridge.sdk.models.GuidVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
 import org.sagebionetworks.bridge.sdk.models.schedules.ABTestScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.ActivityType;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
@@ -75,20 +77,23 @@ public class SchedulePlanTest {
 
     @Before
     public void before() {
-        // Assumes the default user is a researcher in the API test (which I am, for now)
         provider = ClientProvider.valueOf();
-        provider.signIn();
+
+        String adminEmail = provider.getConfig().val(Props.ADMIN_EMAIL);
+        String adminPassword = provider.getConfig().val(Props.ADMIN_PASSWORD);
+        SignInCredentials adminSignIn = SignInCredentials.valueOf().setUsername(adminEmail).setPassword(adminPassword);
+        provider.signIn(adminSignIn);
 
         client = provider.getResearcherClient();
     }
 
     @After
     public void after() {
-        provider.signOut();
         // Try and clean up if that didn't happen in the test.
         if (guidVersion != null) {
             client.deleteSchedulePlan(guidVersion.getGuid());
         }
+        provider.signOut();
     }
 
     @Test

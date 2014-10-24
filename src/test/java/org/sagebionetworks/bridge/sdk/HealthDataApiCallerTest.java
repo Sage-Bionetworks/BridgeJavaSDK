@@ -228,9 +228,8 @@ public class HealthDataApiCallerTest {
         assert start.isBefore(end);
 
         ObjectNode data = mapper.createObjectNode();
-        data.put("medication", "Lionipril");
-        data.put("dosage", "10mg");
-        data.put("frequency", "1x/day");
+        data.put("systolic", 130);
+        data.put("diastolic", 70);
 
         String uniqueId = UUID.randomUUID().toString();
         HealthDataRecord record = HealthDataRecord.valueOf(0, uniqueId, start, end, data);
