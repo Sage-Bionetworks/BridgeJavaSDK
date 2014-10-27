@@ -7,6 +7,7 @@ import java.util.List;
 import org.joda.time.Period;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.BridgeResearcherClient;
 import org.sagebionetworks.bridge.sdk.BridgeServerException;
@@ -81,11 +82,29 @@ public class SchedulePlanTest {
     
     @After
     public void after() {
-        provider.signOut();
         // Try and clean up if that didn't happen in the test.
         if (guidVersion != null) {
             client.deleteSchedulePlan(guidVersion.getGuid());
         }
+        provider.signOut();
+    }
+    
+    @Test
+    public void normalUserCannotAccess() {
+        /*
+        UserSession session = null;
+        try {
+            session = helper.createUser(new SignUp("normal-test-user", "normal-test-user@sagebridge.org",
+                    "P4ssword"), helper.getTestStudy(), true, true);
+            
+            SchedulePlan plan = new TestABSchedulePlan();
+            String json = BridgeObjectMapper.get().writeValueAsString(plan);
+            
+            Response response = TestUtils.getURL(session.getSessionToken(), SCHEDULE_PLANS_URL).post(json).get(TIMEOUT);
+            assertEquals("Returns 403", SC_FORBIDDEN, response.getStatus());
+        } finally {
+            helper.deleteUser(session);
+        }*/
     }
     
     @Test
@@ -123,6 +142,33 @@ public class SchedulePlanTest {
         }
     }
     
-    // TODO Test to verify that schedules were created/deleted for users.
-
+    @Test(expected = BridgeServerException.class)
+    @Ignore
+    public void invalidPlanReturns400Error() {
+        SchedulePlan plan = new TestABSchedulePlan();
+        plan.setStrategy(null);
+        
+        // TODO: We'd like to examine the errors property of the JSON, add it to the InvalidEntityException.
+        client.createSchedulePlan(plan);
+        
+        /*
+        SchedulePlan plan = new TestABSchedulePlan();
+        plan.setStrategy(null); // invalid
+        String json = BridgeObjectMapper.get().writeValueAsString(plan);
+        
+        // Create
+        Response response = TestUtils.getURL(session.getSessionToken(), SCHEDULE_PLANS_URL).post(json).get(TIMEOUT);
+        assertEquals("Returns 400", SC_BAD_REQUEST, response.getStatus());
+        
+        JsonNode node = response.asJson();
+        ArrayNode strategyErrors = (ArrayNode)node.get("errors").get("strategy");
+        assertEquals("Has a strategy field error", 1, strategyErrors.size());
+        */
+    }
+    
+    @Test(expected = NullPointerException.class)
+    @Ignore
+    public void noPlanReturns400() {
+        client.createSchedulePlan(null);
+    }    
 }
