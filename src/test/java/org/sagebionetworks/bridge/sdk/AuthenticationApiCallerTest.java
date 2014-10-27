@@ -25,8 +25,8 @@ public class AuthenticationApiCallerTest {
         try {
             authApi.signIn("", "");
             fail("Sign In should throw an exception when given junk credentials.");
-        } catch (BridgeServerException e) {
-            assertTrue("HttpResponse indicates user not found.", e.getStatusCode() == 404);
+        } catch (InvalidEntityException e) {
+            assertTrue("HttpResponse indicates user name and password are required.", e.getStatusCode() == 400);
         }
     }
 
