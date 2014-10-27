@@ -1,5 +1,6 @@
 package org.sagebionetworks.bridge.sdk;
 
+import static org.sagebionetworks.bridge.sdk.Preconditions.checkNotEmpty;
 import static org.sagebionetworks.bridge.sdk.Preconditions.checkNotNull;
 
 import java.util.Arrays;
@@ -64,6 +65,7 @@ public class TestUserHelper {
     }
     
     public static TestUserHelper valueOf(ClientProvider provider) {
+        checkNotNull(provider, "Provider is required.");
         return new TestUserHelper(provider);
     }
     
@@ -73,7 +75,7 @@ public class TestUserHelper {
         provider.signOut();
         signInAsAdmin();
         List<String> rolesList = (roles == null) ? Collections.<String>emptyList() : Arrays.asList(roles);
-        String name = makeRandomUserName(cls);
+        String name = makeUserName(cls);
         SignUpCredentials signUp = SignUpCredentials.valueOf()
                 .setUsername(name)
                 .setEmail(name + "@sagebridge.org")
@@ -98,7 +100,7 @@ public class TestUserHelper {
         return result;
     }
     
-    private String makeRandomUserName(Class<?> cls) {
+    public String makeUserName(Class<?> cls) {
         String clsPart = cls.getSimpleName();
         String rndPart = RandomStringUtils.randomAlphabetic(4);
         return String.format("%s-%s-%s", devName, clsPart, rndPart);
@@ -107,6 +109,9 @@ public class TestUserHelper {
     private void signInAsAdmin() {
         String adminEmail = provider.getConfig().getAdminEmail();
         String adminPassword = provider.getConfig().getAdminPassword();
+        checkNotEmpty(adminEmail, "admin.email property is not set");
+        checkNotEmpty(adminPassword, "admin.password property is not set");
+        
         SignInCredentials adminSignIn = SignInCredentials.valueOf().setUsername(adminEmail).setPassword(adminPassword);
         provider.signIn(adminSignIn);
     }
