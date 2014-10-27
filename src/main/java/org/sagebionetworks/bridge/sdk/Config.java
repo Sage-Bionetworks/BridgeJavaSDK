@@ -14,7 +14,7 @@ import org.joda.time.format.ISODateTimeFormat;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
-final class Config {
+public final class Config {
 
     private static final String CONFIG_FILE = "bridge-sdk.properties";
     private static final String USER_CONFIG_FILE = System.getProperty("user.home") + "/bridge-sdk.properties";
@@ -237,7 +237,7 @@ final class Config {
         return String.format(val(Props.SCHEDULEPLAN_API), guid);
     }
 
-    private String val(Props prop) {
+    public String val(Props prop) {
         return config.getProperty(prop.getPropertyName());
     }
 

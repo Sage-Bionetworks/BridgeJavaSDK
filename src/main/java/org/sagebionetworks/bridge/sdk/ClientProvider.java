@@ -18,7 +18,7 @@ public class ClientProvider {
         this.config = Config.valueOf();
         this.authApi = AuthenticationApiCaller.valueOf(this);
     }
-    
+
     public static ClientProvider valueOf(String host) {
         Preconditions.checkNotEmpty(host, "Host is null or empty");
         return new ClientProvider(host);
@@ -28,10 +28,10 @@ public class ClientProvider {
         return new ClientProvider();
     }
 
+    public Config getConfig() { return config; }
     UserSession getSession() { return session; }
     String getSessionToken() { return isSignedIn() ? session.getSessionToken() : null; }
-    Config getConfig() { return config; }
-    
+
     void setSession(UserSession session) {
         assert session != null;
         this.session = session;
@@ -45,7 +45,7 @@ public class ClientProvider {
         session = authApi.signIn(Preconditions.checkNotNull(config.getAccountEmail()),
                 Preconditions.checkNotNull(config.getAccountPassword()));
     }
-    
+
     public void signIn(SignInCredentials signIn) {
         if (signIn == null) {
             throw new IllegalArgumentException("SignInCredentials object must not be null.");

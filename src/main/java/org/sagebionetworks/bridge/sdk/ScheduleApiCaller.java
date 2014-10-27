@@ -12,18 +12,16 @@ class ScheduleApiCaller extends BaseApiCaller {
     private ScheduleApiCaller(ClientProvider provider) {
         super(provider);
     }
-    
+
     static ScheduleApiCaller valueOf(ClientProvider provider) {
         return new ScheduleApiCaller(provider);
     }
-    
+
     List<Schedule> getSchedules() {
         HttpResponse response = get(provider.getConfig().getSchedulesApi());
-        
         JsonNode items = getPropertyFromResponse(response, "items");
-        
+
         return mapper.convertValue(items,
                 mapper.getTypeFactory().constructCollectionType(List.class, Schedule.class));
     }
-    
 }

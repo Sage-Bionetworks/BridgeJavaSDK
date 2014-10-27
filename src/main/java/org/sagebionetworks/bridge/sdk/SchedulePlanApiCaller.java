@@ -16,35 +16,36 @@ class SchedulePlanApiCaller extends BaseApiCaller {
     private SchedulePlanApiCaller(ClientProvider provider) {
         super(provider);
     }
-    
+
     static SchedulePlanApiCaller valueOf(ClientProvider provider) {
         return new SchedulePlanApiCaller(provider);
     }
-    
+
     List<SchedulePlan> getSchedulePlans() {
+        System.out.println("entered schedule plan api caller method");
         HttpResponse response = get(provider.getConfig().getSchedulePlansApi());
-        
+
         JsonNode items = getPropertyFromResponse(response, "items");
-        
+        System.out.println(items.toString());
         return mapper.convertValue(items,
                 mapper.getTypeFactory().constructCollectionType(List.class, SchedulePlan.class));
     }
-    
+
     GuidVersionHolder createSchedulePlan(SchedulePlan plan) {
         try {
             HttpResponse response = post(provider.getConfig().getSchedulePlansApi(),
                     mapper.writeValueAsString(plan));
-            
+
             String body = EntityUtils.toString(response.getEntity(), "UTF-8");
             return mapper.readValue(body, GuidVersionHolder.class);
-            
+
         } catch(JsonProcessingException e) {
             throw new BridgeSDKException(e.getMessage(), e);
         } catch (IOException e) {
             throw new BridgeSDKException(e.getMessage(), e);
         }
     }
-    
+
     SchedulePlan getSchedulePlan(String guid) {
         try {
             HttpResponse response = get(provider.getConfig().getSchedulePlanApi(guid));
@@ -56,7 +57,7 @@ class SchedulePlanApiCaller extends BaseApiCaller {
             throw new BridgeSDKException(e.getMessage(), e);
         }
     }
-    
+
     GuidVersionHolder updateSchedulePlan(SchedulePlan plan) {
         try {
             HttpResponse response = post(provider.getConfig().getSchedulePlanApi(plan.getGuid()),
@@ -69,9 +70,9 @@ class SchedulePlanApiCaller extends BaseApiCaller {
             throw new BridgeSDKException(e.getMessage(), e);
         }
     }
-    
+
     void deleteSchedulePlan(String guid) {
         delete(provider.getConfig().getSchedulePlanApi(guid));
     }
-    
+
 }
