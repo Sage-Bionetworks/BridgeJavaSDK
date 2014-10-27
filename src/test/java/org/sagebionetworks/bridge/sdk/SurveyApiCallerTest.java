@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
+import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 
 public class SurveyApiCallerTest {
@@ -35,7 +36,8 @@ public class SurveyApiCallerTest {
         String userPassword = "password";
         String username= "test";
         boolean consent = true;
-        userManagementApi.createUser(userEmail, username, userPassword, consent);
+        SignUpCredentials signUp = SignUpCredentials.valueOf().setUsername(username).setEmail(userEmail).setPassword(userPassword);
+        userManagementApi.createUser(signUp, consent);
         user = SignInCredentials.valueOf().setUsername(userEmail).setPassword(userPassword);
 
         provider.signOut();

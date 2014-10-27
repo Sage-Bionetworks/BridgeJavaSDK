@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.models.HealthDataRecord;
 import org.sagebionetworks.bridge.sdk.models.IdVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
+import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
 import org.sagebionetworks.bridge.sdk.models.Tracker;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -55,7 +56,8 @@ public class HealthDataApiCallerTest {
         String testEmail = "testingggg@sagebase.org";
         String testPassword = "p4ssw0rd";
         testUserSignIn = SignInCredentials.valueOf().setUsername(testEmail).setPassword(testPassword);
-        userManagementApi.createUser(testUserSignIn.getUsername(), testUsername, testUserSignIn.getPassword(), consent);
+        SignUpCredentials testUserSignUp = SignUpCredentials.valueOf().setUsername(testUsername).setEmail(testEmail).setPassword(testPassword);
+        userManagementApi.createUser(testUserSignUp, consent);
     }
 
     @AfterClass

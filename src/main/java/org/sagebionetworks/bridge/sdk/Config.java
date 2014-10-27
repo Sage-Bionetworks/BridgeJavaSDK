@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -34,6 +36,7 @@ public final class Config {
         CONSENT_API,
         CONSENT_SUSPEND_API,
         CONSENT_RESUME_API,
+        DEV_NAME,
         HEALTH_DATA_TRACKER_API,
         HEALTH_DATA_TRACKER_RECORD_API,
         PROFILE_API,
@@ -130,6 +133,9 @@ public final class Config {
     }
     String getAdminPassword() {
         return val(Props.ADMIN_PASSWORD);
+    }
+    String getDevName() {
+        return val(Props.DEV_NAME);
     }
     String getHost() {
         return val(Props.HOST);
@@ -237,8 +243,10 @@ public final class Config {
         return String.format(val(Props.SCHEDULEPLAN_API), guid);
     }
 
-    public String val(Props prop) {
-        return config.getProperty(prop.getPropertyName());
+    private String val(Props prop) {
+        String value = config.getProperty(prop.getPropertyName());
+        checkNotNull(value, "The property '" + prop.getPropertyName() + "' has not been set.");
+        return value;
     }
 
     @Override

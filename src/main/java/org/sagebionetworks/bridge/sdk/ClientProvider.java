@@ -76,4 +76,11 @@ public class ClientProvider {
         }
         return BridgeResearcherClient.valueOf(this);
     }
+    
+    public BridgeAdminClient getAdminClient() {
+        if (session == null) {
+            throw new IllegalStateException("A User needs to be signed in to call this method.");
+        }
+        return BridgeAdminClient.valueOf(this);
+    }
 }

@@ -1,7 +1,3 @@
 language: java
 jdk:
   - openjdk7
-  - openjdk6
-  - oraclejdk8
-  - oraclejdk7
-env: PARTICIPANT_EMAIL=test1@sagebase.org PARTICIPANT_PASSWORD=1234
