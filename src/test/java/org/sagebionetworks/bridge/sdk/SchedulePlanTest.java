@@ -1,17 +1,16 @@
-package org.sagebionetworks.bridge;
+package org.sagebionetworks.bridge.sdk;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.util.List;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.joda.time.Period;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.sagebionetworks.bridge.sdk.BridgeResearcherClient;
-import org.sagebionetworks.bridge.sdk.BridgeServerException;
-import org.sagebionetworks.bridge.sdk.ClientProvider;
+import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.models.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.ABTestScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.ActivityType;
@@ -20,7 +19,7 @@ import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.schedules.SimpleScheduleStrategy;
 
 public class SchedulePlanTest {
-    
+
     public class TestABSchedulePlan extends SchedulePlan {
         private Schedule schedule1 = new Schedule() {{
             setCronTrigger("* * *");
@@ -51,7 +50,7 @@ public class SchedulePlanTest {
             setStrategy(strategy);
         }
     }
-    
+
     public class TestSimpleSchedulePlan extends SchedulePlan {
         private Schedule schedule = new Schedule() {{
             setCronTrigger("* * *");
@@ -71,65 +70,66 @@ public class SchedulePlanTest {
     private BridgeResearcherClient client;
     private GuidVersionHolder guidVersion;
     
+    private TestUser researcher;
+
     @Before
     public void before() {
-        // Assumes the default user is a researcher in the API test (which I am, for now)
         provider = ClientProvider.valueOf();
-        provider.signIn();
-        
-        client = provider.getResearcherClient();
+        // Enroll in the study so we can see if you are assigned schedules, which you should be.
+        researcher = TestUserHelper.valueOf(provider).createAndSignInUser(SchedulePlanTest.class, true, "teststudy_researcher");
+        client = provider.getResearcherClient(); // Note: succeeds whether the user is a researcher or not...
     }
-    
+
     @After
     public void after() {
         // Try and clean up if that didn't happen in the test.
         if (guidVersion != null) {
             client.deleteSchedulePlan(guidVersion.getGuid());
         }
-        provider.signOut();
+        researcher.signOutAndDeleteUser();    
     }
     
     @Test
     public void normalUserCannotAccess() {
-        /*
-        UserSession session = null;
+        TestUser user = TestUserHelper.valueOf(provider).createAndSignInUser(SchedulePlanTest.class, true);
         try {
-            session = helper.createUser(new SignUp("normal-test-user", "normal-test-user@sagebridge.org",
-                    "P4ssword"), helper.getTestStudy(), true, true);
             
             SchedulePlan plan = new TestABSchedulePlan();
-            String json = BridgeObjectMapper.get().writeValueAsString(plan);
+            provider.getResearcherClient().createSchedulePlan(plan);
+            fail("Should have returned Forbidden status");
             
-            Response response = TestUtils.getURL(session.getSessionToken(), SCHEDULE_PLANS_URL).post(json).get(TIMEOUT);
-            assertEquals("Returns 403", SC_FORBIDDEN, response.getStatus());
+        } catch(BridgeServerException e) {
+            assertEquals("Non-researcher gets 403 forbidden", 403, e.getStatusCode());
         } finally {
-            helper.deleteUser(session);
-        }*/
+            user.signOutAndDeleteUser();
+        }
     }
-    
+
     @Test
     public void crudSchedulePlan() throws Exception {
         SchedulePlan plan = new TestABSchedulePlan();
         
         // Create
         guidVersion = client.createSchedulePlan(plan);
-        
+
         // Update
         plan = client.getSchedulePlan(guidVersion.getGuid());
         TestSimpleSchedulePlan simplePlan = new TestSimpleSchedulePlan();
         plan.setStrategy(simplePlan.getStrategy());
-        
+
         GuidVersionHolder newGuidVersion = client.updateSchedulePlan(plan);
         assertNotEquals("Version should be updated", guidVersion.getVersion(), newGuidVersion.getVersion());
 
         // Get
         plan = client.getSchedulePlan(guidVersion.getGuid());
         assertEquals("Strategy type has been changed", "SimpleScheduleStrategy", plan.getStrategy().getClass().getSimpleName());
-        
-        // Verify schedules have been created 
+
+        // Verify schedules have been created. To do this you need to sign out and sign
+        /* Doesn't work, researcher doesn't seem to show up in the list of users in the study.
         List<Schedule> schedules = provider.getClient().getSchedules();
         assertTrue("Schedules exist", !schedules.isEmpty());
-        
+        */
+
         // Delete
         client.deleteSchedulePlan(guidVersion.getGuid());
 
@@ -137,38 +137,34 @@ public class SchedulePlanTest {
             client.getSchedulePlan(guidVersion.getGuid());
             fail("Should have thrown an exception because plan was deleted");
         } catch(BridgeServerException e) {
-            assertEquals("Returns not found message", "SchedulePlan not found.", e.getMessage());
+            assertEquals("Returns 404 Not Found", 404, e.getStatusCode());
             guidVersion = null;
         }
     }
     
-    @Test(expected = BridgeServerException.class)
-    @Ignore
+    @Test
     public void invalidPlanReturns400Error() {
-        SchedulePlan plan = new TestABSchedulePlan();
-        plan.setStrategy(null);
-        
-        // TODO: We'd like to examine the errors property of the JSON, add it to the InvalidEntityException.
-        client.createSchedulePlan(plan);
-        
-        /*
-        SchedulePlan plan = new TestABSchedulePlan();
-        plan.setStrategy(null); // invalid
-        String json = BridgeObjectMapper.get().writeValueAsString(plan);
-        
-        // Create
-        Response response = TestUtils.getURL(session.getSessionToken(), SCHEDULE_PLANS_URL).post(json).get(TIMEOUT);
-        assertEquals("Returns 400", SC_BAD_REQUEST, response.getStatus());
-        
-        JsonNode node = response.asJson();
-        ArrayNode strategyErrors = (ArrayNode)node.get("errors").get("strategy");
-        assertEquals("Has a strategy field error", 1, strategyErrors.size());
-        */
+        try {
+            
+            SchedulePlan plan = new TestABSchedulePlan();
+            plan.setStrategy(null);
+            client.createSchedulePlan(plan);
+            fail("Plan was invalid and should have thrown an exception");
+            
+        } catch(InvalidEntityException e) {
+            
+            assertEquals("Error comes back as 400 Bad Request", 400, e.getStatusCode());
+            assertTrue("There is a strategy-specific error", e.getErrors().get("strategy").size() > 0);
+            
+        }
     }
     
-    @Test(expected = NullPointerException.class)
-    @Ignore
+    @Test
     public void noPlanReturns400() {
-        client.createSchedulePlan(null);
+        try {
+            client.createSchedulePlan(null);    
+        } catch(NullPointerException e) {
+            assertEquals("Clear null-pointer message", "Plan object is null", e.getMessage());
+        }
     }    
 }

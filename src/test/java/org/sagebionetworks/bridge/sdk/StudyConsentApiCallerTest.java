@@ -4,33 +4,73 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
+import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
 import org.sagebionetworks.bridge.sdk.models.StudyConsent;
 
 public class StudyConsentApiCallerTest {
 
-    private static StudyConsentApiCaller studyConsentApi;
+    private StudyConsentApiCaller studyConsentApi;
+    private UserManagementApiCaller userManagementApi;
+    private ClientProvider provider;
+    private SignInCredentials admin;
+    private SignInCredentials user;
 
-    @BeforeClass
-    public static void initialSetup() {
-        ClientProvider provider = ClientProvider.valueOf();
+    @Before
+    public void before() {
+        provider = ClientProvider.valueOf();
 
-        // Sign in admin
+        userManagementApi = UserManagementApiCaller.valueOf(provider);
+        studyConsentApi = StudyConsentApiCaller.valueOf(provider);
+
+        // Get admin sign in
         String adminEmail = provider.getConfig().getAdminEmail();
         String adminPassword = provider.getConfig().getAdminPassword();
-        SignInCredentials adminSignIn = SignInCredentials.valueOf().setUsername(adminEmail).setPassword(adminPassword);
-        provider.signIn(adminSignIn);
+        admin = SignInCredentials.valueOf().setUsername(adminEmail).setPassword(adminPassword);
 
-        studyConsentApi = StudyConsentApiCaller.valueOf(provider);
+        // Get user sign in
+        String userEmail = "tests@sagebase.org";
+        String username = "testname";
+        String userPassword = "password";
+        boolean consent = true;
+        user = SignInCredentials.valueOf().setUsername(userEmail).setPassword(userPassword);
+
+        // Create user.
+        provider.signIn(admin);
+        SignUpCredentials signUp = SignUpCredentials.valueOf().setUsername(username).setEmail(userEmail).setPassword(userPassword);
+        userManagementApi.createUser(signUp, consent);
+        provider.signOut();
+    }
+
+    @After
+    public void after() {
+        userManagementApi.deleteUser(user.getUsername());
     }
 
     @Test
+    @Ignore
     public void test() {
+        provider.signIn(user);
+        try {
+            StudyConsent consent = StudyConsent.valueOf("/path/to", 22);
+            studyConsentApi.addStudyConsent(consent);
+            fail("addStudyConsent method should have thrown an exception due to incorrect permissions.");
+        } catch (Throwable t) {
+            assertTrue("The exception thrown was a BridgeServerException.",
+                    t.getClass().equals(BridgeServerException.class));
+        }
+
+        provider.signOut();
+        provider.signIn(admin);
+
         StudyConsent current = StudyConsent.valueOf("/path/to", 18);
         StudyConsent returned = studyConsentApi.addStudyConsent(current);
         assertNotNull(returned);
@@ -41,11 +81,12 @@ public class StudyConsentApiCallerTest {
 
         current = studyConsentApi.getStudyConsent(studyConsents.get(0).getCreatedOn());
         assertNotNull("studyConsent should not be null.", current);
-        assertEquals(current, studyConsents.get(0));
+        assertEquals("Retrieved study consent should equal one asked for.", current, studyConsents.get(0));
 
         studyConsentApi.setActiveStudyConsent(current.getCreatedOn());
 
-        assertFalse(current.isActive() == studyConsentApi.getActiveStudyConsent().isActive());
+        assertFalse("Active consent is returned.",
+                current.isActive() == studyConsentApi.getActiveStudyConsent().isActive());
     }
 
 }

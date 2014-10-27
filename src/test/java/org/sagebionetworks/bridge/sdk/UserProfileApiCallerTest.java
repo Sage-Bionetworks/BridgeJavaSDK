@@ -2,6 +2,7 @@ package org.sagebionetworks.bridge.sdk;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
@@ -16,7 +17,10 @@ public class UserProfileApiCallerTest {
         try {
             profileApi.getProfile();
             fail("Should throw exception before you get here.");
-        } catch (Throwable t) {}
+        } catch (Throwable t) {
+            assertTrue("The exception thrown was a BridgeServerException.",
+                    t.getClass().equals(BridgeServerException.class));
+        }
     }
 
     @Test
@@ -31,7 +35,10 @@ public class UserProfileApiCallerTest {
         try {
             profileApi.updateProfile(profile);
             fail("Should throw exception before you get here.");
-        } catch (Throwable t) {}
+        } catch (Throwable t) {
+            assertTrue("The exception thrown was a BridgeServerException.",
+                    t.getClass().equals(BridgeServerException.class));
+        }
     }
 
     @Test

@@ -1,10 +1,7 @@
-package org.sagebionetworks.bridge;
+package org.sagebionetworks.bridge.sdk;
 
 import org.junit.After;
 import org.junit.Before;
-import org.sagebionetworks.bridge.sdk.BridgeResearcherClient;
-import org.sagebionetworks.bridge.sdk.ClientProvider;
-import org.sagebionetworks.bridge.sdk.models.GuidVersionHolder;
 
 public class SurveyTest {
     

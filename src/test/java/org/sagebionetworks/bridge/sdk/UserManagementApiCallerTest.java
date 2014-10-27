@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
+import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
 
 public class UserManagementApiCallerTest {
 
@@ -29,7 +30,9 @@ public class UserManagementApiCallerTest {
         String password = "f4keP455word";
         boolean consent = true;
 
-        boolean result = userManagementApi.createUser(email, username, password, consent);
+        SignUpCredentials signUp = SignUpCredentials.valueOf().setUsername(username).setEmail(email).setPassword(password); 
+        
+        boolean result = userManagementApi.createUser(signUp, consent);
         assertTrue(result);
 
         result = userManagementApi.revokeAllConsentRecords(email);

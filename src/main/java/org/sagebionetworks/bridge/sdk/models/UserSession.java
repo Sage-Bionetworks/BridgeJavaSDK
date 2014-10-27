@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class UserSession {
 
-    private final String email;
     private final String username;
     private final String sessionToken;
     private final boolean authenticated;
@@ -13,10 +12,9 @@ public final class UserSession {
     private final boolean dataSharing;
 
     @JsonCreator
-    private UserSession(@JsonProperty("email") String email, @JsonProperty("username") String username, @JsonProperty("sessionToken") String sessionToken,
+    private UserSession(@JsonProperty("username") String username, @JsonProperty("sessionToken") String sessionToken,
             @JsonProperty("authenticated") boolean authenticated, @JsonProperty("consented") boolean consented,
             @JsonProperty("dataSharing") boolean dataSharing) {
-        this.email = email;
         this.username = username;
         this.sessionToken = sessionToken;
         this.consented = consented;
@@ -25,10 +23,9 @@ public final class UserSession {
     }
 
     public UserSession signOut() {
-        return new UserSession(this.email, this.username, null, false, this.consented, this.dataSharing);
+        return new UserSession(this.username, null, false, this.consented, this.dataSharing);
     }
 
-    public String getEmail() { return this.email; }
     public String getUsername() { return this.username; }
     public String getSessionToken() { return this.sessionToken; }
     public boolean isAuthenticated() { return this.authenticated; }

@@ -9,8 +9,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 class TrackerApiCaller extends BaseApiCaller {
 
-    private final String TRACKER = provider.getConfig().getTrackerApi();
-
     private TrackerApiCaller(ClientProvider provider) {
         super(provider);
     }
@@ -20,9 +18,8 @@ class TrackerApiCaller extends BaseApiCaller {
     }
 
     List<Tracker> getAllTrackers() {
-        assert provider.isSignedIn();
-
-        HttpResponse response = get(TRACKER);
+        String url = provider.getConfig().getTrackerApi();
+        HttpResponse response = get(url);
         JsonNode items = getPropertyFromResponse(response, "items");
         List<Tracker> trackers = mapper.convertValue(items,
                 mapper.getTypeFactory().constructCollectionType(List.class, Tracker.class));
@@ -31,10 +28,7 @@ class TrackerApiCaller extends BaseApiCaller {
     }
 
     String getSchema(Tracker tracker) {
-        assert provider.isSignedIn();
-        assert tracker != null;
-
-        String url = tracker.getSchemaUrl(); // remove beginning /
+        String url = tracker.getSchemaUrl();
         HttpResponse response = get(url);
         String schema = getResponseBody(response);
 

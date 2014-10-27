@@ -21,9 +21,6 @@ class SurveyResponseApiCaller extends BaseApiCaller {
     }
 
     Survey getSurvey(String guid, DateTime timestamp) {
-        assert provider.isSignedIn();
-        assert guid != null && timestamp != null;
-
         String url = provider.getConfig().getSurveyUserApi(guid, timestamp);
         HttpResponse response = get(url);
 
@@ -31,19 +28,13 @@ class SurveyResponseApiCaller extends BaseApiCaller {
     }
 
     SurveyResponse getSurveyResponse(String guid) {
-        assert provider.isSignedIn();
-        assert guid != null;
-
         String url = provider.getConfig().getSurveyResponseApi(guid);
         HttpResponse response = get(url);
 
         return getResponseBodyAsType(response, SurveyResponse.class);
     }
 
-    GuidHolder submitAnswers(List<SurveyAnswer<?>> answers, String guid, DateTime timestamp) {
-        assert provider.isSignedIn();
-        assert answers != null && guid != null && timestamp != null;
-
+    GuidHolder submitAnswers(List<SurveyAnswer> answers, String guid, DateTime timestamp) {
         String json;
         try {
             json = mapper.writeValueAsString(answers);
@@ -58,10 +49,7 @@ class SurveyResponseApiCaller extends BaseApiCaller {
         return getResponseBodyAsType(response, GuidHolder.class);
     }
 
-    void addAnswersToSurveyResponse(List<SurveyAnswer<?>> answers, String guid) {
-        assert provider.isSignedIn();
-        assert answers != null;
-
+    void addAnswersToSurveyResponse(List<SurveyAnswer> answers, String guid) {
         String json;
         try {
             json = mapper.writeValueAsString(answers);
@@ -75,9 +63,6 @@ class SurveyResponseApiCaller extends BaseApiCaller {
     }
 
     void  deleteSurveyResponse(String guid) {
-        assert provider.isSignedIn();
-        assert guid != null;
-
         String url = provider.getConfig().getSurveyResponseApi(guid);
         delete(url);
     }

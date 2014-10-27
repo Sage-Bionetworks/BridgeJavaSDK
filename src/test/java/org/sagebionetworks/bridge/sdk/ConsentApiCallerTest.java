@@ -6,6 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
+import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
 
 public class ConsentApiCallerTest {
 
@@ -32,7 +33,7 @@ public class ConsentApiCallerTest {
         String testUsername = "testUser";
         String testPassword = "p4ssw0rD";
         boolean consent = true;
-        userManagementApi.createUser(testEmail, testUsername, testPassword, consent);
+        userManagementApi.createUser(SignUpCredentials.valueOf().setEmail(testEmail).setUsername(testUsername).setPassword(testPassword), consent);
 
         provider.signOut();
 
