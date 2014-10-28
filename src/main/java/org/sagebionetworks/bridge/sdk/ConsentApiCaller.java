@@ -3,21 +3,21 @@ package org.sagebionetworks.bridge.sdk;
 
 class ConsentApiCaller extends BaseApiCaller {
 
-    private ConsentApiCaller(ClientProvider provider) {
-        super(provider);
+    private ConsentApiCaller(Session session) {
+        super(session);
     }
 
-    static ConsentApiCaller valueOf(ClientProvider provider) {
-        return new ConsentApiCaller(provider);
+    static ConsentApiCaller valueOf(Session session) {
+        return new ConsentApiCaller(session);
     }
 
     void suspendDataSharing() {
-        String url = provider.getConfig().getConsentSuspendApi();
+        String url = config.getConsentSuspendApi();
         post(url);
     }
 
     void resumeDataSharing() {
-        String url = provider.getConfig().getConsentResumeApi();
+        String url = config.getConsentResumeApi();
         post(url);
     }
 

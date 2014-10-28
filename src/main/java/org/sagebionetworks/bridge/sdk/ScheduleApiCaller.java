@@ -9,16 +9,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 class ScheduleApiCaller extends BaseApiCaller {
 
-    private ScheduleApiCaller(ClientProvider provider) {
-        super(provider);
+    private ScheduleApiCaller(Session session) {
+        super(session);
     }
 
-    static ScheduleApiCaller valueOf(ClientProvider provider) {
-        return new ScheduleApiCaller(provider);
+    static ScheduleApiCaller valueOf(Session session) {
+        return new ScheduleApiCaller(session);
     }
 
     List<Schedule> getSchedules() {
-        HttpResponse response = get(provider.getConfig().getSchedulesApi());
+        HttpResponse response = get(config.getSchedulesApi());
         JsonNode items = getPropertyFromResponse(response, "items");
 
         return mapper.convertValue(items,

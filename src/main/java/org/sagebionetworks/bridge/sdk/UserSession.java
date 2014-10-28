@@ -1,9 +1,9 @@
-package org.sagebionetworks.bridge.sdk.models;
+package org.sagebionetworks.bridge.sdk;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public final class UserSession {
+final class UserSession {
 
     private final String username;
     private final String sessionToken;
@@ -22,23 +22,31 @@ public final class UserSession {
         this.dataSharing = dataSharing;
     }
 
-    public UserSession signOut() {
-        return new UserSession(this.username, null, false, this.consented, this.dataSharing);
+    public String getUsername() {
+        return this.username;
     }
 
-    public String getUsername() { return this.username; }
-    public String getSessionToken() { return this.sessionToken; }
-    public boolean isAuthenticated() { return this.authenticated; }
-    public boolean isConsented() { return this.consented; }
-    public boolean isDataSharing() { return this.dataSharing; }
+    public String getSessionToken() {
+        return this.sessionToken;
+    }
+
+    public boolean isAuthenticated() {
+        return this.authenticated;
+    }
+
+    public boolean isConsented() {
+        return this.consented;
+    }
+
+    public boolean isDataSharing() {
+        return this.dataSharing;
+    }
 
     @Override
     public String toString() {
-        return "UserSession[username=" + username +
-                ", sessionToken=" + sessionToken +
-                ", authenticated=" + Boolean.toString(authenticated) +
-                ", consented=" + Boolean.toString(consented) +
-                ", dataSharing=" + Boolean.toString(dataSharing) + "]";
+        return "UserSession[username=" + username + ", sessionToken=" + sessionToken + ", authenticated="
+                + Boolean.toString(authenticated) + ", consented=" + Boolean.toString(consented) + ", dataSharing="
+                + Boolean.toString(dataSharing) + "]";
     }
 
 }

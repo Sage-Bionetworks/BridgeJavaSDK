@@ -7,16 +7,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 class UserProfileApiCaller extends BaseApiCaller {
 
-    UserProfileApiCaller(ClientProvider provider) {
-        super(provider);
+    UserProfileApiCaller(Session session) {
+        super(session);
     }
 
-    static UserProfileApiCaller valueOf(ClientProvider provider) {
-        return new UserProfileApiCaller(provider);
+    static UserProfileApiCaller valueOf(Session session) {
+        return new UserProfileApiCaller(session);
     }
 
     UserProfile getProfile() {
-        String url = provider.getConfig().getProfileApi();
+        String url = config.getProfileApi();
         HttpResponse response = get(url);
 
         return getResponseBodyAsType(response, UserProfile.class);
@@ -29,7 +29,7 @@ class UserProfileApiCaller extends BaseApiCaller {
         } catch (JsonProcessingException e) {
             throw new BridgeSDKException("Could not process the profile. Is it correct? " + profile.toString(), e);
         }
-        String url = provider.getConfig().getProfileApi();
+        String url = config.getProfileApi();
         post(url, profileJson);
     }
 

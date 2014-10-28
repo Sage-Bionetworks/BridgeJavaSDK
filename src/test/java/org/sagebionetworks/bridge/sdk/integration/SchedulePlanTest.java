@@ -9,10 +9,9 @@ import org.joda.time.Period;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.sagebionetworks.bridge.sdk.BridgeResearcherClient;
 import org.sagebionetworks.bridge.sdk.BridgeServerException;
-import org.sagebionetworks.bridge.sdk.ClientProvider;
 import org.sagebionetworks.bridge.sdk.InvalidEntityException;
+import org.sagebionetworks.bridge.sdk.ResearcherClient;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.models.GuidVersionHolder;
@@ -70,18 +69,16 @@ public class SchedulePlanTest {
         }
     }
 
-    private ClientProvider provider;
-    private BridgeResearcherClient client;
     private GuidVersionHolder guidVersion;
     
     private TestUser researcher;
+    private ResearcherClient client;
 
     @Before
     public void before() {
-        provider = ClientProvider.valueOf();
-        // Enroll in the study so we can see if you are assigned schedules, which you should be.
-        researcher = TestUserHelper.valueOf(provider).createAndSignInUser(SchedulePlanTest.class, true, "teststudy_researcher");
-        client = provider.getResearcherClient(); // Note: succeeds whether the user is a researcher or not...
+        researcher = TestUserHelper.createAndSignInUser(SchedulePlanTest.class, true, "teststudy_researcher");
+        
+        client = researcher.getSession().getResearcherClient();
     }
 
     @After
@@ -95,11 +92,11 @@ public class SchedulePlanTest {
     
     @Test
     public void normalUserCannotAccess() {
-        TestUser user = TestUserHelper.valueOf(provider).createAndSignInUser(SchedulePlanTest.class, true);
+        TestUser user = TestUserHelper.createAndSignInUser(SchedulePlanTest.class, true);
         try {
             
             SchedulePlan plan = new TestABSchedulePlan();
-            provider.getResearcherClient().createSchedulePlan(plan);
+            user.getSession().getResearcherClient().createSchedulePlan(plan);
             fail("Should have returned Forbidden status");
             
         } catch(BridgeServerException e) {

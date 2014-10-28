@@ -16,17 +16,17 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 class HealthDataApiCaller extends BaseApiCaller {
 
-    private HealthDataApiCaller(ClientProvider provider) {
-        super(provider);
+    private HealthDataApiCaller(Session session) {
+        super(session);
     }
 
-    static HealthDataApiCaller valueOf(ClientProvider provider) {
-        return new HealthDataApiCaller(provider);
+    static HealthDataApiCaller valueOf(Session session) {
+        return new HealthDataApiCaller(session);
     }
 
     HealthDataRecord getHealthDataRecord(Tracker tracker, String recordId) {
         String trackerId = String.valueOf(tracker.getId());
-        String url = provider.getConfig().getHealthDataTrackerRecordApi(trackerId, recordId);
+        String url = config.getHealthDataTrackerRecordApi(trackerId, recordId);
         HttpResponse response = get(url);
 
         return getResponseBodyAsType(response, HealthDataRecord.class);
@@ -41,7 +41,7 @@ class HealthDataApiCaller extends BaseApiCaller {
                     + record.toString(), e);
         }
         String trackerId = String.valueOf(tracker.getId());
-        String url = provider.getConfig().getHealthDataTrackerRecordApi(trackerId, record.getRecordId());
+        String url = config.getHealthDataTrackerRecordApi(trackerId, record.getRecordId());
         HttpResponse response = post(url, json);
 
         return getResponseBodyAsType(response, IdVersionHolder.class);
@@ -49,7 +49,7 @@ class HealthDataApiCaller extends BaseApiCaller {
 
     void deleteHealthDataRecord(Tracker tracker, String recordId) {
         String trackerId = String.valueOf(tracker.getId());
-        String url = provider.getConfig().getHealthDataTrackerRecordApi(trackerId, recordId);
+        String url = config.getHealthDataTrackerRecordApi(trackerId, recordId);
         delete(url);
     }
 
@@ -59,7 +59,7 @@ class HealthDataApiCaller extends BaseApiCaller {
         queryParameters.put("endDate", endDate.toString(ISODateTimeFormat.dateTime()));
 
         String trackerId = String.valueOf(tracker.getId());
-        String url = provider.getConfig().getHealthDataTrackerApi(trackerId);
+        String url = config.getHealthDataTrackerApi(trackerId);
         HttpResponse response = get(url, queryParameters);
 
         JsonNode items = getPropertyFromResponse(response, "items");
@@ -79,7 +79,7 @@ class HealthDataApiCaller extends BaseApiCaller {
         }
 
         String trackerId = String.valueOf(tracker.getId());
-        String url = provider.getConfig().getHealthDataTrackerApi(trackerId);
+        String url = config.getHealthDataTrackerApi(trackerId);
         HttpResponse response = post(url, json);
 
         JsonNode items = getPropertyFromResponse(response, "items");
