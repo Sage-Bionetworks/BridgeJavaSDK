@@ -5,29 +5,20 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
 
 public class ClientProviderTest {
 
     @Test
     public void canAuthenticateAndCreateClientAndSignOut() {
-        ClientProvider provider = ClientProvider.valueOf();
-        assertNotNull(provider);
+        Config config = ClientProvider.getConfig();
+        Session session = ClientProvider.signIn(config.getAccountCredentials());
+        assertTrue(session.isSignedIn());
 
-        Config conf = provider.getConfig();
-        
-        SignInCredentials signIn = SignInCredentials.valueOf()
-                .setUsername(conf.getAdminEmail())
-                .setPassword(conf.getAdminPassword());
-        
-        provider.signIn(signIn);
-        assertTrue(provider.isSignedIn());
-
-        BridgeUserClient client = provider.getClient();
+        UserClient client = session.getUserClient();
         assertNotNull(client);
 
-        provider.signOut();
-        assertFalse(provider.isSignedIn());
+        session.signOut();
+        assertFalse(session.isSignedIn());
     }
 
     /* It's okay for this to silently "pass" even though there's nothing to do.

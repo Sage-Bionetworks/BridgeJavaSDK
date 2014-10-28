@@ -10,15 +10,13 @@ import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
 
 public class UserManagementApiCallerTest {
 
-    private ClientProvider provider;
     private TestUser testUser;
     private UserManagementApiCaller userManagementApi;
 
     @Before
     public void before() {
-        provider = ClientProvider.valueOf();
-        userManagementApi = UserManagementApiCaller.valueOf(provider);
-        testUser = TestUserHelper.valueOf(provider).createAndSignInUser(UserManagementApiCallerTest.class, true, "admin");
+        testUser = TestUserHelper.createAndSignInUser(UserManagementApiCallerTest.class, true, "admin");
+        userManagementApi = UserManagementApiCaller.valueOf(testUser.getSession());
     }
     
     @After
@@ -28,7 +26,7 @@ public class UserManagementApiCallerTest {
     
     @Test
     public void canCreateAndDeleteUser() {
-        String username = TestUserHelper.valueOf(provider).makeUserName(UserManagementApiCallerTest.class);
+        String username = TestUserHelper.makeUserName(UserManagementApiCallerTest.class);
         String email = username + "@sagebase.org";
         String password = "P4ssword";
         boolean consent = true;

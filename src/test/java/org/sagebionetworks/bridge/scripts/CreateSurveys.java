@@ -2,8 +2,10 @@ package org.sagebionetworks.bridge.scripts;
 
 import java.util.List;
 
-import org.sagebionetworks.bridge.sdk.BridgeResearcherClient;
 import org.sagebionetworks.bridge.sdk.ClientProvider;
+import org.sagebionetworks.bridge.sdk.Config;
+import org.sagebionetworks.bridge.sdk.ResearcherClient;
+import org.sagebionetworks.bridge.sdk.Session;
 import org.sagebionetworks.bridge.sdk.models.GuidVersionedOnHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.MultiValueConstraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
@@ -13,11 +15,10 @@ import org.sagebionetworks.bridge.sdk.models.surveys.SurveyQuestionOption;
 public class CreateSurveys {
 
     public static void main(String[] args) {
+        Config config = ClientProvider.getConfig();
+        Session session = ClientProvider.signIn(config.getAccountCredentials());
 
-        ClientProvider provider = ClientProvider.valueOf();
-        provider.signIn();
-
-        BridgeResearcherClient client = provider.getResearcherClient();
+        ResearcherClient client = session.getResearcherClient();
         
         List<Survey> surveys = client.getAllVersionsOfAllSurveys();
         for (Survey survey : surveys) {

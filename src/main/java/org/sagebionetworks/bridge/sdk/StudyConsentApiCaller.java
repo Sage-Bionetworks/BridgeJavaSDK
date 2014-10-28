@@ -11,16 +11,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 class StudyConsentApiCaller extends BaseApiCaller {
 
-    private StudyConsentApiCaller(ClientProvider provider) {
-        super(provider);
+    private StudyConsentApiCaller(Session session) {
+        super(session);
     }
 
-    static StudyConsentApiCaller valueOf(ClientProvider provider) {
-        return new StudyConsentApiCaller(provider);
+    static StudyConsentApiCaller valueOf(Session session) {
+        return new StudyConsentApiCaller(session);
     }
 
     List<StudyConsent> getAllStudyConsents() {
-        String url = provider.getConfig().getStudyConsentApi();
+        String url = config.getStudyConsentApi();
         HttpResponse response = get(url);
 
         JsonNode items = getPropertyFromResponse(response, "items");
@@ -31,26 +31,24 @@ class StudyConsentApiCaller extends BaseApiCaller {
     }
 
     StudyConsent getStudyConsent(DateTime timestamp) {
-        String url = provider.getConfig().getStudyConsentTimestamp(timestamp);
+        String url = config.getStudyConsentTimestamp(timestamp);
         HttpResponse response = get(url);
 
         return getResponseBodyAsType(response, StudyConsent.class);
     }
 
     StudyConsent getActiveStudyConsent() {
-        String url = provider.getConfig().getStudyConsentActive();
+        String url = config.getStudyConsentActive();
         HttpResponse response = get(url);
         return getResponseBodyAsType(response, StudyConsent.class);
     }
 
     void setActiveStudyConsent(DateTime timestamp) {
-        String url = provider.getConfig().getStudyConsentActiveTimestamp(timestamp);
+        String url = config.getStudyConsentActiveTimestamp(timestamp);
         post(url);
     }
 
     StudyConsent addStudyConsent(StudyConsent studyConsent) {
-        assert provider.isSignedIn();
-
         String json = null;
         try {
             json = mapper.writeValueAsString(studyConsent);
@@ -58,7 +56,7 @@ class StudyConsentApiCaller extends BaseApiCaller {
             throw new BridgeSDKException("Could not process StudyConsent. Are you sure it is correct? "
                     + studyConsent.toString(), e);
         }
-        String url = provider.getConfig().getStudyConsentApi();
+        String url = config.getStudyConsentApi();
         HttpResponse response = post(url, json);
 
         return getResponseBodyAsType(response, StudyConsent.class);

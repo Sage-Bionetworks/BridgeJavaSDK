@@ -16,12 +16,12 @@ class UserManagementApiCaller extends BaseApiCaller {
 
     private final ObjectMapper mapper = Utilities.getMapper();
 
-    private UserManagementApiCaller(ClientProvider provider) {
-        super(provider);
+    private UserManagementApiCaller(Session session) {
+        super(session);
     }
 
-    static UserManagementApiCaller valueOf(ClientProvider provider) {
-        return new UserManagementApiCaller(provider);
+    static UserManagementApiCaller valueOf(Session session) {
+        return new UserManagementApiCaller(session);
     }
 
     boolean createUser(SignUpCredentials signUp, List<String> roles, boolean consent) {
@@ -34,7 +34,7 @@ class UserManagementApiCaller extends BaseApiCaller {
         if (roles != null && !roles.isEmpty()) {
             node.set("roles", mapper.valueToTree(roles));
         }
-        String url = provider.getConfig().getUserManagementApi();
+        String url = config.getUserManagementApi();
         HttpResponse response = post(url, node.toString());
 
         return response.getStatusLine().getStatusCode() == 201;
@@ -50,7 +50,7 @@ class UserManagementApiCaller extends BaseApiCaller {
         Map<String,String> queryParams = new HashMap<String,String>();
         queryParams.put("email", email);
 
-        String url = provider.getConfig().getUserManagementApi();
+        String url = config.getUserManagementApi();
         HttpResponse response = delete(url, queryParams);
 
         return response.getStatusLine().getStatusCode() == 200;
@@ -62,7 +62,7 @@ class UserManagementApiCaller extends BaseApiCaller {
         Map<String,String> queryParams = new HashMap<String,String>();
         queryParams.put("email", email);
 
-        String url = provider.getConfig().getUserManagementConsentApi();
+        String url = config.getUserManagementConsentApi();
         HttpResponse response = delete(url, queryParams);
 
         return response.getStatusLine().getStatusCode() == 200;

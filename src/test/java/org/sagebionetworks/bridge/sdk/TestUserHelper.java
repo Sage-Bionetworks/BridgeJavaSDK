@@ -1,6 +1,5 @@
 package org.sagebionetworks.bridge.sdk;
 
-import static org.sagebionetworks.bridge.sdk.Preconditions.checkNotEmpty;
 import static org.sagebionetworks.bridge.sdk.Preconditions.checkNotNull;
 
 import java.util.Arrays;
@@ -13,22 +12,25 @@ import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
 
 public class TestUserHelper {
 
-    public class TestUser {
-        private final String sessionToken;
+    public static class TestUser {
+        private final AdminClient client;
+        private final Session userSession;
         private final String username;
         private final String email;
         private final String password;
         private final List<String> roles;
 
-        public TestUser(String sessionToken, String username, String email, String password, List<String> roleList) {
-            this.sessionToken = sessionToken;
+        public TestUser(AdminClient client, Session userSession, String username, String email, String password,
+                List<String> roleList) {
+            this.client = client;
+            this.userSession = userSession;
             this.username = username;
             this.email = email;
             this.password = password;
             this.roles = roleList;
         }
-        public String getSessionToken() {
-            return sessionToken;
+        public Session getSession() {
+            return userSession;
         }
         public String getUsername() {
             return username;
@@ -43,37 +45,18 @@ public class TestUserHelper {
             return roles;
         }
         public boolean signOutAndDeleteUser() {
-            provider.signOut();
-            
-            signInAsAdmin();
-            
-            boolean success = client.deleteUser(email);
-            provider.signOut();
-            return success;
+            userSession.signOut();
+            return client.deleteUser(email);
         }
     }
     
-    private ClientProvider provider;
-    private BridgeAdminClient client;
-    private String devName;
-    
-    private TestUserHelper(ClientProvider provider) {
-        this.provider = provider;
-        signInAsAdmin();
-        this.client = provider.getAdminClient();
-        this.devName = provider.getConfig().getDevName();
-    }
-    
-    public static TestUserHelper valueOf(ClientProvider provider) {
-        checkNotNull(provider, "Provider is required.");
-        return new TestUserHelper(provider);
-    }
-    
-    public TestUser createAndSignInUser(Class<?> cls, boolean consent, String... roles) {
+    public static TestUser createAndSignInUser(Class<?> cls, boolean consent, String... roles) {
         checkNotNull(cls);
         
-        provider.signOut();
-        signInAsAdmin();
+        Config config = ClientProvider.getConfig();
+        Session session = ClientProvider.signIn(config.getAdminCredentials());
+        AdminClient client = session.getAdminClient();
+        
         List<String> rolesList = (roles == null) ? Collections.<String>emptyList() : Arrays.asList(roles);
         String name = makeUserName(cls);
         SignUpCredentials signUp = SignUpCredentials.valueOf()
@@ -81,39 +64,19 @@ public class TestUserHelper {
                 .setEmail(name + "@sagebridge.org")
                 .setPassword("P4ssword");
         client.createUser(signUp, rolesList, consent);
-
-        provider.signOut();
-        provider.signIn(SignInCredentials.valueOf().setUsername(signUp.getUsername()).setPassword(signUp.getPassword()));
         
-        return new TestUser(provider.getSessionToken(), signUp.getUsername(), signUp.getEmail(), signUp.getPassword(), rolesList);
+        SignInCredentials signIn = SignInCredentials.valueOf().setUsername(name).setPassword("P4ssword");
+        Session userSession = ClientProvider.signIn(signIn);
+        
+        return new TestUserHelper.TestUser(client, userSession, signUp.getUsername(), signUp.getEmail(),
+                signUp.getPassword(), rolesList);
     }
     
-    public boolean signOutAndDeleteUser(TestUser testUser) {
-        checkNotNull(testUser);
-        
-        provider.signOut();
-        signInAsAdmin();
-        
-        boolean result = client.deleteUser(testUser.getEmail());
-        
-        provider.signOut();
-        return result;
-    }
-    
-    public String makeUserName(Class<?> cls) {
+    public static String makeUserName(Class<?> cls) {
+        Config config = ClientProvider.getConfig();
+        String devName = config.getDevName();
         String clsPart = cls.getSimpleName();
         String rndPart = RandomStringUtils.randomAlphabetic(4);
         return String.format("%s-%s-%s", devName, clsPart, rndPart);
     }
-    
-    private void signInAsAdmin() {
-        String adminEmail = provider.getConfig().getAdminEmail();
-        String adminPassword = provider.getConfig().getAdminPassword();
-        checkNotEmpty(adminEmail, "admin.email property is not set");
-        checkNotEmpty(adminPassword, "admin.password property is not set");
-        
-        SignInCredentials adminSignIn = SignInCredentials.valueOf().setUsername(adminEmail).setPassword(adminPassword);
-        provider.signIn(adminSignIn);
-    }
-    
 }

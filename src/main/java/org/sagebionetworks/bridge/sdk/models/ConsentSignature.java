@@ -21,8 +21,13 @@ public class ConsentSignature {
         return new ConsentSignature(name, birthdate);
     }
 
-    public String getName() { return name; }
-    public DateTime getBirthdate() { return birthdate; }
+    public String getName() {
+        return name;
+    }
+
+    public DateTime getBirthdate() {
+        return birthdate;
+    }
 
     @Override
     public String toString() {

@@ -41,9 +41,10 @@ import com.google.common.collect.Lists;
 
 abstract class BaseApiCaller {
 
-    private static final String CONNECTION_FAILED = "Connection to server failed or aborted.";
-
     private static final Logger logger = LoggerFactory.getLogger(BaseApiCaller.class);
+
+    private static final String BRIDGE_SESSION_HEADER = "Bridge-Session";
+    private static final String CONNECTION_FAILED = "Connection to server failed or aborted.";
 
     Utilities utils = Utilities.valueOf();
 
@@ -75,18 +76,14 @@ abstract class BaseApiCaller {
             .build();
     private final Executor exec = Executor.newInstance(client);
 
-    final ObjectMapper mapper = Utilities.getMapper();
+    protected final ObjectMapper mapper = Utilities.getMapper();
 
-    final ClientProvider provider;
+    protected final Config config = ClientProvider.getConfig();
+    
+    private Session session;
 
-    BaseApiCaller(ClientProvider provider) {
-        this.provider = provider;
-    }
-
-    // Developers may wish to hold on to the client, but if they do this, they'll need access
-    // to the provider in order to sign out/sign in again.
-    public ClientProvider getProvider() {
-        return provider;
+    BaseApiCaller(Session session) {
+        this.session = session;
     }
 
     protected final HttpResponse publicGet(String url) {
@@ -116,7 +113,9 @@ abstract class BaseApiCaller {
         HttpResponse response = null;
         try {
             Request request = Request.Get(fullUrl);
-            request.setHeader("Bridge-Session", provider.getSessionToken());
+            if (session != null && session.isSignedIn()) {
+                request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());    
+            }
             response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, fullUrl);
         } catch (ClientProtocolException e) {
@@ -132,7 +131,9 @@ abstract class BaseApiCaller {
         HttpResponse response = null;
         try {
             Request request = Request.Post(fullUrl);
-            request.setHeader("Bridge-Session", provider.getSessionToken());
+            if (session != null && session.isSignedIn()) {
+                request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());    
+            }
             response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, fullUrl);
         } catch (ClientProtocolException e) {
@@ -148,7 +149,9 @@ abstract class BaseApiCaller {
         HttpResponse response = null;
         try {
             Request request = Request.Post(fullUrl).bodyString(json, ContentType.APPLICATION_JSON);
-            request.setHeader("Bridge-Session", provider.getSessionToken());
+            if (session != null && session.isSignedIn()) {
+                request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());    
+            }
             response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, fullUrl);
         } catch (IOException e) {
@@ -169,7 +172,9 @@ abstract class BaseApiCaller {
         HttpResponse response = null;
         try {
             Request request = Request.Delete(fullUrl);
-            request.setHeader("Bridge-Session", provider.getSessionToken());
+            if (session != null && session.isSignedIn()) {
+                request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());    
+            }
             response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, fullUrl);
         } catch (IOException e) {
@@ -181,8 +186,8 @@ abstract class BaseApiCaller {
     protected final String getSessionToken(HttpResponse response, String url) {
         if (response == null) {
             throw new IllegalArgumentException("HttpResponse object is null.");
-        } else if (response.containsHeader("Bridge-Session")) {
-            return response.getFirstHeader("Bridge-Session").getValue();
+        } else if (response.containsHeader(BRIDGE_SESSION_HEADER)) {
+            return response.getFirstHeader(BRIDGE_SESSION_HEADER).getValue();
         } else {
             throw new IllegalStateException("Session Token does not exist in this response.");
         }
@@ -259,7 +264,7 @@ abstract class BaseApiCaller {
 
     private final String getFullUrl(String url) {
         assert url != null;
-        String fullUrl = provider.getConfig().getHost() + url;
+        String fullUrl = config.getHost() + url;
         assert utils.isValidUrl(fullUrl) : fullUrl;
 
         return fullUrl;

@@ -39,7 +39,7 @@ public class Survey {
         this.questions = questions;
     }
 
-    static Survey valueOf(String guid, DateTime versionedOn, DateTime modifiedOn, long version, String name,
+    public static Survey valueOf(String guid, DateTime versionedOn, DateTime modifiedOn, long version, String name,
             String identifier, boolean published, List<SurveyQuestion> questions) {
         return new Survey(guid, versionedOn, modifiedOn, version, name, identifier, published, questions);
     }

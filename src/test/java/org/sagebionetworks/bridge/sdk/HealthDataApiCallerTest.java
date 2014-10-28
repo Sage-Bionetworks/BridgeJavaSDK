@@ -10,14 +10,11 @@ import java.util.UUID;
 
 import org.joda.time.DateTime;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.models.HealthDataRecord;
 import org.sagebionetworks.bridge.sdk.models.IdVersionHolder;
-import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
-import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
 import org.sagebionetworks.bridge.sdk.models.Tracker;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,71 +23,36 @@ import com.google.common.collect.Lists;
 
 public class HealthDataApiCallerTest {
 
-    private static ClientProvider provider;
-    private static HealthDataApiCaller healthApi;
-    private static UserManagementApiCaller userManagementApi;
-    private static SignInCredentials adminSignIn;
-    private static SignInCredentials testUserSignIn;
-    private static ObjectMapper mapper;
-
+    private ObjectMapper mapper = Utilities.getMapper();
+    private HealthDataApiCaller healthApi;
     private Tracker tracker;
     private List<HealthDataRecord> records;
     private ObjectNode data;
-
-    @BeforeClass
-    public static void initialSetup() {
-        mapper = Utilities.getMapper();
-        provider = ClientProvider.valueOf();
-        healthApi = HealthDataApiCaller.valueOf(provider);
-        userManagementApi = UserManagementApiCaller.valueOf(provider);
-
-        Config conf = provider.getConfig();
-        adminSignIn = SignInCredentials.valueOf()
-                .setUsername(conf.getAdminEmail())
-                .setPassword(conf.getAdminPassword());
-
-        provider.signIn(adminSignIn);
-
-        boolean consent = true;
-        String testUsername = "testUsername";
-        String testEmail = "testingggg@sagebase.org";
-        String testPassword = "p4ssw0rd";
-        testUserSignIn = SignInCredentials.valueOf().setUsername(testEmail).setPassword(testPassword);
-        SignUpCredentials testUserSignUp = SignUpCredentials.valueOf().setUsername(testUsername).setEmail(testEmail).setPassword(testPassword);
-        userManagementApi.createUser(testUserSignUp, consent);
-    }
-
-    @AfterClass
-    public static void teardown() {
-        userManagementApi.deleteUser(testUserSignIn.getUsername());
-    }
+    
+    private TestUser testUser;
 
     @Before
     public void before() {
-        provider.signIn(adminSignIn);
-
-        // Sign out admin user, sign in test user.
-        provider.signOut();
-        provider.signIn(testUserSignIn);
-
-        TrackerApiCaller trackerApi = TrackerApiCaller.valueOf(provider);
+        testUser = TestUserHelper.createAndSignInUser(HealthDataApiCallerTest.class, true);
+        healthApi = HealthDataApiCaller.valueOf(testUser.getSession());
+        
+        TrackerApiCaller trackerApi = TrackerApiCaller.valueOf(testUser.getSession());
         tracker = trackerApi.getAllTrackers().get(0);
-
+        
         data = mapper.createObjectNode();
         data.put("systolic", 120);
         data.put("diastolic", 80);
     }
 
     @After
-    public void after() {
-        provider.signOut();
-        provider.signIn(adminSignIn);
+    public void teardown() {
+        testUser.signOutAndDeleteUser();
     }
 
     @Test
     public void noMethodShouldSucceedIfNotSignedIn() {
-        provider.signOut();
-
+        
+        testUser.getSession().signOut();
 
         HealthDataRecord record = HealthDataRecord.valueOf(0, "1111", DateTime.now().minusWeeks(1), DateTime.now(), data);
         records = new ArrayList<HealthDataRecord>();
@@ -157,7 +119,7 @@ public class HealthDataApiCallerTest {
     }
 
     @Test
-    public void CanGetHealthDataByDateRange() {
+    public void canGetHealthDataByDateRange() {
      // Time ranges used in this test, and where they overlap with the 3 test windows or not.
         //       1        1...<2
         //       2        1............3

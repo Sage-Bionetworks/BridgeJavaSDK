@@ -5,15 +5,32 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
 import org.sagebionetworks.bridge.sdk.models.UserProfile;
 
 public class UserProfileApiCallerTest {
 
+    private Session session; 
+    
+    @Before
+    public void before() {
+        Config config = ClientProvider.getConfig();
+        session = ClientProvider.signIn(config.getAdminCredentials());
+    }
+    
+    @After
+    public void after() {
+        session.signOut();
+    }
+    
+    
     @Test
     public void cannotGetProfileWhenUnauthorized() {
-        UserProfileApiCaller profileApi = UserProfileApiCaller.valueOf(ClientProvider.valueOf());
+        session.signOut();
+        UserProfileApiCaller profileApi = UserProfileApiCaller.valueOf(session);
         try {
             profileApi.getProfile();
             fail("Should throw exception before you get here.");
@@ -25,13 +42,15 @@ public class UserProfileApiCallerTest {
 
     @Test
     public void cannotUpdateProfileWhenUnauthorized() {
+        session.signOut();
+        
         UserProfile profile = UserProfile.valueOf();
         profile.setFirstName("first name")
                .setLastName("last name")
                .setUsername("fake-username")
                .setEmail("fake-email@sagebase.org");
 
-        UserProfileApiCaller profileApi = UserProfileApiCaller.valueOf(ClientProvider.valueOf());
+        UserProfileApiCaller profileApi = UserProfileApiCaller.valueOf(session);
         try {
             profileApi.updateProfile(profile);
             fail("Should throw exception before you get here.");
@@ -43,15 +62,13 @@ public class UserProfileApiCallerTest {
 
     @Test
     public void canRetrieveAndUpdateProfile() {
-        ClientProvider provider = ClientProvider.valueOf();
-
-        Config conf = provider.getConfig();
+        Config conf = ClientProvider.getConfig();
         SignInCredentials signIn = SignInCredentials.valueOf()
                 .setUsername(conf.getAdminEmail())
                 .setPassword(conf.getAdminPassword());
-        provider.signIn(signIn);
+        Session session = ClientProvider.signIn(signIn);
 
-        UserProfileApiCaller profileApi = UserProfileApiCaller.valueOf(provider);
+        UserProfileApiCaller profileApi = UserProfileApiCaller.valueOf(session);
         UserProfile profile = profileApi.getProfile();
         assertNotNull("Profile should not be null.", profile);
 
