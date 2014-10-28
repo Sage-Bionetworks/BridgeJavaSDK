@@ -5,13 +5,19 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
+import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
 
 public class ClientProviderTest {
 
     @Test
     public void canAuthenticateAndCreateClientAndSignOut() {
-        Config config = ClientProvider.getConfig();
-        Session session = ClientProvider.signIn(config.getAccountCredentials());
+        TestUser testUser = TestUserHelper.createAndSignInUser(ClientProviderTest.class, true);
+        testUser.getSession().signOut();
+        
+        SignInCredentials credentials = SignInCredentials.valueOf().setUsername(testUser.getUsername())
+                .setPassword(testUser.getPassword());
+        Session session = ClientProvider.signIn(credentials);
         assertTrue(session.isSignedIn());
 
         UserClient client = session.getUserClient();
