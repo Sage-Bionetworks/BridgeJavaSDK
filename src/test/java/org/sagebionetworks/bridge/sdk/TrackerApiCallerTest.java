@@ -5,30 +5,37 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.models.Tracker;
 
 public class TrackerApiCallerTest {
 
-    Session session;
+    TestUser testUser;
+    //Session session;
 
     @Before
     public void before() {
-        Config config = ClientProvider.getConfig();
-        session = ClientProvider.signIn(config.getAccountCredentials());
+        testUser = TestUserHelper.createAndSignInUser(TrackerApiCallerTest.class, true);
+    }
+    
+    @After
+    public void after() {
+        testUser.signOutAndDeleteUser();
     }
 
     @Test(expected = Exception.class)
     public void cannotGetIfUnauthorized() {
-        session.signOut();
-        TrackerApiCaller trackerApi = TrackerApiCaller.valueOf(session);
+        testUser.getSession().signOut();
+        TrackerApiCaller trackerApi = TrackerApiCaller.valueOf(testUser.getSession());
         trackerApi.getAllTrackers();
     }
 
     @Test
     public void successfullyGetTrackerList() {
-        TrackerApiCaller trackerApi = TrackerApiCaller.valueOf(session);
+        TrackerApiCaller trackerApi = TrackerApiCaller.valueOf(testUser.getSession());
         List<Tracker> trackers = trackerApi.getAllTrackers();
         assertNotNull("Trackers should not be null.", trackers);
         assertTrue("Trackers should have a non-zero size.", trackers.size() > 0);
@@ -36,7 +43,7 @@ public class TrackerApiCallerTest {
 
     @Test
     public void successfullyGetSchema() {
-        TrackerApiCaller trackerApi = TrackerApiCaller.valueOf(session);
+        TrackerApiCaller trackerApi = TrackerApiCaller.valueOf(testUser.getSession());
         List<Tracker> trackers = trackerApi.getAllTrackers();
         String schema = trackerApi.getSchema(trackers.get(0));
         assertNotNull("Schema from tracker should not be null.", schema);
