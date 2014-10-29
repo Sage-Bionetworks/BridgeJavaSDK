@@ -27,7 +27,7 @@ class TrackerApiCaller extends BaseApiCaller {
         return trackers;
     }
 
-    String getSchema(Tracker tracker) {
+    String getTrackerSchema(Tracker tracker) {
         String url = tracker.getSchemaUrl();
         HttpResponse response = get(url);
         String schema = getResponseBody(response);

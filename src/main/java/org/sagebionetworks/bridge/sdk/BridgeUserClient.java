@@ -135,10 +135,10 @@ class BridgeUserClient implements UserClient {
     }
 
     @Override
-    public String getSchema(Tracker tracker) {
+    public String getTrackerSchema(Tracker tracker) {
         session.checkSignedIn();
 
-        return trackerApi.getSchema(tracker);
+        return trackerApi.getTrackerSchema(tracker);
     }
 
     /*

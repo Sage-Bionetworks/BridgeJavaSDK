@@ -45,7 +45,7 @@ public class TrackerApiCallerTest {
     public void successfullyGetSchema() {
         TrackerApiCaller trackerApi = TrackerApiCaller.valueOf(testUser.getSession());
         List<Tracker> trackers = trackerApi.getAllTrackers();
-        String schema = trackerApi.getSchema(trackers.get(0));
+        String schema = trackerApi.getTrackerSchema(trackers.get(0));
         assertNotNull("Schema from tracker should not be null.", schema);
     }
 }

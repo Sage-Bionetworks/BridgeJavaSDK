@@ -86,7 +86,7 @@ abstract class BaseApiCaller {
         this.session = session;
     }
 
-    protected final HttpResponse publicGet(String url) {
+    protected HttpResponse publicGet(String url) {
         String fullUrl = getFullUrl(url);
         HttpResponse response = null;
         try {
@@ -101,11 +101,11 @@ abstract class BaseApiCaller {
         return response;
     }
 
-    protected final HttpResponse get(String url) {
+    protected HttpResponse get(String url) {
         return get(url, null);
     }
 
-    protected final HttpResponse get(String url, Map<String,String> queryParameters) {
+    protected HttpResponse get(String url, Map<String,String> queryParameters) {
         if (queryParameters != null) {
             url += addQueryParameters(queryParameters);
         }
@@ -126,7 +126,7 @@ abstract class BaseApiCaller {
         return response;
     }
 
-    protected final HttpResponse post(String url) {
+    protected HttpResponse post(String url) {
         String fullUrl = getFullUrl(url);
         HttpResponse response = null;
         try {
@@ -144,7 +144,7 @@ abstract class BaseApiCaller {
         return response;
     }
 
-    protected final HttpResponse post(String url, String json) {
+    protected HttpResponse post(String url, String json) {
         String fullUrl = getFullUrl(url);
         HttpResponse response = null;
         try {
@@ -160,11 +160,11 @@ abstract class BaseApiCaller {
         return response;
     }
 
-    protected final HttpResponse delete(String url) {
+    protected HttpResponse delete(String url) {
         return delete(url, null);
     }
 
-    protected final HttpResponse delete(String url, Map<String,String> queryParameters) {
+    protected HttpResponse delete(String url, Map<String,String> queryParameters) {
         if (queryParameters != null) {
             url += addQueryParameters(queryParameters);
         }
@@ -183,7 +183,7 @@ abstract class BaseApiCaller {
         return response;
     }
 
-    protected final String getSessionToken(HttpResponse response, String url) {
+    protected String getSessionToken(HttpResponse response, String url) {
         if (response == null) {
             throw new IllegalArgumentException("HttpResponse object is null.");
         } else if (response.containsHeader(BRIDGE_SESSION_HEADER)) {
@@ -193,7 +193,7 @@ abstract class BaseApiCaller {
         }
     }
 
-    protected final String getResponseBody(HttpResponse response) {
+    protected String getResponseBody(HttpResponse response) {
         String responseBody;
         try {
             responseBody = EntityUtils.toString(response.getEntity());
@@ -205,7 +205,7 @@ abstract class BaseApiCaller {
         return responseBody;
     }
 
-    protected final <T> T getResponseBodyAsType(HttpResponse response, Class<T> c) {
+    protected <T> T getResponseBodyAsType(HttpResponse response, Class<T> c) {
         String responseBody = getResponseBody(response);
         Object obj;
         try {
@@ -217,7 +217,7 @@ abstract class BaseApiCaller {
         return c.cast(obj);
     }
     
-    protected final JsonNode getJsonNode(HttpResponse response) {
+    protected JsonNode getJsonNode(HttpResponse response) {
         JsonNode json;
         try {
             json = mapper.readTree(getResponseBody(response));
@@ -227,7 +227,7 @@ abstract class BaseApiCaller {
         return json;
     }
 
-    protected final JsonNode getPropertyFromResponse(HttpResponse response, String property) {
+    protected JsonNode getPropertyFromResponse(HttpResponse response, String property) {
         JsonNode json = getJsonNode(response);
         checkArgument(json.has(property), "JSON from server does not contain the property: " + property);
         return json.get(property);
@@ -262,7 +262,7 @@ abstract class BaseApiCaller {
         }
     }
 
-    private final String getFullUrl(String url) {
+    private String getFullUrl(String url) {
         assert url != null;
         String fullUrl = config.getHost() + url;
         assert utils.isValidUrl(fullUrl) : fullUrl;
@@ -270,7 +270,7 @@ abstract class BaseApiCaller {
         return fullUrl;
     }
 
-    private final String addQueryParameters(Map<String,String> parameters) {
+    private String addQueryParameters(Map<String,String> parameters) {
         assert parameters != null;
 
         List<String> list = Lists.newArrayList();

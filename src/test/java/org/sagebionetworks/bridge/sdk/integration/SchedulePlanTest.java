@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.sagebionetworks.bridge.Tests.untilConsistently;
+import static org.sagebionetworks.bridge.Tests.untilConsistent;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -13,7 +13,6 @@ import org.joda.time.Period;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.BridgeServerException;
 import org.sagebionetworks.bridge.sdk.InvalidEntityException;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
@@ -29,7 +28,7 @@ import org.sagebionetworks.bridge.sdk.models.schedules.SimpleScheduleStrategy;
 
 public class SchedulePlanTest {
 
-    public class TestABSchedulePlan extends SchedulePlan {
+    public static class TestABSchedulePlan extends SchedulePlan {
         private Schedule schedule1 = new Schedule() {{
             setCronTrigger("* * *");
             setActivityType(ActivityType.task);
@@ -136,7 +135,7 @@ public class SchedulePlanTest {
         plan = researcherClient.getSchedulePlan(guidVersion.getGuid());
         assertEquals("Strategy type has been changed", "SimpleScheduleStrategy", plan.getStrategy().getClass().getSimpleName());
 
-        untilConsistently(new Callable<Boolean>() {
+        untilConsistent(new Callable<Boolean>() {
             @Override public Boolean call() throws Exception {
                 return (!userClient.getSchedules().isEmpty());
             }
