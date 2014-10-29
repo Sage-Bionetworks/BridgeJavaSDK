@@ -28,7 +28,7 @@ public class BridgeResearcherClient {
         Preconditions.checkArgument(provider.isSignedIn(), "Not signed in");
         Preconditions.checkNotEmpty(guid, "Guid is null or blank");
         Preconditions.checkNotNull(versionedOn, "VersionedOn is null");
-        return surveyApi.getSurvey(guid, versionedOn);
+        return surveyApi.getSurveyForResearcher(guid, versionedOn);
     }
     public GuidVersionedOnHolder createSurvey(Survey survey) {
         Preconditions.checkArgument(provider.isSignedIn(), "Not signed in");

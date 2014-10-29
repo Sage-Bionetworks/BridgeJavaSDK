@@ -7,11 +7,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
-class UIHintDeserializer extends JsonDeserializer<UIHint> {
+class UiHintDeserializer extends JsonDeserializer<UiHint> {
     @Override
-    public UIHint deserialize(JsonParser parser, DeserializationContext context) throws IOException,
+    public UiHint deserialize(JsonParser parser, DeserializationContext context) throws IOException,
             JsonProcessingException {
         String value = parser.getText();
-        return UIHint.valueOf(value.toUpperCase());
+        return UiHint.valueOf(value.toUpperCase());
     }
 }

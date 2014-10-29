@@ -200,8 +200,9 @@ abstract class BaseApiCaller {
         try {
             obj = mapper.readValue(responseBody, c);
         } catch (IOException e) {
-            throw new BridgeSDKException("Something went wrong while converting Response Body Json into " + c.getSimpleName() + ": responseBody="
-                    + responseBody, e);
+            throw new BridgeSDKException("Error message: " + e.getMessage()
+                    + "\nSomething went wrong while converting Response Body Json into " + c.getSimpleName()
+                    + ": responseBody=" + responseBody, e);
         }
         return c.cast(obj);
     }

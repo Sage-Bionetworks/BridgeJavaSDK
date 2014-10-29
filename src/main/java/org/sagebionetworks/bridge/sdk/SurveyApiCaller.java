@@ -65,8 +65,15 @@ class SurveyApiCaller extends BaseApiCaller {
         return surveys;
     }
 
-    Survey getSurvey(String guid, DateTime versionedOn) {
+    Survey getSurveyForResearcher(String guid, DateTime versionedOn) {
         String url = provider.getConfig().getSurveyApi(guid, versionedOn);
+        HttpResponse response = get(url);
+
+        return getResponseBodyAsType(response, Survey.class);
+    }
+
+    Survey getSurveyForUser(String guid, DateTime versionedOn) {
+        String url = provider.getConfig().getSurveyUserApi(guid, versionedOn);
         HttpResponse response = get(url);
 
         return getResponseBodyAsType(response, Survey.class);

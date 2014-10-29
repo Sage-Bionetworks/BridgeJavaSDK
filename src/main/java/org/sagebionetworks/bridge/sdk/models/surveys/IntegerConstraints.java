@@ -1,11 +1,15 @@
 package org.sagebionetworks.bridge.sdk.models.surveys;
 
 public class IntegerConstraints extends Constraints {
-    
+
     private Long minValue;
     private Long maxValue;
     private Long step;
-    
+
+    public IntegerConstraints() {
+        setDataType(DataType.INTEGER);
+    }
+
     public Long getMinValue() {
         return minValue;
     }

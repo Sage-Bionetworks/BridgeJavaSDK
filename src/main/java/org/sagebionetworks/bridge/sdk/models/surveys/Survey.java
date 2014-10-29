@@ -14,15 +14,15 @@ public class Survey {
     private final String guid;
     private final DateTime versionedOn;
     private final DateTime modifiedOn;
-    private final long version;
-    private final String name;
+    private final Long version;
+    private String name;
     private final String identifier;
     private final boolean published;
-    private final List<SurveyQuestion> questions;
+    private List<SurveyQuestion> questions;
 
     @JsonCreator
     private Survey(@JsonProperty("guid") String guid, @JsonProperty("versionedOn") DateTime versionedOn,
-            @JsonProperty("modifiedOn") DateTime modifiedOn, @JsonProperty("version") long version,
+            @JsonProperty("modifiedOn") DateTime modifiedOn, @JsonProperty("version") Long version,
             @JsonProperty("name") String name, @JsonProperty("identifier") String identifier,
             @JsonProperty("published") boolean published, @JsonProperty("questions") List<SurveyQuestion> questions) {
         if (questions == null) {
@@ -39,7 +39,7 @@ public class Survey {
         this.questions = questions;
     }
 
-    static Survey valueOf(String guid, DateTime versionedOn, DateTime modifiedOn, long version, String name,
+    public static Survey valueOf(String guid, DateTime versionedOn, DateTime modifiedOn, Long version, String name,
             String identifier, boolean published, List<SurveyQuestion> questions) {
         return new Survey(guid, versionedOn, modifiedOn, version, name, identifier, published, questions);
     }
@@ -52,6 +52,8 @@ public class Survey {
     public String getIdentifier() { return identifier; }
     public boolean isPublished() { return published; }
     public List<SurveyQuestion> getQuestions() { return questions; }
+
+    public void setName(String name) { this.name = name; }
 
     @Override
     public boolean equals(Object obj) {

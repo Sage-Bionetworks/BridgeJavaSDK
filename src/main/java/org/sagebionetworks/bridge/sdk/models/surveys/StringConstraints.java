@@ -1,10 +1,14 @@
 package org.sagebionetworks.bridge.sdk.models.surveys;
 
 public class StringConstraints extends Constraints {
-    
+
     private Integer minLength;
     private Integer maxLength;
     private String pattern;
+
+    public StringConstraints() {
+        setDataType(DataType.STRING);
+    }
 
     public Integer getMinLength() {
         return minLength;

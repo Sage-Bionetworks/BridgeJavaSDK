@@ -1,11 +1,12 @@
 package org.sagebionetworks.bridge.sdk.models.surveys;
 
-public class DateConstraints extends Constraints {
 
-    protected boolean allowFuture = false;
+public class DateTimeConstraints extends Constraints {
 
-    public DateConstraints() {
-        setDataType(DataType.DATE);
+    private boolean allowFuture = false;
+
+    public DateTimeConstraints() {
+        setDataType(DataType.DATETIME);
     }
 
     public boolean getAllowFuture() {
@@ -14,5 +15,4 @@ public class DateConstraints extends Constraints {
     public void setAllowFuture(boolean allowFuture) {
         this.allowFuture = allowFuture;
     }
-
 }
