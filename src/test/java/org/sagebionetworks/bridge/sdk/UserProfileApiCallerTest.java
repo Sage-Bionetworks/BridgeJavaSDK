@@ -45,10 +45,7 @@ public class UserProfileApiCallerTest {
         session.signOut();
         
         UserProfile profile = UserProfile.valueOf();
-        profile.setFirstName("first name")
-               .setLastName("last name")
-               .setUsername("fake-username")
-               .setEmail("fake-email@sagebase.org");
+        profile.setFirstName("first name").setLastName("last name");
 
         UserProfileApiCaller profileApi = UserProfileApiCaller.valueOf(session);
         try {
