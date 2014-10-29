@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.models.GuidVersionedOnHolder;
@@ -22,14 +21,15 @@ import org.sagebionetworks.bridge.sdk.models.surveys.SurveyRule;
 
 public class SurveyApiCallerTest {
 
+    private TestUser testResearcher;
     private TestUser testUser;
     private SurveyApiCaller surveyApi;
 
     @Before
     public void before() {
-        testUser = TestUserHelper.createAndSignInUser(SurveyApiCallerTest.class, true, "teststudy_researcher");
+        testResearcher = TestUserHelper.createAndSignInUser(SurveyApiCallerTest.class, true, "teststudy_researcher");
 
-        surveyApi = SurveyApiCaller.valueOf(testUser.getSession());
+        surveyApi = SurveyApiCaller.valueOf(testResearcher.getSession());
         List<Survey> surveys = surveyApi.getAllVersionsOfAllSurveys();
         for (Survey survey : surveys) {
             surveyApi.closeSurvey(survey.getGuid(), survey.getVersionedOn());
@@ -38,12 +38,18 @@ public class SurveyApiCallerTest {
 
     @After
     public void after() {
-        testUser.signOutAndDeleteUser();
+        if (testResearcher != null && testResearcher.isSignedIn()) {
+            testResearcher.signOutAndDeleteUser();
+        }
+        if (testUser != null && testUser.isSignedIn()) {
+            testUser.signOutAndDeleteUser();
+        }
     }
 
     @Test
-    @Ignore
     public void cannotSubmitAsNormalUser() {
+        testResearcher.signOutAndDeleteUser();
+        testUser = TestUserHelper.createAndSignInUser(SurveyApiCallerTest.class, true, null);
         try {
             surveyApi.getAllVersionsOfAllSurveys();
         } catch (Throwable t) {
@@ -105,7 +111,7 @@ public class SurveyApiCallerTest {
         surveyApi.publishSurvey(key.getGuid(), key.getVersionedOn());
         surveyApi.publishSurvey(key2.getGuid(), key2.getVersionedOn());
         List<Survey> publishedSurveys = surveyApi.getPublishedVersionsOfAllSurveys();
-        assertTrue("Published surveys contain recently published.", containsAll(publishedSurveys, key, key1, key2));
+        assertTrue("Published surveys contain recently published.", containsAll(publishedSurveys, key, key2));
     }
 
     @Test
@@ -150,28 +156,15 @@ public class SurveyApiCallerTest {
         return questions.get(index).getConstraints().getDataType();
     }
 
-    private boolean containsAll(List<Survey> surveys, GuidVersionedOnHolder key, GuidVersionedOnHolder key1,
-            GuidVersionedOnHolder key2) {
+    private boolean containsAll(List<Survey> surveys, GuidVersionedOnHolder... keys) {
         int count = 0;
         for (Survey survey : surveys) {
-            boolean guidsEqual = survey.getGuid().equals(key.getGuid());
-            boolean guidsEqual1 = survey.getGuid().equals(key1.getGuid());
-            boolean guidsEqual2 = survey.getGuid().equals(key2.getGuid());
-
-            boolean versionsEqual = survey.getVersionedOn().equals(key.getVersionedOn());
-            boolean versionsEqual1 = survey.getVersionedOn().equals(key1.getVersionedOn());
-            boolean versionsEqual2 = survey.getVersionedOn().equals(key2.getVersionedOn());
-
-            if (guidsEqual && versionsEqual) {
-                count++;
-            }
-            if (guidsEqual1 && versionsEqual1) {
-                count++;
-            }
-            if (guidsEqual2 && versionsEqual2) {
-                count++;
+            for (GuidVersionedOnHolder key : keys) {
+                if (survey.getGuid().equals(key.getGuid()) && survey.getVersionedOn().equals(key.getVersionedOn())) {
+                    count++;
+                }
             }
         }
-        return count == 3;
+        return count == keys.length;
     }
 }

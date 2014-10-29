@@ -235,8 +235,8 @@ public final class Config {
     String getCloseSurveyApi(String guid, DateTime timestamp) {
         return String.format(val(Props.SURVEY_CLOSE_API), guid, timestamp.toString(ISODateTimeFormat.dateTime()));
     }
-    String getSurveyUserApi(String guid, DateTime versionedOn) {
-        return String.format(val(Props.SURVEY_USER_API), guid, versionedOn.toString(ISODateTimeFormat.dateTime()));
+    String getSurveyUserApi(String guid, DateTime timestamp) {
+        return String.format(val(Props.SURVEY_USER_API), guid, timestamp.toString(ISODateTimeFormat.dateTime()));
     }
     String getSurveyResponseApi(String guid) {
         return String.format(val(Props.SURVEY_RESPONSE_API), guid);

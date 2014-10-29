@@ -48,15 +48,18 @@ public class TestUserHelper {
             userSession.signOut();
             return client.deleteUser(email);
         }
+        public boolean isSignedIn() {
+            return userSession.isSignedIn();
+        }
     }
-    
+
     public static TestUser createAndSignInUser(Class<?> cls, boolean consent, String... roles) {
         checkNotNull(cls);
-        
+
         Config config = ClientProvider.getConfig();
         Session session = ClientProvider.signIn(config.getAdminCredentials());
         AdminClient client = session.getAdminClient();
-        
+
         List<String> rolesList = (roles == null) ? Collections.<String>emptyList() : Arrays.asList(roles);
         String name = makeUserName(cls);
         SignUpCredentials signUp = SignUpCredentials.valueOf()
@@ -64,14 +67,14 @@ public class TestUserHelper {
                 .setEmail(name + "@sagebridge.org")
                 .setPassword("P4ssword");
         client.createUser(signUp, rolesList, consent);
-        
+
         SignInCredentials signIn = SignInCredentials.valueOf().setUsername(name).setPassword("P4ssword");
         Session userSession = ClientProvider.signIn(signIn);
-        
+
         return new TestUserHelper.TestUser(client, userSession, signUp.getUsername(), signUp.getEmail(),
                 signUp.getPassword(), rolesList);
     }
-    
+
     public static String makeUserName(Class<?> cls) {
         Config config = ClientProvider.getConfig();
         String devName = config.getDevName();
