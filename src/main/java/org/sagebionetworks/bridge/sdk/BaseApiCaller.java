@@ -1,11 +1,15 @@
 package org.sagebionetworks.bridge.sdk;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,13 +30,21 @@ import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
 abstract class BaseApiCaller {
+
+    private static final Logger logger = LoggerFactory.getLogger(BaseApiCaller.class);
+
+    private static final String BRIDGE_SESSION_HEADER = "Bridge-Session";
+    private static final String CONNECTION_FAILED = "Connection to server failed or aborted.";
 
     Utilities utils = Utilities.valueOf();
 
@@ -64,18 +76,14 @@ abstract class BaseApiCaller {
             .build();
     private final Executor exec = Executor.newInstance(client);
 
-    final ObjectMapper mapper = Utilities.getMapper();
+    protected final ObjectMapper mapper = Utilities.getMapper();
 
-    final ClientProvider provider;
+    protected final Config config = ClientProvider.getConfig();
+    
+    private Session session;
 
-    BaseApiCaller(ClientProvider provider) {
-        this.provider = provider;
-    }
-
-    // Developers may wish to hold on to the client, but if they do this, they'll need access
-    // to the provider in order to sign out/sign in again.
-    public ClientProvider getProvider() {
-        return provider;
+    BaseApiCaller(Session session) {
+        this.session = session;
     }
 
     protected final HttpResponse publicGet(String url) {
@@ -86,9 +94,9 @@ abstract class BaseApiCaller {
             response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, fullUrl);
         } catch (ClientProtocolException e) {
-            throw new BridgeServerException("Connection to server failed or aborted.", e, fullUrl);
+            throw new BridgeServerException(CONNECTION_FAILED, e, fullUrl);
         } catch (IOException e) {
-            throw new BridgeServerException("Connection to server failed or aborted.", e, fullUrl);
+            throw new BridgeServerException(CONNECTION_FAILED, e, fullUrl);
         }
         return response;
     }
@@ -105,13 +113,15 @@ abstract class BaseApiCaller {
         HttpResponse response = null;
         try {
             Request request = Request.Get(fullUrl);
-            request.setHeader("Bridge-Session", provider.getSessionToken());
+            if (session != null && session.isSignedIn()) {
+                request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());    
+            }
             response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, fullUrl);
         } catch (ClientProtocolException e) {
-            throw new BridgeServerException("Connection to server failed or aborted.", e, fullUrl);
+            throw new BridgeServerException(CONNECTION_FAILED, e, fullUrl);
         } catch (IOException e) {
-            throw new BridgeServerException("Connection to server failed or aborted.", e, fullUrl);
+            throw new BridgeServerException(CONNECTION_FAILED, e, fullUrl);
         }
         return response;
     }
@@ -121,13 +131,15 @@ abstract class BaseApiCaller {
         HttpResponse response = null;
         try {
             Request request = Request.Post(fullUrl);
-            request.setHeader("Bridge-Session", provider.getSessionToken());
+            if (session != null && session.isSignedIn()) {
+                request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());    
+            }
             response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, fullUrl);
         } catch (ClientProtocolException e) {
-            throw new BridgeServerException("Connection to server failed or aborted.", e, fullUrl);
+            throw new BridgeServerException(CONNECTION_FAILED, e, fullUrl);
         } catch (IOException e) {
-            throw new BridgeServerException("Connection to server failed or aborted.", e, fullUrl);
+            throw new BridgeServerException(CONNECTION_FAILED, e, fullUrl);
         }
         return response;
     }
@@ -137,13 +149,13 @@ abstract class BaseApiCaller {
         HttpResponse response = null;
         try {
             Request request = Request.Post(fullUrl).bodyString(json, ContentType.APPLICATION_JSON);
-            request.setHeader("Bridge-Session", provider.getSessionToken());
+            if (session != null && session.isSignedIn()) {
+                request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());    
+            }
             response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, fullUrl);
-        } catch (ClientProtocolException e) {
-            throw new BridgeServerException("Connection to server failed or aborted.", e, fullUrl);
         } catch (IOException e) {
-            throw new BridgeServerException("Connection to server failed or aborted.", e, fullUrl);
+            throw new BridgeServerException(CONNECTION_FAILED, e, fullUrl);
         }
         return response;
     }
@@ -160,23 +172,22 @@ abstract class BaseApiCaller {
         HttpResponse response = null;
         try {
             Request request = Request.Delete(fullUrl);
-            request.setHeader("Bridge-Session", provider.getSessionToken());
+            if (session != null && session.isSignedIn()) {
+                request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());    
+            }
             response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, fullUrl);
-        } catch (ClientProtocolException e) {
-            throw new BridgeServerException("Connection to server failed or aborted.", e, fullUrl);
         } catch (IOException e) {
-            throw new BridgeServerException("Connection to server failed or aborted.", e, fullUrl);
+            throw new BridgeServerException(CONNECTION_FAILED, e, fullUrl);
         }
-
         return response;
     }
 
     protected final String getSessionToken(HttpResponse response, String url) {
         if (response == null) {
             throw new IllegalArgumentException("HttpResponse object is null.");
-        } else if (response.containsHeader("Bridge-Session")) {
-            return response.getFirstHeader("Bridge-Session").getValue();
+        } else if (response.containsHeader(BRIDGE_SESSION_HEADER)) {
+            return response.getFirstHeader(BRIDGE_SESSION_HEADER).getValue();
         } else {
             throw new IllegalStateException("Session Token does not exist in this response.");
         }
@@ -189,7 +200,7 @@ abstract class BaseApiCaller {
         } catch (ParseException e) {
             throw new BridgeSDKException("Couldn't parse server response.", e);
         } catch (IOException e) {
-            throw new BridgeSDKException("Something went wrong while reading server response.", e);
+            throw new BridgeSDKException(CONNECTION_FAILED, e);
         }
         return responseBody;
     }
@@ -206,27 +217,45 @@ abstract class BaseApiCaller {
         }
         return c.cast(obj);
     }
-
-    protected final JsonNode getPropertyFromResponse(HttpResponse response, String property) {
+    
+    protected final JsonNode getJsonNode(HttpResponse response) {
         JsonNode json;
         try {
             json = mapper.readTree(getResponseBody(response));
         } catch (IOException e) {
             throw new BridgeSDKException("A problem occurred while processing the response body.", e);
         }
-
-        assert json.has(property);
-        return json.get(property);
+        return json;
     }
 
+    protected final JsonNode getPropertyFromResponse(HttpResponse response, String property) {
+        JsonNode json = getJsonNode(response);
+        checkArgument(json.has(property), "JSON from server does not contain the property: " + property);
+        return json.get(property);
+    }
+    
+    @SuppressWarnings("unchecked")                
     private void throwExceptionOnErrorStatus(HttpResponse response, String url) {
         StatusLine status = response.getStatusLine();
         int statusCode = status.getStatusCode();
         if (statusCode < 200 || statusCode > 299) {
             BridgeServerException e = null;
             try {
-                String message = getPropertyFromResponse(response, "message").asText();
-                e = new BridgeServerException(message, status.getStatusCode(), url);
+                JsonNode node = getJsonNode(response);
+                logger.debug("Error " + response.getStatusLine().getStatusCode() + ": " + node.toString());
+                
+                // Not having a message is actually pretty bad
+                String message = "There has been an error on the server";
+                if (node.has("message")) {
+                    message = node.get("message").asText();
+                }
+                if (node.has("errors")) {
+                    Map<String, List<String>> errors = (Map<String, List<String>>) mapper.convertValue(
+                            node.get("errors"), new TypeReference<HashMap<String, ArrayList<String>>>() {});
+                    e = new InvalidEntityException(message, errors, url);
+                } else {
+                    e = new BridgeServerException(message, status.getStatusCode(), url);    
+                }
             } catch(Throwable t) {
                 throw new BridgeServerException(status.getReasonPhrase(), status.getStatusCode(), url);
             }
@@ -236,7 +265,7 @@ abstract class BaseApiCaller {
 
     private final String getFullUrl(String url) {
         assert url != null;
-        String fullUrl = provider.getConfig().getHost() + url;
+        String fullUrl = config.getHost() + url;
         assert utils.isValidUrl(fullUrl) : fullUrl;
 
         return fullUrl;

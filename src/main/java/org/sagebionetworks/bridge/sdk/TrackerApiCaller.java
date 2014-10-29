@@ -9,16 +9,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 class TrackerApiCaller extends BaseApiCaller {
 
-    private TrackerApiCaller(ClientProvider provider) {
-        super(provider);
+    private TrackerApiCaller(Session session) {
+        super(session);
     }
 
-    static TrackerApiCaller valueOf(ClientProvider provider) {
-        return new TrackerApiCaller(provider);
+    static TrackerApiCaller valueOf(Session session) {
+        return new TrackerApiCaller(session);
     }
 
     List<Tracker> getAllTrackers() {
-        String url = provider.getConfig().getTrackerApi();
+        String url = config.getTrackerApi();
         HttpResponse response = get(url);
         JsonNode items = getPropertyFromResponse(response, "items");
         List<Tracker> trackers = mapper.convertValue(items,

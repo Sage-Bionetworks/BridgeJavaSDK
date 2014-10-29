@@ -1,11 +1,14 @@
 package org.sagebionetworks.bridge.sdk;
 
+import static org.sagebionetworks.bridge.sdk.Preconditions.checkNotEmpty;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
+import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -13,59 +16,53 @@ class UserManagementApiCaller extends BaseApiCaller {
 
     private final ObjectMapper mapper = Utilities.getMapper();
 
-    private UserManagementApiCaller(ClientProvider provider) {
-        super(provider);
+    private UserManagementApiCaller(Session session) {
+        super(session);
     }
 
-    static UserManagementApiCaller valueOf(ClientProvider provider) {
-        return new UserManagementApiCaller(provider);
+    static UserManagementApiCaller valueOf(Session session) {
+        return new UserManagementApiCaller(session);
     }
 
-    boolean createUser(String email, String username, String password, boolean consent) {
-        assert provider.isSignedIn();
-        assert email != null && username != null && password != null;
+    boolean createUser(SignUpCredentials signUp, List<String> roles, boolean consent) {
+        checkNotEmpty(signUp.getEmail());
+        checkNotEmpty(signUp.getPassword());
+        checkNotEmpty(signUp.getEmail());
 
-        ObjectNode node = mapper.createObjectNode();
-        node.put("email", email);
-        node.put("username", username);
-        node.put("password", password);
+        ObjectNode node = (ObjectNode)mapper.valueToTree(signUp);
         node.put("consent", consent);
-
-        String json;
-        try {
-            json = mapper.writeValueAsString(node);
-        } catch (JsonProcessingException e) {
-            throw new BridgeSDKException(
-                    "Problem constructing string out of arguments. Are you sure they aren't malformed or incorrect? email="
-                            + email + ", username=" + username + ", password=" + password + "consent=" + consent, e);
+        if (roles != null && !roles.isEmpty()) {
+            node.set("roles", mapper.valueToTree(roles));
         }
-
-        String url = provider.getConfig().getUserManagementApi();
-        HttpResponse response = post(url, json);
+        String url = config.getUserManagementApi();
+        HttpResponse response = post(url, node.toString());
 
         return response.getStatusLine().getStatusCode() == 201;
     }
+    
+    boolean createUser(SignUpCredentials signUp, boolean consent) {
+        return createUser(signUp, null, consent);
+    }
 
     boolean deleteUser(String email) {
-        assert provider.isSignedIn();
-        assert email != null;
+        checkNotEmpty(email);
 
         Map<String,String> queryParams = new HashMap<String,String>();
         queryParams.put("email", email);
 
-        String url = provider.getConfig().getUserManagementApi();
+        String url = config.getUserManagementApi();
         HttpResponse response = delete(url, queryParams);
 
         return response.getStatusLine().getStatusCode() == 200;
     }
 
     boolean revokeAllConsentRecords(String email) {
-        assert provider.isSignedIn();
-
+        checkNotEmpty(email);
+        
         Map<String,String> queryParams = new HashMap<String,String>();
         queryParams.put("email", email);
 
-        String url = provider.getConfig().getUserManagementConsentApi();
+        String url = config.getUserManagementConsentApi();
         HttpResponse response = delete(url, queryParams);
 
         return response.getStatusLine().getStatusCode() == 200;

@@ -13,17 +13,17 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 class SchedulePlanApiCaller extends BaseApiCaller {
 
-    private SchedulePlanApiCaller(ClientProvider provider) {
-        super(provider);
+    private SchedulePlanApiCaller(Session session) {
+        super(session);
     }
 
-    static SchedulePlanApiCaller valueOf(ClientProvider provider) {
-        return new SchedulePlanApiCaller(provider);
+    static SchedulePlanApiCaller valueOf(Session session) {
+        return new SchedulePlanApiCaller(session);
     }
 
     List<SchedulePlan> getSchedulePlans() {
         System.out.println("entered schedule plan api caller method");
-        HttpResponse response = get(provider.getConfig().getSchedulePlansApi());
+        HttpResponse response = get(config.getSchedulePlansApi());
 
         JsonNode items = getPropertyFromResponse(response, "items");
         System.out.println(items.toString());
@@ -33,7 +33,7 @@ class SchedulePlanApiCaller extends BaseApiCaller {
 
     GuidVersionHolder createSchedulePlan(SchedulePlan plan) {
         try {
-            HttpResponse response = post(provider.getConfig().getSchedulePlansApi(),
+            HttpResponse response = post(config.getSchedulePlansApi(),
                     mapper.writeValueAsString(plan));
 
             String body = EntityUtils.toString(response.getEntity(), "UTF-8");
@@ -48,7 +48,7 @@ class SchedulePlanApiCaller extends BaseApiCaller {
 
     SchedulePlan getSchedulePlan(String guid) {
         try {
-            HttpResponse response = get(provider.getConfig().getSchedulePlanApi(guid));
+            HttpResponse response = get(config.getSchedulePlanApi(guid));
             String body = EntityUtils.toString(response.getEntity(), "UTF-8");
             return mapper.readValue(body, SchedulePlan.class);
         } catch(JsonProcessingException e) {
@@ -60,7 +60,7 @@ class SchedulePlanApiCaller extends BaseApiCaller {
 
     GuidVersionHolder updateSchedulePlan(SchedulePlan plan) {
         try {
-            HttpResponse response = post(provider.getConfig().getSchedulePlanApi(plan.getGuid()),
+            HttpResponse response = post(config.getSchedulePlanApi(plan.getGuid()),
                     mapper.writeValueAsString(plan));
             String body = EntityUtils.toString(response.getEntity(), "UTF-8");
             return mapper.readValue(body, GuidVersionHolder.class);
@@ -72,7 +72,7 @@ class SchedulePlanApiCaller extends BaseApiCaller {
     }
 
     void deleteSchedulePlan(String guid) {
-        delete(provider.getConfig().getSchedulePlanApi(guid));
+        delete(config.getSchedulePlanApi(guid));
     }
 
 }

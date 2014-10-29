@@ -1,8 +1,10 @@
 package org.sagebionetworks.bridge.scripts;
 
 import org.joda.time.Period;
-import org.sagebionetworks.bridge.sdk.BridgeResearcherClient;
 import org.sagebionetworks.bridge.sdk.ClientProvider;
+import org.sagebionetworks.bridge.sdk.Config;
+import org.sagebionetworks.bridge.sdk.ResearcherClient;
+import org.sagebionetworks.bridge.sdk.Session;
 import org.sagebionetworks.bridge.sdk.models.schedules.ABTestScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.ActivityType;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
@@ -20,10 +22,10 @@ public class CreatePlans {
     }
     
     public static void main(String[] args) throws Exception {
-        ClientProvider provider = ClientProvider.valueOf();
-        provider.signIn();
+        Config config = ClientProvider.getConfig();
+        Session session = ClientProvider.signIn(config.getAdminCredentials());
 
-        BridgeResearcherClient client = provider.getResearcherClient();
+        ResearcherClient client = session.getResearcherClient();
 
         Schedule schedule = new Schedule();
         schedule.setLabel("Take the Quality of Life Survey");
@@ -47,6 +49,8 @@ public class CreatePlans {
         plan.setStrategy(strategy);
 
         client.createSchedulePlan(plan);
+        
+        session.signOut();
     }
 
 }

@@ -12,51 +12,30 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
+import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.models.StudyConsent;
 
 public class StudyConsentApiCallerTest {
 
     private StudyConsentApiCaller studyConsentApi;
-    private UserManagementApiCaller userManagementApi;
-    private ClientProvider provider;
-    private SignInCredentials admin;
-    private SignInCredentials user;
+    
+    private TestUser researcher;
 
     @Before
     public void before() {
-        provider = ClientProvider.valueOf();
-
-        userManagementApi = UserManagementApiCaller.valueOf(provider);
-        studyConsentApi = StudyConsentApiCaller.valueOf(provider);
-
-        // Get admin sign in
-        String adminEmail = provider.getConfig().getAdminEmail();
-        String adminPassword = provider.getConfig().getAdminPassword();
-        admin = SignInCredentials.valueOf().setUsername(adminEmail).setPassword(adminPassword);
-
-        // Get user sign in
-        String userEmail = "tests@sagebase.org";
-        String username = "testname";
-        String userPassword = "password";
-        boolean consent = true;
-        user = SignInCredentials.valueOf().setUsername(userEmail).setPassword(userPassword);
-
-        // Create user.
-        provider.signIn(admin);
-        userManagementApi.createUser(userEmail, username, userPassword, consent);
-        provider.signOut();
+        researcher = TestUserHelper.createAndSignInUser(StudyConsentApiCallerTest.class, true, "admin", "teststudy_researcher");
+        
+        studyConsentApi = StudyConsentApiCaller.valueOf(researcher.getSession());
     }
 
     @After
     public void after() {
-        userManagementApi.deleteUser(user.getUsername());
+        researcher.signOutAndDeleteUser();
     }
 
     @Test
     @Ignore
     public void test() {
-        provider.signIn(user);
         try {
             StudyConsent consent = StudyConsent.valueOf("/path/to", 22);
             studyConsentApi.addStudyConsent(consent);
@@ -65,9 +44,6 @@ public class StudyConsentApiCallerTest {
             assertTrue("The exception thrown was a BridgeServerException.",
                     t.getClass().equals(BridgeServerException.class));
         }
-
-        provider.signOut();
-        provider.signIn(admin);
 
         StudyConsent current = StudyConsent.valueOf("/path/to", 18);
         StudyConsent returned = studyConsentApi.addStudyConsent(current);

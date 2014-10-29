@@ -12,23 +12,23 @@ import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
 
 class SurveyResponseApiCaller extends BaseApiCaller {
 
-    private SurveyResponseApiCaller(ClientProvider provider) {
-        super(provider);
+    private SurveyResponseApiCaller(Session session) {
+        super(session);
     }
 
-    static SurveyResponseApiCaller valueOf(ClientProvider provider) {
-        return new SurveyResponseApiCaller(provider);
+    static SurveyResponseApiCaller valueOf(Session session) {
+        return new SurveyResponseApiCaller(session);
     }
 
     Survey getSurvey(String guid, DateTime timestamp) {
-        String url = provider.getConfig().getSurveyUserApi(guid, timestamp);
+        String url = config.getSurveyUserApi(guid, timestamp);
         HttpResponse response = get(url);
 
         return getResponseBodyAsType(response, Survey.class);
     }
 
     SurveyResponse getSurveyResponse(String guid) {
-        String url = provider.getConfig().getSurveyResponseApi(guid);
+        String url = config.getSurveyResponseApi(guid);
         HttpResponse response = get(url);
 
         return getResponseBodyAsType(response, SurveyResponse.class);
@@ -43,7 +43,7 @@ class SurveyResponseApiCaller extends BaseApiCaller {
                     + answers, e);
         }
 
-        String url = provider.getConfig().getSurveyApi(guid, timestamp);
+        String url = config.getSurveyApi(guid, timestamp);
         HttpResponse response = post(url, json);
 
         return getResponseBodyAsType(response, GuidHolder.class);
@@ -58,12 +58,12 @@ class SurveyResponseApiCaller extends BaseApiCaller {
                     + answers, e);
         }
 
-        String url = provider.getConfig().getSurveyResponseApi(guid);
+        String url = config.getSurveyResponseApi(guid);
         post(url, json);
     }
 
     void  deleteSurveyResponse(String guid) {
-        String url = provider.getConfig().getSurveyResponseApi(guid);
+        String url = config.getSurveyResponseApi(guid);
         delete(url);
     }
 

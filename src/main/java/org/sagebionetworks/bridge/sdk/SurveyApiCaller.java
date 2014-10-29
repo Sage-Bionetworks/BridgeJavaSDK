@@ -13,16 +13,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 class SurveyApiCaller extends BaseApiCaller {
 
-    private SurveyApiCaller(ClientProvider provider) {
-        super(provider);
+    private SurveyApiCaller(Session session) {
+        super(session);
     }
 
-    static SurveyApiCaller valueOf(ClientProvider provider) {
-        return new SurveyApiCaller(provider);
+    static SurveyApiCaller valueOf(Session session) {
+        return new SurveyApiCaller(session);
     }
 
     List<Survey> getAllVersionsOfAllSurveys() {
-        String url = provider.getConfig().getSurveysApi();
+        String url = config.getSurveysApi();
         HttpResponse response = get(url);
 
         JsonNode items = getPropertyFromResponse(response, "items");
@@ -33,7 +33,7 @@ class SurveyApiCaller extends BaseApiCaller {
     }
 
     List<Survey> getPublishedVersionsOfAllSurveys() {
-        String url = provider.getConfig().getSurveysPublishedApi();
+        String url = config.getSurveysPublishedApi();
         HttpResponse response = get(url);
 
         JsonNode items = getPropertyFromResponse(response, "items");
@@ -44,7 +44,7 @@ class SurveyApiCaller extends BaseApiCaller {
     }
 
     List<Survey> getRecentVersionsOfAllSurveys() {
-        String url = provider.getConfig().getRecentSurveysApi();
+        String url = config.getRecentSurveysApi();
         HttpResponse response = get(url);
 
         JsonNode items = getPropertyFromResponse(response, "items");
@@ -55,7 +55,7 @@ class SurveyApiCaller extends BaseApiCaller {
     }
 
     List<Survey> getAllVersionsForSurvey(String guid) {
-        String url = provider.getConfig().getSurveyVersionsApi(guid);
+        String url = config.getSurveyVersionsApi(guid);
         HttpResponse response = get(url);
 
         JsonNode items = getPropertyFromResponse(response, "items");
@@ -66,14 +66,14 @@ class SurveyApiCaller extends BaseApiCaller {
     }
 
     Survey getSurveyForResearcher(String guid, DateTime versionedOn) {
-        String url = provider.getConfig().getSurveyApi(guid, versionedOn);
+        String url = config.getSurveyApi(guid, versionedOn);
         HttpResponse response = get(url);
 
         return getResponseBodyAsType(response, Survey.class);
     }
 
     Survey getSurveyForUser(String guid, DateTime versionedOn) {
-        String url = provider.getConfig().getSurveyUserApi(guid, versionedOn);
+        String url = config.getSurveyUserApi(guid, versionedOn);
         HttpResponse response = get(url);
 
         return getResponseBodyAsType(response, Survey.class);
@@ -86,13 +86,13 @@ class SurveyApiCaller extends BaseApiCaller {
         } catch (IOException e) {
             throw new BridgeSDKException("Could not process Survey. Are you sure it is correct? survey=" + survey, e);
         }
-        HttpResponse response = post(provider.getConfig().getSurveysApi(), json);
+        HttpResponse response = post(config.getSurveysApi(), json);
 
         return getResponseBodyAsType(response, GuidVersionedOnHolder.class);
     }
 
     GuidVersionedOnHolder createNewVersionForSurvey(String guid, DateTime versionedOn) {
-        String url = provider.getConfig().getSurveyNewVersionApi(guid, versionedOn);
+        String url = config.getSurveyNewVersionApi(guid, versionedOn);
         HttpResponse response = post(url);
 
         return getResponseBodyAsType(response, GuidVersionedOnHolder.class);
@@ -100,7 +100,7 @@ class SurveyApiCaller extends BaseApiCaller {
 
     GuidVersionedOnHolder updateSurvey(Survey survey) {
         try {
-            String url = provider.getConfig().getSurveyApi(survey.getGuid(), new DateTime(survey.getVersionedOn()));
+            String url = config.getSurveyApi(survey.getGuid(), new DateTime(survey.getVersionedOn()));
             HttpResponse response = post(url, mapper.writeValueAsString(survey));
 
             return getResponseBodyAsType(response, GuidVersionedOnHolder.class);
@@ -110,12 +110,12 @@ class SurveyApiCaller extends BaseApiCaller {
     }
 
     void publishSurvey(String guid, DateTime versionedOn) {
-        String url = provider.getConfig().getPublishSurveyApi(guid, versionedOn);
+        String url = config.getPublishSurveyApi(guid, versionedOn);
         post(url);
     }
 
     void closeSurvey(String guid, DateTime versionedOn) {
-        String url = provider.getConfig().getCloseSurveyApi(guid, versionedOn);
+        String url = config.getCloseSurveyApi(guid, versionedOn);
         post(url);
     }
 }

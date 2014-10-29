@@ -28,6 +28,34 @@ public class BridgeServerException extends RuntimeException {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((endpoint == null) ? 0 : endpoint.hashCode());
+        result = prime * result + statusCode;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        BridgeServerException other = (BridgeServerException) obj;
+        if (endpoint == null) {
+            if (other.endpoint != null)
+                return false;
+        } else if (!endpoint.equals(other.endpoint))
+            return false;
+        if (statusCode != other.statusCode)
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "BridgeServerException[message=" + getMessage() + ", statusCode=" + getStatusCode() + ", endpoint="
                 + getRestEndpoint() + "]";

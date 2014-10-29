@@ -1,5 +1,9 @@
 package org.sagebionetworks.bridge.sdk;
 
+import static org.sagebionetworks.bridge.sdk.Preconditions.checkArgument;
+import static org.sagebionetworks.bridge.sdk.Preconditions.checkNotEmpty;
+import static org.sagebionetworks.bridge.sdk.Preconditions.checkNotNull;
+
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -13,9 +17,9 @@ import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
 
-public class BridgeUserClient {
+class BridgeUserClient implements UserClient {
 
-    private final ClientProvider provider;
+    private final Session session;
     private final UserProfileApiCaller profileApi;
     private final ConsentApiCaller consentApi;
     private final TrackerApiCaller trackerApi;
@@ -23,37 +27,34 @@ public class BridgeUserClient {
     private final ScheduleApiCaller scheduleApi;
     private final SurveyResponseApiCaller surveyResponseApi;
 
-    private BridgeUserClient(ClientProvider provider) {
-        this.provider = provider;
-        this.profileApi = UserProfileApiCaller.valueOf(provider);
-        this.consentApi = ConsentApiCaller.valueOf(provider);
-        this.trackerApi = TrackerApiCaller.valueOf(provider);
-        this.healthDataApi = HealthDataApiCaller.valueOf(provider);
-        this.scheduleApi = ScheduleApiCaller.valueOf(provider);
-        this.surveyResponseApi = SurveyResponseApiCaller.valueOf(provider);
+    private BridgeUserClient(Session session) {
+        this.session = session;
+        this.profileApi = UserProfileApiCaller.valueOf(session);
+        this.consentApi = ConsentApiCaller.valueOf(session);
+        this.trackerApi = TrackerApiCaller.valueOf(session);
+        this.healthDataApi = HealthDataApiCaller.valueOf(session);
+        this.scheduleApi = ScheduleApiCaller.valueOf(session);
+        this.surveyResponseApi = SurveyResponseApiCaller.valueOf(session);
     }
 
-    static BridgeUserClient valueOf(ClientProvider provider) {
-        return new BridgeUserClient(provider);
-    }
-
-    public ClientProvider getProvider() {
-        return this.provider;
+    static BridgeUserClient valueOf(Session session) {
+        return new BridgeUserClient(session);
     }
 
     /*
      * UserProfile API
      */
-
+    @Override
     public UserProfile getProfile() {
-        Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
+        session.checkSignedIn();
 
         return profileApi.getProfile();
     }
 
+    @Override
     public void saveProfile(UserProfile profile) {
-        Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
-        Preconditions.checkNotNull(profile, "Profile cannot be null.");
+        session.checkSignedIn();
+        checkNotNull(profile, "Profile cannot be null.");
 
         profileApi.updateProfile(profile);
     }
@@ -61,59 +62,64 @@ public class BridgeUserClient {
     /*
      * Consent API
      */
-
+    @Override
     public void resumeDataSharing() {
-        Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
+        session.checkSignedIn();
 
         consentApi.resumeDataSharing();
     }
 
+    @Override
     public void suspendDataSharing() {
-        Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
+        session.checkSignedIn();
     }
 
     /*
      * Health Data API
      */
-
+    @Override
     public HealthDataRecord getHealthDataRecord(Tracker tracker, String recordId) {
-        Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
-        Preconditions.checkNotNull(tracker, "Tracker cannot be null.");
-        Preconditions.checkNotEmpty(recordId, "recordId cannot be null or empty.");
+        session.checkSignedIn();
+        checkNotNull(tracker, "Tracker cannot be null.");
+        checkNotEmpty(recordId, "recordId cannot be null or empty.");
 
         return healthDataApi.getHealthDataRecord(tracker, recordId);
     }
 
+    @Override
     public IdVersionHolder updateHealthDataRecord(Tracker tracker, HealthDataRecord record) {
-        Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
-        Preconditions.checkNotNull(tracker, "Tracker cannot be null.");
-        Preconditions.checkNotNull(record, "Record cannot be null.");
+        session.checkSignedIn();
+        checkNotNull(tracker, "Tracker cannot be null.");
+        checkNotNull(record, "Record cannot be null.");
 
         return healthDataApi.updateHealthDataRecord(tracker, record);
     }
 
+    @Override
     public void deleteHealthDataRecord(Tracker tracker, String recordId) {
-        Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
-        Preconditions.checkNotNull(tracker, "Tracker cannot be null.");
-        Preconditions.checkNotEmpty(recordId, "recordId cannot be null or empty.");
+        session.checkSignedIn();
+        checkNotNull(tracker, "Tracker cannot be null.");
+        checkNotEmpty(recordId, "recordId cannot be null or empty.");
 
         healthDataApi.deleteHealthDataRecord(tracker, recordId);
     }
 
+    @Override
     public List<HealthDataRecord> getHealthDataRecordsInRange(Tracker tracker, DateTime startDate, DateTime endDate) {
-        Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
-        Preconditions.checkNotNull(tracker, "Tracker cannot be null.");
-        Preconditions.checkNotNull(startDate, "startDate cannot be null.");
-        Preconditions.checkNotNull(endDate, "endDate cannot be null.");
-        Preconditions.checkArgument(endDate.isAfter(startDate), "endDate must be after startDate.");
+        session.checkSignedIn();
+        checkNotNull(tracker, "Tracker cannot be null.");
+        checkNotNull(startDate, "startDate cannot be null.");
+        checkNotNull(endDate, "endDate cannot be null.");
+        checkArgument(endDate.isAfter(startDate), "endDate must be after startDate.");
 
         return healthDataApi.getHealthDataRecordsInRange(tracker, startDate, endDate);
     }
 
+    @Override
     public List<IdVersionHolder> addHealthDataRecords(Tracker tracker, List<HealthDataRecord> records) {
-        Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
-        Preconditions.checkNotNull(tracker, "Tracker cannot be null.");
-        Preconditions.checkNotNull(records, "Records cannot be null.");
+        session.checkSignedIn();
+        checkNotNull(tracker, "Tracker cannot be null.");
+        checkNotNull(records, "Records cannot be null.");
 
         return healthDataApi.addHealthDataRecords(tracker, records);
     }
@@ -121,14 +127,16 @@ public class BridgeUserClient {
     /*
      * Tracker API
      */
+    @Override
     public List<Tracker> getAllTrackers() {
-        Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
+        session.checkSignedIn();
 
         return trackerApi.getAllTrackers();
     }
 
+    @Override
     public String getSchema(Tracker tracker) {
-        Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
+        session.checkSignedIn();
 
         return trackerApi.getSchema(tracker);
     }
@@ -136,50 +144,55 @@ public class BridgeUserClient {
     /*
      * Schedules API
      */
+    @Override
     public List<Schedule> getSchedules() {
-        Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
+        session.checkSignedIn();
         return scheduleApi.getSchedules();
     }
 
     /*
      * Survey Response API
      */
+    @Override
+    public Survey getSurvey(String surveyGuid, DateTime versionedOn) {
+        session.checkSignedIn();
+        checkNotEmpty(surveyGuid, "SurveyGuid cannot be null or empty.");
+        checkNotNull(versionedOn, "VersionedOn cannot be null.");
 
-   public Survey getSurvey(String surveyGuid, DateTime versionedOn) {
-       Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
-       Preconditions.checkNotEmpty(surveyGuid, "SurveyGuid cannot be null or empty.");
-       Preconditions.checkNotNull(versionedOn, "VersionedOn cannot be null.");
+        return surveyResponseApi.getSurvey(surveyGuid, versionedOn);
+    }
 
-       return surveyResponseApi.getSurvey(surveyGuid, versionedOn);
-   }
+    @Override
+    public GuidHolder submitAnswersToSurvey(Survey survey, List<SurveyAnswer> answers) {
+        session.checkSignedIn();
+        checkNotNull(survey, "Survey cannot be null.");
+        checkNotNull(answers, "Answers cannot be null.");
 
-   public GuidHolder submitAnswersToSurvey(Survey survey, List<SurveyAnswer> answers) {
-       Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
-       Preconditions.checkNotNull(survey, "Survey cannot be null.");
-       Preconditions.checkNotNull(answers, "Answers cannot be null.");
+        return surveyResponseApi.submitAnswers(answers, survey.getGuid(), survey.getVersionedOn());
+    }
 
-       return surveyResponseApi.submitAnswers(answers, survey.getGuid(), survey.getVersionedOn());
-   }
+    @Override
+    public SurveyResponse getSurveyResponse(String surveyResponseGuid) {
+        session.checkSignedIn();
+        checkNotEmpty(surveyResponseGuid, "SurveyResponseGuid cannot be null or empty.");
 
-   public SurveyResponse getSurveyResponse(String surveyResponseGuid) {
-       Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method");
-       Preconditions.checkNotEmpty(surveyResponseGuid, "SurveyResponseGuid cannot be null or empty.");
+        return surveyResponseApi.getSurveyResponse(surveyResponseGuid);
+    }
 
-       return surveyResponseApi.getSurveyResponse(surveyResponseGuid);
-   }
+    @Override
+    public void addAnswersToResponse(SurveyResponse response, List<SurveyAnswer> answers) {
+        session.checkSignedIn();
+        checkNotNull(response, "Response cannot be null.");
+        checkNotNull(answers, "Answers cannot be null.");
 
-   public void addAnswersToResponse(SurveyResponse response, List<SurveyAnswer> answers) {
-       Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method");
-       Preconditions.checkNotNull(response, "Response cannot be null.");
-       Preconditions.checkNotNull(answers, "Answers cannot be null.");
+        surveyResponseApi.addAnswersToSurveyResponse(answers, response.getGuid());
+    }
 
-       surveyResponseApi.addAnswersToSurveyResponse(answers, response.getGuid());
-   }
+    @Override
+    public void deleteSurveyResponse(SurveyResponse response) {
+        session.checkSignedIn();
+        checkNotNull(response, "Response cannot be null.");
 
-   public void deleteSurveyResponse(SurveyResponse response) {
-       Preconditions.checkState(provider.isSignedIn(), "Provider must be signed in to call this method.");
-       Preconditions.checkNotNull(response, "Response cannot be null.");
-
-       surveyResponseApi.deleteSurveyResponse(response.getGuid());
-   }
+        surveyResponseApi.deleteSurveyResponse(response.getGuid());
+    }
 }

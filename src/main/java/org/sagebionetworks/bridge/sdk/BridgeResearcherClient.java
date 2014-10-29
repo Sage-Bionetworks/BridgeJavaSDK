@@ -1,5 +1,8 @@
 package org.sagebionetworks.bridge.sdk;
 
+import static org.sagebionetworks.bridge.sdk.Preconditions.checkNotEmpty;
+import static org.sagebionetworks.bridge.sdk.Preconditions.checkNotNull;
+
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -8,101 +11,109 @@ import org.sagebionetworks.bridge.sdk.models.GuidVersionedOnHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 
-public class BridgeResearcherClient {
+class BridgeResearcherClient implements ResearcherClient {
 
-    private final ClientProvider provider;
+    private final Session session;
     private final SurveyApiCaller surveyApi;
     private final SchedulePlanApiCaller schedulePlanApi;
 
-    private BridgeResearcherClient(ClientProvider provider) {
-        this.provider = provider;
-        this.surveyApi = SurveyApiCaller.valueOf(provider);
-        this.schedulePlanApi = SchedulePlanApiCaller.valueOf(provider);
+    private BridgeResearcherClient(Session session) {
+        this.session = session;
+        this.surveyApi = SurveyApiCaller.valueOf(session);
+        this.schedulePlanApi = SchedulePlanApiCaller.valueOf(session);
     }
 
-    static BridgeResearcherClient valueOf(ClientProvider provider) {
-        return new BridgeResearcherClient(provider);
+    static BridgeResearcherClient valueOf(Session session) {
+        return new BridgeResearcherClient(session);
     }
-
+    @Override
     public Survey getSurvey(String guid, DateTime versionedOn) {
-        Preconditions.checkArgument(provider.isSignedIn(), "Not signed in");
-        Preconditions.checkNotEmpty(guid, "Guid is null or blank");
-        Preconditions.checkNotNull(versionedOn, "VersionedOn is null");
+        session.checkSignedIn();
+        checkNotEmpty(guid, "Guid is null or blank");
+        checkNotNull(versionedOn, "VersionedOn is null");
         return surveyApi.getSurveyForResearcher(guid, versionedOn);
     }
-    public GuidVersionedOnHolder createSurvey(Survey survey) {
-        Preconditions.checkArgument(provider.isSignedIn(), "Not signed in");
-        Preconditions.checkNotNull(survey, "Survey object is null");
-        return surveyApi.createNewSurvey(survey);
-    }
+    @Override
     public List<Survey> getAllVersionsOfAllSurveys() {
-        Preconditions.checkArgument(provider.isSignedIn(), "Not signed in");
+        session.checkSignedIn();
         return surveyApi.getAllVersionsOfAllSurveys();
     }
+    @Override
     public List<Survey> getPublishedVersionsOfAllSurveys() {
-        Preconditions.checkArgument(provider.isSignedIn(), "Not signed in");
+        session.checkSignedIn();
         return surveyApi.getPublishedVersionsOfAllSurveys();
     }
+    @Override
     public List<Survey> getRecentVersionsOfAllSurveys() {
-        Preconditions.checkArgument(provider.isSignedIn(), "Not signed in");
+        session.checkSignedIn();
         return surveyApi.getRecentVersionsOfAllSurveys();
     }
+    @Override
     public List<Survey> getAllVersionsForSurvey(String guid) {
-        Preconditions.checkArgument(provider.isSignedIn(), "Not signed in");
-        Preconditions.checkNotEmpty(guid, "Guid is null or blank");
+        session.checkSignedIn();
+        checkNotEmpty(guid, "Guid is null or blank");
         return surveyApi.getAllVersionsOfAllSurveys();
     }
-    public GuidVersionedOnHolder createNewSurvey(Survey survey) {
-        Preconditions.checkArgument(provider.isSignedIn(), "Not signed in");
-        Preconditions.checkNotNull(survey, "Survey object is null");
+    @Override
+    public GuidVersionedOnHolder createSurvey(Survey survey) {
+        session.checkSignedIn();
+        checkNotNull(survey, "Survey object is null");
         return surveyApi.createNewSurvey(survey);
     }
+    @Override
     public GuidVersionedOnHolder versionSurvey(String guid, DateTime versionedOn) {
-        Preconditions.checkArgument(provider.isSignedIn(), "Not signed in");
-        Preconditions.checkNotEmpty(guid, "Guid is null or blank");
-        Preconditions.checkNotNull(versionedOn, "VersionedOn is null");
+        session.checkSignedIn();
+        checkNotEmpty(guid, "Guid is null or blank");
+        checkNotNull(versionedOn, "VersionedOn is null");
         return surveyApi.createNewVersionForSurvey(guid, versionedOn);
     }
+    @Override
     public GuidVersionedOnHolder updateSurvey(Survey survey) {
-        Preconditions.checkArgument(provider.isSignedIn(), "Not signed in");
-        Preconditions.checkNotNull(survey, "Survey object is null");
+        session.checkSignedIn();
+        checkNotNull(survey, "Survey object is null");
         return surveyApi.updateSurvey(survey);
     }
+    @Override
     public void publishSurvey(String guid, DateTime versionedOn) {
-        Preconditions.checkArgument(provider.isSignedIn(), "Not signed in");
-        Preconditions.checkNotEmpty(guid, "Guid is null or blank");
-        Preconditions.checkNotNull(versionedOn, "VersionedOn is null");
+        session.checkSignedIn();
+        checkNotEmpty(guid, "Guid is null or blank");
+        checkNotNull(versionedOn, "VersionedOn is null");
         surveyApi.publishSurvey(guid, versionedOn);
     }
+    @Override
     public void closeSurvey(String guid, DateTime versionedOn) {
-        Preconditions.checkArgument(provider.isSignedIn(), "Not signed in");
-        Preconditions.checkNotEmpty(guid, "Guid is null or blank");
-        Preconditions.checkNotNull(versionedOn, "VersionedOn is null");
+        session.checkSignedIn();
+        checkNotEmpty(guid, "Guid is null or blank");
+        checkNotNull(versionedOn, "VersionedOn is null");
         surveyApi.closeSurvey(guid, versionedOn);
     }
-
+    @Override
     public List<SchedulePlan> getSchedulePlans() {
+        session.checkSignedIn();
         return schedulePlanApi.getSchedulePlans();
     }
-
+    @Override
     public GuidVersionHolder createSchedulePlan(SchedulePlan plan) {
-        Preconditions.checkNotNull(plan, "Plan object is null");
+        session.checkSignedIn();
+        checkNotNull(plan, "Plan object is null");
         return schedulePlanApi.createSchedulePlan(plan);
     }
-
+    @Override
     public SchedulePlan getSchedulePlan(String guid) {
-        Preconditions.checkNotEmpty(guid, "Guid is null or blank");
+        session.checkSignedIn();
+        checkNotEmpty(guid, "Guid is null or blank");
         return schedulePlanApi.getSchedulePlan(guid);
     }
-
+    @Override
     public GuidVersionHolder updateSchedulePlan(SchedulePlan plan) {
-        Preconditions.checkNotNull(plan, "Plan object is null");
+        session.checkSignedIn();
+        checkNotNull(plan, "Plan object is null");
         return schedulePlanApi.updateSchedulePlan(plan);
     }
-
+    @Override
     public void deleteSchedulePlan(String guid) {
-        Preconditions.checkNotEmpty(guid, "Guid is null or blank");
+        session.checkSignedIn();
+        checkNotEmpty(guid, "Guid is null or blank");
         schedulePlanApi.deleteSchedulePlan(guid);
     }
-
 }

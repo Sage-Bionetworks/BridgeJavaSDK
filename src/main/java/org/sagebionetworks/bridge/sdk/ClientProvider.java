@@ -1,79 +1,42 @@
 package org.sagebionetworks.bridge.sdk;
 
+import static org.sagebionetworks.bridge.sdk.Preconditions.checkNotEmpty;
+import static org.sagebionetworks.bridge.sdk.Preconditions.checkNotNull;
+
 import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
-import org.sagebionetworks.bridge.sdk.models.UserSession;
+import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
 
 public class ClientProvider {
 
-    private UserSession session;
-    private final AuthenticationApiCaller authApi;
-    private final Config config;
-
-    private ClientProvider(String host) {
-        this.config = Config.valueOf(host);
-        this.authApi = AuthenticationApiCaller.valueOf(this);
-    }
-
-    private ClientProvider() {
-        this.config = Config.valueOf();
-        this.authApi = AuthenticationApiCaller.valueOf(this);
-    }
-
-    public static ClientProvider valueOf(String host) {
-        Preconditions.checkNotEmpty(host, "Host is null or empty");
-        return new ClientProvider(host);
-    }
-
-    public static ClientProvider valueOf() {
-        return new ClientProvider();
-    }
-
-    public Config getConfig() { return config; }
-    UserSession getSession() { return session; }
-    String getSessionToken() { return isSignedIn() ? session.getSessionToken() : null; }
-
-    void setSession(UserSession session) {
-        assert session != null;
-        this.session = session;
-    }
-
-    public boolean isSignedIn() {
-        return session != null;
-    }
-
-    public void signIn() {
-        session = authApi.signIn(Preconditions.checkNotNull(config.getAccountEmail()),
-                Preconditions.checkNotNull(config.getAccountPassword()));
-    }
-
-    public void signIn(SignInCredentials signIn) {
-        if (signIn == null) {
-            throw new IllegalArgumentException("SignInCredentials object must not be null.");
-        } else if (session != null) {
-            return; // already signed in, so don't do anything.
+    private static Config config; 
+    
+    public static synchronized Config getConfig() {
+        if (config == null) {
+            config = Config.valueOf();
         }
-        session = authApi.signIn(signIn.getUsername(), signIn.getPassword());
+        return config;
     }
-
-    public void signOut() {
-        if (session == null) {
-            return; // already signed out, so don't do anything.
-        }
-        authApi.signOut(session);
-        session = null;
+    
+    public static Session signIn(SignInCredentials signIn) {
+        checkNotNull(signIn, "SignInCredentials required.");
+        
+        AuthenticationApiCaller authApi = AuthenticationApiCaller.valueOf();
+        UserSession session = authApi.signIn(signIn.getUsername(), signIn.getPassword());
+        return BridgeSession.valueOf(session);
     }
+    public static void signUp(SignUpCredentials signUp) {
+        checkNotNull(signUp, "SignUpCredentials required.");
+        checkNotEmpty(signUp.getEmail(), "Email cannot be blank/null");
+        checkNotEmpty(signUp.getUsername(), "Username cannot be blank/null");
+        checkNotEmpty(signUp.getPassword(), "Password cannot be blank/null");
 
-    public BridgeUserClient getClient() {
-        if (session == null) {
-            throw new IllegalStateException("A User needs to be signed in to call this method.");
-        }
-        return BridgeUserClient.valueOf(this);
+        AuthenticationApiCaller authApi = AuthenticationApiCaller.valueOf();
+        authApi.signUp(signUp);
     }
+    public static void requestResetPassword(String email) {
+        checkNotEmpty(email, "Email cannot be blank/null");
 
-    public BridgeResearcherClient getResearcherClient() {
-        if (session == null) {
-            throw new IllegalStateException("A User needs to be signed in to call this method.");
-        }
-        return BridgeResearcherClient.valueOf(this);
+        AuthenticationApiCaller authApi = AuthenticationApiCaller.valueOf();
+        authApi.requestResetPassword(email);
     }
 }

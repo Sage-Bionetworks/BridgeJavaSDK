@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -10,6 +12,7 @@ import java.util.Properties;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
+import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
@@ -34,6 +37,7 @@ public final class Config {
         CONSENT_API,
         CONSENT_SUSPEND_API,
         CONSENT_RESUME_API,
+        DEV_NAME,
         HEALTH_DATA_TRACKER_API,
         HEALTH_DATA_TRACKER_RECORD_API,
         PROFILE_API,
@@ -91,18 +95,8 @@ public final class Config {
         }
     }
 
-    private Config(String host) {
-        this();
-        Preconditions.checkNotEmpty(host, "Host is null or empty");
-        config.setProperty(Props.HOST.getPropertyName(), host);
-    }
-
     static Config valueOf() {
         return new Config();
-    }
-
-    static Config valueOf(String host) {
-        return new Config(host);
     }
 
     private void loadProperties(final InputStream inputStream, final Properties properties) {
@@ -118,7 +112,21 @@ public final class Config {
             }
         }
     }
-
+    
+    // Accessor for the public API that allows consumer to change any value that
+    // is in the configuration files, programmatically, if that's something they
+    // want to do.
+    public void set(Props property, String value) {
+        checkNotNull(property, "Must specify a property");
+        checkNotNull(value, "Must specify a value");
+        config.setProperty(property.getPropertyName(), value);
+    }
+    public SignInCredentials getAccountCredentials() {
+        return SignInCredentials.valueOf().setUsername(getAccountEmail()).setPassword(getAccountPassword());
+    }
+    public SignInCredentials getAdminCredentials() {
+        return SignInCredentials.valueOf().setUsername(getAdminEmail()).setPassword(getAdminPassword());
+    }
     String getAccountEmail() {
         return val(Props.ACCOUNT_EMAIL);
     }
@@ -130,6 +138,9 @@ public final class Config {
     }
     String getAdminPassword() {
         return val(Props.ADMIN_PASSWORD);
+    }
+    String getDevName() {
+        return val(Props.DEV_NAME);
     }
     String getHost() {
         return val(Props.HOST);
@@ -237,8 +248,10 @@ public final class Config {
         return String.format(val(Props.SCHEDULEPLAN_API), guid);
     }
 
-    public String val(Props prop) {
-        return config.getProperty(prop.getPropertyName());
+    private String val(Props prop) {
+        String value = config.getProperty(prop.getPropertyName());
+        checkNotNull(value, "The property '" + prop.getPropertyName() + "' has not been set.");
+        return value;
     }
 
     @Override

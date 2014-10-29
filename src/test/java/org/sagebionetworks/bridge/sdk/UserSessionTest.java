@@ -7,7 +7,6 @@ import static org.junit.Assert.fail;
 import java.io.IOException;
 
 import org.junit.Test;
-import org.sagebionetworks.bridge.sdk.models.UserSession;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
