@@ -19,22 +19,22 @@ public class CreateSurveys {
         Session session = ClientProvider.signIn(config.getAccountCredentials());
 
         ResearcherClient client = session.getResearcherClient();
-        
+
         List<Survey> surveys = client.getAllVersionsOfAllSurveys();
         for (Survey survey : surveys) {
             survey = client.getSurvey(survey.getGuid(), survey.getVersionedOn());
-            
-            GuidVersionedOnHolder holder = client.versionSurvey(survey.getGuid(), survey.getVersionedOn());
+
+            GuidVersionedOnHolder holder = client.createNewVersionForSurvey(survey.getGuid(), survey.getVersionedOn());
             survey = client.getSurvey(holder.getGuid(), holder.getVersionedOn());
 
             for (SurveyQuestion question : survey.getQuestions()) {
                 if (question.getConstraints() instanceof MultiValueConstraints) {
                     MultiValueConstraints con = (MultiValueConstraints)question.getConstraints();
-                    
+
                     for (int i=0; i < con.getEnumeration().size(); i++) {
                         SurveyQuestionOption option = con.getEnumeration().get(i);
-                        
-                        con.getEnumeration().set(i, new SurveyQuestionOption(option.getLabel(), (String)option.getValue(), option.getImage()));
+
+                        con.getEnumeration().set(i, new SurveyQuestionOption(option.getLabel(), option.getValue(), option.getImage()));
                     }
                 }
             }

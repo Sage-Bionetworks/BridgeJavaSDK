@@ -11,7 +11,7 @@ import org.sagebionetworks.bridge.sdk.models.StudyConsent;
 final class BridgeAdminClient implements AdminClient {
 
     private static final String CANNOT_BE_NULL = "{0} cannot be null.";
-    
+
     private final Session session;
     private final StudyConsentApiCaller studyConsentApi;
     private final UserManagementApiCaller userManagementApi;
@@ -25,7 +25,7 @@ final class BridgeAdminClient implements AdminClient {
     static BridgeAdminClient valueOf(Session session) {
         return new BridgeAdminClient(session);
     }
-    
+
     @Override
     public List<StudyConsent> getAllConsentDocuments() {
         session.checkSignedIn();
@@ -33,7 +33,7 @@ final class BridgeAdminClient implements AdminClient {
         return studyConsentApi.getAllStudyConsents();
     }
     @Override
-    public StudyConsent getActiveConsentDocument() {
+    public StudyConsent getMostRecentlyActivatedConsentDocument() {
         session.checkSignedIn();
 
         return studyConsentApi.getActiveStudyConsent();
@@ -62,13 +62,13 @@ final class BridgeAdminClient implements AdminClient {
     @Override
     public boolean createUser(SignUpCredentials signUp, List<String> roles, boolean consent) {
         session.checkSignedIn();
-        
+
         return userManagementApi.createUser(signUp, roles, consent);
     }
     @Override
     public boolean deleteUser(String email) {
         session.checkSignedIn();
-        
+
         return userManagementApi.deleteUser(email);
     }
 }

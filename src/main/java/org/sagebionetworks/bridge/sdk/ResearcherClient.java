@@ -11,27 +11,27 @@ import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 public interface ResearcherClient {
 
     public Survey getSurvey(String guid, DateTime versionedOn);
-    
+
     public GuidVersionedOnHolder createSurvey(Survey survey);
-    
+
     public List<Survey> getAllVersionsOfAllSurveys();
-    
+
     public List<Survey> getPublishedVersionsOfAllSurveys();
-    
+
     public List<Survey> getRecentVersionsOfAllSurveys();
-    
+
     public List<Survey> getAllVersionsForSurvey(String guid);
-    
-    public GuidVersionedOnHolder versionSurvey(String guid, DateTime versionedOn);
-    
+
+    public GuidVersionedOnHolder createNewVersionForSurvey(String guid, DateTime versionedOn);
+
     public GuidVersionedOnHolder updateSurvey(Survey survey);
-    
+
     public void publishSurvey(String guid, DateTime versionedOn);
-    
+
     public void closeSurvey(String guid, DateTime versionedOn);
 
     public List<SchedulePlan> getSchedulePlans();
-    
+
     public GuidVersionHolder createSchedulePlan(SchedulePlan plan);
 
     public SchedulePlan getSchedulePlan(String guid);

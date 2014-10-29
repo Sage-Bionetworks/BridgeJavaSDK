@@ -61,7 +61,7 @@ class BridgeResearcherClient implements ResearcherClient {
         return surveyApi.createNewSurvey(survey);
     }
     @Override
-    public GuidVersionedOnHolder versionSurvey(String guid, DateTime versionedOn) {
+    public GuidVersionedOnHolder createNewVersionForSurvey(String guid, DateTime versionedOn) {
         session.checkSignedIn();
         checkNotEmpty(guid, "Guid is null or blank");
         checkNotNull(versionedOn, "VersionedOn is null");
