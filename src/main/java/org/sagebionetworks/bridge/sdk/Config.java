@@ -4,7 +4,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -72,26 +71,18 @@ public final class Config {
     private Properties config;
 
     private Config() {
-        try {
-            config = new Properties();
-            loadProperties(new FileInputStream(new File(CONFIG_FILE)), config);
+        config = new Properties();
+        loadProperties(CONFIG_FILE, config);
+        loadProperties(USER_CONFIG_FILE, config);
 
-            File userConfig = new File(USER_CONFIG_FILE);
-            if (userConfig.exists()) {
-                loadProperties(new FileInputStream(userConfig), config);
+        for (Props key : Props.values()) {
+            String value = System.getenv(key.name());
+            if (value == null) {
+                value = System.getProperty(key.name());
             }
-
-            for (Props key : Props.values()) {
-                String value = System.getenv(key.name());
-                if (value == null) {
-                    value = System.getProperty(key.name());
-                }
-                if (value != null) {
-                    config.setProperty(key.getPropertyName(), value);
-                }
+            if (value != null) {
+                config.setProperty(key.getPropertyName(), value);
             }
-        } catch(FileNotFoundException e) {
-            throw new BridgeSDKException(e.getMessage(), e);
         }
     }
 
@@ -99,20 +90,17 @@ public final class Config {
         return new Config();
     }
 
-    private void loadProperties(final InputStream inputStream, final Properties properties) {
-        try {
-            properties.load(inputStream);
-        } catch(IOException e) {
-            throw new RuntimeException(e);
-        } finally {
-            try {
-                inputStream.close();
+    private void loadProperties(final String fileName, final Properties properties) {
+        File file = new File(fileName);
+        if (file.exists()) {
+            try (InputStream in = new FileInputStream(file)) {
+                properties.load(in);
             } catch(IOException e) {
                 throw new RuntimeException(e);
             }
         }
     }
-    
+
     // Accessor for the public API that allows consumer to change any value that
     // is in the configuration files, programmatically, if that's something they
     // want to do.

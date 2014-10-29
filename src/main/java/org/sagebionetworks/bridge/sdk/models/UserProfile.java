@@ -18,15 +18,26 @@ public final class UserProfile {
         this.username = username;
         this.email = email;
     }
-
+    
     public static UserProfile valueOf() {
         return new UserProfile(null, null, null, null);
     }
 
-    public String getFirstName() { return firstName; }
-    public String getLastName() { return lastName; }
-    public String getUsername() { return username; }
-    public String getEmail() { return email; }
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
 
     public UserProfile setFirstName(String firstName) {
         this.firstName = firstName;
@@ -35,16 +46,6 @@ public final class UserProfile {
 
     public UserProfile setLastName(String lastName) {
         this.lastName = lastName;
-        return this;
-    }
-
-    public UserProfile setUsername(String username) {
-        this.username = username;
-        return this;
-    }
-
-    public UserProfile setEmail(String email) {
-        this.email = email;
         return this;
     }
 

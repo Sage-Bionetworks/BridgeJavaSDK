@@ -35,7 +35,7 @@ public interface UserClient {
 
     public List<Tracker> getAllTrackers();
 
-    public String getSchema(Tracker tracker);
+    public String getTrackerSchema(Tracker tracker);
 
     public List<Schedule> getSchedules();
 
