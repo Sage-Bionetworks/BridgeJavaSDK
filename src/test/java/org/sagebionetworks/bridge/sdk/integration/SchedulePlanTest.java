@@ -4,16 +4,22 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.sagebionetworks.bridge.Tests.untilConsistently;
+
+import java.util.List;
+import java.util.concurrent.Callable;
 
 import org.joda.time.Period;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.BridgeServerException;
 import org.sagebionetworks.bridge.sdk.InvalidEntityException;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
+import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.models.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.ABTestScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.ActivityType;
@@ -71,23 +77,28 @@ public class SchedulePlanTest {
 
     private GuidVersionHolder guidVersion;
     
+    private TestUser user;
     private TestUser researcher;
-    private ResearcherClient client;
+    private ResearcherClient researcherClient;
+    private UserClient userClient;
 
     @Before
     public void before() {
+        user = TestUserHelper.createAndSignInUser(SchedulePlanTest.class, true);
         researcher = TestUserHelper.createAndSignInUser(SchedulePlanTest.class, true, "teststudy_researcher");
         
-        client = researcher.getSession().getResearcherClient();
+        researcherClient = researcher.getSession().getResearcherClient();
+        userClient = user.getSession().getUserClient();
     }
 
     @After
     public void after() {
         // Try and clean up if that didn't happen in the test.
         if (guidVersion != null) {
-            client.deleteSchedulePlan(guidVersion.getGuid());
+            researcherClient.deleteSchedulePlan(guidVersion.getGuid());
         }
-        researcher.signOutAndDeleteUser();    
+        researcher.signOutAndDeleteUser();
+        user.signOutAndDeleteUser();
     }
     
     @Test
@@ -111,31 +122,34 @@ public class SchedulePlanTest {
         SchedulePlan plan = new TestABSchedulePlan();
         
         // Create
-        guidVersion = client.createSchedulePlan(plan);
+        guidVersion = researcherClient.createSchedulePlan(plan);
 
         // Update
-        plan = client.getSchedulePlan(guidVersion.getGuid());
+        plan = researcherClient.getSchedulePlan(guidVersion.getGuid());
         TestSimpleSchedulePlan simplePlan = new TestSimpleSchedulePlan();
         plan.setStrategy(simplePlan.getStrategy());
 
-        GuidVersionHolder newGuidVersion = client.updateSchedulePlan(plan);
+        GuidVersionHolder newGuidVersion = researcherClient.updateSchedulePlan(plan);
         assertNotEquals("Version should be updated", guidVersion.getVersion(), newGuidVersion.getVersion());
 
         // Get
-        plan = client.getSchedulePlan(guidVersion.getGuid());
+        plan = researcherClient.getSchedulePlan(guidVersion.getGuid());
         assertEquals("Strategy type has been changed", "SimpleScheduleStrategy", plan.getStrategy().getClass().getSimpleName());
 
-        // Verify schedules have been created. To do this you need to sign out and sign
-        /* Doesn't work, researcher doesn't seem to show up in the list of users in the study.
-        List<Schedule> schedules = provider.getClient().getSchedules();
+        untilConsistently(new Callable<Boolean>() {
+            @Override public Boolean call() throws Exception {
+                return (!userClient.getSchedules().isEmpty());
+            }
+        });
+        
+        List<Schedule> schedules = userClient.getSchedules();
         assertTrue("Schedules exist", !schedules.isEmpty());
-        */
 
         // Delete
-        client.deleteSchedulePlan(guidVersion.getGuid());
+        researcherClient.deleteSchedulePlan(guidVersion.getGuid());
 
         try {
-            client.getSchedulePlan(guidVersion.getGuid());
+            researcherClient.getSchedulePlan(guidVersion.getGuid());
             fail("Should have thrown an exception because plan was deleted");
         } catch(BridgeServerException e) {
             assertEquals("Returns 404 Not Found", 404, e.getStatusCode());
@@ -149,7 +163,7 @@ public class SchedulePlanTest {
             
             SchedulePlan plan = new TestABSchedulePlan();
             plan.setStrategy(null);
-            client.createSchedulePlan(plan);
+            researcherClient.createSchedulePlan(plan);
             fail("Plan was invalid and should have thrown an exception");
             
         } catch(InvalidEntityException e) {
@@ -163,7 +177,7 @@ public class SchedulePlanTest {
     @Test
     public void noPlanReturns400() {
         try {
-            client.createSchedulePlan(null);    
+            researcherClient.createSchedulePlan(null);    
         } catch(NullPointerException e) {
             assertEquals("Clear null-pointer message", "Plan object is null", e.getMessage());
         }
