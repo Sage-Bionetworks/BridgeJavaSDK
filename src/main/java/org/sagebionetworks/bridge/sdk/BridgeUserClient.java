@@ -166,6 +166,8 @@ class BridgeUserClient implements UserClient {
     public GuidHolder submitAnswersToSurvey(Survey survey, List<SurveyAnswer> answers) {
         session.checkSignedIn();
         checkNotNull(survey, "Survey cannot be null.");
+        checkNotEmpty(survey.getGuid(), "Survey guid cannot be null or empty.");
+        checkNotNull(survey.getVersionedOn(), "Survey versionedOn cannot be null.");
         checkNotNull(answers, "Answers cannot be null.");
 
         return surveyResponseApi.submitAnswers(answers, survey.getGuid(), survey.getVersionedOn());

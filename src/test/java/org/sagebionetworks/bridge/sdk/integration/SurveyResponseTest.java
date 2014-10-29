@@ -17,6 +17,7 @@ import org.sagebionetworks.bridge.sdk.Session;
 import org.sagebionetworks.bridge.sdk.TestSurvey;
 import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.models.GuidHolder;
+import org.sagebionetworks.bridge.sdk.models.GuidVersionedOnHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.MultiValueConstraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
@@ -33,6 +34,7 @@ public class SurveyResponseTest {
 
     private TestSurvey testSurvey;
     private Survey survey;
+    private GuidVersionedOnHolder key;
 
     @Before
     public void before() {
@@ -43,7 +45,8 @@ public class SurveyResponseTest {
 
         testSurvey = new TestSurvey();
         survey = testSurvey.getSurvey();
-        researcher.createSurvey(survey);
+        key = researcher.createSurvey(survey);
+
     }
 
     @After
@@ -72,6 +75,8 @@ public class SurveyResponseTest {
         SurveyAnswer answer2 = SurveyAnswer.valueOf(questionGuid, false, answerField, answeredOn, client);
         answers.add(answer2);
 
+        survey = researcher.getSurvey(key.getGuid(), key.getVersionedOn());
+        System.out.println(survey);
         GuidHolder key = user.submitAnswersToSurvey(survey, answers);
 
         SurveyResponse surveyResponse = user.getSurveyResponse(key.getGuid());
@@ -91,6 +96,7 @@ public class SurveyResponseTest {
         answers.add(answer);
 
         question = survey.getQuestions().get(1); // datetime
+        System.out.println(question.getConstraints().getClass());
         String answerField1 = DateTime.now().toString(ISODateTimeFormat.dateTime());
         DateTime answeredOn1 = DateTime.now();
         String client1 = "mobile";
@@ -99,6 +105,7 @@ public class SurveyResponseTest {
         answers.add(answer1);
 
         question = survey.getQuestions().get(2); // datetime
+        System.out.println(question.getConstraints().getClass());
         String answerField2 = DateTime.now().toString(ISODateTimeFormat.dateTime());
         DateTime answeredOn2 = DateTime.now();
         String client2 = "mobile";
@@ -107,6 +114,7 @@ public class SurveyResponseTest {
         answers.add(answer2);
 
         question = survey.getQuestions().get(3); // decimal
+        System.out.println(question.getConstraints().getClass());
         String answerField3 = "4.6";
         DateTime answeredOn3 = DateTime.now();
         String client3 = "mobile";
@@ -115,6 +123,7 @@ public class SurveyResponseTest {
         answers.add(answer3);
 
         question = survey.getQuestions().get(4); // integer
+        System.out.println(question.getConstraints().getClass());
         String answerField4 = "4";
         DateTime answeredOn4 = DateTime.now();
         String client4 = "mobile";
@@ -123,6 +132,7 @@ public class SurveyResponseTest {
         answers.add(answer4);
 
         question = survey.getQuestions().get(5); // duration
+        System.out.println(question.getConstraints().getClass());
         String answerField5 = "PTH";
         DateTime answeredOn5 = DateTime.now();
         String client5 = "mobile";
@@ -131,6 +141,7 @@ public class SurveyResponseTest {
         answers.add(answer5);
 
         question = survey.getQuestions().get(6); // time
+        System.out.println(question.getConstraints().getClass());
         // "14:45:15.357Z" doesn't work because it has a time zone. They should be able
         // to enter a time zone if they want though, right? This is *too* restrictive.
         String answerField6 = "14:45:15.357";
@@ -141,6 +152,7 @@ public class SurveyResponseTest {
         answers.add(answer6);
 
         question = survey.getQuestions().get(7); // multichoice integer
+        System.out.println(question.getConstraints().getClass());
         assertTrue("Question is multichoice.", question.getConstraints() instanceof MultiValueConstraints);
         String answerField7 = Lists.<String>newArrayList("3").toArray().toString();
         DateTime answeredOn7 = DateTime.now();
@@ -158,6 +170,7 @@ public class SurveyResponseTest {
         answers.add(answer8);
 
         // Submit all these tricky examples of answers through the API.
+        survey = researcher.getSurvey(key.getGuid(), key.getVersionedOn());
         user.submitAnswersToSurvey(survey, answers);
     }
 
