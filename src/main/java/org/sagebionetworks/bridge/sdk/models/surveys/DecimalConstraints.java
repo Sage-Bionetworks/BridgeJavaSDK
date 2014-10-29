@@ -1,11 +1,15 @@
 package org.sagebionetworks.bridge.sdk.models.surveys;
 
 public class DecimalConstraints extends Constraints {
-    
+
     private Double minValue;
     private Double maxValue;
     private Double step;
-    
+
+    public DecimalConstraints() {
+        setDataType(DataType.DECIMAL);
+    }
+
     public Double getMinValue() {
         return minValue;
     }

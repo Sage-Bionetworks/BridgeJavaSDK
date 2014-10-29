@@ -7,31 +7,32 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.common.collect.Lists;
 
 // This won't work because it won't pick up multi-valued constraints. We need a more sophisticated
 // strategy for this.
 @JsonTypeInfo( use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "dataType")
 @JsonSubTypes({
-    @Type(name="boolean", value=Constraints.class),
+    @Type(name="boolean", value=BooleanConstraints.class),
     @Type(name="integer", value=IntegerConstraints.class),
     @Type(name="decimal", value=DecimalConstraints.class),
     @Type(name="string", value=StringConstraints.class),
-    @Type(name="datetime", value=DateConstraints.class),
+    @Type(name="datetime", value=DateTimeConstraints.class),
     @Type(name="date", value=DateConstraints.class),
-    @Type(name="time", value=Constraints.class),
-    @Type(name="duration", value=Constraints.class)
+    @Type(name="time", value=TimeConstraints.class),
+    @Type(name="duration", value=DurationConstraints.class)
 })
-public class Constraints {
-    
+public abstract class Constraints {
+
     private DataType dataType;
-    private List<ConstraintRule> rules;
-    
+    private List<SurveyRule> rules = Lists.newArrayList();
+
     // These are specific to the multi value constraints, and should be a separate
     // kind of constraint, but not until the Json parsing stuff above is fixed.
     private List<SurveyQuestionOption> enumeration;
     private boolean allowOther = false;
     private boolean allowMultiple = false;
-    
+
     @JsonSerialize(using = EnumSerializer.class)
     public DataType getDataType() {
         return dataType;
@@ -40,10 +41,10 @@ public class Constraints {
     public void setDataType(DataType dataType) {
         this.dataType = dataType;
     }
-    public List<ConstraintRule> getRules() {
+    public List<SurveyRule> getRules() {
         return rules;
     }
-    public void setRules(List<ConstraintRule> rules) {
+    public void setRules(List<SurveyRule> rules) {
         this.rules = rules;
     }
     public List<SurveyQuestionOption> getEnumeration() {
@@ -108,6 +109,6 @@ public class Constraints {
         return "Constraints [dataType=" + dataType + ", rules=" + rules + ", enumeration=" + enumeration
                 + ", allowOther=" + allowOther + ", allowMultiple=" + allowMultiple + "]";
     }
-    
-    
+
+
 }

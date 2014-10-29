@@ -1,6 +1,6 @@
 package org.sagebionetworks.bridge.sdk.models.surveys;
 
-public enum UIHint {
+public enum UiHint {
     CHECKBOX,
     COMBOBOX,
     DATEPICKER,

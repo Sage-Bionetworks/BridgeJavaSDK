@@ -13,20 +13,20 @@ import org.sagebionetworks.bridge.sdk.models.UserProfile;
 
 public class UserProfileApiCallerTest {
 
-    private Session session; 
-    
+    private Session session;
+
     @Before
     public void before() {
         Config config = ClientProvider.getConfig();
         session = ClientProvider.signIn(config.getAdminCredentials());
     }
-    
+
     @After
     public void after() {
         session.signOut();
     }
-    
-    
+
+
     @Test
     public void cannotGetProfileWhenUnauthorized() {
         session.signOut();
@@ -43,7 +43,7 @@ public class UserProfileApiCallerTest {
     @Test
     public void cannotUpdateProfileWhenUnauthorized() {
         session.signOut();
-        
+
         UserProfile profile = UserProfile.valueOf();
         profile.setFirstName("first name").setLastName("last name");
 

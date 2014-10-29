@@ -9,7 +9,7 @@ public class SurveyQuestion {
     private String guid;
     private String identifier;
     private String prompt;
-    private UIHint hint;
+    private UiHint hint;
     private Constraints constraints;
 
     public String getGuid() {
@@ -32,11 +32,11 @@ public class SurveyQuestion {
     }
     @JsonSerialize(using = EnumSerializer.class)
     @JsonProperty("uiHint")
-    public UIHint getUIHint() {
+    public UiHint getUIHint() {
         return hint;
     }
-    @JsonDeserialize(using = UIHintDeserializer.class)
-    public void setUIHint(UIHint hint) {
+    @JsonDeserialize(using = UiHintDeserializer.class)
+    public void setUiHint(UiHint hint) {
         this.hint = hint;
     }
     public Constraints getConstraints() {

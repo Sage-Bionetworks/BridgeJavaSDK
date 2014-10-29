@@ -10,7 +10,7 @@ public interface AdminClient {
 
     public List<StudyConsent> getAllConsentDocuments();
 
-    public StudyConsent getActiveConsentDocument();
+    public StudyConsent getMostRecentlyActivatedConsentDocument();
 
     public StudyConsent getConsentDocument(DateTime createdOn);
 

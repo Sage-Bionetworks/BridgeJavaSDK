@@ -65,14 +65,21 @@ class SurveyApiCaller extends BaseApiCaller {
         return surveys;
     }
 
-    Survey getSurvey(String guid, DateTime versionedOn) {
+    Survey getSurveyForResearcher(String guid, DateTime versionedOn) {
         String url = config.getSurveyApi(guid, versionedOn);
         HttpResponse response = get(url);
 
         return getResponseBodyAsType(response, Survey.class);
     }
 
-    GuidVersionedOnHolder createSurvey(Survey survey) {
+    Survey getSurveyForUser(String guid, DateTime versionedOn) {
+        String url = config.getSurveyUserApi(guid, versionedOn);
+        HttpResponse response = get(url);
+
+        return getResponseBodyAsType(response, Survey.class);
+    }
+
+    GuidVersionedOnHolder createNewSurvey(Survey survey) {
         String json;
         try {
             json = mapper.writeValueAsString(survey);

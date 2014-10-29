@@ -79,7 +79,7 @@ abstract class BaseApiCaller {
     protected final ObjectMapper mapper = Utilities.getMapper();
 
     protected final Config config = ClientProvider.getConfig();
-    
+
     private Session session;
 
     BaseApiCaller(Session session) {
@@ -114,7 +114,7 @@ abstract class BaseApiCaller {
         try {
             Request request = Request.Get(fullUrl);
             if (session != null && session.isSignedIn()) {
-                request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());    
+                request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
             }
             response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, fullUrl);
@@ -132,7 +132,7 @@ abstract class BaseApiCaller {
         try {
             Request request = Request.Post(fullUrl);
             if (session != null && session.isSignedIn()) {
-                request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());    
+                request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
             }
             response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, fullUrl);
@@ -150,7 +150,7 @@ abstract class BaseApiCaller {
         try {
             Request request = Request.Post(fullUrl).bodyString(json, ContentType.APPLICATION_JSON);
             if (session != null && session.isSignedIn()) {
-                request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());    
+                request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
             }
             response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, fullUrl);
@@ -173,7 +173,7 @@ abstract class BaseApiCaller {
         try {
             Request request = Request.Delete(fullUrl);
             if (session != null && session.isSignedIn()) {
-                request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());    
+                request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
             }
             response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, fullUrl);
@@ -198,7 +198,7 @@ abstract class BaseApiCaller {
         try {
             responseBody = EntityUtils.toString(response.getEntity());
         } catch (ParseException e) {
-            throw new BridgeSDKException("Couldn't parse server response.", e);
+            throw new BridgeSDKException(e.getMessage(), e);
         } catch (IOException e) {
             throw new BridgeSDKException(CONNECTION_FAILED, e);
         }
@@ -211,12 +211,13 @@ abstract class BaseApiCaller {
         try {
             obj = mapper.readValue(responseBody, c);
         } catch (IOException e) {
-            throw new BridgeSDKException("Something went wrong while converting Response Body Json into " + c.getSimpleName() + ": responseBody="
-                    + responseBody, e);
+            throw new BridgeSDKException("Error message: " + e.getMessage()
+                    + "\nSomething went wrong while converting Response Body Json into " + c.getSimpleName()
+                    + ": responseBody=" + responseBody, e);
         }
         return c.cast(obj);
     }
-    
+
     protected JsonNode getJsonNode(HttpResponse response) {
         JsonNode json;
         try {
@@ -232,8 +233,8 @@ abstract class BaseApiCaller {
         checkArgument(json.has(property), "JSON from server does not contain the property: " + property);
         return json.get(property);
     }
-    
-    @SuppressWarnings("unchecked")                
+
+    @SuppressWarnings("unchecked")
     private void throwExceptionOnErrorStatus(HttpResponse response, String url) {
         StatusLine status = response.getStatusLine();
         int statusCode = status.getStatusCode();
@@ -242,7 +243,7 @@ abstract class BaseApiCaller {
             try {
                 JsonNode node = getJsonNode(response);
                 logger.debug("Error " + response.getStatusLine().getStatusCode() + ": " + node.toString());
-                
+
                 // Not having a message is actually pretty bad
                 String message = "There has been an error on the server";
                 if (node.has("message")) {
@@ -253,7 +254,7 @@ abstract class BaseApiCaller {
                             node.get("errors"), new TypeReference<HashMap<String, ArrayList<String>>>() {});
                     e = new InvalidEntityException(message, errors, url);
                 } else {
-                    e = new BridgeServerException(message, status.getStatusCode(), url);    
+                    e = new BridgeServerException(message, status.getStatusCode(), url);
                 }
             } catch(Throwable t) {
                 throw new BridgeServerException(status.getReasonPhrase(), status.getStatusCode(), url);

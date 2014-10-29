@@ -15,13 +15,17 @@ public class SurveyAnswer {
 
     @JsonCreator
     private SurveyAnswer(@JsonProperty("questionGuid") String questionGuid, @JsonProperty("declined") boolean declined,
-            @JsonProperty("answer") String answer, @JsonProperty("client") String client,
-            @JsonProperty("answeredOn") DateTime answeredOn) {
+            @JsonProperty("answer") String answer, @JsonProperty("answeredOn") DateTime answeredOn,
+            @JsonProperty("client") String client) {
         this.questionGuid = questionGuid;
         this.declined = declined;
         this.answer = answer;
         this.client = client;
         this.answeredOn = answeredOn;
+    }
+
+    public static SurveyAnswer valueOf(String questionId, boolean declined, String answer, DateTime answeredOn, String client) {
+        return new SurveyAnswer(questionId, declined, answer, answeredOn, client);
     }
 
     public String getQuestionGuid() { return questionGuid; }

@@ -4,7 +4,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -101,7 +100,7 @@ public final class Config {
             }
         }
     }
-    
+
     // Accessor for the public API that allows consumer to change any value that
     // is in the configuration files, programmatically, if that's something they
     // want to do.
@@ -224,8 +223,8 @@ public final class Config {
     String getCloseSurveyApi(String guid, DateTime timestamp) {
         return String.format(val(Props.SURVEY_CLOSE_API), guid, timestamp.toString(ISODateTimeFormat.dateTime()));
     }
-    String getSurveyUserApi(String guid, DateTime versionedOn) {
-        return String.format(val(Props.SURVEY_USER_API), guid, versionedOn.toString(ISODateTimeFormat.dateTime()));
+    String getSurveyUserApi(String guid, DateTime timestamp) {
+        return String.format(val(Props.SURVEY_USER_API), guid, timestamp.toString(ISODateTimeFormat.dateTime()));
     }
     String getSurveyResponseApi(String guid) {
         return String.format(val(Props.SURVEY_RESPONSE_API), guid);
