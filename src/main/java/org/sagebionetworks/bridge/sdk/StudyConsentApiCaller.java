@@ -20,7 +20,7 @@ class StudyConsentApiCaller extends BaseApiCaller {
     }
 
     List<StudyConsent> getAllStudyConsents() {
-        String url = config.getStudyConsentApi();
+        String url = config.getStudyConsentsApi();
         HttpResponse response = get(url);
 
         JsonNode items = getPropertyFromResponse(response, "items");
@@ -31,20 +31,20 @@ class StudyConsentApiCaller extends BaseApiCaller {
     }
 
     StudyConsent getStudyConsent(DateTime timestamp) {
-        String url = config.getStudyConsentTimestamp(timestamp);
+        String url = config.getStudyConsentApi(timestamp);
         HttpResponse response = get(url);
 
         return getResponseBodyAsType(response, StudyConsent.class);
     }
 
     StudyConsent getActiveStudyConsent() {
-        String url = config.getStudyConsentActive();
+        String url = config.getActiveStudyConsentApi();
         HttpResponse response = get(url);
         return getResponseBodyAsType(response, StudyConsent.class);
     }
 
     void setActiveStudyConsent(DateTime timestamp) {
-        String url = config.getStudyConsentActiveTimestamp(timestamp);
+        String url = config.getVersionStudyConsentApi(timestamp);
         post(url);
     }
 
@@ -56,7 +56,7 @@ class StudyConsentApiCaller extends BaseApiCaller {
             throw new BridgeSDKException("Could not process StudyConsent. Are you sure it is correct? "
                     + studyConsent.toString(), e);
         }
-        String url = config.getStudyConsentApi();
+        String url = config.getStudyConsentsApi();
         HttpResponse response = post(url, json);
 
         return getResponseBodyAsType(response, StudyConsent.class);

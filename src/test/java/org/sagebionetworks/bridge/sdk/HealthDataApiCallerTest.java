@@ -54,7 +54,6 @@ public class HealthDataApiCallerTest {
         HealthDataRecord record = HealthDataRecord.valueOf(0, uniqueId, start, end, data);
 
         return Lists.newArrayList(record);
-
     }
 
     private List<IdVersionHolder> getHolders(List<HealthDataRecord> records) {

@@ -43,10 +43,10 @@ public final class Config {
         SCHEDULES_API,
         SCHEDULEPLAN_API,
         SCHEDULEPLANS_API,
+        STUDY_CONSENTS_API,
         STUDY_CONSENT_API,
-        STUDY_CONSENT_ACTIVE_API,
-        STUDY_CONSENT_TIMESTAMP_API,
-        STUDY_CONSENT_ACTIVE_TIMESTAMP_API,
+        STUDY_CONSENT_GET_ACTIVE_API,
+        STUDY_CONSENT_SET_ACTIVE_API,
         SURVEY_API,
         SURVEY_USER_API,
         SURVEY_PUBLISH_API,
@@ -163,17 +163,17 @@ public final class Config {
     String getConsentResumeApi() {
         return val(Props.CONSENT_RESUME_API);
     }
-    String getStudyConsentApi() {
-        return val(Props.STUDY_CONSENT_API);
+    String getStudyConsentsApi() {
+        return val(Props.STUDY_CONSENTS_API);
     }
-    String getStudyConsentActive() {
-        return val(Props.STUDY_CONSENT_ACTIVE_API);
+    String getStudyConsentApi(DateTime timestamp) {
+        return String.format(val(Props.STUDY_CONSENT_API), timestamp.toString(ISODateTimeFormat.dateTime()));
     }
-    String getStudyConsentTimestamp(DateTime timestamp) {
-        return String.format(val(Props.STUDY_CONSENT_TIMESTAMP_API), timestamp.toString(ISODateTimeFormat.dateTime()));
+    String getActiveStudyConsentApi() {
+        return val(Props.STUDY_CONSENT_GET_ACTIVE_API);
     }
-    String getStudyConsentActiveTimestamp(DateTime timestamp) {
-        return String.format(val(Props.STUDY_CONSENT_ACTIVE_TIMESTAMP_API), timestamp.toString(ISODateTimeFormat.dateTime()));
+    String getVersionStudyConsentApi(DateTime timestamp) {
+        return String.format(val(Props.STUDY_CONSENT_SET_ACTIVE_API), timestamp.toString(ISODateTimeFormat.dateTime()));
     }
     String getTrackerApi() {
         return val(Props.TRACKER_API);
@@ -208,23 +208,23 @@ public final class Config {
     String getSurveysPublishedApi() {
         return val(Props.SURVEYS_PUBLISHED_API);
     }
-    String getSurveyApi(String guid, DateTime timestamp) {
-        return String.format(val(Props.SURVEY_API), guid, timestamp.toString(ISODateTimeFormat.dateTime()));
+    String getSurveyApi(String guid, DateTime versionedOn) {
+        return String.format(val(Props.SURVEY_API), guid, versionedOn.toString(ISODateTimeFormat.dateTime()));
     }
     String getSurveyVersionsApi(String guid) {
         return String.format(val(Props.SURVEY_VERSIONS_API), guid);
     }
-    String getSurveyNewVersionApi(String guid, DateTime timestamp) {
-        return String.format(val(Props.SURVEY_VERSIONS_NEW_API), guid, timestamp.toString(ISODateTimeFormat.dateTime()));
+    String getSurveyNewVersionApi(String guid, DateTime versionedOn) {
+        return String.format(val(Props.SURVEY_VERSIONS_NEW_API), guid, versionedOn.toString(ISODateTimeFormat.dateTime()));
     }
-    String getPublishSurveyApi(String guid, DateTime timestamp) {
-        return String.format(val(Props.SURVEY_PUBLISH_API), guid, timestamp.toString(ISODateTimeFormat.dateTime()));
+    String getPublishSurveyApi(String guid, DateTime versionedOn) {
+        return String.format(val(Props.SURVEY_PUBLISH_API), guid, versionedOn.toString(ISODateTimeFormat.dateTime()));
     }
-    String getCloseSurveyApi(String guid, DateTime timestamp) {
-        return String.format(val(Props.SURVEY_CLOSE_API), guid, timestamp.toString(ISODateTimeFormat.dateTime()));
+    String getCloseSurveyApi(String guid, DateTime versionedOn) {
+        return String.format(val(Props.SURVEY_CLOSE_API), guid, versionedOn.toString(ISODateTimeFormat.dateTime()));
     }
-    String getSurveyUserApi(String guid, DateTime timestamp) {
-        return String.format(val(Props.SURVEY_USER_API), guid, timestamp.toString(ISODateTimeFormat.dateTime()));
+    String getSurveyUserApi(String guid, DateTime versionedOn) {
+        return String.format(val(Props.SURVEY_USER_API), guid, versionedOn.toString(ISODateTimeFormat.dateTime()));
     }
     String getSurveyResponseApi(String guid) {
         return String.format(val(Props.SURVEY_RESPONSE_API), guid);

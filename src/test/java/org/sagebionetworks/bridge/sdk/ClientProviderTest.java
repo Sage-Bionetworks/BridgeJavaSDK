@@ -4,15 +4,28 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
 
 public class ClientProviderTest {
 
+    private TestUser testUser;
+    
+    @Before
+    public void before() {
+        testUser = TestUserHelper.createAndSignInUser(ClientProviderTest.class, true);
+    }
+    
+    @After
+    public void after() {
+        testUser.signOutAndDeleteUser();
+    }
+    
     @Test
     public void canAuthenticateAndCreateClientAndSignOut() {
-        TestUser testUser = TestUserHelper.createAndSignInUser(ClientProviderTest.class, true);
         testUser.getSession().signOut();
         
         SignInCredentials credentials = SignInCredentials.valueOf().setUsername(testUser.getUsername())
@@ -26,17 +39,5 @@ public class ClientProviderTest {
         session.signOut();
         assertFalse(session.isSignedIn());
     }
-
-    /* It's okay for this to silently "pass" even though there's nothing to do.
-    @Test
-    public void cannotSignOutWhenNotAuthenticated() {
-        ClientProvider provider = ClientProvider.valueOf(HostName.getDev());
-        assertNotNull(provider);
-        try {
-            provider.signOut();
-            fail("Signing out when not authenticated didn't throw an exception.");
-        } catch (Exception e) {
-            assertTrue(e instanceof IllegalStateException);
-        }
-    }*/
+    
 }

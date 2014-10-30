@@ -37,11 +37,6 @@ public class SurveyTest {
         session = ClientProvider.signIn(config.getAdminCredentials());
         user = session.getUserClient();
         researcher = session.getResearcherClient();
-
-        List<Survey> surveys = researcher.getAllVersionsOfAllSurveys();
-        for (Survey survey : surveys) {
-            researcher.closeSurvey(survey.getGuid(), survey.getVersionedOn());
-        }
     }
 
     @After
@@ -51,7 +46,7 @@ public class SurveyTest {
 
     @Test
     public void saveAndRetrieveSurvey() {
-        GuidVersionedOnHolder key = researcher.createSurvey(new TestSurvey().getSurvey());
+        GuidVersionedOnHolder key = researcher.createSurvey(new TestSurvey());
         Survey survey = researcher.getSurvey(key.getGuid(), key.getVersionedOn());
 
         List<SurveyQuestion> questions = survey.getQuestions();
@@ -61,8 +56,8 @@ public class SurveyTest {
 
     @Test
     public void createVersionPublish() {
-        GuidVersionedOnHolder key = researcher.createSurvey(new TestSurvey().getSurvey());
-        GuidVersionedOnHolder laterKey = researcher.createNewVersionForSurvey(key.getGuid(), key.getVersionedOn());
+        GuidVersionedOnHolder key = researcher.createSurvey(new TestSurvey());
+        GuidVersionedOnHolder laterKey = researcher.versionSurvey(key.getGuid(), key.getVersionedOn());
         assertNotEquals("Version has been updated.", key.getVersionedOn(), laterKey.getVersionedOn());
 
         Survey survey = researcher.getSurvey(laterKey.getGuid(), laterKey.getVersionedOn());
@@ -75,27 +70,26 @@ public class SurveyTest {
 
     @Test
     public void getAllVersionsOfASurvey() {
-        GuidVersionedOnHolder key = researcher.createSurvey(new TestSurvey().getSurvey());
-        key = researcher.createNewVersionForSurvey(key.getGuid(), key.getVersionedOn());
+        GuidVersionedOnHolder key = researcher.createSurvey(new TestSurvey());
+        key = researcher.versionSurvey(key.getGuid(), key.getVersionedOn());
 
-        int count = researcher.getAllVersionsForSurvey(key.getGuid()).size();
-        assertTrue("At least two versions for this survey.", count >= 2); // original version: checked for two. Can't
-                                                                          // here, because can't delete surveys.
+        int count = researcher.getAllVersionsOfASurvey(key.getGuid()).size();
+        assertEquals("Two versions for this survey.", 2, count);
     }
 
     @Test
     public void canGetMostRecentOrRecentlyPublishedSurvey() {
-        GuidVersionedOnHolder key = researcher.createSurvey(new TestSurvey().getSurvey());
-        key = researcher.createNewVersionForSurvey(key.getGuid(), key.getVersionedOn());
-        key = researcher.createNewVersionForSurvey(key.getGuid(), key.getVersionedOn());
+        GuidVersionedOnHolder key = researcher.createSurvey(new TestSurvey());
+        key = researcher.versionSurvey(key.getGuid(), key.getVersionedOn());
+        key = researcher.versionSurvey(key.getGuid(), key.getVersionedOn());
 
-        GuidVersionedOnHolder key1 = researcher.createSurvey(new TestSurvey().getSurvey());
-        key1 = researcher.createNewVersionForSurvey(key1.getGuid(), key1.getVersionedOn());
-        key1 = researcher.createNewVersionForSurvey(key1.getGuid(), key1.getVersionedOn());
+        GuidVersionedOnHolder key1 = researcher.createSurvey(new TestSurvey());
+        key1 = researcher.versionSurvey(key1.getGuid(), key1.getVersionedOn());
+        key1 = researcher.versionSurvey(key1.getGuid(), key1.getVersionedOn());
 
-        GuidVersionedOnHolder key2 = researcher.createSurvey(new TestSurvey().getSurvey());
-        key2 = researcher.createNewVersionForSurvey(key2.getGuid(), key2.getVersionedOn());
-        key2 = researcher.createNewVersionForSurvey(key2.getGuid(), key2.getVersionedOn());
+        GuidVersionedOnHolder key2 = researcher.createSurvey(new TestSurvey());
+        key2 = researcher.versionSurvey(key2.getGuid(), key2.getVersionedOn());
+        key2 = researcher.versionSurvey(key2.getGuid(), key2.getVersionedOn());
 
         List<Survey> recentSurveys = researcher.getRecentVersionsOfAllSurveys();
         assertTrue("Recent versions of surveys exist in recentSurveys.", containsAll(recentSurveys, key, key1, key2));
@@ -108,7 +102,7 @@ public class SurveyTest {
 
     @Test
     public void canUpdateASurveyAndTypesAreCorrect() {
-        GuidVersionedOnHolder key = researcher.createSurvey(new TestSurvey().getSurvey());
+        GuidVersionedOnHolder key = researcher.createSurvey(new TestSurvey());
         Survey survey = researcher.getSurvey(key.getGuid(), key.getVersionedOn());
         assertEquals("Type is Survey.", survey.getClass(), Survey.class);
 
@@ -135,7 +129,7 @@ public class SurveyTest {
 
     @Test
     public void participantCannotRetrieveUnpublishedSurvey() {
-        GuidVersionedOnHolder key = researcher.createSurvey(new TestSurvey().getSurvey());
+        GuidVersionedOnHolder key = researcher.createSurvey(new TestSurvey());
         try {
             user.getSurvey(key.getGuid(), key.getVersionedOn());
             fail("Should not get here.");

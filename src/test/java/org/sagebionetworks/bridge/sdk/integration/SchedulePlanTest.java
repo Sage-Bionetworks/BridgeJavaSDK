@@ -12,7 +12,9 @@ import java.util.concurrent.Callable;
 import org.joda.time.Period;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.BridgeServerException;
 import org.sagebionetworks.bridge.sdk.InvalidEntityException;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
@@ -83,8 +85,8 @@ public class SchedulePlanTest {
 
     @Before
     public void before() {
+        researcher = TestUserHelper.createAndSignInUser(SchedulePlanTest.class, true, Tests.RESEARCHER_ROLE);
         user = TestUserHelper.createAndSignInUser(SchedulePlanTest.class, true);
-        researcher = TestUserHelper.createAndSignInUser(SchedulePlanTest.class, true, "teststudy_researcher");
         
         researcherClient = researcher.getSession().getResearcherClient();
         userClient = user.getSession().getUserClient();
@@ -102,17 +104,16 @@ public class SchedulePlanTest {
     
     @Test
     public void normalUserCannotAccess() {
-        TestUser user = TestUserHelper.createAndSignInUser(SchedulePlanTest.class, true);
+        TestUser normalUser = null;
         try {
-            
+            normalUser = TestUserHelper.createAndSignInUser(SchedulePlanTest.class, true);
             SchedulePlan plan = new TestABSchedulePlan();
-            user.getSession().getResearcherClient().createSchedulePlan(plan);
+            normalUser.getSession().getResearcherClient().createSchedulePlan(plan);
             fail("Should have returned Forbidden status");
-            
         } catch(BridgeServerException e) {
             assertEquals("Non-researcher gets 403 forbidden", 403, e.getStatusCode());
         } finally {
-            user.signOutAndDeleteUser();
+            normalUser.signOutAndDeleteUser();
         }
     }
 
@@ -159,24 +160,21 @@ public class SchedulePlanTest {
     @Test
     public void invalidPlanReturns400Error() {
         try {
-            
             SchedulePlan plan = new TestABSchedulePlan();
             plan.setStrategy(null);
             researcherClient.createSchedulePlan(plan);
             fail("Plan was invalid and should have thrown an exception");
-            
         } catch(InvalidEntityException e) {
-            
             assertEquals("Error comes back as 400 Bad Request", 400, e.getStatusCode());
             assertTrue("There is a strategy-specific error", e.getErrors().get("strategy").size() > 0);
-            
         }
     }
     
     @Test
     public void noPlanReturns400() {
         try {
-            researcherClient.createSchedulePlan(null);    
+            researcherClient.createSchedulePlan(null);
+            fail("createSchedulePlan(null) should have thrown an exception");
         } catch(NullPointerException e) {
             assertEquals("Clear null-pointer message", "Plan object is null", e.getMessage());
         }

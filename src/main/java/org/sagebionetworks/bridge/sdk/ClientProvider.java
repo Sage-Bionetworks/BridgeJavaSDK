@@ -1,7 +1,8 @@
 package org.sagebionetworks.bridge.sdk;
 
-import static org.sagebionetworks.bridge.sdk.Preconditions.checkNotEmpty;
-import static org.sagebionetworks.bridge.sdk.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
 import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
@@ -26,15 +27,15 @@ public class ClientProvider {
     }
     public static void signUp(SignUpCredentials signUp) {
         checkNotNull(signUp, "SignUpCredentials required.");
-        checkNotEmpty(signUp.getEmail(), "Email cannot be blank/null");
-        checkNotEmpty(signUp.getUsername(), "Username cannot be blank/null");
-        checkNotEmpty(signUp.getPassword(), "Password cannot be blank/null");
+        checkArgument(isNotBlank(signUp.getEmail()), "Email cannot be blank/null");
+        checkArgument(isNotBlank(signUp.getUsername()), "Username cannot be blank/null");
+        checkArgument(isNotBlank(signUp.getPassword()), "Password cannot be blank/null");
 
         AuthenticationApiCaller authApi = AuthenticationApiCaller.valueOf();
         authApi.signUp(signUp);
     }
     public static void requestResetPassword(String email) {
-        checkNotEmpty(email, "Email cannot be blank/null");
+        checkArgument(isNotBlank(email), "Email cannot be blank/null");
 
         AuthenticationApiCaller authApi = AuthenticationApiCaller.valueOf();
         authApi.requestResetPassword(email);

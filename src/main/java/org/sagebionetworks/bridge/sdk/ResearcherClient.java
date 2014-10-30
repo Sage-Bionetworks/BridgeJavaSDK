@@ -20,9 +20,9 @@ public interface ResearcherClient {
 
     public List<Survey> getRecentVersionsOfAllSurveys();
 
-    public List<Survey> getAllVersionsForSurvey(String guid);
+    public List<Survey> getAllVersionsOfASurvey(String guid);
 
-    public GuidVersionedOnHolder createNewVersionForSurvey(String guid, DateTime versionedOn);
+    public GuidVersionedOnHolder versionSurvey(String guid, DateTime versionedOn);
 
     public GuidVersionedOnHolder updateSurvey(Survey survey);
 
