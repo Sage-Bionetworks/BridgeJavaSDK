@@ -79,7 +79,7 @@ class SurveyApiCaller extends BaseApiCaller {
         return getResponseBodyAsType(response, Survey.class);
     }
 
-    GuidVersionedOnHolder createNewSurvey(Survey survey) {
+    GuidVersionedOnHolder createSurvey(Survey survey) {
         String json;
         try {
             json = mapper.writeValueAsString(survey);
@@ -91,7 +91,7 @@ class SurveyApiCaller extends BaseApiCaller {
         return getResponseBodyAsType(response, GuidVersionedOnHolder.class);
     }
 
-    GuidVersionedOnHolder createNewVersionForSurvey(String guid, DateTime versionedOn) {
+    GuidVersionedOnHolder versionSurvey(String guid, DateTime versionedOn) {
         String url = config.getSurveyNewVersionApi(guid, versionedOn);
         HttpResponse response = post(url);
 
@@ -108,10 +108,15 @@ class SurveyApiCaller extends BaseApiCaller {
             throw new BridgeSDKException(e.getMessage(), e);
         }
     }
-
+    
     void publishSurvey(String guid, DateTime versionedOn) {
         String url = config.getPublishSurveyApi(guid, versionedOn);
         post(url);
+    }
+    
+    void deleteSurvey(String guid, DateTime versionedOn) {
+        String url = config.getSurveyApi(guid, versionedOn);
+        delete(url);
     }
 
     void closeSurvey(String guid, DateTime versionedOn) {

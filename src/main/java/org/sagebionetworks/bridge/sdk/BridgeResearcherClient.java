@@ -59,14 +59,14 @@ class BridgeResearcherClient implements ResearcherClient {
     public GuidVersionedOnHolder createSurvey(Survey survey) {
         session.checkSignedIn();
         checkNotNull(survey, "Survey object is null");
-        return surveyApi.createNewSurvey(survey);
+        return surveyApi.createSurvey(survey);
     }
     @Override
     public GuidVersionedOnHolder versionSurvey(String guid, DateTime versionedOn) {
         session.checkSignedIn();
         checkArgument(isNotBlank(guid), "Guid is null or blank");
         checkNotNull(versionedOn, "VersionedOn is null");
-        return surveyApi.createNewVersionForSurvey(guid, versionedOn);
+        return surveyApi.versionSurvey(guid, versionedOn);
     }
     @Override
     public GuidVersionedOnHolder updateSurvey(Survey survey) {
@@ -87,6 +87,13 @@ class BridgeResearcherClient implements ResearcherClient {
         checkArgument(isNotBlank(guid), "Guid is null or blank");
         checkNotNull(versionedOn, "VersionedOn is null");
         surveyApi.closeSurvey(guid, versionedOn);
+    }
+    @Override
+    public void deleteSurvey(String guid, DateTime versionedOn) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(guid), "Guid is null or blank");
+        checkNotNull(versionedOn, "VersionedOn is null");
+        surveyApi.deleteSurvey(guid, versionedOn);
     }
     @Override
     public List<SchedulePlan> getSchedulePlans() {
