@@ -38,7 +38,7 @@ public class SurveyResponseTest {
     public void before() {
         researcher = TestUserHelper.createAndSignInUser(SurveyResponseTest.class, true, Tests.RESEARCHER_ROLE); 
         user = TestUserHelper.createAndSignInUser(SurveyResponseTest.class, true);
-        
+
         ResearcherClient client = researcher.getSession().getResearcherClient();
         TestSurvey testSurvey = new TestSurvey();
         keys = client.createSurvey(testSurvey);
@@ -52,7 +52,9 @@ public class SurveyResponseTest {
 
     @After
     public void after() {
-        researcher.getSession().getResearcherClient().closeSurvey(survey.getGuid(), survey.getVersionedOn());
+        ResearcherClient client = researcher.getSession().getResearcherClient();
+        client.closeSurvey(survey.getGuid(), survey.getVersionedOn());
+        client.deleteSurvey(survey.getGuid(), survey.getVersionedOn());
         
         researcher.signOutAndDeleteUser();
         user.signOutAndDeleteUser();

@@ -29,6 +29,8 @@ public interface ResearcherClient {
     public void publishSurvey(String guid, DateTime versionedOn);
 
     public void closeSurvey(String guid, DateTime versionedOn);
+    
+    public void deleteSurvey(String guid, DateTime versionedOn);
 
     public List<SchedulePlan> getSchedulePlans();
 
