@@ -1,7 +1,7 @@
 package org.sagebionetworks.bridge.sdk;
 
-import static org.sagebionetworks.bridge.sdk.Preconditions.checkNotNull;
-import static org.sagebionetworks.bridge.sdk.Preconditions.checkState;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 class BridgeSession implements Session {
 

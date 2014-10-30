@@ -42,8 +42,7 @@ class SurveyResponseApiCaller extends BaseApiCaller {
             throw new BridgeSDKException("Could not process List<SurveyAnswer>. Are you sure it is correct? answers="
                     + answers, e);
         }
-
-        String url = config.getSurveyApi(guid, timestamp);
+        String url = config.getSurveyUserApi(guid, timestamp);
         HttpResponse response = post(url, json);
 
         return getResponseBodyAsType(response, GuidHolder.class);

@@ -90,6 +90,7 @@ abstract class BaseApiCaller {
         String fullUrl = getFullUrl(url);
         HttpResponse response = null;
         try {
+            logger.debug("GET " + fullUrl);
             Request request = Request.Get(fullUrl);
             response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, fullUrl);
@@ -116,6 +117,7 @@ abstract class BaseApiCaller {
             if (session != null && session.isSignedIn()) {
                 request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
             }
+            logger.debug("GET " + fullUrl);
             response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, fullUrl);
         } catch (ClientProtocolException e) {
@@ -134,6 +136,7 @@ abstract class BaseApiCaller {
             if (session != null && session.isSignedIn()) {
                 request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
             }
+            logger.debug("POST " + fullUrl + "\n    <EMPTY>");
             response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, fullUrl);
         } catch (ClientProtocolException e) {
@@ -152,6 +155,7 @@ abstract class BaseApiCaller {
             if (session != null && session.isSignedIn()) {
                 request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
             }
+            logger.debug("POST " + fullUrl + "\n    " + maskPassword(json));
             response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, fullUrl);
         } catch (IOException e) {
@@ -175,6 +179,7 @@ abstract class BaseApiCaller {
             if (session != null && session.isSignedIn()) {
                 request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
             }
+            logger.debug("DELETE " + fullUrl);
             response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, fullUrl);
         } catch (IOException e) {
@@ -236,6 +241,12 @@ abstract class BaseApiCaller {
 
     @SuppressWarnings("unchecked")
     private void throwExceptionOnErrorStatus(HttpResponse response, String url) {
+        try {
+            logger.debug(response.getStatusLine().getStatusCode() + " RESPONSE: " + EntityUtils.toString(response.getEntity()));    
+        } catch(IOException e) {
+            logger.debug(response.getStatusLine().getStatusCode() + " RESPONSE: <ERROR>");   
+        }
+        
         StatusLine status = response.getStatusLine();
         int statusCode = status.getStatusCode();
         if (statusCode < 200 || statusCode > 299) {
@@ -280,4 +291,10 @@ abstract class BaseApiCaller {
         }
         return "?" + Joiner.on("&").join(list);
     }
+    
+    
+    private String maskPassword(String string) {
+        return string.replaceAll("password\":\"([^\"]*)\"", "password\":\"[REDACTED]\"");
+    }
+ 
 }

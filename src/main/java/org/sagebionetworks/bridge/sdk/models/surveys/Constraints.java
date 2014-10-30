@@ -38,7 +38,7 @@ public abstract class Constraints {
         return dataType;
     }
     @JsonDeserialize(using = DataTypeDeserializer.class)
-    public void setDataType(DataType dataType) {
+    void setDataType(DataType dataType) {
         this.dataType = dataType;
     }
     public List<SurveyRule> getRules() {

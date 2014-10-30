@@ -1,41 +1,17 @@
 package org.sagebionetworks.bridge.sdk.models.surveys;
 
-import org.sagebionetworks.bridge.sdk.BridgeSDKException;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SurveyRule {
 
     public enum Operator {
-        EQ, // equal to
-        NE, // not equal to
-        LT, // less than
-        GT, // greater than
-        LE, // less than or equal to
-        GE, // greater than or equal to
-        DE;  // declined to answer
-
-        @JsonCreator
-        public static Operator fromEnum(String s) {
-            if (s.equals("eq")) {
-                return EQ;
-            } else if (s.equals("ne")) {
-                return NE;
-            } else if (s.equals("lt")) {
-                return LT;
-            } else if (s.equals("gt")) {
-                return GT;
-            } else if (s.equals("le")) {
-                return LE;
-            } else if (s.equals("ge")) {
-                return GE;
-            } else if (s.equals("de")) {
-                return DE;
-            } else {
-                throw new BridgeSDKException("Something went wrong while converting string to Operator. s=" + s);
-            }
-        }
+        eq, // equal to
+        ne, // not equal to
+        lt, // less than
+        gt, // greater than
+        le, // less than or equal to
+        ge, // greater than or equal to
+        de;  // declined to answer
     }
 
     private Operator operator;

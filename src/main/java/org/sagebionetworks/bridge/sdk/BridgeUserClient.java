@@ -1,8 +1,8 @@
 package org.sagebionetworks.bridge.sdk;
 
-import static org.sagebionetworks.bridge.sdk.Preconditions.checkArgument;
-import static org.sagebionetworks.bridge.sdk.Preconditions.checkNotEmpty;
-import static org.sagebionetworks.bridge.sdk.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.util.List;
 
@@ -72,6 +72,8 @@ class BridgeUserClient implements UserClient {
     @Override
     public void suspendDataSharing() {
         session.checkSignedIn();
+        
+        consentApi.suspendDataSharing();
     }
 
     /*
@@ -81,7 +83,7 @@ class BridgeUserClient implements UserClient {
     public HealthDataRecord getHealthDataRecord(Tracker tracker, String recordId) {
         session.checkSignedIn();
         checkNotNull(tracker, "Tracker cannot be null.");
-        checkNotEmpty(recordId, "recordId cannot be null or empty.");
+        checkArgument(isNotBlank(recordId), "recordId cannot be null or empty.");
 
         return healthDataApi.getHealthDataRecord(tracker, recordId);
     }
@@ -99,7 +101,7 @@ class BridgeUserClient implements UserClient {
     public void deleteHealthDataRecord(Tracker tracker, String recordId) {
         session.checkSignedIn();
         checkNotNull(tracker, "Tracker cannot be null.");
-        checkNotEmpty(recordId, "recordId cannot be null or empty.");
+        checkArgument(isNotBlank(recordId),"recordId cannot be null or empty.");
 
         healthDataApi.deleteHealthDataRecord(tracker, recordId);
     }
@@ -156,7 +158,7 @@ class BridgeUserClient implements UserClient {
     @Override
     public Survey getSurvey(String surveyGuid, DateTime versionedOn) {
         session.checkSignedIn();
-        checkNotEmpty(surveyGuid, "SurveyGuid cannot be null or empty.");
+        checkArgument(isNotBlank(surveyGuid), "SurveyGuid cannot be null or empty.");
         checkNotNull(versionedOn, "VersionedOn cannot be null.");
 
         return surveyResponseApi.getSurvey(surveyGuid, versionedOn);
@@ -166,7 +168,7 @@ class BridgeUserClient implements UserClient {
     public GuidHolder submitAnswersToSurvey(Survey survey, List<SurveyAnswer> answers) {
         session.checkSignedIn();
         checkNotNull(survey, "Survey cannot be null.");
-        checkNotEmpty(survey.getGuid(), "Survey guid cannot be null or empty.");
+        checkArgument(isNotBlank(survey.getGuid()), "Survey guid cannot be null or empty.");
         checkNotNull(survey.getVersionedOn(), "Survey versionedOn cannot be null.");
         checkNotNull(answers, "Answers cannot be null.");
 
@@ -176,7 +178,7 @@ class BridgeUserClient implements UserClient {
     @Override
     public SurveyResponse getSurveyResponse(String surveyResponseGuid) {
         session.checkSignedIn();
-        checkNotEmpty(surveyResponseGuid, "SurveyResponseGuid cannot be null or empty.");
+        checkArgument(isNotBlank(surveyResponseGuid), "SurveyResponseGuid cannot be null or empty.");
 
         return surveyResponseApi.getSurveyResponse(surveyResponseGuid);
     }

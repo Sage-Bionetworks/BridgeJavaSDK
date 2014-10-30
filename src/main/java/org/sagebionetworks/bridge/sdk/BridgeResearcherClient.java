@@ -1,7 +1,8 @@
 package org.sagebionetworks.bridge.sdk;
 
-import static org.sagebionetworks.bridge.sdk.Preconditions.checkNotEmpty;
-import static org.sagebionetworks.bridge.sdk.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ class BridgeResearcherClient implements ResearcherClient {
     @Override
     public Survey getSurvey(String guid, DateTime versionedOn) {
         session.checkSignedIn();
-        checkNotEmpty(guid, "Guid is null or blank");
+        checkArgument(isNotBlank(guid), "Guid is null or blank");
         checkNotNull(versionedOn, "VersionedOn is null");
         return surveyApi.getSurveyForResearcher(guid, versionedOn);
     }
@@ -49,10 +50,10 @@ class BridgeResearcherClient implements ResearcherClient {
         return surveyApi.getRecentVersionsOfAllSurveys();
     }
     @Override
-    public List<Survey> getAllVersionsForSurvey(String guid) {
+    public List<Survey> getAllVersionsOfASurvey(String guid) {
         session.checkSignedIn();
-        checkNotEmpty(guid, "Guid is null or blank");
-        return surveyApi.getAllVersionsOfAllSurveys();
+        checkArgument(isNotBlank(guid), "Guid is null or blank");
+        return surveyApi.getAllVersionsOfASurvey(guid);
     }
     @Override
     public GuidVersionedOnHolder createSurvey(Survey survey) {
@@ -61,9 +62,9 @@ class BridgeResearcherClient implements ResearcherClient {
         return surveyApi.createNewSurvey(survey);
     }
     @Override
-    public GuidVersionedOnHolder createNewVersionForSurvey(String guid, DateTime versionedOn) {
+    public GuidVersionedOnHolder versionSurvey(String guid, DateTime versionedOn) {
         session.checkSignedIn();
-        checkNotEmpty(guid, "Guid is null or blank");
+        checkArgument(isNotBlank(guid), "Guid is null or blank");
         checkNotNull(versionedOn, "VersionedOn is null");
         return surveyApi.createNewVersionForSurvey(guid, versionedOn);
     }
@@ -76,14 +77,14 @@ class BridgeResearcherClient implements ResearcherClient {
     @Override
     public void publishSurvey(String guid, DateTime versionedOn) {
         session.checkSignedIn();
-        checkNotEmpty(guid, "Guid is null or blank");
+        checkArgument(isNotBlank(guid), "Guid is null or blank");
         checkNotNull(versionedOn, "VersionedOn is null");
         surveyApi.publishSurvey(guid, versionedOn);
     }
     @Override
     public void closeSurvey(String guid, DateTime versionedOn) {
         session.checkSignedIn();
-        checkNotEmpty(guid, "Guid is null or blank");
+        checkArgument(isNotBlank(guid), "Guid is null or blank");
         checkNotNull(versionedOn, "VersionedOn is null");
         surveyApi.closeSurvey(guid, versionedOn);
     }
@@ -101,7 +102,7 @@ class BridgeResearcherClient implements ResearcherClient {
     @Override
     public SchedulePlan getSchedulePlan(String guid) {
         session.checkSignedIn();
-        checkNotEmpty(guid, "Guid is null or blank");
+        checkArgument(isNotBlank(guid),"Guid is null or blank");
         return schedulePlanApi.getSchedulePlan(guid);
     }
     @Override
@@ -113,7 +114,7 @@ class BridgeResearcherClient implements ResearcherClient {
     @Override
     public void deleteSchedulePlan(String guid) {
         session.checkSignedIn();
-        checkNotEmpty(guid, "Guid is null or blank");
+        checkArgument(isNotBlank(guid),"Guid is null or blank");
         schedulePlanApi.deleteSchedulePlan(guid);
     }
 }

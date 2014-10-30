@@ -1,6 +1,7 @@
 package org.sagebionetworks.bridge.sdk;
 
-import static org.sagebionetworks.bridge.sdk.Preconditions.checkNotEmpty;
+import static com.google.common.base.Preconditions.checkArgument;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,9 +26,9 @@ class UserManagementApiCaller extends BaseApiCaller {
     }
 
     boolean createUser(SignUpCredentials signUp, List<String> roles, boolean consent) {
-        checkNotEmpty(signUp.getEmail());
-        checkNotEmpty(signUp.getPassword());
-        checkNotEmpty(signUp.getEmail());
+        checkArgument(isNotBlank(signUp.getEmail()));
+        checkArgument(isNotBlank(signUp.getPassword()));
+        checkArgument(isNotBlank(signUp.getEmail()));
 
         ObjectNode node = (ObjectNode)mapper.valueToTree(signUp);
         node.put("consent", consent);
@@ -45,7 +46,7 @@ class UserManagementApiCaller extends BaseApiCaller {
     }
 
     boolean deleteUser(String email) {
-        checkNotEmpty(email);
+        checkArgument(isNotBlank(email));
 
         Map<String,String> queryParams = new HashMap<String,String>();
         queryParams.put("email", email);
@@ -57,7 +58,7 @@ class UserManagementApiCaller extends BaseApiCaller {
     }
 
     boolean revokeAllConsentRecords(String email) {
-        checkNotEmpty(email);
+        checkArgument(isNotBlank(email));
         
         Map<String,String> queryParams = new HashMap<String,String>();
         queryParams.put("email", email);

@@ -54,7 +54,7 @@ class SurveyApiCaller extends BaseApiCaller {
         return surveys;
     }
 
-    List<Survey> getAllVersionsForSurvey(String guid) {
+    List<Survey> getAllVersionsOfASurvey(String guid) {
         String url = config.getSurveyVersionsApi(guid);
         HttpResponse response = get(url);
 

@@ -18,7 +18,9 @@ public class SurveyResponse {
     private final Survey survey;
     private final List<SurveyAnswer> answers;
 
-    private enum Status { UNSTARTED, IN_PROGRESS, FINISHED }
+    private enum Status {
+        UNSTARTED, IN_PROGRESS, FINISHED
+    }
 
     @JsonCreator
     private SurveyResponse(@JsonProperty("guid") String guid, @JsonProperty("startedOn") DateTime startedOn,
@@ -31,27 +33,43 @@ public class SurveyResponse {
         this.answers = answers;
 
         switch (status) {
-            case "unstarted":
-                this.status = Status.UNSTARTED;
-                break;
-            case "in_progress":
-                this.status = Status.IN_PROGRESS;
-                break;
-            case "finished":
-                this.status = Status.FINISHED;
-                break;
-            default:
-                throw new BridgeSDKException(
-                        "Status string is not one of the three defined: unstarted, in_progress, finished");
+        case "unstarted":
+            this.status = Status.UNSTARTED;
+            break;
+        case "in_progress":
+            this.status = Status.IN_PROGRESS;
+            break;
+        case "finished":
+            this.status = Status.FINISHED;
+            break;
+        default:
+            throw new BridgeSDKException(
+                    "Status string is not one of the three defined: unstarted, in_progress, finished");
         }
     }
 
-    public String getGuid() { return guid; }
-    public DateTime getStartedOn() { return startedOn; }
-    public DateTime getCompletedOn() { return completedOn; }
-    public Status getStatus() { return status; }
-    public Survey getSurvey() { return survey; }
-    public List<SurveyAnswer> getSurveyAnswers() { return answers; }
+    public String getGuid() {
+        return guid;
+    }
 
+    public DateTime getStartedOn() {
+        return startedOn;
+    }
+
+    public DateTime getCompletedOn() {
+        return completedOn;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public Survey getSurvey() {
+        return survey;
+    }
+
+    public List<SurveyAnswer> getSurveyAnswers() {
+        return answers;
+    }
 
 }

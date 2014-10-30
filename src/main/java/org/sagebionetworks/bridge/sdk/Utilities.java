@@ -27,6 +27,7 @@ public final class Utilities {
                             .registerModule(new JodaModule())
                             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                             .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+                            .configure(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS, false)
                             .setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
     private static Utilities INSTANCE = new Utilities();

@@ -1,9 +1,7 @@
 package org.sagebionetworks.bridge.sdk;
 
 import java.util.List;
-import java.util.UUID;
 
-import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.surveys.BooleanConstraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.DataType;
 import org.sagebionetworks.bridge.sdk.models.surveys.DateConstraints;
@@ -22,12 +20,10 @@ import org.sagebionetworks.bridge.sdk.models.surveys.SurveyRule.Operator;
 import org.sagebionetworks.bridge.sdk.models.surveys.TimeConstraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.UiHint;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Lists;
 
-public class TestSurvey {
-
-    private final Survey survey;
+public class TestSurvey extends Survey {
 
     private SurveyQuestion multiValueQuestion = new SurveyQuestion() {
         {
@@ -48,7 +44,6 @@ public class TestSurvey {
             setPrompt("How do you feel today?");
             setIdentifier("feeling");
             setUiHint(UiHint.LIST);
-            setGuid(UUID.randomUUID().toString());
         }
     };
 
@@ -59,10 +54,9 @@ public class TestSurvey {
             c.setMaxLength(255);
             c.setPattern("\\d{3}-\\d{3}-\\d{4}");
             setPrompt("Please enter an emergency phone number (###-###-####)?");
-            setIdentifier("name");
-            setUiHint(UiHint.TEXTFIELD);
+            setIdentifier("phone_number");
             setConstraints(c);
-            setGuid(UUID.randomUUID().toString());
+            setUiHint(UiHint.TEXTFIELD);
         }
     };
 
@@ -71,9 +65,8 @@ public class TestSurvey {
             BooleanConstraints c = new BooleanConstraints();
             setPrompt("Do you have high blood pressure?");
             setIdentifier("high_bp");
-            setUiHint(UiHint.CHECKBOX);
             setConstraints(c);
-            setGuid(UUID.randomUUID().toString());
+            setUiHint(UiHint.CHECKBOX);
         }
     };
 
@@ -82,9 +75,8 @@ public class TestSurvey {
             DateConstraints c = new DateConstraints();
             setPrompt("When did you last have a medical check-up?");
             setIdentifier("last_checkup");
-            setUiHint(UiHint.DATEPICKER);
             setConstraints(c);
-            setGuid(UUID.randomUUID().toString());
+            setUiHint(UiHint.DATEPICKER);
         }
     };
 
@@ -94,9 +86,8 @@ public class TestSurvey {
             c.setAllowFuture(true);
             setPrompt("When is your next medical check-up scheduled?");
             setIdentifier("last_reading");
-            setUiHint(UiHint.DATETIMEPICKER);
             setConstraints(c);
-            setGuid(UUID.randomUUID().toString());
+            setUiHint(UiHint.DATETIMEPICKER);
         }
     };
 
@@ -108,9 +99,8 @@ public class TestSurvey {
             c.setStep(0.1d);
             setPrompt("What dosage (in grams) do you take of deleuterium each day?");
             setIdentifier("deleuterium_dosage");
-            setUiHint(UiHint.SLIDER);
             setConstraints(c);
-            setGuid(UUID.randomUUID().toString());
+            setUiHint(UiHint.NUMBERFIELD);
         }
     };
 
@@ -119,9 +109,8 @@ public class TestSurvey {
             DurationConstraints c = new DurationConstraints();
             setPrompt("How log does your appointment take, on average?");
             setIdentifier("time_for_appt");
-            setUiHint(UiHint.TIMEPICKER);
             setConstraints(c);
-            setGuid(UUID.randomUUID().toString());
+            setUiHint(UiHint.DATEPICKER);
         }
     };
 
@@ -130,14 +119,13 @@ public class TestSurvey {
             IntegerConstraints c = new IntegerConstraints();
             c.setMinValue(0L);
             c.setMaxValue(4L);
-            c.getRules().add(new SurveyRule(Operator.LE, 2, "name"));
-            c.getRules().add(new SurveyRule(Operator.DE, null, "name"));
+            c.getRules().add(new SurveyRule(Operator.le, 2, "phone_number"));
+            c.getRules().add(new SurveyRule(Operator.de, null, "phone_number"));
 
             setPrompt("How many times a day do you take your blood pressure?");
-            setIdentifier("bp_x_day");
-            setUiHint(UiHint.NUMBERFIELD);
+            setIdentifier("BP X DAY");
             setConstraints(c);
-            setGuid(UUID.randomUUID().toString());
+            setUiHint(UiHint.NUMBERFIELD);
         }
     };
 
@@ -146,21 +134,15 @@ public class TestSurvey {
             TimeConstraints c = new TimeConstraints();
             setPrompt("What times of the day do you take deleuterium?");
             setIdentifier("deleuterium_x_day");
-            setUiHint(UiHint.TIMEPICKER);
             setConstraints(c);
-            setGuid(UUID.randomUUID().toString());
+            setUiHint(UiHint.TIMEPICKER);
         }
     };
 
     public TestSurvey() {
-        String guid = null;
-        String name = "General Blood Pressure Survey";
-        String identifier = "bloodpressure";
-        DateTime modifiedOn = null;
-        DateTime versionedOn = null;
-        Long version = null;
-        boolean published = true;
-        List<SurveyQuestion> questions = Lists.newArrayList();
+        setName("General Blood Pressure Survey");
+        setIdentifier("bloodpressure");
+        List<SurveyQuestion> questions = getQuestions();
         questions.add(booleanQuestion);
         questions.add(dateQuestion);
         questions.add(dateTimeQuestion);
@@ -170,79 +152,51 @@ public class TestSurvey {
         questions.add(timeQuestion);
         questions.add(multiValueQuestion);
         questions.add(stringQuestion);
-
-        survey = Survey.valueOf(guid, versionedOn, modifiedOn, version, name, identifier, published, questions);
     }
 
-    public Survey getSurvey() {
-        return survey;
-    }
-
-    public String getGuid() {
-        return survey.getGuid();
-    }
-
-    public DateTime getVersionedOn() {
-        return survey.getVersionedOn();
-    }
-
-    public DateTime getModifiedOn() {
-        return survey.getModifiedOn();
-    }
-
-    public String getName() {
-        return survey.getName();
-    }
-
-    public String getIdentifier() {
-        return survey.getIdentifier();
-    }
-
-    public boolean isPublished() {
-        return survey.isPublished();
-    }
-
-    public List<SurveyQuestion> getQuestions() {
-        return survey.getQuestions();
-    }
-
+    @JsonIgnore
     public SurveyQuestion getBooleanQuestion() {
         return booleanQuestion;
     }
 
+    @JsonIgnore
     public SurveyQuestion getDateQuestion() {
         return dateQuestion;
     }
 
+    @JsonIgnore
     public SurveyQuestion getDateTimeQuestion() {
         return dateTimeQuestion;
     }
 
+    @JsonIgnore
     public SurveyQuestion getDecimalQuestion() {
         return decimalQuestion;
     }
 
+    @JsonIgnore
     public SurveyQuestion getIntegerQuestion() {
         return integerQuestion;
     }
 
+    @JsonIgnore
     public SurveyQuestion getDurationQuestion() {
         return durationQuestion;
     }
 
+    @JsonIgnore
     public SurveyQuestion getTimeQuestion() {
         return timeQuestion;
     }
 
+    @JsonIgnore
     public SurveyQuestion getMultiValueQuestion() {
         return multiValueQuestion;
     }
 
+    @JsonIgnore
     public SurveyQuestion getStringQuestion() {
         return stringQuestion;
     }
 
-    public String toJSON() throws Exception {
-        return new ObjectMapper().writeValueAsString(this);
-    }
 }

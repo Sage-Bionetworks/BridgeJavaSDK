@@ -40,7 +40,7 @@ public class SurveyApiCallerTest {
     @Test
     public void cannotSubmitAsNormalUser() {
         testResearcher.signOutAndDeleteUser();
-        testUser = TestUserHelper.createAndSignInUser(SurveyApiCallerTest.class, true, null);
+        testUser = TestUserHelper.createAndSignInUser(SurveyApiCallerTest.class, true);
         try {
             surveyApi.getAllVersionsOfAllSurveys();
         } catch (Throwable t) {

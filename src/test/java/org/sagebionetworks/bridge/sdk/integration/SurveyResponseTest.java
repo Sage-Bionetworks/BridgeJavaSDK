@@ -1,177 +1,151 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.sagebionetworks.bridge.sdk.ClientProvider;
-import org.sagebionetworks.bridge.sdk.Config;
+import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
-import org.sagebionetworks.bridge.sdk.Session;
 import org.sagebionetworks.bridge.sdk.TestSurvey;
+import org.sagebionetworks.bridge.sdk.TestUserHelper;
+import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.models.GuidHolder;
 import org.sagebionetworks.bridge.sdk.models.GuidVersionedOnHolder;
-import org.sagebionetworks.bridge.sdk.models.surveys.MultiValueConstraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyQuestion;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 public class SurveyResponseTest {
 
-    private Session session;
-    private UserClient user;
-    private ResearcherClient researcher;
-
-    private TestSurvey testSurvey;
+    private TestUser researcher;
+    private TestUser user;
+    
     private Survey survey;
-    private GuidVersionedOnHolder key;
-
+    private GuidVersionedOnHolder keys;
+    
     @Before
     public void before() {
-        Config config = ClientProvider.getConfig();
-        session = ClientProvider.signIn(config.getAdminCredentials());
-        user = session.getUserClient();
-        researcher = session.getResearcherClient();
-
-        testSurvey = new TestSurvey();
-        survey = testSurvey.getSurvey();
-        key = researcher.createSurvey(survey);
-
+        researcher = TestUserHelper.createAndSignInUser(SurveyResponseTest.class, true, Tests.RESEARCHER_ROLE); 
+        user = TestUserHelper.createAndSignInUser(SurveyResponseTest.class, true);
+        
+        ResearcherClient client = researcher.getSession().getResearcherClient();
+        TestSurvey testSurvey = new TestSurvey();
+        keys = client.createSurvey(testSurvey);
+        client.publishSurvey(keys.getGuid(), keys.getVersionedOn());
+        
+        // It's unfortunate but all of the questions have been assigned GUIDs so we need to 
+        // retrieve the whole thing here in order to submit answers. The API should return
+        // all the guids for the questions.
+        survey = client.getSurvey(keys.getGuid(), keys.getVersionedOn());
     }
 
     @After
     public void after() {
-        researcher.closeSurvey(survey.getGuid(), survey.getVersionedOn());
-        session.signOut();
+        researcher.getSession().getResearcherClient().closeSurvey(survey.getGuid(), survey.getVersionedOn());
+        
+        researcher.signOutAndDeleteUser();
+        user.signOutAndDeleteUser();
     }
 
     @Test
     public void submitAnswersColdForASurvey() {
-        SurveyQuestion question1 = testSurvey.getBooleanQuestion();
-        SurveyQuestion question2 = testSurvey.getIntegerQuestion();
+        UserClient client = user.getSession().getUserClient();
+        
+        SurveyQuestion question1 = survey.getQuestionByIdentifier("high_bp");
+        SurveyQuestion question2 = survey.getQuestionByIdentifier("BP X DAY");
 
         List<SurveyAnswer> answers = Lists.newArrayList();
-        String questionGuid = question1.getGuid();
-        String answerField = "true";
-        String client = "test";
-        DateTime answeredOn = DateTime.now();
-        SurveyAnswer answer1 = SurveyAnswer.valueOf(questionGuid, false, answerField, answeredOn, client);
-        answers.add(answer1);
+        
+        SurveyAnswer answer = question1.createAnswerForQuestion("true", "desktop");
+        answers.add(answer);
+        
+        answer = question2.createAnswerForQuestion("4", "desktop");
+        answers.add(answer);
 
-        questionGuid = question2.getGuid();
-        answerField = null;
-        client = "test";
-        answeredOn = DateTime.now();
-        SurveyAnswer answer2 = SurveyAnswer.valueOf(questionGuid, false, answerField, answeredOn, client);
-        answers.add(answer2);
+        GuidHolder keys = client.submitAnswersToSurvey(survey, answers);
 
-        survey = researcher.getSurvey(key.getGuid(), key.getVersionedOn());
-        System.out.println(survey);
-        GuidHolder key = user.submitAnswersToSurvey(survey, answers);
-
-        SurveyResponse surveyResponse = user.getSurveyResponse(key.getGuid());
+        SurveyResponse surveyResponse = client.getSurveyResponse(keys.getGuid());
         assertEquals("There should be two answers.", surveyResponse.getSurveyAnswers().size(), 2);
     }
 
     @Test
     public void canSubmitEveryKindOfAnswerType() {
         List<SurveyAnswer> answers = Lists.newArrayList();
-
-        SurveyQuestion question = survey.getQuestions().get(0); // boolean
-        String answerField = "true";
-        DateTime answeredOn = DateTime.now();
-        String client = "mobile";
-        String questionGuid = question.getGuid();
-        SurveyAnswer answer = SurveyAnswer.valueOf(questionGuid, false, answerField, answeredOn, client);
+        
+        DateTime date = DateTime.parse("2014-10-30T18:33:36.081Z");
+        Map<String,String> values = Maps.newHashMap();
+        values.put("high_bp", "true");
+        values.put("last_reading", date.toString(ISODateTimeFormat.dateTime()));
+        values.put("last_checkup", date.toString(ISODateTimeFormat.date()));
+        values.put("phone_number", "123-456-7890");
+        values.put("deleuterium_dosage", "4.6");
+        values.put("BP X DAY", "4");
+        values.put("deleuterium_x_day", date.toString(ISODateTimeFormat.hourMinuteSecond()));
+        values.put("time_for_appt", "PT4H");
+        values.put("feeling", "[see array]"); // It's an array.
+        
+        SurveyQuestion question = survey.getQuestionByIdentifier("high_bp"); // boolean
+        SurveyAnswer answer = question.createAnswerForQuestion(values.get("high_bp"), "mobile");
         answers.add(answer);
 
-        question = survey.getQuestions().get(1); // datetime
-        System.out.println(question.getConstraints().getClass());
-        String answerField1 = DateTime.now().toString(ISODateTimeFormat.dateTime());
-        DateTime answeredOn1 = DateTime.now();
-        String client1 = "mobile";
-        String questionGuid1 = question.getGuid();
-        SurveyAnswer answer1 = SurveyAnswer.valueOf(questionGuid1, false, answerField1, answeredOn1, client1);
-        answers.add(answer1);
+        question = survey.getQuestionByIdentifier("last_reading"); // datetime
+        answer = question.createAnswerForQuestion(values.get("last_reading"), "mobile");
+        answers.add(answer);
 
-        question = survey.getQuestions().get(2); // datetime
-        System.out.println(question.getConstraints().getClass());
-        String answerField2 = DateTime.now().toString(ISODateTimeFormat.dateTime());
-        DateTime answeredOn2 = DateTime.now();
-        String client2 = "mobile";
-        String questionGuid2 = question.getGuid();
-        SurveyAnswer answer2 = SurveyAnswer.valueOf(questionGuid2, false, answerField2, answeredOn2, client2);
-        answers.add(answer2);
+        question = survey.getQuestionByIdentifier("last_checkup"); // date
+        answer = question.createAnswerForQuestion(values.get("last_checkup"), "mobile");
+        answers.add(answer);
+                
+        question = survey.getQuestionByIdentifier("phone_number"); // string
+        answer = question.createAnswerForQuestion(values.get("phone_number"), "mobile");
+        answers.add(answer);
 
-        question = survey.getQuestions().get(3); // decimal
-        System.out.println(question.getConstraints().getClass());
-        String answerField3 = "4.6";
-        DateTime answeredOn3 = DateTime.now();
-        String client3 = "mobile";
-        String questionGuid3 = question.getGuid();
-        SurveyAnswer answer3 = SurveyAnswer.valueOf(questionGuid3, false, answerField3, answeredOn3, client3);
-        answers.add(answer3);
+        question = survey.getQuestionByIdentifier("deleuterium_dosage"); // decimal
+        answer = question.createAnswerForQuestion(values.get("deleuterium_dosage"), "mobile");
+        answers.add(answer);
+        
+        question = survey.getQuestionByIdentifier("BP X DAY"); // integer
+        answer = question.createAnswerForQuestion(values.get("BP X DAY"), "mobile");
+        answers.add(answer);
 
-        question = survey.getQuestions().get(4); // integer
-        System.out.println(question.getConstraints().getClass());
-        String answerField4 = "4";
-        DateTime answeredOn4 = DateTime.now();
-        String client4 = "mobile";
-        String questionGuid4 = question.getGuid();
-        SurveyAnswer answer4 = SurveyAnswer.valueOf(questionGuid4, false, answerField4, answeredOn4, client4);
-        answers.add(answer4);
+        question = survey.getQuestionByIdentifier("deleuterium_x_day"); // time
+        answer = question.createAnswerForQuestion(values.get("deleuterium_x_day"), "mobile");
+        answers.add(answer);
+        
+        question = survey.getQuestionByIdentifier("time_for_appt"); // duration
+        answer = question.createAnswerForQuestion(values.get("time_for_appt"), "mobile");
+        answers.add(answer);
+        
+        question = survey.getQuestionByIdentifier("feeling"); // duration
+        answer = question.createAnswerForQuestion(Lists.newArrayList("1", "3"), "mobile");
+        answers.add(answer);
 
-        question = survey.getQuestions().get(5); // duration
-        System.out.println(question.getConstraints().getClass());
-        String answerField5 = "PTH";
-        DateTime answeredOn5 = DateTime.now();
-        String client5 = "mobile";
-        String questionGuid5 = question.getGuid();
-        SurveyAnswer answer5 = SurveyAnswer.valueOf(questionGuid5, false, answerField5, answeredOn5, client5);
-        answers.add(answer5);
-
-        question = survey.getQuestions().get(6); // time
-        System.out.println(question.getConstraints().getClass());
-        // "14:45:15.357Z" doesn't work because it has a time zone. They should be able
-        // to enter a time zone if they want though, right? This is *too* restrictive.
-        String answerField6 = "14:45:15.357";
-        DateTime answeredOn6 = DateTime.now();
-        String client6 = "mobile";
-        String questionGuid6 = question.getGuid();
-        SurveyAnswer answer6 = SurveyAnswer.valueOf(questionGuid6, false, answerField6, answeredOn6, client6);
-        answers.add(answer6);
-
-        question = survey.getQuestions().get(7); // multichoice integer
-        System.out.println(question.getConstraints().getClass());
-        assertTrue("Question is multichoice.", question.getConstraints() instanceof MultiValueConstraints);
-        String answerField7 = Lists.<String>newArrayList("3").toArray().toString();
-        DateTime answeredOn7 = DateTime.now();
-        String client7 = "mobile";
-        String questionGuid7 = question.getGuid();
-        SurveyAnswer answer7 = SurveyAnswer.valueOf(questionGuid7, false, answerField7, answeredOn7, client7);
-        answers.add(answer7);
-
-        question = survey.getQuestions().get(8); // string
-        String answerField8 = "123-456-7890";
-        DateTime answeredOn8 = DateTime.now();
-        String client8 = "mobile";
-        String questionGuid8 = question.getGuid();
-        SurveyAnswer answer8 = SurveyAnswer.valueOf(questionGuid8, false, answerField8, answeredOn8, client8);
-        answers.add(answer8);
-
-        // Submit all these tricky examples of answers through the API.
-        survey = researcher.getSurvey(key.getGuid(), key.getVersionedOn());
-        user.submitAnswersToSurvey(survey, answers);
+        UserClient client = user.getSession().getUserClient();
+        survey = client.getSurvey(keys.getGuid(), keys.getVersionedOn());
+        GuidHolder holder = client.submitAnswersToSurvey(survey, answers);
+        
+        SurveyResponse response = client.getSurveyResponse(holder.getGuid());
+        
+        for (SurveyAnswer savedAnswer : response.getSurveyAnswers()) {
+            SurveyQuestion q = survey.getQuestionByGUID(savedAnswer.getQuestionGuid());
+            String originalValue = values.get(q.getIdentifier());
+            if ("[see array]".equals(originalValue)) {
+                assertEquals("Answers are correct", Lists.newArrayList("1", "3"), savedAnswer.getAnswers());
+            } else {
+                assertEquals("Answer is correct", originalValue, savedAnswer.getAnswer());    
+            }
+        }
     }
-
+    
 }

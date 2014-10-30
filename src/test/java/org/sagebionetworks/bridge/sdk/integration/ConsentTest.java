@@ -1,33 +1,32 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import org.junit.After;
+
 import org.junit.Before;
 import org.junit.Test;
-import org.sagebionetworks.bridge.sdk.ClientProvider;
-import org.sagebionetworks.bridge.sdk.Config;
-import org.sagebionetworks.bridge.sdk.Session;
+import org.sagebionetworks.bridge.sdk.TestUserHelper;
+import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
 
 public class ConsentTest {
 
-    private Session session;
-    private UserClient user;
+    private TestUser testUser;
 
     @Before
     public void before() {
-        Config config = ClientProvider.getConfig();
-        session = ClientProvider.signIn(config.getAdminCredentials());
-        user = session.getUserClient();
+        testUser = TestUserHelper.createAndSignInUser(ConsentTest.class, true);
     }
 
     @After
     public void after() {
-        session.signOut();
+        testUser.signOutAndDeleteUser();
     }
 
     @Test
     public void canToggleDataSharing() {
-        user.resumeDataSharing();
-        user.suspendDataSharing();
+        UserClient client = testUser.getSession().getUserClient();
+
+        client.suspendDataSharing();
+        client.resumeDataSharing();
     }
 }

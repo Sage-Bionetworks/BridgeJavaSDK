@@ -1,5 +1,13 @@
 package org.sagebionetworks.bridge.sdk.models.surveys;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
+import java.util.List;
+
+import org.joda.time.DateTime;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -45,6 +53,27 @@ public class SurveyQuestion {
     public void setConstraints(Constraints constraints) {
         this.constraints = constraints;
     }
+    @JsonIgnore
+    public SurveyAnswer createAnswerForQuestion(String answer, String client) {
+        checkArgument(isNotBlank(client), "Client string must indicate client (e.g. mobile or desktop)");
+        SurveyAnswer surveyAnswer = new SurveyAnswer();
+        surveyAnswer.setQuestionGuid(getGuid());
+        surveyAnswer.setAnsweredOn(DateTime.now());
+        surveyAnswer.setAnswer(answer);
+        surveyAnswer.setClient(client);
+        return surveyAnswer;
+    }
+    @JsonIgnore
+    public SurveyAnswer createAnswerForQuestion(List<String> answers, String client) {
+        checkArgument(isNotBlank(client), "Client string must indicate client (e.g. mobile or desktop)");
+        SurveyAnswer surveyAnswer = new SurveyAnswer();
+        surveyAnswer.setQuestionGuid(getGuid());
+        surveyAnswer.setAnsweredOn(DateTime.now());
+        surveyAnswer.setAnswers(answers);
+        surveyAnswer.setClient(client);
+        return surveyAnswer;
+    }
+    
     @Override
     public int hashCode() {
         final int prime = 31;

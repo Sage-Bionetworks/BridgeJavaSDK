@@ -1,5 +1,6 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -12,113 +13,118 @@ import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.sagebionetworks.bridge.sdk.ClientProvider;
-import org.sagebionetworks.bridge.sdk.Config;
-import org.sagebionetworks.bridge.sdk.Session;
+import org.sagebionetworks.bridge.sdk.TestUserHelper;
+import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.Utilities;
 import org.sagebionetworks.bridge.sdk.models.HealthDataRecord;
 import org.sagebionetworks.bridge.sdk.models.IdVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.Tracker;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.Lists;
 
 public class HealthDataTest {
 
-    private ObjectMapper mapper = Utilities.getMapper();
     private Tracker tracker;
-    private List<HealthDataRecord> records;
     private ObjectNode data;
-
-    private Session session;
-    private UserClient user;
+    private TestUser testUser;
 
     @Before
     public void before() {
-        Config config = ClientProvider.getConfig();
-        session = ClientProvider.signIn(config.getAdminCredentials());
-        user = session.getUserClient();
+        testUser = TestUserHelper.createAndSignInUser(HealthDataTest.class, true);
+        
+        tracker = testUser.getSession().getUserClient().getAllTrackers().get(0);
 
-        tracker = user.getAllTrackers().get(0);
-
-        data = mapper.createObjectNode();
+        data = Utilities.getMapper().createObjectNode();
         data.put("systolic", 120);
         data.put("diastolic", 80);
     }
 
     @After
     public void after() {
-        session.signOut();
+        testUser.signOutAndDeleteUser();
+        //session.signOut();
     }
 
     @Test
     public void noMethodShouldSucceedIfNotSignedIn() {
-        session.signOut();
+        UserClient client = testUser.getSession().getUserClient();
+        testUser.getSession().signOut();
 
         HealthDataRecord record = HealthDataRecord.valueOf(0, "1111", DateTime.now().minusWeeks(1), DateTime.now(), data);
-        records = new ArrayList<HealthDataRecord>();
+        List<HealthDataRecord> records = Lists.newArrayList();
         records.add(record);
 
         try {
-            user.addHealthDataRecords(tracker, records);
+            client.addHealthDataRecords(tracker, records);
             fail("If we have reached here, then we did not need to sign in to call this method => test failure.");
         } catch (Throwable t) {}
         try {
-            user.getHealthDataRecordsInRange(tracker, DateTime.now().minusMonths(1), DateTime.now());
+            client.getHealthDataRecordsInRange(tracker, DateTime.now().minusMonths(1), DateTime.now());
             fail("If we have reached here, then we did not need to sign in to call this method => test failure.");
         } catch (Throwable t) {}
         try {
-            user.getHealthDataRecord(tracker, record.getRecordId());
+            client.getHealthDataRecord(tracker, record.getRecordId());
             fail("If we have reached here, then we did not need to sign in to call this method => test failure.");
         } catch (Throwable t) {}
         try {
-            user.updateHealthDataRecord(tracker, record);
+            client.updateHealthDataRecord(tracker, record);
             fail("If we have reached here, then we did not need to sign in to call this method => test failure.");
         } catch (Throwable t) {}
         try {
-            user.deleteHealthDataRecord(tracker, record.getRecordId());
+            client.deleteHealthDataRecord(tracker, record.getRecordId());
             fail("If we have reached here, then we did not need to sign in to call this method => test failure.");
         } catch (Throwable t) {}
     }
 
     @Test
     public void canAddAndRetrieveAndDeleteRecords() {
-        List<HealthDataRecord> recordsToAdd = new ArrayList<HealthDataRecord>();
-        recordsToAdd.add(HealthDataRecord.valueOf(0, "1111", DateTime.now().minusWeeks(1), DateTime.now(), data));
-        recordsToAdd.add(HealthDataRecord.valueOf(1, "2222", DateTime.now().minusWeeks(2),
-                DateTime.now().minusWeeks(1), data));
-        recordsToAdd.add(HealthDataRecord.valueOf(0, "3333", DateTime.now().minusWeeks(3),
-                DateTime.now().minusWeeks(2), data));
+        UserClient client = testUser.getSession().getUserClient();
+        try {
+            List<HealthDataRecord> records = new ArrayList<HealthDataRecord>();
+            records.add(HealthDataRecord.valueOf(0, "1111", DateTime.now().minusWeeks(1), DateTime.now(), data));
+            records.add(HealthDataRecord.valueOf(1, "2222", DateTime.now().minusWeeks(2), DateTime.now().minusWeeks(1), data));
+            records.add(HealthDataRecord.valueOf(0, "3333", DateTime.now().minusWeeks(3), DateTime.now().minusWeeks(2), data));
 
-        List<IdVersionHolder> holders = user.addHealthDataRecords(tracker, recordsToAdd);
-        assertTrue("Number of holders = all records added", holders.size() == recordsToAdd.size());
-
-        List<HealthDataRecord> storedRecords = user.getHealthDataRecordsInRange(tracker, DateTime.now()
-                .minusYears(20), DateTime.now());
-        for (HealthDataRecord record : storedRecords) {
-            user.deleteHealthDataRecord(tracker, record.getRecordId());
+            List<IdVersionHolder> holders = client.addHealthDataRecords(tracker, records);
+            assertTrue("Number of holders = all records added", holders.size() == records.size());
+        } finally {
+            List<HealthDataRecord> records = getAllRecords(client);
+            for (HealthDataRecord record : records) {
+                client.deleteHealthDataRecord(tracker, record.getRecordId());
+            }
+            records = getAllRecords(client);
+            assertEquals("All records deleted", 0, records.size());
         }
+
     }
 
     @Test
     public void canGetandUpdateRecords() {
-        // Make sure there's something in Bridge so that we can test get.
-        List<HealthDataRecord> add = new ArrayList<HealthDataRecord>();
-        add.add(HealthDataRecord.valueOf(0, "5555", DateTime.now().minusWeeks(1), DateTime.now(), data));
-        user.addHealthDataRecords(tracker, add);
+        UserClient client = testUser.getSession().getUserClient();
+        try {
+            // Make sure there's something in Bridge so that we can test get.
+            List<HealthDataRecord> add = new ArrayList<HealthDataRecord>();
+            add.add(HealthDataRecord.valueOf(0, "5555", DateTime.now().minusWeeks(1), DateTime.now(), data));
+            client.addHealthDataRecords(tracker, add);
 
-        List<HealthDataRecord> records = user.getHealthDataRecordsInRange(tracker, DateTime.now()
-                .minusYears(30), DateTime.now());
-        HealthDataRecord record = user.getHealthDataRecord(tracker, records.get(0).getRecordId());
-        assertTrue("retrieved record should be same as one chosen from list.", record.getRecordId().equals(records.get(0).getRecordId()));
+            List<HealthDataRecord> records = client.getHealthDataRecordsInRange(tracker, DateTime.now()
+                    .minusYears(30), DateTime.now());
+            HealthDataRecord record = client.getHealthDataRecord(tracker, records.get(0).getRecordId());
+            assertTrue("retrieved record should be same as one chosen from list.", record.getRecordId().equals(records.get(0).getRecordId()));
 
-        ObjectNode data2 = record.getData().deepCopy();
-        data2.put("systolic", 7000);
-        record.setData(data2);
-        IdVersionHolder holder = user.updateHealthDataRecord(tracker, record);
-        assertTrue("record's version should be increased by 1.", holder.getVersion() == record.getVersion() + 1);
+            ObjectNode data2 = record.getData().deepCopy();
+            data2.put("systolic", 7000);
+            record.setData(data2);
+            IdVersionHolder holder = client.updateHealthDataRecord(tracker, record);
+            assertTrue("record's version should be increased by 1.", holder.getVersion() == record.getVersion() + 1);
+        } finally {
+            List<HealthDataRecord> records = getAllRecords(client);
+            for (HealthDataRecord record : records) {
+                client.deleteHealthDataRecord(tracker, record.getRecordId());
+            }
+        }
     }
 
     @Test
@@ -135,66 +141,78 @@ public class HealthDataTest {
         //                1____________3
         //                                                         4______5
 
-        // Constructing DateTime objects representing six points in time.
-        DateTime time1 = DateTime.now().minusYears(5);
-        DateTime time2 = DateTime.now().minusYears(4);
-        DateTime time3 = DateTime.now().minusYears(3);
-        DateTime time4 = DateTime.now().minusYears(2);
-        DateTime time5 = DateTime.now().minusYears(1);
-        DateTime time6 = DateTime.now();
+        UserClient client = testUser.getSession().getUserClient();
+        try {
+            // Constructing DateTime objects representing six points in time.
+            DateTime time1 = DateTime.now().minusYears(5);
+            DateTime time2 = DateTime.now().minusYears(4);
+            DateTime time3 = DateTime.now().minusYears(3);
+            DateTime time4 = DateTime.now().minusYears(2);
+            DateTime time5 = DateTime.now().minusYears(1);
+            DateTime time6 = DateTime.now();
 
-        // Adding Health Data Records to BridgeServer.
-        List<HealthDataRecord> records = createTestRecords(time1, time2.minusMillis(1));
-        List<IdVersionHolder> holders = user.addHealthDataRecords(tracker, records);
-        IdVersionHolder holder1 = holders.get(0);
+            // Adding Health Data Records to BridgeServer.
+            List<HealthDataRecord> records = createTestRecords(time1, time2.minusMillis(1));
+            List<IdVersionHolder> holders = client.addHealthDataRecords(tracker, records);
+            IdVersionHolder holder1 = holders.get(0);
 
-        records = createTestRecords(time1, time3);
-        holders = user.addHealthDataRecords(tracker, records);
-        IdVersionHolder holder2 = holders.get(0);
+            records = createTestRecords(time1, time3);
+            holders = client.addHealthDataRecords(tracker, records);
+            IdVersionHolder holder2 = holders.get(0);
 
-        records = createTestRecords(time4, time6);
-        holders = user.addHealthDataRecords(tracker, records);
-        IdVersionHolder holder3 = holders.get(0);
+            records = createTestRecords(time4, time6);
+            holders = client.addHealthDataRecords(tracker, records);
+            IdVersionHolder holder3 = holders.get(0);
 
-        records = createTestRecords(time3, time4);
-        holders = user.addHealthDataRecords(tracker, records);
-        IdVersionHolder holder4 = holders.get(0);
+            records = createTestRecords(time3, time4);
+            holders = client.addHealthDataRecords(tracker, records);
+            IdVersionHolder holder4 = holders.get(0);
 
-        records = createTestRecords(time5.plusMillis(1), time6);
-        holders = user.addHealthDataRecords(tracker, records);
-        IdVersionHolder holder5 = holders.get(0);
+            records = createTestRecords(time5.plusMillis(1), time6);
+            holders = client.addHealthDataRecords(tracker, records);
+            IdVersionHolder holder5 = holders.get(0);
 
-        records = createTestRecords(time3, time6.plusMillis(1));
-        holders = user.addHealthDataRecords(tracker, records);
-        IdVersionHolder holder6 = holders.get(0);
+            records = createTestRecords(time3, time6.plusMillis(1));
+            holders = client.addHealthDataRecords(tracker, records);
+            IdVersionHolder holder6 = holders.get(0);
 
-        // Retrieve Health Data Records, testing that the correct added records are retrieved.
-        records = user.getHealthDataRecordsInRange(tracker, time2, time5);
-        List<IdVersionHolder> retrievedHolders = getHolders(records);
-        List<IdVersionHolder> expectedHolders = Lists.newArrayList(holder2, holder3, holder4, holder6);
-        List<IdVersionHolder> unexpectedHolders = Lists.newArrayList(holder1, holder5);
-        assertTrue("Returns records 2,3,4 and 6.", retrievedHolders.containsAll(expectedHolders));
-        assertFalse("Does not return records 1 and 5.", retrievedHolders.containsAll(unexpectedHolders));
+            // Retrieve Health Data Records, testing that the correct added records are retrieved.
+            records = client.getHealthDataRecordsInRange(tracker, time2, time5);
+            List<IdVersionHolder> retrievedHolders = getHolders(records);
+            List<IdVersionHolder> expectedHolders = Lists.newArrayList(holder2, holder3, holder4, holder6);
+            List<IdVersionHolder> unexpectedHolders = Lists.newArrayList(holder1, holder5);
+            assertTrue("Returns records 2,3,4 and 6.", retrievedHolders.containsAll(expectedHolders));
+            assertFalse("Does not return records 1 and 5.", retrievedHolders.containsAll(unexpectedHolders));
 
-        records = user.getHealthDataRecordsInRange(tracker, time1, time3);
-        retrievedHolders = getHolders(records);
-        expectedHolders = Lists.newArrayList(holder1, holder2, holder4, holder6);
-        unexpectedHolders = Lists.newArrayList(holder3, holder5);
-        assertTrue("Returns records 1, 2, 4 and 6.", retrievedHolders.containsAll(expectedHolders));
-        assertFalse("Does not return records 3 and 5.", retrievedHolders.containsAll(unexpectedHolders));
+            records = client.getHealthDataRecordsInRange(tracker, time1, time3);
+            retrievedHolders = getHolders(records);
+            expectedHolders = Lists.newArrayList(holder1, holder2, holder4, holder6);
+            unexpectedHolders = Lists.newArrayList(holder3, holder5);
+            assertTrue("Returns records 1, 2, 4 and 6.", retrievedHolders.containsAll(expectedHolders));
+            assertFalse("Does not return records 3 and 5.", retrievedHolders.containsAll(unexpectedHolders));
 
-        records = user.getHealthDataRecordsInRange(tracker, time4, time5);
-        retrievedHolders = getHolders(records);
-        expectedHolders = Lists.newArrayList(holder3, holder4, holder6);
-        unexpectedHolders = Lists.newArrayList(holder1, holder2, holder5);
-        assertTrue("Returns records 3, 4 and 6.", retrievedHolders.containsAll(expectedHolders));
-        assertFalse("Does not return records 1, 2 and 5.", retrievedHolders.containsAll(unexpectedHolders));
+            records = client.getHealthDataRecordsInRange(tracker, time4, time5);
+            retrievedHolders = getHolders(records);
+            expectedHolders = Lists.newArrayList(holder3, holder4, holder6);
+            unexpectedHolders = Lists.newArrayList(holder1, holder2, holder5);
+            assertTrue("Returns records 3, 4 and 6.", retrievedHolders.containsAll(expectedHolders));
+            assertFalse("Does not return records 1, 2 and 5.", retrievedHolders.containsAll(unexpectedHolders));
+        } finally {
+            List<HealthDataRecord> records = getAllRecords(client);
+            for (HealthDataRecord record : records) {
+                client.deleteHealthDataRecord(tracker, record.getRecordId());
+            }
+        }
     }
 
+    private List<HealthDataRecord> getAllRecords(UserClient client) {
+        return client.getHealthDataRecordsInRange(tracker, DateTime.now().minusYears(30), DateTime.now());
+    }
+    
     private List<HealthDataRecord> createTestRecords(DateTime start, DateTime end) {
         assert start.isBefore(end);
 
-        ObjectNode data = mapper.createObjectNode();
+        ObjectNode data = Utilities.getMapper().createObjectNode();
         data.put("systolic", 130);
         data.put("diastolic", 70);
 
@@ -202,7 +220,6 @@ public class HealthDataTest {
         HealthDataRecord record = HealthDataRecord.valueOf(0, uniqueId, start, end, data);
 
         return Lists.newArrayList(record);
-
     }
 
     private List<IdVersionHolder> getHolders(List<HealthDataRecord> records) {

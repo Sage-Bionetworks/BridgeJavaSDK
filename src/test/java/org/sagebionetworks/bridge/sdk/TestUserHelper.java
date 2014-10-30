@@ -1,6 +1,6 @@
 package org.sagebionetworks.bridge.sdk;
 
-import static org.sagebionetworks.bridge.sdk.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,7 +13,7 @@ import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
 public class TestUserHelper {
 
     public static class TestUser {
-        private final AdminClient client;
+        private final AdminClient adminClient;
         private final Session userSession;
         private final String username;
         private final String email;
@@ -22,7 +22,7 @@ public class TestUserHelper {
 
         public TestUser(AdminClient client, Session userSession, String username, String email, String password,
                 List<String> roleList) {
-            this.client = client;
+            this.adminClient = client;
             this.userSession = userSession;
             this.username = username;
             this.email = email;
@@ -46,7 +46,7 @@ public class TestUserHelper {
         }
         public boolean signOutAndDeleteUser() {
             userSession.signOut();
-            return client.deleteUser(email);
+            return adminClient.deleteUser(email);
         }
         public boolean isSignedIn() {
             return userSession.isSignedIn();
@@ -58,7 +58,7 @@ public class TestUserHelper {
 
         Config config = ClientProvider.getConfig();
         Session session = ClientProvider.signIn(config.getAdminCredentials());
-        AdminClient client = session.getAdminClient();
+        AdminClient adminClient = session.getAdminClient();
 
         List<String> rolesList = (roles == null) ? Collections.<String>emptyList() : Arrays.asList(roles);
         String name = makeUserName(cls);
@@ -66,12 +66,12 @@ public class TestUserHelper {
                 .setUsername(name)
                 .setEmail(name + "@sagebridge.org")
                 .setPassword("P4ssword");
-        client.createUser(signUp, rolesList, consent);
+        adminClient.createUser(signUp, rolesList, consent);
 
         SignInCredentials signIn = SignInCredentials.valueOf().setUsername(name).setPassword("P4ssword");
         Session userSession = ClientProvider.signIn(signIn);
 
-        return new TestUserHelper.TestUser(client, userSession, signUp.getUsername(), signUp.getEmail(),
+        return new TestUserHelper.TestUser(adminClient, userSession, signUp.getUsername(), signUp.getEmail(),
                 signUp.getPassword(), rolesList);
     }
 

@@ -21,8 +21,8 @@ public class Tests {
     public static final String RESEARCHER_ROLE = TEST_KEY + "_researcher";
     
     public static final void untilConsistent(Callable<Boolean> callable) throws Exception {
-        int delay = 200;
-        int loopLimit = 40;
+        int delay = 250;
+        int loopLimit = 50;
         int successesLimit = 3;
         int loops = 0;
         int successes = 0;

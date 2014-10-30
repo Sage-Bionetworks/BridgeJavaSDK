@@ -22,11 +22,9 @@ class SchedulePlanApiCaller extends BaseApiCaller {
     }
 
     List<SchedulePlan> getSchedulePlans() {
-        System.out.println("entered schedule plan api caller method");
         HttpResponse response = get(config.getSchedulePlansApi());
 
         JsonNode items = getPropertyFromResponse(response, "items");
-        System.out.println(items.toString());
         return mapper.convertValue(items,
                 mapper.getTypeFactory().constructCollectionType(List.class, SchedulePlan.class));
     }
