@@ -44,7 +44,6 @@ public class HealthDataTest {
     @After
     public void after() {
         testUser.signOutAndDeleteUser();
-        //session.signOut();
     }
 
     @Test

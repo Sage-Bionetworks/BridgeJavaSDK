@@ -1,7 +1,6 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import org.junit.After;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;

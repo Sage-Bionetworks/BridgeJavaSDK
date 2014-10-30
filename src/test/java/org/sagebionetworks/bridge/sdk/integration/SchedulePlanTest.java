@@ -12,7 +12,6 @@ import java.util.concurrent.Callable;
 import org.joda.time.Period;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.BridgeServerException;
