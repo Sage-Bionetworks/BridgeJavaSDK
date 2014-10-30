@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.AdminClient;
 import org.sagebionetworks.bridge.sdk.ClientProvider;
@@ -35,22 +34,22 @@ public class StudyConsentTest {
     }
 
     @Test
-    @Ignore
     public void test() {
-        StudyConsent current = StudyConsent.valueOf("/path/to", 18);
-        admin.addConsentDocument(current); // if fail, will throw exception here.
-
+        StudyConsent consent = StudyConsent.valueOf("/path/to", 22);
+        admin.addConsentDocument(consent);
+        
         List<StudyConsent> studyConsents = admin.getAllConsentDocuments();
         assertNotNull("studyConsents should not be null.", studyConsents);
         assertTrue("studyConsents should have at least one StudyConsent", studyConsents.size() > 0);
 
-        current = admin.getConsentDocument(studyConsents.get(0).getCreatedOn());
+        StudyConsent current = admin.getConsentDocument(studyConsents.get(0).getCreatedOn());
         assertNotNull("studyConsent should not be null.", current);
         assertEquals("Retrieved study consent should equal one asked for.", current, studyConsents.get(0));
 
         admin.activateConsentDocument(current.getCreatedOn());
 
-        assertFalse("Active consent is returned.",
-                current.isActive() == admin.getMostRecentlyActivatedConsentDocument().isActive());
+        assertFalse("Active consent is returned.", current.isActive() == admin
+                .getMostRecentlyActivatedConsentDocument().isActive());
     }
+    
 }

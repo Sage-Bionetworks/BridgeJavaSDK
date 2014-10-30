@@ -10,7 +10,6 @@ import org.sagebionetworks.bridge.sdk.ClientProvider;
 import org.sagebionetworks.bridge.sdk.Config;
 import org.sagebionetworks.bridge.sdk.Session;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
-import org.sagebionetworks.bridge.sdk.UserManagementApiCallerTest;
 import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
 
 public class UserManagementTest {
@@ -32,7 +31,7 @@ public class UserManagementTest {
 
     @Test
     public void canCreateAndDeleteUser() {
-        String username = TestUserHelper.makeUserName(UserManagementApiCallerTest.class);
+        String username = TestUserHelper.makeUserName(UserManagementTest.class);
         String email = username + "@sagebase.org";
         String password = "P4ssword";
         boolean consent = true;
