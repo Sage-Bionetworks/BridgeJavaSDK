@@ -5,11 +5,26 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.GuidVersionedOnHolder;
+import org.sagebionetworks.bridge.sdk.models.StudyConsent;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 
 public interface ResearcherClient {
 
+    // STUDY CONSENTS
+    
+    public List<StudyConsent> getAllConsentDocuments();
+
+    public StudyConsent getMostRecentlyActivatedConsentDocument();
+
+    public StudyConsent getConsentDocument(DateTime createdOn);
+
+    public void createConsentDocument(StudyConsent consent);
+
+    public void activateConsentDocument(DateTime createdOn);
+    
+    // SURVEYS
+    
     public Survey getSurvey(String guid, DateTime versionedOn);
 
     public GuidVersionedOnHolder createSurvey(Survey survey);
@@ -31,6 +46,8 @@ public interface ResearcherClient {
     public void closeSurvey(String guid, DateTime versionedOn);
     
     public void deleteSurvey(String guid, DateTime versionedOn);
+    
+    // SCHEDULE PLANS
 
     public List<SchedulePlan> getSchedulePlans();
 

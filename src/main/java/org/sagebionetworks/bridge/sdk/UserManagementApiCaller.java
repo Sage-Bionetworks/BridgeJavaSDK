@@ -56,17 +56,4 @@ class UserManagementApiCaller extends BaseApiCaller {
 
         return response.getStatusLine().getStatusCode() == 200;
     }
-
-    boolean revokeAllConsentRecords(String email) {
-        checkArgument(isNotBlank(email));
-        
-        Map<String,String> queryParams = new HashMap<String,String>();
-        queryParams.put("email", email);
-
-        String url = config.getUserManagementConsentApi();
-        HttpResponse response = delete(url, queryParams);
-
-        return response.getStatusLine().getStatusCode() == 200;
-    }
-
 }

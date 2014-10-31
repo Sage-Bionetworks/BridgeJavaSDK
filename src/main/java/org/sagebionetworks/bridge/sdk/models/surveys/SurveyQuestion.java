@@ -54,6 +54,16 @@ public class SurveyQuestion {
         this.constraints = constraints;
     }
     @JsonIgnore
+    public SurveyAnswer declineAnswerForQuestion(String client) {
+        checkArgument(isNotBlank(client), "Client string must indicate client (e.g. mobile or desktop)");
+        SurveyAnswer surveyAnswer = new SurveyAnswer();
+        surveyAnswer.setQuestionGuid(getGuid());
+        surveyAnswer.setAnsweredOn(DateTime.now());
+        surveyAnswer.setDeclined(true);
+        surveyAnswer.setClient(client);
+        return surveyAnswer;
+    }
+    @JsonIgnore
     public SurveyAnswer createAnswerForQuestion(String answer, String client) {
         checkArgument(isNotBlank(client), "Client string must indicate client (e.g. mobile or desktop)");
         SurveyAnswer surveyAnswer = new SurveyAnswer();
