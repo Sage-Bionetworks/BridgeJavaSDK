@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.joda.time.DateTime;
-import org.sagebionetworks.bridge.sdk.models.StudyConsent;
+import org.sagebionetworks.bridge.sdk.models.ConsentDocument;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -19,28 +19,28 @@ class StudyConsentApiCaller extends BaseApiCaller {
         return new StudyConsentApiCaller(session);
     }
 
-    List<StudyConsent> getAllStudyConsents() {
+    List<ConsentDocument> getAllStudyConsents() {
         String url = config.getStudyConsentsApi();
         HttpResponse response = get(url);
 
         JsonNode items = getPropertyFromResponse(response, "items");
-        List<StudyConsent> consents = mapper.convertValue(items,
-                mapper.getTypeFactory().constructCollectionType(List.class, StudyConsent.class));
+        List<ConsentDocument> consents = mapper.convertValue(items,
+                mapper.getTypeFactory().constructCollectionType(List.class, ConsentDocument.class));
 
         return consents;
     }
 
-    StudyConsent getStudyConsent(DateTime timestamp) {
+    ConsentDocument getStudyConsent(DateTime timestamp) {
         String url = config.getStudyConsentApi(timestamp);
         HttpResponse response = get(url);
 
-        return getResponseBodyAsType(response, StudyConsent.class);
+        return getResponseBodyAsType(response, ConsentDocument.class);
     }
 
-    StudyConsent getActiveStudyConsent() {
+    ConsentDocument getActiveStudyConsent() {
         String url = config.getActiveStudyConsentApi();
         HttpResponse response = get(url);
-        return getResponseBodyAsType(response, StudyConsent.class);
+        return getResponseBodyAsType(response, ConsentDocument.class);
     }
 
     void setActiveStudyConsent(DateTime timestamp) {
@@ -48,7 +48,7 @@ class StudyConsentApiCaller extends BaseApiCaller {
         post(url);
     }
 
-    StudyConsent addStudyConsent(StudyConsent studyConsent) {
+    ConsentDocument addStudyConsent(ConsentDocument studyConsent) {
         String json = null;
         try {
             json = mapper.writeValueAsString(studyConsent);
@@ -59,6 +59,6 @@ class StudyConsentApiCaller extends BaseApiCaller {
         String url = config.getStudyConsentsApi();
         HttpResponse response = post(url, json);
 
-        return getResponseBodyAsType(response, StudyConsent.class);
+        return getResponseBodyAsType(response, ConsentDocument.class);
     }
 }

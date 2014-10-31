@@ -7,6 +7,7 @@ import org.sagebionetworks.bridge.sdk.BridgeSDKException;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.collect.Lists;
 
 public class SurveyResponse {
 
@@ -65,11 +66,24 @@ public class SurveyResponse {
     }
 
     public Survey getSurvey() {
-        return survey;
+        return Survey.valueOf(survey);
     }
 
     public List<SurveyAnswer> getSurveyAnswers() {
-        return answers;
+        List<SurveyAnswer> copy = Lists.newArrayList();
+        for (SurveyAnswer answer : answers) {
+            copy.add(SurveyAnswer.valueOf(answer));
+        }
+        return copy;
+    }
+
+    public SurveyAnswer getAnswerByQuestionGuid(String questionGuid) {
+        for (SurveyAnswer answer : answers) {
+            if (answer.getQuestionGuid().equals(questionGuid)) {
+                return SurveyAnswer.valueOf(answer);
+            }
+        }
+        return null;
     }
 
 }

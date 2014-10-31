@@ -29,6 +29,11 @@ public class SurveyAnswer {
         this.answers = answers;
     }
 
+    static SurveyAnswer valueOf(SurveyAnswer answer) {
+        return new SurveyAnswer(answer.getQuestionGuid(), answer.isDeclined(), answer.getAnswer(), answer.getAnswers(),
+                answer.getAnsweredOn(), answer.getClient());
+    }
+
     public SurveyAnswer() {
     }
 
@@ -63,7 +68,7 @@ public class SurveyAnswer {
     public void setAnswers(List<String> answers) {
         this.answers = answers;
     }
-    
+
     public String getClient() {
         return client;
     }
@@ -75,7 +80,7 @@ public class SurveyAnswer {
     public DateTime getAnsweredOn() {
         return answeredOn;
     }
-    
+
     public void setAnsweredOn(DateTime answeredOn) {
         this.answeredOn = answeredOn;
     }

@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
-import org.sagebionetworks.bridge.sdk.models.StudyConsent;
+import org.sagebionetworks.bridge.sdk.models.ConsentDocument;
 
 final class BridgeAdminClient implements AdminClient {
 
@@ -27,26 +27,26 @@ final class BridgeAdminClient implements AdminClient {
     }
 
     @Override
-    public List<StudyConsent> getAllConsentDocuments() {
+    public List<ConsentDocument> getAllConsentDocuments() {
         session.checkSignedIn();
 
         return studyConsentApi.getAllStudyConsents();
     }
     @Override
-    public StudyConsent getMostRecentlyActivatedConsentDocument() {
+    public ConsentDocument getMostRecentlyActivatedConsentDocument() {
         session.checkSignedIn();
 
         return studyConsentApi.getActiveStudyConsent();
     }
     @Override
-    public StudyConsent getConsentDocument(DateTime createdOn) {
+    public ConsentDocument getConsentDocument(DateTime createdOn) {
         session.checkSignedIn();
         checkNotNull(createdOn, CANNOT_BE_NULL, "createdOn");
 
         return studyConsentApi.getStudyConsent(createdOn);
     }
     @Override
-    public void addConsentDocument(StudyConsent consent) {
+    public void addConsentDocument(ConsentDocument consent) {
         session.checkSignedIn();
         checkNotNull(consent, CANNOT_BE_NULL, "consent");
 

@@ -8,8 +8,8 @@ import org.apache.http.HttpResponse;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.sagebionetworks.bridge.sdk.models.HealthDataRecord;
-import org.sagebionetworks.bridge.sdk.models.IdVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.Tracker;
+import org.sagebionetworks.bridge.sdk.models.holders.IdVersionHolder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;

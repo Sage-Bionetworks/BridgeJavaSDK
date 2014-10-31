@@ -8,7 +8,7 @@ import org.joda.time.format.ISODateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class StudyConsent {
+public class ConsentDocument {
 
     private final DateTime createdOn;
     private final boolean active;
@@ -17,7 +17,7 @@ public class StudyConsent {
     private final long version;
 
     @JsonCreator
-    private StudyConsent(@JsonProperty("timestamp") String createdOn, @JsonProperty("active") boolean active,
+    private ConsentDocument(@JsonProperty("timestamp") String createdOn, @JsonProperty("active") boolean active,
             @JsonProperty("path") String path, @JsonProperty("minAge") int minAge, @JsonProperty("version") long version) {
         this.createdOn = createdOn == null ? null : DateTime.parse(createdOn, ISODateTimeFormat.dateTime());
         this.active = active;
@@ -27,8 +27,8 @@ public class StudyConsent {
     }
 
     // After creating this, will get junk values from getters. This is used exclusively to add a new StudyConsent.
-    public static StudyConsent valueOf(String path, int minAge) {
-        return new StudyConsent(null, false, path, minAge, -1);
+    public static ConsentDocument valueOf(String path, int minAge) {
+        return new ConsentDocument(null, false, path, minAge, -1);
     }
 
     public DateTime getCreatedOn() {
@@ -66,7 +66,7 @@ public class StudyConsent {
         } else if (obj.getClass() != this.getClass()) {
             return false;
         }
-        final StudyConsent that = (StudyConsent) obj;
+        final ConsentDocument that = (ConsentDocument) obj;
         return Objects.equals(this.createdOn, that.createdOn) && Objects.equals(this.active, that.active)
                 && Objects.equals(this.path, that.path) && Objects.equals(this.minAge, that.minAge)
                 && Objects.equals(this.version, that.version);

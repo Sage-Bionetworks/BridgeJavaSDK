@@ -14,7 +14,7 @@ import org.sagebionetworks.bridge.sdk.AdminClient;
 import org.sagebionetworks.bridge.sdk.ClientProvider;
 import org.sagebionetworks.bridge.sdk.Config;
 import org.sagebionetworks.bridge.sdk.Session;
-import org.sagebionetworks.bridge.sdk.models.StudyConsent;
+import org.sagebionetworks.bridge.sdk.models.ConsentDocument;
 
 public class StudyConsentTest {
 
@@ -35,14 +35,14 @@ public class StudyConsentTest {
 
     @Test
     public void test() {
-        StudyConsent consent = StudyConsent.valueOf("/path/to", 22);
+        ConsentDocument consent = ConsentDocument.valueOf("/path/to", 22);
         admin.addConsentDocument(consent);
         
-        List<StudyConsent> studyConsents = admin.getAllConsentDocuments();
+        List<ConsentDocument> studyConsents = admin.getAllConsentDocuments();
         assertNotNull("studyConsents should not be null.", studyConsents);
         assertTrue("studyConsents should have at least one StudyConsent", studyConsents.size() > 0);
 
-        StudyConsent current = admin.getConsentDocument(studyConsents.get(0).getCreatedOn());
+        ConsentDocument current = admin.getConsentDocument(studyConsents.get(0).getCreatedOn());
         assertNotNull("studyConsent should not be null.", current);
         assertEquals("Retrieved study consent should equal one asked for.", current, studyConsents.get(0));
 
