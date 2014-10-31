@@ -20,11 +20,20 @@ import org.sagebionetworks.bridge.sdk.models.surveys.SurveyRule.Operator;
 import org.sagebionetworks.bridge.sdk.models.surveys.TimeConstraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.UiHint;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Lists;
 
 public class TestSurvey extends Survey {
 
+    public static final String MULTIVALUE_ID = "feeling";
+    public static final String STRING_ID = "phone_number";
+    public static final String BOOLEAN_ID = "high_bp";
+    public static final String DATE_ID = "last_checkup";
+    public static final String DATETIME_ID = "last_reading";
+    public static final String DECIMAL_ID = "deleuterium_dosage";
+    public static final String DURATION_ID = "time_for_appt";
+    public static final String INTEGER_ID = "BP X DAY";
+    public static final String TIME_ID = "deleuterium_x_day";
+    
     private SurveyQuestion multiValueQuestion = new SurveyQuestion() {
         {
             Image terrible = new Image("http://terrible.svg", 600, 300);
@@ -42,7 +51,7 @@ public class TestSurvey extends Survey {
             mvc.setAllowMultiple(true);
             setConstraints(mvc);
             setPrompt("How do you feel today?");
-            setIdentifier("feeling");
+            setIdentifier(MULTIVALUE_ID);
             setUiHint(UiHint.LIST);
         }
     };
@@ -54,7 +63,7 @@ public class TestSurvey extends Survey {
             c.setMaxLength(255);
             c.setPattern("\\d{3}-\\d{3}-\\d{4}");
             setPrompt("Please enter an emergency phone number (###-###-####)?");
-            setIdentifier("phone_number");
+            setIdentifier(STRING_ID);
             setConstraints(c);
             setUiHint(UiHint.TEXTFIELD);
         }
@@ -64,7 +73,7 @@ public class TestSurvey extends Survey {
         {
             BooleanConstraints c = new BooleanConstraints();
             setPrompt("Do you have high blood pressure?");
-            setIdentifier("high_bp");
+            setIdentifier(BOOLEAN_ID);
             setConstraints(c);
             setUiHint(UiHint.CHECKBOX);
         }
@@ -74,7 +83,7 @@ public class TestSurvey extends Survey {
         {
             DateConstraints c = new DateConstraints();
             setPrompt("When did you last have a medical check-up?");
-            setIdentifier("last_checkup");
+            setIdentifier(DATE_ID);
             setConstraints(c);
             setUiHint(UiHint.DATEPICKER);
         }
@@ -85,7 +94,7 @@ public class TestSurvey extends Survey {
             DateTimeConstraints c = new DateTimeConstraints();
             c.setAllowFuture(true);
             setPrompt("When is your next medical check-up scheduled?");
-            setIdentifier("last_reading");
+            setIdentifier(DATETIME_ID);
             setConstraints(c);
             setUiHint(UiHint.DATETIMEPICKER);
         }
@@ -98,7 +107,7 @@ public class TestSurvey extends Survey {
             c.setMaxValue(10.0d);
             c.setStep(0.1d);
             setPrompt("What dosage (in grams) do you take of deleuterium each day?");
-            setIdentifier("deleuterium_dosage");
+            setIdentifier(DECIMAL_ID);
             setConstraints(c);
             setUiHint(UiHint.NUMBERFIELD);
         }
@@ -108,7 +117,7 @@ public class TestSurvey extends Survey {
         {
             DurationConstraints c = new DurationConstraints();
             setPrompt("How log does your appointment take, on average?");
-            setIdentifier("time_for_appt");
+            setIdentifier(DURATION_ID);
             setConstraints(c);
             setUiHint(UiHint.DATEPICKER);
         }
@@ -123,7 +132,7 @@ public class TestSurvey extends Survey {
             c.getRules().add(new SurveyRule(Operator.de, null, "phone_number"));
 
             setPrompt("How many times a day do you take your blood pressure?");
-            setIdentifier("BP X DAY");
+            setIdentifier(INTEGER_ID);
             setConstraints(c);
             setUiHint(UiHint.NUMBERFIELD);
         }
@@ -133,7 +142,7 @@ public class TestSurvey extends Survey {
         {
             TimeConstraints c = new TimeConstraints();
             setPrompt("What times of the day do you take deleuterium?");
-            setIdentifier("deleuterium_x_day");
+            setIdentifier(TIME_ID);
             setConstraints(c);
             setUiHint(UiHint.TIMEPICKER);
         }
@@ -153,50 +162,4 @@ public class TestSurvey extends Survey {
         questions.add(multiValueQuestion);
         questions.add(stringQuestion);
     }
-
-    @JsonIgnore
-    public SurveyQuestion getBooleanQuestion() {
-        return booleanQuestion;
-    }
-
-    @JsonIgnore
-    public SurveyQuestion getDateQuestion() {
-        return dateQuestion;
-    }
-
-    @JsonIgnore
-    public SurveyQuestion getDateTimeQuestion() {
-        return dateTimeQuestion;
-    }
-
-    @JsonIgnore
-    public SurveyQuestion getDecimalQuestion() {
-        return decimalQuestion;
-    }
-
-    @JsonIgnore
-    public SurveyQuestion getIntegerQuestion() {
-        return integerQuestion;
-    }
-
-    @JsonIgnore
-    public SurveyQuestion getDurationQuestion() {
-        return durationQuestion;
-    }
-
-    @JsonIgnore
-    public SurveyQuestion getTimeQuestion() {
-        return timeQuestion;
-    }
-
-    @JsonIgnore
-    public SurveyQuestion getMultiValueQuestion() {
-        return multiValueQuestion;
-    }
-
-    @JsonIgnore
-    public SurveyQuestion getStringQuestion() {
-        return stringQuestion;
-    }
-
 }

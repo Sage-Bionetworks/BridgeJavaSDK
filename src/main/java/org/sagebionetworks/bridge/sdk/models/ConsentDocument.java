@@ -10,11 +10,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ConsentDocument {
 
-    private final DateTime createdOn;
-    private final boolean active;
-    private final String path;
-    private final int minAge;
-    private final long version;
+    private DateTime createdOn;
+    private boolean active;
+    private String path;
+    private int minAge;
+    private long version;
 
     @JsonCreator
     private ConsentDocument(@JsonProperty("timestamp") String createdOn, @JsonProperty("active") boolean active,
@@ -26,9 +26,7 @@ public class ConsentDocument {
         this.version = version;
     }
 
-    // After creating this, will get junk values from getters. This is used exclusively to add a new StudyConsent.
-    public static ConsentDocument valueOf(String path, int minAge) {
-        return new ConsentDocument(null, false, path, minAge, -1);
+    public ConsentDocument() {
     }
 
     public DateTime getCreatedOn() {
@@ -43,12 +41,24 @@ public class ConsentDocument {
         return path;
     }
 
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     public int getMinAge() {
         return minAge;
     }
 
+    public void setMinAge(int minAge) {
+        this.minAge = minAge;
+    }
+
     public long getVersion() {
         return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     @Override

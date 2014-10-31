@@ -1,7 +1,5 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -10,46 +8,57 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.sagebionetworks.bridge.sdk.AdminClient;
-import org.sagebionetworks.bridge.sdk.ClientProvider;
-import org.sagebionetworks.bridge.sdk.Config;
-import org.sagebionetworks.bridge.sdk.Session;
+import org.sagebionetworks.bridge.Tests;
+import org.sagebionetworks.bridge.sdk.BridgeServerException;
+import org.sagebionetworks.bridge.sdk.ResearcherClient;
+import org.sagebionetworks.bridge.sdk.TestUserHelper;
+import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.models.ConsentDocument;
+
 
 public class StudyConsentTest {
 
-    private Session session;
-    private AdminClient admin;
+    private TestUser researcher;
 
     @Before
     public void before() {
-        Config config = ClientProvider.getConfig();
-        session = ClientProvider.signIn(config.getAdminCredentials());
-        admin = session.getAdminClient();
+        researcher = TestUserHelper.createAndSignInUser(StudyConsentTest.class, true, Tests.RESEARCHER_ROLE);
     }
 
     @After
     public void after() {
-        session.signOut();
+        researcher.signOutAndDeleteUser();
+    }
+
+    @Test(expected=BridgeServerException.class)
+    public void mustBeAdminToAdd() {
+        TestUser user = TestUserHelper.createAndSignInUser(StudyConsentTest.class, true);
+        try {
+            ConsentDocument consent = new ConsentDocument();
+            consent.setPath("/dev/null");
+            consent.setMinAge(22);
+
+            user.getSession().getResearcherClient().createConsentDocument(consent);
+
+        } finally {
+            user.signOutAndDeleteUser();
+        }
     }
 
     @Test
-    public void test() {
-        ConsentDocument consent = ConsentDocument.valueOf("/path/to", 22);
-        admin.addConsentDocument(consent);
-        
-        List<ConsentDocument> studyConsents = admin.getAllConsentDocuments();
+    public void addAndActiveConsent() {
+        ResearcherClient client = researcher.getSession().getResearcherClient();
+
+        ConsentDocument consent = new ConsentDocument();
+        consent.setPath("/dev/null");
+        consent.setMinAge(22);
+        client.createConsentDocument(consent);
+
+        List<ConsentDocument> studyConsents = client.getAllConsentDocuments();
         assertNotNull("studyConsents should not be null.", studyConsents);
         assertTrue("studyConsents should have at least one StudyConsent", studyConsents.size() > 0);
 
-        ConsentDocument current = admin.getConsentDocument(studyConsents.get(0).getCreatedOn());
-        assertNotNull("studyConsent should not be null.", current);
-        assertEquals("Retrieved study consent should equal one asked for.", current, studyConsents.get(0));
-
-        admin.activateConsentDocument(current.getCreatedOn());
-
-        assertFalse("Active consent is returned.", current.isActive() == admin
-                .getMostRecentlyActivatedConsentDocument().isActive());
+        client.getConsentDocument(studyConsents.get(0).getCreatedOn());
     }
-    
+
 }
