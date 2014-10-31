@@ -155,7 +155,10 @@ abstract class BaseApiCaller {
             if (session != null && session.isSignedIn()) {
                 request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
             }
-            logger.debug("POST " + fullUrl + "\n    " + maskPassword(json));
+            // expensive, don't do it unless necessary
+            if (logger.isDebugEnabled()) {
+                logger.debug("POST " + fullUrl + "\n    " + maskPassword(json));    
+            }
             response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, fullUrl);
         } catch (IOException e) {
@@ -291,7 +294,6 @@ abstract class BaseApiCaller {
         }
         return "?" + Joiner.on("&").join(list);
     }
-    
     
     private String maskPassword(String string) {
         return string.replaceAll("password\":\"([^\"]*)\"", "password\":\"[REDACTED]\"");

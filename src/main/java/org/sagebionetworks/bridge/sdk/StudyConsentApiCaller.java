@@ -48,7 +48,7 @@ class StudyConsentApiCaller extends BaseApiCaller {
         post(url);
     }
 
-    StudyConsent addStudyConsent(StudyConsent studyConsent) {
+    StudyConsent createStudyConsent(StudyConsent studyConsent) {
         String json = null;
         try {
             json = mapper.writeValueAsString(studyConsent);

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.sagebionetworks.bridge.sdk.TestSurvey.*;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.models.GuidVersionedOnHolder;
+import org.sagebionetworks.bridge.sdk.models.surveys.Constraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.DataType;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyQuestion;
@@ -143,21 +145,22 @@ public class SurveyTest {
         keys.add(key);
         Survey survey = client.getSurvey(key.getGuid(), key.getVersionedOn());
         assertEquals("Type is Survey.", survey.getClass(), Survey.class);
-
+        
         List<SurveyQuestion> questions = survey.getQuestions();
         assertEquals("Type is SurveyQuestion.", questions.get(0).getClass(), SurveyQuestion.class);
-        assertEquals("Type is BooleanConstraints.", DataType.BOOLEAN, constraintTypeForQuestion(questions, 0));
-        assertEquals("Type is DateConstraints", DataType.DATE, constraintTypeForQuestion(questions, 1));
-        assertEquals("Type is DateTimeConstraints", DataType.DATETIME, constraintTypeForQuestion(questions, 2));
-        assertEquals("Type is DecimalConstraints", DataType.DECIMAL, constraintTypeForQuestion(questions, 3));
-        assertEquals("Type is IntegerConstraints", DataType.INTEGER, constraintTypeForQuestion(questions, 4));
-        assertEquals("Type is IntegerConstraints", SurveyRule.class, questions.get(4).getConstraints().getRules()
-                .get(0).getClass());
-        assertEquals("Type is DurationConstraints", DataType.DURATION, constraintTypeForQuestion(questions, 5));
-        assertEquals("Type is TimeConstraints", DataType.TIME, constraintTypeForQuestion(questions, 6));
-        assertTrue("Type is MultiValueConstraints", questions.get(7).getConstraints().getAllowMultiple());
-        assertEquals("Type is SurveyQuestionOption", SurveyQuestionOption.class, questions.get(7).getConstraints()
-                .getEnumeration().get(0).getClass());
+        
+        assertEquals("Type is BooleanConstraints.", DataType.BOOLEAN, getConstraints(survey, BOOLEAN_ID).getDataType());
+        assertEquals("Type is DateConstraints", DataType.DATE, getConstraints(survey, DATE_ID).getDataType());
+        assertEquals("Type is DateTimeConstraints", DataType.DATETIME, getConstraints(survey, DATETIME_ID).getDataType());
+        assertEquals("Type is DecimalConstraints", DataType.DECIMAL, getConstraints(survey, DECIMAL_ID).getDataType());
+        Constraints intCon = getConstraints(survey, INTEGER_ID);
+        assertEquals("Type is IntegerConstraints", DataType.INTEGER, intCon.getDataType());
+        assertEquals("Has a rule of type SurveyRule", SurveyRule.class, intCon.getRules().get(0).getClass());
+        assertEquals("Type is DurationConstraints", DataType.DURATION, getConstraints(survey, DURATION_ID).getDataType());
+        assertEquals("Type is TimeConstraints", DataType.TIME, getConstraints(survey, TIME_ID).getDataType());
+        Constraints multiCon = getConstraints(survey, MULTIVALUE_ID);
+        assertTrue("Type is MultiValueConstraints", multiCon.getAllowMultiple());
+        assertEquals("Type is SurveyQuestionOption", SurveyQuestionOption.class, multiCon.getEnumeration().get(0).getClass());
 
         survey.setName("New name");
         client.updateSurvey(survey);
@@ -176,8 +179,8 @@ public class SurveyTest {
         fail("Should not get here.");
     }
 
-    private DataType constraintTypeForQuestion(List<SurveyQuestion> questions, int index) {
-        return questions.get(index).getConstraints().getDataType();
+    private Constraints getConstraints(Survey survey, String id) {
+        return survey.getQuestionByIdentifier(id).getConstraints();
     }
 
     private boolean containsAll(List<Survey> surveys, GuidVersionedOnHolder... keys) {

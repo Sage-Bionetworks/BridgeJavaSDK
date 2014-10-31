@@ -175,7 +175,7 @@ public class SchedulePlanTest {
             researcherClient.createSchedulePlan(null);
             fail("createSchedulePlan(null) should have thrown an exception");
         } catch(NullPointerException e) {
-            assertEquals("Clear null-pointer message", "Plan object is null", e.getMessage());
+            assertEquals("Clear null-pointer message", "SchedulePlan cannot be null.", e.getMessage());
         }
     }    
 }

@@ -7,8 +7,11 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
 import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
+
+import com.google.common.collect.Lists;
 
 public class TestUserHelper {
 
@@ -51,6 +54,18 @@ public class TestUserHelper {
         public boolean isSignedIn() {
             return userSession.isSignedIn();
         }
+    }
+    
+    public static TestUser getSignedInAdmin() {
+        Config config = ClientProvider.getConfig();
+        Session session = ClientProvider.signIn(config.getAdminCredentials());
+        AdminClient adminClient = session.getAdminClient();
+
+        return new TestUserHelper.TestUser(adminClient, session, "", "", "", Lists.newArrayList(Tests.ADMIN_ROLE));
+    }
+    
+    public static void signOut(TestUser testUser) {
+        testUser.getSession().signOut();
     }
 
     public static TestUser createAndSignInUser(Class<?> cls, boolean consent, String... roles) {

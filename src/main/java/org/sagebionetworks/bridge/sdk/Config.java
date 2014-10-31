@@ -193,9 +193,6 @@ public final class Config {
     String getUserManagementApi() {
         return val(Props.USER_MANAGEMENT_API);
     }
-    String getUserManagementConsentApi() {
-        return val(Props.USER_MANAGEMENT_CONSENT_API);
-    }
     String getSchedulesApi() {
         return val(Props.SCHEDULES_API);
     }
