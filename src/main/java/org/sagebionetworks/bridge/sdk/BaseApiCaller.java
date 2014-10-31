@@ -128,6 +128,25 @@ abstract class BaseApiCaller {
         return response;
     }
 
+    protected HttpResponse put(String url, String content, ContentType contentType) {
+        String fullUrl = getFullUrl(url);
+        HttpResponse response = null;
+        try {
+            Request request = Request.Put(fullUrl).bodyString(content, contentType);
+            if (session != null && session.isSignedIn()) {
+                request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
+            }
+            logger.debug("PUT " + fullUrl + "\n    " + content);
+            response = exec.execute(request).returnResponse();
+            throwExceptionOnErrorStatus(response, fullUrl);
+        } catch (ClientProtocolException e) {
+            throw new BridgeServerException(CONNECTION_FAILED, e, fullUrl);
+        } catch (IOException e) {
+            throw new BridgeServerException(CONNECTION_FAILED, e, fullUrl);
+        }
+        return response;
+    }
+
     protected HttpResponse post(String url) {
         String fullUrl = getFullUrl(url);
         HttpResponse response = null;
@@ -157,7 +176,7 @@ abstract class BaseApiCaller {
             }
             // expensive, don't do it unless necessary
             if (logger.isDebugEnabled()) {
-                logger.debug("POST " + fullUrl + "\n    " + maskPassword(json));    
+                logger.debug("POST " + fullUrl + "\n    " + maskPassword(json));
             }
             response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, fullUrl);
@@ -245,11 +264,11 @@ abstract class BaseApiCaller {
     @SuppressWarnings("unchecked")
     private void throwExceptionOnErrorStatus(HttpResponse response, String url) {
         try {
-            logger.debug(response.getStatusLine().getStatusCode() + " RESPONSE: " + EntityUtils.toString(response.getEntity()));    
+            logger.debug(response.getStatusLine().getStatusCode() + " RESPONSE: " + EntityUtils.toString(response.getEntity()));
         } catch(IOException e) {
-            logger.debug(response.getStatusLine().getStatusCode() + " RESPONSE: <ERROR>");   
+            logger.debug(response.getStatusLine().getStatusCode() + " RESPONSE: <ERROR>");
         }
-        
+
         StatusLine status = response.getStatusLine();
         int statusCode = status.getStatusCode();
         if (statusCode < 200 || statusCode > 299) {
@@ -294,9 +313,9 @@ abstract class BaseApiCaller {
         }
         return "?" + Joiner.on("&").join(list);
     }
-    
+
     private String maskPassword(String string) {
         return string.replaceAll("password\":\"([^\"]*)\"", "password\":\"[REDACTED]\"");
     }
- 
+
 }

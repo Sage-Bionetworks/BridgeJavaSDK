@@ -1,10 +1,13 @@
 package org.sagebionetworks.bridge.sdk;
 
+import java.io.File;
 import java.util.List;
 
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.HealthDataRecord;
 import org.sagebionetworks.bridge.sdk.models.Tracker;
+import org.sagebionetworks.bridge.sdk.models.UploadRequest;
+import org.sagebionetworks.bridge.sdk.models.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.UserProfile;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.IdVersionHolder;
@@ -168,5 +171,24 @@ public interface UserClient {
      *            The response to delete.
      */
     public void deleteSurveyResponse(SurveyResponse response);
+
+    /**
+     * Request an upload session from the user.
+     *
+     * @param request
+     *            the request object Bridge uses to create the Upload Session.
+     * @return UploadSession
+     */
+    public UploadSession requestUploadSession(UploadRequest request);
+
+    /**
+     * Upload a file using the requested UploadSession. Closes the upload after it's done.
+     *
+     * @param session
+     *            The session used to upload.
+     * @param file
+     *            File to upload.
+     */
+    public void upload(UploadSession session, File file);
 
 }

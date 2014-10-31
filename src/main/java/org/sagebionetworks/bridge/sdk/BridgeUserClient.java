@@ -4,11 +4,14 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
+import java.io.File;
 import java.util.List;
 
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.HealthDataRecord;
 import org.sagebionetworks.bridge.sdk.models.Tracker;
+import org.sagebionetworks.bridge.sdk.models.UploadRequest;
+import org.sagebionetworks.bridge.sdk.models.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.UserProfile;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.IdVersionHolder;
@@ -26,6 +29,7 @@ class BridgeUserClient implements UserClient {
     private final HealthDataApiCaller healthDataApi;
     private final ScheduleApiCaller scheduleApi;
     private final SurveyResponseApiCaller surveyResponseApi;
+    private final UploadApiCaller uploadApi;
 
     private BridgeUserClient(Session session) {
         this.session = session;
@@ -35,6 +39,7 @@ class BridgeUserClient implements UserClient {
         this.healthDataApi = HealthDataApiCaller.valueOf(session);
         this.scheduleApi = ScheduleApiCaller.valueOf(session);
         this.surveyResponseApi = SurveyResponseApiCaller.valueOf(session);
+        this.uploadApi = UploadApiCaller.valueOf(session);
     }
 
     static BridgeUserClient valueOf(Session session) {
@@ -72,7 +77,7 @@ class BridgeUserClient implements UserClient {
     @Override
     public void suspendDataSharing() {
         session.checkSignedIn();
-        
+
         consentApi.suspendDataSharing();
     }
 
@@ -198,5 +203,20 @@ class BridgeUserClient implements UserClient {
         checkNotNull(response, "Response cannot be null.");
 
         surveyResponseApi.deleteSurveyResponse(response.getGuid());
+    }
+
+    @Override
+    public UploadSession requestUploadSession(UploadRequest request) {
+        session.checkSignedIn();
+        checkNotNull(request, "Request cannot be null.");
+
+        return uploadApi.requestUploadSession(request);
+    }
+
+    @Override
+    public void upload(UploadSession session, File file) {
+        this.session.checkSignedIn();
+        checkNotNull(session, "session cannot be null.");
+        checkNotNull(file, "file cannot be null.");
     }
 }
