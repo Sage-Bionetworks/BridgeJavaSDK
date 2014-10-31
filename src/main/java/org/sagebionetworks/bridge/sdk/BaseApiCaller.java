@@ -128,11 +128,11 @@ abstract class BaseApiCaller {
         return response;
     }
 
-    protected HttpResponse put(String url, String content, ContentType contentType) {
+    protected HttpResponse put(String url, String content) {
         String fullUrl = getFullUrl(url);
         HttpResponse response = null;
         try {
-            Request request = Request.Put(fullUrl).bodyString(content, contentType);
+            Request request = Request.Put(fullUrl).bodyString(content, ContentType.APPLICATION_OCTET_STREAM);
             if (session != null && session.isSignedIn()) {
                 request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
             }

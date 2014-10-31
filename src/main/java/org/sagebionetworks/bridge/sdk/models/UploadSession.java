@@ -27,4 +27,11 @@ public class UploadSession {
     public String getId() { return id; }
     public URL getURL() { return url; }
     public long getExpires() { return expires; }
+
+    @Override
+    public String toString() {
+        return "UploadRequest[ id=" + id +
+                "url=" + url +
+                ", expires=" + expires + "]";
+    }
 }

@@ -39,4 +39,12 @@ public class UploadRequest {
     public void setContentLength(long contentLength) {
         this.contentLength = contentLength;
     }
+
+    @Override
+    public String toString() {
+        return "UploadRequest[ name=" + name +
+                "contentMd5=" + contentMd5 +
+                ", contentType=" + contentType +
+                ", contentLength=" + contentLength + "]";
+    }
 }
