@@ -33,10 +33,11 @@ public class ConsentTest {
     public void canToggleDataSharing() {
         UserClient client = testUser.getSession().getUserClient();
 
+        assertTrue("Initially sharing data", testUser.getSession().isDataSharing());
         client.suspendDataSharing();
         assertFalse("Not sharing data", testUser.getSession().isDataSharing());
         client.resumeDataSharing();
-        assertTrue("Not sharing data", testUser.getSession().isDataSharing());
+        assertTrue("Sharing data", testUser.getSession().isDataSharing());
     }
     
     @Test
