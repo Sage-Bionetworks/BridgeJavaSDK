@@ -3,6 +3,7 @@ package org.sagebionetworks.bridge.sdk;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.sagebionetworks.bridge.sdk.models.ConsentSignature;
 import org.sagebionetworks.bridge.sdk.models.GuidHolder;
 import org.sagebionetworks.bridge.sdk.models.HealthDataRecord;
 import org.sagebionetworks.bridge.sdk.models.IdVersionHolder;
@@ -19,6 +20,8 @@ public interface UserClient {
 
     public void saveProfile(UserProfile profile);
 
+    public void consentToResearch(ConsentSignature signature);
+    
     public void resumeDataSharing();
 
     public void suspendDataSharing();

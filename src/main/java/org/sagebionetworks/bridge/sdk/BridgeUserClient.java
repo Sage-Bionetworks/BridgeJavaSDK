@@ -7,6 +7,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.sagebionetworks.bridge.sdk.models.ConsentSignature;
 import org.sagebionetworks.bridge.sdk.models.GuidHolder;
 import org.sagebionetworks.bridge.sdk.models.HealthDataRecord;
 import org.sagebionetworks.bridge.sdk.models.IdVersionHolder;
@@ -19,7 +20,7 @@ import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
 
 class BridgeUserClient implements UserClient {
 
-    private final Session session;
+    private final BridgeSession session;
     private final UserProfileApiCaller profileApi;
     private final ConsentApiCaller consentApi;
     private final TrackerApiCaller trackerApi;
@@ -27,7 +28,7 @@ class BridgeUserClient implements UserClient {
     private final ScheduleApiCaller scheduleApi;
     private final SurveyResponseApiCaller surveyResponseApi;
 
-    private BridgeUserClient(Session session) {
+    private BridgeUserClient(BridgeSession session) {
         this.session = session;
         this.profileApi = UserProfileApiCaller.valueOf(session);
         this.consentApi = ConsentApiCaller.valueOf(session);
@@ -37,7 +38,7 @@ class BridgeUserClient implements UserClient {
         this.surveyResponseApi = SurveyResponseApiCaller.valueOf(session);
     }
 
-    static BridgeUserClient valueOf(Session session) {
+    static BridgeUserClient valueOf(BridgeSession session) {
         return new BridgeUserClient(session);
     }
 
@@ -57,16 +58,27 @@ class BridgeUserClient implements UserClient {
         checkNotNull(profile, "Profile cannot be null.");
 
         profileApi.updateProfile(profile);
+        session.setUsername(profile.getUsername());
     }
 
     /*
      * Consent API
      */
+    
+    @Override
+    public void consentToResearch(ConsentSignature signature) {
+        session.checkSignedIn();
+        
+        consentApi.consentToResearch(signature);
+        session.setConsented(true);
+    }
+    
     @Override
     public void resumeDataSharing() {
         session.checkSignedIn();
 
         consentApi.resumeDataSharing();
+        session.setDataSharing(true);
     }
 
     @Override
@@ -74,6 +86,7 @@ class BridgeUserClient implements UserClient {
         session.checkSignedIn();
         
         consentApi.suspendDataSharing();
+        session.setDataSharing(false);
     }
 
     /*

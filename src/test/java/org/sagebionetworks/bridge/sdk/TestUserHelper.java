@@ -82,10 +82,15 @@ public class TestUserHelper {
                 .setEmail(name + "@sagebridge.org")
                 .setPassword("P4ssword");
         adminClient.createUser(signUp, rolesList, consent);
-
-        SignInCredentials signIn = SignInCredentials.valueOf().setUsername(name).setPassword("P4ssword");
-        Session userSession = ClientProvider.signIn(signIn);
-
+        
+        Session userSession = null;
+        try {
+            SignInCredentials signIn = SignInCredentials.valueOf().setUsername(name).setPassword("P4ssword");
+            userSession = ClientProvider.signIn(signIn);
+        } catch(ConsentRequiredException e) {
+            userSession = e.getSession();
+            // Do nothing. Some tests want to play around with a user who has not yet consented.
+        }
         return new TestUserHelper.TestUser(adminClient, userSession, signUp.getUsername(), signUp.getEmail(),
                 signUp.getPassword(), rolesList);
     }

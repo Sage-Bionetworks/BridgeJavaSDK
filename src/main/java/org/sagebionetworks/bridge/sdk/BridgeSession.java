@@ -6,13 +6,20 @@ import static com.google.common.base.Preconditions.checkState;
 class BridgeSession implements Session {
 
     private static final String NOT_AUTHENTICATED = "This session has been signed out; create a new session to retrieve a valid client.";
-    private UserSession session;
+
     private AuthenticationApiCaller authApi;
+    private String sessionToken;
+    private String username;
+    private boolean consented;
+    private boolean dataSharing;
     
     private BridgeSession(UserSession session) {
-        checkNotNull(session, "UserSession is null");
+        checkNotNull(session, Bridge.CANNOT_BE_NULL, "UserSession");
         
-        this.session = session;
+        this.username = session.getUsername();
+        this.sessionToken = session.getSessionToken();
+        this.consented = session.isConsented();
+        this.dataSharing = session.isDataSharing();
         this.authApi = AuthenticationApiCaller.valueOf(this);
     }
 
@@ -27,25 +34,37 @@ class BridgeSession implements Session {
     @Override
     public String getUsername() {
         checkState(isSignedIn(), NOT_AUTHENTICATED);
-        return session.getUsername();
+        return username;
+    }
+    
+    void setUsername(String username) {
+        this.username = username;
     }
 
     @Override
     public String getSessionToken() {
         checkState(isSignedIn(), NOT_AUTHENTICATED);
-        return session.getSessionToken();
+        return sessionToken;
     }
-
+    
     @Override
     public boolean isConsented() {
         checkState(isSignedIn(), NOT_AUTHENTICATED);
-        return session.isConsented();
+        return consented;
     }
 
+    void setConsented(boolean consented) {
+        this.consented = consented;
+    }
+    
     @Override
     public boolean isDataSharing() {
         checkState(isSignedIn(), NOT_AUTHENTICATED);
-        return session.isDataSharing();
+        return dataSharing;
+    }
+    
+    void setDataSharing(boolean dataSharing) {
+        this.dataSharing = dataSharing;
     }
     
     @Override
@@ -68,14 +87,14 @@ class BridgeSession implements Session {
     
     @Override
     public boolean isSignedIn() {
-        return session != null;
+        return sessionToken != null;
     }
 
     @Override
     public synchronized void signOut() {
-        if (session != null) {
+        if (sessionToken != null) {
             authApi.signOut();
-            session = null;
+            sessionToken = null;
         }
     }
 

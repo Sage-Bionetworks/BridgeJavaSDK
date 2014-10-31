@@ -32,7 +32,7 @@ public class ConsentSignature {
     @Override
     public String toString() {
         return "ResearchConsent[name=" + name +
-        		", birthdate=" + birthdate.toString(ISODateTimeFormat.dateTime()) + "]";
+        		", birthdate=" + birthdate.toString(ISODateTimeFormat.date()) + "]";
     }
 
 }

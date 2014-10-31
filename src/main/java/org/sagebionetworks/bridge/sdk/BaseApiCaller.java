@@ -231,6 +231,9 @@ abstract class BaseApiCaller {
         try {
             json = mapper.readTree(getResponseBody(response));
         } catch (IOException e) {
+            // NOTE: It turns out the most likely reason for this is that bad JSON was posted to the 
+            // server to start with, which causes play to return an HTML page... which causes this 
+            // method to fail because it's not JSON.
             throw new BridgeSDKException("A problem occurred while processing the response body.", e);
         }
         return json;
@@ -263,7 +266,10 @@ abstract class BaseApiCaller {
                 if (node.has("message")) {
                     message = node.get("message").asText();
                 }
-                if (node.has("errors")) {
+                if (statusCode == 412) {
+                    UserSession session = getResponseBodyAsType(response, UserSession.class);
+                    e = new ConsentRequiredException("Consent required.", url, BridgeSession.valueOf(session));
+                } else  if (node.has("errors")) {
                     Map<String, List<String>> errors = (Map<String, List<String>>) mapper.convertValue(
                             node.get("errors"), new TypeReference<HashMap<String, ArrayList<String>>>() {});
                     e = new InvalidEntityException(message, errors, url);
@@ -271,6 +277,7 @@ abstract class BaseApiCaller {
                     e = new BridgeServerException(message, status.getStatusCode(), url);
                 }
             } catch(Throwable t) {
+                t.printStackTrace();
                 throw new BridgeServerException(status.getReasonPhrase(), status.getStatusCode(), url);
             }
             throw e;
