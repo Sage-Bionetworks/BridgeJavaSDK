@@ -5,8 +5,8 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.GuidVersionedOnHolder;
-import org.sagebionetworks.bridge.sdk.models.StudyConsent;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
+import org.sagebionetworks.bridge.sdk.models.studies.StudyConsent;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 
 public interface ResearcherClient {
@@ -26,6 +26,8 @@ public interface ResearcherClient {
     // SURVEYS
     
     public Survey getSurvey(String guid, DateTime versionedOn);
+    
+    public Survey getSurvey(GuidVersionedOnHolder keys);
 
     public GuidVersionedOnHolder createSurvey(Survey survey);
 
@@ -37,15 +39,15 @@ public interface ResearcherClient {
 
     public List<Survey> getAllVersionsOfASurvey(String guid);
 
-    public GuidVersionedOnHolder versionSurvey(String guid, DateTime versionedOn);
+    public GuidVersionedOnHolder versionSurvey(GuidVersionedOnHolder keys);
 
     public GuidVersionedOnHolder updateSurvey(Survey survey);
 
-    public void publishSurvey(String guid, DateTime versionedOn);
+    public void publishSurvey(GuidVersionedOnHolder keys);
 
-    public void closeSurvey(String guid, DateTime versionedOn);
+    public void closeSurvey(GuidVersionedOnHolder keys);
     
-    public void deleteSurvey(String guid, DateTime versionedOn);
+    public void deleteSurvey(GuidVersionedOnHolder keys);
     
     // SCHEDULE PLANS
 

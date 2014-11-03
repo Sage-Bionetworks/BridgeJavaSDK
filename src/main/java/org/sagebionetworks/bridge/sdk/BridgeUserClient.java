@@ -7,16 +7,18 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.sagebionetworks.bridge.sdk.models.ConsentSignature;
 import org.sagebionetworks.bridge.sdk.models.GuidHolder;
-import org.sagebionetworks.bridge.sdk.models.HealthDataRecord;
+import org.sagebionetworks.bridge.sdk.models.GuidVersionedOnHolder;
 import org.sagebionetworks.bridge.sdk.models.IdVersionHolder;
-import org.sagebionetworks.bridge.sdk.models.Tracker;
-import org.sagebionetworks.bridge.sdk.models.UserProfile;
+import org.sagebionetworks.bridge.sdk.models.SimpleIdVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
+import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
+import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
+import org.sagebionetworks.bridge.sdk.models.users.HealthDataRecord;
+import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
 
 class BridgeUserClient implements UserClient {
 
@@ -102,7 +104,7 @@ class BridgeUserClient implements UserClient {
     }
 
     @Override
-    public IdVersionHolder updateHealthDataRecord(Tracker tracker, HealthDataRecord record) {
+    public SimpleIdVersionHolder updateHealthDataRecord(Tracker tracker, HealthDataRecord record) {
         session.checkSignedIn();
         checkNotNull(tracker, "Tracker cannot be null.");
         checkNotNull(record, "Record cannot be null.");
@@ -169,12 +171,13 @@ class BridgeUserClient implements UserClient {
      * Survey Response API
      */
     @Override
-    public Survey getSurvey(String surveyGuid, DateTime versionedOn) {
+    public Survey getSurvey(GuidVersionedOnHolder keys) {
         session.checkSignedIn();
-        checkArgument(isNotBlank(surveyGuid), "SurveyGuid cannot be null or empty.");
-        checkNotNull(versionedOn, "VersionedOn cannot be null.");
+        checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/versionedOn keys");
+        checkArgument(isNotBlank(keys.getGuid()), Bridge.CANNOT_BE_BLANK, "guid");
+        checkNotNull(keys.getVersionedOn(), Bridge.CANNOT_BE_NULL, "versionedOn");
 
-        return surveyResponseApi.getSurvey(surveyGuid, versionedOn);
+        return surveyResponseApi.getSurvey(keys.getGuid(), keys.getVersionedOn());
     }
 
     @Override

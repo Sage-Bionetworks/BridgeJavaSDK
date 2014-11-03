@@ -1,4 +1,4 @@
-package org.sagebionetworks.bridge.sdk.models;
+package org.sagebionetworks.bridge.sdk.models.users;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;

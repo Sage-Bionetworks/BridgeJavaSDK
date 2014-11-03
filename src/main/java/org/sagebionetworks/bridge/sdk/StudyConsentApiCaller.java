@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.joda.time.DateTime;
-import org.sagebionetworks.bridge.sdk.models.StudyConsent;
+import org.sagebionetworks.bridge.sdk.models.studies.StudyConsent;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;

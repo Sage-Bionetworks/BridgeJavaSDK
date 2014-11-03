@@ -1,11 +1,12 @@
 package org.sagebionetworks.bridge.sdk.models.schedules;
 
 import org.joda.time.DateTime;
+import org.sagebionetworks.bridge.sdk.models.GuidVersionHolder;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class SchedulePlan {
+public class SchedulePlan implements GuidVersionHolder {
 
     private String guid;
     private DateTime modifiedOn;

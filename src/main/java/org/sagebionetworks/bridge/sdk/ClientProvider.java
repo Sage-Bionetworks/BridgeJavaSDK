@@ -4,8 +4,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
-import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
+import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
+import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
 
 public class ClientProvider {
 

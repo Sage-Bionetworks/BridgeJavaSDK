@@ -8,8 +8,8 @@ import static org.junit.Assert.fail;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
-import org.sagebionetworks.bridge.sdk.models.UserProfile;
+import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
+import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
 
 public class UserProfileApiCallerTest {
 

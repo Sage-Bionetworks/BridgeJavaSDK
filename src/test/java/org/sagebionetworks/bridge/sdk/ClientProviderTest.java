@@ -8,7 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
-import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
+import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 
 public class ClientProviderTest {
 

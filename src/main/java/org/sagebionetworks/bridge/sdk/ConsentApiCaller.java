@@ -3,7 +3,7 @@ package org.sagebionetworks.bridge.sdk;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.joda.time.format.ISODateTimeFormat;
-import org.sagebionetworks.bridge.sdk.models.ConsentSignature;
+import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;

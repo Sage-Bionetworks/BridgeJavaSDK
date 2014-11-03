@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
-import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
+import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;

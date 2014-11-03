@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.ConsentRequiredException;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
-import org.sagebionetworks.bridge.sdk.models.ConsentSignature;
+import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
 import org.sagebionetworks.bridge.sdk.UserClient;
 
 public class ConsentTest {

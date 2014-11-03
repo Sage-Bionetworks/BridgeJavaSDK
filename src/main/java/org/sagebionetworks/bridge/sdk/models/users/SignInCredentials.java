@@ -1,4 +1,4 @@
-package org.sagebionetworks.bridge.sdk.models;
+package org.sagebionetworks.bridge.sdk.models.users;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

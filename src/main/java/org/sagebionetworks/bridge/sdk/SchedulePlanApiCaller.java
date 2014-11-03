@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
-import org.sagebionetworks.bridge.sdk.models.GuidVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.SimpleGuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -29,13 +29,13 @@ class SchedulePlanApiCaller extends BaseApiCaller {
                 mapper.getTypeFactory().constructCollectionType(List.class, SchedulePlan.class));
     }
 
-    GuidVersionHolder createSchedulePlan(SchedulePlan plan) {
+    SimpleGuidVersionHolder createSchedulePlan(SchedulePlan plan) {
         try {
             HttpResponse response = post(config.getSchedulePlansApi(),
                     mapper.writeValueAsString(plan));
 
             String body = EntityUtils.toString(response.getEntity(), "UTF-8");
-            return mapper.readValue(body, GuidVersionHolder.class);
+            return mapper.readValue(body, SimpleGuidVersionHolder.class);
 
         } catch(JsonProcessingException e) {
             throw new BridgeSDKException(e.getMessage(), e);
@@ -56,12 +56,12 @@ class SchedulePlanApiCaller extends BaseApiCaller {
         }
     }
 
-    GuidVersionHolder updateSchedulePlan(SchedulePlan plan) {
+    SimpleGuidVersionHolder updateSchedulePlan(SchedulePlan plan) {
         try {
             HttpResponse response = post(config.getSchedulePlanApi(plan.getGuid()),
                     mapper.writeValueAsString(plan));
             String body = EntityUtils.toString(response.getEntity(), "UTF-8");
-            return mapper.readValue(body, GuidVersionHolder.class);
+            return mapper.readValue(body, SimpleGuidVersionHolder.class);
         } catch(JsonProcessingException e) {
             throw new BridgeSDKException(e.getMessage(), e);
         } catch (IOException e) {

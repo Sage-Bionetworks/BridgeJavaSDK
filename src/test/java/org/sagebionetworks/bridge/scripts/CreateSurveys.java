@@ -20,7 +20,7 @@ public class CreateSurveys {
         Survey survey = new TestSurvey();
         
         GuidVersionedOnHolder keys = client.createSurvey(survey);
-        client.publishSurvey(keys.getGuid(), keys.getVersionedOn());
+        client.publishSurvey(keys);
     }
 
 }

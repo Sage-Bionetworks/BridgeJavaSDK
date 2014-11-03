@@ -18,7 +18,7 @@ import org.sagebionetworks.bridge.sdk.TestApiCaller;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
-import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
+import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 
 public class AuthenticationTest {
 

@@ -4,12 +4,13 @@ import java.util.List;
 import java.util.Objects;
 
 import org.joda.time.DateTime;
+import org.sagebionetworks.bridge.sdk.models.GuidVersionedOnHolder;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
 
-public class Survey {
+public class Survey implements GuidVersionedOnHolder {
 
     private String guid;
     private DateTime versionedOn;

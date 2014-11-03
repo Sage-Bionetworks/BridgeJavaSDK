@@ -3,16 +3,17 @@ package org.sagebionetworks.bridge.sdk;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.sagebionetworks.bridge.sdk.models.ConsentSignature;
 import org.sagebionetworks.bridge.sdk.models.GuidHolder;
-import org.sagebionetworks.bridge.sdk.models.HealthDataRecord;
+import org.sagebionetworks.bridge.sdk.models.GuidVersionedOnHolder;
 import org.sagebionetworks.bridge.sdk.models.IdVersionHolder;
-import org.sagebionetworks.bridge.sdk.models.Tracker;
-import org.sagebionetworks.bridge.sdk.models.UserProfile;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
+import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
+import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
+import org.sagebionetworks.bridge.sdk.models.users.HealthDataRecord;
+import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
 
 public interface UserClient {
     
@@ -42,7 +43,7 @@ public interface UserClient {
 
     public List<Schedule> getSchedules();
 
-    public Survey getSurvey(String surveyGuid, DateTime versionedOn);
+    public Survey getSurvey(GuidVersionedOnHolder keys);
 
     public GuidHolder submitAnswersToSurvey(Survey survey, List<SurveyAnswer> answers);
 

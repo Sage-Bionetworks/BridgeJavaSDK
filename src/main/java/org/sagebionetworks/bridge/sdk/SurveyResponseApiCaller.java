@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.http.HttpResponse;
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.GuidHolder;
+import org.sagebionetworks.bridge.sdk.models.SimpleGuidHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
@@ -45,7 +46,7 @@ class SurveyResponseApiCaller extends BaseApiCaller {
         String url = config.getSurveyUserApi(guid, timestamp);
         HttpResponse response = post(url, json);
 
-        return getResponseBodyAsType(response, GuidHolder.class);
+        return getResponseBodyAsType(response, SimpleGuidHolder.class);
     }
 
     void addAnswersToSurveyResponse(List<SurveyAnswer> answers, String guid) {

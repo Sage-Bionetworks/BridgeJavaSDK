@@ -8,8 +8,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.sagebionetworks.bridge.Tests;
-import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
-import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
+import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
+import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
 
 import com.google.common.collect.Lists;
 
