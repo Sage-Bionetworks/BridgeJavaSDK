@@ -23,6 +23,7 @@ public class UploadApiCaller extends BaseApiCaller {
         return new UploadApiCaller(null);
     }
 
+    // TODO FINISH UPLOAD
     UploadSession requestUploadSession(UploadRequest request) {
         try {
             String url = config.getUploadApi();
