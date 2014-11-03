@@ -11,15 +11,15 @@ public class SchedulePlan {
     private DateTime modifiedOn;
     private Long version;
     private ScheduleStrategy strategy;
-    
+
     @JsonCreator
-    public SchedulePlan(@JsonProperty("guid") String guid, @JsonProperty("modifiedOn") DateTime modifiedOn, @JsonProperty("version") Long version, @JsonProperty("strategy") ScheduleStrategy strategy) {
+    private SchedulePlan(@JsonProperty("guid") String guid, @JsonProperty("modifiedOn") DateTime modifiedOn, @JsonProperty("version") Long version, @JsonProperty("strategy") ScheduleStrategy strategy) {
         this.guid = guid;
         this.modifiedOn = modifiedOn;
         this.version = version;
         this.strategy = strategy;
     }
-    
+
     public SchedulePlan() {
     }
 
@@ -60,5 +60,5 @@ public class SchedulePlan {
         return "SchedulePlan [guid=" + guid + ", modifiedOn=" + modifiedOn + ", version=" + version + ", strategy="
                 + strategy + "]";
     }
-    
+
 }
