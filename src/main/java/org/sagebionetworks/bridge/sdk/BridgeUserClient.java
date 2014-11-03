@@ -8,18 +8,21 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.GuidHolder;
-import org.sagebionetworks.bridge.sdk.models.HealthDataRecord;
+import org.sagebionetworks.bridge.sdk.models.GuidVersionedOnHolder;
 import org.sagebionetworks.bridge.sdk.models.IdVersionHolder;
-import org.sagebionetworks.bridge.sdk.models.Tracker;
-import org.sagebionetworks.bridge.sdk.models.UserProfile;
+import org.sagebionetworks.bridge.sdk.models.SimpleIdVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
+import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
+import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
+import org.sagebionetworks.bridge.sdk.models.users.HealthDataRecord;
+import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
 
 class BridgeUserClient implements UserClient {
 
-    private final Session session;
+    private final BridgeSession session;
     private final UserProfileApiCaller profileApi;
     private final ConsentApiCaller consentApi;
     private final TrackerApiCaller trackerApi;
@@ -27,7 +30,7 @@ class BridgeUserClient implements UserClient {
     private final ScheduleApiCaller scheduleApi;
     private final SurveyResponseApiCaller surveyResponseApi;
 
-    private BridgeUserClient(Session session) {
+    private BridgeUserClient(BridgeSession session) {
         this.session = session;
         this.profileApi = UserProfileApiCaller.valueOf(session);
         this.consentApi = ConsentApiCaller.valueOf(session);
@@ -37,7 +40,7 @@ class BridgeUserClient implements UserClient {
         this.surveyResponseApi = SurveyResponseApiCaller.valueOf(session);
     }
 
-    static BridgeUserClient valueOf(Session session) {
+    static BridgeUserClient valueOf(BridgeSession session) {
         return new BridgeUserClient(session);
     }
 
@@ -57,16 +60,27 @@ class BridgeUserClient implements UserClient {
         checkNotNull(profile, "Profile cannot be null.");
 
         profileApi.updateProfile(profile);
+        session.setUsername(profile.getUsername());
     }
 
     /*
      * Consent API
      */
+    
+    @Override
+    public void consentToResearch(ConsentSignature signature) {
+        session.checkSignedIn();
+        
+        consentApi.consentToResearch(signature);
+        session.setConsented(true);
+    }
+    
     @Override
     public void resumeDataSharing() {
         session.checkSignedIn();
 
         consentApi.resumeDataSharing();
+        session.setDataSharing(true);
     }
 
     @Override
@@ -74,6 +88,7 @@ class BridgeUserClient implements UserClient {
         session.checkSignedIn();
         
         consentApi.suspendDataSharing();
+        session.setDataSharing(false);
     }
 
     /*
@@ -89,7 +104,7 @@ class BridgeUserClient implements UserClient {
     }
 
     @Override
-    public IdVersionHolder updateHealthDataRecord(Tracker tracker, HealthDataRecord record) {
+    public SimpleIdVersionHolder updateHealthDataRecord(Tracker tracker, HealthDataRecord record) {
         session.checkSignedIn();
         checkNotNull(tracker, "Tracker cannot be null.");
         checkNotNull(record, "Record cannot be null.");
@@ -156,12 +171,13 @@ class BridgeUserClient implements UserClient {
      * Survey Response API
      */
     @Override
-    public Survey getSurvey(String surveyGuid, DateTime versionedOn) {
+    public Survey getSurvey(GuidVersionedOnHolder keys) {
         session.checkSignedIn();
-        checkArgument(isNotBlank(surveyGuid), "SurveyGuid cannot be null or empty.");
-        checkNotNull(versionedOn, "VersionedOn cannot be null.");
+        checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/versionedOn keys");
+        checkArgument(isNotBlank(keys.getGuid()), Bridge.CANNOT_BE_BLANK, "guid");
+        checkNotNull(keys.getVersionedOn(), Bridge.CANNOT_BE_NULL, "versionedOn");
 
-        return surveyResponseApi.getSurvey(surveyGuid, versionedOn);
+        return surveyResponseApi.getSurvey(keys.getGuid(), keys.getVersionedOn());
     }
 
     @Override

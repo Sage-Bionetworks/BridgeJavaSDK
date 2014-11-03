@@ -1,6 +1,7 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 import java.util.Properties;
@@ -16,7 +17,8 @@ import org.sagebionetworks.bridge.sdk.Config;
 import org.sagebionetworks.bridge.sdk.TestApiCaller;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
-import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
+import org.sagebionetworks.bridge.sdk.UserClient;
+import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 
 public class AuthenticationTest {
 
@@ -59,7 +61,14 @@ public class AuthenticationTest {
         }
     }
     
-    // canSignIn/canSignOut -- we do this over and over and over in the tests already. Server verifies
-    // that the session is removed from Redis, cookies, etc.
+    @Test(expected=IllegalStateException.class)
+    public void signOutUpdatesSession() {
+        UserClient client = user.getSession().getUserClient();
+        
+        user.getSession().signOut();
+        assertFalse("User is signed out", user.getSession().isSignedIn());
+        
+        client.getProfile(); // throws Exception
+    }
     
 }

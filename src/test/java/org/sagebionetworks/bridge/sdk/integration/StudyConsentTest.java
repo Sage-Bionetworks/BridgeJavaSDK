@@ -14,7 +14,7 @@ import org.sagebionetworks.bridge.sdk.BridgeServerException;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
-import org.sagebionetworks.bridge.sdk.models.StudyConsent;
+import org.sagebionetworks.bridge.sdk.models.studies.StudyConsent;
 
 public class StudyConsentTest {
 

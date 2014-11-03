@@ -1,7 +1,7 @@
 package org.sagebionetworks.bridge.sdk;
 
 import org.apache.http.HttpResponse;
-import org.sagebionetworks.bridge.sdk.models.UserProfile;
+import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 

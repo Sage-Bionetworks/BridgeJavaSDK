@@ -75,7 +75,7 @@ public class SchedulePlanTest {
         }
     }
 
-    private GuidVersionHolder guidVersion;
+    private GuidVersionHolder keys;
     
     private TestUser user;
     private TestUser researcher;
@@ -94,8 +94,8 @@ public class SchedulePlanTest {
     @After
     public void after() {
         // Try and clean up if that didn't happen in the test.
-        if (guidVersion != null) {
-            researcherClient.deleteSchedulePlan(guidVersion.getGuid());
+        if (keys != null) {
+            researcherClient.deleteSchedulePlan(keys.getGuid());
         }
         researcher.signOutAndDeleteUser();
         user.signOutAndDeleteUser();
@@ -121,18 +121,18 @@ public class SchedulePlanTest {
         SchedulePlan plan = new TestABSchedulePlan();
         
         // Create
-        guidVersion = researcherClient.createSchedulePlan(plan);
+        keys = researcherClient.createSchedulePlan(plan);
 
         // Update
-        plan = researcherClient.getSchedulePlan(guidVersion.getGuid());
+        plan = researcherClient.getSchedulePlan(keys.getGuid());
         TestSimpleSchedulePlan simplePlan = new TestSimpleSchedulePlan();
         plan.setStrategy(simplePlan.getStrategy());
 
-        GuidVersionHolder newGuidVersion = researcherClient.updateSchedulePlan(plan);
-        assertNotEquals("Version should be updated", guidVersion.getVersion(), newGuidVersion.getVersion());
+        GuidVersionHolder newKeys = researcherClient.updateSchedulePlan(plan);
+        assertNotEquals("Version should be updated", keys.getVersion(), newKeys.getVersion());
 
         // Get
-        plan = researcherClient.getSchedulePlan(guidVersion.getGuid());
+        plan = researcherClient.getSchedulePlan(keys.getGuid());
         assertEquals("Strategy type has been changed", "SimpleScheduleStrategy", plan.getStrategy().getClass().getSimpleName());
 
         untilConsistent(new Callable<Boolean>() {
@@ -145,14 +145,14 @@ public class SchedulePlanTest {
         assertTrue("Schedules exist", !schedules.isEmpty());
 
         // Delete
-        researcherClient.deleteSchedulePlan(guidVersion.getGuid());
+        researcherClient.deleteSchedulePlan(keys.getGuid());
 
         try {
-            researcherClient.getSchedulePlan(guidVersion.getGuid());
+            researcherClient.getSchedulePlan(keys.getGuid());
             fail("Should have thrown an exception because plan was deleted");
         } catch(BridgeServerException e) {
             assertEquals("Returns 404 Not Found", 404, e.getStatusCode());
-            guidVersion = null;
+            keys = null;
         }
     }
     

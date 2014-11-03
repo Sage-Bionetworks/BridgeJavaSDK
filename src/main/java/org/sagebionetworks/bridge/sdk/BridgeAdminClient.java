@@ -2,7 +2,7 @@ package org.sagebionetworks.bridge.sdk;
 
 import java.util.List;
 
-import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
+import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
 
 final class BridgeAdminClient implements AdminClient {
 

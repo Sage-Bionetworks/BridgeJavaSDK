@@ -42,7 +42,7 @@ public class SurveyResponseTest {
         ResearcherClient client = researcher.getSession().getResearcherClient();
         TestSurvey testSurvey = new TestSurvey();
         keys = client.createSurvey(testSurvey);
-        client.publishSurvey(keys.getGuid(), keys.getVersionedOn());
+        client.publishSurvey(keys);
         
         // It's unfortunate but all of the questions have been assigned GUIDs so we need to 
         // retrieve the whole thing here in order to submit answers. The API should return
@@ -52,12 +52,14 @@ public class SurveyResponseTest {
 
     @After
     public void after() {
-        ResearcherClient client = researcher.getSession().getResearcherClient();
-        client.closeSurvey(survey.getGuid(), survey.getVersionedOn());
-        client.deleteSurvey(survey.getGuid(), survey.getVersionedOn());
-        
-        researcher.signOutAndDeleteUser();
-        user.signOutAndDeleteUser();
+        try {
+            ResearcherClient client = researcher.getSession().getResearcherClient();
+            client.closeSurvey(survey);
+            client.deleteSurvey(survey);
+        } finally {
+            researcher.signOutAndDeleteUser();
+            user.signOutAndDeleteUser();
+        }
     }
 
     @Test
@@ -134,7 +136,7 @@ public class SurveyResponseTest {
         answers.add(answer);
 
         UserClient client = user.getSession().getUserClient();
-        survey = client.getSurvey(keys.getGuid(), keys.getVersionedOn());
+        survey = client.getSurvey(keys);
         GuidHolder holder = client.submitAnswersToSurvey(survey, answers);
         
         SurveyResponse response = client.getSurveyResponse(holder.getGuid());

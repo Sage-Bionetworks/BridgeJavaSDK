@@ -3,7 +3,7 @@ package org.sagebionetworks.bridge.sdk;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
-import org.sagebionetworks.bridge.sdk.models.Tracker;
+import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
