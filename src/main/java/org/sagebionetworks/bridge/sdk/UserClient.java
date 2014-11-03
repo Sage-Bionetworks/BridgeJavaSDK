@@ -1,6 +1,5 @@
 package org.sagebionetworks.bridge.sdk;
 
-import java.io.File;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -186,9 +185,9 @@ public interface UserClient {
      *
      * @param session
      *            The session used to upload.
-     * @param file
+     * @param fileName
      *            File to upload.
      */
-    public void upload(UploadSession session, File file);
+    public void upload(UploadSession session, UploadRequest request, String fileName);
 
 }

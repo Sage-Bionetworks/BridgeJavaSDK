@@ -4,7 +4,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-import java.io.File;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -214,9 +213,13 @@ class BridgeUserClient implements UserClient {
     }
 
     @Override
-    public void upload(UploadSession session, File file) {
+    public void upload(UploadSession session, UploadRequest request, String fileName) {
         this.session.checkSignedIn();
         checkNotNull(session, "session cannot be null.");
-        checkNotNull(file, "file cannot be null.");
+        checkNotNull(fileName, "fileName cannot be null.");
+        checkArgument(session.getExpires().isAfter(DateTime.now()), "session expiration must be greater than 0.");
+
+        uploadApi.upload(session, request, fileName);
+        uploadApi.close(session);
     }
 }

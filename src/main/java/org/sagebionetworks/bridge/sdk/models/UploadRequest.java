@@ -27,17 +27,21 @@ public class UploadRequest {
     public String getContentType() { return this.contentType; }
     public long getContentLength() { return this.contentLength; }
 
-    public void setName(String name) {
+    public UploadRequest setName(String name) {
         this.name = name;
+        return this;
     }
-    public void setContentMd5(String contentMd5) {
+    public UploadRequest setContentMd5(String contentMd5) {
         this.contentMd5 = contentMd5;
+        return this;
     }
-    public void setContentType(String contentType) {
+    public UploadRequest setContentType(String contentType) {
         this.contentType = contentType;
+        return this;
     }
-    public void setContentLength(long contentLength) {
+    public UploadRequest setContentLength(long contentLength) {
         this.contentLength = contentLength;
+        return this;
     }
 
     @Override
