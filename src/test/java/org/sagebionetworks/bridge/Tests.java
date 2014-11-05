@@ -21,8 +21,9 @@ public class Tests {
     public static final String RESEARCHER_ROLE = TEST_KEY + "_researcher";
     
     public static final void untilConsistent(Callable<Boolean> callable) throws Exception {
-        int delay = 300;
-        int loopLimit = 80;
+        // Have been seeing some significant delays locally, hence the really high wait/try numbers.
+        int delay = 500;
+        int loopLimit = 150;
         int successesLimit = 3;
         int loops = 0;
         int successes = 0;
