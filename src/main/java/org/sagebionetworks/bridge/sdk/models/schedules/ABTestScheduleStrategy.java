@@ -1,10 +1,12 @@
 package org.sagebionetworks.bridge.sdk.models.schedules;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
 public class ABTestScheduleStrategy implements ScheduleStrategy {
@@ -29,8 +31,8 @@ public class ABTestScheduleStrategy implements ScheduleStrategy {
     List<Group> groups = Lists.newArrayList();
     
     public void addGroup(int percentage, Schedule schedule) {
-        Preconditions.checkArgument(percentage > 0);
-        Preconditions.checkNotNull(schedule);
+        checkArgument(percentage > 0);
+        checkNotNull(schedule);
         addGroup(new Group(percentage, schedule));
     }
     
