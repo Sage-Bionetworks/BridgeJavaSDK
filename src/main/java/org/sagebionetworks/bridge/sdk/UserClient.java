@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.GuidHolder;
-import org.sagebionetworks.bridge.sdk.models.GuidVersionedOnHolder;
-import org.sagebionetworks.bridge.sdk.models.IdVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.GuidVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
@@ -27,15 +27,15 @@ public interface UserClient {
 
     public void suspendDataSharing();
 
-    public HealthDataRecord getHealthDataRecord(Tracker tracker, String recordId);
+    public HealthDataRecord getHealthDataRecord(Tracker tracker, String guid);
 
-    public IdVersionHolder updateHealthDataRecord(Tracker tracker, HealthDataRecord record);
+    public GuidVersionHolder updateHealthDataRecord(Tracker tracker, HealthDataRecord record);
 
-    public void deleteHealthDataRecord(Tracker tracker, String recordId);
+    public void deleteHealthDataRecord(Tracker tracker, String guid);
 
     public List<HealthDataRecord> getHealthDataRecordsInRange(Tracker tracker, DateTime startDate, DateTime endDate);
 
-    public List<IdVersionHolder> addHealthDataRecords(Tracker tracker, List<HealthDataRecord> records);
+    public List<GuidVersionHolder> addHealthDataRecords(Tracker tracker, List<HealthDataRecord> records);
 
     public List<Tracker> getAllTrackers();
 
@@ -43,7 +43,7 @@ public interface UserClient {
 
     public List<Schedule> getSchedules();
 
-    public Survey getSurvey(GuidVersionedOnHolder keys);
+    public Survey getSurvey(GuidCreatedOnVersionHolder keys);
 
     public GuidHolder submitAnswersToSurvey(Survey survey, List<SurveyAnswer> answers);
 

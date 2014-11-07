@@ -17,8 +17,8 @@ import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.Utilities;
-import org.sagebionetworks.bridge.sdk.models.IdVersionHolder;
-import org.sagebionetworks.bridge.sdk.models.SimpleIdVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.GuidVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.SimpleGuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
 import org.sagebionetworks.bridge.sdk.models.users.HealthDataRecord;
 
@@ -65,7 +65,7 @@ public class HealthDataTest {
             fail("If we have reached here, then we did not need to sign in to call this method => test failure.");
         } catch (Throwable t) {}
         try {
-            client.getHealthDataRecord(tracker, record.getId());
+            client.getHealthDataRecord(tracker, record.getGuid());
             fail("If we have reached here, then we did not need to sign in to call this method => test failure.");
         } catch (Throwable t) {}
         try {
@@ -73,7 +73,7 @@ public class HealthDataTest {
             fail("If we have reached here, then we did not need to sign in to call this method => test failure.");
         } catch (Throwable t) {}
         try {
-            client.deleteHealthDataRecord(tracker, record.getId());
+            client.deleteHealthDataRecord(tracker, record.getGuid());
             fail("If we have reached here, then we did not need to sign in to call this method => test failure.");
         } catch (Throwable t) {}
     }
@@ -87,12 +87,12 @@ public class HealthDataTest {
             records.add(new HealthDataRecord(1L, "2222", DateTime.now().minusWeeks(2), DateTime.now().minusWeeks(1), data));
             records.add(new HealthDataRecord(0L, "3333", DateTime.now().minusWeeks(3), DateTime.now().minusWeeks(2), data));
 
-            List<IdVersionHolder> holders = client.addHealthDataRecords(tracker, records);
+            List<GuidVersionHolder> holders = client.addHealthDataRecords(tracker, records);
             assertTrue("Number of holders = all records added", holders.size() == records.size());
         } finally {
             List<HealthDataRecord> records = getAllRecords(client);
             for (HealthDataRecord record : records) {
-                client.deleteHealthDataRecord(tracker, record.getId());
+                client.deleteHealthDataRecord(tracker, record.getGuid());
             }
             records = getAllRecords(client);
             assertEquals("All records deleted", 0, records.size());
@@ -111,18 +111,18 @@ public class HealthDataTest {
 
             List<HealthDataRecord> records = client.getHealthDataRecordsInRange(tracker, DateTime.now()
                     .minusYears(30), DateTime.now());
-            HealthDataRecord record = client.getHealthDataRecord(tracker, records.get(0).getId());
-            assertTrue("retrieved record should be same as one chosen from list.", record.getId().equals(records.get(0).getId()));
+            HealthDataRecord record = client.getHealthDataRecord(tracker, records.get(0).getGuid());
+            assertTrue("retrieved record should be same as one chosen from list.", record.getGuid().equals(records.get(0).getGuid()));
 
             ObjectNode data2 = record.getData().deepCopy();
             data2.put("systolic", 7000);
             record.setData(data2);
-            IdVersionHolder holder = client.updateHealthDataRecord(tracker, record);
+            GuidVersionHolder holder = client.updateHealthDataRecord(tracker, record);
             assertTrue("record's version should be increased by 1.", holder.getVersion() == record.getVersion() + 1);
         } finally {
             List<HealthDataRecord> records = getAllRecords(client);
             for (HealthDataRecord record : records) {
-                client.deleteHealthDataRecord(tracker, record.getId());
+                client.deleteHealthDataRecord(tracker, record.getGuid());
             }
         }
     }
@@ -153,34 +153,36 @@ public class HealthDataTest {
 
             // Adding Health Data Records to BridgeServer.
             List<HealthDataRecord> records = createTestRecords(time1, time2.minusMillis(1));
-            List<IdVersionHolder> holders = client.addHealthDataRecords(tracker, records);
-            IdVersionHolder holder1 = holders.get(0);
+            List<GuidVersionHolder> holders = client.addHealthDataRecords(tracker, records);
+            GuidVersionHolder holder1 = holders.get(0);
 
             records = createTestRecords(time1, time3);
             holders = client.addHealthDataRecords(tracker, records);
-            IdVersionHolder holder2 = holders.get(0);
+            GuidVersionHolder holder2 = holders.get(0);
 
             records = createTestRecords(time4, time6);
             holders = client.addHealthDataRecords(tracker, records);
-            IdVersionHolder holder3 = holders.get(0);
+            GuidVersionHolder holder3 = holders.get(0);
 
             records = createTestRecords(time3, time4);
             holders = client.addHealthDataRecords(tracker, records);
-            IdVersionHolder holder4 = holders.get(0);
+            GuidVersionHolder holder4 = holders.get(0);
 
             records = createTestRecords(time5.plusMillis(1), time6);
             holders = client.addHealthDataRecords(tracker, records);
-            IdVersionHolder holder5 = holders.get(0);
+            GuidVersionHolder holder5 = holders.get(0);
 
             records = createTestRecords(time3, time6.plusMillis(1));
             holders = client.addHealthDataRecords(tracker, records);
-            IdVersionHolder holder6 = holders.get(0);
+            GuidVersionHolder holder6 = holders.get(0);
 
             // Retrieve Health Data Records, testing that the correct added records are retrieved.
             records = client.getHealthDataRecordsInRange(tracker, time2, time5);
-            List<IdVersionHolder> retrievedHolders = getHolders(records);
-            List<IdVersionHolder> expectedHolders = Lists.newArrayList(holder2, holder3, holder4, holder6);
-            List<IdVersionHolder> unexpectedHolders = Lists.newArrayList(holder1, holder5);
+            List<GuidVersionHolder> retrievedHolders = getHolders(records);
+            List<GuidVersionHolder> expectedHolders = Lists.newArrayList(holder2, holder3, holder4, holder6);
+            List<GuidVersionHolder> unexpectedHolders = Lists.newArrayList(holder1, holder5);
+            
+            System.out.println("EXPECTED HOLDERS: " + expectedHolders);
             
             assertTrue("Returns records 2,3,4 and 6.", retrievedHolders.containsAll(expectedHolders));
             assertFalse("Does not return records 1 and 5.", retrievedHolders.containsAll(unexpectedHolders));
@@ -201,7 +203,7 @@ public class HealthDataTest {
         } finally {
             List<HealthDataRecord> records = getAllRecords(client);
             for (HealthDataRecord record : records) {
-                client.deleteHealthDataRecord(tracker, record.getId());
+                client.deleteHealthDataRecord(tracker, record.getGuid());
             }
         }
     }
@@ -223,12 +225,12 @@ public class HealthDataTest {
         return Lists.newArrayList(record);
     }
 
-    private List<IdVersionHolder> getHolders(List<HealthDataRecord> records) {
+    private List<GuidVersionHolder> getHolders(List<HealthDataRecord> records) {
         assert records.size() > 0 : "records needs to be non-empty.";
 
-        List<IdVersionHolder> list = Lists.newArrayList();
+        List<GuidVersionHolder> list = Lists.newArrayList();
         for (final HealthDataRecord record : records) {
-            list.add(new SimpleIdVersionHolder(record.getId(), record.getVersion()));
+            list.add(new SimpleGuidVersionHolder(record.getGuid(), record.getVersion()));
         }
         return list;
     }

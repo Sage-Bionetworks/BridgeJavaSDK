@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.joda.time.DateTime;
-import org.sagebionetworks.bridge.sdk.models.SimpleGuidVersionedOnHolder;
+import org.sagebionetworks.bridge.sdk.models.SimpleGuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -65,21 +65,21 @@ class SurveyApiCaller extends BaseApiCaller {
         return surveys;
     }
 
-    Survey getSurveyForResearcher(String guid, DateTime versionedOn) {
-        String url = config.getSurveyApi(guid, versionedOn);
+    Survey getSurveyForResearcher(String guid, DateTime createdOn) {
+        String url = config.getSurveyApi(guid, createdOn);
         HttpResponse response = get(url);
 
         return getResponseBodyAsType(response, Survey.class);
     }
 
-    Survey getSurveyForUser(String guid, DateTime versionedOn) {
-        String url = config.getSurveyUserApi(guid, versionedOn);
+    Survey getSurveyForUser(String guid, DateTime createdOn) {
+        String url = config.getSurveyUserApi(guid, createdOn);
         HttpResponse response = get(url);
 
         return getResponseBodyAsType(response, Survey.class);
     }
 
-    SimpleGuidVersionedOnHolder createSurvey(Survey survey) {
+    SimpleGuidCreatedOnVersionHolder createSurvey(Survey survey) {
         String json;
         try {
             json = mapper.writeValueAsString(survey);
@@ -88,39 +88,39 @@ class SurveyApiCaller extends BaseApiCaller {
         }
         HttpResponse response = post(config.getSurveysApi(), json);
 
-        return getResponseBodyAsType(response, SimpleGuidVersionedOnHolder.class);
+        return getResponseBodyAsType(response, SimpleGuidCreatedOnVersionHolder.class);
     }
 
-    SimpleGuidVersionedOnHolder versionSurvey(String guid, DateTime versionedOn) {
-        String url = config.getSurveyNewVersionApi(guid, versionedOn);
+    SimpleGuidCreatedOnVersionHolder versionSurvey(String guid, DateTime createdOn) {
+        String url = config.getSurveyNewVersionApi(guid, createdOn);
         HttpResponse response = post(url);
 
-        return getResponseBodyAsType(response, SimpleGuidVersionedOnHolder.class);
+        return getResponseBodyAsType(response, SimpleGuidCreatedOnVersionHolder.class);
     }
 
-    SimpleGuidVersionedOnHolder updateSurvey(Survey survey) {
+    SimpleGuidCreatedOnVersionHolder updateSurvey(Survey survey) {
         try {
-            String url = config.getSurveyApi(survey.getGuid(), new DateTime(survey.getVersionedOn()));
+            String url = config.getSurveyApi(survey.getGuid(), new DateTime(survey.getCreatedOn()));
             HttpResponse response = post(url, mapper.writeValueAsString(survey));
 
-            return getResponseBodyAsType(response, SimpleGuidVersionedOnHolder.class);
+            return getResponseBodyAsType(response, SimpleGuidCreatedOnVersionHolder.class);
         } catch(JsonProcessingException e) {
             throw new BridgeSDKException(e.getMessage(), e);
         }
     }
     
-    void publishSurvey(String guid, DateTime versionedOn) {
-        String url = config.getPublishSurveyApi(guid, versionedOn);
+    void publishSurvey(String guid, DateTime createdOn) {
+        String url = config.getPublishSurveyApi(guid, createdOn);
         post(url);
     }
     
-    void deleteSurvey(String guid, DateTime versionedOn) {
-        String url = config.getSurveyApi(guid, versionedOn);
+    void deleteSurvey(String guid, DateTime createdOn) {
+        String url = config.getSurveyApi(guid, createdOn);
         delete(url);
     }
 
-    void closeSurvey(String guid, DateTime versionedOn) {
-        String url = config.getCloseSurveyApi(guid, versionedOn);
+    void closeSurvey(String guid, DateTime createdOn) {
+        String url = config.getCloseSurveyApi(guid, createdOn);
         post(url);
     }
 }

@@ -7,9 +7,9 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.sagebionetworks.bridge.sdk.models.GuidVersionedOnHolder;
+import org.sagebionetworks.bridge.sdk.models.GuidCreatedOnVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.SimpleGuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.SimpleGuidVersionHolder;
-import org.sagebionetworks.bridge.sdk.models.SimpleGuidVersionedOnHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.studies.StudyConsent;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
@@ -67,17 +67,17 @@ class BridgeResearcherClient implements ResearcherClient {
     }
     
     @Override
-    public Survey getSurvey(String guid, DateTime versionedOn) {
+    public Survey getSurvey(String guid, DateTime createdOn) {
         session.checkSignedIn();
         checkArgument(isNotBlank(guid), Bridge.CANNOT_BE_BLANK, "guid");
-        checkNotNull(versionedOn, Bridge.CANNOT_BE_NULL, "versionedOn");
-        return surveyApi.getSurveyForResearcher(guid, versionedOn);
+        checkNotNull(createdOn, Bridge.CANNOT_BE_NULL, "createdOn");
+        return surveyApi.getSurveyForResearcher(guid, createdOn);
     }
     @Override
-    public Survey getSurvey(GuidVersionedOnHolder keys) {
+    public Survey getSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
-        checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/versionedOn keys");
-        return surveyApi.getSurveyForResearcher(keys.getGuid(), keys.getVersionedOn());
+        checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
+        return surveyApi.getSurveyForResearcher(keys.getGuid(), keys.getCreatedOn());
     }
     @Override
     public List<Survey> getAllVersionsOfAllSurveys() {
@@ -101,48 +101,48 @@ class BridgeResearcherClient implements ResearcherClient {
         return surveyApi.getAllVersionsOfASurvey(guid);
     }
     @Override
-    public SimpleGuidVersionedOnHolder createSurvey(Survey survey) {
+    public SimpleGuidCreatedOnVersionHolder createSurvey(Survey survey) {
         session.checkSignedIn();
         checkNotNull(survey, Bridge.CANNOT_BE_NULL,"Survey object");
         return surveyApi.createSurvey(survey);
     }
     @Override
-    public SimpleGuidVersionedOnHolder versionSurvey(GuidVersionedOnHolder keys) {
+    public SimpleGuidCreatedOnVersionHolder versionSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
-        checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/versionedOn keys");
+        checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
         checkArgument(isNotBlank(keys.getGuid()), Bridge.CANNOT_BE_BLANK, "guid");
-        checkNotNull(keys.getVersionedOn(), Bridge.CANNOT_BE_NULL, "versionedOn");
-        return surveyApi.versionSurvey(keys.getGuid(), keys.getVersionedOn());
+        checkNotNull(keys.getCreatedOn(), Bridge.CANNOT_BE_NULL, "createdOn");
+        return surveyApi.versionSurvey(keys.getGuid(), keys.getCreatedOn());
     }
     @Override
-    public SimpleGuidVersionedOnHolder updateSurvey(Survey survey) {
+    public SimpleGuidCreatedOnVersionHolder updateSurvey(Survey survey) {
         session.checkSignedIn();
         checkNotNull(survey, Bridge.CANNOT_BE_NULL,"Survey object");
         return surveyApi.updateSurvey(survey);
     }
     @Override
-    public void publishSurvey(GuidVersionedOnHolder keys) {
+    public void publishSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
-        checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/versionedOn keys");
+        checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
         checkArgument(isNotBlank(keys.getGuid()), Bridge.CANNOT_BE_BLANK, "guid");
-        checkNotNull(keys.getVersionedOn(), Bridge.CANNOT_BE_NULL, "versionedOn");
-        surveyApi.publishSurvey(keys.getGuid(), keys.getVersionedOn());
+        checkNotNull(keys.getCreatedOn(), Bridge.CANNOT_BE_NULL, "createdOn");
+        surveyApi.publishSurvey(keys.getGuid(), keys.getCreatedOn());
     }
     @Override
-    public void closeSurvey(GuidVersionedOnHolder keys) {
+    public void closeSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
-        checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/versionedOn keys");
+        checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
         checkArgument(isNotBlank(keys.getGuid()), Bridge.CANNOT_BE_BLANK, "guid");
-        checkNotNull(keys.getVersionedOn(), Bridge.CANNOT_BE_NULL, "versionedOn");
-        surveyApi.closeSurvey(keys.getGuid(), keys.getVersionedOn());
+        checkNotNull(keys.getCreatedOn(), Bridge.CANNOT_BE_NULL, "createdOn");
+        surveyApi.closeSurvey(keys.getGuid(), keys.getCreatedOn());
     }
     @Override
-    public void deleteSurvey(GuidVersionedOnHolder keys) {
+    public void deleteSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
-        checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/versionedOn keys");
+        checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
         checkArgument(isNotBlank(keys.getGuid()), Bridge.CANNOT_BE_BLANK, "guid");
-        checkNotNull(keys.getVersionedOn(), Bridge.CANNOT_BE_NULL, "versionedOn");
-        surveyApi.deleteSurvey(keys.getGuid(), keys.getVersionedOn());
+        checkNotNull(keys.getCreatedOn(), Bridge.CANNOT_BE_NULL, "createdOn");
+        surveyApi.deleteSurvey(keys.getGuid(), keys.getCreatedOn());
     }
     @Override
     public List<SchedulePlan> getSchedulePlans() {

@@ -1,46 +1,41 @@
 package org.sagebionetworks.bridge.sdk.models.users;
 
 import org.joda.time.DateTime;
+
 import org.joda.time.format.ISODateTimeFormat;
-import org.sagebionetworks.bridge.sdk.models.IdVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.GuidVersionHolder;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 
-public final class HealthDataRecord implements IdVersionHolder {
+public final class HealthDataRecord implements GuidVersionHolder {
 
-    private final long version;
-    private final String recordId;
+    private final Long version;
+    private final String guid;
     private final DateTime startDate;
     private final DateTime endDate;
     private JsonNode data;
 
     @JsonCreator
-    public HealthDataRecord(@JsonProperty("version") long version, @JsonProperty("recordId") String recordId,
+    public HealthDataRecord(@JsonProperty("version") long version, @JsonProperty("guid") String guid,
             @JsonProperty("startDate") DateTime startDate, @JsonProperty("endDate") DateTime endDate,
             @JsonProperty("data") JsonNode data) {
         this.version = version;
-        this.recordId = recordId;
+        this.guid = guid;
         this.startDate = startDate;
         this.endDate = endDate;
         this.data = data;
     }
 
-    public long getVersion() {
+    public Long getVersion() {
         return this.version;
     }
 
-    @JsonIgnore
-    public String getId() {
-        return this.recordId;
+    public String getGuid() {
+        return this.guid;
     }
     
-    public String getRecordId() {
-        return this.recordId;
-    }
-
     public JsonNode getData() {
         return this.data;
     }
@@ -59,7 +54,7 @@ public final class HealthDataRecord implements IdVersionHolder {
 
     @Override
     public String toString() {
-        return "HealthDataRecord[version=" + this.version + ", id=" + this.recordId + ", data=" + this.data
+        return "HealthDataRecord[version=" + this.version + ", guid=" + this.guid + ", data=" + this.data
                 + ", startDate=" + startDate.toString(ISODateTimeFormat.dateTime()) + ", endDate="
                 + endDate.toString(ISODateTimeFormat.dateTime()) + "]";
     }

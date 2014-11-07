@@ -17,7 +17,7 @@ import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.models.GuidHolder;
-import org.sagebionetworks.bridge.sdk.models.GuidVersionedOnHolder;
+import org.sagebionetworks.bridge.sdk.models.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyQuestion;
@@ -32,7 +32,7 @@ public class SurveyResponseTest {
     private TestUser user;
     
     private Survey survey;
-    private GuidVersionedOnHolder keys;
+    private GuidCreatedOnVersionHolder keys;
     
     @Before
     public void before() {
@@ -47,7 +47,7 @@ public class SurveyResponseTest {
         // It's unfortunate but all of the questions have been assigned GUIDs so we need to 
         // retrieve the whole thing here in order to submit answers. The API should return
         // all the guids for the questions.
-        survey = client.getSurvey(keys.getGuid(), keys.getVersionedOn());
+        survey = client.getSurvey(keys.getGuid(), keys.getCreatedOn());
     }
 
     @After

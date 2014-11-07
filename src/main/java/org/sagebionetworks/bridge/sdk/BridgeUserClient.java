@@ -8,9 +8,9 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.GuidHolder;
-import org.sagebionetworks.bridge.sdk.models.GuidVersionedOnHolder;
-import org.sagebionetworks.bridge.sdk.models.IdVersionHolder;
-import org.sagebionetworks.bridge.sdk.models.SimpleIdVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.GuidVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.GuidCreatedOnVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.SimpleGuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
@@ -95,16 +95,16 @@ class BridgeUserClient implements UserClient {
      * Health Data API
      */
     @Override
-    public HealthDataRecord getHealthDataRecord(Tracker tracker, String recordId) {
+    public HealthDataRecord getHealthDataRecord(Tracker tracker, String guid) {
         session.checkSignedIn();
         checkNotNull(tracker, "Tracker cannot be null.");
-        checkArgument(isNotBlank(recordId), "recordId cannot be null or empty.");
+        checkArgument(isNotBlank(guid), "guid cannot be null or empty.");
 
-        return healthDataApi.getHealthDataRecord(tracker, recordId);
+        return healthDataApi.getHealthDataRecord(tracker, guid);
     }
 
     @Override
-    public SimpleIdVersionHolder updateHealthDataRecord(Tracker tracker, HealthDataRecord record) {
+    public SimpleGuidVersionHolder updateHealthDataRecord(Tracker tracker, HealthDataRecord record) {
         session.checkSignedIn();
         checkNotNull(tracker, "Tracker cannot be null.");
         checkNotNull(record, "Record cannot be null.");
@@ -113,12 +113,12 @@ class BridgeUserClient implements UserClient {
     }
 
     @Override
-    public void deleteHealthDataRecord(Tracker tracker, String recordId) {
+    public void deleteHealthDataRecord(Tracker tracker, String guid) {
         session.checkSignedIn();
         checkNotNull(tracker, "Tracker cannot be null.");
-        checkArgument(isNotBlank(recordId),"recordId cannot be null or empty.");
+        checkArgument(isNotBlank(guid),"guid cannot be null or empty.");
 
-        healthDataApi.deleteHealthDataRecord(tracker, recordId);
+        healthDataApi.deleteHealthDataRecord(tracker, guid);
     }
 
     @Override
@@ -133,7 +133,7 @@ class BridgeUserClient implements UserClient {
     }
 
     @Override
-    public List<IdVersionHolder> addHealthDataRecords(Tracker tracker, List<HealthDataRecord> records) {
+    public List<GuidVersionHolder> addHealthDataRecords(Tracker tracker, List<HealthDataRecord> records) {
         session.checkSignedIn();
         checkNotNull(tracker, "Tracker cannot be null.");
         checkNotNull(records, "Records cannot be null.");
@@ -171,13 +171,13 @@ class BridgeUserClient implements UserClient {
      * Survey Response API
      */
     @Override
-    public Survey getSurvey(GuidVersionedOnHolder keys) {
+    public Survey getSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
-        checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/versionedOn keys");
+        checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
         checkArgument(isNotBlank(keys.getGuid()), Bridge.CANNOT_BE_BLANK, "guid");
-        checkNotNull(keys.getVersionedOn(), Bridge.CANNOT_BE_NULL, "versionedOn");
+        checkNotNull(keys.getCreatedOn(), Bridge.CANNOT_BE_NULL, "createdOn");
 
-        return surveyResponseApi.getSurvey(keys.getGuid(), keys.getVersionedOn());
+        return surveyResponseApi.getSurvey(keys.getGuid(), keys.getCreatedOn());
     }
 
     @Override
@@ -185,10 +185,10 @@ class BridgeUserClient implements UserClient {
         session.checkSignedIn();
         checkNotNull(survey, "Survey cannot be null.");
         checkArgument(isNotBlank(survey.getGuid()), "Survey guid cannot be null or empty.");
-        checkNotNull(survey.getVersionedOn(), "Survey versionedOn cannot be null.");
+        checkNotNull(survey.getCreatedOn(), "Survey createdOn cannot be null.");
         checkNotNull(answers, "Answers cannot be null.");
 
-        return surveyResponseApi.submitAnswers(answers, survey.getGuid(), survey.getVersionedOn());
+        return surveyResponseApi.submitAnswers(answers, survey.getGuid(), survey.getCreatedOn());
     }
 
     @Override
