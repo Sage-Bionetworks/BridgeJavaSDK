@@ -3,6 +3,7 @@ package org.sagebionetworks.bridge.sdk.integration;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.sagebionetworks.bridge.sdk.TestSurvey.BOOLEAN_ID;
@@ -16,6 +17,8 @@ import static org.sagebionetworks.bridge.sdk.TestSurvey.TIME_ID;
 
 import java.util.List;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +32,7 @@ import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionedOnHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.Constraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.DataType;
+import org.sagebionetworks.bridge.sdk.models.surveys.DateTimeConstraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyQuestion;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyQuestionOption;
@@ -63,7 +67,6 @@ public class SurveyTest {
     public void cannotSubmitAsNormalUser() {
         user.getSession().getResearcherClient().getAllVersionsOfAllSurveys();
     }
-
 
     @Test
     public void saveAndRetrieveSurvey() {
@@ -175,6 +178,22 @@ public class SurveyTest {
         assertEquals("Name should have changed.", survey.getName(), "New name");
     }
 
+    @Test
+    public void dateBasedConstraintsPersistedCorrectly() {
+        ResearcherClient client = researcher.getSession().getResearcherClient();
+
+        GuidVersionedOnHolder key = client.createSurvey(new TestSurvey());
+        Survey survey = client.getSurvey(key);
+
+        DateTimeConstraints dateCon = (DateTimeConstraints)getConstraints(survey, DATETIME_ID);
+        DateTime earliest = dateCon.getEarliestValue();
+        DateTime latest = dateCon.getLatestValue();
+        assertNotNull("Earliest has been set", earliest);
+        assertEquals("Date is correct", DateTime.parse("2000-01-01").withZone(DateTimeZone.UTC), earliest);
+        assertNotNull("Latest has been set", latest);
+        assertEquals("Date is correct", DateTime.parse("2020-12-31").withZone(DateTimeZone.UTC), latest);
+    }
+
     @Test(expected=BridgeServerException.class)
     public void participantCannotRetrieveUnpublishedSurvey() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
@@ -201,6 +220,4 @@ public class SurveyTest {
         }
         return count == keys.length;
     }
-
-
 }

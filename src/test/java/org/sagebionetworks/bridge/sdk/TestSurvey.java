@@ -2,6 +2,7 @@ package org.sagebionetworks.bridge.sdk;
 
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.surveys.BooleanConstraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.DataType;
 import org.sagebionetworks.bridge.sdk.models.surveys.DateConstraints;
@@ -82,6 +83,9 @@ public class TestSurvey extends Survey {
     private SurveyQuestion dateQuestion = new SurveyQuestion() {
         {
             DateConstraints c = new DateConstraints();
+            c.setEarliestValue(DateTime.parse("2000-01-01"));
+            c.setLatestValue(DateTime.parse("2020-12-31"));
+            c.setAllowFuture(true);
             setPrompt("When did you last have a medical check-up?");
             setIdentifier(DATE_ID);
             setConstraints(c);
@@ -93,6 +97,8 @@ public class TestSurvey extends Survey {
         {
             DateTimeConstraints c = new DateTimeConstraints();
             c.setAllowFuture(true);
+            c.setEarliestValue(DateTime.parse("2000-01-01"));
+            c.setLatestValue(DateTime.parse("2020-12-31"));
             setPrompt("When is your next medical check-up scheduled?");
             setIdentifier(DATETIME_ID);
             setConstraints(c);
