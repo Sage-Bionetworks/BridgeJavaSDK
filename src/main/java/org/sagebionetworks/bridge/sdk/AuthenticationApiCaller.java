@@ -1,8 +1,8 @@
 package org.sagebionetworks.bridge.sdk;
 
 import org.apache.http.HttpResponse;
-import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
-import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
+import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
+import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.node.ObjectNode;

@@ -65,6 +65,8 @@ public interface ResearcherClient {
      */
     public Survey getSurvey(String guid, DateTime versionedOn);
 
+    public Survey getSurvey(GuidVersionedOnHolder keys);
+
     /**
      * Create a survey. Consented study participants cannot see or respond to the survey until it is published.
      *
@@ -108,13 +110,11 @@ public interface ResearcherClient {
     /**
      * Create a new version for the survey identified by a guid string and the DateTime it was versioned on.
      *
-     * @param guid
-     *            GUID string identifying the survey.
-     * @param versionedOn
-     *            The DateTime of the survey's version.
+     * @param keys
+     *            holder object containing a GUID string and DateTime of survey's version.
      * @return
      */
-    public GuidVersionedOnHolder versionSurvey(String guid, DateTime versionedOn);
+    public GuidVersionedOnHolder versionSurvey(GuidVersionedOnHolder keys);
 
     /**
      * Update a survey on Bridge.
@@ -129,30 +129,26 @@ public interface ResearcherClient {
     /**
      * Publish a survey. A published survey is one consented users can see and respond to.
      *
-     * @param guid
-     *            GUID string identifying the survey.
-     * @param versionedOn
-     *            DateTime of the survey's version.
+     * @param keys
+     *            holder object containing a GUID string identifying the survey and DateTime of survey's version.
      */
-    public void publishSurvey(String guid, DateTime versionedOn);
+    public void publishSurvey(GuidVersionedOnHolder keys);
 
     /**
      * Close a survey. A closed survey is one consented users cannot see.
      *
-     * @param guid
-     * @param versionedOn
+     * @param keys
+     *            holder object containing a GUID string identifying the survey and DateTime of survey's version.
      */
-    public void closeSurvey(String guid, DateTime versionedOn);
+    public void closeSurvey(GuidVersionedOnHolder keys);
 
     /**
      * Delete a survey.
      *
-     * @param guid
-     *            GUID string identifying the survey.
-     * @param versionedOn
-     *            The DateTime of the survey's version.
+     * @param keys
+     *            holder object containing a GUID string identifying the survey and DateTime of survey's version.
      */
-    public void deleteSurvey(String guid, DateTime versionedOn);
+    public void deleteSurvey(GuidVersionedOnHolder keys);
 
     // SCHEDULE PLANS
 

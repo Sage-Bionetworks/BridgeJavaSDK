@@ -8,8 +8,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.sagebionetworks.bridge.Tests;
-import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
-import org.sagebionetworks.bridge.sdk.models.SignUpCredentials;
+import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
+import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
 
 import com.google.common.collect.Lists;
 
@@ -82,10 +82,15 @@ public class TestUserHelper {
                 .setEmail(name + "@sagebridge.org")
                 .setPassword("P4ssword");
         adminClient.createUser(signUp, rolesList, consent);
-
-        SignInCredentials signIn = SignInCredentials.valueOf().setUsername(name).setPassword("P4ssword");
-        Session userSession = ClientProvider.signIn(signIn);
-
+        
+        Session userSession = null;
+        try {
+            SignInCredentials signIn = SignInCredentials.valueOf().setUsername(name).setPassword("P4ssword");
+            userSession = ClientProvider.signIn(signIn);
+        } catch(ConsentRequiredException e) {
+            userSession = e.getSession();
+            // Do nothing. Some tests want to play around with a user who has not yet consented.
+        }
         return new TestUserHelper.TestUser(adminClient, userSession, signUp.getUsername(), signUp.getEmail(),
                 signUp.getPassword(), rolesList);
     }

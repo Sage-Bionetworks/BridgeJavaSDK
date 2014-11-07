@@ -1,6 +1,8 @@
 package org.sagebionetworks.bridge.sdk;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,7 +13,7 @@ import java.util.Properties;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
-import org.sagebionetworks.bridge.sdk.models.SignInCredentials;
+import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
@@ -167,21 +169,26 @@ public final class Config {
         return val(Props.STUDY_CONSENTS_API);
     }
     String getStudyConsentApi(DateTime timestamp) {
+        checkNotNull(timestamp);
         return String.format(val(Props.STUDY_CONSENT_API), timestamp.toString(ISODateTimeFormat.dateTime()));
     }
     String getActiveStudyConsentApi() {
         return val(Props.STUDY_CONSENT_GET_ACTIVE_API);
     }
     String getVersionStudyConsentApi(DateTime timestamp) {
+        checkNotNull(timestamp);
         return String.format(val(Props.STUDY_CONSENT_SET_ACTIVE_API), timestamp.toString(ISODateTimeFormat.dateTime()));
     }
     String getTrackerApi() {
         return val(Props.TRACKER_API);
     }
     String getHealthDataTrackerApi(String trackerId) {
+        checkArgument(isNotBlank(trackerId));
         return String.format(val(Props.HEALTH_DATA_TRACKER_API), trackerId);
     }
     String getHealthDataTrackerRecordApi(String trackerId, String recordId) {
+        checkArgument(isNotBlank(trackerId));
+        checkArgument(isNotBlank(recordId));
         return String.format(val(Props.HEALTH_DATA_TRACKER_RECORD_API), trackerId, recordId);
     }
     String getUploadApi() {
@@ -206,30 +213,43 @@ public final class Config {
         return val(Props.SURVEYS_PUBLISHED_API);
     }
     String getSurveyApi(String guid, DateTime versionedOn) {
+        checkArgument(isNotBlank(guid));
+        checkNotNull(versionedOn);
         return String.format(val(Props.SURVEY_API), guid, versionedOn.toString(ISODateTimeFormat.dateTime()));
     }
     String getSurveyVersionsApi(String guid) {
+        checkArgument(isNotBlank(guid));
         return String.format(val(Props.SURVEY_VERSIONS_API), guid);
     }
     String getSurveyNewVersionApi(String guid, DateTime versionedOn) {
+        checkArgument(isNotBlank(guid));
+        checkNotNull(versionedOn);
         return String.format(val(Props.SURVEY_VERSIONS_NEW_API), guid, versionedOn.toString(ISODateTimeFormat.dateTime()));
     }
     String getPublishSurveyApi(String guid, DateTime versionedOn) {
+        checkArgument(isNotBlank(guid));
+        checkNotNull(versionedOn);
         return String.format(val(Props.SURVEY_PUBLISH_API), guid, versionedOn.toString(ISODateTimeFormat.dateTime()));
     }
     String getCloseSurveyApi(String guid, DateTime versionedOn) {
+        checkArgument(isNotBlank(guid));
+        checkNotNull(versionedOn);
         return String.format(val(Props.SURVEY_CLOSE_API), guid, versionedOn.toString(ISODateTimeFormat.dateTime()));
     }
     String getSurveyUserApi(String guid, DateTime versionedOn) {
+        checkArgument(isNotBlank(guid));
+        checkNotNull(versionedOn);
         return String.format(val(Props.SURVEY_USER_API), guid, versionedOn.toString(ISODateTimeFormat.dateTime()));
     }
     String getSurveyResponseApi(String guid) {
+        checkArgument(isNotBlank(guid));
         return String.format(val(Props.SURVEY_RESPONSE_API), guid);
     }
     String getSchedulePlansApi() {
         return val(Props.SCHEDULEPLANS_API);
     }
     String getSchedulePlanApi(String guid) {
+        checkArgument(isNotBlank(guid));
         return String.format(val(Props.SCHEDULEPLAN_API), guid);
     }
 

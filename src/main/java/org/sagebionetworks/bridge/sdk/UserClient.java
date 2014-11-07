@@ -3,17 +3,19 @@ package org.sagebionetworks.bridge.sdk;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.sagebionetworks.bridge.sdk.models.HealthDataRecord;
-import org.sagebionetworks.bridge.sdk.models.Tracker;
 import org.sagebionetworks.bridge.sdk.models.UploadRequest;
 import org.sagebionetworks.bridge.sdk.models.UploadSession;
-import org.sagebionetworks.bridge.sdk.models.UserProfile;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionedOnHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.IdVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
+import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
+import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
+import org.sagebionetworks.bridge.sdk.models.users.HealthDataRecord;
+import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
 
 public interface UserClient {
 
@@ -31,6 +33,14 @@ public interface UserClient {
      *            changed profile object that will be used to update UserProfile info on Bridge.
      */
     public void saveProfile(UserProfile profile);
+
+    /**
+     * Consent to research.
+     *
+     * @param signature
+     *            Name and Date of consenter's signature.
+     */
+    public void consentToResearch(ConsentSignature signature);
 
     /**
      * Resume data sharing on the currently signed in account.
@@ -125,13 +135,11 @@ public interface UserClient {
     /**
      * Get a survey versionedOn a particular DateTime and associated with the given guid String.
      *
-     * @param surveyGuid
-     *            GUID string identifying the survey.
-     * @param versionedOn
-     *            The DateTime the survey was versioned on.
+     * @param keys
+     *
      * @return Survey
      */
-    public Survey getSurvey(String surveyGuid, DateTime versionedOn);
+    public Survey getSurvey(GuidVersionedOnHolder keys);
 
     /**
      * Submit a list of SurveyAnswers to a particular survey.

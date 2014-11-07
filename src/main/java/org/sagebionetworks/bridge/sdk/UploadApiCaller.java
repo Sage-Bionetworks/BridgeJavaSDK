@@ -1,12 +1,11 @@
 package org.sagebionetworks.bridge.sdk;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.FileEntity;
 import org.sagebionetworks.bridge.sdk.models.UploadRequest;
 import org.sagebionetworks.bridge.sdk.models.UploadSession;
 
@@ -39,19 +38,9 @@ public class UploadApiCaller extends BaseApiCaller {
     }
 
     void upload(UploadSession session, UploadRequest request, String fileName) {
-        try {
-            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-            if (request.getContentType().equals("text/plain")) {
-                builder.addBinaryBody("text", new File(fileName), ContentType.DEFAULT_TEXT, fileName);
-            } else if (request.getContentType().equals("application/zip")) {
-                builder.addBinaryBody("zip", new FileInputStream(fileName), ContentType.create("application/zip"),
-                        fileName);
-            }
-            String url = session.getUrl().toString();
-            s3Put(url, builder.build(), request);
-        } catch (FileNotFoundException e) {
-            throw new BridgeSDKException(e);
-        }
+        HttpEntity entity = new FileEntity(new File(fileName), ContentType.create(request.getContentType()));
+        String url = session.getUrl().toString();
+        s3Put(url, entity, request);
     }
 
     void close(UploadSession session) {

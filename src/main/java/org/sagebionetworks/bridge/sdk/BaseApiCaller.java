@@ -26,9 +26,13 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.fluent.Executor;
 import org.apache.http.client.fluent.Request;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.util.EntityUtils;
 import org.sagebionetworks.bridge.sdk.models.UploadRequest;
@@ -106,13 +110,20 @@ abstract class BaseApiCaller {
         return response;
     }
 
-    protected  HttpResponse s3Put(String url, HttpEntity entity, UploadRequest ur) {
+    protected  HttpResponse s3Put(String url, HttpEntity entity, UploadRequest uploadRequest) {
         HttpResponse response = null;
         try {
-            Request request = Request.Put(url).body(entity);
-            request.addHeader("Content-Type", ur.getContentType());
-            request.addHeader("Content-MD5", ur.getContentMd5());
-            response = exec.execute(request).returnResponse();
+            CloseableHttpClient httpclient = HttpClients.createDefault();
+            HttpPut httpPut = new HttpPut(url);
+            httpPut.setEntity(new StringEntity("hello world"));
+            // The following two hears are used for signing. Must add them.
+            httpPut.addHeader("Content-MD5", uploadRequest.getContentMd5());
+            httpPut.addHeader("Content-Type", uploadRequest.getContentType());
+            response = httpclient.execute(httpPut);
+//            Request request = Request.Put(url).body(entity);
+//            request.addHeader("Content-Type", ur.getContentType());
+//            request.addHeader("Content-MD5", ur.getContentMd5());
+//            response = request.execute().returnResponse();
             throwExceptionOnErrorStatus(response, url);
         } catch (ClientProtocolException e) {
             throw new BridgeServerException(CONNECTION_FAILED, e, url);
@@ -259,6 +270,9 @@ abstract class BaseApiCaller {
         try {
             json = mapper.readTree(getResponseBody(response));
         } catch (IOException e) {
+            // NOTE: It turns out the most likely reason for this is that bad JSON was posted to the
+            // server to start with, which causes play to return an HTML page... which causes this
+            // method to fail because it's not JSON.
             throw new BridgeSDKException("A problem occurred while processing the response body.", e);
         }
         return json;
@@ -291,7 +305,10 @@ abstract class BaseApiCaller {
                 if (node.has("message")) {
                     message = node.get("message").asText();
                 }
-                if (node.has("errors")) {
+                if (statusCode == 412) {
+                    UserSession session = getResponseBodyAsType(response, UserSession.class);
+                    e = new ConsentRequiredException("Consent required.", url, BridgeSession.valueOf(session));
+                } else  if (node.has("errors")) {
                     Map<String, List<String>> errors = (Map<String, List<String>>) mapper.convertValue(
                             node.get("errors"), new TypeReference<HashMap<String, ArrayList<String>>>() {});
                     e = new InvalidEntityException(message, errors, url);
@@ -299,6 +316,7 @@ abstract class BaseApiCaller {
                     e = new BridgeServerException(message, status.getStatusCode(), url);
                 }
             } catch(Throwable t) {
+                t.printStackTrace();
                 throw new BridgeServerException(status.getReasonPhrase(), status.getStatusCode(), url);
             }
             throw e;

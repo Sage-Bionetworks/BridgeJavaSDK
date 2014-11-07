@@ -4,12 +4,13 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.BridgeSDKException;
+import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
 
-public class SurveyResponse {
+public class SurveyResponse implements GuidHolder {
 
     // TODO need to create copies of all date time and survey objects so that sdk users can't change data.
     private final String guid;
@@ -49,6 +50,7 @@ public class SurveyResponse {
         }
     }
 
+    @Override
     public String getGuid() {
         return guid;
     }

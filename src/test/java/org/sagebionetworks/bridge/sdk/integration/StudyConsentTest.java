@@ -15,7 +15,6 @@ import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.models.ConsentDocument;
 
-
 public class StudyConsentTest {
 
     private TestUser researcher;

@@ -52,8 +52,8 @@ public class SurveyTest {
     public void after() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
         for (GuidVersionedOnHolder key : keys) {
-            client.closeSurvey(key.getGuid(), key.getVersionedOn());
-            client.deleteSurvey(key.getGuid(), key.getVersionedOn());
+            client.closeSurvey(key);
+            client.deleteSurvey(key);
         }
         researcher.signOutAndDeleteUser();
         user.signOutAndDeleteUser();
@@ -70,7 +70,7 @@ public class SurveyTest {
         ResearcherClient client = researcher.getSession().getResearcherClient();
         GuidVersionedOnHolder key = client.createSurvey(new TestSurvey());
         keys.add(key);
-        Survey survey = client.getSurvey(key.getGuid(), key.getVersionedOn());
+        Survey survey = client.getSurvey(key);
 
         List<SurveyQuestion> questions = survey.getQuestions();
         String prompt = questions.get(1).getPrompt();
@@ -83,14 +83,14 @@ public class SurveyTest {
 
         GuidVersionedOnHolder key = client.createSurvey(new TestSurvey());
         keys.add(key);
-        GuidVersionedOnHolder laterKey = client.versionSurvey(key.getGuid(), key.getVersionedOn());
+        GuidVersionedOnHolder laterKey = client.versionSurvey(key);
         keys.add(laterKey);
         assertNotEquals("Version has been updated.", key.getVersionedOn(), laterKey.getVersionedOn());
 
         Survey survey = client.getSurvey(laterKey.getGuid(), laterKey.getVersionedOn());
         assertFalse("survey is not published.", survey.isPublished());
 
-        client.publishSurvey(survey.getGuid(), survey.getVersionedOn());
+        client.publishSurvey(survey);
         survey = client.getSurvey(survey.getGuid(), survey.getVersionedOn());
         assertTrue("survey is now published.", survey.isPublished());
     }
@@ -101,13 +101,13 @@ public class SurveyTest {
 
         GuidVersionedOnHolder key = client.createSurvey(new TestSurvey());
         keys.add(key);
-        key = client.versionSurvey(key.getGuid(), key.getVersionedOn());
+        key = client.versionSurvey(key);
         keys.add(key);
 
         int count = client.getAllVersionsOfASurvey(key.getGuid()).size();
         assertEquals("Two versions for this survey.", 2, count);
 
-        client.closeSurvey(key.getGuid(), key.getVersionedOn());
+        client.closeSurvey(key);
     }
 
     @Test
@@ -116,30 +116,30 @@ public class SurveyTest {
 
         GuidVersionedOnHolder key = client.createSurvey(new TestSurvey());
         keys.add(key);
-        key = client.versionSurvey(key.getGuid(), key.getVersionedOn());
+        key = client.versionSurvey(key);
         keys.add(key);
-        key = client.versionSurvey(key.getGuid(), key.getVersionedOn());
+        key = client.versionSurvey(key);
         keys.add(key);
 
         GuidVersionedOnHolder key1 = client.createSurvey(new TestSurvey());
         keys.add(key1);
-        key1 = client.versionSurvey(key1.getGuid(), key1.getVersionedOn());
+        key1 = client.versionSurvey(key1);
         keys.add(key1);
-        key1 = client.versionSurvey(key1.getGuid(), key1.getVersionedOn());
+        key1 = client.versionSurvey(key1);
         keys.add(key1);
 
         GuidVersionedOnHolder key2 = client.createSurvey(new TestSurvey());
         keys.add(key2);
-        key2 = client.versionSurvey(key2.getGuid(), key2.getVersionedOn());
+        key2 = client.versionSurvey(key2);
         keys.add(key2);
-        key2 = client.versionSurvey(key2.getGuid(), key2.getVersionedOn());
+        key2 = client.versionSurvey(key2);
         keys.add(key2);
 
         List<Survey> recentSurveys = client.getRecentVersionsOfAllSurveys();
         assertTrue("Recent versions of surveys exist in recentSurveys.", containsAll(recentSurveys, key, key1, key2));
 
-        client.publishSurvey(key.getGuid(), key.getVersionedOn());
-        client.publishSurvey(key2.getGuid(), key2.getVersionedOn());
+        client.publishSurvey(key);
+        client.publishSurvey(key2);
         List<Survey> publishedSurveys = client.getPublishedVersionsOfAllSurveys();
         assertTrue("Published surveys contain recently published.", containsAll(publishedSurveys, key, key2));
     }
@@ -182,7 +182,7 @@ public class SurveyTest {
         keys.add(key);
 
         UserClient userClient = user.getSession().getUserClient();
-        userClient.getSurvey(key.getGuid(), key.getVersionedOn());
+        userClient.getSurvey(key);
         fail("Should not get here.");
     }
 

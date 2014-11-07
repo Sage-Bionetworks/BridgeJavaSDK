@@ -7,9 +7,10 @@ import java.util.Map;
 import org.apache.http.HttpResponse;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
-import org.sagebionetworks.bridge.sdk.models.HealthDataRecord;
-import org.sagebionetworks.bridge.sdk.models.Tracker;
 import org.sagebionetworks.bridge.sdk.models.holders.IdVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.SimpleIdVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
+import org.sagebionetworks.bridge.sdk.models.users.HealthDataRecord;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -32,7 +33,7 @@ class HealthDataApiCaller extends BaseApiCaller {
         return getResponseBodyAsType(response, HealthDataRecord.class);
     }
 
-    IdVersionHolder updateHealthDataRecord(Tracker tracker, HealthDataRecord record) {
+    SimpleIdVersionHolder updateHealthDataRecord(Tracker tracker, HealthDataRecord record) {
         String json = null;
         try {
             json = mapper.writeValueAsString(record);
@@ -41,10 +42,10 @@ class HealthDataApiCaller extends BaseApiCaller {
                     + record.toString(), e);
         }
         String trackerId = String.valueOf(tracker.getId());
-        String url = config.getHealthDataTrackerRecordApi(trackerId, record.getRecordId());
+        String url = config.getHealthDataTrackerRecordApi(trackerId, record.getId());
         HttpResponse response = post(url, json);
 
-        return getResponseBodyAsType(response, IdVersionHolder.class);
+        return getResponseBodyAsType(response, SimpleIdVersionHolder.class);
     }
 
     void deleteHealthDataRecord(Tracker tracker, String recordId) {
@@ -84,7 +85,7 @@ class HealthDataApiCaller extends BaseApiCaller {
 
         JsonNode items = getPropertyFromResponse(response, "items");
         List<IdVersionHolder> holders = mapper.convertValue(items,
-                mapper.getTypeFactory().constructCollectionType(List.class, IdVersionHolder.class));
+                mapper.getTypeFactory().constructCollectionType(List.class, SimpleIdVersionHolder.class));
 
         return holders;
     }

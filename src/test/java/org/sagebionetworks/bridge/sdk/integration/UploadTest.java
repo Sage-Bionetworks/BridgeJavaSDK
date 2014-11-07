@@ -2,8 +2,11 @@ package org.sagebionetworks.bridge.sdk.integration;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -22,34 +25,34 @@ public class UploadTest {
     private TestUser testUser;
     private UserClient user;
 
-    private String test = TestUserHelper.makeUserName(this.getClass());
+    private String test = TestUserHelper.makeUserName(this.getClass()) + ".txt";
 
     @Before
     public void before() {
-        testUser = TestUserHelper.createAndSignInUser(HealthDataTest.class, true);
+        testUser = TestUserHelper.createAndSignInUser(UploadTest.class, true);
         user = testUser.getSession().getUserClient();
+
+        createTextFile();
     }
 
     @After
     public void after() {
         TestUserHelper.signOut(testUser);
+        deleteTextFile();
     }
 
     @Test
     public void test() {
-        createTextFile();
         UploadRequest request = createRequest();
         UploadSession session = user.requestUploadSession(request);
 
-        user.upload(session, request, test + ".txt");
-
-        deleteTextFile();
+        user.upload(session, request, test);
     }
 
     private UploadRequest createRequest() {
         UploadRequest request = new UploadRequest()
-                        .setContentLength(test.getBytes().length)
-                        .setContentMd5(createMd5(test))
+                        .setContentLength((int) new File(test).length())
+                        .setContentMd5(createMd5())
                         .setContentType("text/plain")
                         .setName(test);
         return request;
@@ -58,7 +61,7 @@ public class UploadTest {
     private void createTextFile() {
         PrintWriter writer;
         try {
-            writer = new PrintWriter(test + ".txt", "UTF-8");
+            writer = new PrintWriter(test, "UTF-8");
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
             throw new BridgeSDKException(e);
         }
@@ -68,13 +71,20 @@ public class UploadTest {
     }
 
     private void deleteTextFile() {
-        new File(test + ".txt").delete();
+        new File(test).delete();
     }
 
-    private String createMd5(String s) {
-        return Base64.encodeBase64String(DigestUtils.md5(s));
-    }
+    private String createMd5() {
+        try {
+            byte[] b = Files.readAllBytes(Paths.get(test));
+            String out = Base64.encodeBase64String(DigestUtils.md5(b));
+            System.out.println(out);
+            return out;
+        } catch (IOException e) {
+            throw new BridgeSDKException(e);
+        }
 
+    }
 
 }
 
