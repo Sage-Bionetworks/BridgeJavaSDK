@@ -220,6 +220,10 @@ class BridgeUserClient implements UserClient {
         surveyResponseApi.deleteSurveyResponse(response.getGuid());
     }
 
+    /*
+     * Upload API
+     */
+
     @Override
     public UploadSession requestUploadSession(UploadRequest request) {
         session.checkSignedIn();
@@ -233,7 +237,7 @@ class BridgeUserClient implements UserClient {
         this.session.checkSignedIn();
         checkNotNull(session, "session cannot be null.");
         checkNotNull(fileName, "fileName cannot be null.");
-        checkArgument(session.getExpires().isAfter(DateTime.now()), "session expiration must be greater than 0.");
+        checkArgument(session.getExpires().isAfter(DateTime.now()), "session already expired, cannot upload.");
 
         uploadApi.upload(session, request, fileName);
         uploadApi.close(session);

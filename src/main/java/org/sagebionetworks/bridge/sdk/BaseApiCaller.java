@@ -26,13 +26,9 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.fluent.Executor;
 import org.apache.http.client.fluent.Request;
-import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.util.EntityUtils;
 import org.sagebionetworks.bridge.sdk.models.UploadRequest;
@@ -113,17 +109,10 @@ abstract class BaseApiCaller {
     protected  HttpResponse s3Put(String url, HttpEntity entity, UploadRequest uploadRequest) {
         HttpResponse response = null;
         try {
-            CloseableHttpClient httpclient = HttpClients.createDefault();
-            HttpPut httpPut = new HttpPut(url);
-            httpPut.setEntity(new StringEntity("hello world"));
-            // The following two hears are used for signing. Must add them.
-            httpPut.addHeader("Content-MD5", uploadRequest.getContentMd5());
-            httpPut.addHeader("Content-Type", uploadRequest.getContentType());
-            response = httpclient.execute(httpPut);
-//            Request request = Request.Put(url).body(entity);
-//            request.addHeader("Content-Type", ur.getContentType());
-//            request.addHeader("Content-MD5", ur.getContentMd5());
-//            response = request.execute().returnResponse();
+            Request request = Request.Put(url).body(entity);
+            request.addHeader("Content-Type", uploadRequest.getContentType());
+            request.addHeader("Content-MD5", uploadRequest.getContentMd5());
+            response = request.execute().returnResponse();
             throwExceptionOnErrorStatus(response, url);
         } catch (ClientProtocolException e) {
             throw new BridgeServerException(CONNECTION_FAILED, e, url);

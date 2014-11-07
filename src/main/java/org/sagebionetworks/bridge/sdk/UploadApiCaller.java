@@ -1,11 +1,14 @@
 package org.sagebionetworks.bridge.sdk;
 
-import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.ContentType;
-import org.apache.http.entity.FileEntity;
 import org.sagebionetworks.bridge.sdk.models.UploadRequest;
 import org.sagebionetworks.bridge.sdk.models.UploadSession;
 
@@ -37,8 +40,16 @@ public class UploadApiCaller extends BaseApiCaller {
         }
     }
 
-    void upload(UploadSession session, UploadRequest request, String fileName) {
-        HttpEntity entity = new FileEntity(new File(fileName), ContentType.create(request.getContentType()));
+    void upload(UploadSession session, UploadRequest request, String filename) {
+        HttpEntity entity = null;
+        try {
+            byte[] b = Files.readAllBytes(Paths.get(filename));
+            entity = new ByteArrayEntity(b, ContentType.create(request.getContentType()));
+        } catch (FileNotFoundException e) {
+            throw new BridgeSDKException(e);
+        } catch (IOException e) {
+            throw new BridgeSDKException(e);
+        }
         String url = session.getUrl().toString();
         s3Put(url, entity, request);
     }

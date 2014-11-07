@@ -1,5 +1,8 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,6 +13,7 @@ import java.nio.file.Paths;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,11 +46,37 @@ public class UploadTest {
     }
 
     @Test
-    public void test() {
+    public void canRequestUploadAndUpload() {
         UploadRequest request = createRequest();
         UploadSession session = user.requestUploadSession(request);
 
         user.upload(session, request, test);
+    }
+
+    @Test
+    public void cannotUploadAfterExpirationDate() {
+        UploadRequest request = createRequest();
+        UploadSession session = user.requestUploadSession(request);
+
+        try {
+            // Get number of milliseconds between now and expiration time, plus one second.
+            long millis = session.getExpires()
+                            .minus(DateTime.now().getMillis())
+                            .plusSeconds(1)
+                            .getMillis();
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            throw new BridgeSDKException(e);
+        }
+
+        try {
+            user.upload(session, request, test);
+            fail("user upload should have failed.");
+        } catch (Exception e) {
+            assertEquals("Exception thrown should be an illegal argument exception.",
+                    e.getClass(), IllegalArgumentException.class);
+        }
+
     }
 
     private UploadRequest createRequest() {
