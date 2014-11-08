@@ -13,7 +13,7 @@ import org.sagebionetworks.bridge.sdk.BridgeServerException;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
-import org.sagebionetworks.bridge.sdk.models.ConsentDocument;
+import org.sagebionetworks.bridge.sdk.models.studies.StudyConsent;
 
 public class StudyConsentTest {
 
@@ -33,11 +33,11 @@ public class StudyConsentTest {
     public void mustBeAdminToAdd() {
         TestUser user = TestUserHelper.createAndSignInUser(StudyConsentTest.class, true);
         try {
-            ConsentDocument consent = new ConsentDocument();
+            StudyConsent consent = new StudyConsent();
             consent.setPath("/dev/null");
             consent.setMinAge(22);
 
-            user.getSession().getResearcherClient().createConsentDocument(consent);
+            user.getSession().getResearcherClient().createStudyConsent(consent);
 
         } finally {
             user.signOutAndDeleteUser();
@@ -48,16 +48,16 @@ public class StudyConsentTest {
     public void addAndActiveConsent() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
 
-        ConsentDocument consent = new ConsentDocument();
+        StudyConsent consent = new StudyConsent();
         consent.setPath("/dev/null");
         consent.setMinAge(22);
-        client.createConsentDocument(consent);
+        client.createStudyConsent(consent);
 
-        List<ConsentDocument> studyConsents = client.getAllConsentDocuments();
+        List<StudyConsent> studyConsents = client.getAllStudyConsents();
         assertNotNull("studyConsents should not be null.", studyConsents);
         assertTrue("studyConsents should have at least one StudyConsent", studyConsents.size() > 0);
 
-        client.getConsentDocument(studyConsents.get(0).getCreatedOn());
+        client.getStudyConsent(studyConsents.get(0).getCreatedOn());
     }
 
 }

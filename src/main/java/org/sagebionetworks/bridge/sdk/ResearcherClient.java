@@ -3,10 +3,10 @@ package org.sagebionetworks.bridge.sdk;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.sagebionetworks.bridge.sdk.models.ConsentDocument;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionedOnHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
+import org.sagebionetworks.bridge.sdk.models.studies.StudyConsent;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 
 public interface ResearcherClient {
@@ -18,7 +18,7 @@ public interface ResearcherClient {
      *
      * @return List<StudyConsent>
      */
-    public List<ConsentDocument> getAllConsentDocuments();
+    public List<StudyConsent> getAllStudyConsents();
 
     /**
      * Get the most recently activated consent document. Can have more than one concurrently active consent document,
@@ -26,7 +26,7 @@ public interface ResearcherClient {
      *
      * @return StudyConsent
      */
-    public ConsentDocument getMostRecentlyActivatedConsentDocument();
+    public StudyConsent getMostRecentlyActivatedStudyConsent();
 
     /**
      * Get a consent document that was created at a DateTime.
@@ -35,7 +35,7 @@ public interface ResearcherClient {
      *            The DateTime the consent document was created on (this DateTime identifies the consent document).
      * @return StudyConsent
      */
-    public ConsentDocument getConsentDocument(DateTime createdOn);
+    public StudyConsent getStudyConsent(DateTime createdOn);
 
     /**
      * Add a consent document to the study.
@@ -43,7 +43,7 @@ public interface ResearcherClient {
      * @param consent
      *            The consent document to add.
      */
-    public void createConsentDocument(ConsentDocument consent);
+    public void createStudyConsent(StudyConsent consent);
 
     /**
      * Activate a consent document created at a DateTime. Can have more than one concurrently active consent document.
@@ -51,7 +51,7 @@ public interface ResearcherClient {
      * @param createdOn
      *            DateTime consent document was created. This acts as an identifier for the consent document.
      */
-    public void activateConsentDocument(DateTime createdOn);
+    public void activateStudyConsent(DateTime createdOn);
 
     // SURVEYS
     /**
