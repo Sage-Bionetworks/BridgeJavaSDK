@@ -89,9 +89,7 @@ abstract class BaseApiCaller {
     }
 
     protected HttpResponse publicGet(String url) {
-        if (!url.startsWith("http")) {
-            url = getFullUrl(url);
-        }
+        url = getFullUrl(url);
         HttpResponse response = null;
         try {
             logger.debug("GET " + url);
@@ -130,9 +128,7 @@ abstract class BaseApiCaller {
         if (queryParameters != null) {
             url += addQueryParameters(queryParameters);
         }
-        if (!url.startsWith("http")) {
-            url = getFullUrl(url);
-        }
+        url = getFullUrl(url);
         HttpResponse response = null;
         try {
             Request request = Request.Get(url);
@@ -151,9 +147,7 @@ abstract class BaseApiCaller {
     }
 
     protected HttpResponse post(String url) {
-        if (!url.startsWith("http")) {
-            url = getFullUrl(url);
-        }
+        url = getFullUrl(url);
         HttpResponse response = null;
         try {
             Request request = Request.Post(url);
@@ -172,9 +166,7 @@ abstract class BaseApiCaller {
     }
 
     protected HttpResponse post(String url, String json) {
-        if (!url.startsWith("http")) {
-            url = getFullUrl(url);
-        }
+        url = getFullUrl(url);
         HttpResponse response = null;
         try {
             Request request = Request.Post(url).bodyString(json, ContentType.APPLICATION_JSON);
@@ -201,9 +193,8 @@ abstract class BaseApiCaller {
         if (queryParameters != null) {
             url += addQueryParameters(queryParameters);
         }
-        if (!url.startsWith("http")) {
-            url = getFullUrl(url);
-        }
+        url = getFullUrl(url);
+
         HttpResponse response = null;
         try {
             Request request = Request.Delete(url);
@@ -314,10 +305,14 @@ abstract class BaseApiCaller {
 
     private String getFullUrl(String url) {
         assert url != null;
-        String fullUrl = config.getHost() + url;
-        assert utils.isValidUrl(fullUrl) : fullUrl;
+        if (url.startsWith("http")) {
+            return url;
+        } else {
+            String fullUrl = config.getHost() + url;
+            assert utils.isValidUrl(fullUrl) : fullUrl;
 
-        return fullUrl;
+            return fullUrl;
+        }
     }
 
     private String addQueryParameters(Map<String,String> parameters) {

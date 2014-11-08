@@ -8,7 +8,6 @@ import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.collect.Lists;
 
 public class SurveyResponse implements GuidHolder {
 
@@ -68,21 +67,17 @@ public class SurveyResponse implements GuidHolder {
     }
 
     public Survey getSurvey() {
-        return Survey.valueOf(survey);
+        return survey;
     }
 
     public List<SurveyAnswer> getSurveyAnswers() {
-        List<SurveyAnswer> copy = Lists.newArrayList();
-        for (SurveyAnswer answer : answers) {
-            copy.add(SurveyAnswer.valueOf(answer));
-        }
-        return copy;
+        return answers;
     }
 
     public SurveyAnswer getAnswerByQuestionGuid(String questionGuid) {
         for (SurveyAnswer answer : answers) {
             if (answer.getQuestionGuid().equals(questionGuid)) {
-                return SurveyAnswer.valueOf(answer);
+                return answer;
             }
         }
         return null;

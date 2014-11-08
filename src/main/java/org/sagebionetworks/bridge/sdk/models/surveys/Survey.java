@@ -36,11 +36,6 @@ public class Survey implements GuidVersionedOnHolder {
         this.questions = questions;
     }
 
-    static Survey valueOf(Survey survey) {
-        return new Survey(survey.getGuid(), survey.getVersionedOn(), survey.getModifiedOn(), survey.getVersion(),
-                survey.getName(), survey.getIdentifier(), survey.isPublished(), survey.getQuestions());
-    }
-
     public Survey() {
     }
 

@@ -29,7 +29,7 @@ public class UploadTest {
     private TestUser testUser;
     private UserClient user;
 
-    private String test = TestUserHelper.makeUserName(this.getClass()) + ".txt";
+    private String test = "target/" + TestUserHelper.makeUserName(this.getClass()) + ".txt";
 
     @Before
     public void before() {
@@ -101,15 +101,17 @@ public class UploadTest {
     }
 
     private void deleteTextFile() {
-        new File(test).delete();
+        try {
+            Files.delete(Paths.get(test));
+        } catch (IOException e) {
+            throw new BridgeSDKException(e);
+        }
     }
 
     private String createMd5() {
         try {
             byte[] b = Files.readAllBytes(Paths.get(test));
-            String out = Base64.encodeBase64String(DigestUtils.md5(b));
-            System.out.println(out);
-            return out;
+            return Base64.encodeBase64String(DigestUtils.md5(b));
         } catch (IOException e) {
             throw new BridgeSDKException(e);
         }

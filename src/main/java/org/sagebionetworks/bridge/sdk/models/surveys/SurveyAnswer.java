@@ -29,11 +29,6 @@ public class SurveyAnswer {
         this.answers = answers;
     }
 
-    static SurveyAnswer valueOf(SurveyAnswer answer) {
-        return new SurveyAnswer(answer.getQuestionGuid(), answer.isDeclined(), answer.getAnswer(), answer.getAnswers(),
-                answer.getAnsweredOn(), answer.getClient());
-    }
-
     public SurveyAnswer() {
     }
 
