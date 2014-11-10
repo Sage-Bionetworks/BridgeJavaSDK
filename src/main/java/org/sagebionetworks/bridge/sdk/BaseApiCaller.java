@@ -35,7 +35,11 @@ import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeServerException;
 import org.sagebionetworks.bridge.sdk.exceptions.ConsentRequiredException;
 import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
+import org.sagebionetworks.bridge.sdk.exceptions.NotAuthenticatedException;
+import org.sagebionetworks.bridge.sdk.exceptions.PublishedSurveyException;
+import org.sagebionetworks.bridge.sdk.exceptions.UnauthorizedException;
 import org.sagebionetworks.bridge.sdk.models.UploadRequest;
+import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -289,10 +293,18 @@ abstract class BaseApiCaller {
                 if (node.has("message")) {
                     message = node.get("message").asText();
                 }
-                if (statusCode == 412) {
+                if (statusCode == 401) {
+                    e = new NotAuthenticatedException(url);
+                } else if (statusCode == 403) {
+                    e = new UnauthorizedException(url);
+                } else if (statusCode == 412) {
                     UserSession session = getResponseBodyAsType(response, UserSession.class);
                     e = new ConsentRequiredException("Consent required.", url, BridgeSession.valueOf(session));
-                } else  if (node.has("errors")) {
+                } else if (node.has("survey")) {
+                    Survey survey = mapper.convertValue(node.get("survey"), Survey.class);
+                    e = new PublishedSurveyException(survey, url);
+                }
+                else  if (node.has("errors")) {
                     Map<String, List<String>> errors = (Map<String, List<String>>) mapper.convertValue(
                             node.get("errors"), new TypeReference<HashMap<String, ArrayList<String>>>() {});
                     e = new InvalidEntityException(message, errors, url);
