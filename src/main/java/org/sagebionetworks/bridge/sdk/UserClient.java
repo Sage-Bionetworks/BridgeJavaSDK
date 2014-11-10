@@ -3,11 +3,12 @@ package org.sagebionetworks.bridge.sdk;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.UploadRequest;
 import org.sagebionetworks.bridge.sdk.models.UploadSession;
+import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
-import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionedOnHolder;
-import org.sagebionetworks.bridge.sdk.models.holders.IdVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
@@ -72,7 +73,7 @@ public interface UserClient {
      *            The HealthDataRecord that Bridge will use to update its copy of the associated record.
      * @return
      */
-    public IdVersionHolder updateHealthDataRecord(Tracker tracker, HealthDataRecord record);
+    public GuidVersionHolder updateHealthDataRecord(Tracker tracker, HealthDataRecord record);
 
     /**
      * Delete a health data record associated with the tracker and the recordId.
@@ -94,7 +95,7 @@ public interface UserClient {
      *            The start date, with granularity to milliseconds, to search for HealthDataRecords.
      * @return List<HealthDataRecord>
      */
-    public List<HealthDataRecord> getHealthDataRecordsInRange(Tracker tracker, DateTime startDate, DateTime endDate);
+    public ResourceList<HealthDataRecord> getHealthDataRecordsInRange(Tracker tracker, DateTime startDate, DateTime endDate);
 
     /**
      * Add a group of HealthDataRecords to an associated tracker.
@@ -106,14 +107,14 @@ public interface UserClient {
      * @return List<IdVersionHolder> A list of objects that hold the ID and version of each HealthDataRecord added to
      *         Bridge.
      */
-    public List<IdVersionHolder> addHealthDataRecords(Tracker tracker, List<HealthDataRecord> records);
+    public ResourceList<GuidVersionHolder> addHealthDataRecords(Tracker tracker, List<HealthDataRecord> records);
 
     /**
      * Get all trackers on Bridge associated with a study.
      *
      * @return List<Tracker>
      */
-    public List<Tracker> getAllTrackers();
+    public ResourceList<Tracker> getAllTrackers();
 
     /**
      * Get the JSON schema for a tracker. The JSON schema will tell you what data is in a tracker, and how it is
@@ -130,7 +131,7 @@ public interface UserClient {
      *
      * @return List<Schedule>
      */
-    public List<Schedule> getSchedules();
+    public ResourceList<Schedule> getSchedules();
 
     /**
      * Get a survey versionedOn a particular DateTime and associated with the given guid String.
@@ -139,7 +140,7 @@ public interface UserClient {
      *
      * @return Survey
      */
-    public Survey getSurvey(GuidVersionedOnHolder keys);
+    public Survey getSurvey(GuidCreatedOnVersionHolder keys);
 
     /**
      * Submit a list of SurveyAnswers to a particular survey.

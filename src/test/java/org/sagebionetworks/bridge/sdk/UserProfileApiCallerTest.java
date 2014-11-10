@@ -60,9 +60,7 @@ public class UserProfileApiCallerTest {
     @Test
     public void canRetrieveAndUpdateProfile() {
         Config conf = ClientProvider.getConfig();
-        SignInCredentials signIn = SignInCredentials.valueOf()
-                .setUsername(conf.getAdminEmail())
-                .setPassword(conf.getAdminPassword());
+        SignInCredentials signIn = new SignInCredentials(conf.getAdminEmail(), conf.getAdminPassword());
         Session session = ClientProvider.signIn(signIn);
 
         UserProfileApiCaller profileApi = UserProfileApiCaller.valueOf(session);

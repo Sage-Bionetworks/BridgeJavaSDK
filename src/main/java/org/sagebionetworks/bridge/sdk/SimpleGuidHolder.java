@@ -1,29 +1,22 @@
-package org.sagebionetworks.bridge.sdk.models.holders;
+package org.sagebionetworks.bridge.sdk;
 
-import org.joda.time.DateTime;
+import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public final class SimpleGuidVersionedOnHolder implements GuidVersionedOnHolder {
+final class SimpleGuidHolder implements GuidHolder {
 
     private final String guid;
-    private final DateTime versionedOn;
-
+    
     @JsonCreator
-    public SimpleGuidVersionedOnHolder(@JsonProperty("guid") String guid, @JsonProperty("versionedOn") DateTime versionedOn) {
+    SimpleGuidHolder(@JsonProperty("guid") String guid) {
         this.guid = guid;
-        this.versionedOn = versionedOn;
     }
-
+    
     @Override
     public String getGuid() {
         return guid;
-    }
-
-    @Override
-    public DateTime getVersionedOn() {
-        return versionedOn;
     }
 
     @Override
@@ -31,7 +24,6 @@ public final class SimpleGuidVersionedOnHolder implements GuidVersionedOnHolder 
         final int prime = 31;
         int result = 1;
         result = prime * result + ((guid == null) ? 0 : guid.hashCode());
-        result = prime * result + ((versionedOn == null) ? 0 : versionedOn.hashCode());
         return result;
     }
 
@@ -43,23 +35,18 @@ public final class SimpleGuidVersionedOnHolder implements GuidVersionedOnHolder 
             return false;
         if (getClass() != obj.getClass())
             return false;
-        SimpleGuidVersionedOnHolder other = (SimpleGuidVersionedOnHolder) obj;
+        SimpleGuidHolder other = (SimpleGuidHolder) obj;
         if (guid == null) {
             if (other.guid != null)
                 return false;
         } else if (!guid.equals(other.guid))
-            return false;
-        if (versionedOn == null) {
-            if (other.versionedOn != null)
-                return false;
-        } else if (!versionedOn.equals(other.versionedOn))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "SimpleGuidVersionedOnHolder [guid=" + guid + ", versionedOn=" + versionedOn + "]";
+        return "SimpleGuidHolder [guid=" + guid + "]";
     }
 
 }

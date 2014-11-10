@@ -14,11 +14,11 @@ public class StudyConsent {
     private boolean active;
     private String path;
     private int minAge;
-    private long version;
+    private Long version;
 
     @JsonCreator
     private StudyConsent(@JsonProperty("timestamp") String createdOn, @JsonProperty("active") boolean active,
-            @JsonProperty("path") String path, @JsonProperty("minAge") int minAge, @JsonProperty("version") long version) {
+            @JsonProperty("path") String path, @JsonProperty("minAge") int minAge, @JsonProperty("version") Long version) {
         this.createdOn = createdOn == null ? null : DateTime.parse(createdOn, ISODateTimeFormat.dateTime());
         this.active = active;
         this.path = path;
@@ -53,7 +53,7 @@ public class StudyConsent {
         this.minAge = minAge;
     }
 
-    public long getVersion() {
+    public Long getVersion() {
         return version;
     }
     

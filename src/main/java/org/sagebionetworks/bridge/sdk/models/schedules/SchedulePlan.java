@@ -5,7 +5,9 @@ import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+@JsonDeserialize(as=SchedulePlan.class) // strangely, Jackson needs this
 public class SchedulePlan implements GuidVersionHolder {
 
     private String guid;

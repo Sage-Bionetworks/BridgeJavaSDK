@@ -4,16 +4,18 @@ import java.util.List;
 import java.util.Objects;
 
 import org.joda.time.DateTime;
-import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionedOnHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.collect.Lists;
 
-public class Survey implements GuidVersionedOnHolder {
+@JsonDeserialize(as=Survey.class) // strangely, Jackson needs this
+public class Survey implements GuidCreatedOnVersionHolder {
 
     private String guid;
-    private DateTime versionedOn;
+    private DateTime createdOn;
     private DateTime modifiedOn;
     private Long version;
     private String name;
@@ -22,12 +24,12 @@ public class Survey implements GuidVersionedOnHolder {
     private List<SurveyQuestion> questions = Lists.newLinkedList();
 
     @JsonCreator
-    private Survey(@JsonProperty("guid") String guid, @JsonProperty("versionedOn") DateTime versionedOn,
+    private Survey(@JsonProperty("guid") String guid, @JsonProperty("createdOn") DateTime createdOn,
             @JsonProperty("modifiedOn") DateTime modifiedOn, @JsonProperty("version") Long version,
             @JsonProperty("name") String name, @JsonProperty("identifier") String identifier,
             @JsonProperty("published") boolean published, @JsonProperty("questions") List<SurveyQuestion> questions) {
         this.guid = guid;
-        this.versionedOn = versionedOn;
+        this.createdOn = createdOn;
         this.modifiedOn = modifiedOn;
         this.version = version;
         this.name = name;
@@ -43,10 +45,9 @@ public class Survey implements GuidVersionedOnHolder {
     public String getGuid() {
         return guid;
     }
-
-    @Override
-    public DateTime getVersionedOn() {
-        return versionedOn;
+    
+    public DateTime getCreatedOn() {
+        return createdOn;
     }
 
     public DateTime getModifiedOn() {
@@ -113,7 +114,7 @@ public class Survey implements GuidVersionedOnHolder {
             return false;
         }
         final Survey that = (Survey) obj;
-        return Objects.equals(this.guid, that.guid) && Objects.equals(this.versionedOn, that.versionedOn)
+        return Objects.equals(this.guid, that.guid) && Objects.equals(this.createdOn, that.createdOn)
                 && Objects.equals(this.modifiedOn, that.modifiedOn) && Objects.equals(this.version, that.version)
                 && Objects.equals(this.name, that.name) && Objects.equals(this.identifier, that.identifier)
                 && Objects.equals(this.published, that.published) && Objects.equals(this.questions, that.questions);
@@ -121,7 +122,7 @@ public class Survey implements GuidVersionedOnHolder {
 
     @Override
     public String toString() {
-        return "Survey [guid=" + guid + ", versionedOn=" + versionedOn + ", modifiedOn=" + modifiedOn + ", version="
+        return "Survey [guid=" + guid + ", createdOn=" + createdOn + ", modifiedOn=" + modifiedOn + ", version="
                 + version + ", name=" + name + ", identifier=" + identifier + ", published=" + published
                 + ", questions=" + questions + "]";
     }

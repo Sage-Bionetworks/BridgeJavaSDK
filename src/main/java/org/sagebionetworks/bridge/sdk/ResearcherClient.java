@@ -1,16 +1,14 @@
 package org.sagebionetworks.bridge.sdk;
 
-import java.util.List;
-
 import org.joda.time.DateTime;
+import org.sagebionetworks.bridge.sdk.models.ResourceList;
+import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
-import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionedOnHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.studies.StudyConsent;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 
 public interface ResearcherClient {
-
 
     // STUDY CONSENTS
     /**
@@ -18,7 +16,7 @@ public interface ResearcherClient {
      *
      * @return List<StudyConsent>
      */
-    public List<StudyConsent> getAllStudyConsents();
+    public ResourceList<StudyConsent> getAllStudyConsents();
 
     /**
      * Get the most recently activated consent document. Can have more than one concurrently active consent document,
@@ -65,7 +63,7 @@ public interface ResearcherClient {
      */
     public Survey getSurvey(String guid, DateTime versionedOn);
 
-    public Survey getSurvey(GuidVersionedOnHolder keys);
+    public Survey getSurvey(GuidCreatedOnVersionHolder keys);
 
     /**
      * Create a survey. Consented study participants cannot see or respond to the survey until it is published.
@@ -75,28 +73,28 @@ public interface ResearcherClient {
      * @return GuidVersionedOnHolder A holder containing the GUID identifying the survey and the DateTime on which it
      *         was versioned.
      */
-    public GuidVersionedOnHolder createSurvey(Survey survey);
+    public GuidCreatedOnVersionHolder createSurvey(Survey survey);
 
     /**
      * Get all versions of all surveys associated with the Study currently signed in to.
      *
      * @return List<Survey>
      */
-    public List<Survey> getAllVersionsOfAllSurveys();
+    public ResourceList<Survey> getAllVersionsOfAllSurveys();
 
     /**
      * Get the published versions of all surveys associated with Study currently signed in to.
      *
      * @return List<Survey>
      */
-    public List<Survey> getPublishedVersionsOfAllSurveys();
+    public ResourceList<Survey> getPublishedVersionsOfAllSurveys();
 
     /**
      * Get the youngest (newest, most recent, etc) version of every survey in the study.
      *
      * @return List<Survey>
      */
-    public List<Survey> getRecentVersionsOfAllSurveys();
+    public ResourceList<Survey> getRecentVersionsOfAllSurveys();
 
     /**
      * Get every version associated with a particular Survey.
@@ -105,7 +103,7 @@ public interface ResearcherClient {
      *            The GUID identifying the survey to retrieve.
      * @return List<Survey>
      */
-    public List<Survey> getAllVersionsOfASurvey(String guid);
+    public ResourceList<Survey> getAllVersionsOfASurvey(String guid);
 
     /**
      * Create a new version for the survey identified by a guid string and the DateTime it was versioned on.
@@ -114,7 +112,7 @@ public interface ResearcherClient {
      *            holder object containing a GUID string and DateTime of survey's version.
      * @return
      */
-    public GuidVersionedOnHolder versionSurvey(GuidVersionedOnHolder keys);
+    public GuidCreatedOnVersionHolder versionSurvey(GuidCreatedOnVersionHolder keys);
 
     /**
      * Update a survey on Bridge.
@@ -124,7 +122,7 @@ public interface ResearcherClient {
      * @return GuidVersionedOnHolder A holder containing the GUID identifying the updated survey and the DateTime the
      *         updated survey was versioned.
      */
-    public GuidVersionedOnHolder updateSurvey(Survey survey);
+    public GuidCreatedOnVersionHolder updateSurvey(Survey survey);
 
     /**
      * Publish a survey. A published survey is one consented users can see and respond to.
@@ -132,7 +130,7 @@ public interface ResearcherClient {
      * @param keys
      *            holder object containing a GUID string identifying the survey and DateTime of survey's version.
      */
-    public void publishSurvey(GuidVersionedOnHolder keys);
+    public void publishSurvey(GuidCreatedOnVersionHolder keys);
 
     /**
      * Close a survey. A closed survey is one consented users cannot see.
@@ -140,7 +138,7 @@ public interface ResearcherClient {
      * @param keys
      *            holder object containing a GUID string identifying the survey and DateTime of survey's version.
      */
-    public void closeSurvey(GuidVersionedOnHolder keys);
+    public void closeSurvey(GuidCreatedOnVersionHolder keys);
 
     /**
      * Delete a survey.
@@ -148,7 +146,7 @@ public interface ResearcherClient {
      * @param keys
      *            holder object containing a GUID string identifying the survey and DateTime of survey's version.
      */
-    public void deleteSurvey(GuidVersionedOnHolder keys);
+    public void deleteSurvey(GuidCreatedOnVersionHolder keys);
 
     // SCHEDULE PLANS
 
@@ -157,7 +155,7 @@ public interface ResearcherClient {
      *
      * @return List<SchedulePlan>
      */
-    public List<SchedulePlan> getSchedulePlans();
+    public ResourceList<SchedulePlan> getSchedulePlans();
 
     /**
      * Create a schedule plan.

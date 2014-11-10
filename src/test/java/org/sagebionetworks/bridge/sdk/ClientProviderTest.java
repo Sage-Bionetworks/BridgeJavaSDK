@@ -28,8 +28,7 @@ public class ClientProviderTest {
     public void canAuthenticateAndCreateClientAndSignOut() {
         testUser.getSession().signOut();
         
-        SignInCredentials credentials = SignInCredentials.valueOf().setUsername(testUser.getUsername())
-                .setPassword(testUser.getPassword());
+        SignInCredentials credentials = new SignInCredentials(testUser.getUsername(), testUser.getPassword());
         Session session = ClientProvider.signIn(credentials);
         assertTrue(session.isSignedIn());
 
