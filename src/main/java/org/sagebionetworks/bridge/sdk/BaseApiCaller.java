@@ -48,7 +48,7 @@ abstract class BaseApiCaller {
     private static final String BRIDGE_SESSION_HEADER = "Bridge-Session";
     private static final String CONNECTION_FAILED = "Connection to server failed or aborted.";
 
-    Utilities utils = Utilities.valueOf();
+    static Utilities utils = Utilities.valueOf();
 
     // Create an SSL context that does no certificate validation whatsoever.
     private static class DefaultTrustManager implements X509TrustManager {
@@ -92,7 +92,7 @@ abstract class BaseApiCaller {
         url = getFullUrl(url);
         HttpResponse response = null;
         try {
-            logger.debug("GET " + url);
+            logger.debug("GET {}", url);
             Request request = Request.Get(url);
             response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, url);
@@ -135,7 +135,7 @@ abstract class BaseApiCaller {
             if (session != null && session.isSignedIn()) {
                 request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
             }
-            logger.debug("GET " + url);
+            logger.debug("GET {}", url);
             response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, url);
         } catch (ClientProtocolException e) {
@@ -154,7 +154,7 @@ abstract class BaseApiCaller {
             if (session != null && session.isSignedIn()) {
                 request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
             }
-            logger.debug("POST " + url + "\n    <EMPTY>");
+            logger.debug("POST {}\n    <EMPTY>", url);
             response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, url);
         } catch (ClientProtocolException e) {
@@ -175,7 +175,7 @@ abstract class BaseApiCaller {
             }
             // expensive, don't do it unless necessary
             if (logger.isDebugEnabled()) {
-                logger.debug("POST " + url + "\n    " + maskPassword(json));
+                logger.debug("POST {} \n     {}", url, maskPassword(json));
             }
             response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, url);
@@ -201,7 +201,7 @@ abstract class BaseApiCaller {
             if (session != null && session.isSignedIn()) {
                 request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
             }
-            logger.debug("DELETE " + url);
+            logger.debug("DELETE {}", url);
             response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, url);
         } catch (IOException e) {
@@ -267,9 +267,9 @@ abstract class BaseApiCaller {
     @SuppressWarnings("unchecked")
     private void throwExceptionOnErrorStatus(HttpResponse response, String url) {
         try {
-            logger.debug(response.getStatusLine().getStatusCode() + " RESPONSE: " + EntityUtils.toString(response.getEntity()));
+            logger.debug("{} RESPONSE: {}", response.getStatusLine().getStatusCode(), EntityUtils.toString(response.getEntity()));
         } catch(IOException e) {
-            logger.debug(response.getStatusLine().getStatusCode() + " RESPONSE: <ERROR>");
+            logger.debug("{} RESPONSE: <ERROR>", response.getStatusLine().getStatusCode());
         }
 
         StatusLine status = response.getStatusLine();
@@ -278,7 +278,7 @@ abstract class BaseApiCaller {
             BridgeServerException e = null;
             try {
                 JsonNode node = getJsonNode(response);
-                logger.debug("Error " + response.getStatusLine().getStatusCode() + ": " + node.toString());
+                logger.debug("Error {}: {}", response.getStatusLine().getStatusCode(), node.toString());
 
                 // Not having a message is actually pretty bad
                 String message = "There has been an error on the server";

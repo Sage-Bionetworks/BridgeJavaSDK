@@ -20,7 +20,7 @@ import com.google.common.collect.Lists;
 
 public final class Config {
 
-    private static final String CONFIG_FILE = "bridge-sdk.properties";
+    private static final String CONFIG_FILE = "src/main/resources/bridge-sdk.properties";
     private static final String USER_CONFIG_FILE = System.getProperty("user.home") + "/bridge-sdk.properties";
 
     public static enum Props {
