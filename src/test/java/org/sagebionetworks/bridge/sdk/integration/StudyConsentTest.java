@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +12,7 @@ import org.sagebionetworks.bridge.sdk.BridgeServerException;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
+import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.studies.StudyConsent;
 
 public class StudyConsentTest {
@@ -54,13 +53,13 @@ public class StudyConsentTest {
         consent.setMinAge(22);
         client.createConsentDocument(consent);
         
-        List<StudyConsent> studyConsents = client.getAllConsentDocuments();
+        ResourceList<StudyConsent> studyConsents = client.getAllConsentDocuments();
         assertNotNull("studyConsents should not be null.", studyConsents);
-        assertTrue("studyConsents should have at least one StudyConsent", studyConsents.size() > 0);
+        assertTrue("studyConsents should have at least one StudyConsent", studyConsents.getCount() > 0);
 
-        StudyConsent current = client.getConsentDocument(studyConsents.get(0).getCreatedOn());
+        StudyConsent current = client.getConsentDocument(studyConsents.getItems().get(0).getCreatedOn());
         assertNotNull("studyConsent should not be null.", current);
-        assertEquals("Retrieved study consent should equal one asked for.", current, studyConsents.get(0));
+        assertEquals("Retrieved study consent should equal one asked for.", current, studyConsents.getItems().get(0));
 
         client.activateConsentDocument(current.getCreatedOn());
 

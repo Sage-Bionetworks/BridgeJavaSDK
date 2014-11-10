@@ -1,7 +1,6 @@
 package org.sagebionetworks.bridge.sdk;
 
 import java.util.HashMap;
-
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +13,7 @@ import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
 import org.sagebionetworks.bridge.sdk.models.users.HealthDataRecord;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 
 class HealthDataApiCaller extends BaseApiCaller {
@@ -55,7 +55,7 @@ class HealthDataApiCaller extends BaseApiCaller {
         delete(url);
     }
 
-    List<HealthDataRecord> getHealthDataRecordsInRange(Tracker tracker, DateTime startDate, DateTime endDate) {
+    ResourceListImpl<HealthDataRecord> getHealthDataRecordsInRange(Tracker tracker, DateTime startDate, DateTime endDate) {
         Map<String,String> queryParameters = new HashMap<String,String>();
         queryParameters.put("startDate", startDate.toString(ISODateTimeFormat.dateTime()));
         queryParameters.put("endDate", endDate.toString(ISODateTimeFormat.dateTime()));
@@ -64,14 +64,11 @@ class HealthDataApiCaller extends BaseApiCaller {
         String url = config.getHealthDataTrackerApi(trackerId);
         HttpResponse response = get(url, queryParameters);
 
-        JsonNode items = getPropertyFromResponse(response, "items");
-        List<HealthDataRecord> records = mapper.convertValue(items,
-                mapper.getTypeFactory().constructCollectionType(List.class, HealthDataRecord.class));
-
-        return records;
+        JsonNode node = getJsonNode(response);
+        return mapper.convertValue(node, new TypeReference<ResourceListImpl<HealthDataRecord>>() {});
     }
 
-    List<GuidVersionHolder> addHealthDataRecords(Tracker tracker, List<HealthDataRecord> records) {
+    ResourceListImpl<GuidVersionHolder> addHealthDataRecords(Tracker tracker, List<HealthDataRecord> records) {
         String json;
         try {
             json = mapper.writeValueAsString(records);
@@ -84,10 +81,7 @@ class HealthDataApiCaller extends BaseApiCaller {
         String url = config.getHealthDataTrackerApi(trackerId);
         HttpResponse response = post(url, json);
 
-        JsonNode items = getPropertyFromResponse(response, "items");
-        List<GuidVersionHolder> holders = mapper.convertValue(items,
-                mapper.getTypeFactory().constructCollectionType(List.class, SimpleGuidVersionHolder.class));
-
-        return holders;
+        JsonNode node = getJsonNode(response);
+        return mapper.convertValue(node, new TypeReference<ResourceListImpl<GuidVersionHolder>>() {});
     }
 }

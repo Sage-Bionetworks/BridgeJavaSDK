@@ -10,6 +10,7 @@ import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.GuidHolder;
 import org.sagebionetworks.bridge.sdk.models.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.GuidCreatedOnVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.SimpleGuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
@@ -122,7 +123,7 @@ class BridgeUserClient implements UserClient {
     }
 
     @Override
-    public List<HealthDataRecord> getHealthDataRecordsInRange(Tracker tracker, DateTime startDate, DateTime endDate) {
+    public ResourceList<HealthDataRecord> getHealthDataRecordsInRange(Tracker tracker, DateTime startDate, DateTime endDate) {
         session.checkSignedIn();
         checkNotNull(tracker, "Tracker cannot be null.");
         checkNotNull(startDate, "startDate cannot be null.");
@@ -133,7 +134,7 @@ class BridgeUserClient implements UserClient {
     }
 
     @Override
-    public List<GuidVersionHolder> addHealthDataRecords(Tracker tracker, List<HealthDataRecord> records) {
+    public ResourceList<GuidVersionHolder> addHealthDataRecords(Tracker tracker, List<HealthDataRecord> records) {
         session.checkSignedIn();
         checkNotNull(tracker, "Tracker cannot be null.");
         checkNotNull(records, "Records cannot be null.");
@@ -145,7 +146,7 @@ class BridgeUserClient implements UserClient {
      * Tracker API
      */
     @Override
-    public List<Tracker> getAllTrackers() {
+    public ResourceList<Tracker> getAllTrackers() {
         session.checkSignedIn();
 
         return trackerApi.getAllTrackers();
@@ -162,7 +163,7 @@ class BridgeUserClient implements UserClient {
      * Schedules API
      */
     @Override
-    public List<Schedule> getSchedules() {
+    public ResourceList<Schedule> getSchedules() {
         session.checkSignedIn();
         return scheduleApi.getSchedules();
     }

@@ -7,37 +7,36 @@ public class SignUpCredentials {
     private String username;
     private String password;
 
-    private SignUpCredentials(String email, String username, String password) {
+    public SignUpCredentials(String email, String username, String password) {
         this.email = email;
         this.username = username;
         this.password = password;
     }
 
-    public static SignUpCredentials valueOf() {
-        return new SignUpCredentials(null, null, null);
+    public String getEmail() {
+        return this.email;
     }
 
-    public String getEmail() { return this.email; }
-    public String getUsername() { return this.username; }
-    public String getPassword() { return this.password; }
+    public String getUsername() {
+        return this.username;
+    }
 
-    public SignUpCredentials setEmail(String email) {
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setEmail(String email) {
         this.email = email;
-        return this;
     }
-    public SignUpCredentials setUsername(String username) {
+    public void setUsername(String username) {
         this.username = username;
-        return this;
     }
-    public SignUpCredentials setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
-        return this;
     }
 
     @Override
     public String toString() {
-        return "SignUpCredentials[email=" + email +
-                ", username=" + username +
-                ", password=" + password + "]";
+        return "SignUpCredentials[email=" + email + ", username=" + username + ", password=[REDACTED]";
     }
 }

@@ -1,10 +1,9 @@
 package org.sagebionetworks.bridge.sdk;
 
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.GuidCreatedOnVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.studies.StudyConsent;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
@@ -13,7 +12,7 @@ public interface ResearcherClient {
 
     // STUDY CONSENTS
     
-    public List<StudyConsent> getAllConsentDocuments();
+    public ResourceList<StudyConsent> getAllConsentDocuments();
 
     public StudyConsent getMostRecentlyActivatedConsentDocument();
 
@@ -31,13 +30,13 @@ public interface ResearcherClient {
 
     public GuidCreatedOnVersionHolder createSurvey(Survey survey);
 
-    public List<Survey> getAllVersionsOfAllSurveys();
+    public ResourceList<Survey> getAllVersionsOfAllSurveys();
 
-    public List<Survey> getPublishedVersionsOfAllSurveys();
+    public ResourceList<Survey> getPublishedVersionsOfAllSurveys();
 
-    public List<Survey> getRecentVersionsOfAllSurveys();
+    public ResourceList<Survey> getRecentVersionsOfAllSurveys();
 
-    public List<Survey> getAllVersionsOfASurvey(String guid);
+    public ResourceList<Survey> getAllVersionsOfASurvey(String guid);
 
     public GuidCreatedOnVersionHolder versionSurvey(GuidCreatedOnVersionHolder keys);
 
@@ -51,7 +50,7 @@ public interface ResearcherClient {
     
     // SCHEDULE PLANS
 
-    public List<SchedulePlan> getSchedulePlans();
+    public ResourceList<SchedulePlan> getSchedulePlans();
 
     public GuidVersionHolder createSchedulePlan(SchedulePlan plan);
 

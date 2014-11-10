@@ -33,7 +33,7 @@ final class AuthenticationApiCaller extends BaseApiCaller {
     UserSession signIn(String username, String password) {
         String signIn = null;
         try {
-            SignInCredentials cred = SignInCredentials.valueOf().setUsername(username).setPassword(password);
+            SignInCredentials cred = new SignInCredentials(username, password);
             signIn = mapper.writeValueAsString(cred);
         } catch (JsonProcessingException e) {
             throw new BridgeSDKException(

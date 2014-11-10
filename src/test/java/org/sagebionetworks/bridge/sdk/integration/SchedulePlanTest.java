@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.sagebionetworks.bridge.Tests.untilConsistent;
 
-import java.util.List;
 import java.util.concurrent.Callable;
 
 import org.joda.time.Period;
@@ -21,6 +20,7 @@ import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.models.GuidVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.schedules.ABTestScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.ActivityType;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
@@ -137,12 +137,12 @@ public class SchedulePlanTest {
 
         untilConsistent(new Callable<Boolean>() {
             @Override public Boolean call() throws Exception {
-                return (!userClient.getSchedules().isEmpty());
+                return (!userClient.getSchedules().getItems().isEmpty());
             }
         });
         
-        List<Schedule> schedules = userClient.getSchedules();
-        assertTrue("Schedules exist", !schedules.isEmpty());
+        ResourceList<Schedule> schedules = userClient.getSchedules();
+        assertTrue("Schedules exist", !schedules.getItems().isEmpty());
 
         // Delete
         researcherClient.deleteSchedulePlan(keys.getGuid());

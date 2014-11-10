@@ -12,13 +12,9 @@ public class ConsentSignature {
     private final DateTime birthdate;
 
     @JsonCreator
-    private ConsentSignature(@JsonProperty("name") String name, @JsonProperty("birthdate") DateTime birthdate) {
+    public ConsentSignature(@JsonProperty("name") String name, @JsonProperty("birthdate") DateTime birthdate) {
         this.name = name;
         this.birthdate = birthdate;
-    }
-
-    public static ConsentSignature valueOf(String name, DateTime birthdate) {
-        return new ConsentSignature(name, birthdate);
     }
 
     public String getName() {

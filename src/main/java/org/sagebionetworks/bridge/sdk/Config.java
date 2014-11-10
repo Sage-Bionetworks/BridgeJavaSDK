@@ -112,10 +112,10 @@ public final class Config {
         config.setProperty(property.getPropertyName(), value);
     }
     public SignInCredentials getAccountCredentials() {
-        return SignInCredentials.valueOf().setUsername(getAccountEmail()).setPassword(getAccountPassword());
+        return new SignInCredentials(getAccountEmail(), getAccountPassword());
     }
     public SignInCredentials getAdminCredentials() {
-        return SignInCredentials.valueOf().setUsername(getAdminEmail()).setPassword(getAdminPassword());
+        return new SignInCredentials(getAdminEmail(), getAdminPassword());
     }
     String getAccountEmail() {
         return val(Props.ACCOUNT_EMAIL);

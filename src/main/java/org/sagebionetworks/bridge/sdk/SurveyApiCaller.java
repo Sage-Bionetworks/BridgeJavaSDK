@@ -1,14 +1,15 @@
 package org.sagebionetworks.bridge.sdk;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.joda.time.DateTime;
+import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.SimpleGuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 
 class SurveyApiCaller extends BaseApiCaller {
@@ -21,48 +22,36 @@ class SurveyApiCaller extends BaseApiCaller {
         return new SurveyApiCaller(session);
     }
 
-    List<Survey> getAllVersionsOfAllSurveys() {
+    ResourceList<Survey> getAllVersionsOfAllSurveys() {
         String url = config.getSurveysApi();
         HttpResponse response = get(url);
 
-        JsonNode items = getPropertyFromResponse(response, "items");
-        List<Survey> surveys = mapper.convertValue(items,
-                mapper.getTypeFactory().constructCollectionType(List.class, Survey.class));
-
-        return surveys;
+        JsonNode node = getJsonNode(response);
+        return mapper.convertValue(node, new TypeReference<ResourceListImpl<Survey>>() {});
     }
 
-    List<Survey> getPublishedVersionsOfAllSurveys() {
+    ResourceListImpl<Survey> getPublishedVersionsOfAllSurveys() {
         String url = config.getSurveysPublishedApi();
         HttpResponse response = get(url);
 
-        JsonNode items = getPropertyFromResponse(response, "items");
-        List<Survey> surveys = mapper.convertValue(items,
-                mapper.getTypeFactory().constructCollectionType(List.class, Survey.class));
-
-        return surveys;
+        JsonNode node = getJsonNode(response);
+        return mapper.convertValue(node, new TypeReference<ResourceListImpl<Survey>>() {});
     }
 
-    List<Survey> getRecentVersionsOfAllSurveys() {
+    ResourceListImpl<Survey> getRecentVersionsOfAllSurveys() {
         String url = config.getRecentSurveysApi();
         HttpResponse response = get(url);
 
-        JsonNode items = getPropertyFromResponse(response, "items");
-        List<Survey> surveys = mapper.convertValue(items,
-                mapper.getTypeFactory().constructCollectionType(List.class, Survey.class));
-
-        return surveys;
+        JsonNode node = getJsonNode(response);
+        return mapper.convertValue(node, new TypeReference<ResourceListImpl<Survey>>() {});
     }
 
-    List<Survey> getAllVersionsOfASurvey(String guid) {
+    ResourceListImpl<Survey> getAllVersionsOfASurvey(String guid) {
         String url = config.getSurveyVersionsApi(guid);
         HttpResponse response = get(url);
 
-        JsonNode items = getPropertyFromResponse(response, "items");
-        List<Survey> surveys = mapper.convertValue(items,
-                mapper.getTypeFactory().constructCollectionType(List.class, Survey.class));
-
-        return surveys;
+        JsonNode node = getJsonNode(response);
+        return mapper.convertValue(node, new TypeReference<ResourceListImpl<Survey>>() {});
     }
 
     Survey getSurveyForResearcher(String guid, DateTime createdOn) {

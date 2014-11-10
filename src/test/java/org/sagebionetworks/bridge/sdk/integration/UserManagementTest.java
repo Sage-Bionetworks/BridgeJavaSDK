@@ -36,7 +36,7 @@ public class UserManagementTest {
         String password = "P4ssword";
         boolean consent = true;
 
-        SignUpCredentials signUp = SignUpCredentials.valueOf().setUsername(username).setEmail(email).setPassword(password);
+        SignUpCredentials signUp = new SignUpCredentials(username, email, password);
 
         boolean result = admin.createUser(signUp, null, consent);
         assertTrue(result);

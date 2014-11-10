@@ -47,15 +47,15 @@ public class ScheduleTest {
         
         final UserClient client = user.getSession().getUserClient();
         
-        List<Schedule> schedules = client.getSchedules();
+        List<Schedule> schedules = client.getSchedules().getItems();
         
         untilConsistent(new Callable<Boolean>() {
             @Override public Boolean call() throws Exception {
-                return !client.getSchedules().isEmpty();
+                return !client.getSchedules().getItems().isEmpty();
             }
         });
         
-        schedules = client.getSchedules();
+        schedules = client.getSchedules().getItems();
         assertEquals("There should be one schedule for this user", 1, schedules.size());
     }
     

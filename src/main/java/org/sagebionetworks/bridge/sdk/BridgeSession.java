@@ -26,7 +26,12 @@ class BridgeSession implements Session {
     static BridgeSession valueOf(UserSession session) {
         return new BridgeSession(session);
     }
-    
+
+    /**
+     * Check that the client is currently authenticated, throwing an exception 
+     * if it is not.
+     * @throws IllegalStateException
+     */
     public void checkSignedIn() {
         checkState(isSignedIn(), NOT_AUTHENTICATED);
     }

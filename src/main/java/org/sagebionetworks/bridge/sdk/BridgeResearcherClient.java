@@ -4,10 +4,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.GuidCreatedOnVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.SimpleGuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.SimpleGuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
@@ -33,7 +32,7 @@ class BridgeResearcherClient implements ResearcherClient {
     }
     
     @Override
-    public List<StudyConsent> getAllConsentDocuments() {
+    public ResourceList<StudyConsent> getAllConsentDocuments() {
         session.checkSignedIn();
 
         return studyConsentApi.getAllStudyConsents();
@@ -80,22 +79,22 @@ class BridgeResearcherClient implements ResearcherClient {
         return surveyApi.getSurveyForResearcher(keys.getGuid(), keys.getCreatedOn());
     }
     @Override
-    public List<Survey> getAllVersionsOfAllSurveys() {
+    public ResourceList<Survey> getAllVersionsOfAllSurveys() {
         session.checkSignedIn();
         return surveyApi.getAllVersionsOfAllSurveys();
     }
     @Override
-    public List<Survey> getPublishedVersionsOfAllSurveys() {
+    public ResourceList<Survey> getPublishedVersionsOfAllSurveys() {
         session.checkSignedIn();
         return surveyApi.getPublishedVersionsOfAllSurveys();
     }
     @Override
-    public List<Survey> getRecentVersionsOfAllSurveys() {
+    public ResourceList<Survey> getRecentVersionsOfAllSurveys() {
         session.checkSignedIn();
         return surveyApi.getRecentVersionsOfAllSurveys();
     }
     @Override
-    public List<Survey> getAllVersionsOfASurvey(String guid) {
+    public ResourceList<Survey> getAllVersionsOfASurvey(String guid) {
         session.checkSignedIn();
         checkArgument(isNotBlank(guid), Bridge.CANNOT_BE_BLANK, "guid");
         return surveyApi.getAllVersionsOfASurvey(guid);
@@ -145,7 +144,7 @@ class BridgeResearcherClient implements ResearcherClient {
         surveyApi.deleteSurvey(keys.getGuid(), keys.getCreatedOn());
     }
     @Override
-    public List<SchedulePlan> getSchedulePlans() {
+    public ResourceList<SchedulePlan> getSchedulePlans() {
         session.checkSignedIn();
         return schedulePlanApi.getSchedulePlans();
     }

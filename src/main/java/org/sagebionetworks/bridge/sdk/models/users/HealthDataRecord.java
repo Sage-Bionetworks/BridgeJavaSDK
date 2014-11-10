@@ -11,10 +11,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 public final class HealthDataRecord implements GuidVersionHolder {
 
-    private final Long version;
-    private final String guid;
-    private final DateTime startDate;
-    private final DateTime endDate;
+    private Long version;
+    private String guid;
+    private DateTime startDate;
+    private DateTime endDate;
     private JsonNode data;
 
     @JsonCreator
@@ -26,6 +26,9 @@ public final class HealthDataRecord implements GuidVersionHolder {
         this.startDate = startDate;
         this.endDate = endDate;
         this.data = data;
+    }
+    
+    public HealthDataRecord() {
     }
 
     public Long getVersion() {

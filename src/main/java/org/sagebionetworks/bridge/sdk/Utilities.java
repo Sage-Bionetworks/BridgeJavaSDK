@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 
-public final class Utilities {
+final class Utilities {
 
     private static final String[] schemes = { "http", "https" };
     private static final UrlValidator urlValidator = new UrlValidator(schemes, NO_FRAGMENTS + ALLOW_LOCAL_URLS);
@@ -34,29 +34,29 @@ public final class Utilities {
 
     private Utilities() {}
 
-    public static Utilities valueOf() {
+    static Utilities valueOf() {
         return INSTANCE;
     }
 
-    public static ObjectMapper getMapper() {
+    static ObjectMapper getMapper() {
         return mapper;
     }
 
-    public boolean isValidEmail(String email) {
+    boolean isValidEmail(String email) {
         if (email == null) {
             throw new IllegalArgumentException("Email cannot be null.");
         }
         return emailValidator.isValid(email);
     }
 
-    public boolean isValidUrl(String url) {
+    boolean isValidUrl(String url) {
         if (url == null) {
             throw new IllegalArgumentException("URL cannot be null.");
         }
         return urlValidator.isValid(url);
     }
 
-    public boolean isConnectableUrl(String url, int timeout) {
+    boolean isConnectableUrl(String url, int timeout) {
         if (!isValidUrl(url)) {
             throw new IllegalArgumentException("URL is not a valid one: " + url);
         } else if (timeout <= 0 || 10 * 1000 <= timeout) {

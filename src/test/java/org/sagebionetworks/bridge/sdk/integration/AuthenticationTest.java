@@ -40,7 +40,7 @@ public class AuthenticationTest {
     public void signInNoCredentialsFailsWith400() {
         try {
             user.getSession().signOut();
-            ClientProvider.signIn(SignInCredentials.valueOf().setUsername(null).setPassword(null));
+            ClientProvider.signIn(new SignInCredentials(null, null));
             fail("Should have thrown an exception");
         } catch(BridgeServerException e) {
             assertEquals("Exception is a 400 Bad Request", 400, e.getStatusCode());

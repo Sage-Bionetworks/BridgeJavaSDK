@@ -1,10 +1,9 @@
 package org.sagebionetworks.bridge.sdk;
 
-import java.util.List;
-
 import org.apache.http.HttpResponse;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 
 class ScheduleApiCaller extends BaseApiCaller {
@@ -17,11 +16,10 @@ class ScheduleApiCaller extends BaseApiCaller {
         return new ScheduleApiCaller(session);
     }
 
-    List<Schedule> getSchedules() {
+    ResourceListImpl<Schedule> getSchedules() {
         HttpResponse response = get(config.getSchedulesApi());
-        JsonNode items = getPropertyFromResponse(response, "items");
 
-        return mapper.convertValue(items,
-                mapper.getTypeFactory().constructCollectionType(List.class, Schedule.class));
+        JsonNode node = getJsonNode(response);
+        return mapper.convertValue(node, new TypeReference<ResourceListImpl<Schedule>>() {});
     }
 }

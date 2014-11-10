@@ -1,7 +1,6 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -24,6 +23,7 @@ import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.models.GuidCreatedOnVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.surveys.Constraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.DataType;
 import org.sagebionetworks.bridge.sdk.models.surveys.DateTimeConstraints;
@@ -101,7 +101,7 @@ public class SurveyTest {
         key = client.versionSurvey(key);
         keys.add(key);
         
-        int count = client.getAllVersionsOfASurvey(key.getGuid()).size();
+        int count = client.getAllVersionsOfASurvey(key.getGuid()).getCount();
         assertEquals("Two versions for this survey.", 2, count);
         
         client.closeSurvey(key);
@@ -132,13 +132,13 @@ public class SurveyTest {
         key2 = client.versionSurvey(key2);
         keys.add(key2);
 
-        List<Survey> recentSurveys = client.getRecentVersionsOfAllSurveys();
-        assertTrue("Recent versions of surveys exist in recentSurveys.", containsAll(recentSurveys, key, key1, key2));
+        ResourceList<Survey> recentSurveys = client.getRecentVersionsOfAllSurveys();
+        assertTrue("Recent versions of surveys exist in recentSurveys.", containsAll(recentSurveys.getItems(), key, key1, key2));
 
         client.publishSurvey(key);
         client.publishSurvey(key2);
-        List<Survey> publishedSurveys = client.getPublishedVersionsOfAllSurveys();
-        assertTrue("Published surveys contain recently published.", containsAll(publishedSurveys, key, key2));
+        ResourceList<Survey> publishedSurveys = client.getPublishedVersionsOfAllSurveys();
+        assertTrue("Published surveys contain recently published.", containsAll(publishedSurveys.getItems(), key, key2));
     }
 
     @Test
