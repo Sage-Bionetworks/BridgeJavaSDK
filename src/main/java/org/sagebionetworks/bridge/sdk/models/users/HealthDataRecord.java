@@ -2,7 +2,7 @@ package org.sagebionetworks.bridge.sdk.models.users;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
-import org.sagebionetworks.bridge.sdk.models.IdVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.IdVersionHolder;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -28,15 +28,17 @@ public final class HealthDataRecord implements IdVersionHolder {
         this.data = data;
     }
 
+    @Override
     public long getVersion() {
         return this.version;
     }
 
+    @Override
     @JsonIgnore
     public String getId() {
         return this.recordId;
     }
-    
+
     public String getRecordId() {
         return this.recordId;
     }

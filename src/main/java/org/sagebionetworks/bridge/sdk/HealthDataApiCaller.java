@@ -7,8 +7,8 @@ import java.util.Map;
 import org.apache.http.HttpResponse;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
-import org.sagebionetworks.bridge.sdk.models.IdVersionHolder;
-import org.sagebionetworks.bridge.sdk.models.SimpleIdVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.IdVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.SimpleIdVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
 import org.sagebionetworks.bridge.sdk.models.users.HealthDataRecord;
 

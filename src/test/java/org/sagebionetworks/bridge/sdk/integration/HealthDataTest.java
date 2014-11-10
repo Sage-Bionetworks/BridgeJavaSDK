@@ -17,8 +17,8 @@ import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.Utilities;
-import org.sagebionetworks.bridge.sdk.models.IdVersionHolder;
-import org.sagebionetworks.bridge.sdk.models.SimpleIdVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.IdVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.SimpleIdVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
 import org.sagebionetworks.bridge.sdk.models.users.HealthDataRecord;
 
@@ -34,7 +34,7 @@ public class HealthDataTest {
     @Before
     public void before() {
         testUser = TestUserHelper.createAndSignInUser(HealthDataTest.class, true);
-        
+
         tracker = testUser.getSession().getUserClient().getAllTrackers().get(0);
 
         data = Utilities.getMapper().createObjectNode();
@@ -59,23 +59,23 @@ public class HealthDataTest {
         try {
             client.addHealthDataRecords(tracker, records);
             fail("If we have reached here, then we did not need to sign in to call this method => test failure.");
-        } catch (Throwable t) {}
+        } catch (Exception e) {}
         try {
             client.getHealthDataRecordsInRange(tracker, DateTime.now().minusMonths(1), DateTime.now());
             fail("If we have reached here, then we did not need to sign in to call this method => test failure.");
-        } catch (Throwable t) {}
+        } catch (Exception e) {}
         try {
             client.getHealthDataRecord(tracker, record.getId());
             fail("If we have reached here, then we did not need to sign in to call this method => test failure.");
-        } catch (Throwable t) {}
+        } catch (Exception e) {}
         try {
             client.updateHealthDataRecord(tracker, record);
             fail("If we have reached here, then we did not need to sign in to call this method => test failure.");
-        } catch (Throwable t) {}
+        } catch (Exception e) {}
         try {
             client.deleteHealthDataRecord(tracker, record.getId());
             fail("If we have reached here, then we did not need to sign in to call this method => test failure.");
-        } catch (Throwable t) {}
+        } catch (Exception e) {}
     }
 
     @Test
@@ -181,7 +181,7 @@ public class HealthDataTest {
             List<IdVersionHolder> retrievedHolders = getHolders(records);
             List<IdVersionHolder> expectedHolders = Lists.newArrayList(holder2, holder3, holder4, holder6);
             List<IdVersionHolder> unexpectedHolders = Lists.newArrayList(holder1, holder5);
-            
+
             assertTrue("Returns records 2,3,4 and 6.", retrievedHolders.containsAll(expectedHolders));
             assertFalse("Does not return records 1 and 5.", retrievedHolders.containsAll(unexpectedHolders));
 
@@ -209,7 +209,7 @@ public class HealthDataTest {
     private List<HealthDataRecord> getAllRecords(UserClient client) {
         return client.getHealthDataRecordsInRange(tracker, DateTime.now().minusYears(30), DateTime.now());
     }
-    
+
     private List<HealthDataRecord> createTestRecords(DateTime start, DateTime end) {
         assert start.isBefore(end);
 

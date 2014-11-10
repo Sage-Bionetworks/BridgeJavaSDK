@@ -194,8 +194,8 @@ public final class Config {
     String getUploadApi() {
         return val(Props.UPLOAD_API);
     }
-    String getUploadCompleteApi() {
-        return val(Props.UPLOAD_COMPLETE_API);
+    String getUploadCompleteApi(String uploadId) {
+        return String.format(val(Props.UPLOAD_COMPLETE_API), uploadId);
     }
     String getUserManagementApi() {
         return val(Props.USER_MANAGEMENT_API);

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.joda.time.DateTime;
-import org.sagebionetworks.bridge.sdk.models.GuidVersionedOnHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionedOnHolder;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -39,14 +39,16 @@ public class Survey implements GuidVersionedOnHolder {
     public Survey() {
     }
 
+    @Override
     public String getGuid() {
         return guid;
     }
-    
+
+    @Override
     public DateTime getVersionedOn() {
         return versionedOn;
     }
-    
+
     public DateTime getModifiedOn() {
         return modifiedOn;
     }
@@ -54,7 +56,7 @@ public class Survey implements GuidVersionedOnHolder {
     public Long getVersion() {
         return version;
     }
-    
+
     public void setVersion(Long version) {
         this.version = version;
     }
@@ -62,7 +64,7 @@ public class Survey implements GuidVersionedOnHolder {
     public String getName() {
         return name;
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
@@ -70,7 +72,7 @@ public class Survey implements GuidVersionedOnHolder {
     public String getIdentifier() {
         return identifier;
     }
-    
+
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
     }
@@ -82,7 +84,7 @@ public class Survey implements GuidVersionedOnHolder {
     public List<SurveyQuestion> getQuestions() {
         return questions;
     }
-    
+
     public SurveyQuestion getQuestionByIdentifier(String identifier) {
         for (SurveyQuestion question : questions) {
             if (question.getIdentifier().equals(identifier)) {
@@ -100,7 +102,7 @@ public class Survey implements GuidVersionedOnHolder {
         }
         return null;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

@@ -1,4 +1,4 @@
-package org.sagebionetworks.bridge.sdk.models;
+package org.sagebionetworks.bridge.sdk.models.holders;
 
 import org.joda.time.DateTime;
 
@@ -15,11 +15,13 @@ public final class SimpleGuidVersionedOnHolder implements GuidVersionedOnHolder 
         this.guid = guid;
         this.versionedOn = versionedOn;
     }
-    
+
+    @Override
     public String getGuid() {
         return guid;
     }
 
+    @Override
     public DateTime getVersionedOn() {
         return versionedOn;
     }

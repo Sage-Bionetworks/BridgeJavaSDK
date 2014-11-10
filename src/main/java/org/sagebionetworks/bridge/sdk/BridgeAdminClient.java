@@ -17,7 +17,7 @@ final class BridgeAdminClient implements AdminClient {
     static BridgeAdminClient valueOf(Session session) {
         return new BridgeAdminClient(session);
     }
-    
+
     @Override
     public boolean createUser(SignUpCredentials signUp, List<String> roles, boolean consent) {
         session.checkSignedIn();

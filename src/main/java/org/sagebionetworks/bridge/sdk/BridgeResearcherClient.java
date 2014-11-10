@@ -7,9 +7,9 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.sagebionetworks.bridge.sdk.models.GuidVersionedOnHolder;
-import org.sagebionetworks.bridge.sdk.models.SimpleGuidVersionHolder;
-import org.sagebionetworks.bridge.sdk.models.SimpleGuidVersionedOnHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionedOnHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.SimpleGuidVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.SimpleGuidVersionedOnHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.studies.StudyConsent;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
@@ -31,41 +31,41 @@ class BridgeResearcherClient implements ResearcherClient {
     static BridgeResearcherClient valueOf(Session session) {
         return new BridgeResearcherClient(session);
     }
-    
+
     @Override
-    public List<StudyConsent> getAllConsentDocuments() {
+    public List<StudyConsent> getAllStudyConsents() {
         session.checkSignedIn();
 
         return studyConsentApi.getAllStudyConsents();
     }
     @Override
-    public StudyConsent getMostRecentlyActivatedConsentDocument() {
+    public StudyConsent getMostRecentlyActivatedStudyConsent() {
         session.checkSignedIn();
 
         return studyConsentApi.getActiveStudyConsent();
     }
     @Override
-    public StudyConsent getConsentDocument(DateTime createdOn) {
+    public StudyConsent getStudyConsent(DateTime createdOn) {
         session.checkSignedIn();
         checkNotNull(createdOn, Bridge.CANNOT_BE_NULL, "createdOn");
 
         return studyConsentApi.getStudyConsent(createdOn);
     }
     @Override
-    public void createConsentDocument(StudyConsent consent) {
+    public void createStudyConsent(StudyConsent consent) {
         session.checkSignedIn();
         checkNotNull(consent, Bridge.CANNOT_BE_NULL, "consent");
 
         studyConsentApi.createStudyConsent(consent);
     }
     @Override
-    public void activateConsentDocument(DateTime createdOn) {
+    public void activateStudyConsent(DateTime createdOn) {
         session.checkSignedIn();
         checkNotNull(createdOn, Bridge.CANNOT_BE_NULL, "createdOn");
 
         studyConsentApi.setActiveStudyConsent(createdOn);
     }
-    
+
     @Override
     public Survey getSurvey(String guid, DateTime versionedOn) {
         session.checkSignedIn();

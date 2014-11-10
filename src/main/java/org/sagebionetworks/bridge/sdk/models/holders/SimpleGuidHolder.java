@@ -1,4 +1,5 @@
-package org.sagebionetworks.bridge.sdk.models;
+package org.sagebionetworks.bridge.sdk.models.holders;
+
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,6 +13,7 @@ public final class SimpleGuidHolder implements GuidHolder {
         this.guid = guid;
     }
 
+    @Override
     public String getGuid() {
         return guid;
     }

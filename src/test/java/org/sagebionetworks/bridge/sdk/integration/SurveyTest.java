@@ -1,13 +1,19 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.sagebionetworks.bridge.sdk.TestSurvey.*;
+import static org.sagebionetworks.bridge.sdk.TestSurvey.BOOLEAN_ID;
+import static org.sagebionetworks.bridge.sdk.TestSurvey.DATETIME_ID;
+import static org.sagebionetworks.bridge.sdk.TestSurvey.DATE_ID;
+import static org.sagebionetworks.bridge.sdk.TestSurvey.DECIMAL_ID;
+import static org.sagebionetworks.bridge.sdk.TestSurvey.DURATION_ID;
+import static org.sagebionetworks.bridge.sdk.TestSurvey.INTEGER_ID;
+import static org.sagebionetworks.bridge.sdk.TestSurvey.MULTIVALUE_ID;
+import static org.sagebionetworks.bridge.sdk.TestSurvey.TIME_ID;
 
 import java.util.List;
 
@@ -23,7 +29,7 @@ import org.sagebionetworks.bridge.sdk.TestSurvey;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
-import org.sagebionetworks.bridge.sdk.models.GuidVersionedOnHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionedOnHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.Constraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.DataType;
 import org.sagebionetworks.bridge.sdk.models.surveys.DateTimeConstraints;
@@ -35,7 +41,7 @@ import org.sagebionetworks.bridge.sdk.models.surveys.SurveyRule;
 import com.google.common.collect.Lists;
 
 public class SurveyTest {
-    
+
     private TestUser researcher;
     private TestUser user;
     private List<GuidVersionedOnHolder> keys = Lists.newArrayList();
@@ -61,7 +67,7 @@ public class SurveyTest {
     public void cannotSubmitAsNormalUser() {
         user.getSession().getResearcherClient().getAllVersionsOfAllSurveys();
     }
-    
+
     @Test
     public void saveAndRetrieveSurvey() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
@@ -77,7 +83,7 @@ public class SurveyTest {
     @Test
     public void createVersionPublish() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
-        
+
         GuidVersionedOnHolder key = client.createSurvey(new TestSurvey());
         keys.add(key);
         GuidVersionedOnHolder laterKey = client.versionSurvey(key);
@@ -95,22 +101,22 @@ public class SurveyTest {
     @Test
     public void getAllVersionsOfASurvey() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
-        
+
         GuidVersionedOnHolder key = client.createSurvey(new TestSurvey());
         keys.add(key);
         key = client.versionSurvey(key);
         keys.add(key);
-        
+
         int count = client.getAllVersionsOfASurvey(key.getGuid()).size();
         assertEquals("Two versions for this survey.", 2, count);
-        
+
         client.closeSurvey(key);
     }
 
     @Test
     public void canGetMostRecentOrRecentlyPublishedSurvey() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
-        
+
         GuidVersionedOnHolder key = client.createSurvey(new TestSurvey());
         keys.add(key);
         key = client.versionSurvey(key);
@@ -144,15 +150,15 @@ public class SurveyTest {
     @Test
     public void canUpdateASurveyAndTypesAreCorrect() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
-        
+
         GuidVersionedOnHolder key = client.createSurvey(new TestSurvey());
         keys.add(key);
         Survey survey = client.getSurvey(key.getGuid(), key.getVersionedOn());
         assertEquals("Type is Survey.", survey.getClass(), Survey.class);
-        
+
         List<SurveyQuestion> questions = survey.getQuestions();
         assertEquals("Type is SurveyQuestion.", questions.get(0).getClass(), SurveyQuestion.class);
-        
+
         assertEquals("Type is BooleanConstraints.", DataType.BOOLEAN, getConstraints(survey, BOOLEAN_ID).getDataType());
         assertEquals("Type is DateConstraints", DataType.DATE, getConstraints(survey, DATE_ID).getDataType());
         assertEquals("Type is DateTimeConstraints", DataType.DATETIME, getConstraints(survey, DATETIME_ID).getDataType());
@@ -165,7 +171,7 @@ public class SurveyTest {
         Constraints multiCon = getConstraints(survey, MULTIVALUE_ID);
         assertTrue("Type is MultiValueConstraints", multiCon.getAllowMultiple());
         assertEquals("Type is SurveyQuestionOption", SurveyQuestionOption.class, multiCon.getEnumeration().get(0).getClass());
-        
+
         survey.setName("New name");
         client.updateSurvey(survey);
         survey = client.getSurvey(survey.getGuid(), survey.getVersionedOn());
@@ -175,10 +181,10 @@ public class SurveyTest {
     @Test
     public void dateBasedConstraintsPersistedCorrectly() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
-        
+
         GuidVersionedOnHolder key = client.createSurvey(new TestSurvey());
         Survey survey = client.getSurvey(key);
-        
+
         DateTimeConstraints dateCon = (DateTimeConstraints)getConstraints(survey, DATETIME_ID);
         DateTime earliest = dateCon.getEarliestValue();
         DateTime latest = dateCon.getLatestValue();
@@ -187,13 +193,13 @@ public class SurveyTest {
         assertNotNull("Latest has been set", latest);
         assertEquals("Date is correct", DateTime.parse("2020-12-31").withZone(DateTimeZone.UTC), latest);
     }
-    
+
     @Test(expected=BridgeServerException.class)
     public void participantCannotRetrieveUnpublishedSurvey() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
         GuidVersionedOnHolder key = client.createSurvey(new TestSurvey());
         keys.add(key);
-        
+
         UserClient userClient = user.getSession().getUserClient();
         userClient.getSurvey(key);
         fail("Should not get here.");

@@ -1,4 +1,5 @@
-package org.sagebionetworks.bridge.sdk.models;
+package org.sagebionetworks.bridge.sdk.models.holders;
+
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,10 +15,12 @@ public final class SimpleIdVersionHolder implements IdVersionHolder {
         this.version = version;
     }
 
+    @Override
     public String getId() {
         return this.id;
     }
 
+    @Override
     public long getVersion() {
         return this.version;
     }

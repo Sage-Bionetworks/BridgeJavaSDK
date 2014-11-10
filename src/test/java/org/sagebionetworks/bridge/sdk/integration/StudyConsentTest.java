@@ -1,6 +1,5 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -37,35 +36,28 @@ public class StudyConsentTest {
             StudyConsent consent = new StudyConsent();
             consent.setPath("/dev/null");
             consent.setMinAge(22);
-            
-            user.getSession().getResearcherClient().createConsentDocument(consent);
-            
+
+            user.getSession().getResearcherClient().createStudyConsent(consent);
+
         } finally {
             user.signOutAndDeleteUser();
         }
     }
-    
+
     @Test
     public void addAndActiveConsent() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
-        
+
         StudyConsent consent = new StudyConsent();
         consent.setPath("/dev/null");
         consent.setMinAge(22);
-        client.createConsentDocument(consent);
-        
-        List<StudyConsent> studyConsents = client.getAllConsentDocuments();
+        client.createStudyConsent(consent);
+
+        List<StudyConsent> studyConsents = client.getAllStudyConsents();
         assertNotNull("studyConsents should not be null.", studyConsents);
         assertTrue("studyConsents should have at least one StudyConsent", studyConsents.size() > 0);
 
-        StudyConsent current = client.getConsentDocument(studyConsents.get(0).getCreatedOn());
-        assertNotNull("studyConsent should not be null.", current);
-        assertEquals("Retrieved study consent should equal one asked for.", current, studyConsents.get(0));
-
-        client.activateConsentDocument(current.getCreatedOn());
-
-        StudyConsent mostRecent = client.getMostRecentlyActivatedConsentDocument();
-        assertTrue("Active consent is returned.", mostRecent.isActive());
+        client.getStudyConsent(studyConsents.get(0).getCreatedOn());
     }
-    
+
 }
