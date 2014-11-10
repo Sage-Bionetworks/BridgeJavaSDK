@@ -1,10 +1,10 @@
 package org.sagebionetworks.bridge.sdk;
 
-import java.util.List;
-
 import org.apache.http.HttpResponse;
+import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 
 class TrackerApiCaller extends BaseApiCaller {
@@ -17,14 +17,12 @@ class TrackerApiCaller extends BaseApiCaller {
         return new TrackerApiCaller(session);
     }
 
-    List<Tracker> getAllTrackers() {
+    ResourceList<Tracker> getAllTrackers() {
         String url = config.getTrackerApi();
         HttpResponse response = get(url);
-        JsonNode items = getPropertyFromResponse(response, "items");
-        List<Tracker> trackers = mapper.convertValue(items,
-                mapper.getTypeFactory().constructCollectionType(List.class, Tracker.class));
-
-        return trackers;
+        
+        JsonNode node = getJsonNode(response);
+        return mapper.convertValue(node, new TypeReference<ResourceListImpl<Tracker>>() {});
     }
 
     String getTrackerSchema(Tracker tracker) {

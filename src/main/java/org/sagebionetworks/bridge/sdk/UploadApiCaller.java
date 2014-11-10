@@ -15,7 +15,7 @@ import org.sagebionetworks.bridge.sdk.models.UploadSession;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-public class UploadApiCaller extends BaseApiCaller {
+class UploadApiCaller extends BaseApiCaller {
 
     private UploadApiCaller(Session session) {
         super(session);

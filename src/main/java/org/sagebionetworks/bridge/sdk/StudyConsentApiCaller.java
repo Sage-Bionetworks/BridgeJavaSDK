@@ -1,13 +1,12 @@
 package org.sagebionetworks.bridge.sdk;
 
-import java.util.List;
-
 import org.apache.http.HttpResponse;
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.studies.StudyConsent;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 
 class StudyConsentApiCaller extends BaseApiCaller {
@@ -20,15 +19,12 @@ class StudyConsentApiCaller extends BaseApiCaller {
         return new StudyConsentApiCaller(session);
     }
 
-    List<StudyConsent> getAllStudyConsents() {
+    ResourceListImpl<StudyConsent> getAllStudyConsents() {
         String url = config.getStudyConsentsApi();
         HttpResponse response = get(url);
 
-        JsonNode items = getPropertyFromResponse(response, "items");
-        List<StudyConsent> consents = mapper.convertValue(items,
-                mapper.getTypeFactory().constructCollectionType(List.class, StudyConsent.class));
-
-        return consents;
+        JsonNode node = getJsonNode(response);
+        return mapper.convertValue(node, new TypeReference<ResourceListImpl<StudyConsent>>() {});
     }
 
     StudyConsent getStudyConsent(DateTime timestamp) {

@@ -8,28 +8,36 @@ public class Tracker {
     private final String name;
     private final String type;
     private final String schemaUrl;
-    private final long id;
+    private final String identifier;
 
     @JsonCreator
     private Tracker(@JsonProperty("name") String name, @JsonProperty("type") String type,
-            @JsonProperty("schemaUrl") String schemaUrl, @JsonProperty("id") long id) {
+            @JsonProperty("schemaUrl") String schemaUrl, @JsonProperty("identifier") String identifier) {
         this.name = name;
         this.type = type;
         this.schemaUrl = schemaUrl;
-        this.id = id;
+        this.identifier = identifier;
     }
 
-    public String getName() { return this.name; }
-    public String getType() { return this.type; }
-    public String getSchemaUrl() { return this.schemaUrl; }
-    public long getId() { return this.id; }
+    public String getName() {
+        return this.name;
+    }
+
+    public String getType() {
+        return this.type;
+    }
+
+    public String getSchemaUrl() {
+        return this.schemaUrl;
+    }
+
+    public String getIdentifier() {
+        return this.identifier;
+    }
 
     @Override
     public String toString() {
-        return "Tracker[name=" + name +
-                ", type=" + type +
-                ", schemeUrl=" + schemaUrl +
-                ", id=" + id + "]";
+        return "Tracker[name=" + name + ", type=" + type + ", schemeUrl=" + schemaUrl + ", id=" + identifier + "]";
     }
 
 }

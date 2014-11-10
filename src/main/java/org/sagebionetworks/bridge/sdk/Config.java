@@ -113,10 +113,10 @@ public final class Config {
         config.setProperty(property.getPropertyName(), value);
     }
     public SignInCredentials getAccountCredentials() {
-        return SignInCredentials.valueOf().setUsername(getAccountEmail()).setPassword(getAccountPassword());
+        return new SignInCredentials(getAccountEmail(), getAccountPassword());
     }
     public SignInCredentials getAdminCredentials() {
-        return SignInCredentials.valueOf().setUsername(getAdminEmail()).setPassword(getAdminPassword());
+        return new SignInCredentials(getAdminEmail(), getAdminPassword());
     }
     String getAccountEmail() {
         return val(Props.ACCOUNT_EMAIL);
@@ -190,10 +190,10 @@ public final class Config {
         checkArgument(isNotBlank(trackerId));
         return String.format(val(Props.HEALTH_DATA_TRACKER_API), trackerId);
     }
-    String getHealthDataTrackerRecordApi(String trackerId, String recordId) {
+    String getHealthDataTrackerRecordApi(String trackerId, String guid) {
         checkArgument(isNotBlank(trackerId));
-        checkArgument(isNotBlank(recordId));
-        return String.format(val(Props.HEALTH_DATA_TRACKER_RECORD_API), trackerId, recordId);
+        checkArgument(isNotBlank(guid));
+        return String.format(val(Props.HEALTH_DATA_TRACKER_RECORD_API), trackerId, guid);
     }
     String getUploadApi() {
         return val(Props.UPLOAD_API);
@@ -216,34 +216,34 @@ public final class Config {
     String getSurveysPublishedApi() {
         return val(Props.SURVEYS_PUBLISHED_API);
     }
-    String getSurveyApi(String guid, DateTime versionedOn) {
+    String getSurveyApi(String guid, DateTime createdOn) {
         checkArgument(isNotBlank(guid));
-        checkNotNull(versionedOn);
-        return String.format(val(Props.SURVEY_API), guid, versionedOn.toString(ISODateTimeFormat.dateTime()));
+        checkNotNull(createdOn);
+        return String.format(val(Props.SURVEY_API), guid, createdOn.toString(ISODateTimeFormat.dateTime()));
     }
     String getSurveyVersionsApi(String guid) {
         checkArgument(isNotBlank(guid));
         return String.format(val(Props.SURVEY_VERSIONS_API), guid);
     }
-    String getSurveyNewVersionApi(String guid, DateTime versionedOn) {
+    String getSurveyNewVersionApi(String guid, DateTime createdOn) {
         checkArgument(isNotBlank(guid));
-        checkNotNull(versionedOn);
-        return String.format(val(Props.SURVEY_VERSIONS_NEW_API), guid, versionedOn.toString(ISODateTimeFormat.dateTime()));
+        checkNotNull(createdOn);
+        return String.format(val(Props.SURVEY_VERSIONS_NEW_API), guid, createdOn.toString(ISODateTimeFormat.dateTime()));
     }
-    String getPublishSurveyApi(String guid, DateTime versionedOn) {
+    String getPublishSurveyApi(String guid, DateTime createdOn) {
         checkArgument(isNotBlank(guid));
-        checkNotNull(versionedOn);
-        return String.format(val(Props.SURVEY_PUBLISH_API), guid, versionedOn.toString(ISODateTimeFormat.dateTime()));
+        checkNotNull(createdOn);
+        return String.format(val(Props.SURVEY_PUBLISH_API), guid, createdOn.toString(ISODateTimeFormat.dateTime()));
     }
-    String getCloseSurveyApi(String guid, DateTime versionedOn) {
+    String getCloseSurveyApi(String guid, DateTime createdOn) {
         checkArgument(isNotBlank(guid));
-        checkNotNull(versionedOn);
-        return String.format(val(Props.SURVEY_CLOSE_API), guid, versionedOn.toString(ISODateTimeFormat.dateTime()));
+        checkNotNull(createdOn);
+        return String.format(val(Props.SURVEY_CLOSE_API), guid, createdOn.toString(ISODateTimeFormat.dateTime()));
     }
-    String getSurveyUserApi(String guid, DateTime versionedOn) {
+    String getSurveyUserApi(String guid, DateTime createdOn) {
         checkArgument(isNotBlank(guid));
-        checkNotNull(versionedOn);
-        return String.format(val(Props.SURVEY_USER_API), guid, versionedOn.toString(ISODateTimeFormat.dateTime()));
+        checkNotNull(createdOn);
+        return String.format(val(Props.SURVEY_USER_API), guid, createdOn.toString(ISODateTimeFormat.dateTime()));
     }
     String getSurveyResponseApi(String guid) {
         checkArgument(isNotBlank(guid));

@@ -52,7 +52,7 @@ public class ConsentTest {
             } catch(ConsentRequiredException e) {
                 assertEquals("Exception is a 412 Precondition Failed", 412, e.getStatusCode());
             }
-            client.consentToResearch(ConsentSignature.valueOf(user.getUsername(), DateTime.now()));
+            client.consentToResearch(new ConsentSignature(user.getUsername(), DateTime.now()));
             assertTrue("User has not consented", user.getSession().isConsented());
             client.getSchedules();
         } finally {

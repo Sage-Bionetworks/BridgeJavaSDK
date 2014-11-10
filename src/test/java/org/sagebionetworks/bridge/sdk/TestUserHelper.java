@@ -78,15 +78,12 @@ public class TestUserHelper {
 
         List<String> rolesList = (roles == null) ? Collections.<String>emptyList() : Arrays.asList(roles);
         String name = makeUserName(cls);
-        SignUpCredentials signUp = SignUpCredentials.valueOf()
-                .setUsername(name)
-                .setEmail(name + "@sagebridge.org")
-                .setPassword("P4ssword");
+        SignUpCredentials signUp = new SignUpCredentials(name, name + "@sagebridge.org", "P4ssword");
         adminClient.createUser(signUp, rolesList, consent);
 
         Session userSession = null;
         try {
-            SignInCredentials signIn = SignInCredentials.valueOf().setUsername(name).setPassword("P4ssword");
+            SignInCredentials signIn = new SignInCredentials(name, "P4ssword");
             userSession = ClientProvider.signIn(signIn);
         } catch(ConsentRequiredException e) {
             userSession = e.getSession();

@@ -14,26 +14,24 @@ public class SignInCredentials {
         this.password = password;
     }
 
-    public static SignInCredentials valueOf() {
-        return new SignInCredentials(null, null);
+    public String getUsername() {
+        return this.username;
     }
 
-    public String getUsername() { return this.username; }
-    public String getPassword() { return this.password; }
+    public String getPassword() {
+        return this.password;
+    }
 
-    public SignInCredentials setUsername(String username) {
+    public void setUsername(String username) {
         this.username = username;
-        return this;
     }
 
-    public SignInCredentials setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
-        return this;
     }
 
     @Override
     public String toString() {
-        return "SignInCredentials[username=" + username +
-                ", password=" + password + "]";
+        return "SignInCredentials[username=" + username + ", password=[REDACTED]";
     }
 }

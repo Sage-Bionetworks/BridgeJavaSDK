@@ -7,7 +7,6 @@ import org.apache.http.HttpResponse;
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
-import org.sagebionetworks.bridge.sdk.models.holders.SimpleGuidHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
