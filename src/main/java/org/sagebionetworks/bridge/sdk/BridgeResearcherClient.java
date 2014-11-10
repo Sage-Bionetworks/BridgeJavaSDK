@@ -32,33 +32,33 @@ class BridgeResearcherClient implements ResearcherClient {
     }
     
     @Override
-    public ResourceList<StudyConsent> getAllConsentDocuments() {
+    public ResourceList<StudyConsent> getAllStudyConsents() {
         session.checkSignedIn();
 
         return studyConsentApi.getAllStudyConsents();
     }
     @Override
-    public StudyConsent getMostRecentlyActivatedConsentDocument() {
+    public StudyConsent getMostRecentlyActivatedStudyConsent() {
         session.checkSignedIn();
 
         return studyConsentApi.getActiveStudyConsent();
     }
     @Override
-    public StudyConsent getConsentDocument(DateTime createdOn) {
+    public StudyConsent getStudyConsent(DateTime createdOn) {
         session.checkSignedIn();
         checkNotNull(createdOn, Bridge.CANNOT_BE_NULL, "createdOn");
 
         return studyConsentApi.getStudyConsent(createdOn);
     }
     @Override
-    public void createConsentDocument(StudyConsent consent) {
+    public void createStudyConsent(StudyConsent consent) {
         session.checkSignedIn();
         checkNotNull(consent, Bridge.CANNOT_BE_NULL, "consent");
 
         studyConsentApi.createStudyConsent(consent);
     }
     @Override
-    public void activateConsentDocument(DateTime createdOn) {
+    public void activateStudyConsent(DateTime createdOn) {
         session.checkSignedIn();
         checkNotNull(createdOn, Bridge.CANNOT_BE_NULL, "createdOn");
 

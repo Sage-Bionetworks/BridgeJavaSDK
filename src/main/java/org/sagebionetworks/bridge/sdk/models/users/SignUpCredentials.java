@@ -1,15 +1,14 @@
 package org.sagebionetworks.bridge.sdk.models.users;
 
-
 public class SignUpCredentials {
 
     private String email;
     private String username;
     private String password;
 
-    public SignUpCredentials(String email, String username, String password) {
-        this.email = email;
+    public SignUpCredentials(String username, String email, String password) {
         this.username = username;
+        this.email = email;
         this.password = password;
     }
 
@@ -28,9 +27,11 @@ public class SignUpCredentials {
     public void setEmail(String email) {
         this.email = email;
     }
+
     public void setUsername(String username) {
         this.username = username;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }

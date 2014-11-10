@@ -8,7 +8,9 @@ import org.sagebionetworks.bridge.sdk.models.GuidVersionHolder;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+@JsonDeserialize(as=HealthDataRecord.class) // strangely, Jackson needs this
 public final class HealthDataRecord implements GuidVersionHolder {
 
     private Long version;

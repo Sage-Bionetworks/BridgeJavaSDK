@@ -101,7 +101,7 @@ public class SurveyTest {
         key = client.versionSurvey(key);
         keys.add(key);
         
-        int count = client.getAllVersionsOfASurvey(key.getGuid()).getCount();
+        int count = client.getAllVersionsOfASurvey(key.getGuid()).getTotal();
         assertEquals("Two versions for this survey.", 2, count);
         
         client.closeSurvey(key);

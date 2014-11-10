@@ -1,6 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.surveys;
 
 import java.util.List;
+
 import java.util.Objects;
 
 import org.joda.time.DateTime;
@@ -8,8 +9,10 @@ import org.sagebionetworks.bridge.sdk.models.GuidCreatedOnVersionHolder;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.collect.Lists;
 
+@JsonDeserialize(as=Survey.class) // strangely, Jackson needs this
 public class Survey implements GuidCreatedOnVersionHolder {
 
     private String guid;

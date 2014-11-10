@@ -48,6 +48,9 @@ class SchedulePlanApiCaller extends BaseApiCaller {
         try {
             HttpResponse response = get(config.getSchedulePlanApi(guid));
             String body = EntityUtils.toString(response.getEntity(), "UTF-8");
+            
+            System.out.println(body);
+            
             return mapper.readValue(body, SchedulePlan.class);
         } catch(JsonProcessingException e) {
             throw new BridgeSDKException(e.getMessage(), e);

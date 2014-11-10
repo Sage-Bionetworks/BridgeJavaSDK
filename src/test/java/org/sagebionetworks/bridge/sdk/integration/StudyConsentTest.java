@@ -37,7 +37,7 @@ public class StudyConsentTest {
             consent.setPath("/dev/null");
             consent.setMinAge(22);
             
-            user.getSession().getResearcherClient().createConsentDocument(consent);
+            user.getSession().getResearcherClient().createStudyConsent(consent);
             
         } finally {
             user.signOutAndDeleteUser();
@@ -45,25 +45,30 @@ public class StudyConsentTest {
     }
     
     @Test
-    public void addAndActiveConsent() {
+    public void addAndActivateConsent() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
         
         StudyConsent consent = new StudyConsent();
         consent.setPath("/dev/null");
         consent.setMinAge(22);
-        client.createConsentDocument(consent);
+        client.createStudyConsent(consent);
         
-        ResourceList<StudyConsent> studyConsents = client.getAllConsentDocuments();
+        ResourceList<StudyConsent> studyConsents = client.getAllStudyConsents();
+        
+        System.out.println(studyConsents);
+        
         assertNotNull("studyConsents should not be null.", studyConsents);
-        assertTrue("studyConsents should have at least one StudyConsent", studyConsents.getCount() > 0);
-
-        StudyConsent current = client.getConsentDocument(studyConsents.getItems().get(0).getCreatedOn());
+        assertTrue("studyConsents should have at least one StudyConsent", studyConsents.getTotal() > 0);
+        // And btw these should match
+        assertEquals("items.size() == total", studyConsents.getTotal(), studyConsents.getItems().size());
+        
+        StudyConsent current = client.getStudyConsent(studyConsents.getItems().get(0).getCreatedOn());
         assertNotNull("studyConsent should not be null.", current);
         assertEquals("Retrieved study consent should equal one asked for.", current, studyConsents.getItems().get(0));
 
-        client.activateConsentDocument(current.getCreatedOn());
+        client.activateStudyConsent(current.getCreatedOn());
 
-        StudyConsent mostRecent = client.getMostRecentlyActivatedConsentDocument();
+        StudyConsent mostRecent = client.getMostRecentlyActivatedStudyConsent();
         assertTrue("Active consent is returned.", mostRecent.isActive());
     }
     

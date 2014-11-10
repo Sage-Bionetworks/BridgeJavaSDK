@@ -34,7 +34,7 @@ public class TrackerTest {
         ResourceList<Tracker> trackers = client.getAllTrackers();
 
         assertNotNull("Trackers should not be null.", trackers);
-        assertTrue("Trackers should have a non-zero size.", trackers.getCount() > 0);
+        assertTrue("Trackers should have a non-zero size.", trackers.getTotal() > 0);
         assertEquals("Type is BloodPressure", "BloodPressure", trackers.getItems().get(0).getType());
     }
 

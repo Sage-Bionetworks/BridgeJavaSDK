@@ -8,7 +8,9 @@ import org.sagebionetworks.bridge.sdk.models.GuidHolder;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+@JsonDeserialize(as=SurveyResponse.class) // Strangely, Jackson needs this.
 public class SurveyResponse implements GuidHolder {
 
     // TODO need to create copies of all date time and survey objects so that sdk users can't change data.

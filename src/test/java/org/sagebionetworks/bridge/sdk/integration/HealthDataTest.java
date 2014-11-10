@@ -97,7 +97,7 @@ public class HealthDataTest {
                 client.deleteHealthDataRecord(tracker, record.getGuid());
             }
             records = getAllRecords(client);
-            assertEquals("All records deleted", 0, records.getCount());
+            assertEquals("All records deleted", 0, records.getTotal());
         }
 
     }
@@ -226,7 +226,7 @@ public class HealthDataTest {
             @Override public List<HealthDataRecord> getItems() {
                 return Lists.newArrayList(record);
             }
-            @Override public int getCount() {
+            @Override public int getTotal() {
                 return 1;
             }
             @Override public Iterator<HealthDataRecord> iterator() {

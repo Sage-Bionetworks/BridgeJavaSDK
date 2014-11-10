@@ -215,15 +215,13 @@ abstract class BaseApiCaller {
 
     protected <T> T getResponseBodyAsType(HttpResponse response, Class<T> c) {
         String responseBody = getResponseBody(response);
-        Object obj;
         try {
-            obj = mapper.readValue(responseBody, c);
+            return mapper.readValue(responseBody, c);
         } catch (IOException e) {
             throw new BridgeSDKException("Error message: " + e.getMessage()
                     + "\nSomething went wrong while converting Response Body Json into " + c.getSimpleName()
                     + ": responseBody=" + responseBody, e);
         }
-        return c.cast(obj);
     }
 
     protected JsonNode getJsonNode(HttpResponse response) {

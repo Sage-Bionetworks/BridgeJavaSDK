@@ -12,15 +12,15 @@ public interface ResearcherClient {
 
     // STUDY CONSENTS
     
-    public ResourceList<StudyConsent> getAllConsentDocuments();
+    public ResourceList<StudyConsent> getAllStudyConsents();
 
-    public StudyConsent getMostRecentlyActivatedConsentDocument();
+    public StudyConsent getMostRecentlyActivatedStudyConsent();
 
-    public StudyConsent getConsentDocument(DateTime createdOn);
+    public StudyConsent getStudyConsent(DateTime createdOn);
 
-    public void createConsentDocument(StudyConsent consent);
+    public void createStudyConsent(StudyConsent consent);
 
-    public void activateConsentDocument(DateTime createdOn);
+    public void activateStudyConsent(DateTime createdOn);
     
     // SURVEYS
     
