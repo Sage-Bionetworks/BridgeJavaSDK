@@ -18,6 +18,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.StatusLine;
@@ -30,6 +31,7 @@ import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.util.EntityUtils;
+import org.sagebionetworks.bridge.sdk.models.UploadRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -87,17 +89,33 @@ abstract class BaseApiCaller {
     }
 
     protected HttpResponse publicGet(String url) {
-        String fullUrl = getFullUrl(url);
+        url = getFullUrl(url);
         HttpResponse response = null;
         try {
-            logger.debug("GET " + fullUrl);
-            Request request = Request.Get(fullUrl);
+            logger.debug("GET " + url);
+            Request request = Request.Get(url);
             response = exec.execute(request).returnResponse();
-            throwExceptionOnErrorStatus(response, fullUrl);
+            throwExceptionOnErrorStatus(response, url);
         } catch (ClientProtocolException e) {
-            throw new BridgeServerException(CONNECTION_FAILED, e, fullUrl);
+            throw new BridgeServerException(CONNECTION_FAILED, e, url);
         } catch (IOException e) {
-            throw new BridgeServerException(CONNECTION_FAILED, e, fullUrl);
+            throw new BridgeServerException(CONNECTION_FAILED, e, url);
+        }
+        return response;
+    }
+
+    protected  HttpResponse s3Put(String url, HttpEntity entity, UploadRequest uploadRequest) {
+        HttpResponse response = null;
+        try {
+            Request request = Request.Put(url).body(entity);
+            request.addHeader("Content-Type", uploadRequest.getContentType());
+            request.addHeader("Content-MD5", uploadRequest.getContentMd5());
+            response = request.execute().returnResponse();
+            throwExceptionOnErrorStatus(response, url);
+        } catch (ClientProtocolException e) {
+            throw new BridgeServerException(CONNECTION_FAILED, e, url);
+        } catch (IOException e) {
+            throw new BridgeServerException(CONNECTION_FAILED, e, url);
         }
         return response;
     }
@@ -110,59 +128,59 @@ abstract class BaseApiCaller {
         if (queryParameters != null) {
             url += addQueryParameters(queryParameters);
         }
-        String fullUrl = getFullUrl(url);
+        url = getFullUrl(url);
         HttpResponse response = null;
         try {
-            Request request = Request.Get(fullUrl);
+            Request request = Request.Get(url);
             if (session != null && session.isSignedIn()) {
                 request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
             }
-            logger.debug("GET " + fullUrl);
+            logger.debug("GET " + url);
             response = exec.execute(request).returnResponse();
-            throwExceptionOnErrorStatus(response, fullUrl);
+            throwExceptionOnErrorStatus(response, url);
         } catch (ClientProtocolException e) {
-            throw new BridgeServerException(CONNECTION_FAILED, e, fullUrl);
+            throw new BridgeServerException(CONNECTION_FAILED, e, url);
         } catch (IOException e) {
-            throw new BridgeServerException(CONNECTION_FAILED, e, fullUrl);
+            throw new BridgeServerException(CONNECTION_FAILED, e, url);
         }
         return response;
     }
 
     protected HttpResponse post(String url) {
-        String fullUrl = getFullUrl(url);
+        url = getFullUrl(url);
         HttpResponse response = null;
         try {
-            Request request = Request.Post(fullUrl);
+            Request request = Request.Post(url);
             if (session != null && session.isSignedIn()) {
                 request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
             }
-            logger.debug("POST " + fullUrl + "\n    <EMPTY>");
+            logger.debug("POST " + url + "\n    <EMPTY>");
             response = exec.execute(request).returnResponse();
-            throwExceptionOnErrorStatus(response, fullUrl);
+            throwExceptionOnErrorStatus(response, url);
         } catch (ClientProtocolException e) {
-            throw new BridgeServerException(CONNECTION_FAILED, e, fullUrl);
+            throw new BridgeServerException(CONNECTION_FAILED, e, url);
         } catch (IOException e) {
-            throw new BridgeServerException(CONNECTION_FAILED, e, fullUrl);
+            throw new BridgeServerException(CONNECTION_FAILED, e, url);
         }
         return response;
     }
 
     protected HttpResponse post(String url, String json) {
-        String fullUrl = getFullUrl(url);
+        url = getFullUrl(url);
         HttpResponse response = null;
         try {
-            Request request = Request.Post(fullUrl).bodyString(json, ContentType.APPLICATION_JSON);
+            Request request = Request.Post(url).bodyString(json, ContentType.APPLICATION_JSON);
             if (session != null && session.isSignedIn()) {
                 request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
             }
             // expensive, don't do it unless necessary
             if (logger.isDebugEnabled()) {
-                logger.debug("POST " + fullUrl + "\n    " + maskPassword(json));    
+                logger.debug("POST " + url + "\n    " + maskPassword(json));
             }
             response = exec.execute(request).returnResponse();
-            throwExceptionOnErrorStatus(response, fullUrl);
+            throwExceptionOnErrorStatus(response, url);
         } catch (IOException e) {
-            throw new BridgeServerException(CONNECTION_FAILED, e, fullUrl);
+            throw new BridgeServerException(CONNECTION_FAILED, e, url);
         }
         return response;
     }
@@ -175,18 +193,19 @@ abstract class BaseApiCaller {
         if (queryParameters != null) {
             url += addQueryParameters(queryParameters);
         }
-        String fullUrl = getFullUrl(url);
+        url = getFullUrl(url);
+
         HttpResponse response = null;
         try {
-            Request request = Request.Delete(fullUrl);
+            Request request = Request.Delete(url);
             if (session != null && session.isSignedIn()) {
                 request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
             }
-            logger.debug("DELETE " + fullUrl);
+            logger.debug("DELETE " + url);
             response = exec.execute(request).returnResponse();
-            throwExceptionOnErrorStatus(response, fullUrl);
+            throwExceptionOnErrorStatus(response, url);
         } catch (IOException e) {
-            throw new BridgeServerException(CONNECTION_FAILED, e, fullUrl);
+            throw new BridgeServerException(CONNECTION_FAILED, e, url);
         }
         return response;
     }
@@ -229,8 +248,8 @@ abstract class BaseApiCaller {
         try {
             json = mapper.readTree(getResponseBody(response));
         } catch (IOException e) {
-            // NOTE: It turns out the most likely reason for this is that bad JSON was posted to the 
-            // server to start with, which causes play to return an HTML page... which causes this 
+            // NOTE: It turns out the most likely reason for this is that bad JSON was posted to the
+            // server to start with, which causes play to return an HTML page... which causes this
             // method to fail because it's not JSON.
             throw new BridgeSDKException("A problem occurred while processing the response body.", e);
         }
@@ -246,11 +265,11 @@ abstract class BaseApiCaller {
     @SuppressWarnings("unchecked")
     private void throwExceptionOnErrorStatus(HttpResponse response, String url) {
         try {
-            logger.debug(response.getStatusLine().getStatusCode() + " RESPONSE: " + EntityUtils.toString(response.getEntity()));    
+            logger.debug(response.getStatusLine().getStatusCode() + " RESPONSE: " + EntityUtils.toString(response.getEntity()));
         } catch(IOException e) {
-            logger.debug(response.getStatusLine().getStatusCode() + " RESPONSE: <ERROR>");   
+            logger.debug(response.getStatusLine().getStatusCode() + " RESPONSE: <ERROR>");
         }
-        
+
         StatusLine status = response.getStatusLine();
         int statusCode = status.getStatusCode();
         if (statusCode < 200 || statusCode > 299) {
@@ -284,10 +303,14 @@ abstract class BaseApiCaller {
 
     private String getFullUrl(String url) {
         assert url != null;
-        String fullUrl = config.getHost() + url;
-        assert utils.isValidUrl(fullUrl) : fullUrl;
+        if (url.startsWith("http")) {
+            return url;
+        } else {
+            String fullUrl = config.getHost() + url;
+            assert utils.isValidUrl(fullUrl) : fullUrl;
 
-        return fullUrl;
+            return fullUrl;
+        }
     }
 
     private String addQueryParameters(Map<String,String> parameters) {
@@ -299,9 +322,9 @@ abstract class BaseApiCaller {
         }
         return "?" + Joiner.on("&").join(list);
     }
-    
+
     private String maskPassword(String string) {
         return string.replaceAll("password\":\"([^\"]*)\"", "password\":\"[REDACTED]\"");
     }
- 
+
 }

@@ -7,11 +7,12 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.sagebionetworks.bridge.sdk.models.GuidHolder;
-import org.sagebionetworks.bridge.sdk.models.GuidVersionHolder;
-import org.sagebionetworks.bridge.sdk.models.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
-import org.sagebionetworks.bridge.sdk.models.SimpleGuidVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.UploadRequest;
+import org.sagebionetworks.bridge.sdk.models.UploadSession;
+import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
@@ -30,6 +31,7 @@ class BridgeUserClient implements UserClient {
     private final HealthDataApiCaller healthDataApi;
     private final ScheduleApiCaller scheduleApi;
     private final SurveyResponseApiCaller surveyResponseApi;
+    private final UploadApiCaller uploadApi;
 
     private BridgeUserClient(BridgeSession session) {
         this.session = session;
@@ -39,6 +41,7 @@ class BridgeUserClient implements UserClient {
         this.healthDataApi = HealthDataApiCaller.valueOf(session);
         this.scheduleApi = ScheduleApiCaller.valueOf(session);
         this.surveyResponseApi = SurveyResponseApiCaller.valueOf(session);
+        this.uploadApi = UploadApiCaller.valueOf(session);
     }
 
     static BridgeUserClient valueOf(BridgeSession session) {
@@ -67,15 +70,15 @@ class BridgeUserClient implements UserClient {
     /*
      * Consent API
      */
-    
+
     @Override
     public void consentToResearch(ConsentSignature signature) {
         session.checkSignedIn();
-        
+
         consentApi.consentToResearch(signature);
         session.setConsented(true);
     }
-    
+
     @Override
     public void resumeDataSharing() {
         session.checkSignedIn();
@@ -87,7 +90,7 @@ class BridgeUserClient implements UserClient {
     @Override
     public void suspendDataSharing() {
         session.checkSignedIn();
-        
+
         consentApi.suspendDataSharing();
         session.setDataSharing(false);
     }
@@ -105,7 +108,7 @@ class BridgeUserClient implements UserClient {
     }
 
     @Override
-    public SimpleGuidVersionHolder updateHealthDataRecord(Tracker tracker, HealthDataRecord record) {
+    public GuidVersionHolder updateHealthDataRecord(Tracker tracker, HealthDataRecord record) {
         session.checkSignedIn();
         checkNotNull(tracker, "Tracker cannot be null.");
         checkNotNull(record, "Record cannot be null.");
@@ -215,5 +218,28 @@ class BridgeUserClient implements UserClient {
         checkNotNull(response, "Response cannot be null.");
 
         surveyResponseApi.deleteSurveyResponse(response.getGuid());
+    }
+
+    /*
+     * Upload API
+     */
+
+    @Override
+    public UploadSession requestUploadSession(UploadRequest request) {
+        session.checkSignedIn();
+        checkNotNull(request, "Request cannot be null.");
+
+        return uploadApi.requestUploadSession(request);
+    }
+
+    @Override
+    public void upload(UploadSession session, UploadRequest request, String fileName) {
+        this.session.checkSignedIn();
+        checkNotNull(session, "session cannot be null.");
+        checkNotNull(fileName, "fileName cannot be null.");
+        checkArgument(session.getExpires().isAfter(DateTime.now()), "session already expired, cannot upload.");
+
+        uploadApi.upload(session, request, fileName);
+        uploadApi.close(session);
     }
 }

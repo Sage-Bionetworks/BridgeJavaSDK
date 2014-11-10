@@ -43,19 +43,17 @@ public class StudyConsentTest {
             user.signOutAndDeleteUser();
         }
     }
-    
+
     @Test
     public void addAndActivateConsent() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
-        
+
         StudyConsent consent = new StudyConsent();
         consent.setPath("/dev/null");
         consent.setMinAge(22);
         client.createStudyConsent(consent);
         
         ResourceList<StudyConsent> studyConsents = client.getAllStudyConsents();
-        
-        System.out.println(studyConsents);
         
         assertNotNull("studyConsents should not be null.", studyConsents);
         assertTrue("studyConsents should have at least one StudyConsent", studyConsents.getTotal() > 0);
@@ -71,5 +69,5 @@ public class StudyConsentTest {
         StudyConsent mostRecent = client.getMostRecentlyActivatedStudyConsent();
         assertTrue("Active consent is returned.", mostRecent.isActive());
     }
-    
+
 }

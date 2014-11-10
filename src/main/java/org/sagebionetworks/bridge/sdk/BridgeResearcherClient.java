@@ -5,10 +5,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.joda.time.DateTime;
-import org.sagebionetworks.bridge.sdk.models.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
-import org.sagebionetworks.bridge.sdk.models.SimpleGuidCreatedOnVersionHolder;
-import org.sagebionetworks.bridge.sdk.models.SimpleGuidVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.studies.StudyConsent;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
@@ -30,7 +29,7 @@ class BridgeResearcherClient implements ResearcherClient {
     static BridgeResearcherClient valueOf(Session session) {
         return new BridgeResearcherClient(session);
     }
-    
+
     @Override
     public ResourceList<StudyConsent> getAllStudyConsents() {
         session.checkSignedIn();
@@ -64,7 +63,7 @@ class BridgeResearcherClient implements ResearcherClient {
 
         studyConsentApi.setActiveStudyConsent(createdOn);
     }
-    
+
     @Override
     public Survey getSurvey(String guid, DateTime createdOn) {
         session.checkSignedIn();
@@ -100,13 +99,13 @@ class BridgeResearcherClient implements ResearcherClient {
         return surveyApi.getAllVersionsOfASurvey(guid);
     }
     @Override
-    public SimpleGuidCreatedOnVersionHolder createSurvey(Survey survey) {
+    public GuidCreatedOnVersionHolder createSurvey(Survey survey) {
         session.checkSignedIn();
         checkNotNull(survey, Bridge.CANNOT_BE_NULL,"Survey object");
         return surveyApi.createSurvey(survey);
     }
     @Override
-    public SimpleGuidCreatedOnVersionHolder versionSurvey(GuidCreatedOnVersionHolder keys) {
+    public GuidCreatedOnVersionHolder versionSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
         checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
         checkArgument(isNotBlank(keys.getGuid()), Bridge.CANNOT_BE_BLANK, "guid");
@@ -114,7 +113,7 @@ class BridgeResearcherClient implements ResearcherClient {
         return surveyApi.versionSurvey(keys.getGuid(), keys.getCreatedOn());
     }
     @Override
-    public SimpleGuidCreatedOnVersionHolder updateSurvey(Survey survey) {
+    public GuidCreatedOnVersionHolder updateSurvey(Survey survey) {
         session.checkSignedIn();
         checkNotNull(survey, Bridge.CANNOT_BE_NULL,"Survey object");
         return surveyApi.updateSurvey(survey);
@@ -149,7 +148,7 @@ class BridgeResearcherClient implements ResearcherClient {
         return schedulePlanApi.getSchedulePlans();
     }
     @Override
-    public SimpleGuidVersionHolder createSchedulePlan(SchedulePlan plan) {
+    public GuidVersionHolder createSchedulePlan(SchedulePlan plan) {
         session.checkSignedIn();
         checkNotNull(plan, Bridge.CANNOT_BE_NULL, "SchedulePlan");
         return schedulePlanApi.createSchedulePlan(plan);
@@ -161,7 +160,7 @@ class BridgeResearcherClient implements ResearcherClient {
         return schedulePlanApi.getSchedulePlan(guid);
     }
     @Override
-    public SimpleGuidVersionHolder updateSchedulePlan(SchedulePlan plan) {
+    public GuidVersionHolder updateSchedulePlan(SchedulePlan plan) {
         session.checkSignedIn();
         checkNotNull(plan, Bridge.CANNOT_BE_NULL, "SchedulePlan");
         return schedulePlanApi.updateSchedulePlan(plan);

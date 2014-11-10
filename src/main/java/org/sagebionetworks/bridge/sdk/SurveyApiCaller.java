@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
-import org.sagebionetworks.bridge.sdk.models.SimpleGuidCreatedOnVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,7 +30,7 @@ class SurveyApiCaller extends BaseApiCaller {
         return mapper.convertValue(node, new TypeReference<ResourceListImpl<Survey>>() {});
     }
 
-    ResourceListImpl<Survey> getPublishedVersionsOfAllSurveys() {
+    ResourceList<Survey> getPublishedVersionsOfAllSurveys() {
         String url = config.getSurveysPublishedApi();
         HttpResponse response = get(url);
 
@@ -38,7 +38,7 @@ class SurveyApiCaller extends BaseApiCaller {
         return mapper.convertValue(node, new TypeReference<ResourceListImpl<Survey>>() {});
     }
 
-    ResourceListImpl<Survey> getRecentVersionsOfAllSurveys() {
+    ResourceList<Survey> getRecentVersionsOfAllSurveys() {
         String url = config.getRecentSurveysApi();
         HttpResponse response = get(url);
 
@@ -46,7 +46,7 @@ class SurveyApiCaller extends BaseApiCaller {
         return mapper.convertValue(node, new TypeReference<ResourceListImpl<Survey>>() {});
     }
 
-    ResourceListImpl<Survey> getAllVersionsOfASurvey(String guid) {
+    ResourceList<Survey> getAllVersionsOfASurvey(String guid) {
         String url = config.getSurveyVersionsApi(guid);
         HttpResponse response = get(url);
 
@@ -68,7 +68,7 @@ class SurveyApiCaller extends BaseApiCaller {
         return getResponseBodyAsType(response, Survey.class);
     }
 
-    SimpleGuidCreatedOnVersionHolder createSurvey(Survey survey) {
+    GuidCreatedOnVersionHolder createSurvey(Survey survey) {
         String json;
         try {
             json = mapper.writeValueAsString(survey);
@@ -80,14 +80,14 @@ class SurveyApiCaller extends BaseApiCaller {
         return getResponseBodyAsType(response, SimpleGuidCreatedOnVersionHolder.class);
     }
 
-    SimpleGuidCreatedOnVersionHolder versionSurvey(String guid, DateTime createdOn) {
+    GuidCreatedOnVersionHolder versionSurvey(String guid, DateTime createdOn) {
         String url = config.getSurveyNewVersionApi(guid, createdOn);
         HttpResponse response = post(url);
 
         return getResponseBodyAsType(response, SimpleGuidCreatedOnVersionHolder.class);
     }
 
-    SimpleGuidCreatedOnVersionHolder updateSurvey(Survey survey) {
+    GuidCreatedOnVersionHolder updateSurvey(Survey survey) {
         try {
             String url = config.getSurveyApi(survey.getGuid(), new DateTime(survey.getCreatedOn()));
             HttpResponse response = post(url, mapper.writeValueAsString(survey));

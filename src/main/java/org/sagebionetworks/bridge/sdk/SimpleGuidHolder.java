@@ -1,25 +1,22 @@
-package org.sagebionetworks.bridge.sdk.models;
+package org.sagebionetworks.bridge.sdk;
+
+import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public final class SimpleGuidVersionHolder implements GuidVersionHolder {
-    
+final class SimpleGuidHolder implements GuidHolder {
+
     private final String guid;
-    private final Long version;
     
     @JsonCreator
-    public SimpleGuidVersionHolder(@JsonProperty("guid") String guid, @JsonProperty("version") Long version) {
+    SimpleGuidHolder(@JsonProperty("guid") String guid) {
         this.guid = guid;
-        this.version = version;
     }
-
+    
+    @Override
     public String getGuid() {
         return guid;
-    }
-
-    public Long getVersion() {
-        return version;
     }
 
     @Override
@@ -27,7 +24,6 @@ public final class SimpleGuidVersionHolder implements GuidVersionHolder {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((guid == null) ? 0 : guid.hashCode());
-        result = prime * result + ((version == null) ? 0 : version.hashCode());
         return result;
     }
 
@@ -39,23 +35,18 @@ public final class SimpleGuidVersionHolder implements GuidVersionHolder {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        SimpleGuidVersionHolder other = (SimpleGuidVersionHolder) obj;
+        SimpleGuidHolder other = (SimpleGuidHolder) obj;
         if (guid == null) {
             if (other.guid != null)
                 return false;
         } else if (!guid.equals(other.guid))
-            return false;
-        if (version == null) {
-            if (other.version != null)
-                return false;
-        } else if (!version.equals(other.version))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "SimpleGuidVersionHolder [guid=" + guid + ", version=" + version + "]";
+        return "SimpleGuidHolder [guid=" + guid + "]";
     }
 
 }

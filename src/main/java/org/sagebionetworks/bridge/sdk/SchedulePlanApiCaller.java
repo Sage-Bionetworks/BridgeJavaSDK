@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
-import org.sagebionetworks.bridge.sdk.models.SimpleGuidVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -29,7 +29,7 @@ class SchedulePlanApiCaller extends BaseApiCaller {
         return mapper.convertValue(node, new TypeReference<ResourceListImpl<SchedulePlan>>() {});
     }
 
-    SimpleGuidVersionHolder createSchedulePlan(SchedulePlan plan) {
+    GuidVersionHolder createSchedulePlan(SchedulePlan plan) {
         try {
             HttpResponse response = post(config.getSchedulePlansApi(),
                     mapper.writeValueAsString(plan));
@@ -59,7 +59,7 @@ class SchedulePlanApiCaller extends BaseApiCaller {
         }
     }
 
-    SimpleGuidVersionHolder updateSchedulePlan(SchedulePlan plan) {
+    GuidVersionHolder updateSchedulePlan(SchedulePlan plan) {
         try {
             HttpResponse response = post(config.getSchedulePlanApi(plan.getGuid()),
                     mapper.writeValueAsString(plan));

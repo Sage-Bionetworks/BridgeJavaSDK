@@ -5,7 +5,7 @@ import org.sagebionetworks.bridge.sdk.Config;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
 import org.sagebionetworks.bridge.sdk.Session;
 import org.sagebionetworks.bridge.sdk.TestSurvey;
-import org.sagebionetworks.bridge.sdk.models.GuidCreatedOnVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 
 public class CreateSurveys {
@@ -16,7 +16,7 @@ public class CreateSurveys {
         Session session = ClientProvider.signIn(config.getAdminCredentials());
 
         ResearcherClient client = session.getResearcherClient();
-        
+
         Survey survey = new TestSurvey();
         
         GuidCreatedOnVersionHolder keys = client.createSurvey(survey);

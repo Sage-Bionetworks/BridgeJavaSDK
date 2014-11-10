@@ -7,8 +7,8 @@ import java.util.Map;
 import org.apache.http.HttpResponse;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
-import org.sagebionetworks.bridge.sdk.models.GuidVersionHolder;
-import org.sagebionetworks.bridge.sdk.models.SimpleGuidVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.ResourceList;
+import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
 import org.sagebionetworks.bridge.sdk.models.users.HealthDataRecord;
 
@@ -34,7 +34,7 @@ class HealthDataApiCaller extends BaseApiCaller {
         return getResponseBodyAsType(response, HealthDataRecord.class);
     }
 
-    SimpleGuidVersionHolder updateHealthDataRecord(Tracker tracker, HealthDataRecord record) {
+    GuidVersionHolder updateHealthDataRecord(Tracker tracker, HealthDataRecord record) {
         String json = null;
         try {
             json = mapper.writeValueAsString(record);
@@ -55,7 +55,7 @@ class HealthDataApiCaller extends BaseApiCaller {
         delete(url);
     }
 
-    ResourceListImpl<HealthDataRecord> getHealthDataRecordsInRange(Tracker tracker, DateTime startDate, DateTime endDate) {
+    ResourceList<HealthDataRecord> getHealthDataRecordsInRange(Tracker tracker, DateTime startDate, DateTime endDate) {
         Map<String,String> queryParameters = new HashMap<String,String>();
         queryParameters.put("startDate", startDate.toString(ISODateTimeFormat.dateTime()));
         queryParameters.put("endDate", endDate.toString(ISODateTimeFormat.dateTime()));
@@ -68,7 +68,7 @@ class HealthDataApiCaller extends BaseApiCaller {
         return mapper.convertValue(node, new TypeReference<ResourceListImpl<HealthDataRecord>>() {});
     }
 
-    ResourceListImpl<GuidVersionHolder> addHealthDataRecords(Tracker tracker, List<HealthDataRecord> records) {
+    ResourceList<GuidVersionHolder> addHealthDataRecords(Tracker tracker, List<HealthDataRecord> records) {
         String json;
         try {
             json = mapper.writeValueAsString(records);

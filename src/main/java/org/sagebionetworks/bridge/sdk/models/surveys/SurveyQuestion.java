@@ -6,7 +6,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.sagebionetworks.bridge.sdk.models.GuidHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,13 +15,14 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonDeserialize(as=SurveyQuestion.class) // strangely, Jackson needs this
 public class SurveyQuestion implements GuidHolder {
-    
+
     private String guid;
     private String identifier;
     private String prompt;
     private UiHint hint;
     private Constraints constraints;
 
+    @Override
     public String getGuid() {
         return guid;
     }
@@ -85,7 +86,7 @@ public class SurveyQuestion implements GuidHolder {
         surveyAnswer.setClient(client);
         return surveyAnswer;
     }
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;

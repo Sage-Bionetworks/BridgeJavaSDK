@@ -15,6 +15,7 @@ import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.integration.SchedulePlanTest.TestABSchedulePlan;
+import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 
 public class ScheduleTest {
@@ -22,32 +23,29 @@ public class ScheduleTest {
     private String planGuid;
     
     private TestUser user;
-    private TestUser admin;
+    private TestUser researcher;
     
     @Before
     public void before() {
         user = TestUserHelper.createAndSignInUser(ScheduleTest.class, true);
-        admin = TestUserHelper.createAndSignInUser(ScheduleTest.class, true, RESEARCHER_ROLE);
+        researcher = TestUserHelper.createAndSignInUser(ScheduleTest.class, true, RESEARCHER_ROLE);
         
-        ResearcherClient client = admin.getSession().getResearcherClient();
+        ResearcherClient client = researcher.getSession().getResearcherClient();
         planGuid = client.createSchedulePlan(new TestABSchedulePlan()).getGuid();
     }
     
     @After
     public void after() {
-        ResearcherClient client = admin.getSession().getResearcherClient();
+        ResearcherClient client = researcher.getSession().getResearcherClient();
         client.deleteSchedulePlan(planGuid);
         
         user.signOutAndDeleteUser();
-        admin.signOutAndDeleteUser();
+        researcher.signOutAndDeleteUser();
     }
     
     @Test
     public void canRetrieveSchedulesForAUser() throws Exception {
-        
         final UserClient client = user.getSession().getUserClient();
-        
-        List<Schedule> schedules = client.getSchedules().getItems();
         
         untilConsistent(new Callable<Boolean>() {
             @Override public Boolean call() throws Exception {
@@ -55,7 +53,7 @@ public class ScheduleTest {
             }
         });
         
-        schedules = client.getSchedules().getItems();
+        List<Schedule> schedules = client.getSchedules().getItems();
         assertEquals("There should be one schedule for this user", 1, schedules.size());
     }
     

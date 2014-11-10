@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.BridgeSDKException;
-import org.sagebionetworks.bridge.sdk.models.GuidHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -51,6 +51,7 @@ public class SurveyResponse implements GuidHolder {
         }
     }
 
+    @Override
     public String getGuid() {
         return guid;
     }
@@ -73,6 +74,15 @@ public class SurveyResponse implements GuidHolder {
 
     public List<SurveyAnswer> getSurveyAnswers() {
         return answers;
+    }
+
+    public SurveyAnswer getAnswerByQuestionGuid(String questionGuid) {
+        for (SurveyAnswer answer : answers) {
+            if (answer.getQuestionGuid().equals(questionGuid)) {
+                return answer;
+            }
+        }
+        return null;
     }
 
 }
