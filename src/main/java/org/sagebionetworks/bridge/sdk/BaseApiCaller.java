@@ -298,7 +298,7 @@ abstract class BaseApiCaller {
                 } else if (statusCode == 412) {
                     UserSession session = getResponseBodyAsType(response, UserSession.class);
                     e = new ConsentRequiredException("Consent required.", url, BridgeSession.valueOf(session));
-                } else if (node.has("survey")) {
+                } else if (statusCode == 400 && node.has("survey")) {
                     Survey survey = mapper.convertValue(node.get("survey"), Survey.class);
                     e = new PublishedSurveyException(survey, url);
                 }
