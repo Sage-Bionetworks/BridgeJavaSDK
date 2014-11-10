@@ -1,6 +1,7 @@
 package org.sagebionetworks.bridge.sdk;
 
 import org.apache.http.HttpResponse;
+import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
 
@@ -16,7 +17,7 @@ final class AuthenticationApiCaller extends BaseApiCaller {
     static AuthenticationApiCaller valueOf(Session session) {
         return new AuthenticationApiCaller(session);
     }
-    
+
     static AuthenticationApiCaller valueOf() {
         return new AuthenticationApiCaller(null);
     }

@@ -14,12 +14,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
-import org.sagebionetworks.bridge.sdk.BridgeServerException;
-import org.sagebionetworks.bridge.sdk.InvalidEntityException;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
+import org.sagebionetworks.bridge.sdk.exceptions.BridgeServerException;
+import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.ABTestScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.ActivityType;
@@ -76,7 +76,7 @@ public class SchedulePlanTest {
     }
 
     private GuidVersionHolder keys;
-    
+
     private TestUser user;
     private TestUser researcher;
     private ResearcherClient researcherClient;
@@ -86,7 +86,7 @@ public class SchedulePlanTest {
     public void before() {
         researcher = TestUserHelper.createAndSignInUser(SchedulePlanTest.class, true, Tests.RESEARCHER_ROLE);
         user = TestUserHelper.createAndSignInUser(SchedulePlanTest.class, true);
-        
+
         researcherClient = researcher.getSession().getResearcherClient();
         userClient = user.getSession().getUserClient();
     }
@@ -100,7 +100,7 @@ public class SchedulePlanTest {
         researcher.signOutAndDeleteUser();
         user.signOutAndDeleteUser();
     }
-    
+
     @Test
     public void normalUserCannotAccess() {
         TestUser normalUser = null;
@@ -119,7 +119,7 @@ public class SchedulePlanTest {
     @Test
     public void crudSchedulePlan() throws Exception {
         SchedulePlan plan = new TestABSchedulePlan();
-        
+
         // Create
         keys = researcherClient.createSchedulePlan(plan);
 
@@ -140,7 +140,7 @@ public class SchedulePlanTest {
                 return (!userClient.getSchedules().isEmpty());
             }
         });
-        
+
         List<Schedule> schedules = userClient.getSchedules();
         assertTrue("Schedules exist", !schedules.isEmpty());
 
@@ -155,7 +155,7 @@ public class SchedulePlanTest {
             keys = null;
         }
     }
-    
+
     @Test
     public void invalidPlanReturns400Error() {
         try {
@@ -168,7 +168,7 @@ public class SchedulePlanTest {
             assertTrue("There is a strategy-specific error", e.getErrors().get("strategy").size() > 0);
         }
     }
-    
+
     @Test
     public void noPlanReturns400() {
         try {
@@ -177,5 +177,5 @@ public class SchedulePlanTest {
         } catch(NullPointerException e) {
             assertEquals("Clear null-pointer message", "SchedulePlan cannot be null.", e.getMessage());
         }
-    }    
+    }
 }

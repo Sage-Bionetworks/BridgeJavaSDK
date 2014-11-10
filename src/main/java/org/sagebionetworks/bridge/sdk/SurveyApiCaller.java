@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.joda.time.DateTime;
+import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleGuidVersionedOnHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 

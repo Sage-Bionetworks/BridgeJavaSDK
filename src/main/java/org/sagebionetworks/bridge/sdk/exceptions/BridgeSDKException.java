@@ -1,4 +1,4 @@
-package org.sagebionetworks.bridge.sdk;
+package org.sagebionetworks.bridge.sdk.exceptions;
 
 public class BridgeSDKException extends RuntimeException {
 

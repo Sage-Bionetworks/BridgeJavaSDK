@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
+import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleGuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 

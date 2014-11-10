@@ -1,4 +1,4 @@
-package org.sagebionetworks.bridge.sdk;
+package org.sagebionetworks.bridge.sdk.exceptions;
 
 public class BridgeServerException extends RuntimeException {
 
@@ -7,22 +7,22 @@ public class BridgeServerException extends RuntimeException {
     private final int statusCode;
     private final String endpoint;
 
-    BridgeServerException(String message, Throwable throwable, String endpoint) {
+    public BridgeServerException(String message, Throwable throwable, String endpoint) {
         super(message, throwable);
         this.statusCode = 500;
         this.endpoint = endpoint;
     }
-    
-    BridgeServerException(String message, int statusCode, String endpoint) {
+
+    public BridgeServerException(String message, int statusCode, String endpoint) {
         super(message);
         this.statusCode = statusCode;
         this.endpoint = endpoint;
     }
-    
+
     public final int getStatusCode() {
         return this.statusCode;
     }
-    
+
     public final String getRestEndpoint() {
         return endpoint;
     }

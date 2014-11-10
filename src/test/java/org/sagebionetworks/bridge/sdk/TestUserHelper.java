@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.sagebionetworks.bridge.Tests;
+import org.sagebionetworks.bridge.sdk.exceptions.ConsentRequiredException;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
 
@@ -55,7 +56,7 @@ public class TestUserHelper {
             return userSession.isSignedIn();
         }
     }
-    
+
     public static TestUser getSignedInAdmin() {
         Config config = ClientProvider.getConfig();
         Session session = ClientProvider.signIn(config.getAdminCredentials());
@@ -63,7 +64,7 @@ public class TestUserHelper {
 
         return new TestUserHelper.TestUser(adminClient, session, "", "", "", Lists.newArrayList(Tests.ADMIN_ROLE));
     }
-    
+
     public static void signOut(TestUser testUser) {
         testUser.getSession().signOut();
     }
@@ -82,7 +83,7 @@ public class TestUserHelper {
                 .setEmail(name + "@sagebridge.org")
                 .setPassword("P4ssword");
         adminClient.createUser(signUp, rolesList, consent);
-        
+
         Session userSession = null;
         try {
             SignInCredentials signIn = SignInCredentials.valueOf().setUsername(name).setPassword("P4ssword");

@@ -29,6 +29,7 @@ public final class Config {
         ADMIN_EMAIL,
         ADMIN_PASSWORD,
         HOST,
+        LOG_LEVEL,
         AUTH_SIGNUP_API,
         AUTH_SIGNIN_API,
         AUTH_SIGNOUT_API,
@@ -134,6 +135,9 @@ public final class Config {
     }
     String getHost() {
         return val(Props.HOST);
+    }
+    String getLogLevel() {
+        return val(Props.LOG_LEVEL);
     }
     String getAuthSignUpApi() {
         return val(Props.AUTH_SIGNUP_API);

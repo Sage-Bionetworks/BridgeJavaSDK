@@ -1,5 +1,8 @@
 <configuration debug="true">
 
+  <property file="src/main/resources/bridge-sdk.properties" />
+  <property file="${HOME}/bridge-sdk.properties" />
+
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <!-- encoders are assigned the type
          ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
@@ -8,7 +11,7 @@
     </encoder>
   </appender>
 
-  <logger name="org.sagebionetworks.bridge.sdk.BaseApiCaller" level="all" />
+  <logger name="org.sagebionetworks.bridge.sdk.BaseApiCaller" level="${log.level}" />
 
   <root level="debug">
     <appender-ref ref="STDOUT" />
