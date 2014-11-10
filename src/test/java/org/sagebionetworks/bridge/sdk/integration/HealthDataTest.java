@@ -6,10 +6,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import org.joda.time.DateTime;
@@ -27,7 +25,6 @@ import org.sagebionetworks.bridge.sdk.models.users.HealthDataRecord;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 public class HealthDataTest {
 
