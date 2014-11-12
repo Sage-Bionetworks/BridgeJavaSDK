@@ -1,6 +1,7 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -22,6 +23,7 @@ import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
 import org.sagebionetworks.bridge.sdk.models.users.HealthDataRecord;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.Lists;
@@ -53,7 +55,7 @@ public class HealthDataTest {
         UserClient client = testUser.getSession().getUserClient();
         testUser.getSession().signOut();
 
-        HealthDataRecord record = new HealthDataRecord(0L, "1111", DateTime.now().minusWeeks(1), DateTime.now(), data);
+        HealthDataRecord record = makeHDR(0L, "1111", DateTime.now().minusWeeks(1), DateTime.now(), data);
         List<HealthDataRecord> records = Lists.newArrayList();
         records.add(record);
 
@@ -84,9 +86,9 @@ public class HealthDataTest {
         UserClient client = testUser.getSession().getUserClient();
         try {
             List<HealthDataRecord> records = new ArrayList<HealthDataRecord>();
-            records.add(new HealthDataRecord(0L, "1111", DateTime.now().minusWeeks(1), DateTime.now(), data));
-            records.add(new HealthDataRecord(1L, "2222", DateTime.now().minusWeeks(2), DateTime.now().minusWeeks(1), data));
-            records.add(new HealthDataRecord(0L, "3333", DateTime.now().minusWeeks(3), DateTime.now().minusWeeks(2), data));
+            records.add(makeHDR(0L, "1111", DateTime.now().minusWeeks(1), DateTime.now(), data));
+            records.add(makeHDR(1L, "2222", DateTime.now().minusWeeks(2), DateTime.now().minusWeeks(1), data));
+            records.add(makeHDR(0L, "3333", DateTime.now().minusWeeks(3), DateTime.now().minusWeeks(2), data));
 
             ResourceList<GuidVersionHolder> holders = client.addHealthDataRecords(tracker, records);
             assertTrue("Number of holders = all records added", holders.getTotal() == records.size());
@@ -107,7 +109,7 @@ public class HealthDataTest {
         try {
             // Make sure there's something in Bridge so that we can test get.
             List<HealthDataRecord> add = new ArrayList<HealthDataRecord>();
-            add.add(new HealthDataRecord(0L, "5555", DateTime.now().minusWeeks(1), DateTime.now(), data));
+            add.add(makeHDR(0L, "5555", DateTime.now().minusWeeks(1), DateTime.now(), data));
             client.addHealthDataRecords(tracker, add);
 
             ResourceList<HealthDataRecord> records = client.getHealthDataRecordsInRange(tracker, DateTime.now()
@@ -209,6 +211,15 @@ public class HealthDataTest {
             }
         }
     }
+    
+    private HealthDataRecord makeHDR(long version, String guid, DateTime startDate, DateTime endDate, JsonNode data) {
+        HealthDataRecord record = new HealthDataRecord();
+        record.setData(data);
+        record.setStartDate(startDate);
+        record.setEndDate(endDate);
+        record.setVersion(version);
+        return record;
+    }
 
     private ResourceList<HealthDataRecord> getAllRecords(UserClient client) {
         return client.getHealthDataRecordsInRange(tracker, DateTime.now().minusYears(30), DateTime.now());
@@ -222,7 +233,7 @@ public class HealthDataTest {
         data.put("diastolic", 70);
 
         String uniqueId = UUID.randomUUID().toString();
-        final HealthDataRecord record = new HealthDataRecord(0L, uniqueId, start, end, data);
+        final HealthDataRecord record = makeHDR(0L, uniqueId, start, end, data);
 
         return new ResourceList<HealthDataRecord>() {
             @Override public List<HealthDataRecord> getItems() {

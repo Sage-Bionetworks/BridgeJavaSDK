@@ -4,7 +4,7 @@ import org.joda.time.DateTime;
 
 public class DateConstraints extends Constraints {
 
-    protected boolean allowFuture = false;
+    private boolean allowFuture = false;
     private DateTime earliestValue;
     private DateTime latestValue;
 
