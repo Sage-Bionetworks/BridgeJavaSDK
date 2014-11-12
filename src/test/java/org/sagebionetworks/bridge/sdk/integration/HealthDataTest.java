@@ -242,6 +242,9 @@ public class HealthDataTest {
             @Override public int getTotal() {
                 return 1;
             }
+            @Override public HealthDataRecord get(int index) {
+                return record;
+            }
             @Override public Iterator<HealthDataRecord> iterator() {
                 return Lists.newArrayList(record).iterator();
             }
