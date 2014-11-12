@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk;
 
+import static com.google.common.base.Preconditions.checkElementIndex;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,6 +29,11 @@ final class ResourceListImpl<T> implements ResourceList<T> {
         return total;
     }
 
+    public T get(int index) {
+        checkElementIndex(index, items.size());
+        return items.get(index);
+    }
+    
     @Override
     public Iterator<T> iterator() {
         return items.iterator();

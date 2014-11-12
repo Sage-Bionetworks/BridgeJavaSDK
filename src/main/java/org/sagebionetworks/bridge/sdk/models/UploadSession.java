@@ -10,7 +10,8 @@ public class UploadSession {
     private final String url;
     private final DateTime expires;
 
-    private UploadSession(@JsonProperty("id") String id, @JsonProperty("url") String url, @JsonProperty("expires") DateTime expires) {
+    private UploadSession(@JsonProperty("id") String id, @JsonProperty("url") String url,
+            @JsonProperty("expires") DateTime expires) {
         this.id = id;
         this.expires = expires;
         this.url = url;
@@ -22,8 +23,6 @@ public class UploadSession {
 
     @Override
     public String toString() {
-        return "UploadRequest[ id=" + id +
-                "url=" + url +
-                ", expires=" + expires + "]";
+        return "UploadRequest[ id=" + id + "url=" + url + ", expires=" + expires + "]";
     }
 }
