@@ -35,7 +35,7 @@ public class HealthDataTest {
     @Before
     public void before() {
         testUser = TestUserHelper.createAndSignInUser(HealthDataTest.class, true);
-        
+
         tracker = testUser.getSession().getUserClient().getAllTrackers().getItems().get(0);
 
         data = JsonNodeFactory.instance.objectNode();
@@ -60,23 +60,23 @@ public class HealthDataTest {
         try {
             client.addHealthDataRecords(tracker, records);
             fail("If we have reached here, then we did not need to sign in to call this method => test failure.");
-        } catch (Exception e) {}
+        } catch (IllegalStateException e) {}
         try {
             client.getHealthDataRecordsInRange(tracker, DateTime.now().minusMonths(1), DateTime.now());
             fail("If we have reached here, then we did not need to sign in to call this method => test failure.");
-        } catch (Exception e) {}
+        } catch (IllegalStateException e) {}
         try {
             client.getHealthDataRecord(tracker, record.getGuid());
             fail("If we have reached here, then we did not need to sign in to call this method => test failure.");
-        } catch (Exception e) {}
+        } catch (IllegalStateException e) {}
         try {
             client.updateHealthDataRecord(tracker, record);
             fail("If we have reached here, then we did not need to sign in to call this method => test failure.");
-        } catch (Exception e) {}
+        } catch (IllegalStateException e) {}
         try {
             client.deleteHealthDataRecord(tracker, record.getGuid());
             fail("If we have reached here, then we did not need to sign in to call this method => test failure.");
-        } catch (Exception e) {}
+        } catch (IllegalStateException e) {}
     }
 
     @Test
@@ -182,10 +182,10 @@ public class HealthDataTest {
             List<GuidVersionHolder> retrievedHolders = getHolders(records.getItems());
             List<GuidVersionHolder> expectedHolders = Lists.newArrayList(holder2, holder3, holder4, holder6);
             List<GuidVersionHolder> unexpectedHolders = Lists.newArrayList(holder1, holder5);
-            
+
             System.out.println("retrievedHolders: " + retrievedHolders);
             System.out.println("expectedHolders: " + expectedHolders);
-            
+
             assertTrue("Returns records 2,3,4 and 6.", retrievedHolders.containsAll(expectedHolders));
             assertFalse("Does not return records 1 and 5.", retrievedHolders.containsAll(unexpectedHolders));
 
@@ -213,7 +213,7 @@ public class HealthDataTest {
     private ResourceList<HealthDataRecord> getAllRecords(UserClient client) {
         return client.getHealthDataRecordsInRange(tracker, DateTime.now().minusYears(30), DateTime.now());
     }
-    
+
     private ResourceList<HealthDataRecord> createTestRecords(DateTime start, DateTime end) {
         assert start.isBefore(end);
 
@@ -246,11 +246,11 @@ public class HealthDataTest {
         }
         return list;
     }
-    
+
     private GuidVersionHolder asTestHolder(GuidVersionHolder holder) {
         return new TestGuidVersionHolder(holder.getGuid(), holder.getVersion());
     }
-            
+
     private class TestGuidVersionHolder implements GuidVersionHolder {
         private String guid;
         private Long version;

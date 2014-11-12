@@ -28,7 +28,9 @@ import org.sagebionetworks.bridge.sdk.TestSurvey;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
-import org.sagebionetworks.bridge.sdk.exceptions.BridgeServerException;
+import org.sagebionetworks.bridge.sdk.exceptions.EntityNotFoundException;
+import org.sagebionetworks.bridge.sdk.exceptions.PublishedSurveyException;
+import org.sagebionetworks.bridge.sdk.exceptions.UnauthorizedException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.Constraints;
@@ -64,7 +66,7 @@ public class SurveyTest {
         user.signOutAndDeleteUser();
     }
 
-    @Test(expected=BridgeServerException.class)
+    @Test(expected=UnauthorizedException.class)
     public void cannotSubmitAsNormalUser() {
         user.getSession().getResearcherClient().getAllVersionsOfAllSurveys();
     }
@@ -195,7 +197,7 @@ public class SurveyTest {
         assertEquals("Date is correct", DateTime.parse("2020-12-31").withZone(DateTimeZone.UTC), latest);
     }
 
-    @Test(expected=BridgeServerException.class)
+    @Test(expected=EntityNotFoundException.class)
     public void participantCannotRetrieveUnpublishedSurvey() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
         GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
@@ -204,6 +206,27 @@ public class SurveyTest {
         UserClient userClient = user.getSession().getUserClient();
         userClient.getSurvey(key);
         fail("Should not get here.");
+    }
+
+    @Test
+    public void researcherCannotUpdatePublishedSurvey() {
+        System.out.println("START TEST");
+        ResearcherClient client = researcher.getSession().getResearcherClient();
+        GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
+        client.publishSurvey(key);
+
+        try {
+            client.deleteSurvey(key);
+            fail("attempting to delete a published survey should throw an exception.");
+        } catch(PublishedSurveyException e) {
+            assertEquals("PublishedSurveyException holds same guid as key used to delete Survey.",
+                    key.getGuid(), e.getGuid());
+
+            // Need to getMillis because DateTimes aren't treated as equal if they exist in different time zones.
+            assertEquals("PublishedSurveyException holds same createdOn as key used to delete Survey.",
+                    key.getCreatedOn().getMillis(), e.getCreatedOn().getMillis());
+        }
+
     }
 
     private Constraints getConstraints(Survey survey, String id) {

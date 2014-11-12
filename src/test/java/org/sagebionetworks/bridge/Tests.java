@@ -11,15 +11,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Tests {
-    
+
     private static Logger logger = LoggerFactory.getLogger(Tests.class);
-    
+
     public static final String TEST_KEY = "teststudy";
-    
+
     public static final String ADMIN_ROLE = "admin";
-    
+
     public static final String RESEARCHER_ROLE = TEST_KEY + "_researcher";
-    
+
     public static final void untilConsistent(Callable<Boolean> callable) throws Exception {
         // Have been seeing some significant delays locally, hence the really high wait/try numbers.
         int delay = 500;
@@ -40,10 +40,10 @@ public class Tests {
             Thread.sleep(delay);
         }
     }
-    
+
     public static final Properties getApplicationProperties() {
         Properties properties = new Properties();
-        File file = new File("bridge-sdk.properties");
+        File file = new File("src/main/resources/bridge-sdk.properties");
         try (InputStream in = new FileInputStream(file)) {
             properties.load(in);
         } catch(IOException e) {
@@ -51,5 +51,5 @@ public class Tests {
         }
         return properties;
     }
-    
+
 }

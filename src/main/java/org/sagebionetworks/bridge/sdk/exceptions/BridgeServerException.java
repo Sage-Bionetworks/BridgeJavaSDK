@@ -19,6 +19,12 @@ public class BridgeServerException extends RuntimeException {
         this.endpoint = endpoint;
     }
 
+    public BridgeServerException(Throwable t, int statusCode, String endpoint) {
+        super(t.getMessage(), t);
+        this.statusCode = statusCode;
+        this.endpoint = endpoint;
+    }
+
     public final int getStatusCode() {
         return this.statusCode;
     }

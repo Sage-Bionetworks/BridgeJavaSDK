@@ -17,8 +17,9 @@ import org.sagebionetworks.bridge.sdk.ResearcherClient;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
-import org.sagebionetworks.bridge.sdk.exceptions.BridgeServerException;
+import org.sagebionetworks.bridge.sdk.exceptions.EntityNotFoundException;
 import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
+import org.sagebionetworks.bridge.sdk.exceptions.UnauthorizedException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.ABTestScheduleStrategy;
@@ -109,7 +110,7 @@ public class SchedulePlanTest {
             SchedulePlan plan = new TestABSchedulePlan();
             normalUser.getSession().getResearcherClient().createSchedulePlan(plan);
             fail("Should have returned Forbidden status");
-        } catch(BridgeServerException e) {
+        } catch(UnauthorizedException e) {
             assertEquals("Non-researcher gets 403 forbidden", 403, e.getStatusCode());
         } finally {
             normalUser.signOutAndDeleteUser();
@@ -150,7 +151,7 @@ public class SchedulePlanTest {
         try {
             researcherClient.getSchedulePlan(keys.getGuid());
             fail("Should have thrown an exception because plan was deleted");
-        } catch(BridgeServerException e) {
+        } catch(EntityNotFoundException e) {
             assertEquals("Returns 404 Not Found", 404, e.getStatusCode());
             keys = null;
         }
