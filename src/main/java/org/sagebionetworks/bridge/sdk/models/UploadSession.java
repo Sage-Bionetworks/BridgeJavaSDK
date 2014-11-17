@@ -2,6 +2,7 @@ package org.sagebionetworks.bridge.sdk.models;
 
 import org.joda.time.DateTime;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UploadSession {
@@ -10,6 +11,7 @@ public class UploadSession {
     private final String url;
     private final DateTime expires;
 
+    @JsonCreator
     private UploadSession(@JsonProperty("id") String id, @JsonProperty("url") String url,
             @JsonProperty("expires") DateTime expires) {
         this.id = id;
