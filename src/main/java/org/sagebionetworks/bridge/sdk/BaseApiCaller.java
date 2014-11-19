@@ -31,6 +31,11 @@ import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.util.EntityUtils;
+import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
+import org.sagebionetworks.bridge.sdk.exceptions.BridgeServerException;
+import org.sagebionetworks.bridge.sdk.exceptions.ConsentRequiredException;
+import org.sagebionetworks.bridge.sdk.exceptions.EntityNotFoundException;
+import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 import org.sagebionetworks.bridge.sdk.models.UploadRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -286,7 +291,9 @@ abstract class BaseApiCaller {
                 if (statusCode == 412) {
                     UserSession session = getResponseBodyAsType(response, UserSession.class);
                     e = new ConsentRequiredException("Consent required.", url, BridgeSession.valueOf(session));
-                } else  if (node.has("errors")) {
+                } else if (statusCode == 404) {
+                    e = new EntityNotFoundException(message, url);
+                } else if (node.has("errors")) {
                     Map<String, List<String>> errors = (Map<String, List<String>>) mapper.convertValue(
                             node.get("errors"), new TypeReference<HashMap<String, ArrayList<String>>>() {});
                     e = new InvalidEntityException(message, errors, url);

@@ -1,7 +1,9 @@
-package org.sagebionetworks.bridge.sdk;
+package org.sagebionetworks.bridge.sdk.exceptions;
 
+import org.sagebionetworks.bridge.sdk.Session;
+
+@SuppressWarnings("serial")
 public final class ConsentRequiredException extends BridgeServerException {
-    private static final long serialVersionUID = -5005089414518354638L;
 
     private final Session session;
     

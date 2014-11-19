@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.concurrent.Callable;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,6 +51,10 @@ public class Tests {
             throw new RuntimeException(e);
         }
         return properties;
+    }
+    
+    public static final String randomIdentifier() {
+        return ("sdk-" + RandomStringUtils.randomAlphabetic(5)).toLowerCase();
     }
     
 }

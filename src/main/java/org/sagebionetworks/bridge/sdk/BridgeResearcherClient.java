@@ -8,7 +8,9 @@ import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
+import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.studies.StudyConsent;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 
@@ -18,12 +20,14 @@ class BridgeResearcherClient implements ResearcherClient {
     private final SurveyApiCaller surveyApi;
     private final SchedulePlanApiCaller schedulePlanApi;
     private final StudyConsentApiCaller studyConsentApi;
+    private final StudyApiCaller studyApi;
 
     private BridgeResearcherClient(Session session) {
         this.session = session;
         this.surveyApi = SurveyApiCaller.valueOf(session);
         this.studyConsentApi = StudyConsentApiCaller.valueOf(session);
         this.schedulePlanApi = SchedulePlanApiCaller.valueOf(session);
+        this.studyApi = StudyApiCaller.valueOf(session);
     }
 
     static BridgeResearcherClient valueOf(Session session) {
@@ -170,5 +174,18 @@ class BridgeResearcherClient implements ResearcherClient {
         session.checkSignedIn();
         checkArgument(isNotBlank(guid), Bridge.CANNOT_BE_BLANK, "guid");
         schedulePlanApi.deleteSchedulePlan(guid);
+    }
+    @Override
+    public Study getStudy() {
+        session.checkSignedIn();
+        return studyApi.getStudyForResearcher();
+    }
+    @Override
+    public VersionHolder updateStudy(Study study) {
+        session.checkSignedIn();
+        checkNotNull(study, Bridge.CANNOT_BE_NULL, "study");
+        checkNotNull(isNotBlank(study.getIdentifier()), Bridge.CANNOT_BE_BLANK, "study identifier");
+        
+        return studyApi.updateStudyForResearcher(study);
     }
 }

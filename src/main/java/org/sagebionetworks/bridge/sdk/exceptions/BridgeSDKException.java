@@ -1,8 +1,7 @@
-package org.sagebionetworks.bridge.sdk;
+package org.sagebionetworks.bridge.sdk.exceptions;
 
+@SuppressWarnings("serial")
 public class BridgeSDKException extends RuntimeException {
-
-    private static final long serialVersionUID = -8415388154731660243L;
 
     public BridgeSDKException(String message, Throwable cause) {
         super(message, cause);

@@ -1,14 +1,14 @@
-package org.sagebionetworks.bridge.sdk;
+package org.sagebionetworks.bridge.sdk.exceptions;
 
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("serial")
 public class InvalidEntityException extends BridgeServerException {
-    private static final long serialVersionUID = 5816454391209355527L;
 
     private final Map<String,List<String>> errors;
     
-    InvalidEntityException(String message, Map<String,List<String>> errors, String endpoint) {
+    public InvalidEntityException(String message, Map<String,List<String>> errors, String endpoint) {
         super(message, 400, endpoint);
         this.errors = errors;
     }

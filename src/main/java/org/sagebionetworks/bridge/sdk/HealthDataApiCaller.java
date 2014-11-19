@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.http.HttpResponse;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
+import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.Tracker;

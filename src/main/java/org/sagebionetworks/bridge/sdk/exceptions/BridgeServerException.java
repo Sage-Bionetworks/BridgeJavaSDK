@@ -1,19 +1,18 @@
-package org.sagebionetworks.bridge.sdk;
+package org.sagebionetworks.bridge.sdk.exceptions;
 
+@SuppressWarnings("serial")
 public class BridgeServerException extends RuntimeException {
-
-    private static final long serialVersionUID = 1730838346722663310L;
 
     private final int statusCode;
     private final String endpoint;
 
-    BridgeServerException(String message, Throwable throwable, String endpoint) {
+    public BridgeServerException(String message, Throwable throwable, String endpoint) {
         super(message, throwable);
         this.statusCode = 500;
         this.endpoint = endpoint;
     }
     
-    BridgeServerException(String message, int statusCode, String endpoint) {
+    public BridgeServerException(String message, int statusCode, String endpoint) {
         super(message);
         this.statusCode = statusCode;
         this.endpoint = endpoint;
