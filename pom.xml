@@ -10,7 +10,12 @@
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>    
+    </properties> 
+
+    <organization>
+        <name>Sage Bionetworks</name>
+        <url>https://www.sagebionetworks.org</url>
+    </organization>   
     
     <dependencies>
         <dependency>
@@ -87,12 +92,16 @@
         </dependency>
         
     </dependencies>
-
-    <organization>
-        <name>Sage Bionetworks</name>
-        <url>https://www.sagebionetworks.org</url>
-    </organization>
     
+    <distributionManagement>
+        <repository>
+            <id>sagebionetworks</id>
+            <name>sagebionetworks-releases</name>
+            <url>http://sagebionetworks.artifactoryonline.com/sagebionetworks/ext-releases-local</url>
+        </repository>
+    </distributionManagement>
+
+
     <build>
         <plugins>
             <plugin>
