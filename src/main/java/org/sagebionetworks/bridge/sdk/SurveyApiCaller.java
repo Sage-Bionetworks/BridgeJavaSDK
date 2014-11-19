@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.apache.http.HttpResponse;
 import org.joda.time.DateTime;
+import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
@@ -97,12 +98,12 @@ class SurveyApiCaller extends BaseApiCaller {
             throw new BridgeSDKException(e.getMessage(), e);
         }
     }
-    
+
     void publishSurvey(String guid, DateTime createdOn) {
         String url = config.getPublishSurveyApi(guid, createdOn);
         post(url);
     }
-    
+
     void deleteSurvey(String guid, DateTime createdOn) {
         String url = config.getSurveyApi(guid, createdOn);
         delete(url);

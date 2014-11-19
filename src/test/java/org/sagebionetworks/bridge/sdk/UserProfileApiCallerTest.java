@@ -2,12 +2,12 @@ package org.sagebionetworks.bridge.sdk;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.sagebionetworks.bridge.sdk.exceptions.NotAuthenticatedException;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
 
@@ -28,20 +28,20 @@ public class UserProfileApiCallerTest {
 
 
     @Test
-    public void cannotGetProfileWhenUnauthorized() {
+    public void cannotGetProfileWhenNotAuthenticated() {
         session.signOut();
         UserProfileApiCaller profileApi = UserProfileApiCaller.valueOf(session);
         try {
             profileApi.getProfile();
             fail("Should throw exception before you get here.");
         } catch (Throwable t) {
-            assertTrue("The exception thrown was a BridgeServerException.",
-                    t.getClass().equals(BridgeServerException.class));
+            assertEquals("The exception thrown was a NotAuthenticatedException.", t.getClass(),
+                    NotAuthenticatedException.class);
         }
     }
 
     @Test
-    public void cannotUpdateProfileWhenUnauthorized() {
+    public void cannotUpdateProfileWhenNotAuthenticated() {
         session.signOut();
 
         UserProfile profile = UserProfile.valueOf();
@@ -52,8 +52,8 @@ public class UserProfileApiCallerTest {
             profileApi.updateProfile(profile);
             fail("Should throw exception before you get here.");
         } catch (Throwable t) {
-            assertTrue("The exception thrown was a BridgeServerException.",
-                    t.getClass().equals(BridgeServerException.class));
+            assertEquals("The exception thrown was a NotAuthenticatedException.", t.getClass(),
+                    NotAuthenticatedException.class);
         }
     }
 

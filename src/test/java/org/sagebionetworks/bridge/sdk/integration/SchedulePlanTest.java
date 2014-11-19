@@ -13,12 +13,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
-import org.sagebionetworks.bridge.sdk.BridgeServerException;
-import org.sagebionetworks.bridge.sdk.InvalidEntityException;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
+import org.sagebionetworks.bridge.sdk.exceptions.EntityNotFoundException;
+import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
+import org.sagebionetworks.bridge.sdk.exceptions.UnauthorizedException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.ABTestScheduleStrategy;
@@ -76,7 +77,7 @@ public class SchedulePlanTest {
     }
 
     private GuidVersionHolder keys;
-    
+
     private TestUser user;
     private TestUser researcher;
     private ResearcherClient researcherClient;
@@ -86,7 +87,7 @@ public class SchedulePlanTest {
     public void before() {
         researcher = TestUserHelper.createAndSignInUser(SchedulePlanTest.class, true, Tests.RESEARCHER_ROLE);
         user = TestUserHelper.createAndSignInUser(SchedulePlanTest.class, true);
-        
+
         researcherClient = researcher.getSession().getResearcherClient();
         userClient = user.getSession().getUserClient();
     }
@@ -100,7 +101,7 @@ public class SchedulePlanTest {
         researcher.signOutAndDeleteUser();
         user.signOutAndDeleteUser();
     }
-    
+
     @Test
     public void normalUserCannotAccess() {
         TestUser normalUser = null;
@@ -109,7 +110,7 @@ public class SchedulePlanTest {
             SchedulePlan plan = new TestABSchedulePlan();
             normalUser.getSession().getResearcherClient().createSchedulePlan(plan);
             fail("Should have returned Forbidden status");
-        } catch(BridgeServerException e) {
+        } catch(UnauthorizedException e) {
             assertEquals("Non-researcher gets 403 forbidden", 403, e.getStatusCode());
         } finally {
             normalUser.signOutAndDeleteUser();
@@ -119,7 +120,7 @@ public class SchedulePlanTest {
     @Test
     public void crudSchedulePlan() throws Exception {
         SchedulePlan plan = new TestABSchedulePlan();
-        
+
         // Create
         keys = researcherClient.createSchedulePlan(plan);
 
@@ -140,7 +141,7 @@ public class SchedulePlanTest {
                 return (!userClient.getSchedules().getItems().isEmpty());
             }
         });
-        
+
         ResourceList<Schedule> schedules = userClient.getSchedules();
         assertTrue("Schedules exist", !schedules.getItems().isEmpty());
 
@@ -150,12 +151,12 @@ public class SchedulePlanTest {
         try {
             researcherClient.getSchedulePlan(keys.getGuid());
             fail("Should have thrown an exception because plan was deleted");
-        } catch(BridgeServerException e) {
+        } catch(EntityNotFoundException e) {
             assertEquals("Returns 404 Not Found", 404, e.getStatusCode());
             keys = null;
         }
     }
-    
+
     @Test
     public void invalidPlanReturns400Error() {
         try {
@@ -168,7 +169,7 @@ public class SchedulePlanTest {
             assertTrue("There is a strategy-specific error", e.getErrors().get("strategy").size() > 0);
         }
     }
-    
+
     @Test
     public void noPlanReturns400() {
         try {
@@ -177,5 +178,5 @@ public class SchedulePlanTest {
         } catch(NullPointerException e) {
             assertEquals("Clear null-pointer message", "SchedulePlan cannot be null.", e.getMessage());
         }
-    }    
+    }
 }

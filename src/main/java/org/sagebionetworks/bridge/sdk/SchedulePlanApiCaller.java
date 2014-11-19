@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
+import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
@@ -48,9 +49,9 @@ class SchedulePlanApiCaller extends BaseApiCaller {
         try {
             HttpResponse response = get(config.getSchedulePlanApi(guid));
             String body = EntityUtils.toString(response.getEntity(), "UTF-8");
-            
+
             System.out.println(body);
-            
+
             return mapper.readValue(body, SchedulePlan.class);
         } catch(JsonProcessingException e) {
             throw new BridgeSDKException(e.getMessage(), e);
