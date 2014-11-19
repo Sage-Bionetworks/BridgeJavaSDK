@@ -10,7 +10,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 
-public class StudyApiCaller extends BaseApiCaller {
+class StudyApiCaller extends BaseApiCaller {
 
     private StudyApiCaller(Session session) {
         super(session);
