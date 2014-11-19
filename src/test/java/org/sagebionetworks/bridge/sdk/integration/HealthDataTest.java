@@ -1,6 +1,7 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -22,6 +23,7 @@ import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
 import org.sagebionetworks.bridge.sdk.models.users.HealthDataRecord;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.Lists;
@@ -35,7 +37,7 @@ public class HealthDataTest {
     @Before
     public void before() {
         testUser = TestUserHelper.createAndSignInUser(HealthDataTest.class, true);
-        
+
         tracker = testUser.getSession().getUserClient().getAllTrackers().getItems().get(0);
 
         data = JsonNodeFactory.instance.objectNode();
@@ -53,30 +55,30 @@ public class HealthDataTest {
         UserClient client = testUser.getSession().getUserClient();
         testUser.getSession().signOut();
 
-        HealthDataRecord record = new HealthDataRecord(0L, "1111", DateTime.now().minusWeeks(1), DateTime.now(), data);
+        HealthDataRecord record = makeHDR(0L, "1111", DateTime.now().minusWeeks(1), DateTime.now(), data);
         List<HealthDataRecord> records = Lists.newArrayList();
         records.add(record);
 
         try {
             client.addHealthDataRecords(tracker, records);
             fail("If we have reached here, then we did not need to sign in to call this method => test failure.");
-        } catch (Exception e) {}
+        } catch (IllegalStateException e) {}
         try {
             client.getHealthDataRecordsInRange(tracker, DateTime.now().minusMonths(1), DateTime.now());
             fail("If we have reached here, then we did not need to sign in to call this method => test failure.");
-        } catch (Exception e) {}
+        } catch (IllegalStateException e) {}
         try {
             client.getHealthDataRecord(tracker, record.getGuid());
             fail("If we have reached here, then we did not need to sign in to call this method => test failure.");
-        } catch (Exception e) {}
+        } catch (IllegalStateException e) {}
         try {
             client.updateHealthDataRecord(tracker, record);
             fail("If we have reached here, then we did not need to sign in to call this method => test failure.");
-        } catch (Exception e) {}
+        } catch (IllegalStateException e) {}
         try {
             client.deleteHealthDataRecord(tracker, record.getGuid());
             fail("If we have reached here, then we did not need to sign in to call this method => test failure.");
-        } catch (Exception e) {}
+        } catch (IllegalStateException e) {}
     }
 
     @Test
@@ -84,9 +86,9 @@ public class HealthDataTest {
         UserClient client = testUser.getSession().getUserClient();
         try {
             List<HealthDataRecord> records = new ArrayList<HealthDataRecord>();
-            records.add(new HealthDataRecord(0L, "1111", DateTime.now().minusWeeks(1), DateTime.now(), data));
-            records.add(new HealthDataRecord(1L, "2222", DateTime.now().minusWeeks(2), DateTime.now().minusWeeks(1), data));
-            records.add(new HealthDataRecord(0L, "3333", DateTime.now().minusWeeks(3), DateTime.now().minusWeeks(2), data));
+            records.add(makeHDR(0L, "1111", DateTime.now().minusWeeks(1), DateTime.now(), data));
+            records.add(makeHDR(1L, "2222", DateTime.now().minusWeeks(2), DateTime.now().minusWeeks(1), data));
+            records.add(makeHDR(0L, "3333", DateTime.now().minusWeeks(3), DateTime.now().minusWeeks(2), data));
 
             ResourceList<GuidVersionHolder> holders = client.addHealthDataRecords(tracker, records);
             assertTrue("Number of holders = all records added", holders.getTotal() == records.size());
@@ -107,7 +109,7 @@ public class HealthDataTest {
         try {
             // Make sure there's something in Bridge so that we can test get.
             List<HealthDataRecord> add = new ArrayList<HealthDataRecord>();
-            add.add(new HealthDataRecord(0L, "5555", DateTime.now().minusWeeks(1), DateTime.now(), data));
+            add.add(makeHDR(0L, "5555", DateTime.now().minusWeeks(1), DateTime.now(), data));
             client.addHealthDataRecords(tracker, add);
 
             ResourceList<HealthDataRecord> records = client.getHealthDataRecordsInRange(tracker, DateTime.now()
@@ -182,10 +184,10 @@ public class HealthDataTest {
             List<GuidVersionHolder> retrievedHolders = getHolders(records.getItems());
             List<GuidVersionHolder> expectedHolders = Lists.newArrayList(holder2, holder3, holder4, holder6);
             List<GuidVersionHolder> unexpectedHolders = Lists.newArrayList(holder1, holder5);
-            
+
             System.out.println("retrievedHolders: " + retrievedHolders);
             System.out.println("expectedHolders: " + expectedHolders);
-            
+
             assertTrue("Returns records 2,3,4 and 6.", retrievedHolders.containsAll(expectedHolders));
             assertFalse("Does not return records 1 and 5.", retrievedHolders.containsAll(unexpectedHolders));
 
@@ -209,11 +211,20 @@ public class HealthDataTest {
             }
         }
     }
+    
+    private HealthDataRecord makeHDR(long version, String guid, DateTime startDate, DateTime endDate, JsonNode data) {
+        HealthDataRecord record = new HealthDataRecord();
+        record.setData(data);
+        record.setStartDate(startDate);
+        record.setEndDate(endDate);
+        record.setVersion(version);
+        return record;
+    }
 
     private ResourceList<HealthDataRecord> getAllRecords(UserClient client) {
         return client.getHealthDataRecordsInRange(tracker, DateTime.now().minusYears(30), DateTime.now());
     }
-    
+
     private ResourceList<HealthDataRecord> createTestRecords(DateTime start, DateTime end) {
         assert start.isBefore(end);
 
@@ -222,7 +233,7 @@ public class HealthDataTest {
         data.put("diastolic", 70);
 
         String uniqueId = UUID.randomUUID().toString();
-        final HealthDataRecord record = new HealthDataRecord(0L, uniqueId, start, end, data);
+        final HealthDataRecord record = makeHDR(0L, uniqueId, start, end, data);
 
         return new ResourceList<HealthDataRecord>() {
             @Override public List<HealthDataRecord> getItems() {
@@ -230,6 +241,9 @@ public class HealthDataTest {
             }
             @Override public int getTotal() {
                 return 1;
+            }
+            @Override public HealthDataRecord get(int index) {
+                return record;
             }
             @Override public Iterator<HealthDataRecord> iterator() {
                 return Lists.newArrayList(record).iterator();
@@ -246,11 +260,11 @@ public class HealthDataTest {
         }
         return list;
     }
-    
+
     private GuidVersionHolder asTestHolder(GuidVersionHolder holder) {
         return new TestGuidVersionHolder(holder.getGuid(), holder.getVersion());
     }
-            
+
     private class TestGuidVersionHolder implements GuidVersionHolder {
         private String guid;
         private Long version;

@@ -36,9 +36,9 @@ public class StudyConsentTest {
             StudyConsent consent = new StudyConsent();
             consent.setPath("/dev/null");
             consent.setMinAge(22);
-            
+
             user.getSession().getResearcherClient().createStudyConsent(consent);
-            
+
         } finally {
             user.signOutAndDeleteUser();
         }
@@ -52,14 +52,14 @@ public class StudyConsentTest {
         consent.setPath("/dev/null");
         consent.setMinAge(22);
         client.createStudyConsent(consent);
-        
+
         ResourceList<StudyConsent> studyConsents = client.getAllStudyConsents();
-        
+
         assertNotNull("studyConsents should not be null.", studyConsents);
         assertTrue("studyConsents should have at least one StudyConsent", studyConsents.getTotal() > 0);
         // And btw these should match
         assertEquals("items.size() == total", studyConsents.getTotal(), studyConsents.getItems().size());
-        
+
         StudyConsent current = client.getStudyConsent(studyConsents.getItems().get(0).getCreatedOn());
         assertNotNull("studyConsent should not be null.", current);
         assertEquals("Retrieved study consent should equal one asked for.", current, studyConsents.getItems().get(0));

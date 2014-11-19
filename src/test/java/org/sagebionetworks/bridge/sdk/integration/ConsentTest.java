@@ -1,6 +1,7 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -39,7 +40,7 @@ public class ConsentTest {
         client.resumeDataSharing();
         assertTrue("Sharing data", testUser.getSession().isDataSharing());
     }
-    
+
     @Test
     public void signedInUserMustGiveConsent() {
         TestUser user = TestUserHelper.createAndSignInUser(AuthenticationTest.class, false);

@@ -98,12 +98,12 @@ class SurveyApiCaller extends BaseApiCaller {
             throw new BridgeSDKException(e.getMessage(), e);
         }
     }
-    
+
     void publishSurvey(String guid, DateTime createdOn) {
         String url = config.getPublishSurveyApi(guid, createdOn);
         post(url);
     }
-    
+
     void deleteSurvey(String guid, DateTime createdOn) {
         String url = config.getSurveyApi(guid, createdOn);
         delete(url);

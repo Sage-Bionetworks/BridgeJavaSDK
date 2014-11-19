@@ -56,7 +56,7 @@ public class TestUserHelper {
             return userSession.isSignedIn();
         }
     }
-    
+
     public static TestUser getSignedInAdmin() {
         Config config = ClientProvider.getConfig();
         Session session = ClientProvider.signIn(config.getAdminCredentials());
@@ -64,7 +64,7 @@ public class TestUserHelper {
 
         return new TestUserHelper.TestUser(adminClient, session, "", "", "", Lists.newArrayList(Tests.ADMIN_ROLE));
     }
-    
+
     public static void signOut(TestUser testUser) {
         testUser.getSession().signOut();
     }
@@ -80,7 +80,7 @@ public class TestUserHelper {
         String name = makeUserName(cls);
         SignUpCredentials signUp = new SignUpCredentials(name, name + "@sagebridge.org", "P4ssword");
         adminClient.createUser(signUp, rolesList, consent);
-        
+
         Session userSession = null;
         try {
             SignInCredentials signIn = new SignInCredentials(name, "P4ssword");

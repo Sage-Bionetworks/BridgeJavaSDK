@@ -20,7 +20,7 @@ import com.google.common.collect.Lists;
 
 public final class Config {
 
-    private static final String CONFIG_FILE = "bridge-sdk.properties";
+    private static final String CONFIG_FILE = "src/main/resources/bridge-sdk.properties";
     private static final String USER_CONFIG_FILE = System.getProperty("user.home") + "/bridge-sdk.properties";
 
     public static enum Props {
@@ -31,6 +31,7 @@ public final class Config {
         ADMIN_STUDIES_API,
         ADMIN_STUDY_API,
         HOST,
+        LOG_LEVEL,
         AUTH_SIGNUP_API,
         AUTH_SIGNIN_API,
         AUTH_SIGNOUT_API,
@@ -137,6 +138,9 @@ public final class Config {
     }
     String getHost() {
         return val(Props.HOST);
+    }
+    String getLogLevel() {
+        return val(Props.LOG_LEVEL);
     }
     String getAuthSignUpApi() {
         return val(Props.AUTH_SIGNUP_API);

@@ -7,12 +7,12 @@ import java.util.Map;
 public class InvalidEntityException extends BridgeServerException {
 
     private final Map<String,List<String>> errors;
-    
+
     public InvalidEntityException(String message, Map<String,List<String>> errors, String endpoint) {
         super(message, 400, endpoint);
         this.errors = errors;
     }
-    
+
     public Map<String,List<String>> getErrors() {
         return errors;
     }

@@ -17,7 +17,7 @@ final class AuthenticationApiCaller extends BaseApiCaller {
     static AuthenticationApiCaller valueOf(Session session) {
         return new AuthenticationApiCaller(session);
     }
-    
+
     static AuthenticationApiCaller valueOf() {
         return new AuthenticationApiCaller(null);
     }
