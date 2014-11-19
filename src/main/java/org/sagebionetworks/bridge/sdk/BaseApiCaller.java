@@ -40,11 +40,13 @@ import org.sagebionetworks.bridge.sdk.models.UploadRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 abstract class BaseApiCaller {
 
@@ -109,7 +111,7 @@ abstract class BaseApiCaller {
         return response;
     }
 
-    protected  HttpResponse s3Put(String url, HttpEntity entity, UploadRequest uploadRequest) {
+    protected HttpResponse s3Put(String url, HttpEntity entity, UploadRequest uploadRequest) {
         HttpResponse response = null;
         try {
             Request request = Request.Put(url).body(entity);
@@ -126,9 +128,9 @@ abstract class BaseApiCaller {
     }
 
     protected HttpResponse get(String url) {
-        return get(url, null);
+        return get(url, Maps.<String,String>newHashMap());
     }
-
+    
     protected HttpResponse get(String url, Map<String,String> queryParameters) {
         if (queryParameters != null) {
             url += addQueryParameters(queryParameters);
@@ -150,7 +152,18 @@ abstract class BaseApiCaller {
         }
         return response;
     }
-
+    
+    protected <T> T get(String url, TypeReference<T> type) {
+        HttpResponse response = get(url);
+        JsonNode node = getJsonNode(response);
+        return mapper.convertValue(node, type);
+    }
+    
+    protected <T> T get(String url, Class<T> clazz) {
+        HttpResponse response = get(url);
+        return getResponseBodyAsType(response, clazz);
+    }
+    
     protected HttpResponse post(String url) {
         url = getFullUrl(url);
         HttpResponse response = null;
@@ -169,7 +182,20 @@ abstract class BaseApiCaller {
         }
         return response;
     }
+    
+    protected <T> T post(String url, T object, Class<T> clazz) {
+        String json = null;
+        try {
+            json = mapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            String message = String.format("Could not process %s: %s", object.getClass().getSimpleName(), object.toString());
+            throw new BridgeSDKException(message, e);
+        }
+        HttpResponse response = post(url, json);
 
+        return getResponseBodyAsType(response, clazz);
+    }
+    
     protected HttpResponse post(String url, String json) {
         url = getFullUrl(url);
         HttpResponse response = null;

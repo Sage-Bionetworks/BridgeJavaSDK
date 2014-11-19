@@ -15,7 +15,7 @@ public class Tests {
     
     private static Logger logger = LoggerFactory.getLogger(Tests.class);
     
-    public static final String TEST_KEY = "teststudy";
+    public static final String TEST_KEY = "api";
     
     public static final String ADMIN_ROLE = "admin";
     
