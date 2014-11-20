@@ -4,7 +4,9 @@ import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
+import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.studies.StudyConsent;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 
@@ -191,5 +193,18 @@ public interface ResearcherClient {
      *            GUID identifying the schedule plan to delete.
      */
     public void deleteSchedulePlan(String guid);
+    
+    /**
+     * Get the study this researcher is associated to. Researchers can edit studies.
+     * @return study
+     */
+    public Study getStudy();
+    
+    /**
+     * Update information about this study. 
+     * @param study
+     * @return 
+     */
+    public VersionHolder updateStudy(Study study);
 
 }

@@ -1,6 +1,7 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -11,9 +12,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
-import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.exceptions.ConsentRequiredException;
 import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
+import org.sagebionetworks.bridge.sdk.UserClient;
 
 public class ConsentTest {
 

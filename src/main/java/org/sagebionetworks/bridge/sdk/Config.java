@@ -28,6 +28,8 @@ public final class Config {
         ACCOUNT_PASSWORD,
         ADMIN_EMAIL,
         ADMIN_PASSWORD,
+        ADMIN_STUDIES_API,
+        ADMIN_STUDY_API,
         HOST,
         LOG_LEVEL,
         AUTH_SIGNUP_API,
@@ -43,6 +45,7 @@ public final class Config {
         HEALTH_DATA_TRACKER_API,
         HEALTH_DATA_TRACKER_RECORD_API,
         PROFILE_API,
+        RESEARCHER_STUDY_API,
         SCHEDULES_API,
         SCHEDULEPLAN_API,
         SCHEDULEPLANS_API,
@@ -65,7 +68,7 @@ public final class Config {
         UPLOAD_COMPLETE_API,
         USER_MANAGEMENT_API,
         USER_MANAGEMENT_CONSENT_API;
-
+        
         public String getPropertyName() {
             return this.name().replace("_", ".").toLowerCase();
         }
@@ -255,6 +258,16 @@ public final class Config {
     String getSchedulePlanApi(String guid) {
         checkArgument(isNotBlank(guid));
         return String.format(val(Props.SCHEDULEPLAN_API), guid);
+    }
+    String getResearcherStudyApi() {
+        return val(Props.RESEARCHER_STUDY_API);
+    }
+    String getAdminStudiesApi() {
+        return val(Props.ADMIN_STUDIES_API);
+    }
+    String getAdminStudyApi(String identifier) {
+        checkArgument(isNotBlank(identifier));
+        return String.format(val(Props.ADMIN_STUDY_API), identifier);
     }
 
     private String val(Props prop) {

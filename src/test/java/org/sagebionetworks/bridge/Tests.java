@@ -7,15 +7,16 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.concurrent.Callable;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Tests {
 
     private static Logger logger = LoggerFactory.getLogger(Tests.class);
-
-    public static final String TEST_KEY = "teststudy";
-
+    
+    public static final String TEST_KEY = "api";
+    
     public static final String ADMIN_ROLE = "admin";
 
     public static final String RESEARCHER_ROLE = TEST_KEY + "_researcher";
@@ -51,5 +52,8 @@ public class Tests {
         }
         return properties;
     }
-
+    
+    public static final String randomIdentifier() {
+        return ("sdk-" + RandomStringUtils.randomAlphabetic(5)).toLowerCase();
+    }
 }
