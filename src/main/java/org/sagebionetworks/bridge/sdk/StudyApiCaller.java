@@ -20,10 +20,10 @@ class StudyApiCaller extends BaseApiCaller {
         return get(config.getResearcherStudyApi(), Study.class);
     }
     VersionHolder updateStudyForResearcher(Study study) {
-        return post(config.getResearcherStudyApi(), study, Study.class);
+        return post(config.getResearcherStudyApi(), study, SimpleVersionHolder.class);
     }
     VersionHolder updateStudyForAdmin(Study study) {
-        return post(config.getAdminStudyApi(study.getIdentifier()), study, VersionHolder.class);
+        return post(config.getAdminStudyApi(study.getIdentifier()), study, SimpleVersionHolder.class);
     }
     Study getStudyForAdmin(String identifier) {
         return get(config.getAdminStudyApi(identifier), Study.class);
@@ -32,7 +32,7 @@ class StudyApiCaller extends BaseApiCaller {
         return get(config.getAdminStudiesApi(), new TypeReference<ResourceListImpl<Study>>() {});
     }
     VersionHolder createStudy(Study study) {
-        return post(config.getAdminStudiesApi(), study, VersionHolder.class);
+        return post(config.getAdminStudiesApi(), study, SimpleVersionHolder.class);
     }
     void deleteStudy(String identifier) {
         delete(config.getAdminStudyApi(identifier));

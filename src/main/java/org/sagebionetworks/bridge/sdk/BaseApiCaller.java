@@ -190,7 +190,7 @@ abstract class BaseApiCaller {
         return response;
     }
     
-    protected <T> T post(String url, T object, Class<T> clazz) {
+    protected <S> S post(String url, Object object, Class<S> clazz) {
         String json = null;
         try {
             json = mapper.writeValueAsString(object);
