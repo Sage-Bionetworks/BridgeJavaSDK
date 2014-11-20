@@ -43,7 +43,7 @@ public class ConsentTest {
 
     @Test
     public void signedInUserMustGiveConsent() {
-        TestUser user = TestUserHelper.createAndSignInUser(AuthenticationTest.class, false);
+        TestUser user = TestUserHelper.createAndSignInUser(ConsentTest.class, false);
         try {
             UserClient client = user.getSession().getUserClient();
             assertFalse("User has not consented", user.getSession().isConsented());

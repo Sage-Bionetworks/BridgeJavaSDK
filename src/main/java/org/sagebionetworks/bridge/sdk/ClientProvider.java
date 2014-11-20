@@ -4,13 +4,14 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
+import org.sagebionetworks.bridge.sdk.models.users.ResetPasswordCredentials;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
 
 public class ClientProvider {
 
     private static Config config;
-
+    
     /**
      * Retrieve the Config object for the system.
      *
@@ -33,8 +34,7 @@ public class ClientProvider {
     public static Session signIn(SignInCredentials signIn) {
         checkNotNull(signIn, "SignInCredentials required.");
 
-        AuthenticationApiCaller authApi = AuthenticationApiCaller.valueOf();
-        UserSession session = authApi.signIn(signIn.getUsername(), signIn.getPassword());
+        UserSession session = new BaseApiCaller(null).post(config.getAuthSignInApi(), signIn, UserSession.class);
         return BridgeSession.valueOf(session);
     }
 
@@ -50,8 +50,7 @@ public class ClientProvider {
         checkArgument(isNotBlank(signUp.getUsername()), "Username cannot be blank/null");
         checkArgument(isNotBlank(signUp.getPassword()), "Password cannot be blank/null");
 
-        AuthenticationApiCaller authApi = AuthenticationApiCaller.valueOf();
-        authApi.signUp(signUp);
+        new BaseApiCaller(null).post(config.getAuthSignUpApi(), signUp, UserSession.class);
     }
 
     /**
@@ -63,7 +62,6 @@ public class ClientProvider {
     public static void requestResetPassword(String email) {
         checkArgument(isNotBlank(email), "Email cannot be blank/null");
 
-        AuthenticationApiCaller authApi = AuthenticationApiCaller.valueOf();
-        authApi.requestResetPassword(email);
+        new BaseApiCaller(null).post(config.getAuthRequestResetApi(), new ResetPasswordCredentials(email));
     }
 }

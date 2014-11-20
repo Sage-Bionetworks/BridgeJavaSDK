@@ -185,9 +185,6 @@ public class HealthDataTest {
             List<GuidVersionHolder> expectedHolders = Lists.newArrayList(holder2, holder3, holder4, holder6);
             List<GuidVersionHolder> unexpectedHolders = Lists.newArrayList(holder1, holder5);
 
-            System.out.println("retrievedHolders: " + retrievedHolders);
-            System.out.println("expectedHolders: " + expectedHolders);
-
             assertTrue("Returns records 2,3,4 and 6.", retrievedHolders.containsAll(expectedHolders));
             assertFalse("Does not return records 1 and 5.", retrievedHolders.containsAll(unexpectedHolders));
 

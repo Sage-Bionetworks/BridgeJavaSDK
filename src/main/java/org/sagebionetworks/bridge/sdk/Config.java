@@ -193,7 +193,7 @@ public final class Config {
         checkArgument(isNotBlank(trackerId));
         return String.format(val(Props.HEALTH_DATA_TRACKER_API), trackerId);
     }
-    String getHealthDataTrackerRecordApi(String trackerId, String guid) {
+    String getHealthDataRecordApi(String trackerId, String guid) {
         checkArgument(isNotBlank(trackerId));
         checkArgument(isNotBlank(guid));
         return String.format(val(Props.HEALTH_DATA_TRACKER_RECORD_API), trackerId, guid);

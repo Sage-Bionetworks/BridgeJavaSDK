@@ -37,8 +37,6 @@ public class PublishedSurveyException extends BridgeServerException {
 
     private DateTime createdOnFromUrl(String url) {
         int createdOnIndex = url.lastIndexOf("/") + 1;
-        System.out.println(url.substring(createdOnIndex));
-        System.out.println(ISODateTimeFormat.dateTime().parseDateTime(url.substring(createdOnIndex)));
         return ISODateTimeFormat.dateTime().parseDateTime(url.substring(createdOnIndex));
     }
 

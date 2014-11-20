@@ -1,15 +1,16 @@
 package org.sagebionetworks.bridge.sdk;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,14 +55,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
-abstract class BaseApiCaller {
+class BaseApiCaller {
 
     private static final Logger logger = LoggerFactory.getLogger(BaseApiCaller.class);
 
     private static final String BRIDGE_SESSION_HEADER = "Bridge-Session";
     private static final String CONNECTION_FAILED = "Connection to server failed or aborted.";
 
-    static Utilities utils = Utilities.valueOf();
+    private static Utilities utils = Utilities.valueOf();
 
     // Create an SSL context that does no certificate validation whatsoever.
     private static class DefaultTrustManager implements X509TrustManager {
@@ -91,13 +92,14 @@ abstract class BaseApiCaller {
             .build();
     private final Executor exec = Executor.newInstance(client);
 
-    protected final ObjectMapper mapper = Utilities.getMapper();
+    private final ObjectMapper mapper = Utilities.getMapper();
+
+    protected BridgeSession session;
 
     protected final Config config = ClientProvider.getConfig();
 
-    private Session session;
-
-    BaseApiCaller(Session session) {
+    protected BaseApiCaller(BridgeSession session) {
+        //checkNotNull(session); no session when used for sign in/sign out/reset password
         this.session = session;
     }
 
@@ -136,20 +138,11 @@ abstract class BaseApiCaller {
     }
 
     protected HttpResponse get(String url) {
-        return get(url, Collections.<String,String>emptyMap());
-    }
-    
-    protected HttpResponse get(String url, Map<String,String> queryParameters) {
-        if (queryParameters != null) {
-            url += addQueryParameters(queryParameters);
-        }
         url = getFullUrl(url);
         try {
             
             Request request = Request.Get(url);
-            if (session != null && session.isSignedIn()) {
-                request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
-            }
+            addSessionHeader(request);
             logger.debug("GET {}", url);
             HttpResponse response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, url);
@@ -161,7 +154,7 @@ abstract class BaseApiCaller {
             throw new BridgeServerException(CONNECTION_FAILED, e, url);
         }
     }
-    
+
     protected <T> T get(String url, TypeReference<T> type) {
         HttpResponse response = get(url);
         return getResponseBodyAsType(response, type);
@@ -177,9 +170,7 @@ abstract class BaseApiCaller {
         try {
             
             Request request = Request.Post(url);
-            if (session != null && session.isSignedIn()) {
-                request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
-            }
+            addSessionHeader(request);
             logger.debug("POST {}\n    <EMPTY>", url);
             HttpResponse response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, url);
@@ -192,12 +183,23 @@ abstract class BaseApiCaller {
         }
     }
     
-    protected <S> S post(String url, Object object, Class<S> clazz) {
+    protected HttpResponse post(String url, Object object) {
+        try {
+            
+            return postJSON(url, mapper.writeValueAsString(object));
+            
+        } catch (JsonProcessingException e) {
+            String message = String.format("Could not process %s: %s", object.getClass().getSimpleName(), object.toString());
+            throw new BridgeSDKException(message, e);
+        }
+    }
+
+    protected <S,T> T post(String url, Object object, TypeReference<T> type) {
         try {
             
             String json = mapper.writeValueAsString(object);
-            HttpResponse response = post(url, json);
-            return getResponseBodyAsType(response, clazz);
+            HttpResponse response = postJSON(url, json);
+            return getResponseBodyAsType(response, type);
             
         } catch (JsonProcessingException e) {
             String message = String.format("Could not process %s: %s", object.getClass().getSimpleName(), object.toString());
@@ -205,17 +207,34 @@ abstract class BaseApiCaller {
         }
     }
     
-    protected HttpResponse post(String url, String json) {
+    protected <S> S post(String url, Object object, Class<S> clazz) {
+        try {
+            
+            String json = (object != null) ? mapper.writeValueAsString(object) : null;
+            HttpResponse response = postJSON(url, json);
+            return (clazz != null) ? getResponseBodyAsType(response, clazz) : null;
+            
+        } catch (JsonProcessingException e) {
+            String message = String.format("Could not process %s: %s", object.getClass().getSimpleName(), object.toString());
+            throw new BridgeSDKException(message, e);
+        }
+    }
+    
+    private HttpResponse postJSON(String url, String json) {
         url = getFullUrl(url);
         try {
             
-            Request request = Request.Post(url).bodyString(json, ContentType.APPLICATION_JSON);
-            if (session != null && session.isSignedIn()) {
-                request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
-            }
-            // expensive, don't do it unless necessary
-            if (logger.isDebugEnabled()) {
-                logger.debug("POST {} \n     {}", url, maskPassword(json));
+            Request request = Request.Post(url);
+            addSessionHeader(request);
+            if (json != null) {
+                request.bodyString(json, ContentType.APPLICATION_JSON);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("POST {} \n     {}", url, maskPassword(json));
+                }
+            } else {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("POST {}", url);
+                }
             }
             HttpResponse response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, url);
@@ -227,20 +246,11 @@ abstract class BaseApiCaller {
     }
 
     protected HttpResponse delete(String url) {
-        return delete(url, null);
-    }
-
-    protected HttpResponse delete(String url, Map<String,String> queryParameters) {
-        if (queryParameters != null) {
-            url += addQueryParameters(queryParameters);
-        }
         url = getFullUrl(url);
 
         try {
             Request request = Request.Delete(url);
-            if (session != null && session.isSignedIn()) {
-                request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
-            }
+            addSessionHeader(request);
             logger.debug("DELETE {}", url);
             HttpResponse response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, url);
@@ -248,16 +258,6 @@ abstract class BaseApiCaller {
             
         } catch (IOException e) {
             throw new BridgeServerException(CONNECTION_FAILED, e, url);
-        }
-    }
-
-    protected String getSessionToken(HttpResponse response, String url) {
-        if (response == null) {
-            throw new IllegalArgumentException("HttpResponse object is null.");
-        } else if (response.containsHeader(BRIDGE_SESSION_HEADER)) {
-            return response.getFirstHeader(BRIDGE_SESSION_HEADER).getValue();
-        } else {
-            throw new IllegalStateException("Session Token does not exist in this response.");
         }
     }
 
@@ -271,7 +271,14 @@ abstract class BaseApiCaller {
         }
     }
 
-    protected <T> T getResponseBodyAsType(HttpResponse response, Class<T> c) {
+
+    private void addSessionHeader(Request request) {
+        if (session != null && session.isSignedIn()) {
+            request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
+        }
+    }
+
+    private <T> T getResponseBodyAsType(HttpResponse response, Class<T> c) {
         String responseBody = getResponseBody(response);
         try {
             return mapper.readValue(responseBody, c);
@@ -282,7 +289,7 @@ abstract class BaseApiCaller {
         }
     }
 
-    protected <T> T getResponseBodyAsType(HttpResponse response, TypeReference<T> type) {
+    private <T> T getResponseBodyAsType(HttpResponse response, TypeReference<T> type) {
         String responseBody = getResponseBody(response);
         try {
             return mapper.readValue(responseBody, type);
@@ -293,7 +300,7 @@ abstract class BaseApiCaller {
         }
     }
     
-    protected JsonNode getJsonNode(HttpResponse response) {
+    private JsonNode getJsonNode(HttpResponse response) {
         try {
             return mapper.readTree(getResponseBody(response));
         } catch (IOException e) {
@@ -302,12 +309,6 @@ abstract class BaseApiCaller {
             // method to fail because it's not JSON.
             throw new BridgeSDKException("A problem occurred while processing the response body.", e);
         }
-    }
-
-    protected JsonNode getPropertyFromResponse(HttpResponse response, String property) {
-        JsonNode json = getJsonNode(response);
-        checkArgument(json.has(property), "JSON from server does not contain the property: " + property);
-        return json.get(property);
     }
 
     @SuppressWarnings("unchecked")
@@ -338,8 +339,8 @@ abstract class BaseApiCaller {
                 } else if (statusCode == 404 && message.length() > "not found.".length()) {
                     e = new EntityNotFoundException(message, url);
                 } else if (statusCode == 412) {
-                    UserSession session = getResponseBodyAsType(response, UserSession.class);
-                    e = new ConsentRequiredException("Consent required.", url, BridgeSession.valueOf(session));
+                    UserSession userSession = getResponseBodyAsType(response, UserSession.class);
+                    e = new ConsentRequiredException("Consent required.", url, BridgeSession.valueOf(userSession));
                 } else if (statusCode == 409 && message.contains("already exists")) {
                     e = new EntityAlreadyExistsException(message, url);
                 } else if (statusCode == 409 && message.contains("has the wrong version number")) {
@@ -374,13 +375,13 @@ abstract class BaseApiCaller {
             return fullUrl;
         }
     }
-
-    private String addQueryParameters(Map<String,String> parameters) {
-        assert parameters != null;
+    
+    protected String toQueryString(Map<String,String> parameters) {
+        checkNotNull(parameters);
 
         List<String> list = Lists.newArrayList();
-        for (String parameter : parameters.keySet()) {
-            list.add(parameter + "=" + parameters.get(parameter));
+        for (Map.Entry<String, String> entry : parameters.entrySet()) {
+            list.add(entry.getKey() + "=" + entry.getValue());
         }
         return "?" + Joiner.on("&").join(list);
     }

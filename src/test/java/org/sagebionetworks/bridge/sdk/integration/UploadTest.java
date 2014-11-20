@@ -41,7 +41,7 @@ public class UploadTest {
 
     @After
     public void after() {
-        TestUserHelper.signOut(testUser);
+        testUser.signOutAndDeleteUser();
         deleteTextFile();
     }
 

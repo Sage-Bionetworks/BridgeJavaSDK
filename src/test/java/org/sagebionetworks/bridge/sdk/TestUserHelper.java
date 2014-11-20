@@ -26,6 +26,7 @@ public class TestUserHelper {
 
         public TestUser(AdminClient client, Session userSession, String username, String email, String password,
                 List<String> roleList) {
+            
             this.adminClient = client;
             this.userSession = userSession;
             this.username = username;
@@ -65,17 +66,13 @@ public class TestUserHelper {
         return new TestUserHelper.TestUser(adminClient, session, "", "", "", Lists.newArrayList(Tests.ADMIN_ROLE));
     }
 
-    public static void signOut(TestUser testUser) {
-        testUser.getSession().signOut();
-    }
-
     public static TestUser createAndSignInUser(Class<?> cls, boolean consent, String... roles) {
         checkNotNull(cls);
 
         Config config = ClientProvider.getConfig();
         Session session = ClientProvider.signIn(config.getAdminCredentials());
         AdminClient adminClient = session.getAdminClient();
-
+        
         List<String> rolesList = (roles == null) ? Collections.<String>emptyList() : Arrays.asList(roles);
         String name = makeUserName(cls);
         SignUpCredentials signUp = new SignUpCredentials(name, name + "@sagebridge.org", "P4ssword");

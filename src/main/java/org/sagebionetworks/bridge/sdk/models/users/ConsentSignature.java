@@ -5,6 +5,7 @@ import org.joda.time.format.ISODateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class ConsentSignature {
 
@@ -21,14 +22,14 @@ public class ConsentSignature {
         return name;
     }
 
+    @JsonSerialize(using=DateOnlySerializer.class)
     public DateTime getBirthdate() {
         return birthdate;
     }
 
     @Override
     public String toString() {
-        return "ResearchConsent[name=" + name +
-        		", birthdate=" + birthdate.toString(ISODateTimeFormat.date()) + "]";
+        return "ResearchConsent[name=" + name + ", birthdate=" + birthdate.toString(ISODateTimeFormat.date()) + "]";
     }
 
 }
