@@ -14,23 +14,19 @@ import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.studies.StudyConsent;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 
-class BridgeResearcherClient implements ResearcherClient {
+import com.fasterxml.jackson.core.type.TypeReference;
 
-    private final Session session;
-    private final SurveyApiCaller surveyApi;
-    private final SchedulePlanApiCaller schedulePlanApi;
-    private final StudyConsentApiCaller studyConsentApi;
-    private final StudyApiCaller studyApi;
+class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
+    
+    private final TypeReference<ResourceListImpl<StudyConsent>> scType = new TypeReference<ResourceListImpl<StudyConsent>>() {};
+    private final TypeReference<ResourceListImpl<Survey>> sType = new TypeReference<ResourceListImpl<Survey>>() {};
+    private final TypeReference<ResourceListImpl<SchedulePlan>> spType = new TypeReference<ResourceListImpl<SchedulePlan>>() {};
 
-    private BridgeResearcherClient(Session session) {
-        this.session = session;
-        this.surveyApi = SurveyApiCaller.valueOf(session);
-        this.studyConsentApi = StudyConsentApiCaller.valueOf(session);
-        this.schedulePlanApi = SchedulePlanApiCaller.valueOf(session);
-        this.studyApi = StudyApiCaller.valueOf(session);
+    private BridgeResearcherClient(BridgeSession session) {
+        super(session);
     }
 
-    static BridgeResearcherClient valueOf(Session session) {
+    static BridgeResearcherClient valueOf(BridgeSession session) {
         return new BridgeResearcherClient(session);
     }
 
@@ -38,34 +34,34 @@ class BridgeResearcherClient implements ResearcherClient {
     public ResourceList<StudyConsent> getAllStudyConsents() {
         session.checkSignedIn();
 
-        return studyConsentApi.getAllStudyConsents();
+        return get(config.getStudyConsentsApi(), scType);
     }
     @Override
     public StudyConsent getMostRecentlyActivatedStudyConsent() {
         session.checkSignedIn();
 
-        return studyConsentApi.getActiveStudyConsent();
+        return get(config.getActiveStudyConsentApi(), StudyConsent.class);
     }
     @Override
     public StudyConsent getStudyConsent(DateTime createdOn) {
         session.checkSignedIn();
         checkNotNull(createdOn, Bridge.CANNOT_BE_NULL, "createdOn");
 
-        return studyConsentApi.getStudyConsent(createdOn);
+        return get(config.getStudyConsentApi(createdOn), StudyConsent.class);
     }
     @Override
     public void createStudyConsent(StudyConsent consent) {
         session.checkSignedIn();
         checkNotNull(consent, Bridge.CANNOT_BE_NULL, "consent");
 
-        studyConsentApi.createStudyConsent(consent);
+        post(config.getStudyConsentsApi(), consent, StudyConsent.class);
     }
     @Override
     public void activateStudyConsent(DateTime createdOn) {
         session.checkSignedIn();
         checkNotNull(createdOn, Bridge.CANNOT_BE_NULL, "createdOn");
 
-        studyConsentApi.setActiveStudyConsent(createdOn);
+        post(config.getVersionStudyConsentApi(createdOn));
     }
 
     @Override
@@ -73,40 +69,40 @@ class BridgeResearcherClient implements ResearcherClient {
         session.checkSignedIn();
         checkArgument(isNotBlank(guid), Bridge.CANNOT_BE_BLANK, "guid");
         checkNotNull(createdOn, Bridge.CANNOT_BE_NULL, "createdOn");
-        return surveyApi.getSurveyForResearcher(guid, createdOn);
+        return get(config.getSurveyApi(guid, createdOn), Survey.class);
     }
     @Override
     public Survey getSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
         checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
-        return surveyApi.getSurveyForResearcher(keys.getGuid(), keys.getCreatedOn());
+        return get(config.getSurveyApi(keys.getGuid(), keys.getCreatedOn()), Survey.class);
     }
     @Override
     public ResourceList<Survey> getAllVersionsOfAllSurveys() {
         session.checkSignedIn();
-        return surveyApi.getAllVersionsOfAllSurveys();
+        return get(config.getSurveysApi(), sType);
     }
     @Override
     public ResourceList<Survey> getPublishedVersionsOfAllSurveys() {
         session.checkSignedIn();
-        return surveyApi.getPublishedVersionsOfAllSurveys();
+        return get(config.getSurveysPublishedApi(), sType);
     }
     @Override
     public ResourceList<Survey> getRecentVersionsOfAllSurveys() {
         session.checkSignedIn();
-        return surveyApi.getRecentVersionsOfAllSurveys();
+        return get(config.getRecentSurveysApi(), sType);
     }
     @Override
     public ResourceList<Survey> getAllVersionsOfASurvey(String guid) {
         session.checkSignedIn();
         checkArgument(isNotBlank(guid), Bridge.CANNOT_BE_BLANK, "guid");
-        return surveyApi.getAllVersionsOfASurvey(guid);
+        return get(config.getSurveyVersionsApi(guid), sType);
     }
     @Override
     public GuidCreatedOnVersionHolder createSurvey(Survey survey) {
         session.checkSignedIn();
         checkNotNull(survey, Bridge.CANNOT_BE_NULL,"Survey object");
-        return surveyApi.createSurvey(survey);
+        return post(config.getSurveysApi(), survey, SimpleGuidCreatedOnVersionHolder.class);
     }
     @Override
     public GuidCreatedOnVersionHolder versionSurvey(GuidCreatedOnVersionHolder keys) {
@@ -114,13 +110,14 @@ class BridgeResearcherClient implements ResearcherClient {
         checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
         checkArgument(isNotBlank(keys.getGuid()), Bridge.CANNOT_BE_BLANK, "guid");
         checkNotNull(keys.getCreatedOn(), Bridge.CANNOT_BE_NULL, "createdOn");
-        return surveyApi.versionSurvey(keys.getGuid(), keys.getCreatedOn());
+        return post(config.getSurveyNewVersionApi(keys.getGuid(), keys.getCreatedOn()), null, SimpleGuidCreatedOnVersionHolder.class);
     }
     @Override
     public GuidCreatedOnVersionHolder updateSurvey(Survey survey) {
         session.checkSignedIn();
         checkNotNull(survey, Bridge.CANNOT_BE_NULL,"Survey object");
-        return surveyApi.updateSurvey(survey);
+        return post(config.getSurveyApi(survey.getGuid(), new DateTime(survey.getCreatedOn())), survey,
+                SimpleGuidCreatedOnVersionHolder.class);
     }
     @Override
     public void publishSurvey(GuidCreatedOnVersionHolder keys) {
@@ -128,7 +125,7 @@ class BridgeResearcherClient implements ResearcherClient {
         checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
         checkArgument(isNotBlank(keys.getGuid()), Bridge.CANNOT_BE_BLANK, "guid");
         checkNotNull(keys.getCreatedOn(), Bridge.CANNOT_BE_NULL, "createdOn");
-        surveyApi.publishSurvey(keys.getGuid(), keys.getCreatedOn());
+        post(config.getPublishSurveyApi(keys.getGuid(), keys.getCreatedOn()));
     }
     @Override
     public void closeSurvey(GuidCreatedOnVersionHolder keys) {
@@ -136,7 +133,7 @@ class BridgeResearcherClient implements ResearcherClient {
         checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
         checkArgument(isNotBlank(keys.getGuid()), Bridge.CANNOT_BE_BLANK, "guid");
         checkNotNull(keys.getCreatedOn(), Bridge.CANNOT_BE_NULL, "createdOn");
-        surveyApi.closeSurvey(keys.getGuid(), keys.getCreatedOn());
+        post(config.getCloseSurveyApi(keys.getGuid(), keys.getCreatedOn()));
     }
     @Override
     public void deleteSurvey(GuidCreatedOnVersionHolder keys) {
@@ -144,41 +141,41 @@ class BridgeResearcherClient implements ResearcherClient {
         checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
         checkArgument(isNotBlank(keys.getGuid()), Bridge.CANNOT_BE_BLANK, "guid");
         checkNotNull(keys.getCreatedOn(), Bridge.CANNOT_BE_NULL, "createdOn");
-        surveyApi.deleteSurvey(keys.getGuid(), keys.getCreatedOn());
+        delete(config.getSurveyApi(keys.getGuid(), keys.getCreatedOn()));
     }
     @Override
     public ResourceList<SchedulePlan> getSchedulePlans() {
         session.checkSignedIn();
-        return schedulePlanApi.getSchedulePlans();
+        return get(config.getSchedulePlansApi(), spType);
     }
     @Override
     public GuidVersionHolder createSchedulePlan(SchedulePlan plan) {
         session.checkSignedIn();
         checkNotNull(plan, Bridge.CANNOT_BE_NULL, "SchedulePlan");
-        return schedulePlanApi.createSchedulePlan(plan);
+        return post(config.getSchedulePlansApi(), plan, SimpleGuidVersionHolder.class);
     }
     @Override
     public SchedulePlan getSchedulePlan(String guid) {
         session.checkSignedIn();
         checkArgument(isNotBlank(guid), Bridge.CANNOT_BE_BLANK, "guid");
-        return schedulePlanApi.getSchedulePlan(guid);
+        return get(config.getSchedulePlanApi(guid), SchedulePlan.class);
     }
     @Override
     public GuidVersionHolder updateSchedulePlan(SchedulePlan plan) {
         session.checkSignedIn();
         checkNotNull(plan, Bridge.CANNOT_BE_NULL, "SchedulePlan");
-        return schedulePlanApi.updateSchedulePlan(plan);
+        return post(config.getSchedulePlanApi(plan.getGuid()), plan, SimpleGuidVersionHolder.class);
     }
     @Override
     public void deleteSchedulePlan(String guid) {
         session.checkSignedIn();
         checkArgument(isNotBlank(guid), Bridge.CANNOT_BE_BLANK, "guid");
-        schedulePlanApi.deleteSchedulePlan(guid);
+        delete(config.getSchedulePlanApi(guid));
     }
     @Override
     public Study getStudy() {
         session.checkSignedIn();
-        return studyApi.getStudyForResearcher();
+        return get(config.getResearcherStudyApi(), Study.class);
     }
     @Override
     public VersionHolder updateStudy(Study study) {
@@ -186,6 +183,6 @@ class BridgeResearcherClient implements ResearcherClient {
         checkNotNull(study, Bridge.CANNOT_BE_NULL, "study");
         checkNotNull(isNotBlank(study.getIdentifier()), Bridge.CANNOT_BE_BLANK, "study identifier");
         
-        return studyApi.updateStudyForResearcher(study);
+        return post(config.getResearcherStudyApi(), study, SimpleVersionHolder.class);
     }
 }

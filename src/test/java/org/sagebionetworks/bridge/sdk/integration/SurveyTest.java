@@ -210,7 +210,6 @@ public class SurveyTest {
 
     @Test
     public void researcherCannotUpdatePublishedSurvey() {
-        System.out.println("START TEST");
         ResearcherClient client = researcher.getSession().getResearcherClient();
         GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
         client.publishSurvey(key);

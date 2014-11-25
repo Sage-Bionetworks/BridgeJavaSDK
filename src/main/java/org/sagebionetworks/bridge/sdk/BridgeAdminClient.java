@@ -1,61 +1,74 @@
 package org.sagebionetworks.bridge.sdk;
 
-import java.util.List;
+import static com.google.common.base.Preconditions.checkArgument;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.http.HttpResponse;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
 
-final class BridgeAdminClient implements AdminClient {
+import com.fasterxml.jackson.core.type.TypeReference;
 
-    private final Session session;
-    private final UserManagementApiCaller userManagementApi;
-    private final StudyApiCaller studyApi;
+final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
 
-    private BridgeAdminClient(Session session) {
-        this.session = session;
-        this.userManagementApi = UserManagementApiCaller.valueOf(session);
-        this.studyApi = StudyApiCaller.valueOf(session);
+    private BridgeAdminClient(BridgeSession session) {
+        super(session);
     }
 
-    static BridgeAdminClient valueOf(Session session) {
+    static BridgeAdminClient valueOf(BridgeSession session) {
         return new BridgeAdminClient(session);
     }
 
     @Override
     public boolean createUser(SignUpCredentials signUp, List<String> roles, boolean consent) {
         session.checkSignedIn();
-        return userManagementApi.createUser(signUp, roles, consent);
+        checkArgument(isNotBlank(signUp.getUsername()));
+        checkArgument(isNotBlank(signUp.getPassword()));
+        checkArgument(isNotBlank(signUp.getEmail()));
+        
+        HttpResponse response = post(config.getUserManagementApi(), new AdminSignUpCredentials(signUp, roles, consent));
+        return response.getStatusLine().getStatusCode() == 201;
     }
     @Override
     public boolean deleteUser(String email) {
         session.checkSignedIn();
-        return userManagementApi.deleteUser(email);
+        checkArgument(isNotBlank(email));
+
+        Map<String,String> queryParams = new HashMap<String,String>();
+        queryParams.put("email", email);
+
+        HttpResponse response = delete(config.getUserManagementApi() + toQueryString(queryParams));
+        return response.getStatusLine().getStatusCode() == 200;
     }
     @Override
     public Study getStudy(String identifier) {
         session.checkSignedIn();
-        return studyApi.getStudyForAdmin(identifier);
+        return get(config.getAdminStudyApi(identifier), Study.class);
     }
     @Override
     public ResourceList<Study> getAllStudies() {
         session.checkSignedIn();
-        return studyApi.getAllStudies();
+        return get(config.getAdminStudiesApi(), new TypeReference<ResourceListImpl<Study>>() {});
     }
     @Override
     public VersionHolder createStudy(Study study) {
         session.checkSignedIn();
-        return studyApi.createStudy(study);
+        return post(config.getAdminStudiesApi(), study, SimpleVersionHolder.class);
     }
     @Override
     public VersionHolder updateStudy(Study study) {
         session.checkSignedIn();
-        return studyApi.updateStudyForAdmin(study);
+        return post(config.getAdminStudyApi(study.getIdentifier()), study, SimpleVersionHolder.class);
     }
     @Override
     public void deleteStudy(String identifier) {
         session.checkSignedIn();
-        studyApi.deleteStudy(identifier);
+        delete(config.getAdminStudyApi(identifier));
     }
 }

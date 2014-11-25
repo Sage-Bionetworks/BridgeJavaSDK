@@ -7,7 +7,6 @@ class BridgeSession implements Session {
 
     private static final String NOT_AUTHENTICATED = "This session has been signed out; create a new session to retrieve a valid client.";
 
-    private AuthenticationApiCaller authApi;
     private String sessionToken;
     private String username;
     private boolean consented;
@@ -20,7 +19,6 @@ class BridgeSession implements Session {
         this.sessionToken = session.getSessionToken();
         this.consented = session.isConsented();
         this.dataSharing = session.isDataSharing();
-        this.authApi = AuthenticationApiCaller.valueOf(this);
     }
 
     static BridgeSession valueOf(UserSession session) {
@@ -98,9 +96,15 @@ class BridgeSession implements Session {
     @Override
     public synchronized void signOut() {
         if (sessionToken != null) {
-            authApi.signOut();
+            new BaseApiCaller(this).get(ClientProvider.getConfig().getAuthSignOutApi());
             sessionToken = null;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "BridgeSession [sessionToken=" + sessionToken + ", username=" + username + ", consented=" + consented
+                + ", dataSharing=" + dataSharing + "]";
     }
 
 }
