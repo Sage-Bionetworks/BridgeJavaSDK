@@ -50,7 +50,7 @@ public class ClientProvider {
         checkArgument(isNotBlank(signUp.getUsername()), "Username cannot be blank/null");
         checkArgument(isNotBlank(signUp.getPassword()), "Password cannot be blank/null");
 
-        new BaseApiCaller(null).post(config.getAuthSignUpApi(), signUp, UserSession.class);
+        new BaseApiCaller(null).post(config.getAuthSignUpApi(), signUp);
     }
 
     /**

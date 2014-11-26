@@ -2,26 +2,10 @@ package org.sagebionetworks.bridge.sdk.models.surveys;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.Lists;
 
-// This won't work because it won't pick up multi-valued constraints. We need a more sophisticated
-// strategy for this.
-@JsonTypeInfo( use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "dataType")
-@JsonSubTypes({
-    @Type(name="boolean", value=BooleanConstraints.class),
-    @Type(name="integer", value=IntegerConstraints.class),
-    @Type(name="decimal", value=DecimalConstraints.class),
-    @Type(name="string", value=StringConstraints.class),
-    @Type(name="datetime", value=DateTimeConstraints.class),
-    @Type(name="date", value=DateConstraints.class),
-    @Type(name="time", value=TimeConstraints.class),
-    @Type(name="duration", value=DurationConstraints.class)
-})
 public abstract class Constraints {
 
     private DataType dataType;
