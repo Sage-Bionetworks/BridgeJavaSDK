@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
+import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
+import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
@@ -31,7 +33,7 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
         checkArgument(isNotBlank(signUp.getUsername()));
         checkArgument(isNotBlank(signUp.getPassword()));
         checkArgument(isNotBlank(signUp.getEmail()));
-        
+
         HttpResponse response = post(config.getUserManagementApi(), new AdminSignUpCredentials(signUp, roles, consent));
         return response.getStatusLine().getStatusCode() == 201;
     }
@@ -70,5 +72,17 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
     public void deleteStudy(String identifier) {
         session.checkSignedIn();
         delete(config.getAdminStudyApi(identifier));
+    }
+
+    @Override
+    public void deleteSurvey(String guid, DateTime createdOn) {
+        session.checkSignedIn();
+        delete(config.getSurveyApi(guid, createdOn));
+    }
+
+    @Override
+    public void deleteSurvey(GuidCreatedOnVersionHolder keys) {
+        session.checkSignedIn();
+        delete(config.getSurveyApi(keys.getGuid(), keys.getCreatedOn()));
     }
 }
