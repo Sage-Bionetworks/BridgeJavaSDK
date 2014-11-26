@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 
-final class Utilities {
+public final class Utilities {
 
     private static final String[] schemes = { "http", "https" };
     private static final UrlValidator urlValidator = new UrlValidator(schemes, NO_FRAGMENTS + ALLOW_LOCAL_URLS);
@@ -52,7 +52,7 @@ final class Utilities {
         return INSTANCE;
     }
 
-    static ObjectMapper getMapper() {
+    public static ObjectMapper getMapper() {
         return mapper;
     }
 
