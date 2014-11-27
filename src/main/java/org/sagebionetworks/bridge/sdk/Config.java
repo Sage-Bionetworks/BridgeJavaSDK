@@ -121,151 +121,151 @@ public final class Config {
     public SignInCredentials getAdminCredentials() {
         return new SignInCredentials(getAdminEmail(), getAdminPassword());
     }
-    String getAccountEmail() {
+    public String getAccountEmail() {
         return val(Props.ACCOUNT_EMAIL);
     }
-    String getAccountPassword() {
+    public String getAccountPassword() {
         return val(Props.ACCOUNT_PASSWORD);
     }
-    String getAdminEmail() {
+    public String getAdminEmail() {
         return val(Props.ADMIN_EMAIL);
     }
-    String getAdminPassword() {
+    public String getAdminPassword() {
         return val(Props.ADMIN_PASSWORD);
     }
-    String getDevName() {
+    public String getDevName() {
         return val(Props.DEV_NAME);
     }
-    String getHost() {
+    public String getHost() {
         return val(Props.HOST);
     }
-    String getLogLevel() {
+    public String getLogLevel() {
         return val(Props.LOG_LEVEL);
     }
-    String getAuthSignUpApi() {
+    public String getAuthSignUpApi() {
         return val(Props.AUTH_SIGNUP_API);
     }
-    String getAuthSignInApi() {
+    public String getAuthSignInApi() {
         return val(Props.AUTH_SIGNIN_API);
     }
-    String getAuthSignOutApi() {
+    public String getAuthSignOutApi() {
         return val(Props.AUTH_SIGNOUT_API);
     }
-    String getAuthVerifyEmailApi() {
+    public String getAuthVerifyEmailApi() {
         return val(Props.AUTH_VERIFYEMAIL_API);
     }
-    String getAuthRequestResetApi() {
+    public String getAuthRequestResetApi() {
         return val(Props.AUTH_REQUESTRESET_API);
     }
-    String getAuthResetApi() {
+    public String getAuthResetApi() {
         return val(Props.AUTH_RESET_API);
     }
-    String getProfileApi() {
+    public String getProfileApi() {
         return val(Props.PROFILE_API);
     }
-    String getConsentApi() {
+    public String getConsentApi() {
         return val(Props.CONSENT_API);
     }
-    String getConsentSuspendApi() {
+    public String getConsentSuspendApi() {
         return val(Props.CONSENT_SUSPEND_API);
     }
-    String getConsentResumeApi() {
+    public String getConsentResumeApi() {
         return val(Props.CONSENT_RESUME_API);
     }
-    String getStudyConsentsApi() {
+    public String getStudyConsentsApi() {
         return val(Props.STUDY_CONSENTS_API);
     }
-    String getStudyConsentApi(DateTime timestamp) {
+    public String getStudyConsentApi(DateTime timestamp) {
         checkNotNull(timestamp);
         return String.format(val(Props.STUDY_CONSENT_API), timestamp.toString(ISODateTimeFormat.dateTime()));
     }
-    String getActiveStudyConsentApi() {
+    public String getActiveStudyConsentApi() {
         return val(Props.STUDY_CONSENT_GET_ACTIVE_API);
     }
-    String getVersionStudyConsentApi(DateTime timestamp) {
+    public String getVersionStudyConsentApi(DateTime timestamp) {
         checkNotNull(timestamp);
         return String.format(val(Props.STUDY_CONSENT_SET_ACTIVE_API), timestamp.toString(ISODateTimeFormat.dateTime()));
     }
-    String getTrackerApi() {
+    public String getTrackerApi() {
         return val(Props.TRACKER_API);
     }
-    String getHealthDataTrackerApi(String trackerId) {
+    public String getHealthDataTrackerApi(String trackerId) {
         checkArgument(isNotBlank(trackerId));
         return String.format(val(Props.HEALTH_DATA_TRACKER_API), trackerId);
     }
-    String getHealthDataRecordApi(String trackerId, String guid) {
+    public String getHealthDataRecordApi(String trackerId, String guid) {
         checkArgument(isNotBlank(trackerId));
         checkArgument(isNotBlank(guid));
         return String.format(val(Props.HEALTH_DATA_TRACKER_RECORD_API), trackerId, guid);
     }
-    String getUploadApi() {
+    public String getUploadApi() {
         return val(Props.UPLOAD_API);
     }
-    String getUploadCompleteApi(String uploadId) {
+    public String getUploadCompleteApi(String uploadId) {
         return String.format(val(Props.UPLOAD_COMPLETE_API), uploadId);
     }
-    String getUserManagementApi() {
+    public String getUserManagementApi() {
         return val(Props.USER_MANAGEMENT_API);
     }
-    String getSchedulesApi() {
+    public String getSchedulesApi() {
         return val(Props.SCHEDULES_API);
     }
-    String getSurveysApi() {
+    public String getSurveysApi() {
         return val(Props.SURVEYS_API);
     }
-    String getRecentSurveysApi() {
+    public String getRecentSurveysApi() {
         return val(Props.SURVEYS_RECENT_API);
     }
-    String getSurveysPublishedApi() {
+    public String getSurveysPublishedApi() {
         return val(Props.SURVEYS_PUBLISHED_API);
     }
-    String getSurveyApi(String guid, DateTime createdOn) {
+    public String getSurveyApi(String guid, DateTime createdOn) {
         checkArgument(isNotBlank(guid));
         checkNotNull(createdOn);
         return String.format(val(Props.SURVEY_API), guid, createdOn.toString(ISODateTimeFormat.dateTime()));
     }
-    String getSurveyVersionsApi(String guid) {
+    public String getSurveyVersionsApi(String guid) {
         checkArgument(isNotBlank(guid));
         return String.format(val(Props.SURVEY_VERSIONS_API), guid);
     }
-    String getSurveyNewVersionApi(String guid, DateTime createdOn) {
+    public String getSurveyNewVersionApi(String guid, DateTime createdOn) {
         checkArgument(isNotBlank(guid));
         checkNotNull(createdOn);
         return String.format(val(Props.SURVEY_VERSIONS_NEW_API), guid, createdOn.toString(ISODateTimeFormat.dateTime()));
     }
-    String getPublishSurveyApi(String guid, DateTime createdOn) {
+    public String getPublishSurveyApi(String guid, DateTime createdOn) {
         checkArgument(isNotBlank(guid));
         checkNotNull(createdOn);
         return String.format(val(Props.SURVEY_PUBLISH_API), guid, createdOn.toString(ISODateTimeFormat.dateTime()));
     }
-    String getCloseSurveyApi(String guid, DateTime createdOn) {
+    public String getCloseSurveyApi(String guid, DateTime createdOn) {
         checkArgument(isNotBlank(guid));
         checkNotNull(createdOn);
         return String.format(val(Props.SURVEY_CLOSE_API), guid, createdOn.toString(ISODateTimeFormat.dateTime()));
     }
-    String getSurveyUserApi(String guid, DateTime createdOn) {
+    public String getSurveyUserApi(String guid, DateTime createdOn) {
         checkArgument(isNotBlank(guid));
         checkNotNull(createdOn);
         return String.format(val(Props.SURVEY_USER_API), guid, createdOn.toString(ISODateTimeFormat.dateTime()));
     }
-    String getSurveyResponseApi(String guid) {
+    public String getSurveyResponseApi(String guid) {
         checkArgument(isNotBlank(guid));
         return String.format(val(Props.SURVEY_RESPONSE_API), guid);
     }
-    String getSchedulePlansApi() {
+    public String getSchedulePlansApi() {
         return val(Props.SCHEDULEPLANS_API);
     }
-    String getSchedulePlanApi(String guid) {
+    public String getSchedulePlanApi(String guid) {
         checkArgument(isNotBlank(guid));
         return String.format(val(Props.SCHEDULEPLAN_API), guid);
     }
-    String getResearcherStudyApi() {
+    public String getResearcherStudyApi() {
         return val(Props.RESEARCHER_STUDY_API);
     }
-    String getAdminStudiesApi() {
+    public String getAdminStudiesApi() {
         return val(Props.ADMIN_STUDIES_API);
     }
-    String getAdminStudyApi(String identifier) {
+    public String getAdminStudyApi(String identifier) {
         checkArgument(isNotBlank(identifier));
         return String.format(val(Props.ADMIN_STUDY_API), identifier);
     }

@@ -40,6 +40,12 @@ public class Survey implements GuidCreatedOnVersionHolder {
 
     public Survey() {
     }
+    
+    public void setGuidCreatedOnVersionHolder(GuidCreatedOnVersionHolder keys) {
+    	this.guid = keys.getGuid();
+    	this.createdOn = keys.getCreatedOn();
+    	this.version = keys.getVersion();
+    }
 
     @Override
     public String getGuid() {

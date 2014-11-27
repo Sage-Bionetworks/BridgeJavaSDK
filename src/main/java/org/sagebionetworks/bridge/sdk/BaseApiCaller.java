@@ -3,8 +3,6 @@ package org.sagebionetworks.bridge.sdk;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -194,7 +192,7 @@ class BaseApiCaller {
         }
     }
 
-    protected <S,T> T post(String url, Object object, TypeReference<T> type) {
+    protected <T> T post(String url, Object object, TypeReference<T> type) {
         try {
             
             String json = mapper.writeValueAsString(object);
@@ -207,7 +205,7 @@ class BaseApiCaller {
         }
     }
     
-    protected <S> S post(String url, Object object, Class<S> clazz) {
+    protected <T> T post(String url, Object object, Class<T> clazz) {
         try {
             
             String json = (object != null) ? mapper.writeValueAsString(object) : null;
@@ -228,13 +226,9 @@ class BaseApiCaller {
             addSessionHeader(request);
             if (json != null) {
                 request.bodyString(json, ContentType.APPLICATION_JSON);
-                if (logger.isDebugEnabled()) {
-                    logger.debug("POST {} \n     {}", url, maskPassword(json));
-                }
+                logger.debug("POST {} \n     {}", url, maskPassword(json));
             } else {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("POST {}", url);
-                }
+                logger.debug("POST {}", url);
             }
             HttpResponse response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, url);
