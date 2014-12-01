@@ -8,13 +8,23 @@ public class SurveyQuestionOption {
     private final String label;
     private final String value;
     private final Image image;
-    
+
     @JsonCreator
     public SurveyQuestionOption(@JsonProperty("label") String label, @JsonProperty("value") String value,
             @JsonProperty("image") Image image) {
         this.label = label;
         this.value = value;
         this.image = image;
+    }
+    public SurveyQuestionOption(String label, String value) {
+        this.label = label;
+        this.value = value;
+        this.image = null;
+    }
+    public SurveyQuestionOption(String label) {
+        this.label = label;
+        this.value = label;
+        this.image = null;
     }
     public String getLabel() {
         return label;
