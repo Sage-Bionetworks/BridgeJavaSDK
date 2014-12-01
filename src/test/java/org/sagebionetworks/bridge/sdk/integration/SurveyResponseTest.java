@@ -1,10 +1,12 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.junit.After;
@@ -16,6 +18,7 @@ import org.sagebionetworks.bridge.sdk.TestSurvey;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
+import org.sagebionetworks.bridge.sdk.exceptions.BridgeServerException;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
@@ -149,6 +152,37 @@ public class SurveyResponseTest {
             } else {
                 assertEquals("Answer is correct", originalValue, savedAnswer.getAnswer());    
             }
+        }
+    }
+    
+    @Test
+    public void canSubmitSurveyResponseWithAGuid() {
+        String guid = RandomStringUtils.randomAlphabetic(10);
+        UserClient client = user.getSession().getUserClient();
+        try {
+            
+            SurveyQuestion question1 = survey.getQuestionByIdentifier("high_bp");
+            SurveyQuestion question2 = survey.getQuestionByIdentifier("BP X DAY");
+    
+            List<SurveyAnswer> answers = Lists.newArrayList();
+            
+            SurveyAnswer answer = question1.createAnswerForQuestion("true", "desktop");
+            answers.add(answer);
+            
+            answer = question2.createAnswerForQuestion("4", "desktop");
+            answers.add(answer);
+            
+            client.submitAnswersToSurvey(survey, guid, answers);
+            
+            try {
+                client.submitAnswersToSurvey(survey, guid, answers);
+                fail("Should have thrown an error");
+            } catch(BridgeServerException e) {
+                assertEquals("Entity already exists HTTP status code", 409, e.getStatusCode());
+            }
+            
+        } finally {
+            client.deleteSurveyResponse(guid);
         }
     }
     

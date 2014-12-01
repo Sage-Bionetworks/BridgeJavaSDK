@@ -225,6 +225,18 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     }
 
     @Override
+    public GuidHolder submitAnswersToSurvey(Survey survey, String responseGuid, List<SurveyAnswer> answers) {
+        session.checkSignedIn();
+        checkNotNull(survey, "Survey cannot be null.");
+        checkArgument(isNotBlank(survey.getGuid()), "Survey guid cannot be null or empty.");
+        checkNotNull(survey.getCreatedOn(), "Survey createdOn cannot be null.");
+        checkNotNull(responseGuid, "Survey response identifier cannot be null.");
+        checkNotNull(answers, "Answers cannot be null.");
+
+        return post(config.getSurveyWithGuidUserApi(survey.getGuid(), survey.getCreatedOn(), responseGuid), answers, SimpleGuidHolder.class);
+    }
+    
+    @Override
     public SurveyResponse getSurveyResponse(String surveyResponseGuid) {
         session.checkSignedIn();
         checkArgument(isNotBlank(surveyResponseGuid), "SurveyResponseGuid cannot be null or empty.");
@@ -242,11 +254,11 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     }
 
     @Override
-    public void deleteSurveyResponse(SurveyResponse response) {
+    public void deleteSurveyResponse(String responseGuid) {
         session.checkSignedIn();
-        checkNotNull(response, "Response cannot be null.");
+        checkNotNull(isNotBlank(responseGuid), "Response GUID cannot be null or blank.");
 
-        delete(config.getSurveyResponseApi(response.getGuid()));
+        delete(config.getSurveyResponseApi(responseGuid));
     }
 
     /*

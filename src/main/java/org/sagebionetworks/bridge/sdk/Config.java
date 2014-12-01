@@ -55,6 +55,7 @@ public final class Config {
         STUDY_CONSENT_SET_ACTIVE_API,
         SURVEY_API,
         SURVEY_USER_API,
+        SURVEY_WITH_GUID_USER_API,
         SURVEY_PUBLISH_API,
         SURVEY_CLOSE_API,
         SURVEY_VERSIONS_API,
@@ -247,6 +248,12 @@ public final class Config {
         checkArgument(isNotBlank(guid));
         checkNotNull(createdOn);
         return String.format(val(Props.SURVEY_USER_API), guid, createdOn.toString(ISODateTimeFormat.dateTime()));
+    }
+    public String getSurveyWithGuidUserApi(String guid, DateTime createdOn, String responseGuid) {
+        checkArgument(isNotBlank(guid));
+        checkNotNull(createdOn);
+        checkArgument(isNotBlank(responseGuid));
+        return String.format(val(Props.SURVEY_WITH_GUID_USER_API), guid, createdOn.toString(ISODateTimeFormat.dateTime()), responseGuid);
     }
     public String getSurveyResponseApi(String guid) {
         checkArgument(isNotBlank(guid));

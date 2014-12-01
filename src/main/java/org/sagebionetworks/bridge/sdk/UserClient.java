@@ -156,6 +156,22 @@ public interface UserClient {
     public GuidHolder submitAnswersToSurvey(Survey survey, List<SurveyAnswer> answers);
 
     /**
+     * Submit a list of SurveyAnswers to a particular survey, using a specified identifier
+     * for the survey response (the value should be a unique string, like a GUID, that 
+     * has not been used for any prior submissions).
+     *
+     * @param survey
+     *            The survey that the answers will be added to.
+     * @param responseGuid
+     *            A unique string to identify this set of survey answers as originating
+     *            from the same run of a survey
+     * @param answers
+     *            The answers to add to the survey.
+     * @return GuidHolder A holder storing the GUID of the survey.
+     */
+    public GuidHolder submitAnswersToSurvey(Survey survey, String responseGuid, List<SurveyAnswer> answers);
+    
+    /**
      * Get the survey response associated with the guid string paramater.
      *
      * @param surveyResponseGuid
@@ -177,10 +193,10 @@ public interface UserClient {
     /**
      * Delete a particular survey response.
      *
-     * @param response
-     *            The response to delete.
+     * @param responseGuid
+     *            The GUID of the response to delete.
      */
-    public void deleteSurveyResponse(SurveyResponse response);
+    public void deleteSurveyResponse(String responseGuid);
 
     /**
      * Request an upload session from the user.
