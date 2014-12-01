@@ -3,8 +3,6 @@ package org.sagebionetworks.bridge.sdk;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -106,13 +104,13 @@ class BaseApiCaller {
     protected HttpResponse publicGet(String url) {
         url = getFullUrl(url);
         try {
-            
+
             logger.debug("GET {}", url);
             Request request = Request.Get(url);
             HttpResponse response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, url);
             return response;
-            
+
         } catch (ClientProtocolException e) {
             throw new BridgeServerException(CONNECTION_FAILED, e, url);
         } catch (IOException e) {
@@ -122,14 +120,14 @@ class BaseApiCaller {
 
     protected HttpResponse s3Put(String url, HttpEntity entity, UploadRequest uploadRequest) {
         try {
-            
+
             Request request = Request.Put(url).body(entity);
             request.addHeader("Content-Type", uploadRequest.getContentType());
             request.addHeader("Content-MD5", uploadRequest.getContentMd5());
             HttpResponse response = request.execute().returnResponse();
             throwExceptionOnErrorStatus(response, url);
             return response;
-            
+
         } catch (ClientProtocolException e) {
             throw new BridgeServerException(CONNECTION_FAILED, e, url);
         } catch (IOException e) {
@@ -140,14 +138,14 @@ class BaseApiCaller {
     protected HttpResponse get(String url) {
         url = getFullUrl(url);
         try {
-            
+
             Request request = Request.Get(url);
             addSessionHeader(request);
             logger.debug("GET {}", url);
             HttpResponse response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, url);
             return response;
-            
+
         } catch (ClientProtocolException e) {
             throw new BridgeServerException(CONNECTION_FAILED, e, url);
         } catch (IOException e) {
@@ -159,35 +157,35 @@ class BaseApiCaller {
         HttpResponse response = get(url);
         return getResponseBodyAsType(response, type);
     }
-    
+
     protected <T> T get(String url, Class<T> clazz) {
         HttpResponse response = get(url);
         return getResponseBodyAsType(response, clazz);
     }
-    
+
     protected HttpResponse post(String url) {
         url = getFullUrl(url);
         try {
-            
+
             Request request = Request.Post(url);
             addSessionHeader(request);
             logger.debug("POST {}\n    <EMPTY>", url);
             HttpResponse response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, url);
             return response;
-            
+
         } catch (ClientProtocolException e) {
             throw new BridgeServerException(CONNECTION_FAILED, e, url);
         } catch (IOException e) {
             throw new BridgeServerException(CONNECTION_FAILED, e, url);
         }
     }
-    
+
     protected HttpResponse post(String url, Object object) {
         try {
-            
+
             return postJSON(url, mapper.writeValueAsString(object));
-            
+
         } catch (JsonProcessingException e) {
             String message = String.format("Could not process %s: %s", object.getClass().getSimpleName(), object.toString());
             throw new BridgeSDKException(message, e);
@@ -196,34 +194,34 @@ class BaseApiCaller {
 
     protected <S,T> T post(String url, Object object, TypeReference<T> type) {
         try {
-            
+
             String json = mapper.writeValueAsString(object);
             HttpResponse response = postJSON(url, json);
             return getResponseBodyAsType(response, type);
-            
+
         } catch (JsonProcessingException e) {
             String message = String.format("Could not process %s: %s", object.getClass().getSimpleName(), object.toString());
             throw new BridgeSDKException(message, e);
         }
     }
-    
+
     protected <S> S post(String url, Object object, Class<S> clazz) {
         try {
-            
+
             String json = (object != null) ? mapper.writeValueAsString(object) : null;
             HttpResponse response = postJSON(url, json);
             return (clazz != null) ? getResponseBodyAsType(response, clazz) : null;
-            
+
         } catch (JsonProcessingException e) {
             String message = String.format("Could not process %s: %s", object.getClass().getSimpleName(), object.toString());
             throw new BridgeSDKException(message, e);
         }
     }
-    
+
     private HttpResponse postJSON(String url, String json) {
         url = getFullUrl(url);
         try {
-            
+
             Request request = Request.Post(url);
             addSessionHeader(request);
             if (json != null) {
@@ -239,7 +237,7 @@ class BaseApiCaller {
             HttpResponse response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, url);
             return response;
-            
+
         } catch (IOException e) {
             throw new BridgeServerException(CONNECTION_FAILED, e, url);
         }
@@ -255,7 +253,7 @@ class BaseApiCaller {
             HttpResponse response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, url);
             return response;
-            
+
         } catch (IOException e) {
             throw new BridgeServerException(CONNECTION_FAILED, e, url);
         }
@@ -299,7 +297,7 @@ class BaseApiCaller {
                     + ": responseBody=" + responseBody, e);
         }
     }
-    
+
     private JsonNode getJsonNode(HttpResponse response) {
         try {
             return mapper.readTree(getResponseBody(response));
@@ -375,7 +373,7 @@ class BaseApiCaller {
             return fullUrl;
         }
     }
-    
+
     protected String toQueryString(Map<String,String> parameters) {
         checkNotNull(parameters);
 
