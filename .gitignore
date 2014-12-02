@@ -1,7 +1,11 @@
 # List of files ignored by git.
 .classpath
+.idea
 .project
 .settings
 target
 'SDK Notes'
 /bin/
+
+# IntelliJ project files
+*.iml
