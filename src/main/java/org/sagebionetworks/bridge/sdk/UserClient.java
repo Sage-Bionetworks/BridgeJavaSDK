@@ -39,9 +39,16 @@ public interface UserClient {
      * Consent to research.
      *
      * @param signature
-     *            Name and Date of consenter's signature.
+     *            Name, birthdate, and optionally signature image, of consenter's signature.
      */
     public void consentToResearch(ConsentSignature signature);
+
+    /**
+     * Returns the user's consent signature, which includes the name, birthdate, and signature image.
+     *
+     * @return consent signature
+     */
+    public ConsentSignature getConsentSignature();
 
     /**
      * Resume data sharing on the currently signed in account.

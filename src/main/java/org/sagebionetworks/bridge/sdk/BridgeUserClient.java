@@ -86,6 +86,13 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     }
 
     @Override
+    public ConsentSignature getConsentSignature() {
+        session.checkSignedIn();
+        ConsentSignature sig = get(config.getConsentApi(), ConsentSignature.class);
+        return sig;
+    }
+
+    @Override
     public void resumeDataSharing() {
         session.checkSignedIn();
 
