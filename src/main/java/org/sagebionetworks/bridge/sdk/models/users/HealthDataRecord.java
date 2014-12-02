@@ -1,7 +1,6 @@
 package org.sagebionetworks.bridge.sdk.models.users;
 
 import org.joda.time.DateTime;
-
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 
 import com.fasterxml.jackson.annotation.JsonCreator;

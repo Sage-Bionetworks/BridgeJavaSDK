@@ -62,6 +62,8 @@ public class SurveyTest {
             client.closeSurvey(key);
             client.deleteSurvey(key);
         }
+        assertEquals("Should be no surveys.", client.getAllVersionsOfAllSurveys().getTotal(), 0);
+
         researcher.signOutAndDeleteUser();
         user.signOutAndDeleteUser();
     }
@@ -186,6 +188,7 @@ public class SurveyTest {
         ResearcherClient client = researcher.getSession().getResearcherClient();
 
         GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
+        keys.add(key);
         Survey survey = client.getSurvey(key);
 
         DateTimeConstraints dateCon = (DateTimeConstraints)getConstraints(survey, DATETIME_ID);
@@ -212,6 +215,7 @@ public class SurveyTest {
     public void researcherCannotUpdatePublishedSurvey() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
         GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
+        keys.add(key);
         client.publishSurvey(key);
 
         try {

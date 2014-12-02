@@ -1,7 +1,6 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
-
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -32,27 +31,34 @@ import org.sagebionetworks.bridge.sdk.models.schedules.SimpleScheduleStrategy;
 public class SchedulePlanTest {
 
     public static class TestABSchedulePlan extends SchedulePlan {
-        private Schedule schedule1 = new Schedule() {{
-            setCronTrigger("* * *");
-            setActivityType(ActivityType.task);
-            setActivityRef("task:AAA");
-            setExpires(Period.parse("PT60S"));
-            setLabel("Test label for the user");
-        }};
-        private Schedule schedule2 = new Schedule() {{
-            setCronTrigger("* * *");
-            setActivityType(ActivityType.task);
-            setActivityRef("task:BBB");
-            setExpires(Period.parse("PT60S"));
-            setLabel("Test label for the user");
-        }};
-        private Schedule schedule3 = new Schedule() {{
-            setCronTrigger("* * *");
-            setActivityType(ActivityType.task);
-            setActivityRef("task:CCC");
-            setExpires(Period.parse("PT60S"));
-            setLabel("Test label for the user");
-        }};
+        private Schedule schedule1 = new Schedule() {
+            {
+                setCronTrigger("* * *");
+                setActivityType(ActivityType.task);
+                setActivityRef("task:AAA");
+                setExpires(Period.parse("PT60S"));
+                setLabel("Test label for the user");
+            }
+        };
+        private Schedule schedule2 = new Schedule() {
+            {
+                setCronTrigger("* * *");
+                setActivityType(ActivityType.task);
+                setActivityRef("task:BBB");
+                setExpires(Period.parse("PT60S"));
+                setLabel("Test label for the user");
+            }
+        };
+        private Schedule schedule3 = new Schedule() {
+            {
+                setCronTrigger("* * *");
+                setActivityType(ActivityType.task);
+                setActivityRef("task:CCC");
+                setExpires(Period.parse("PT60S"));
+                setLabel("Test label for the user");
+            }
+        };
+
         public TestABSchedulePlan() {
             ABTestScheduleStrategy strategy = new ABTestScheduleStrategy();
             strategy.addGroup(40, schedule1);
@@ -63,13 +69,16 @@ public class SchedulePlanTest {
     }
 
     public class TestSimpleSchedulePlan extends SchedulePlan {
-        private Schedule schedule = new Schedule() {{
-            setCronTrigger("* * *");
-            setActivityType(ActivityType.task);
-            setActivityRef("task:CCC");
-            setExpires(Period.parse("PT60S"));
-            setLabel("Test label for the user");
-        }};
+        private Schedule schedule = new Schedule() {
+            {
+                setCronTrigger("* * *");
+                setActivityType(ActivityType.task);
+                setActivityRef("task:CCC");
+                setExpires(Period.parse("PT60S"));
+                setLabel("Test label for the user");
+            }
+        };
+
         public TestSimpleSchedulePlan() {
             SimpleScheduleStrategy strategy = new SimpleScheduleStrategy();
             strategy.setSchedule(schedule);
@@ -91,6 +100,7 @@ public class SchedulePlanTest {
 
         researcherClient = researcher.getSession().getResearcherClient();
         userClient = user.getSession().getUserClient();
+
     }
 
     @After
@@ -99,6 +109,10 @@ public class SchedulePlanTest {
         if (keys != null) {
             researcherClient.deleteSchedulePlan(keys.getGuid());
         }
+        for (SchedulePlan plan : researcherClient.getSchedulePlans()) {
+            researcherClient.deleteSchedulePlan(plan.getGuid());
+        }
+        assertEquals("Test should have deleted all schedule plans.", researcherClient.getSchedulePlans().getTotal(), 0);
         researcher.signOutAndDeleteUser();
         user.signOutAndDeleteUser();
     }
@@ -111,7 +125,7 @@ public class SchedulePlanTest {
             SchedulePlan plan = new TestABSchedulePlan();
             normalUser.getSession().getResearcherClient().createSchedulePlan(plan);
             fail("Should have returned Forbidden status");
-        } catch(UnauthorizedException e) {
+        } catch (UnauthorizedException e) {
             assertEquals("Non-researcher gets 403 forbidden", 403, e.getStatusCode());
         } finally {
             normalUser.signOutAndDeleteUser();
@@ -135,10 +149,12 @@ public class SchedulePlanTest {
 
         // Get
         plan = researcherClient.getSchedulePlan(keys.getGuid());
-        assertEquals("Strategy type has been changed", "SimpleScheduleStrategy", plan.getStrategy().getClass().getSimpleName());
+        assertEquals("Strategy type has been changed", "SimpleScheduleStrategy", plan.getStrategy().getClass()
+                .getSimpleName());
 
         untilConsistent(new Callable<Boolean>() {
-            @Override public Boolean call() throws Exception {
+            @Override
+            public Boolean call() throws Exception {
                 return (!userClient.getSchedules().getItems().isEmpty());
             }
         });
@@ -152,7 +168,7 @@ public class SchedulePlanTest {
         try {
             researcherClient.getSchedulePlan(keys.getGuid());
             fail("Should have thrown an exception because plan was deleted");
-        } catch(EntityNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             assertEquals("Returns 404 Not Found", 404, e.getStatusCode());
             keys = null;
         }
@@ -165,7 +181,7 @@ public class SchedulePlanTest {
             plan.setStrategy(null);
             researcherClient.createSchedulePlan(plan);
             fail("Plan was invalid and should have thrown an exception");
-        } catch(InvalidEntityException e) {
+        } catch (InvalidEntityException e) {
             assertEquals("Error comes back as 400 Bad Request", 400, e.getStatusCode());
             assertTrue("There is a strategy-specific error", e.getErrors().get("strategy").size() > 0);
         }
@@ -176,7 +192,7 @@ public class SchedulePlanTest {
         try {
             researcherClient.createSchedulePlan(null);
             fail("createSchedulePlan(null) should have thrown an exception");
-        } catch(NullPointerException e) {
+        } catch (NullPointerException e) {
             assertEquals("Clear null-pointer message", "SchedulePlan cannot be null.", e.getMessage());
         }
     }

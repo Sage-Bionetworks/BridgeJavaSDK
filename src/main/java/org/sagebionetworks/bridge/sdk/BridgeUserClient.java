@@ -25,6 +25,7 @@ import org.sagebionetworks.bridge.sdk.models.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.schedules.ActivityType;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
@@ -205,6 +206,18 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         checkNotNull(keys.getCreatedOn(), Bridge.CANNOT_BE_NULL, "createdOn");
 
         return get(config.getSurveyUserApi(keys.getGuid(), keys.getCreatedOn()), Survey.class);
+    }
+    
+    @Override
+    public Survey getSurvey(Schedule schedule) {
+        session.checkSignedIn();
+        checkNotNull(schedule, Bridge.CANNOT_BE_NULL, "schedule");
+        checkArgument(schedule.getActivityType() == ActivityType.survey, "schedule is not for a survey");
+        
+        String[] parts = schedule.getActivityRef().split("/surveys/")[1].split("/");
+        String guid = parts[0];
+        DateTime createdOn = DateTime.parse(parts[1]);
+        return getSurvey(new SimpleGuidCreatedOnVersionHolder(guid, createdOn, null));
     }
 
     @Override

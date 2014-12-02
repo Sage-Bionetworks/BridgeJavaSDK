@@ -53,6 +53,7 @@ public class SurveyQuestion implements GuidHolder {
     public Constraints getConstraints() {
         return constraints;
     }
+    @JsonDeserialize(using = ConstraintsDeserializer.class)
     public void setConstraints(Constraints constraints) {
         this.constraints = constraints;
     }
