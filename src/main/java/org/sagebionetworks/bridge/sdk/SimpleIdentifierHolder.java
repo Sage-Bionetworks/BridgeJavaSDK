@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SimpleIdentifierHolder implements IdentifierHolder {
 
-    private String identifier;
+    private final String identifier;
     
     @JsonCreator
     public SimpleIdentifierHolder(@JsonProperty("identifier") String identifier) {
