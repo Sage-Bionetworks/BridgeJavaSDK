@@ -29,7 +29,7 @@ import com.google.common.collect.Lists;
 
 public class HealthDataTest {
 
-    private Tracker tracker;
+    private static Tracker tracker;
     private ObjectNode data;
     private TestUser testUser;
 
@@ -126,6 +126,8 @@ public class HealthDataTest {
             for (HealthDataRecord record : records.getItems()) {
                 client.deleteHealthDataRecord(tracker, record.getGuid());
             }
+            records = getAllRecords(client);
+            assertEquals("All records deleted", 0, records.getTotal());
         }
     }
 
@@ -205,9 +207,11 @@ public class HealthDataTest {
             for (HealthDataRecord record : records.getItems()) {
                 client.deleteHealthDataRecord(tracker, record.getGuid());
             }
+            records = getAllRecords(client);
+            assertEquals("All records deleted", 0, records.getTotal());
         }
     }
-    
+
     private HealthDataRecord makeHDR(long version, String guid, DateTime startDate, DateTime endDate, JsonNode data) {
         HealthDataRecord record = new HealthDataRecord();
         record.setData(data);

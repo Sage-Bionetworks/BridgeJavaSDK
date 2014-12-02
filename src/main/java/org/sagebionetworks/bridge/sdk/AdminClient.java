@@ -2,7 +2,9 @@ package org.sagebionetworks.bridge.sdk;
 
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
+import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
@@ -32,13 +34,17 @@ public interface AdminClient {
     public boolean deleteUser(String email);
 
     public Study getStudy(String identifier);
-    
+
     public ResourceList<Study> getAllStudies();
-    
+
     public VersionHolder createStudy(Study study);
-    
+
     public VersionHolder updateStudy(Study study);
-    
+
     public void deleteStudy(String identifier);
+
+    public void deleteSurvey(String guid, DateTime createdOn);
+
+    public void deleteSurvey(GuidCreatedOnVersionHolder keys);
 
 }
