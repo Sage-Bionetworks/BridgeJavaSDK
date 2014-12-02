@@ -84,6 +84,8 @@ public class SurveyResponseTest {
 
         SurveyResponse surveyResponse = client.getSurveyResponse(keys.getGuid());
         assertEquals("There should be two answers.", surveyResponse.getSurveyAnswers().size(), 2);
+
+        client.deleteSurveyResponse(surveyResponse.getGuid());
     }
 
     @Test
@@ -153,6 +155,8 @@ public class SurveyResponseTest {
                 assertEquals("Answer is correct", originalValue, savedAnswer.getAnswer());    
             }
         }
+
+        client.deleteSurveyResponse(response.getGuid());
     }
     
     @Test
