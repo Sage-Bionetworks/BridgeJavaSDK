@@ -7,7 +7,6 @@ import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.UploadRequest;
 import org.sagebionetworks.bridge.sdk.models.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
-import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
@@ -201,10 +200,10 @@ public interface UserClient {
     /**
      * Delete a particular survey response.
      *
-     * @param responseGuid
-     *            The GUID of the response to delete.
+     * @param identifier
+     *            The identifier of the survey response to delete.
      */
-    public void deleteSurveyResponse(String responseGuid);
+    public void deleteSurveyResponse(String identifier);
 
     /**
      * Request an upload session from the user.

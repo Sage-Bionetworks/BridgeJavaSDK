@@ -241,7 +241,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         checkNotNull(identifier, "identifier cannot be null.");
         checkNotNull(answers, "Answers cannot be null.");
 
-        return post(config.getSurveyWithGuidUserApi(survey.getGuid(), survey.getCreatedOn(), identifier), answers, SimpleIdentifierHolder.class);
+        return post(config.getSurveyWithIdentifierUserApi(survey.getGuid(), survey.getCreatedOn(), identifier), answers, SimpleIdentifierHolder.class);
     }
     
     @Override
