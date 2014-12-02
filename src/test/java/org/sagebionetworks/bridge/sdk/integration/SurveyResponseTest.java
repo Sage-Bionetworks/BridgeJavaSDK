@@ -21,6 +21,7 @@ import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeServerException;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyQuestion;
@@ -80,12 +81,12 @@ public class SurveyResponseTest {
         answer = question2.createAnswerForQuestion("4", "desktop");
         answers.add(answer);
 
-        GuidHolder keys = client.submitAnswersToSurvey(survey, answers);
+        IdentifierHolder keys = client.submitAnswersToSurvey(survey, answers);
 
-        SurveyResponse surveyResponse = client.getSurveyResponse(keys.getGuid());
+        SurveyResponse surveyResponse = client.getSurveyResponse(keys.getIdentifier());
         assertEquals("There should be two answers.", surveyResponse.getSurveyAnswers().size(), 2);
 
-        client.deleteSurveyResponse(surveyResponse.getGuid());
+        client.deleteSurveyResponse(surveyResponse.getIdentifier());
     }
 
     @Test
@@ -142,9 +143,9 @@ public class SurveyResponseTest {
 
         UserClient client = user.getSession().getUserClient();
         survey = client.getSurvey(keys);
-        GuidHolder holder = client.submitAnswersToSurvey(survey, answers);
+        IdentifierHolder holder = client.submitAnswersToSurvey(survey, answers);
 
-        SurveyResponse response = client.getSurveyResponse(holder.getGuid());
+        SurveyResponse response = client.getSurveyResponse(holder.getIdentifier());
 
         for (SurveyAnswer savedAnswer : response.getSurveyAnswers()) {
             SurveyQuestion q = survey.getQuestionByGUID(savedAnswer.getQuestionGuid());
@@ -156,7 +157,7 @@ public class SurveyResponseTest {
             }
         }
 
-        client.deleteSurveyResponse(response.getGuid());
+        client.deleteSurveyResponse(response.getIdentifier());
     }
     
     @Test

@@ -9,6 +9,7 @@ import org.sagebionetworks.bridge.sdk.models.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
@@ -160,7 +161,7 @@ public interface UserClient {
      *            The answers to add to the survey.
      * @return GuidHolder A holder storing the GUID of the survey.
      */
-    public GuidHolder submitAnswersToSurvey(Survey survey, List<SurveyAnswer> answers);
+    public IdentifierHolder submitAnswersToSurvey(Survey survey, List<SurveyAnswer> answers);
 
     /**
      * Submit a list of SurveyAnswers to a particular survey, using a specified identifier
@@ -169,14 +170,14 @@ public interface UserClient {
      *
      * @param survey
      *            The survey that the answers will be added to.
-     * @param responseGuid
+     * @param identifier
      *            A unique string to identify this set of survey answers as originating
      *            from the same run of a survey
      * @param answers
      *            The answers to add to the survey.
-     * @return GuidHolder A holder storing the GUID of the survey.
+     * @return IdentifierHolder A holder storing the GUID of the survey.
      */
-    public GuidHolder submitAnswersToSurvey(Survey survey, String responseGuid, List<SurveyAnswer> answers);
+    public IdentifierHolder submitAnswersToSurvey(Survey survey, String identifier, List<SurveyAnswer> answers);
     
     /**
      * Get the survey response associated with the guid string paramater.
