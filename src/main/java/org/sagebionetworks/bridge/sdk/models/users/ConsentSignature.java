@@ -1,16 +1,17 @@
 package org.sagebionetworks.bridge.sdk.models.users;
 
-import org.joda.time.DateTime;
-import org.joda.time.format.ISODateTimeFormat;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.joda.deser.LocalDateDeserializer;
+import org.joda.time.LocalDate;
+import org.joda.time.format.ISODateTimeFormat;
 
 public class ConsentSignature {
 
     private final String name;
-    private final DateTime birthdate;
+    private final LocalDate birthdate;
     private final String imageData;
     private final String imageMimeType;
 
@@ -33,7 +34,8 @@ public class ConsentSignature {
      *         signature image MIME type (ex: image/png), optional
      */
     @JsonCreator
-    public ConsentSignature(@JsonProperty("name") String name, @JsonProperty("birthdate") DateTime birthdate,
+    public ConsentSignature(@JsonProperty("name") String name, @JsonProperty("birthdate")
+            @JsonDeserialize(using=LocalDateDeserializer.class) LocalDate birthdate,
             @JsonProperty("imageData") String imageData, @JsonProperty("imageMimeType") String imageMimeType) {
         this.name = name;
         this.birthdate = birthdate;
@@ -47,10 +49,8 @@ public class ConsentSignature {
     }
 
     /** User's birth date. */
-    // TODO: We're using DateTime, which represents an instant in time, to represent a calendar date. Should we be
-    // using LocalDate instead?
     @JsonSerialize(using=DateOnlySerializer.class)
-    public DateTime getBirthdate() {
+    public LocalDate getBirthdate() {
         return birthdate;
     }
 
