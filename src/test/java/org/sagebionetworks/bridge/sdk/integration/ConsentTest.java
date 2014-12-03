@@ -6,7 +6,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.joda.time.DateTime;
+import java.util.Map;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.joda.time.LocalDate;
 import org.joda.time.format.ISODateTimeFormat;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
@@ -16,7 +19,9 @@ import org.sagebionetworks.bridge.sdk.exceptions.ConsentRequiredException;
 import org.sagebionetworks.bridge.sdk.exceptions.EntityAlreadyExistsException;
 import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
 
+@SuppressWarnings("unchecked")
 public class ConsentTest {
+    private static final String FAKE_IMAGE_DATA = "VGhpcyBpc24ndCBhIHJlYWwgaW1hZ2Uu";
 
     @Test
     public void canToggleDataSharing() {
@@ -36,19 +41,16 @@ public class ConsentTest {
 
     @Test
     public void giveAndGetConsent() {
-        giveAndGetConsentHelper("Eggplant McTester", DateTime.parse("1970-01-01", ISODateTimeFormat.date()), null,
-                null);
+        giveAndGetConsentHelper("Eggplant McTester", new LocalDate(1970, 1, 1), null, null);
     }
 
     @Test
     public void giveAndGetConsentWithSignatureImage() {
-        String fakeImageData = "VGhpcyBpc24ndCBhIHJlYWwgaW1hZ2Uu";
-        giveAndGetConsentHelper("Eggplant McTester", DateTime.parse("1970-01-01", ISODateTimeFormat.date()),
-                fakeImageData, "image/fake");
+        giveAndGetConsentHelper("Eggplant McTester", new LocalDate(1970, 1, 1), FAKE_IMAGE_DATA, "image/fake");
     }
 
     // helper method to test consent with and without images
-    private static void giveAndGetConsentHelper(String name, DateTime birthdate, String imageData,
+    private static void giveAndGetConsentHelper(String name, LocalDate birthdate, String imageData,
             String imageMimeType) {
         TestUser testUser = TestUserHelper.createAndSignInUser(ConsentTest.class, false);
         try {
@@ -80,7 +82,7 @@ public class ConsentTest {
             // giving consent again will throw
             EntityAlreadyExistsException thrownAlreadyExists = null;
             try {
-                client.consentToResearch(new ConsentSignature("bad name", DateTime.now(), null, null));
+                client.consentToResearch(new ConsentSignature("bad name", LocalDate.now(), null, null));
                 fail("expected EntityAlreadyExistsException");
             } catch (EntityAlreadyExistsException ex) {
                 thrownAlreadyExists = ex;
@@ -103,11 +105,40 @@ public class ConsentTest {
             } catch(ConsentRequiredException e) {
                 assertEquals("Exception is a 412 Precondition Failed", 412, e.getStatusCode());
             }
-            client.consentToResearch(new ConsentSignature(user.getUsername(), DateTime.now(), null, null));
+            client.consentToResearch(new ConsentSignature(user.getUsername(), LocalDate.now(), null, null));
             assertTrue("User has not consented", user.getSession().isConsented());
             client.getSchedules();
         } finally {
             user.signOutAndDeleteUser();
         }
+    }
+
+    @Test
+    public void jsonSerialization() throws Exception {
+        // setup
+        String sigJson = "{\n" +
+                "   \"name\":\"Jason McSerializer\",\n" +
+                "   \"birthdate\":\"1985-12-31\",\n" +
+                "   \"imageData\":\"" + FAKE_IMAGE_DATA + "\",\n" +
+                "   \"imageMimeType\":\"image/fake\"\n" +
+                "}";
+        ObjectMapper jsonObjectMapper = new ObjectMapper();
+
+        // de-serialize and validate
+        ConsentSignature sig = jsonObjectMapper.readValue(sigJson, ConsentSignature.class);
+        assertEquals("(ConsentSignature instance) name matches", "Jason McSerializer", sig.getName());
+        assertEquals("(ConsentSignature instance) birthdate matches", "1985-12-31",
+                sig.getBirthdate().toString(ISODateTimeFormat.date()));
+        assertEquals("(ConsentSignature instance) imageData matches", FAKE_IMAGE_DATA, sig.getImageData());
+        assertEquals("(ConsentSignature instance) imageMimeType matches", "image/fake", sig.getImageMimeType());
+
+        // re-serialize, then parse as a raw map to validate the JSON
+        String reserializedJson = jsonObjectMapper.writeValueAsString(sig);
+        Map<String, String> jsonAsMap = jsonObjectMapper.readValue(reserializedJson, Map.class);
+        assertEquals("JSON map has exactly 4 elements", 4, jsonAsMap.size());
+        assertEquals("(JSON map) name matches", "Jason McSerializer", jsonAsMap.get("name"));
+        assertEquals("(JSON map) birthdate matches", "1985-12-31", jsonAsMap.get("birthdate"));
+        assertEquals("(JSON map) imageData matches", FAKE_IMAGE_DATA, jsonAsMap.get("imageData"));
+        assertEquals("(JSON map) imageMimeType matches", "image/fake", jsonAsMap.get("imageMimeType"));
     }
 }
