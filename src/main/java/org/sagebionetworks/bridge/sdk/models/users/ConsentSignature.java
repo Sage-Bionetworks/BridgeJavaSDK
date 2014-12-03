@@ -33,6 +33,8 @@ public class ConsentSignature {
      * @param imageMimeType
      *         signature image MIME type (ex: image/png), optional
      */
+    // We use the standard LocalDateDeserializer from jackson-datatype-joda. However, we still need to use a
+    // @JsonDeserialize annotation anyway or Jackson won't know what to do with it.
     @JsonCreator
     public ConsentSignature(@JsonProperty("name") String name, @JsonProperty("birthdate")
             @JsonDeserialize(using=LocalDateDeserializer.class) LocalDate birthdate,
@@ -49,6 +51,7 @@ public class ConsentSignature {
     }
 
     /** User's birth date. */
+    // We use a custom serializer, because the standard LocalDateSerializer serializes into a very unusual format.
     @JsonSerialize(using=DateOnlySerializer.class)
     public LocalDate getBirthdate() {
         return birthdate;
