@@ -7,8 +7,8 @@ import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.UploadRequest;
 import org.sagebionetworks.bridge.sdk.models.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
-import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
@@ -160,8 +160,24 @@ public interface UserClient {
      *            The answers to add to the survey.
      * @return GuidHolder A holder storing the GUID of the survey.
      */
-    public GuidHolder submitAnswersToSurvey(Survey survey, List<SurveyAnswer> answers);
+    public IdentifierHolder submitAnswersToSurvey(Survey survey, List<SurveyAnswer> answers);
 
+    /**
+     * Submit a list of SurveyAnswers to a particular survey, using a specified identifier
+     * for the survey response (the value should be a unique string, like a GUID, that 
+     * has not been used for any prior submissions).
+     *
+     * @param survey
+     *            The survey that the answers will be added to.
+     * @param identifier
+     *            A unique string to identify this set of survey answers as originating
+     *            from the same run of a survey
+     * @param answers
+     *            The answers to add to the survey.
+     * @return IdentifierHolder A holder storing the GUID of the survey.
+     */
+    public IdentifierHolder submitAnswersToSurvey(Survey survey, String identifier, List<SurveyAnswer> answers);
+    
     /**
      * Get the survey response associated with the guid string paramater.
      *
@@ -184,10 +200,10 @@ public interface UserClient {
     /**
      * Delete a particular survey response.
      *
-     * @param response
-     *            The response to delete.
+     * @param identifier
+     *            The identifier of the survey response to delete.
      */
-    public void deleteSurveyResponse(SurveyResponse response);
+    public void deleteSurveyResponse(String identifier);
 
     /**
      * Request an upload session from the user.

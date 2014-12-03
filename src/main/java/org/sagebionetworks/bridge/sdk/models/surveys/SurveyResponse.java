@@ -4,17 +4,16 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
-import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonDeserialize(as=SurveyResponse.class) // Strangely, Jackson needs this.
-public class SurveyResponse implements GuidHolder {
+public class SurveyResponse implements IdentifierHolder {
 
-    // TODO need to create copies of all date time and survey objects so that sdk users can't change data.
-    private final String guid;
+    private final String identifier;
     private final DateTime startedOn;
     private final DateTime completedOn;
     private final Status status;
@@ -26,10 +25,11 @@ public class SurveyResponse implements GuidHolder {
     }
 
     @JsonCreator
-    private SurveyResponse(@JsonProperty("guid") String guid, @JsonProperty("startedOn") DateTime startedOn,
-            @JsonProperty("completedOn") DateTime completedOn, @JsonProperty("status") String status,
-            @JsonProperty("survey") Survey survey, @JsonProperty("answers") List<SurveyAnswer> answers) {
-        this.guid = guid;
+    private SurveyResponse(@JsonProperty("identifier") String identifier,
+            @JsonProperty("startedOn") DateTime startedOn, @JsonProperty("completedOn") DateTime completedOn,
+            @JsonProperty("status") String status, @JsonProperty("survey") Survey survey,
+            @JsonProperty("answers") List<SurveyAnswer> answers) {
+        this.identifier = identifier;
         this.startedOn = startedOn;
         this.completedOn = completedOn;
         this.survey = survey;
@@ -52,8 +52,8 @@ public class SurveyResponse implements GuidHolder {
     }
 
     @Override
-    public String getGuid() {
-        return guid;
+    public String getIdentifier() {
+        return identifier;
     }
 
     public DateTime getStartedOn() {

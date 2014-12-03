@@ -1,10 +1,12 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.junit.After;
@@ -16,8 +18,9 @@ import org.sagebionetworks.bridge.sdk.TestSurvey;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
+import org.sagebionetworks.bridge.sdk.exceptions.BridgeServerException;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
-import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyQuestion;
@@ -77,12 +80,12 @@ public class SurveyResponseTest {
         answer = question2.createAnswerForQuestion("4", "desktop");
         answers.add(answer);
 
-        GuidHolder keys = client.submitAnswersToSurvey(survey, answers);
+        IdentifierHolder keys = client.submitAnswersToSurvey(survey, answers);
 
-        SurveyResponse surveyResponse = client.getSurveyResponse(keys.getGuid());
+        SurveyResponse surveyResponse = client.getSurveyResponse(keys.getIdentifier());
         assertEquals("There should be two answers.", surveyResponse.getSurveyAnswers().size(), 2);
 
-        client.deleteSurveyResponse(surveyResponse);
+        client.deleteSurveyResponse(surveyResponse.getIdentifier());
     }
 
     @Test
@@ -139,9 +142,9 @@ public class SurveyResponseTest {
 
         UserClient client = user.getSession().getUserClient();
         survey = client.getSurvey(keys);
-        GuidHolder holder = client.submitAnswersToSurvey(survey, answers);
+        IdentifierHolder holder = client.submitAnswersToSurvey(survey, answers);
 
-        SurveyResponse response = client.getSurveyResponse(holder.getGuid());
+        SurveyResponse response = client.getSurveyResponse(holder.getIdentifier());
 
         for (SurveyAnswer savedAnswer : response.getSurveyAnswers()) {
             SurveyQuestion q = survey.getQuestionByGUID(savedAnswer.getQuestionGuid());
@@ -153,7 +156,38 @@ public class SurveyResponseTest {
             }
         }
 
-        client.deleteSurveyResponse(response);
+        client.deleteSurveyResponse(response.getIdentifier());
+    }
+    
+    @Test
+    public void canSubmitSurveyResponseWithAnIdentifier() {
+        String identifier = RandomStringUtils.randomAlphabetic(10);
+        UserClient client = user.getSession().getUserClient();
+        try {
+            
+            SurveyQuestion question1 = survey.getQuestionByIdentifier("high_bp");
+            SurveyQuestion question2 = survey.getQuestionByIdentifier("BP X DAY");
+
+            List<SurveyAnswer> answers = Lists.newArrayList();
+
+            SurveyAnswer answer = question1.createAnswerForQuestion("true", "desktop");
+            answers.add(answer);
+            
+            answer = question2.createAnswerForQuestion("4", "desktop");
+            answers.add(answer);
+            
+            client.submitAnswersToSurvey(survey, identifier, answers);
+            
+            try {
+                client.submitAnswersToSurvey(survey, identifier, answers);
+                fail("Should have thrown an error");
+            } catch(BridgeServerException e) {
+                assertEquals("Entity already exists HTTP status code", 409, e.getStatusCode());
+            }
+            
+        } finally {
+            client.deleteSurveyResponse(identifier);
+        }
     }
 
 }

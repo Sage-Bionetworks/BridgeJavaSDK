@@ -25,6 +25,7 @@ import org.sagebionetworks.bridge.sdk.models.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.ActivityType;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
@@ -221,22 +222,34 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     }
 
     @Override
-    public GuidHolder submitAnswersToSurvey(Survey survey, List<SurveyAnswer> answers) {
+    public IdentifierHolder submitAnswersToSurvey(Survey survey, List<SurveyAnswer> answers) {
         session.checkSignedIn();
         checkNotNull(survey, "Survey cannot be null.");
         checkArgument(isNotBlank(survey.getGuid()), "Survey guid cannot be null or empty.");
         checkNotNull(survey.getCreatedOn(), "Survey createdOn cannot be null.");
         checkNotNull(answers, "Answers cannot be null.");
 
-        return post(config.getSurveyUserApi(survey.getGuid(), survey.getCreatedOn()), answers, SimpleGuidHolder.class);
+        return post(config.getSurveyUserApi(survey.getGuid(), survey.getCreatedOn()), answers, SimpleIdentifierHolder.class);
     }
 
     @Override
-    public SurveyResponse getSurveyResponse(String surveyResponseGuid) {
+    public IdentifierHolder submitAnswersToSurvey(Survey survey, String identifier, List<SurveyAnswer> answers) {
         session.checkSignedIn();
-        checkArgument(isNotBlank(surveyResponseGuid), "SurveyResponseGuid cannot be null or empty.");
+        checkNotNull(survey, "Survey cannot be null.");
+        checkArgument(isNotBlank(survey.getGuid()), "Survey guid cannot be null or empty.");
+        checkNotNull(survey.getCreatedOn(), "Survey createdOn cannot be null.");
+        checkNotNull(identifier, "identifier cannot be null.");
+        checkNotNull(answers, "Answers cannot be null.");
 
-        return get(config.getSurveyResponseApi(surveyResponseGuid), SurveyResponse.class);
+        return post(config.getSurveyWithIdentifierUserApi(survey.getGuid(), survey.getCreatedOn(), identifier), answers, SimpleIdentifierHolder.class);
+    }
+    
+    @Override
+    public SurveyResponse getSurveyResponse(String identifier) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(identifier), "Survey response identifier cannot be null or empty.");
+
+        return get(config.getSurveyResponseApi(identifier), SurveyResponse.class);
     }
 
     @Override
@@ -245,15 +258,15 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         checkNotNull(response, "Response cannot be null.");
         checkNotNull(answers, "Answers cannot be null.");
 
-        post(config.getSurveyResponseApi(response.getGuid()), answers);
+        post(config.getSurveyResponseApi(response.getIdentifier()), answers);
     }
 
     @Override
-    public void deleteSurveyResponse(SurveyResponse response) {
+    public void deleteSurveyResponse(String identifier) {
         session.checkSignedIn();
-        checkNotNull(response, "Response cannot be null.");
+        checkNotNull(isNotBlank(identifier), "Survey response identifier cannot be null or blank.");
 
-        delete(config.getSurveyResponseApi(response.getGuid()));
+        delete(config.getSurveyResponseApi(identifier));
     }
 
     /*
