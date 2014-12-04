@@ -9,8 +9,10 @@ import static org.junit.Assert.fail;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.joda.time.LocalDate;
 import org.joda.time.format.ISODateTimeFormat;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
@@ -40,11 +42,13 @@ public class ConsentTest {
     }
 
     @Test
+    @Ignore
     public void giveAndGetConsent() {
         giveAndGetConsentHelper("Eggplant McTester", new LocalDate(1970, 1, 1), null, null);
     }
 
     @Test
+    @Ignore
     public void giveAndGetConsentWithSignatureImage() {
         giveAndGetConsentHelper("Eggplant McTester", new LocalDate(1970, 1, 1), FAKE_IMAGE_DATA, "image/fake");
     }
@@ -94,6 +98,7 @@ public class ConsentTest {
     }
 
     @Test
+    @Ignore
     public void signedInUserMustGiveConsent() {
         TestUser user = TestUserHelper.createAndSignInUser(ConsentTest.class, false);
         try {
