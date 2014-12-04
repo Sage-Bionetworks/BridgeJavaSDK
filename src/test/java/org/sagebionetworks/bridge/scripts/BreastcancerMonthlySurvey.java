@@ -148,7 +148,7 @@ public class BreastcancerMonthlySurvey extends BaseSurvey implements ScheduleHol
         schedule.setLabel("Monthly Survey");
         schedule.setCronTrigger("0 0 6 ? 1/1 THU#1 *");
         schedule.setExpires(Period.days(7));
-        ScriptUtils.setSurveyForSchedule(schedule, survey);
+        ScriptUtils.setSurveyActivity(schedule, survey);
         schedule.setScheduleType(ScheduleType.recurring);
         return schedule;
 	}

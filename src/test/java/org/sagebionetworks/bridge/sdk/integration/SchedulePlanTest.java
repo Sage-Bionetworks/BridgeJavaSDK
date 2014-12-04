@@ -13,6 +13,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
+import org.sagebionetworks.bridge.scripts.ScriptUtils;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
@@ -23,7 +24,6 @@ import org.sagebionetworks.bridge.sdk.exceptions.UnauthorizedException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.ABTestScheduleStrategy;
-import org.sagebionetworks.bridge.sdk.models.schedules.ActivityType;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.schedules.SimpleScheduleStrategy;
@@ -34,8 +34,7 @@ public class SchedulePlanTest {
         private Schedule schedule1 = new Schedule() {
             {
                 setCronTrigger("* * *");
-                setActivityType(ActivityType.task);
-                setActivityRef("task:AAA");
+                ScriptUtils.setTaskActivity(this, "task:AAA");
                 setExpires(Period.parse("PT60S"));
                 setLabel("Test label for the user");
             }
@@ -43,8 +42,7 @@ public class SchedulePlanTest {
         private Schedule schedule2 = new Schedule() {
             {
                 setCronTrigger("* * *");
-                setActivityType(ActivityType.task);
-                setActivityRef("task:BBB");
+                ScriptUtils.setTaskActivity(this, "task:BBB");
                 setExpires(Period.parse("PT60S"));
                 setLabel("Test label for the user");
             }
@@ -52,8 +50,7 @@ public class SchedulePlanTest {
         private Schedule schedule3 = new Schedule() {
             {
                 setCronTrigger("* * *");
-                setActivityType(ActivityType.task);
-                setActivityRef("task:CCC");
+                ScriptUtils.setTaskActivity(this, "task:CCC");
                 setExpires(Period.parse("PT60S"));
                 setLabel("Test label for the user");
             }
@@ -72,8 +69,7 @@ public class SchedulePlanTest {
         private Schedule schedule = new Schedule() {
             {
                 setCronTrigger("* * *");
-                setActivityType(ActivityType.task);
-                setActivityRef("task:CCC");
+                ScriptUtils.setTaskActivity(this, "task:CCC");
                 setExpires(Period.parse("PT60S"));
                 setLabel("Test label for the user");
             }

@@ -79,14 +79,14 @@ public class ParkinsonMonthlySurvey extends Survey implements ScheduleHolder {
         setIdentifier("parkinson-monthly");
         getQuestions().add(medicationsChange);
         getQuestions().add(medications);
-        addTableQuestion("moving","During the last month have you: Had difficulty getting around in public?");
-        addTableQuestion("dressing","During the last month have you: Had difficulty dressing yourself?");
-        addTableQuestion("depressed","During the last month have you: Felt depressed?");
-        addTableQuestion("personal-relationships","During the last month have you: Had problems with your close personal relationships?");
-        addTableQuestion("concentration","During the last month have you: Had problems with your concentration, e.g. when reading or watching TV?");
-        addTableQuestion("communication","During the last month have you: Felt unable to communicate with people properly?");
-        addTableQuestion("spasms","During the last month have you: Had painful muscle cramps or spasms?");
-        addTableQuestion("public-embarrassment","During the last month have you: Felt embarrassed in public due to having Parkinson’s disease?");
+        addTableQuestion("moving","During the last month have you had difficulty getting around in public?");
+        addTableQuestion("dressing","During the last month have you had difficulty dressing yourself?");
+        addTableQuestion("depressed","During the last month have you felt depressed?");
+        addTableQuestion("personal-relationships","During the last month have you had problems with your close personal relationships?");
+        addTableQuestion("concentration","During the last month have you had problems with your concentration, e.g. when reading or watching TV?");
+        addTableQuestion("communication","During the last month have you felt unable to communicate with people properly?");
+        addTableQuestion("spasms","During the last month have you had painful muscle cramps or spasms?");
+        addTableQuestion("public-embarrassment","During the last month have you felt embarrassed in public due to having Parkinson's disease?");
     }
 
 	@Override
@@ -95,7 +95,7 @@ public class ParkinsonMonthlySurvey extends Survey implements ScheduleHolder {
         schedule.setLabel("Monthly Survey");
         schedule.setCronTrigger("0 0 6 ? 1/1 THU#1 *");
         schedule.setExpires(Period.days(7));
-        ScriptUtils.setSurveyForSchedule(schedule, survey);
+        ScriptUtils.setSurveyActivity(schedule, survey);
         schedule.setScheduleType(ScheduleType.recurring);
         return schedule;
 	}
