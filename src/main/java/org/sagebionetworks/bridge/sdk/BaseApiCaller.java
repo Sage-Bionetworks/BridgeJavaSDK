@@ -3,6 +3,8 @@ package org.sagebionetworks.bridge.sdk;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -18,6 +20,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import com.google.common.base.Charsets;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
@@ -370,12 +373,31 @@ class BaseApiCaller {
         }
     }
 
+    /**
+     * This method creates a query string for a URL
+     * (ex: https://api.sagebridge.org/admin/v1/users?email=foo%40bar.com&asdf=qwerty).
+     * Specifically, this method generates and returns the "?email=foo%40bar.com&asdf=qwerty" part. The query string
+     * parameters are also URL encoded, as per HTTP standard. If any characters need to be encoded, they are encoded
+     * using UTF-8.
+     *
+     * @param parameters
+     *         query parameter map
+     * @return encoded query param string, which is everything after and including the '?'
+     */
     protected String toQueryString(Map<String,String> parameters) {
         checkNotNull(parameters);
 
         List<String> list = Lists.newArrayList();
         for (Map.Entry<String, String> entry : parameters.entrySet()) {
-            list.add(entry.getKey() + "=" + entry.getValue());
+            String encodedParamValue;
+            try {
+                encodedParamValue = URLEncoder.encode(entry.getValue(), Charsets.UTF_8.name());
+            } catch (UnsupportedEncodingException ex) {
+                // If UTF-8 stops being a supported encoding, we have bigger problems than a try-catch block can handle.
+                throw new RuntimeException("UTF-8 is not supported on this device");
+            }
+
+            list.add(entry.getKey() + "=" + encodedParamValue);
         }
         return "?" + Joiner.on("&").join(list);
     }
