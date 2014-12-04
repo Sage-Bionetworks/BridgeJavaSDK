@@ -63,15 +63,17 @@ public class SurveyTest {
 
     @After
     public void after() {
-        ResearcherClient client = researcher.getSession().getResearcherClient();
-        for (GuidCreatedOnVersionHolder key : keys) {
-            client.closeSurvey(key);
-            client.deleteSurvey(key);
+        try {
+            ResearcherClient client = researcher.getSession().getResearcherClient();
+            for (GuidCreatedOnVersionHolder key : keys) {
+                client.closeSurvey(key);
+                client.deleteSurvey(key);
+            }
+            assertEquals("Should be no surveys.", 0, client.getAllVersionsOfAllSurveys().getTotal());
+        } finally {
+            researcher.signOutAndDeleteUser();
+            user.signOutAndDeleteUser();
         }
-        assertEquals("Should be no surveys.", 0, client.getAllVersionsOfAllSurveys().getTotal());
-
-        researcher.signOutAndDeleteUser();
-        user.signOutAndDeleteUser();
     }
 
     @Test(expected=UnauthorizedException.class)
