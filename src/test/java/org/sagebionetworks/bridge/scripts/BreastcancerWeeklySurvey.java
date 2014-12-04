@@ -60,7 +60,7 @@ public class BreastcancerWeeklySurvey extends BaseSurvey implements ScheduleHold
         schedule.setLabel("Weekly Survey");
         schedule.setCronTrigger("0 0 6 ? * FRI *");
         schedule.setExpires(Period.days(4));
-        ScriptUtils.setSurveyForSchedule(schedule, survey);
+        ScriptUtils.setSurveyActivity(schedule, survey);
         schedule.setScheduleType(ScheduleType.recurring);
         return schedule;
 	}

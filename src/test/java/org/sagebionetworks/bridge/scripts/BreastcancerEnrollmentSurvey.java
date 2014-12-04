@@ -21,7 +21,7 @@ public class BreastcancerEnrollmentSurvey extends BaseSurvey implements Schedule
                 "White", "African American/Black", "Asian (Chinese, Japanese, Korean, South East Asian, Filipino)",
                 "Native Hawaiian or Other Pacific Islander",
                 "Native American/Alaska Native (American Indian, Aleutian, Eskimo)", "Indian Subcontinent",
-                "Don’t know");
+                "Don't know");
         addYesNo("q3", "Are you Hispanic or Latina?");
         addMulti("q4", "What is your current marital/relationship status?",
         		false,
@@ -43,7 +43,7 @@ public class BreastcancerEnrollmentSurvey extends BaseSurvey implements Schedule
                 "Associate Degree (A.D. or A.A.)",
                 "College graduate (B.A. or B.S.)",
                 "Some college or professional school after college graduation",
-                "Completed Master’s Degree (M.A., M.S., M.P.H., M.S.W., M.Div., etc.)",
+                "Completed Master's Degree (M.A., M.S., M.P.H., M.S.W., M.Div., etc.)",
                 "Completed Doctoral Degree (Ph.D., M.D., D.D.S., J.D., etc.)");
         addMulti("q6", "What is your CURRENT employment status?",
         		false,
@@ -196,7 +196,7 @@ public class BreastcancerEnrollmentSurvey extends BaseSurvey implements Schedule
 
         addMulti("q53", "During the past 4 weeks, how much of the time have your physical health or emotional problems interfered with your social activities (like visiting with your friends, relatives, etc?)", false, options);
         
-        options = new String[] { "Definitely True", "Mostly True", "Don’t Know", "Mostly False", "Definitely False" };
+        options = new String[] { "Definitely True", "Mostly True", "Don't Know", "Mostly False", "Definitely False" };
         addMulti("q54", "I seem to get sick a little easier than other people.", false, options);
         addMulti("q55", "I am as healthy as anybody I know.", false, options);
         addMulti("q56", "I expect my health to get worse.", false, options);
@@ -232,7 +232,7 @@ public class BreastcancerEnrollmentSurvey extends BaseSurvey implements Schedule
         Schedule schedule = new Schedule();
         schedule.setLabel("Enrollment Survey");
         schedule.setScheduleType(ScheduleType.once);
-        ScriptUtils.setSurveyForSchedule(schedule, survey);
+        ScriptUtils.setSurveyActivity(schedule, survey);
         return schedule;
 	}
 }

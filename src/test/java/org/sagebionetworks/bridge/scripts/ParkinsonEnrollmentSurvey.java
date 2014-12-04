@@ -1,8 +1,12 @@
 package org.sagebionetworks.bridge.scripts;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.ScheduleType;
+import org.sagebionetworks.bridge.sdk.models.surveys.Constraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.DataType;
 import org.sagebionetworks.bridge.sdk.models.surveys.DateConstraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.DurationConstraints;
@@ -19,7 +23,7 @@ import com.google.common.collect.Lists;
 /**
  * There are 41 questions in this survey. Seriously.
  */
-public class ParkinsonDemographicSurvey extends BaseSurvey implements ScheduleHolder {
+public class ParkinsonEnrollmentSurvey extends BaseSurvey implements ScheduleHolder {
     
     SurveyQuestion age = new SurveyQuestion() {{
         setIdentifier("age");
@@ -28,12 +32,23 @@ public class ParkinsonDemographicSurvey extends BaseSurvey implements ScheduleHo
         setConstraints(new IntegerConstraints());
     }};
     
-    // Too exhausting to redo all of these
-    SurveyQuestion gender = addMulti("gender", "What is your sex?", false, "Male", "Female", "Prefer not to answer");
+    SurveyQuestion gender = new SurveyQuestion() {{
+        setIdentifier("gender");
+        setPrompt("What is your sex?");
+        setUiHint(UiHint.RADIOBUTTON);
+        MultiValueConstraints c = new MultiValueConstraints(DataType.STRING);
+        List<SurveyQuestionOption> list = Arrays.asList(
+            new SurveyQuestionOption("Male"),
+            new SurveyQuestionOption("Female"),
+            new SurveyQuestionOption("Prefer not to answer")
+        );
+        c.setEnumeration(list);
+        setConstraints(c);
+    }};
     
     SurveyQuestion race = new SurveyQuestion() {{
         setIdentifier("race");
-        setPrompt("With which race do you identify?");
+        setPrompt("Which race do you identify with?");
         setUiHint(UiHint.CHECKBOX);
         MultiValueConstraints c = new MultiValueConstraints(DataType.STRING);
         c.setAllowMultiple(true);
@@ -216,6 +231,7 @@ public class ParkinsonDemographicSurvey extends BaseSurvey implements ScheduleHo
         setConstraints(ScriptUtils.booleanish());
     }};
     
+    /*
     SurveyQuestion hasPD = new SurveyQuestion() {{
         setIdentifier("has-pd");
         setPrompt("Have you been clinically diagnosed with Parkinson Disease?");
@@ -226,11 +242,16 @@ public class ParkinsonDemographicSurvey extends BaseSurvey implements ScheduleHo
         c.getRules().add(new SurveyRule(Operator.ne, "true", "deep-brain-stimulation"));
         setConstraints(c);
     }};
+    */
     
     SurveyQuestion professionalDiagnosis = new SurveyQuestion() {{
         setIdentifier("professional-diagnosis");
         setPrompt("Have you been diagnosed by a medical professional with Parkinson disease?");
         setUiHint(UiHint.RADIOBUTTON);
+        Constraints c = ScriptUtils.booleanish();
+        c.getRules().add(new SurveyRule(Operator.eq, "true", "onset-year"));
+        c.getRules().add(new SurveyRule(Operator.de, null, "deep-brain-stimulation"));
+        c.getRules().add(new SurveyRule(Operator.ne, "true", "deep-brain-stimulation"));
         setConstraints(ScriptUtils.booleanish());
     }};
     
@@ -370,7 +391,7 @@ public class ParkinsonDemographicSurvey extends BaseSurvey implements ScheduleHo
         setConstraints(c);
     }};
     
-    public ParkinsonDemographicSurvey() {
+    public ParkinsonEnrollmentSurvey() {
         setName("Parkinson Enrollment Survey");
         setIdentifier("parkinson-enrollment");
         getQuestions().add(age);
@@ -389,7 +410,7 @@ public class ParkinsonDemographicSurvey extends BaseSurvey implements ScheduleHo
         getQuestions().add(medicalUsage);
         getQuestions().add(medicalUsageYesterday);
         getQuestions().add(videoUsage);
-        getQuestions().add(hasPD);
+        // getQuestions().add(hasPD);
         getQuestions().add(professionalDiagnosis);
         getQuestions().add(onsetYear);
         getQuestions().add(diagnosisYear);
@@ -407,7 +428,7 @@ public class ParkinsonDemographicSurvey extends BaseSurvey implements ScheduleHo
 	public Schedule getSchedule(GuidCreatedOnVersionHolder survey) {
         Schedule schedule = new Schedule();
         schedule.setLabel("Enrollment survey");
-        ScriptUtils.setSurveyForSchedule(schedule, survey);
+        ScriptUtils.setSurveyActivity(schedule, survey);
         schedule.setScheduleType(ScheduleType.once);
         return schedule;
 	}
