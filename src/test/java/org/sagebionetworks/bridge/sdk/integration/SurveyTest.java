@@ -1,6 +1,7 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -21,7 +22,6 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
@@ -40,13 +40,10 @@ import org.sagebionetworks.bridge.sdk.models.surveys.SurveyQuestion;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyQuestionOption;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyRule;
 
-import com.google.common.collect.Lists;
-
 public class SurveyTest {
 
     private TestUser researcher;
     private TestUser user;
-    private List<GuidCreatedOnVersionHolder> keys = Lists.newArrayList();
 
     @Before
     public void before() {
@@ -54,43 +51,39 @@ public class SurveyTest {
         user = TestUserHelper.createAndSignInUser(SurveyTest.class, true);
         
         ResearcherClient client = researcher.getSession().getResearcherClient();
-        
-        for (Survey survey : client.getAllSurveysMostRecentVersion()) {
-            ResourceList<Survey> versions = client.getSurveyAllVersions(survey.getGuid());
-            for (Survey version : versions) {
-                client.closeSurvey(version);
-                client.deleteSurvey(version);
-            }
-        }
+        deleteAllSurveysInStudy(client);
     }
 
     @After
     public void after() {
         try {
             ResearcherClient client = researcher.getSession().getResearcherClient();
-            for (GuidCreatedOnVersionHolder key : keys) {
-                client.closeSurvey(key);
-                client.deleteSurvey(key);
-            }
+            deleteAllSurveysInStudy(client);
             assertEquals("Should be no surveys.", 0, client.getAllSurveysMostRecentVersion().getTotal());
         } finally {
             researcher.signOutAndDeleteUser();
             user.signOutAndDeleteUser();
         }
     }
+    
+    private void deleteAllSurveysInStudy(ResearcherClient client) {
+        for (Survey survey : client.getAllSurveysMostRecentVersion()) {
+            for (Survey version : client.getSurveyAllVersions(survey.getGuid())) {
+                client.closeSurvey(version);
+                client.deleteSurvey(version);
+            }
+        }
+    }
 
     @Test(expected=UnauthorizedException.class)
-    @Ignore
     public void cannotSubmitAsNormalUser() {
         user.getSession().getResearcherClient().getAllSurveysMostRecentVersion();
     }
 
     @Test
-    @Ignore
     public void saveAndRetrieveSurvey() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
         GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
-        keys.add(key);
         Survey survey = client.getSurvey(key);
 
         List<SurveyQuestion> questions = survey.getQuestions();
@@ -99,14 +92,11 @@ public class SurveyTest {
     }
 
     @Test
-    @Ignore
     public void createVersionPublish() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
 
         GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
-        keys.add(key);
         GuidCreatedOnVersionHolder laterKey = client.versionSurvey(key);
-        keys.add(laterKey);
         assertNotEquals("Version has been updated.", key.getCreatedOn(), laterKey.getCreatedOn());
 
         Survey survey = client.getSurvey(laterKey.getGuid(), laterKey.getCreatedOn());
@@ -118,14 +108,11 @@ public class SurveyTest {
     }
 
     @Test
-    @Ignore
     public void getAllVersionsOfASurvey() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
 
         GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
-        keys.add(key);
         key = client.versionSurvey(key);
-        keys.add(key);
         
         int count = client.getSurveyAllVersions(key.getGuid()).getTotal();
         assertEquals("Two versions for this survey.", 2, count);
@@ -134,30 +121,20 @@ public class SurveyTest {
     }
 
     @Test
-    @Ignore
     public void canGetMostRecentOrRecentlyPublishedSurvey() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
 
         GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
-        keys.add(key);
         key = client.versionSurvey(key);
-        keys.add(key);
         key = client.versionSurvey(key);
-        keys.add(key);
 
         GuidCreatedOnVersionHolder key1 = client.createSurvey(new TestSurvey());
-        keys.add(key1);
         key1 = client.versionSurvey(key1);
-        keys.add(key1);
         key1 = client.versionSurvey(key1);
-        keys.add(key1);
 
         GuidCreatedOnVersionHolder key2 = client.createSurvey(new TestSurvey());
-        keys.add(key2);
         key2 = client.versionSurvey(key2);
-        keys.add(key2);
         key2 = client.versionSurvey(key2);
-        keys.add(key2);
         
         ResourceList<Survey> recentSurveys = client.getAllSurveysMostRecentVersion();
         assertTrue("Recent versions of surveys exist in recentSurveys.", containsAll(recentSurveys.getItems(), key, key1, key2));
@@ -169,12 +146,10 @@ public class SurveyTest {
     }
 
     @Test
-    @Ignore
     public void canUpdateASurveyAndTypesAreCorrect() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
 
         GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
-        keys.add(key);
         Survey survey = client.getSurvey(key.getGuid(), key.getCreatedOn());
         assertEquals("Type is Survey.", survey.getClass(), Survey.class);
 
@@ -201,12 +176,10 @@ public class SurveyTest {
     }
 
     @Test
-    @Ignore
     public void dateBasedConstraintsPersistedCorrectly() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
 
         GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
-        keys.add(key);
         Survey survey = client.getSurvey(key);
 
         DateTimeConstraints dateCon = (DateTimeConstraints)getConstraints(survey, DATETIME_ID);
@@ -219,11 +192,9 @@ public class SurveyTest {
     }
 
     @Test
-    @Ignore
     public void researcherCannotUpdatePublishedSurvey() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
         GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
-        keys.add(key);
         client.publishSurvey(key);
 
         try {
@@ -249,16 +220,30 @@ public class SurveyTest {
         GuidCreatedOnVersionHolder key1 = client.versionSurvey(key);
         GuidCreatedOnVersionHolder key2 = client.versionSurvey(key1);
         client.publishSurvey(key2);
-        GuidCreatedOnVersionHolder key3 = client.versionSurvey(key2);
-        
-        keys.add(key);
-        keys.add(key1);
-        keys.add(key2);
-        keys.add(key3);
+        client.versionSurvey(key2);
         
         Survey found = client.getSurveyMostRecentlyPublishedVersion(key2.getGuid());
         assertEquals("This returns the right version", key2.getCreatedOn(), found.getCreatedOn());
         assertNotEquals("And these are really different versions", key.getCreatedOn(), found.getCreatedOn());
+    }
+    
+    @Test
+    public void canCallMultiOperationMethodToMakeSurveyUpdate() {
+        ResearcherClient client = researcher.getSession().getResearcherClient();
+        TestSurvey survey = new TestSurvey();
+        
+        GuidCreatedOnVersionHolder keys = client.createSurvey(survey);
+        
+        Survey existingSurvey = client.getSurvey(keys);
+        existingSurvey.setName("This is an update test");
+        
+        client.versionUpdateAndPublishSurvey(existingSurvey, true);
+        
+        ResourceList<Survey> allVersions = client.getSurveyAllVersions(keys.getGuid());
+        
+        assertEquals("There are now two versions", 2, allVersions.getTotal());
+        assertEquals("The latest has a new title", "This is an update test", allVersions.get(0).getName());
+        
     }
     
     private Constraints getConstraints(Survey survey, String id) {

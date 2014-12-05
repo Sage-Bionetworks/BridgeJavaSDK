@@ -135,6 +135,20 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
         post(config.getPublishSurveyApi(keys.getGuid(), keys.getCreatedOn()));
     }
     @Override
+    public GuidCreatedOnVersionHolder versionUpdateAndPublishSurvey(Survey survey, boolean publish) {
+        session.checkSignedIn();
+        checkNotNull(survey, Bridge.CANNOT_BE_NULL, "survey");
+        
+        // in essence, updating new version to hold all the data of the supplied survey.
+        GuidCreatedOnVersionHolder keys = versionSurvey(survey);
+        survey.setGuidCreatedOnVersionHolder(keys);
+        keys = updateSurvey(survey); 
+        if (publish) {
+            publishSurvey(survey);
+        }
+        return keys;
+    }
+    @Override
     public void closeSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
         checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
