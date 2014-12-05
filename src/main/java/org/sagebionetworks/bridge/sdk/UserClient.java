@@ -150,6 +150,8 @@ public interface UserClient {
     public Survey getSurvey(GuidCreatedOnVersionHolder keys);
     
     public Survey getSurvey(Schedule schedule);
+    
+    public Survey getMostRecentlyPublishedVersionOfSurvey(String surveyGuid);
 
     /**
      * Submit a list of SurveyAnswers to a particular survey.

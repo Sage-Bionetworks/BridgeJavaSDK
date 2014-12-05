@@ -219,6 +219,14 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         DateTime createdOn = DateTime.parse(parts[1]);
         return getSurvey(new SimpleGuidCreatedOnVersionHolder(guid, createdOn, null));
     }
+    
+    @Override
+    public Survey getMostRecentlyPublishedVersionOfSurvey(String surveyGuid) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(surveyGuid), "Survey guid cannot be null or empty.");
+        
+        return get(config.getRecentlyPublishedSurveyUserApi(surveyGuid), Survey.class);
+    }
 
     @Override
     public IdentifierHolder submitAnswersToSurvey(Survey survey, List<SurveyAnswer> answers) {

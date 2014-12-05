@@ -77,35 +77,15 @@ public interface ResearcherClient {
      */
     public GuidCreatedOnVersionHolder createSurvey(Survey survey);
 
-    /**
-     * Get all versions of all surveys associated with the Study currently signed in to.
-     *
-     * @return List<Survey>
-     */
-    public ResourceList<Survey> getAllVersionsOfAllSurveys();
-
-    /**
-     * Get the published versions of all surveys associated with Study currently signed in to.
-     *
-     * @return List<Survey>
-     */
-    public ResourceList<Survey> getPublishedVersionsOfAllSurveys();
-
-    /**
-     * Get the youngest (newest, most recent, etc) version of every survey in the study.
-     *
-     * @return List<Survey>
-     */
-    public ResourceList<Survey> getRecentVersionsOfAllSurveys();
-
-    /**
-     * Get every version associated with a particular Survey.
-     *
-     * @param guid
-     *            The GUID identifying the survey to retrieve.
-     * @return List<Survey>
-     */
-    public ResourceList<Survey> getAllVersionsOfASurvey(String guid);
+    public ResourceList<Survey> getSurveyAllVersions(String guid);
+    
+    public Survey getSurveyMostRecentVersion(String guid);
+    
+    public Survey getSurveyMostRecentlyPublishedVersion(String guid);
+    
+    public ResourceList<Survey> getAllSurveysMostRecentlyPublishedVersion();
+    
+    public ResourceList<Survey> getAllSurveysMostRecentVersion();
 
     /**
      * Create a new version for the survey identified by a guid string and the DateTime it was versioned on.

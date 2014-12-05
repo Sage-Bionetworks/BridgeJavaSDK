@@ -54,6 +54,9 @@ public final class Config {
         STUDY_CONSENT_GET_ACTIVE_API,
         STUDY_CONSENT_SET_ACTIVE_API,
         SURVEY_API,
+        SURVEY_RECENT_API,
+        SURVEY_RECENTLY_PUBLISHED_API,
+        SURVEY_RECENTLY_PUBLISHED_USER_API,
         SURVEY_USER_API,
         SURVEY_WITH_IDENTIFIER_USER_API,
         SURVEY_PUBLISH_API,
@@ -214,7 +217,7 @@ public final class Config {
     public String getSurveysApi() {
         return val(Props.SURVEYS_API);
     }
-    public String getRecentSurveysApi() {
+    public String getSurveysRecentApi() {
         return val(Props.SURVEYS_RECENT_API);
     }
     public String getSurveysPublishedApi() {
@@ -224,6 +227,14 @@ public final class Config {
         checkArgument(isNotBlank(guid));
         checkNotNull(createdOn);
         return String.format(val(Props.SURVEY_API), guid, createdOn.toString(ISODateTimeFormat.dateTime()));
+    }
+    public String getSurveyMostRecentlyPublishedVersionApi(String guid) {
+        checkArgument(isNotBlank(guid));
+        return String.format(val(Props.SURVEY_RECENTLY_PUBLISHED_API), guid);
+    }
+    public String getSurveyMostRecentVersionApi(String guid) {
+        checkArgument(isNotBlank(guid));
+        return String.format(val(Props.SURVEY_RECENT_API), guid);
     }
     public String getSurveyVersionsApi(String guid) {
         checkArgument(isNotBlank(guid));
@@ -248,6 +259,10 @@ public final class Config {
         checkArgument(isNotBlank(guid));
         checkNotNull(createdOn);
         return String.format(val(Props.SURVEY_USER_API), guid, createdOn.toString(ISODateTimeFormat.dateTime()));
+    }
+    public String getRecentlyPublishedSurveyUserApi(String guid) {
+        checkArgument(isNotBlank(guid));
+        return String.format(val(Props.SURVEY_RECENTLY_PUBLISHED_USER_API), guid);
     }
     public String getSurveyWithIdentifierUserApi(String guid, DateTime createdOn, String identifier) {
         checkArgument(isNotBlank(guid));
