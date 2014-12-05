@@ -47,6 +47,7 @@ public class CreateSurveys {
         client.updateSchedulePlan(plan);
     }
     
+    /*
     private static void updateSurvey(ResearcherClient client, SchedulePlan plan, Survey survey, Survey update) {
         GuidCreatedOnVersionHolder keys = client.versionSurvey(survey);
         
@@ -59,6 +60,7 @@ public class CreateSurveys {
         
         client.updateSchedulePlan(plan);
     }
+    */
 
     /* private static void createSurveyAndPlan(ResearcherClient client, Survey survey) {
         GuidCreatedOnVersionHolder keys = client.createSurvey(survey);

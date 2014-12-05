@@ -213,19 +213,16 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         session.checkSignedIn();
         checkNotNull(schedule, Bridge.CANNOT_BE_NULL, "schedule");
         checkArgument(schedule.getActivityType() == ActivityType.survey, "schedule is not for a survey");
-        
-        String[] parts = schedule.getActivityRef().split("/surveys/")[1].split("/");
+       
+        String url = schedule.getActivityRef();
+        String[] parts = url.split("/surveys/")[1].split("/");
         String guid = parts[0];
-        DateTime createdOn = DateTime.parse(parts[1]);
-        return getSurvey(new SimpleGuidCreatedOnVersionHolder(guid, createdOn, null));
-    }
-    
-    @Override
-    public Survey getMostRecentlyPublishedVersionOfSurvey(String surveyGuid) {
-        session.checkSignedIn();
-        checkArgument(isNotBlank(surveyGuid), "Survey guid cannot be null or empty.");
-        
-        return get(config.getRecentlyPublishedSurveyUserApi(surveyGuid), Survey.class);
+        if (url.contains("/published")) {
+            return get(config.getRecentlyPublishedSurveyUserApi(guid), Survey.class);
+        } else {
+            DateTime createdOn = DateTime.parse(parts[1]);
+            return getSurvey(new SimpleGuidCreatedOnVersionHolder(guid, createdOn, null));
+        }
     }
 
     @Override
