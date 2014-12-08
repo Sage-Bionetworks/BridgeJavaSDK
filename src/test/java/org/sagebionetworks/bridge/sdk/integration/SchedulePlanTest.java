@@ -101,16 +101,19 @@ public class SchedulePlanTest {
 
     @After
     public void after() {
-        // Try and clean up if that didn't happen in the test.
-        if (keys != null) {
-            researcherClient.deleteSchedulePlan(keys.getGuid());
+        try {
+            // Try and clean up if that didn't happen in the test.
+            if (keys != null) {
+                researcherClient.deleteSchedulePlan(keys.getGuid());
+            }
+            for (SchedulePlan plan : researcherClient.getSchedulePlans()) {
+                researcherClient.deleteSchedulePlan(plan.getGuid());
+            }
+            assertEquals("Test should have deleted all schedule plans.", researcherClient.getSchedulePlans().getTotal(), 0);
+        } finally {
+            researcher.signOutAndDeleteUser();
+            user.signOutAndDeleteUser();
         }
-        for (SchedulePlan plan : researcherClient.getSchedulePlans()) {
-            researcherClient.deleteSchedulePlan(plan.getGuid());
-        }
-        assertEquals("Test should have deleted all schedule plans.", researcherClient.getSchedulePlans().getTotal(), 0);
-        researcher.signOutAndDeleteUser();
-        user.signOutAndDeleteUser();
     }
 
     @Test
