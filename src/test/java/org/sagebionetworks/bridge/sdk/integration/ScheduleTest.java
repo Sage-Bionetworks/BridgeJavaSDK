@@ -35,11 +35,13 @@ public class ScheduleTest {
     
     @After
     public void after() {
-        ResearcherClient client = researcher.getSession().getResearcherClient();
-        client.deleteSchedulePlan(planGuid);
-        
-        user.signOutAndDeleteUser();
-        researcher.signOutAndDeleteUser();
+        try {
+            ResearcherClient client = researcher.getSession().getResearcherClient();
+            client.deleteSchedulePlan(planGuid);
+        } finally {
+            user.signOutAndDeleteUser();
+            researcher.signOutAndDeleteUser();
+        }
     }
     
     @Test
