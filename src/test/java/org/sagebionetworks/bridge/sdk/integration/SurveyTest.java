@@ -194,13 +194,12 @@ public class SurveyTest {
 
     @Ignore // user can now retrieve an unpublished survey; ask Alx about this requirement.
     public void participantCannotRetrieveUnpublishedSurvey() {
-        ResearcherClient client = researcher.getSession().getResearcherClient();
-        GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
-        keys.add(key);
+        //ResearcherClient client = researcher.getSession().getResearcherClient();
+        //GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
 
-        UserClient userClient = user.getSession().getUserClient();
-        userClient.getSurvey(key);
-        fail("Should not get here.");
+        //UserClient userClient = user.getSession().getUserClient();
+        //userClient.getSurvey(key);
+        //fail("Should not get here.");
     }
 
     @Test
