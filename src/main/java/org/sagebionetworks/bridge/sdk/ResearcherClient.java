@@ -53,7 +53,6 @@ public interface ResearcherClient {
      */
     public void activateStudyConsent(DateTime createdOn);
 
-    // SURVEYS
     /**
      * Get the survey versionedOn a particular DateTime and identified by the surveyGuid.
      *
@@ -65,6 +64,25 @@ public interface ResearcherClient {
      */
     public Survey getSurvey(String guid, DateTime versionedOn);
 
+    /**
+     * Take the supplied instance of a survey, make it the most recent version of the survey, save it, and 
+     * then immediately publish it if indicated. This combines several operations for the common case of making 
+     * trivial fixes to a survey, 
+     * 
+     * @param survey
+     *      survey to update (cannot be the initial creation of a survey) 
+     * @param publish
+     *      should this new version be published immediately after being saved?
+     * @return
+     */
+    public GuidCreatedOnVersionHolder versionUpdateAndPublishSurvey(Survey survey, boolean publish);
+    
+    /**
+     * Get a specific survey instance as identified by the GUID and createdOn keys.
+     * 
+     * @param keys
+     * @return
+     */
     public Survey getSurvey(GuidCreatedOnVersionHolder keys);
 
     /**
@@ -78,34 +96,41 @@ public interface ResearcherClient {
     public GuidCreatedOnVersionHolder createSurvey(Survey survey);
 
     /**
-     * Get all versions of all surveys associated with the Study currently signed in to.
-     *
-     * @return List<Survey>
-     */
-    public ResourceList<Survey> getAllVersionsOfAllSurveys();
-
-    /**
-     * Get the published versions of all surveys associated with Study currently signed in to.
-     *
-     * @return List<Survey>
-     */
-    public ResourceList<Survey> getPublishedVersionsOfAllSurveys();
-
-    /**
-     * Get the youngest (newest, most recent, etc) version of every survey in the study.
-     *
-     * @return List<Survey>
-     */
-    public ResourceList<Survey> getRecentVersionsOfAllSurveys();
-
-    /**
-     * Get every version associated with a particular Survey.
-     *
+     * Get all versions of a survey (the entire history of edits to that survey), most recent edit first in the list.
      * @param guid
-     *            The GUID identifying the survey to retrieve.
-     * @return List<Survey>
+     * @return
      */
-    public ResourceList<Survey> getAllVersionsOfASurvey(String guid);
+    public ResourceList<Survey> getSurveyAllVersions(String guid);
+    
+    /**
+     * Get the most recent version of a survey (the version with the latest createdOn timestamp).
+     * @param guid
+     * @return
+     */
+    public Survey getSurveyMostRecentVersion(String guid);
+    
+    /**
+     * Get the most recent version of a survey that has been published (the version with the latest createdOn timestamp
+     * that has been published). Note that this does not return "the survey version that was most recently switched 
+     * to the published state". Publishing versions out of their creation order does not change the version that is 
+     * returned by this method unless a later version is switched to the published state.
+     * 
+     * @param guid
+     * @return
+     */
+    public Survey getSurveyMostRecentlyPublishedVersion(String guid);
+    
+    /**
+     * Get the most recent and published version of every survey in a study (each survey with a unique GUID).
+     * @return
+     */
+    public ResourceList<Survey> getAllSurveysMostRecentlyPublishedVersion();
+    
+    /**
+     * Get the most recent version of every survey in a study (each survey with a unique GUID).
+     * @return
+     */
+    public ResourceList<Survey> getAllSurveysMostRecentVersion();
 
     /**
      * Create a new version for the survey identified by a guid string and the DateTime it was versioned on.
