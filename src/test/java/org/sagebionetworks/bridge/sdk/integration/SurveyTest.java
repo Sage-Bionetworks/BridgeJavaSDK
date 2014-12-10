@@ -22,6 +22,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
@@ -189,6 +190,17 @@ public class SurveyTest {
         assertEquals("Date is correct", DateTime.parse("2000-01-01").withZone(DateTimeZone.UTC), earliest);
         assertNotNull("Latest has been set", latest);
         assertEquals("Date is correct", DateTime.parse("2020-12-31").withZone(DateTimeZone.UTC), latest);
+    }
+
+    @Ignore // user can now retrieve an unpublished survey; ask Alx about this requirement.
+    public void participantCannotRetrieveUnpublishedSurvey() {
+        ResearcherClient client = researcher.getSession().getResearcherClient();
+        GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
+        keys.add(key);
+
+        UserClient userClient = user.getSession().getUserClient();
+        userClient.getSurvey(key);
+        fail("Should not get here.");
     }
 
     @Test

@@ -75,7 +75,13 @@ public class TestUserHelper {
         
         List<String> rolesList = (roles == null) ? Collections.<String>emptyList() : Arrays.asList(roles);
         String name = makeUserName(cls);
-        SignUpCredentials signUp = new SignUpCredentials(name, name + "@sagebridge.org", "P4ssword");
+
+        // For email address, we don't want consent emails to bounce or SES will get mad at us. All test user email
+        // addresses should be in the form bridge-testing+[semi-unique token]@sagebase.org. This directs all test
+        // email to bridge-testing@sagebase.org.
+        String emailAddress = String.format("bridge-testing+%s@sagebase.org", name);
+
+        SignUpCredentials signUp = new SignUpCredentials(name, emailAddress, "P4ssword");
         adminClient.createUser(signUp, rolesList, consent);
 
         Session userSession = null;
