@@ -49,6 +49,7 @@ public final class Config {
         SCHEDULES_API,
         SCHEDULEPLAN_API,
         SCHEDULEPLANS_API,
+        SDK_VERSION,
         STUDY_CONSENTS_API,
         STUDY_CONSENT_API,
         STUDY_CONSENT_GET_ACTIVE_API,
@@ -290,6 +291,9 @@ public final class Config {
     public String getAdminStudyApi(String identifier) {
         checkArgument(isNotBlank(identifier));
         return String.format(val(Props.ADMIN_STUDY_API), identifier);
+    }
+    public String getSdkVersion() {
+        return val(Props.SDK_VERSION);
     }
 
     private String val(Props prop) {

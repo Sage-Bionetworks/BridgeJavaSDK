@@ -69,6 +69,8 @@ public class TestUserHelper {
     public static TestUser createAndSignInUser(Class<?> cls, boolean consent, String... roles) {
         checkNotNull(cls);
 
+        ClientProvider.getClientInfo().withAppName("Integration Tests");
+        
         Config config = ClientProvider.getConfig();
         Session session = ClientProvider.signIn(config.getAdminCredentials());
         AdminClient adminClient = session.getAdminClient();
