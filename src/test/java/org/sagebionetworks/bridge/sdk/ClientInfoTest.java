@@ -11,40 +11,49 @@ public class ClientInfoTest {
     
     @Before
     public void before() {
-        info = new ClientInfo();
+        info = new ClientInfo(false); // no default values
     }
     
     @Test
-    public void appOnly() {
+    public void sdkOnly() {
         assertEquals("BridgeJavaSDK", info.toString());
     }
     
     @Test 
-    public void appAndDevice() {
-        info.setAppName("Belgium");
+    public void appOnly() {
+        info.withAppName("Belgium");
         assertEquals("Belgium BridgeJavaSDK", info.toString());
         
-        info.setAppVersion("1.0");
+        info.withAppVersion("1.0");
         assertEquals("Belgium/1.0 BridgeJavaSDK", info.toString());
     }
     
     @Test
-    public void deviceOnly() {
-        info.setDevice("Motorola Flip-Phone");
-        info.setOsName("Android");
-        info.setOsVersion("14");
-        
+    public void deviceAndOs() {
+        info.withDevice("Motorola Flip-Phone").withOsName("Android").withOsVersion("14");
         assertEquals("(Motorola Flip-Phone; Android/14) BridgeJavaSDK", info.toString());
     }
     
     @Test
+    public void deviceOnly() {
+        info.withDevice("Motorola Flip");
+        assertEquals("(Motorola Flip) BridgeJavaSDK", info.toString());
+    }
+    
+    @Test
+    public void osOnly() {
+        info.withOsName("Mac OSX").withOsVersion("10.5.1");
+        assertEquals("(Mac OSX/10.5.1) BridgeJavaSDK", info.toString());
+    }
+    
+    @Test
     public void everything() {
-        info.setAppName("Belgium");
-        info.setAppVersion("2.3");
-        info.setDevice("Motorola Flip-Phone");
-        info.setOsName("Android");
-        info.setOsVersion("14");
-        info.setSdkVersion("10");
+        info.withAppName("Belgium");
+        info.withAppVersion("2.3");
+        info.withDevice("Motorola Flip-Phone");
+        info.withOsName("Android");
+        info.withOsVersion("14");
+        info.withSdkVersion("10");
         
         assertEquals("Belgium/2.3 (Motorola Flip-Phone; Android/14) BridgeJavaSDK/10", info.toString());
     }

@@ -6,7 +6,6 @@ import static org.junit.Assert.fail;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.AdminClient;
@@ -73,10 +72,12 @@ public class StudyTest {
         assertEquals(50, newStudy.getMaxNumOfParticipants());
 
         client.deleteStudy(newStudy.getIdentifier());
+        
+        String identifier = study.getIdentifier();
         study = null;
         
         try {
-            newStudy = client.getStudy(study.getIdentifier());
+            newStudy = client.getStudy(identifier);
             fail("Should have thrown exception");
         } catch(EntityNotFoundException e) {
         }
@@ -114,6 +115,14 @@ public class StudyTest {
         Study serverStudy = rclient.getStudy();
         
         assertEquals(Tests.TEST_KEY+"_researcher", serverStudy.getResearcherRole());
+    }
+    
+    @Test(expected = UnauthorizedException.class)
+    public void butNormalUserCannotAccessStudy() {
+        TestUser user = TestUserHelper.createAndSignInUser(StudyTest.class, false);
+        
+        ResearcherClient rclient = user.getSession().getResearcherClient();
+        rclient.getStudy();
     }
     
 }
