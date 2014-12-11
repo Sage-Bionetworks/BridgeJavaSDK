@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.ClientProvider;
+import org.sagebionetworks.bridge.sdk.Config;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.ActivityType;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
@@ -56,11 +57,22 @@ public class ScriptUtils {
             ));
          }};
     }
+    public static void setMostRecentlyPublishedSurveyActivity(Schedule schedule, String guid) {
+        checkNotNull(schedule);
+        checkNotNull(guid);
+        
+        Config config = ClientProvider.getConfig();
+        String url = config.getHost() + config.getRecentlyPublishedSurveyUserApi(guid);
+        schedule.setActivityType(ActivityType.survey);
+        schedule.setActivityRef(url);
+    }
+    
     public static void setSurveyActivity(Schedule schedule, GuidCreatedOnVersionHolder keys) {
+        checkNotNull(schedule);
         checkNotNull(keys);
         
-        String url = ClientProvider.getConfig().getHost()
-                + ClientProvider.getConfig().getSurveyUserApi(keys.getGuid(), keys.getCreatedOn());
+        Config config = ClientProvider.getConfig();
+        String url = config.getHost() + config.getSurveyUserApi(keys.getGuid(), keys.getCreatedOn());
         schedule.setActivityType(ActivityType.survey);
         schedule.setActivityRef(url);
     }

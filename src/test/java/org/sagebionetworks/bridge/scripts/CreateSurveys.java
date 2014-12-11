@@ -13,7 +13,7 @@ import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 public class CreateSurveys {
     public static void main(String[] args) throws Exception {
         Config config = ClientProvider.getConfig();
-        config.set(Config.Props.HOST, "https://parkinson.sagebridge.org");
+        config.set(Config.Props.HOST, "https://parkinson-develop.sagebridge.org");
         Session session = ClientProvider.signIn(config.getAdminCredentials());
 
         ResearcherClient client = session.getResearcherClient();
@@ -25,11 +25,9 @@ public class CreateSurveys {
             GuidCreatedOnVersionHolder keys = ScriptUtils.getSurveyActivityKeys(strategy.getSchedule());
             Survey survey = client.getSurvey(keys);
             if ("Parkinson Enrollment Survey".equals(survey.getName())) {
-                // System.out.println(survey);
-                updateSurvey(client, plan, survey, new ParkinsonEnrollmentSurvey());
+                updatePlan(client, plan, survey);
             } else if ("Parkinson Monthly Survey".equals(survey.getName())) {
-                // System.out.println(survey);
-                updateSurvey(client, plan, survey, new ParkinsonMonthlySurvey());
+                updatePlan(client, plan, survey);
             }
         }
         /*
@@ -41,7 +39,15 @@ public class CreateSurveys {
         createSurveyAndPlan(client, new BreastcancerWeeklySurvey());
          */
     }
+
+    private static void updatePlan(ResearcherClient client, SchedulePlan plan, Survey survey) {
+        SimpleScheduleStrategy strategy = (SimpleScheduleStrategy)plan.getStrategy();
+        ScriptUtils.setMostRecentlyPublishedSurveyActivity(strategy.getSchedule(), survey.getGuid());
+
+        client.updateSchedulePlan(plan);
+    }
     
+    /*
     private static void updateSurvey(ResearcherClient client, SchedulePlan plan, Survey survey, Survey update) {
         GuidCreatedOnVersionHolder keys = client.versionSurvey(survey);
         
@@ -54,6 +60,7 @@ public class CreateSurveys {
         
         client.updateSchedulePlan(plan);
     }
+    */
 
     /* private static void createSurveyAndPlan(ResearcherClient client, Survey survey) {
         GuidCreatedOnVersionHolder keys = client.createSurvey(survey);

@@ -78,25 +78,32 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
         return get(config.getSurveyApi(keys.getGuid(), keys.getCreatedOn()), Survey.class);
     }
     @Override
-    public ResourceList<Survey> getAllVersionsOfAllSurveys() {
+    public ResourceList<Survey> getSurveyAllVersions(String guid) {
         session.checkSignedIn();
-        return get(config.getSurveysApi(), sType);
+        checkArgument(isNotBlank(guid), Bridge.CANNOT_BE_BLANK, "guid");
+        return get(config.getSurveyVersionsApi(guid), sType);
     }
     @Override
-    public ResourceList<Survey> getPublishedVersionsOfAllSurveys() {
+    public Survey getSurveyMostRecentlyPublishedVersion(String guid) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(guid), Bridge.CANNOT_BE_BLANK, "guid");
+        return get(config.getSurveyMostRecentlyPublishedVersionApi(guid), Survey.class);
+    }
+    @Override
+    public Survey getSurveyMostRecentVersion(String guid) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(guid), Bridge.CANNOT_BE_BLANK, "guid");
+        return get(config.getSurveyMostRecentVersionApi(guid), Survey.class);
+    }
+    @Override
+    public ResourceList<Survey> getAllSurveysMostRecentlyPublishedVersion() {
         session.checkSignedIn();
         return get(config.getSurveysPublishedApi(), sType);
     }
     @Override
-    public ResourceList<Survey> getRecentVersionsOfAllSurveys() {
+    public ResourceList<Survey> getAllSurveysMostRecentVersion() {
         session.checkSignedIn();
-        return get(config.getRecentSurveysApi(), sType);
-    }
-    @Override
-    public ResourceList<Survey> getAllVersionsOfASurvey(String guid) {
-        session.checkSignedIn();
-        checkArgument(isNotBlank(guid), Bridge.CANNOT_BE_BLANK, "guid");
-        return get(config.getSurveyVersionsApi(guid), sType);
+        return get(config.getSurveysRecentApi(), sType);
     }
     @Override
     public GuidCreatedOnVersionHolder createSurvey(Survey survey) {
@@ -126,6 +133,20 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
         checkArgument(isNotBlank(keys.getGuid()), Bridge.CANNOT_BE_BLANK, "guid");
         checkNotNull(keys.getCreatedOn(), Bridge.CANNOT_BE_NULL, "createdOn");
         post(config.getPublishSurveyApi(keys.getGuid(), keys.getCreatedOn()));
+    }
+    @Override
+    public GuidCreatedOnVersionHolder versionUpdateAndPublishSurvey(Survey survey, boolean publish) {
+        session.checkSignedIn();
+        checkNotNull(survey, Bridge.CANNOT_BE_NULL, "survey");
+        
+        // in essence, updating new version to hold all the data of the supplied survey.
+        GuidCreatedOnVersionHolder keys = versionSurvey(survey);
+        survey.setGuidCreatedOnVersionHolder(keys);
+        keys = updateSurvey(survey); 
+        if (publish) {
+            publishSurvey(survey);
+        }
+        return keys;
     }
     @Override
     public void closeSurvey(GuidCreatedOnVersionHolder keys) {
