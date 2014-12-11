@@ -9,8 +9,6 @@ import com.google.common.collect.Lists;
 
 public final class ClientInfo {
     
-    private static final Object LOCK = new Object();
-    
     private String appName = "";
     private String appVersion = "";
     private String device = "";
@@ -31,7 +29,7 @@ public final class ClientInfo {
      * @param appName
      * @return
      */
-    public ClientInfo withAppName(String appName) {
+    public synchronized ClientInfo withAppName(String appName) {
         this.appName = emptyStringIfNull(appName);
         return this;
     }
@@ -41,7 +39,7 @@ public final class ClientInfo {
      * @param appVersion
      * @return
      */
-    public ClientInfo withAppVersion(String appVersion) {
+    public synchronized ClientInfo withAppVersion(String appVersion) {
         this.appVersion = emptyStringIfNull(appVersion);
         return this;
     }
@@ -51,7 +49,7 @@ public final class ClientInfo {
      * @param device
      * @return
      */
-    public ClientInfo withDevice(String device) {
+    public synchronized ClientInfo withDevice(String device) {
         this.device = emptyStringIfNull(device);
         return this;
     }
@@ -61,7 +59,7 @@ public final class ClientInfo {
      * @param osName
      * @return
      */
-    public ClientInfo withOsName(String osName) {
+    public synchronized ClientInfo withOsName(String osName) {
         this.osName = emptyStringIfNull(osName);
         return this;
     }
@@ -71,12 +69,12 @@ public final class ClientInfo {
      * @param osVersion
      * @return
      */
-    public ClientInfo withOsVersion(String osVersion) {
+    public synchronized ClientInfo withOsVersion(String osVersion) {
         this.osVersion = emptyStringIfNull(osVersion);
         return this;
     }
     // Private setter for tests
-    ClientInfo withSdkVersion(String sdkVersion) {
+    synchronized ClientInfo withSdkVersion(String sdkVersion) {
         this.sdkVersion = sdkVersion;
         return this;
     }
@@ -86,29 +84,27 @@ public final class ClientInfo {
     }
     
     @Override
-    public String toString() {
-        synchronized(LOCK) {
-            List<String> stanzas = Lists.newArrayListWithCapacity(3);
-            if (isNotBlank(appName) && isNotBlank(appVersion)) {
-                stanzas.add(String.format("%s/%s", appName, appVersion));
-            } else if (isNotBlank(appName)) {
-                stanzas.add(appName);
-            } else if (isNotBlank(appVersion)) {
-                stanzas.add(appVersion);
-            }
-            if (isNotBlank(device) && isNotBlank(osName)) {
-                stanzas.add(String.format("(%s; %s/%s)", device, osName, osVersion));
-            } else if (isNotBlank(device)) {
-                stanzas.add(String.format("(%s)", device));
-            } else if (isNotBlank(osName)){
-                stanzas.add(String.format("(%s/%s)", osName, osVersion));
-            }
-            if (isNotBlank(sdkVersion)) {
-                stanzas.add(String.format("BridgeJavaSDK/%s", sdkVersion));    
-            } else {
-                stanzas.add("BridgeJavaSDK");
-            }
-            return Joiner.on(" ").join(stanzas);
+    public synchronized String toString() {
+        List<String> stanzas = Lists.newArrayListWithCapacity(3);
+        if (isNotBlank(appName) && isNotBlank(appVersion)) {
+            stanzas.add(String.format("%s/%s", appName, appVersion));
+        } else if (isNotBlank(appName)) {
+            stanzas.add(appName);
+        } else if (isNotBlank(appVersion)) {
+            stanzas.add(appVersion);
         }
+        if (isNotBlank(device) && isNotBlank(osName)) {
+            stanzas.add(String.format("(%s; %s/%s)", device, osName, osVersion));
+        } else if (isNotBlank(device)) {
+            stanzas.add(String.format("(%s)", device));
+        } else if (isNotBlank(osName)){
+            stanzas.add(String.format("(%s/%s)", osName, osVersion));
+        }
+        if (isNotBlank(sdkVersion)) {
+            stanzas.add(String.format("BridgeJavaSDK/%s", sdkVersion));    
+        } else {
+            stanzas.add("BridgeJavaSDK");
+        }
+        return Joiner.on(" ").join(stanzas);
     }
 }
