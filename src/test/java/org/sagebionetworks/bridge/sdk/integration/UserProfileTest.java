@@ -1,9 +1,6 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
-import static org.sagebionetworks.bridge.Tests.untilConsistent;
-
-import java.util.concurrent.Callable;
 
 import org.junit.After;
 import org.junit.Before;
@@ -36,12 +33,6 @@ public class UserProfileTest {
         profile.setLastName("Crockett");
 
         client.saveProfile(profile);
-
-        untilConsistent(new Callable<Boolean>() {
-            @Override public Boolean call() throws Exception {
-                return "Davey".equals(client.getProfile().getFirstName());
-            }
-        });
 
         profile = client.getProfile();
 

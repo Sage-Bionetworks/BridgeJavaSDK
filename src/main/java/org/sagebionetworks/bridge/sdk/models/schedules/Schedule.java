@@ -1,18 +1,21 @@
 package org.sagebionetworks.bridge.sdk.models.schedules;
 
+import java.util.List;
+
 import org.joda.time.DateTime;
 import org.joda.time.Period;
+
+import com.google.common.collect.Lists;
 
 public class Schedule {
 
     private String label;
-    private ActivityType activityType;
-    private String activityRef;
     private ScheduleType scheduleType = ScheduleType.once;
     private String cronTrigger;
     private DateTime startsOn;
     private DateTime endsOn;
     private Period expires;
+    private List<Activity> activities = Lists.newArrayList();
     
     public String getLabel() {
         return label;
@@ -51,25 +54,20 @@ public class Schedule {
     public void setExpires(Period expires) {
         this.expires = expires;
     }
-    public ActivityType getActivityType() {
-        return activityType;
+    public void addActivity(Activity activity) {
+        this.activities.add(activity);
     }
-    public void setActivityType(ActivityType activityType) {
-        this.activityType = activityType;
+    public void setActivities(List<Activity> activities) {
+        this.activities = activities;
     }
-    public String getActivityRef() {
-        return activityRef;
-    }
-    public void setActivityRef(String activityRef) {
-        this.activityRef = activityRef;
+    public List<Activity> getActivities() {
+        return activities;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((activityRef == null) ? 0 : activityRef.hashCode());
-        result = prime * result + ((activityType == null) ? 0 : activityType.hashCode());
         result = prime * result + ((cronTrigger == null) ? 0 : cronTrigger.hashCode());
         result = prime * result + ((endsOn == null) ? 0 : endsOn.hashCode());
         result = prime * result + ((expires == null) ? 0 : expires.hashCode());
@@ -88,13 +86,6 @@ public class Schedule {
         if (getClass() != obj.getClass())
             return false;
         Schedule other = (Schedule) obj;
-        if (activityRef == null) {
-            if (other.activityRef != null)
-                return false;
-        } else if (!activityRef.equals(other.activityRef))
-            return false;
-        if (activityType != other.activityType)
-            return false;
         if (cronTrigger == null) {
             if (other.cronTrigger != null)
                 return false;
@@ -127,9 +118,8 @@ public class Schedule {
 
     @Override
     public String toString() {
-        return "Schedule [label=" + label + ", activityType=" + activityType + ", activityRef=" + activityRef
-                + ", scheduleType=" + scheduleType + ", cronTrigger=" + cronTrigger + ", startsOn=" + startsOn
-                + ", endsOn=" + endsOn + ", expires=" + expires + "]";
+        return "Schedule [label=" + label + ", scheduleType=" + scheduleType + ", cronTrigger=" + cronTrigger
+                + ", startsOn=" + startsOn + ", endsOn=" + endsOn + ", expires=" + expires + "]";
     }
     
 }

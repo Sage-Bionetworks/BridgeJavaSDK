@@ -59,6 +59,17 @@ public class SchedulePlan implements GuidVersionHolder {
     public void setStrategy(ScheduleStrategy strategy) {
         this.strategy = strategy;
     }
+    
+    /**
+     * Set a schedule directly for a plan: all users in the study will get the same activities
+     * on the same schedule. Equivalent to creating a SimpleScheduleStrategy with the same 
+     * schedule, and adding that to the plan.
+     * 
+     * @param schedule
+     */
+    public void setSchedule(Schedule schedule) {
+        setStrategy(new SimpleScheduleStrategy(schedule));
+    }
 
     @Override
     public String toString() {
