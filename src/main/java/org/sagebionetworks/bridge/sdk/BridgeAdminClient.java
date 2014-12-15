@@ -49,6 +49,13 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
         return response.getStatusLine().getStatusCode() == 200;
     }
     @Override
+    public boolean deleteAllTestUsers() {
+        session.checkSignedIn();
+
+        HttpResponse response = delete(config.getUserManagementAllTestUsersApi());
+        return response.getStatusLine().getStatusCode() == 200;
+    }
+    @Override
     public Study getStudy(String identifier) {
         session.checkSignedIn();
         return get(config.getAdminStudyApi(identifier), Study.class);

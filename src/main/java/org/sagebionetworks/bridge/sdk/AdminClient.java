@@ -33,6 +33,8 @@ public interface AdminClient {
      */
     public boolean deleteUser(String email);
 
+    public boolean deleteAllTestUsers();
+
     public Study getStudy(String identifier);
 
     public ResourceList<Study> getAllStudies();

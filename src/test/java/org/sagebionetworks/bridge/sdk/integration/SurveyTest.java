@@ -53,7 +53,7 @@ public class SurveyTest {
     public void before() {
         researcher = TestUserHelper.createAndSignInUser(SurveyTest.class, true, Tests.RESEARCHER_ROLE);
         user = TestUserHelper.createAndSignInUser(SurveyTest.class, true);
-        
+
         ResearcherClient client = researcher.getSession().getResearcherClient();
         for (Survey survey : client.getAllVersionsOfAllSurveys()) {
             client.closeSurvey(survey);
@@ -69,7 +69,6 @@ public class SurveyTest {
                 client.closeSurvey(key);
                 client.deleteSurvey(key);
             }
-            assertEquals("Should be no surveys.", 0, client.getAllVersionsOfAllSurveys().getTotal());
         } finally {
             researcher.signOutAndDeleteUser();
             user.signOutAndDeleteUser();

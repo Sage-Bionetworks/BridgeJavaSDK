@@ -2,6 +2,7 @@ package org.sagebionetworks.bridge.sdk;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -26,12 +27,19 @@ public class TestUserHelper {
 
         public TestUser(AdminClient client, Session userSession, String username, String email, String password,
                 List<String> roleList) {
-            
+
             this.adminClient = client;
             this.userSession = userSession;
             this.username = username;
             this.email = email;
             this.password = password;
+
+            if (roleList == null) {
+                roleList = new ArrayList<String>();
+            }
+            if (!roleList.contains("test_users")) {
+                roleList.add("test_users");
+            }
             this.roles = roleList;
         }
         public Session getSession() {
@@ -72,8 +80,9 @@ public class TestUserHelper {
         Config config = ClientProvider.getConfig();
         Session session = ClientProvider.signIn(config.getAdminCredentials());
         AdminClient adminClient = session.getAdminClient();
-        
+
         List<String> rolesList = (roles == null) ? Collections.<String>emptyList() : Arrays.asList(roles);
+        rolesList.add("test_users");
         String name = makeUserName(cls);
 
         // For email address, we don't want consent emails to bounce or SES will get mad at us. All test user email
