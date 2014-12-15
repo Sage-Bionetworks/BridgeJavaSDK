@@ -78,13 +78,13 @@ public class TestUserHelper {
         checkNotNull(cls);
 
         ClientProvider.getClientInfo().withAppName("Integration Tests");
-        
+
         Config config = ClientProvider.getConfig();
         Session session = ClientProvider.signIn(config.getAdminCredentials());
         AdminClient adminClient = session.getAdminClient();
 
-        List<String> rolesList = (roles == null) ? Collections.<String>emptyList() : Arrays.asList(roles);
-        rolesList.add("test_users");
+        List<String> rolesList = (roles == null) ?
+                Collections.<String> emptyList() : new ArrayList<String>(Arrays.asList(roles));
         String name = makeUserName(cls);
 
         // For email address, we don't want consent emails to bounce or SES will get mad at us. All test user email

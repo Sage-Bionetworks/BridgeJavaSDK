@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.joda.time.DateTime;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
@@ -32,16 +33,14 @@ public class UploadTest {
 
     @Before
     public void before() {
-        System.out.println("BEFORE");
         testUser = TestUserHelper.createAndSignInUser(UploadTest.class, true);
         user = testUser.getSession().getUserClient();
 
         createTextFile();
     }
 
-//    @After
+    @After
     public void after() {
-        System.out.println("AFTER");
         testUser.signOutAndDeleteUser();
         deleteTextFile();
     }
@@ -54,7 +53,7 @@ public class UploadTest {
         user.upload(session, request, test);
     }
 
-//    @Test
+    @Test
     public void cannotUploadAfterExpirationDate() {
         UploadRequest request = createRequest();
         UploadSession session = user.requestUploadSession(request);

@@ -10,12 +10,12 @@ public class GlobalCleanup {
     private static TestUser admin;
 
     @BeforeClass
-    public void setup() {
+    public static void setup() {
         admin = TestUserHelper.getSignedInAdmin();
     }
 
     @AfterClass
-    public void teardown() {
+    public static void teardown() {
         admin.getSession().signOut();
     }
 
@@ -23,4 +23,5 @@ public class GlobalCleanup {
     public void deleteAllAccruedTestUsers() {
         admin.getSession().getAdminClient().deleteAllTestUsers();
     }
+
 }
