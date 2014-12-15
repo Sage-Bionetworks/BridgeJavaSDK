@@ -10,7 +10,9 @@ import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
 
 public class ClientProvider {
 
-    private static Config config;
+    private static final Config config = Config.valueOf();
+    
+    private static final ClientInfo info = new ClientInfo(true);
     
     /**
      * Retrieve the Config object for the system.
@@ -18,10 +20,11 @@ public class ClientProvider {
      * @return Config
      */
     public static synchronized Config getConfig() {
-        if (config == null) {
-            config = Config.valueOf();
-        }
         return config;
+    }
+    
+    public static ClientInfo getClientInfo() {
+        return info;
     }
 
     /**

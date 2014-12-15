@@ -143,7 +143,7 @@ class BaseApiCaller {
         try {
 
             Request request = Request.Get(url);
-            addSessionHeader(request);
+            addApplicationHeaders(request);
             logger.debug("GET {}", url);
             HttpResponse response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, url);
@@ -171,7 +171,7 @@ class BaseApiCaller {
         try {
 
             Request request = Request.Post(url);
-            addSessionHeader(request);
+            addApplicationHeaders(request);
             logger.debug("POST {}\n    <EMPTY>", url);
             HttpResponse response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, url);
@@ -226,7 +226,7 @@ class BaseApiCaller {
         try {
 
             Request request = Request.Post(url);
-            addSessionHeader(request);
+            addApplicationHeaders(request);
             if (json != null) {
                 request.bodyString(json, ContentType.APPLICATION_JSON);
                 logger.debug("POST {} \n     {}", url, maskPassword(json));
@@ -247,7 +247,7 @@ class BaseApiCaller {
 
         try {
             Request request = Request.Delete(url);
-            addSessionHeader(request);
+            addApplicationHeaders(request);
             logger.debug("DELETE {}", url);
             HttpResponse response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, url);
@@ -269,7 +269,8 @@ class BaseApiCaller {
     }
 
 
-    private void addSessionHeader(Request request) {
+    private void addApplicationHeaders(Request request) {
+        request.setHeader("User-Agent", ClientProvider.getClientInfo().toString());
         if (session != null && session.isSignedIn()) {
             request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
         }

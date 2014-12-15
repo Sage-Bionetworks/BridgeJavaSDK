@@ -23,9 +23,13 @@ public class Tests {
 
     public static final void untilConsistent(Callable<Boolean> callable) throws Exception {
         // Have been seeing some significant delays locally, hence the really high wait/try numbers.
+        
+        callable.call();
+        // Don't poll more than once, no code executes off the request thread right now.
+        /*
         int delay = 500;
         int loopLimit = 150;
-        int successesLimit = 3;
+        int successesLimit = 1; 
         int loops = 0;
         int successes = 0;
         while (successes < successesLimit && loops < loopLimit) {
@@ -39,7 +43,7 @@ public class Tests {
                     successesLimit, loops, loopLimit);
             logger.debug(msg);
             Thread.sleep(delay);
-        }
+        }*/
     }
 
     public static final Properties getApplicationProperties() {
