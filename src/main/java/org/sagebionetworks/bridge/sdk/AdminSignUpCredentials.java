@@ -10,7 +10,7 @@ class AdminSignUpCredentials {
     private final String password;
     private final List<String> roles;
     private final boolean consent;
-    
+
     public AdminSignUpCredentials(SignUpCredentials signUp, List<String> roles, boolean consent) {
         this.username = signUp.getUsername();
         this.email = signUp.getEmail();

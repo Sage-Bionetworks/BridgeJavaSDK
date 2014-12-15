@@ -85,6 +85,7 @@ public class TestUserHelper {
 
         List<String> rolesList = (roles == null) ?
                 Collections.<String> emptyList() : new ArrayList<String>(Arrays.asList(roles));
+        rolesList.add("test_users");
         String name = makeUserName(cls);
 
         // For email address, we don't want consent emails to bounce or SES will get mad at us. All test user email
