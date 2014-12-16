@@ -4,8 +4,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.http.HttpResponse;
 import org.joda.time.DateTime;
@@ -28,7 +28,7 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
     }
 
     @Override
-    public boolean createUser(SignUpCredentials signUp, List<String> roles, boolean consent) {
+    public boolean createUser(SignUpCredentials signUp, Set<String> roles, boolean consent) {
         session.checkSignedIn();
         checkArgument(isNotBlank(signUp.getUsername()));
         checkArgument(isNotBlank(signUp.getPassword()));
@@ -46,13 +46,6 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
         queryParams.put("email", email);
 
         HttpResponse response = delete(config.getUserManagementApi() + toQueryString(queryParams));
-        return response.getStatusLine().getStatusCode() == 200;
-    }
-    @Override
-    public boolean deleteAllTestUsers() {
-        session.checkSignedIn();
-
-        HttpResponse response = delete(config.getUserManagementAllTestUsersApi());
         return response.getStatusLine().getStatusCode() == 200;
     }
     @Override

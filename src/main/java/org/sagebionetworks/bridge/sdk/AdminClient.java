@@ -1,6 +1,6 @@
 package org.sagebionetworks.bridge.sdk;
 
-import java.util.List;
+import java.util.Set;
 
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
@@ -22,7 +22,7 @@ public interface AdminClient {
      *            Whether the user should be automatically consented upon sign up.
      * @return true if success, false if failure.
      */
-    public boolean createUser(SignUpCredentials signUp, List<String> roles, boolean consent);
+    public boolean createUser(SignUpCredentials signUp, Set<String> roles, boolean consent);
 
     /**
      * Delete a user.
@@ -32,8 +32,6 @@ public interface AdminClient {
      * @return true if success, false if failure.
      */
     public boolean deleteUser(String email);
-
-    public boolean deleteAllTestUsers();
 
     public Study getStudy(String identifier);
 

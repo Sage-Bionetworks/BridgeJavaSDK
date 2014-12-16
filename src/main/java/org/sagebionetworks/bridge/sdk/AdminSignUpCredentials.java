@@ -1,6 +1,6 @@
 package org.sagebionetworks.bridge.sdk;
 
-import java.util.List;
+import java.util.Set;
 
 import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
 
@@ -8,10 +8,10 @@ class AdminSignUpCredentials {
     private final String username;
     private final String email;
     private final String password;
-    private final List<String> roles;
+    private final Set<String> roles;
     private final boolean consent;
 
-    public AdminSignUpCredentials(SignUpCredentials signUp, List<String> roles, boolean consent) {
+    public AdminSignUpCredentials(SignUpCredentials signUp, Set<String> roles, boolean consent) {
         this.username = signUp.getUsername();
         this.email = signUp.getEmail();
         this.password = signUp.getPassword();
@@ -27,7 +27,7 @@ class AdminSignUpCredentials {
     public String getPassword() {
         return password;
     }
-    public List<String> getRoles() {
+    public Set<String> getRoles() {
         return roles;
     }
     public boolean isConsent() {
