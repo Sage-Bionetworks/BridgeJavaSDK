@@ -72,8 +72,9 @@ public final class Config {
         UPLOAD_API,
         UPLOAD_COMPLETE_API,
         USER_MANAGEMENT_API,
-        USER_MANAGEMENT_CONSENT_API;
-        
+        USER_MANAGEMENT_CONSENT_API,
+        USER_MANAGEMENT_ALLTESTUSERS_API;
+
         public String getPropertyName() {
             return this.name().replace("_", ".").toLowerCase();
         }
@@ -211,6 +212,9 @@ public final class Config {
     }
     public String getUserManagementApi() {
         return val(Props.USER_MANAGEMENT_API);
+    }
+    public String getUserManagementAllTestUsersApi() {
+        return val(Props.USER_MANAGEMENT_ALLTESTUSERS_API);
     }
     public String getSchedulesApi() {
         return val(Props.SCHEDULES_API);

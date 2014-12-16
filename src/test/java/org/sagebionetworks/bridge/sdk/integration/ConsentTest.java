@@ -8,11 +8,8 @@ import static org.junit.Assert.fail;
 
 import java.util.Map;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.joda.time.LocalDate;
 import org.joda.time.format.ISODateTimeFormat;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
@@ -21,6 +18,8 @@ import org.sagebionetworks.bridge.sdk.exceptions.ConsentRequiredException;
 import org.sagebionetworks.bridge.sdk.exceptions.EntityAlreadyExistsException;
 import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SuppressWarnings("unchecked")
 public class ConsentTest {
@@ -72,7 +71,7 @@ public class ConsentTest {
             user.signOutAndDeleteUser();
         }
     }
-    
+
     @Test(expected=InvalidEntityException.class)
     public void userMustMeetMinAgeRequirements() {
         TestUser user = TestUserHelper.createAndSignInUser(ConsentTest.class, false);
