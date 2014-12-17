@@ -10,16 +10,18 @@ final class UserSession {
     private final boolean authenticated;
     private final boolean consented;
     private final boolean dataSharing;
+    private final boolean signedMostRecentConsent;
 
     @JsonCreator
     private UserSession(@JsonProperty("username") String username, @JsonProperty("sessionToken") String sessionToken,
             @JsonProperty("authenticated") boolean authenticated, @JsonProperty("consented") boolean consented,
-            @JsonProperty("dataSharing") boolean dataSharing) {
+            @JsonProperty("dataSharing") boolean dataSharing, @JsonProperty("signedMostRecentConsent") boolean signedMostRecentConsent) {
         this.username = username;
         this.sessionToken = sessionToken;
         this.consented = consented;
         this.authenticated = authenticated;
         this.dataSharing = dataSharing;
+        this.signedMostRecentConsent = signedMostRecentConsent;
     }
 
     public String getUsername() {
@@ -41,12 +43,17 @@ final class UserSession {
     public boolean isDataSharing() {
         return this.dataSharing;
     }
+    
+    public boolean hasSignedMostRecentConsent() {
+        return signedMostRecentConsent;
+    }
 
     @Override
     public String toString() {
         return "UserSession[username=" + username + ", sessionToken=" + sessionToken + ", authenticated="
                 + Boolean.toString(authenticated) + ", consented=" + Boolean.toString(consented) + ", dataSharing="
-                + Boolean.toString(dataSharing) + "]";
+                + Boolean.toString(dataSharing) + ", signedMostRecentConsent="
+                + Boolean.toString(signedMostRecentConsent) + "]";
     }
 
 }

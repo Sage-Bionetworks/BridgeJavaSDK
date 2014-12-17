@@ -186,7 +186,6 @@ class BaseApiCaller {
 
     protected HttpResponse post(String url, Object object) {
         try {
-
             return postJSON(url, mapper.writeValueAsString(object));
 
         } catch (JsonProcessingException e) {

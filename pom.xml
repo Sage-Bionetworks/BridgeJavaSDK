@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.sagebionetworks</groupId>
-    <artifactId>BridgeJavaSDK</artifactId>
+    <groupId>org.sagebionetworks.bridge</groupId>
+    <artifactId>java-sdk</artifactId>
     <packaging>jar</packaging>
-    <version>1.0</version>
+    <version>develop-SNAPSHOT</version>
     <name>BridgeJavaSDK</name>
     <url>https://api.sagebridge.org</url>
     
@@ -99,6 +99,12 @@
             <name>sagebionetworks-releases</name>
             <url>http://sagebionetworks.artifactoryonline.com/sagebionetworks/ext-releases-local</url>
         </repository>
+		<snapshotRepository>
+			<id>sagebionetworks</id>
+			<name>sagebionetworks-snapshots</name>
+			<url>http://sagebionetworks.artifactoryonline.com/sagebionetworks/libs-snapshots-local</url>
+			<uniqueVersion>false</uniqueVersion>
+		</snapshotRepository>        
     </distributionManagement>
 
 

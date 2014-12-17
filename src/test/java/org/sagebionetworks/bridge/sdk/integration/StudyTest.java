@@ -20,11 +20,11 @@ import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import com.google.common.collect.Lists;
 
 public class StudyTest {
-    
+
     private TestUser admin;
-    
+
     private Study study;
-    
+
     @Before
     public void before() {
         admin = TestUserHelper.getSignedInAdmin();
@@ -46,22 +46,22 @@ public class StudyTest {
         study.setMaxNumOfParticipants(100);
         study.setName("Test Study [SDK]");
         study.setTrackers(Lists.newArrayList("sage:A", "sage:B"));
-        
-        AdminClient client = admin.getSession().getAdminClient();        
+
+        AdminClient client = admin.getSession().getAdminClient();
         VersionHolder holder = client.createStudy(study);
         assertNotNull(holder.getVersion());
-        
+
         Study newStudy = client.getStudy(study.getIdentifier());
-        
+
         assertEquals(study.getMinAgeOfConsent(), newStudy.getMinAgeOfConsent());
         assertEquals(study.getMaxNumOfParticipants(), newStudy.getMaxNumOfParticipants());
         assertEquals(study.getName(), newStudy.getName());
         assertEquals(2, newStudy.getTrackers().size());
         assertNotNull("Study hostname", newStudy.getHostname());
         assertNotNull("Study researcher role", newStudy.getResearcherRole());
-        
+
         String alteredName = "Altered Test Study [SDK]";
-        
+
         study.setName(alteredName);
         study.setMaxNumOfParticipants(50);
         study.setVersion(holder.getVersion()); // also in newStudy.getVersion(), of course
@@ -72,10 +72,10 @@ public class StudyTest {
         assertEquals(50, newStudy.getMaxNumOfParticipants());
 
         client.deleteStudy(newStudy.getIdentifier());
-        
+
         String identifier = study.getIdentifier();
         study = null;
-        
+
         try {
             newStudy = client.getStudy(identifier);
             fail("Should have thrown exception");
@@ -91,10 +91,10 @@ public class StudyTest {
         study.setMaxNumOfParticipants(100);
         study.setName("Test Study [SDK]");
         study.setTrackers(Lists.newArrayList("sage:A", "sage:B"));
-        
-        AdminClient client = admin.getSession().getAdminClient();        
+
+        AdminClient client = admin.getSession().getAdminClient();
         client.createStudy(study);
-        
+
         TestUser researcher = TestUserHelper.createAndSignInUser(StudyTest.class, false, Tests.TEST_KEY+"_researcher");
         try {
             researcher.getSession().getAdminClient().getStudy(study.getIdentifier());
@@ -104,25 +104,33 @@ public class StudyTest {
         } finally {
             researcher.signOutAndDeleteUser();
         }
-        
+
     }
-    
+
     @Test
     public void researcherCanAccessStudy() {
         TestUser researcher = TestUserHelper.createAndSignInUser(StudyTest.class, false, Tests.TEST_KEY+"_researcher");
-        
-        ResearcherClient rclient = researcher.getSession().getResearcherClient();
-        Study serverStudy = rclient.getStudy();
-        
-        assertEquals(Tests.TEST_KEY+"_researcher", serverStudy.getResearcherRole());
+        try {
+            ResearcherClient rclient = researcher.getSession().getResearcherClient();
+            Study serverStudy = rclient.getStudy();
+
+            assertEquals(Tests.TEST_KEY+"_researcher", serverStudy.getResearcherRole());
+        } finally {
+            researcher.signOutAndDeleteUser();
+        }
+
+
     }
-    
+
     @Test(expected = UnauthorizedException.class)
     public void butNormalUserCannotAccessStudy() {
         TestUser user = TestUserHelper.createAndSignInUser(StudyTest.class, false);
-        
-        ResearcherClient rclient = user.getSession().getResearcherClient();
-        rclient.getStudy();
+        try {
+            ResearcherClient rclient = user.getSession().getResearcherClient();
+            rclient.getStudy();
+        } finally {
+            user.signOutAndDeleteUser();
+        }
     }
-    
+
 }

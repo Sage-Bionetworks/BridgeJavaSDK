@@ -2,9 +2,8 @@ package org.sagebionetworks.bridge.sdk;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.sagebionetworks.bridge.Tests;
@@ -12,7 +11,7 @@ import org.sagebionetworks.bridge.sdk.exceptions.ConsentRequiredException;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 public class TestUserHelper {
 
@@ -22,17 +21,18 @@ public class TestUserHelper {
         private final String username;
         private final String email;
         private final String password;
-        private final List<String> roles;
+        private final Set<String> roles;
 
         public TestUser(AdminClient client, Session userSession, String username, String email, String password,
-                List<String> roleList) {
-            
+                Set<String> roleList) {
+
             this.adminClient = client;
             this.userSession = userSession;
             this.username = username;
             this.email = email;
             this.password = password;
-            this.roles = roleList;
+            this.roles = (roleList == null) ? new HashSet<String>() : roleList;
+            roles.add("test_users");
         }
         public Session getSession() {
             return userSession;
@@ -46,7 +46,7 @@ public class TestUserHelper {
         public String getPassword() {
             return password;
         }
-        public List<String> getRoles() {
+        public Set<String> getRoles() {
             return roles;
         }
         public boolean signOutAndDeleteUser() {
@@ -63,19 +63,20 @@ public class TestUserHelper {
         Session session = ClientProvider.signIn(config.getAdminCredentials());
         AdminClient adminClient = session.getAdminClient();
 
-        return new TestUserHelper.TestUser(adminClient, session, "", "", "", Lists.newArrayList(Tests.ADMIN_ROLE));
+        return new TestUserHelper.TestUser(adminClient, session, "", "", "", Sets.newHashSet(Tests.ADMIN_ROLE));
     }
 
     public static TestUser createAndSignInUser(Class<?> cls, boolean consent, String... roles) {
         checkNotNull(cls);
 
         ClientProvider.getClientInfo().withAppName("Integration Tests");
-        
+
         Config config = ClientProvider.getConfig();
         Session session = ClientProvider.signIn(config.getAdminCredentials());
         AdminClient adminClient = session.getAdminClient();
-        
-        List<String> rolesList = (roles == null) ? Collections.<String>emptyList() : Arrays.asList(roles);
+
+        Set<String> rolesList = (roles == null) ? Sets.<String>newHashSet() : Sets.newHashSet(roles);
+        rolesList.add("test_users");
         String name = makeUserName(cls);
 
         // For email address, we don't want consent emails to bounce or SES will get mad at us. All test user email

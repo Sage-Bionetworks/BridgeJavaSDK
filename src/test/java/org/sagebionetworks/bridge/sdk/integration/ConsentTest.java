@@ -71,7 +71,7 @@ public class ConsentTest {
             user.signOutAndDeleteUser();
         }
     }
-    
+
     @Test(expected=InvalidEntityException.class)
     public void userMustMeetMinAgeRequirements() {
         TestUser user = TestUserHelper.createAndSignInUser(ConsentTest.class, false);

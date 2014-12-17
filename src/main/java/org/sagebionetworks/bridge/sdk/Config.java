@@ -20,7 +20,7 @@ import com.google.common.collect.Lists;
 
 public final class Config {
 
-    private static final String CONFIG_FILE = "src/main/resources/bridge-sdk.properties";
+    private static final String CONFIG_FILE = "/bridge-sdk.properties";
     private static final String USER_CONFIG_FILE = System.getProperty("user.home") + "/bridge-sdk.properties";
 
     public static enum Props {
@@ -72,8 +72,9 @@ public final class Config {
         UPLOAD_API,
         UPLOAD_COMPLETE_API,
         USER_MANAGEMENT_API,
-        USER_MANAGEMENT_CONSENT_API;
-        
+        USER_MANAGEMENT_CONSENT_API,
+        USER_MANAGEMENT_ALLTESTUSERS_API;
+
         public String getPropertyName() {
             return this.name().replace("_", ".").toLowerCase();
         }
@@ -83,7 +84,13 @@ public final class Config {
 
     private Config() {
         config = new Properties();
-        loadProperties(CONFIG_FILE, config);
+        
+        try(InputStream in = this.getClass().getResourceAsStream(CONFIG_FILE)) {
+            config.load(in);
+        } catch(IOException e) {
+            throw new RuntimeException(e);
+        }
+        // loadProperties(CONFIG_FILE, config);
         loadProperties(USER_CONFIG_FILE, config);
 
         for (Props key : Props.values()) {
@@ -211,6 +218,9 @@ public final class Config {
     }
     public String getUserManagementApi() {
         return val(Props.USER_MANAGEMENT_API);
+    }
+    public String getUserManagementAllTestUsersApi() {
+        return val(Props.USER_MANAGEMENT_ALLTESTUSERS_API);
     }
     public String getSchedulesApi() {
         return val(Props.SCHEDULES_API);
