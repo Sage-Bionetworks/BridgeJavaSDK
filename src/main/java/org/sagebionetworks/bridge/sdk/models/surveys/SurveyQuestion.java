@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-@JsonDeserialize(as=SurveyQuestion.class) // strangely, Jackson needs this
+@JsonDeserialize(as=SurveyQuestion.class)
 public class SurveyQuestion implements GuidHolder {
 
     private String guid;

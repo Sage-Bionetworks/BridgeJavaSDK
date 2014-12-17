@@ -25,6 +25,8 @@ import org.sagebionetworks.bridge.sdk.models.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.SimpleGuidVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.SimpleIdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;

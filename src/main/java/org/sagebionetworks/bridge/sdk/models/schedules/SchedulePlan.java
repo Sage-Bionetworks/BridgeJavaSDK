@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-@JsonDeserialize(as=SchedulePlan.class) // strangely, Jackson needs this
+@JsonDeserialize(as=SchedulePlan.class)
 public class SchedulePlan implements GuidVersionHolder {
 
     private String guid;

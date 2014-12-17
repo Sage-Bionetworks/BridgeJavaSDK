@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-@JsonDeserialize(as=SurveyResponse.class) // Strangely, Jackson needs this.
+@JsonDeserialize(as=SurveyResponse.class)
 public class SurveyResponse implements IdentifierHolder {
 
     private final String identifier;

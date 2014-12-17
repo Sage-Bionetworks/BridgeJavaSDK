@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.collect.Lists;
 
-@JsonDeserialize(as=Survey.class) // strangely, Jackson needs this
+@JsonDeserialize(as=Survey.class)
 public class Survey implements GuidCreatedOnVersionHolder {
 
     private String guid;

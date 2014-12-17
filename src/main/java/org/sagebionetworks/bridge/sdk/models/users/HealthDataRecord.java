@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-@JsonDeserialize(as=HealthDataRecord.class) // strangely, Jackson needs this
+@JsonDeserialize(as=HealthDataRecord.class)
 public final class HealthDataRecord implements GuidVersionHolder {
 
     private Long version;

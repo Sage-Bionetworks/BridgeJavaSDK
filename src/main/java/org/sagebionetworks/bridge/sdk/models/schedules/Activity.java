@@ -5,6 +5,11 @@ import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * A directive to a participant to do a specific activity: either a task in the application, or completing
+ * a run of a survey. 
+ *
+ */
 public class Activity {
     
     private final String label;
@@ -12,34 +17,51 @@ public class Activity {
     private final String ref;
     private final GuidCreatedOnVersionHolder survey;
     
+    // Constructor for de-serialization of Activity. Survey property is supplied by the server but 
+    // does not need to be set on the client.
     @JsonCreator
-    public Activity(@JsonProperty("label") String label, @JsonProperty("activityType") ActivityType activityType,
-            @JsonProperty("ref") String ref, @JsonProperty("survey") GuidCreatedOnVersionHolder survey) {
+    private Activity(@JsonProperty("label") String label, @JsonProperty("activityType") ActivityType activityType,
+            @JsonProperty("ref") String ref, @JsonProperty("survey") GuidCreatedOnVersionHolder keys) {
         this.label = label;
         this.activityType = activityType;
         this.ref = ref;
-        this.survey = (survey == null) ? null : new ActivityGuidCreatedOnVersionHolder(survey.getGuid(), survey.getCreatedOn());
+        this.survey = keys;
     }
     
+    /**
+     * Create an activity to do a task.
+     * @param label
+     * @param activityType
+     * @param ref
+     */
     public Activity(String label, ActivityType activityType, String ref) {
-        this.label = label;
-        this.activityType = activityType;
-        this.ref = ref;
-        this.survey = null;
+        this(label, activityType, ref, null);
     }
 
+    /**
+     * A label to show a participant in order to identify this activity in a user interface.  
+     */
     public String getLabel() {
         return label;
     }
-    
+    /**
+     * The type of this activity.
+     */
     public ActivityType getActivityType() {
         return activityType;
     }
-
+    /**
+     * The string reference identifier for the activity, which varies based on the activity type. 
+     * for tasks, this will be a unique identifier for the task; for surveys, this will be a link 
+     * to retrieve the survey via the Bridge API.
+     */
     public String getRef() {
         return ref;
     }
-
+    /**
+     * For survey tasks, the key object for the survey referenced by the activity. This can be used 
+     * through the SDK to retrieve the survey. 
+     */
     public GuidCreatedOnVersionHolder getSurvey() {
         return survey;
     }
