@@ -75,8 +75,7 @@ public class TestUserHelper {
         Session session = ClientProvider.signIn(config.getAdminCredentials());
         AdminClient adminClient = session.getAdminClient();
 
-        Set<String> rolesList = (roles == null) ?
-                Sets.<String>newHashSet() : Sets.newHashSet(roles);
+        Set<String> rolesList = (roles == null) ? Sets.<String>newHashSet() : Sets.newHashSet(roles);
         rolesList.add("test_users");
         String name = makeUserName(cls);
 
