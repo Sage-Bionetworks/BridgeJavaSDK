@@ -12,7 +12,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties> 
 
-    <!-- 
 	<repositories>
 		<repository>
 			<id>sagebionetworks-releases-local</id>
@@ -29,7 +28,6 @@
             <url>http://jcenter.bintray.com</url>
         </pluginRepository>
 	</pluginRepositories>
-     -->
     <organization>
         <name>Sage Bionetworks</name>
         <url>https://www.sagebionetworks.org</url>
@@ -131,7 +129,6 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
-<!--             
 	        <plugin>
 	            <groupId>org.jfrog.buildinfo</groupId>
 	            <artifactId>artifactory-maven-plugin</artifactId>
@@ -160,7 +157,6 @@
 	                </execution>
 	            </executions>
 	        </plugin>
-             -->
         </plugins>
     </build>
 </project>
