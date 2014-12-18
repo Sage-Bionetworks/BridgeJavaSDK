@@ -1,5 +1,6 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
@@ -10,7 +11,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
-import org.sagebionetworks.bridge.scripts.ScriptUtils;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
@@ -21,16 +21,24 @@ import org.sagebionetworks.bridge.sdk.exceptions.UnauthorizedException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.ABTestScheduleStrategy;
+import org.sagebionetworks.bridge.sdk.models.schedules.Activity;
+import org.sagebionetworks.bridge.sdk.models.schedules.ActivityType;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 
 public class SchedulePlanTest {
 
+    // This seems like something that should be added to schedule.
+    public static void setTaskActivity(Schedule schedule, String taskIdentifier) {
+        checkNotNull(taskIdentifier);
+        schedule.addActivity(new Activity("Task activity", ActivityType.task, taskIdentifier));
+    }
+
     public static class TestABSchedulePlan extends SchedulePlan {
         private Schedule schedule1 = new Schedule() {
             {
                 setCronTrigger("* * *");
-                ScriptUtils.setTaskActivity(this, "task:AAA");
+                setTaskActivity(this, "task:AAA");
                 setExpires(Period.parse("PT60S"));
                 setLabel("Test label for the user");
             }
@@ -38,7 +46,7 @@ public class SchedulePlanTest {
         private Schedule schedule2 = new Schedule() {
             {
                 setCronTrigger("* * *");
-                ScriptUtils.setTaskActivity(this, "task:BBB");
+                setTaskActivity(this, "task:BBB");
                 setExpires(Period.parse("PT60S"));
                 setLabel("Test label for the user");
             }
@@ -46,7 +54,7 @@ public class SchedulePlanTest {
         private Schedule schedule3 = new Schedule() {
             {
                 setCronTrigger("* * *");
-                ScriptUtils.setTaskActivity(this, "task:CCC");
+                setTaskActivity(this, "task:CCC");
                 setExpires(Period.parse("PT60S"));
                 setLabel("Test label for the user");
             }
@@ -65,7 +73,7 @@ public class SchedulePlanTest {
         private Schedule schedule = new Schedule() {
             {
                 setCronTrigger("* * *");
-                ScriptUtils.setTaskActivity(this, "task:CCC");
+                setTaskActivity(this, "task:CCC");
                 setExpires(Period.parse("PT60S"));
                 setLabel("Test label for the user");
             }
@@ -82,7 +90,7 @@ public class SchedulePlanTest {
     private TestUser researcher;
     private ResearcherClient researcherClient;
     private UserClient userClient;
-
+    
     @Before
     public void before() {
         researcher = TestUserHelper.createAndSignInUser(SchedulePlanTest.class, true, Tests.RESEARCHER_ROLE);
