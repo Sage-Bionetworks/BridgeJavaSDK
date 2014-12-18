@@ -4,9 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.sagebionetworks.bridge.Tests.untilConsistent;
-
-import java.util.concurrent.Callable;
 
 import org.joda.time.Period;
 import org.junit.After;
@@ -26,7 +23,6 @@ import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.ABTestScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
-import org.sagebionetworks.bridge.sdk.models.schedules.SimpleScheduleStrategy;
 
 public class SchedulePlanTest {
 
@@ -76,9 +72,7 @@ public class SchedulePlanTest {
         };
 
         public TestSimpleSchedulePlan() {
-            SimpleScheduleStrategy strategy = new SimpleScheduleStrategy();
-            strategy.setSchedule(schedule);
-            setStrategy(strategy);
+            setSchedule(schedule);
         }
     }
 
@@ -150,13 +144,6 @@ public class SchedulePlanTest {
         plan = researcherClient.getSchedulePlan(keys.getGuid());
         assertEquals("Strategy type has been changed", "SimpleScheduleStrategy", plan.getStrategy().getClass()
                 .getSimpleName());
-
-        untilConsistent(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return (!userClient.getSchedules().getItems().isEmpty());
-            }
-        });
 
         ResourceList<Schedule> schedules = userClient.getSchedules();
         assertTrue("Schedules exist", !schedules.getItems().isEmpty());

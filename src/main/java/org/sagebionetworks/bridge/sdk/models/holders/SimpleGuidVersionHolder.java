@@ -1,17 +1,17 @@
-package org.sagebionetworks.bridge.sdk;
-
-import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
+package org.sagebionetworks.bridge.sdk.models.holders;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-final class SimpleGuidHolder implements GuidHolder {
+public final class SimpleGuidVersionHolder implements GuidVersionHolder {
 
     private final String guid;
+    private final Long version;
     
     @JsonCreator
-    SimpleGuidHolder(@JsonProperty("guid") String guid) {
+    SimpleGuidVersionHolder(@JsonProperty("guid") String guid, @JsonProperty("version") Long version) {
         this.guid = guid;
+        this.version = version;
     }
     
     @Override
@@ -20,10 +20,16 @@ final class SimpleGuidHolder implements GuidHolder {
     }
 
     @Override
+    public Long getVersion() {
+        return version;
+    }
+
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((guid == null) ? 0 : guid.hashCode());
+        result = prime * result + ((version == null) ? 0 : version.hashCode());
         return result;
     }
 
@@ -35,18 +41,23 @@ final class SimpleGuidHolder implements GuidHolder {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        SimpleGuidHolder other = (SimpleGuidHolder) obj;
+        SimpleGuidVersionHolder other = (SimpleGuidVersionHolder) obj;
         if (guid == null) {
             if (other.guid != null)
                 return false;
         } else if (!guid.equals(other.guid))
+            return false;
+        if (version == null) {
+            if (other.version != null)
+                return false;
+        } else if (!version.equals(other.version))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "SimpleGuidHolder [guid=" + guid + "]";
+        return "SimpleGuidVersionHolder [guid=" + guid + ", version=" + version + "]";
     }
 
 }

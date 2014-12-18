@@ -25,7 +25,8 @@ import org.sagebionetworks.bridge.sdk.models.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
-import org.sagebionetworks.bridge.sdk.models.schedules.ActivityType;
+import org.sagebionetworks.bridge.sdk.models.holders.SimpleGuidVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.SimpleIdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
@@ -208,23 +209,6 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         return get(config.getSurveyUserApi(keys.getGuid(), keys.getCreatedOn()), Survey.class);
     }
     
-    @Override
-    public Survey getSurvey(Schedule schedule) {
-        session.checkSignedIn();
-        checkNotNull(schedule, Bridge.CANNOT_BE_NULL, "schedule");
-        checkArgument(schedule.getActivityType() == ActivityType.survey, "schedule is not for a survey");
-       
-        String url = schedule.getActivityRef();
-        String[] parts = url.split("/surveys/")[1].split("/");
-        String guid = parts[0];
-        if (url.contains("/published")) {
-            return get(config.getRecentlyPublishedSurveyUserApi(guid), Survey.class);
-        } else {
-            DateTime createdOn = DateTime.parse(parts[1]);
-            return getSurvey(new SimpleGuidCreatedOnVersionHolder(guid, createdOn, null));
-        }
-    }
-
     @Override
     public IdentifierHolder submitAnswersToSurvey(Survey survey, List<SurveyAnswer> answers) {
         session.checkSignedIn();

@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+@JsonDeserialize(as=Study.class)
 public final class Study implements VersionHolder {
     
     private String name;

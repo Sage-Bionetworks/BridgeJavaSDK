@@ -1,12 +1,13 @@
 package org.sagebionetworks.bridge.sdk.models.users;
 
+import org.joda.time.LocalDate;
+import org.joda.time.format.ISODateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.joda.deser.LocalDateDeserializer;
-import org.joda.time.LocalDate;
-import org.joda.time.format.ISODateTimeFormat;
 
 public class ConsentSignature {
 

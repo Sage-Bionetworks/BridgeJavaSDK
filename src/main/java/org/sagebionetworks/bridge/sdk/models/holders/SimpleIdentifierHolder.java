@@ -1,16 +1,14 @@
-package org.sagebionetworks.bridge.sdk;
-
-import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
+package org.sagebionetworks.bridge.sdk.models.holders;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-class SimpleIdentifierHolder implements IdentifierHolder {
+public class SimpleIdentifierHolder implements IdentifierHolder {
 
     private final String identifier;
     
     @JsonCreator
-    public SimpleIdentifierHolder(@JsonProperty("identifier") String identifier) {
+    SimpleIdentifierHolder(@JsonProperty("identifier") String identifier) {
         this.identifier = identifier;
     }
     
