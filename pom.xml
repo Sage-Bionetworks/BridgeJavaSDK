@@ -12,6 +12,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties> 
 
+    <!-- 
 	<repositories>
 		<repository>
 			<id>sagebionetworks-releases-local</id>
@@ -21,20 +22,6 @@
 			<id>sagebionetworks-ext</id>
 			<url>http://sagebionetworks.artifactoryonline.com/sagebionetworks/ext-releases-local</url>
 		</repository>
-		<!-- 
-        <repository>
-            <id>jcenter-repository</id>
-            <url>http://jcenter.bintray.com</url>
-        </repository>
-		<repository>
-			<id>maven-central-rep-1</id>
-			<url>http://repo1.maven.org/maven2/</url>
-		</repository>
-		<repository>
-			<id>apache-repo-releases</id>
-			<url>https://repository.apache.org/content/repositories/releases/</url>
-		</repository>
-		 -->
 	</repositories>
 	<pluginRepositories>
         <pluginRepository>
@@ -42,7 +29,7 @@
             <url>http://jcenter.bintray.com</url>
         </pluginRepository>
 	</pluginRepositories>
-    
+     -->
     <organization>
         <name>Sage Bionetworks</name>
         <url>https://www.sagebionetworks.org</url>
@@ -121,7 +108,6 @@
             <artifactId>httpmime</artifactId>
             <version>4.3</version>
         </dependency>
-        
     </dependencies>
 
     <build>
@@ -145,7 +131,7 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
-            
+<!--             
 	        <plugin>
 	            <groupId>org.jfrog.buildinfo</groupId>
 	            <artifactId>artifactory-maven-plugin</artifactId>
@@ -174,6 +160,7 @@
 	                </execution>
 	            </executions>
 	        </plugin>
+             -->
         </plugins>
     </build>
 </project>
