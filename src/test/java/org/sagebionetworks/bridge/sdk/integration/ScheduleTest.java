@@ -2,10 +2,8 @@ package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
 import static org.sagebionetworks.bridge.Tests.RESEARCHER_ROLE;
-import static org.sagebionetworks.bridge.Tests.untilConsistent;
 
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import org.junit.After;
 import org.junit.Before;
@@ -47,12 +45,6 @@ public class ScheduleTest {
     @Test
     public void canRetrieveSchedulesForAUser() throws Exception {
         final UserClient client = user.getSession().getUserClient();
-        
-        untilConsistent(new Callable<Boolean>() {
-            @Override public Boolean call() throws Exception {
-                return !client.getSchedules().getItems().isEmpty();
-            }
-        });
         
         List<Schedule> schedules = client.getSchedules().getItems();
         assertEquals("There should be one schedule for this user", 1, schedules.size());

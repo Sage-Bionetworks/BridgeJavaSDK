@@ -1,27 +1,32 @@
-package org.sagebionetworks.bridge.sdk;
+package org.sagebionetworks.bridge.sdk.models.holders;
 
-import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
+import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-final class SimpleGuidVersionHolder implements GuidVersionHolder {
+public final class SimpleGuidCreatedOnVersionHolder implements GuidCreatedOnVersionHolder {
 
     private final String guid;
+    private final DateTime createdOn;
     private final Long version;
-    
+
     @JsonCreator
-    SimpleGuidVersionHolder(@JsonProperty("guid") String guid, @JsonProperty("version") Long version) {
+    SimpleGuidCreatedOnVersionHolder(@JsonProperty("guid") String guid,
+            @JsonProperty("createdOn") DateTime createdOn, @JsonProperty("version") Long version) {
         this.guid = guid;
+        this.createdOn = createdOn;
         this.version = version;
     }
     
-    @Override
     public String getGuid() {
         return guid;
     }
 
-    @Override
+    public DateTime getCreatedOn() {
+        return createdOn;
+    }
+    
     public Long getVersion() {
         return version;
     }
@@ -30,6 +35,7 @@ final class SimpleGuidVersionHolder implements GuidVersionHolder {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((createdOn == null) ? 0 : createdOn.hashCode());
         result = prime * result + ((guid == null) ? 0 : guid.hashCode());
         result = prime * result + ((version == null) ? 0 : version.hashCode());
         return result;
@@ -43,7 +49,12 @@ final class SimpleGuidVersionHolder implements GuidVersionHolder {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        SimpleGuidVersionHolder other = (SimpleGuidVersionHolder) obj;
+        SimpleGuidCreatedOnVersionHolder other = (SimpleGuidCreatedOnVersionHolder) obj;
+        if (createdOn == null) {
+            if (other.createdOn != null)
+                return false;
+        } else if (!createdOn.equals(other.createdOn))
+            return false;
         if (guid == null) {
             if (other.guid != null)
                 return false;
@@ -59,7 +70,9 @@ final class SimpleGuidVersionHolder implements GuidVersionHolder {
 
     @Override
     public String toString() {
-        return "SimpleGuidVersionHolder [guid=" + guid + ", version=" + version + "]";
+        return "SimpleGuidCreatedOnVersionHolder [guid=" + guid + ", createdOn=" + createdOn + ", version=" + version
+                + "]";
     }
+
 
 }

@@ -12,6 +12,9 @@ import org.apache.http.client.fluent.Response;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.SimpleGuidCreatedOnVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.SimpleGuidHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.SimpleGuidVersionHolder;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;

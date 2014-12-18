@@ -5,9 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.sagebionetworks.bridge.Tests.untilConsistent;
-
-import java.util.concurrent.Callable;
 
 import org.joda.time.Period;
 import org.junit.After;
@@ -24,18 +21,17 @@ import org.sagebionetworks.bridge.sdk.exceptions.UnauthorizedException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.ABTestScheduleStrategy;
+import org.sagebionetworks.bridge.sdk.models.schedules.Activity;
 import org.sagebionetworks.bridge.sdk.models.schedules.ActivityType;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
-import org.sagebionetworks.bridge.sdk.models.schedules.SimpleScheduleStrategy;
 
 public class SchedulePlanTest {
 
     // This seems like something that should be added to schedule.
     public static void setTaskActivity(Schedule schedule, String taskIdentifier) {
         checkNotNull(taskIdentifier);
-        schedule.setActivityType(ActivityType.task);
-        schedule.setActivityRef(taskIdentifier);
+        schedule.addActivity(new Activity("Task activity", ActivityType.task, taskIdentifier));
     }
 
     public static class TestABSchedulePlan extends SchedulePlan {
@@ -84,9 +80,7 @@ public class SchedulePlanTest {
         };
 
         public TestSimpleSchedulePlan() {
-            SimpleScheduleStrategy strategy = new SimpleScheduleStrategy();
-            strategy.setSchedule(schedule);
-            setStrategy(strategy);
+            setSchedule(schedule);
         }
     }
 
@@ -158,13 +152,6 @@ public class SchedulePlanTest {
         plan = researcherClient.getSchedulePlan(keys.getGuid());
         assertEquals("Strategy type has been changed", "SimpleScheduleStrategy", plan.getStrategy().getClass()
                 .getSimpleName());
-
-        untilConsistent(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return (!userClient.getSchedules().getItems().isEmpty());
-            }
-        });
 
         ResourceList<Schedule> schedules = userClient.getSchedules();
         assertTrue("Schedules exist", !schedules.getItems().isEmpty());

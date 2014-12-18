@@ -11,6 +11,7 @@ import org.apache.http.HttpResponse;
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.SimpleVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;

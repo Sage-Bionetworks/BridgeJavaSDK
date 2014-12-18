@@ -149,8 +149,6 @@ public interface UserClient {
      */
     public Survey getSurvey(GuidCreatedOnVersionHolder keys);
     
-    public Survey getSurvey(Schedule schedule);
-
     /**
      * Submit a list of SurveyAnswers to a particular survey.
      *
