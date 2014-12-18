@@ -93,20 +93,13 @@
         
     </dependencies>
     
-    <distributionManagement>
-        <repository>
-            <id>sagebionetworks</id>
-            <name>sagebionetworks-releases</name>
-            <url>http://sagebionetworks.artifactoryonline.com/sagebionetworks/ext-releases-local</url>
-        </repository>
-		<snapshotRepository>
-			<id>sagebionetworks</id>
-			<name>sagebionetworks-snapshots</name>
-			<url>http://sagebionetworks.artifactoryonline.com/sagebionetworks/libs-snapshots-local</url>
-			<uniqueVersion>false</uniqueVersion>
-		</snapshotRepository>        
-    </distributionManagement>
-
+	<distributionManagement>
+	    <snapshotRepository>
+	        <id>sagebionetworks</id>
+	        <name>sagebionetworks-snapshots</name>
+	        <url>http://sagebionetworks.artifactoryonline.com/sagebionetworks/libs-snapshots-local</url>
+	    </snapshotRepository>
+	</distributionManagement>
 
     <build>
         <plugins>
