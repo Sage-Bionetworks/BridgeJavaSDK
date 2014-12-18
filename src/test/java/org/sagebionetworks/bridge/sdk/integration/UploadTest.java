@@ -108,6 +108,9 @@ public class UploadTest {
         }
     }
 
+    // TODO: This seems like a prime candidate for something that could be done
+    // by the SDK rather than being exposed to the caller, all from the original 
+    // file path.
     private String createMd5() {
         try {
             byte[] b = Files.readAllBytes(Paths.get(test));
