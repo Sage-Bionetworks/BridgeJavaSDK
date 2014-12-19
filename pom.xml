@@ -12,6 +12,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties> 
     
+    <!-- 
     <distributionManagement>
         <repository>
             <id>sagebionetworks</id>
@@ -24,23 +25,15 @@
             <url>http://sagebionetworks.artifactoryonline.com/sagebionetworks/libs-snapshots-local</url>
             <uniqueVersion>false</uniqueVersion>
         </snapshotRepository>
-        <!-- Interesting
-        <site>
-            <id>site-stage</id>
-            <url>file:///${project.basedir}/target/staging/</url>
-        </site>
-         -->
     </distributionManagement>    
-    
-    <!-- 
+     -->
+     
 	<pluginRepositories>
         <pluginRepository>
             <id>jcenter-repository</id>
             <url>http://jcenter.bintray.com</url>
         </pluginRepository>
 	</pluginRepositories>
-    One more test, again testing new Jenkins plug-in to build on merge.
-     -->
      
     <organization>
         <name>Sage Bionetworks</name>
@@ -122,6 +115,7 @@
         </dependency>
     </dependencies>
 
+    <!-- 
     <distributionManagement>
         <repository>
             <id>sagebionetworks-releases</id>
@@ -133,7 +127,8 @@
 			<uniqueVersion>false</uniqueVersion>
 		</snapshotRepository>        
     </distributionManagement>
-        
+         -->
+         
     <build>
         <plugins>
             <plugin>
@@ -155,7 +150,6 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
-            <!-- 
 	        <plugin>
 	            <groupId>org.jfrog.buildinfo</groupId>
 	            <artifactId>artifactory-maven-plugin</artifactId>
@@ -184,7 +178,6 @@
 	                </execution>
 	            </executions>
 	        </plugin>
-             -->
         </plugins>
     </build>
 </project>
