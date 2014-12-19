@@ -39,7 +39,7 @@
             <url>http://jcenter.bintray.com</url>
         </pluginRepository>
 	</pluginRepositories>
-    This is purely a test to see if it triggers a build.
+    One more test, again testing new Jenkins plug-in to build on merge.
      -->
      
     <organization>
