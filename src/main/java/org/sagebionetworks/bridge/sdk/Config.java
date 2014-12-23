@@ -73,7 +73,9 @@ public final class Config {
         UPLOAD_COMPLETE_API,
         USER_MANAGEMENT_API,
         USER_MANAGEMENT_CONSENT_API,
-        USER_MANAGEMENT_ALLTESTUSERS_API;
+        USER_MANAGEMENT_ALLTESTUSERS_API,
+        WORKER_EMAIL,
+        WORKER_PASSWORD;
 
         public String getPropertyName() {
             return this.name().replace("_", ".").toLowerCase();
@@ -294,6 +296,15 @@ public final class Config {
     }
     public String getResearcherStudyApi() {
         return val(Props.RESEARCHER_STUDY_API);
+    }
+    public SignInCredentials getWorkerCredentials() {
+        return new SignInCredentials(getWorkerEmail(), getWorkerPassword());
+    }
+    public String getWorkerEmail() {
+        return val(Props.WORKER_EMAIL);
+    }
+    public String getWorkerPassword() {
+        return val(Props.WORKER_PASSWORD);
     }
     public String getAdminStudiesApi() {
         return val(Props.ADMIN_STUDIES_API);
