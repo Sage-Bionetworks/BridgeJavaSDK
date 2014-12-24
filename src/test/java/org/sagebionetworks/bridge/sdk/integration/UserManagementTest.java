@@ -13,14 +13,15 @@ import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
 
 public class UserManagementTest {
+    private static final ClientProvider CLIENT_PROVIDER = new ClientProvider();
 
     private Session session;
     private AdminClient admin;
 
     @Before
     public void before() {
-        Config config = ClientProvider.getConfig();
-        session = ClientProvider.signIn(config.getAdminCredentials());
+        Config config = CLIENT_PROVIDER.getConfig();
+        session = CLIENT_PROVIDER.signIn(config.getAdminCredentials());
         admin = session.getAdminClient();
     }
 

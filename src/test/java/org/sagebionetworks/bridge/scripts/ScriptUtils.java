@@ -15,6 +15,7 @@ import org.sagebionetworks.bridge.sdk.models.surveys.SurveyQuestionOption;
 import com.google.common.collect.Lists;
 
 public class ScriptUtils {
+    private static final ClientProvider CLIENT_PROVIDER = new ClientProvider();
 
     /**
      * If you want to have a question that displays the choices "Yes" and "No", 
@@ -34,7 +35,7 @@ public class ScriptUtils {
         checkNotNull(schedule);
         checkNotNull(guid);
         
-        Config config = ClientProvider.getConfig();
+        Config config = CLIENT_PROVIDER.getConfig();
         String url = config.getHost() + config.getRecentlyPublishedSurveyUserApi(guid);
         
         schedule.addActivity(new Activity("Take survey", ActivityType.survey, url));
@@ -43,7 +44,7 @@ public class ScriptUtils {
         checkNotNull(schedule);
         checkNotNull(keys);
 
-        Config config = ClientProvider.getConfig();
+        Config config = CLIENT_PROVIDER.getConfig();
         String url = config.getHost() + config.getSurveyUserApi(keys.getGuid(), keys.getCreatedOn());
         
         schedule.addActivity(new Activity("Take survey", ActivityType.survey, url));

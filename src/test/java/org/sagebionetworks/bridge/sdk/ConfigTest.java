@@ -9,14 +9,14 @@ public class ConfigTest {
 
     @Test
     public void createConfig() {
-        Config conf = Config.valueOf();
+        Config conf = new Config();
         assertNotNull(conf);
         assertEquals("conf returns values", "/api/v1/healthdata/asdf", conf.getHealthDataTrackerApi("asdf"));
     }
     
     @Test(expected=IllegalArgumentException.class)
     public void configChecksArguments() {
-        Config conf = Config.valueOf();
+        Config conf = new Config();
         conf.getHealthDataTrackerApi(null);
     }
     

@@ -14,6 +14,7 @@ import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
 import com.google.common.collect.Sets;
 
 public class TestUserHelper {
+    private static final ClientProvider CLIENT_PROVIDER = new ClientProvider();
 
     public static class TestUser {
         private final AdminClient adminClient;
@@ -59,8 +60,8 @@ public class TestUserHelper {
     }
 
     public static TestUser getSignedInAdmin() {
-        Config config = ClientProvider.getConfig();
-        Session session = ClientProvider.signIn(config.getAdminCredentials());
+        Config config = CLIENT_PROVIDER.getConfig();
+        Session session = CLIENT_PROVIDER.signIn(config.getAdminCredentials());
         AdminClient adminClient = session.getAdminClient();
 
         return new TestUserHelper.TestUser(adminClient, session, "", "", "", Sets.newHashSet(Tests.ADMIN_ROLE));
@@ -69,10 +70,10 @@ public class TestUserHelper {
     public static TestUser createAndSignInUser(Class<?> cls, boolean consent, String... roles) {
         checkNotNull(cls);
 
-        ClientProvider.getClientInfo().withAppName("Integration Tests");
+        CLIENT_PROVIDER.getClientInfo().withAppName("Integration Tests");
 
-        Config config = ClientProvider.getConfig();
-        Session session = ClientProvider.signIn(config.getAdminCredentials());
+        Config config = CLIENT_PROVIDER.getConfig();
+        Session session = CLIENT_PROVIDER.signIn(config.getAdminCredentials());
         AdminClient adminClient = session.getAdminClient();
 
         Set<String> rolesList = (roles == null) ? Sets.<String>newHashSet() : Sets.newHashSet(roles);
@@ -87,10 +88,10 @@ public class TestUserHelper {
         SignUpCredentials signUp = new SignUpCredentials(name, emailAddress, "P4ssword");
         adminClient.createUser(signUp, rolesList, consent);
 
-        Session userSession = null;
+        Session userSession;
         try {
             SignInCredentials signIn = new SignInCredentials(name, "P4ssword");
-            userSession = ClientProvider.signIn(signIn);
+            userSession = CLIENT_PROVIDER.signIn(signIn);
         } catch(ConsentRequiredException e) {
             userSession = e.getSession();
             // Do nothing. Some tests want to play around with a user who has not yet consented.
@@ -100,7 +101,7 @@ public class TestUserHelper {
     }
 
     public static String makeUserName(Class<?> cls) {
-        Config config = ClientProvider.getConfig();
+        Config config = CLIENT_PROVIDER.getConfig();
         String devName = config.getDevName();
         String clsPart = cls.getSimpleName();
         String rndPart = RandomStringUtils.randomAlphabetic(4);
