@@ -11,7 +11,7 @@ public class ClientInfoTest {
     
     @Before
     public void before() {
-        info = new ClientInfo(false); // no default values
+        info = new ClientInfo();
     }
     
     @Test

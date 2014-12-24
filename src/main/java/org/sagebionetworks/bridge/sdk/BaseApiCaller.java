@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -24,7 +26,6 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.fluent.Executor;
 import org.apache.http.client.fluent.Request;
@@ -93,32 +94,22 @@ class BaseApiCaller {
             .build();
     private final Executor exec = Executor.newInstance(client);
 
-    private final ObjectMapper mapper = Utilities.getMapper();
+    private static final ObjectMapper mapper = Utilities.getMapper();
 
-    protected BridgeSession session;
+    protected final @Nullable BridgeSession session;
+    protected final @Nonnull ClientProvider clientProvider;
 
-    protected final Config config = ClientProvider.getConfig();
-
-    protected BaseApiCaller(BridgeSession session) {
-        //checkNotNull(session); no session when used for sign in/sign out/reset password
+    /**
+     * Constructs the base API caller. This will only be called by internal classes, never by SDK consumers.
+     *
+     * @param session
+     *         user session, no session when used for sign in/sign out/reset password
+     * @param clientProvider
+     *         client provider, to provider configs and client info
+     */
+    protected BaseApiCaller(@Nullable BridgeSession session, @Nonnull ClientProvider clientProvider) {
         this.session = session;
-    }
-
-    protected HttpResponse publicGet(String url) {
-        url = getFullUrl(url);
-        try {
-
-            logger.debug("GET {}", url);
-            Request request = Request.Get(url);
-            HttpResponse response = exec.execute(request).returnResponse();
-            throwExceptionOnErrorStatus(response, url);
-            return response;
-
-        } catch (ClientProtocolException e) {
-            throw new BridgeServerException(CONNECTION_FAILED, e, url);
-        } catch (IOException e) {
-            throw new BridgeServerException(CONNECTION_FAILED, e, url);
-        }
+        this.clientProvider = clientProvider;
     }
 
     protected HttpResponse s3Put(String url, HttpEntity entity, UploadRequest uploadRequest) {
@@ -130,9 +121,6 @@ class BaseApiCaller {
             HttpResponse response = request.execute().returnResponse();
             throwExceptionOnErrorStatus(response, url);
             return response;
-
-        } catch (ClientProtocolException e) {
-            throw new BridgeServerException(CONNECTION_FAILED, e, url);
         } catch (IOException e) {
             throw new BridgeServerException(CONNECTION_FAILED, e, url);
         }
@@ -148,9 +136,6 @@ class BaseApiCaller {
             HttpResponse response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, url);
             return response;
-
-        } catch (ClientProtocolException e) {
-            throw new BridgeServerException(CONNECTION_FAILED, e, url);
         } catch (IOException e) {
             throw new BridgeServerException(CONNECTION_FAILED, e, url);
         }
@@ -176,9 +161,6 @@ class BaseApiCaller {
             HttpResponse response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, url);
             return response;
-
-        } catch (ClientProtocolException e) {
-            throw new BridgeServerException(CONNECTION_FAILED, e, url);
         } catch (IOException e) {
             throw new BridgeServerException(CONNECTION_FAILED, e, url);
         }
@@ -269,7 +251,7 @@ class BaseApiCaller {
 
 
     private void addApplicationHeaders(Request request) {
-        request.setHeader("User-Agent", ClientProvider.getClientInfo().toString());
+        request.setHeader("User-Agent", clientProvider.getClientInfo().toString());
         if (session != null && session.isSignedIn()) {
             request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
         }
@@ -319,7 +301,7 @@ class BaseApiCaller {
         StatusLine status = response.getStatusLine();
         int statusCode = status.getStatusCode();
         if (statusCode < 200 || statusCode > 299) {
-            BridgeServerException e = null;
+            BridgeServerException e;
             try {
                 JsonNode node = getJsonNode(response);
                 logger.debug("Error {}: {}", response.getStatusLine().getStatusCode(), node.toString());
@@ -337,7 +319,8 @@ class BaseApiCaller {
                     e = new EntityNotFoundException(message, url);
                 } else if (statusCode == 412) {
                     UserSession userSession = getResponseBodyAsType(response, UserSession.class);
-                    e = new ConsentRequiredException("Consent required.", url, BridgeSession.valueOf(userSession));
+                    e = new ConsentRequiredException("Consent required.", url, new BridgeSession(userSession,
+                            clientProvider));
                 } else if (statusCode == 409 && message.contains("already exists")) {
                     e = new EntityAlreadyExistsException(message, url);
                 } else if (statusCode == 409 && message.contains("has the wrong version number")) {
@@ -345,7 +328,7 @@ class BaseApiCaller {
                 } else if (statusCode == 400 && message.contains("A published survey")) {
                     e = new PublishedSurveyException(message, url);
                 } else  if (statusCode == 400 && node.has("errors")) {
-                    Map<String, List<String>> errors = (Map<String, List<String>>) mapper.convertValue(
+                    Map<String, List<String>> errors = mapper.convertValue(
                             node.get("errors"), new TypeReference<HashMap<String, ArrayList<String>>>() {});
                     e = new InvalidEntityException(message, errors, url);
                 } else if (statusCode == 400) {
@@ -366,7 +349,7 @@ class BaseApiCaller {
         if (url.startsWith("http")) {
             return url;
         } else {
-            String fullUrl = config.getHost() + url;
+            String fullUrl = clientProvider.getConfig().getHost() + url;
             assert utils.isValidUrl(fullUrl) : fullUrl;
 
             return fullUrl;

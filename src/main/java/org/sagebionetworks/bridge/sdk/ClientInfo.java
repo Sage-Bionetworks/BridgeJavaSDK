@@ -16,14 +16,6 @@ public final class ClientInfo {
     private String osVersion = "";
     private String sdkVersion = "";
 
-    ClientInfo(boolean defaultValues) {
-        if (defaultValues) {
-            osName = System.getProperty("os.name");
-            osVersion = System.getProperty("os.version");
-            sdkVersion = ClientProvider.getConfig().getSdkVersion();
-        }
-    }
-    
     /**
      * The name of the application that is using this SDK to contact the Bridge server.
      * @param appName

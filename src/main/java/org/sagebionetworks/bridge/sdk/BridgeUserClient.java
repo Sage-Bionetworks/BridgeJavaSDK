@@ -4,13 +4,14 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Nonnull;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -40,19 +41,17 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 class BridgeUserClient extends BaseApiCaller implements UserClient {
 
-    private final TypeReference<ResourceListImpl<Tracker>> tType = new TypeReference<ResourceListImpl<Tracker>>() {};
-    private final TypeReference<ResourceListImpl<Schedule>> sType = new TypeReference<ResourceListImpl<Schedule>>() {};
+    private static final TypeReference<ResourceListImpl<Tracker>> tType =
+            new TypeReference<ResourceListImpl<Tracker>>() {};
+    private static final TypeReference<ResourceListImpl<Schedule>> sType =
+            new TypeReference<ResourceListImpl<Schedule>>() {};
     private static final TypeReference<ResourceListImpl<HealthDataRecord>> hdrType = 
             new TypeReference<ResourceListImpl<HealthDataRecord>>() {};
     private static final TypeReference<ResourceListImpl<GuidVersionHolder>> gvhType = 
             new TypeReference<ResourceListImpl<GuidVersionHolder>>() {};
 
-    private BridgeUserClient(BridgeSession session) {
-        super(session);
-    }
-
-    static BridgeUserClient valueOf(BridgeSession session) {
-        return new BridgeUserClient(session);
+    BridgeUserClient(@Nonnull BridgeSession session, @Nonnull ClientProvider clientProvider) {
+        super(session, clientProvider);
     }
 
     /*
@@ -62,7 +61,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     public UserProfile getProfile() {
         session.checkSignedIn();
         
-        return get(config.getProfileApi(), UserProfile.class);
+        return get(clientProvider.getConfig().getProfileApi(), UserProfile.class);
     }
 
     @Override
@@ -70,7 +69,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         session.checkSignedIn();
         checkNotNull(profile, "Profile cannot be null.");
 
-        post(config.getProfileApi(), profile);
+        post(clientProvider.getConfig().getProfileApi(), profile);
         session.setUsername(profile.getUsername());
     }
 
@@ -83,14 +82,14 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         session.checkSignedIn();
 
         checkNotNull(signature, Bridge.CANNOT_BE_NULL, "ConsentSignature");
-        post(config.getConsentApi(), signature);
+        post(clientProvider.getConfig().getConsentApi(), signature);
         session.setConsented(true);
     }
 
     @Override
     public ConsentSignature getConsentSignature() {
         session.checkSignedIn();
-        ConsentSignature sig = get(config.getConsentApi(), ConsentSignature.class);
+        ConsentSignature sig = get(clientProvider.getConfig().getConsentApi(), ConsentSignature.class);
         return sig;
     }
 
@@ -98,7 +97,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     public void resumeDataSharing() {
         session.checkSignedIn();
 
-        post(config.getConsentResumeApi());
+        post(clientProvider.getConfig().getConsentResumeApi());
         session.setDataSharing(true);
     }
 
@@ -106,7 +105,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     public void suspendDataSharing() {
         session.checkSignedIn();
 
-        post(config.getConsentSuspendApi());
+        post(clientProvider.getConfig().getConsentSuspendApi());
         session.setDataSharing(false);
     }
 
@@ -120,7 +119,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         checkArgument(isNotBlank(guid), "guid cannot be null or empty.");
 
         String trackerId = tracker.getIdentifier();
-        return get(config.getHealthDataRecordApi(trackerId, guid), HealthDataRecord.class);
+        return get(clientProvider.getConfig().getHealthDataRecordApi(trackerId, guid), HealthDataRecord.class);
     }
 
     @Override
@@ -130,7 +129,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         checkNotNull(record, "Record cannot be null.");
 
         String trackerId = tracker.getIdentifier();
-        return post(config.getHealthDataRecordApi(trackerId, record.getGuid()), record, SimpleGuidVersionHolder.class);
+        return post(clientProvider.getConfig().getHealthDataRecordApi(trackerId, record.getGuid()), record, SimpleGuidVersionHolder.class);
     }
 
     @Override
@@ -140,7 +139,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         checkArgument(isNotBlank(guid),"guid cannot be null or empty.");
 
         String trackerId = tracker.getIdentifier();
-        delete(config.getHealthDataRecordApi(trackerId, guid));
+        delete(clientProvider.getConfig().getHealthDataRecordApi(trackerId, guid));
     }
 
     @Override
@@ -151,12 +150,12 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         checkNotNull(endDate, "endDate cannot be null.");
         checkArgument(endDate.isAfter(startDate), "endDate must be after startDate.");
 
-        Map<String,String> queryParameters = new HashMap<String,String>();
+        Map<String,String> queryParameters = new HashMap<>();
         queryParameters.put("startDate", startDate.toString(ISODateTimeFormat.dateTime()));
         queryParameters.put("endDate", endDate.toString(ISODateTimeFormat.dateTime()));
 
         String trackerId = tracker.getIdentifier();
-        return get(config.getHealthDataTrackerApi(trackerId) + toQueryString(queryParameters), hdrType);
+        return get(clientProvider.getConfig().getHealthDataTrackerApi(trackerId) + toQueryString(queryParameters), hdrType);
     }
 
     @Override
@@ -166,7 +165,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         checkNotNull(records, "Records cannot be null.");
 
         String trackerId = tracker.getIdentifier();
-        return post(config.getHealthDataTrackerApi(trackerId), records, gvhType);
+        return post(clientProvider.getConfig().getHealthDataTrackerApi(trackerId), records, gvhType);
     }
 
     /*
@@ -176,7 +175,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     public ResourceList<Tracker> getAllTrackers() {
         session.checkSignedIn();
 
-        return get(config.getTrackerApi(), tType);
+        return get(clientProvider.getConfig().getTrackerApi(), tType);
     }
 
     @Override
@@ -193,7 +192,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     @Override
     public ResourceList<Schedule> getSchedules() {
         session.checkSignedIn();
-        return get(config.getSchedulesApi(), sType);
+        return get(clientProvider.getConfig().getSchedulesApi(), sType);
     }
 
     /*
@@ -206,7 +205,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         checkArgument(isNotBlank(keys.getGuid()), Bridge.CANNOT_BE_BLANK, "guid");
         checkNotNull(keys.getCreatedOn(), Bridge.CANNOT_BE_NULL, "createdOn");
 
-        return get(config.getSurveyUserApi(keys.getGuid(), keys.getCreatedOn()), Survey.class);
+        return get(clientProvider.getConfig().getSurveyUserApi(keys.getGuid(), keys.getCreatedOn()), Survey.class);
     }
     
     @Override
@@ -217,7 +216,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         checkNotNull(survey.getCreatedOn(), "Survey createdOn cannot be null.");
         checkNotNull(answers, "Answers cannot be null.");
 
-        return post(config.getSurveyUserApi(survey.getGuid(), survey.getCreatedOn()), answers, SimpleIdentifierHolder.class);
+        return post(clientProvider.getConfig().getSurveyUserApi(survey.getGuid(), survey.getCreatedOn()), answers, SimpleIdentifierHolder.class);
     }
 
     @Override
@@ -229,7 +228,8 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         checkNotNull(identifier, "identifier cannot be null.");
         checkNotNull(answers, "Answers cannot be null.");
 
-        return post(config.getSurveyWithIdentifierUserApi(survey.getGuid(), survey.getCreatedOn(), identifier), answers, SimpleIdentifierHolder.class);
+        return post(clientProvider.getConfig().getSurveyWithIdentifierUserApi(survey.getGuid(), survey.getCreatedOn(),
+                identifier), answers, SimpleIdentifierHolder.class);
     }
     
     @Override
@@ -237,7 +237,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         session.checkSignedIn();
         checkArgument(isNotBlank(identifier), "Survey response identifier cannot be null or empty.");
 
-        return get(config.getSurveyResponseApi(identifier), SurveyResponse.class);
+        return get(clientProvider.getConfig().getSurveyResponseApi(identifier), SurveyResponse.class);
     }
 
     @Override
@@ -246,7 +246,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         checkNotNull(response, "Response cannot be null.");
         checkNotNull(answers, "Answers cannot be null.");
 
-        post(config.getSurveyResponseApi(response.getIdentifier()), answers);
+        post(clientProvider.getConfig().getSurveyResponseApi(response.getIdentifier()), answers);
     }
 
     @Override
@@ -254,7 +254,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         session.checkSignedIn();
         checkNotNull(isNotBlank(identifier), "Survey response identifier cannot be null or blank.");
 
-        delete(config.getSurveyResponseApi(identifier));
+        delete(clientProvider.getConfig().getSurveyResponseApi(identifier));
     }
 
     /*
@@ -266,7 +266,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         session.checkSignedIn();
         checkNotNull(request, "Request cannot be null.");
 
-        return post(config.getUploadApi(), request, UploadSession.class);
+        return post(clientProvider.getConfig().getUploadApi(), request, UploadSession.class);
     }
 
     @Override
@@ -276,19 +276,16 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         checkNotNull(fileName, "fileName cannot be null.");
         checkArgument(session.getExpires().isAfter(DateTime.now()), "session already expired, cannot upload.");
 
-        HttpEntity entity = null;
+        HttpEntity entity;
         try {
             byte[] b = Files.readAllBytes(Paths.get(fileName));
             entity = new ByteArrayEntity(b, ContentType.create(request.getContentType()));
-        } catch (FileNotFoundException e) {
-            throw new BridgeSDKException(e);
         } catch (IOException e) {
             throw new BridgeSDKException(e);
         }
-        String url = session.getUrl().toString();
+        String url = session.getUrl();
         s3Put(url, entity, request);
-        
-        // NOTE: Is this really how it's supposed to work? Close right away?
-        post(config.getUploadCompleteApi(session.getId()));
+
+        post(clientProvider.getConfig().getUploadCompleteApi(session.getId()));
     }
 }

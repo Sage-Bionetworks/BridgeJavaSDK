@@ -11,6 +11,9 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
@@ -73,18 +76,35 @@ public final class Config {
         UPLOAD_COMPLETE_API,
         USER_MANAGEMENT_API,
         USER_MANAGEMENT_CONSENT_API,
-        USER_MANAGEMENT_ALLTESTUSERS_API;
+        USER_MANAGEMENT_ALLTESTUSERS_API,
+        WORKER_EMAIL,
+        WORKER_PASSWORD;
 
         public String getPropertyName() {
             return this.name().replace("_", ".").toLowerCase();
         }
     }
 
-    private Properties config;
+    private final @Nonnull Properties config;
+    private final @Nullable String study;
 
-    private Config() {
+    /**
+     * Client config using values from the default study.
+     */
+    public Config() {
+        this(null);
+    }
+
+    /**
+     * Client config using the specified study. If the specified study is null, this uses the default study instead.
+     *
+     * @param study
+     *         study, uses default study if null
+     */
+    public Config(@Nullable String study) {
         config = new Properties();
-        
+        this.study = study;
+
         try(InputStream in = this.getClass().getResourceAsStream(CONFIG_FILE)) {
             config.load(in);
         } catch(IOException e) {
@@ -102,10 +122,6 @@ public final class Config {
                 config.setProperty(key.getPropertyName(), value);
             }
         }
-    }
-
-    static Config valueOf() {
-        return new Config();
     }
 
     private void loadProperties(final String fileName, final Properties properties) {
@@ -295,6 +311,15 @@ public final class Config {
     public String getResearcherStudyApi() {
         return val(Props.RESEARCHER_STUDY_API);
     }
+    public SignInCredentials getWorkerCredentials() {
+        return new SignInCredentials(getWorkerEmail(), getWorkerPassword());
+    }
+    public String getWorkerEmail() {
+        return val(Props.WORKER_EMAIL);
+    }
+    public String getWorkerPassword() {
+        return val(Props.WORKER_PASSWORD);
+    }
     public String getAdminStudiesApi() {
         return val(Props.ADMIN_STUDIES_API);
     }
@@ -307,7 +332,18 @@ public final class Config {
     }
 
     private String val(Props prop) {
-        String value = config.getProperty(prop.getPropertyName());
+        String value = null;
+
+        // check study-specific value first
+        if (study != null) {
+            value = config.getProperty(String.format("%s.%s", study, prop.getPropertyName()));
+        }
+
+        // fall back to general value
+        if (value == null) {
+            value = config.getProperty(prop.getPropertyName());
+        }
+
         checkNotNull(value, "The property '" + prop.getPropertyName() + "' has not been set.");
         return value;
     }

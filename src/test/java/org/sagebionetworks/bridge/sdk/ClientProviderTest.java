@@ -11,6 +11,7 @@ import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 
 public class ClientProviderTest {
+    private static final ClientProvider CLIENT_PROVIDER = new ClientProvider();
 
     private TestUser testUser;
     
@@ -29,7 +30,7 @@ public class ClientProviderTest {
         testUser.getSession().signOut();
         
         SignInCredentials credentials = new SignInCredentials(testUser.getUsername(), testUser.getPassword());
-        Session session = ClientProvider.signIn(credentials);
+        Session session = CLIENT_PROVIDER.signIn(credentials);
         assertTrue(session.isSignedIn());
 
         UserClient client = session.getUserClient();

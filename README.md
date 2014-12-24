@@ -10,7 +10,7 @@ Only a pre-release version exists at this time. Here's an example of referencing
 	    ...
 		<dependencies>
 			<dependency>
-			    <groupId>org.sagebionetworks</groupId>
+			    <groupId>org.sagebionetworks.bridge</groupId>
 			    <artifactId>java-sdk</artifactId>
 			    <version>develop-SNAPSHOT</version>
 			</dependency>
