@@ -1,5 +1,6 @@
 package org.sagebionetworks.bridge.sdk.models.schedules;
 
+import org.sagebionetworks.bridge.sdk.ClientProvider;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -34,10 +35,20 @@ public class Activity {
      * @param activityType
      * @param ref
      */
-    public Activity(String label, ActivityType activityType, String ref) {
-        this(label, activityType, ref, null);
+    public Activity(String label, String ref) {
+        this(label, ActivityType.task, ref, null);
     }
 
+    /**
+     * Create an activity to do a survey.
+     * @param label
+     * @param activityType
+     * @param ref
+     */
+    public Activity(String label, GuidCreatedOnVersionHolder survey) {
+        this(label, ActivityType.survey, ClientProvider.getConfig().getSurveyUserApi(survey.getGuid(), survey.getCreatedOn()), survey);
+    }
+    
     /**
      * A label to show a participant in order to identify this activity in a user interface.  
      */

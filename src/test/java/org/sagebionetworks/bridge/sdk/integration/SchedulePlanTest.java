@@ -22,7 +22,6 @@ import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.ABTestScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.Activity;
-import org.sagebionetworks.bridge.sdk.models.schedules.ActivityType;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 
@@ -31,7 +30,7 @@ public class SchedulePlanTest {
     // This seems like something that should be added to schedule.
     public static void setTaskActivity(Schedule schedule, String taskIdentifier) {
         checkNotNull(taskIdentifier);
-        schedule.addActivity(new Activity("Task activity", ActivityType.task, taskIdentifier));
+        schedule.addActivity(new Activity("Task activity", taskIdentifier));
     }
 
     public static class TestABSchedulePlan extends SchedulePlan {
