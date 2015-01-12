@@ -124,6 +124,7 @@ class BaseApiCaller {
     protected HttpResponse s3Put(String url, HttpEntity entity, UploadRequest uploadRequest) {
         try {
 
+            logger.debug("PUT {}\n    <BINARY DATA>", url);
             Request request = Request.Put(url).body(entity);
             request.addHeader("Content-Type", uploadRequest.getContentType());
             request.addHeader("Content-MD5", uploadRequest.getContentMd5());
