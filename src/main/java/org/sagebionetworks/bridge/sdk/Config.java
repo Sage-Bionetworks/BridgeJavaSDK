@@ -32,6 +32,7 @@ public final class Config {
         ADMIN_STUDY_API,
         HOST,
         LOG_LEVEL,
+        AUTH_RESEND_EMAIL_VERIFICATION_API,
         AUTH_SIGNUP_API,
         AUTH_SIGNIN_API,
         AUTH_SIGNOUT_API,
@@ -153,6 +154,9 @@ public final class Config {
     }
     public String getLogLevel() {
         return val(Props.LOG_LEVEL);
+    }
+    public String getAuthResendEmailVerificationApi() {
+        return val(Props.AUTH_RESEND_EMAIL_VERIFICATION_API);
     }
     public String getAuthSignUpApi() {
         return val(Props.AUTH_SIGNUP_API);

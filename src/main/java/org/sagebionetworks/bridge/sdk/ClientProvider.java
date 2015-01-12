@@ -55,6 +55,17 @@ public class ClientProvider {
 
         new BaseApiCaller(null).post(config.getAuthSignUpApi(), signUp);
     }
+    
+    /**
+     * Resend an email verification request to the supplied email address.
+     * 
+     * @param email
+     */
+    public static void resendEmailVerification(String email) {
+        checkArgument(isNotBlank(email), "Email cannot be blank/null");
+        
+        new BaseApiCaller(null).post(config.getAuthResendEmailVerificationApi(), new ResetPasswordCredentials(email));
+    }
 
     /**
      * Request your password be reset. A link to change the password will be sent to the provided email.
