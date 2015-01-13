@@ -158,7 +158,7 @@ public interface UserClient {
      *            The answers to add to the survey.
      * @return GuidHolder A holder storing the GUID of the survey.
      */
-    public IdentifierHolder submitAnswersToSurvey(Survey survey, List<SurveyAnswer> answers);
+    public IdentifierHolder submitAnswersToSurvey(GuidCreatedOnVersionHolder keys, List<SurveyAnswer> answers);
 
     /**
      * Submit a list of SurveyAnswers to a particular survey, using a specified identifier

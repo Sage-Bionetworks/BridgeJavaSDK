@@ -210,14 +210,14 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     }
     
     @Override
-    public IdentifierHolder submitAnswersToSurvey(Survey survey, List<SurveyAnswer> answers) {
+    public IdentifierHolder submitAnswersToSurvey(GuidCreatedOnVersionHolder keys, List<SurveyAnswer> answers) {
         session.checkSignedIn();
-        checkNotNull(survey, "Survey cannot be null.");
-        checkArgument(isNotBlank(survey.getGuid()), "Survey guid cannot be null or empty.");
-        checkNotNull(survey.getCreatedOn(), "Survey createdOn cannot be null.");
+        checkNotNull(keys, "Survey keys cannot be null.");
+        checkArgument(isNotBlank(keys.getGuid()), "Survey guid cannot be null or empty.");
+        checkNotNull(keys.getCreatedOn(), "Survey createdOn cannot be null.");
         checkNotNull(answers, "Answers cannot be null.");
 
-        return post(config.getSurveyUserApi(survey.getGuid(), survey.getCreatedOn()), answers, SimpleIdentifierHolder.class);
+        return post(config.getSurveyUserApi(keys.getGuid(), keys.getCreatedOn()), answers, SimpleIdentifierHolder.class);
     }
 
     @Override
@@ -288,7 +288,6 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         String url = session.getUrl().toString();
         s3Put(url, entity, request);
         
-        // NOTE: Is this really how it's supposed to work? Close right away?
         post(config.getUploadCompleteApi(session.getId()));
     }
 }
