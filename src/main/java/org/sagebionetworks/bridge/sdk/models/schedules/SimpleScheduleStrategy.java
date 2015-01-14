@@ -18,5 +18,10 @@ public class SimpleScheduleStrategy implements ScheduleStrategy {
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
     }
+
+    @Override
+    public String toString() {
+        return "SimpleScheduleStrategy [schedule=" + schedule + "]";
+    }
     
 }

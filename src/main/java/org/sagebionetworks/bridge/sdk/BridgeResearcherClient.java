@@ -93,6 +93,12 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
         return get(config.getSurveyMostRecentlyPublishedVersionApi(guid), Survey.class);
     }
     @Override
+    public Survey getSurveyMostRecentlyPublishedVersionByIdentifier(String identifier) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(identifier), Bridge.CANNOT_BE_BLANK, "identifier");
+        return get(config.getSurveyMostRecentlyPublishedVersionByIdentifierApi(identifier), Survey.class);
+    }
+    @Override
     public Survey getSurveyMostRecentVersion(String guid) {
         session.checkSignedIn();
         checkArgument(isNotBlank(guid), Bridge.CANNOT_BE_BLANK, "guid");

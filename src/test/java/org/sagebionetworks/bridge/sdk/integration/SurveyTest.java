@@ -21,7 +21,6 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
@@ -191,16 +190,6 @@ public class SurveyTest {
         assertEquals("Date is correct", DateTime.parse("2020-12-31").withZone(DateTimeZone.UTC), latest);
     }
 
-    @Ignore // user can now retrieve an unpublished survey; ask Alx about this requirement.
-    public void participantCannotRetrieveUnpublishedSurvey() {
-        //ResearcherClient client = researcher.getSession().getResearcherClient();
-        //GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
-
-        //UserClient userClient = user.getSession().getUserClient();
-        //userClient.getSurvey(key);
-        //fail("Should not get here.");
-    }
-
     @Test
     public void researcherCannotUpdatePublishedSurvey() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
@@ -254,6 +243,17 @@ public class SurveyTest {
         assertEquals("There are now two versions", 2, allVersions.getTotal());
         assertEquals("The latest has a new title", "This is an update test", allVersions.get(0).getName());
 
+    }
+    
+    @Test
+    public void canRetrieveSurveyByIdentifier() {
+        ResearcherClient client = researcher.getSession().getResearcherClient();
+        
+        TestSurvey survey = new TestSurvey();
+        GuidCreatedOnVersionHolder keys = client.createSurvey(survey);
+        client.publishSurvey(keys);
+        
+        client.getSurveyMostRecentlyPublishedVersionByIdentifier(survey.getIdentifier());
     }
 
     private Constraints getConstraints(Survey survey, String id) {

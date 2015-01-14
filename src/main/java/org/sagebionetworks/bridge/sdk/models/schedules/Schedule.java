@@ -100,11 +100,12 @@ public class Schedule {
     public List<Activity> getActivities() {
         return activities;
     }
-
+    
     @Override
     public String toString() {
         return "Schedule [label=" + label + ", scheduleType=" + scheduleType + ", cronTrigger=" + cronTrigger
-                + ", startsOn=" + startsOn + ", endsOn=" + endsOn + ", expires=" + expires + "]";
+                + ", startsOn=" + startsOn + ", endsOn=" + endsOn + ", expires=" + expires + ", activities="
+                + activities + "]";
     }
     
 }

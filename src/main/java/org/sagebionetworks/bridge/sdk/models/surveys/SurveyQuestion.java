@@ -73,7 +73,7 @@ public class SurveyQuestion implements GuidHolder {
         SurveyAnswer surveyAnswer = new SurveyAnswer();
         surveyAnswer.setQuestionGuid(getGuid());
         surveyAnswer.setAnsweredOn(DateTime.now());
-        surveyAnswer.setAnswer(answer);
+        surveyAnswer.getAnswers().add(answer);
         surveyAnswer.setClient(client);
         return surveyAnswer;
     }

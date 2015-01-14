@@ -9,6 +9,7 @@ import org.sagebionetworks.bridge.sdk.models.surveys.DateConstraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.DateTimeConstraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.DecimalConstraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.DurationConstraints;
+import org.sagebionetworks.bridge.sdk.models.surveys.DurationUnit;
 import org.sagebionetworks.bridge.sdk.models.surveys.Image;
 import org.sagebionetworks.bridge.sdk.models.surveys.IntegerConstraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.MultiValueConstraints;
@@ -122,10 +123,13 @@ public class TestSurvey extends Survey {
     private SurveyQuestion durationQuestion = new SurveyQuestion() {
         {
             DurationConstraints c = new DurationConstraints();
+            c.setMinValue(1L);
+            c.setMaxValue(120L);
+            c.setUnit(DurationUnit.minutes);
             setPrompt("How log does your appointment take, on average?");
             setIdentifier(DURATION_ID);
             setConstraints(c);
-            setUiHint(UiHint.DATEPICKER);
+            setUiHint(UiHint.SLIDER);
         }
     };
 
