@@ -58,6 +58,7 @@ public final class Config {
         SURVEY_API,
         SURVEY_RECENT_API,
         SURVEY_RECENTLY_PUBLISHED_API,
+        SURVEY_RECENTLY_PUBLISHED_BY_IDENTIFIER_API,
         SURVEY_RECENTLY_PUBLISHED_USER_API,
         SURVEY_USER_API,
         SURVEY_WITH_IDENTIFIER_USER_API,
@@ -246,6 +247,10 @@ public final class Config {
     public String getSurveyMostRecentlyPublishedVersionApi(String guid) {
         checkArgument(isNotBlank(guid));
         return String.format(val(Props.SURVEY_RECENTLY_PUBLISHED_API), guid);
+    }
+    public String getSurveyMostRecentlyPublishedVersionByIdentifierApi(String identifier) {
+        checkArgument(isNotBlank(identifier));
+        return String.format(val(Props.SURVEY_RECENTLY_PUBLISHED_BY_IDENTIFIER_API), identifier);
     }
     public String getSurveyMostRecentVersionApi(String guid) {
         checkArgument(isNotBlank(guid));

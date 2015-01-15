@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
 
 public class SurveyAnswer {
@@ -14,20 +12,7 @@ public class SurveyAnswer {
     private boolean declined;
     private String client;
     private DateTime answeredOn;
-    private String answer;
     private List<String> answers = Lists.newArrayList();
-
-    @JsonCreator
-    private SurveyAnswer(@JsonProperty("questionGuid") String questionGuid, @JsonProperty("declined") boolean declined,
-            @JsonProperty("answer") String answer, @JsonProperty("answers") List<String> answers,
-            @JsonProperty("answeredOn") DateTime answeredOn, @JsonProperty("client") String client) {
-        this.questionGuid = questionGuid;
-        this.declined = declined;
-        this.answer = answer;
-        this.client = client;
-        this.answeredOn = answeredOn;
-        this.answers = answers;
-    }
 
     public SurveyAnswer() {
     }
@@ -46,14 +31,6 @@ public class SurveyAnswer {
 
     public void setDeclined(boolean declined) {
         this.declined = declined;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
     }
 
     public List<String> getAnswers() {
@@ -78,6 +55,12 @@ public class SurveyAnswer {
 
     public void setAnsweredOn(DateTime answeredOn) {
         this.answeredOn = answeredOn;
+    }
+
+    @Override
+    public String toString() {
+        return "SurveyAnswer [questionGuid=" + questionGuid + ", declined=" + declined + ", client=" + client
+                + ", answeredOn=" + answeredOn + ", answers=" + answers + "]";
     }
 
 }
