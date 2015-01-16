@@ -11,7 +11,6 @@ import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
@@ -68,7 +67,6 @@ public class SurveyResponseTest {
     }
 
     @Test
-    @Ignore
     public void submitAnswersColdForASurvey() {
         UserClient client = user.getSession().getUserClient();
 
@@ -92,7 +90,6 @@ public class SurveyResponseTest {
     }
 
     @Test
-    @Ignore
     public void canSubmitEveryKindOfAnswerType() {
         List<SurveyAnswer> answers = Lists.newArrayList();
 
@@ -164,7 +161,6 @@ public class SurveyResponseTest {
     }
     
     @Test
-    @Ignore
     public void canSubmitSurveyResponseWithAnIdentifier() {
         String identifier = RandomStringUtils.randomAlphabetic(10);
         UserClient client = user.getSession().getUserClient();
@@ -209,7 +205,7 @@ public class SurveyResponseTest {
         
         answer = question2.createAnswerForQuestion("44", "desktop");
         answers.add(answer);
-        
+
         try {
             client.submitAnswersToSurvey(survey, answers);
             fail("Should have thrown an error");

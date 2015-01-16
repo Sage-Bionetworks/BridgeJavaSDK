@@ -33,7 +33,6 @@ public class NumericalConstraints extends Constraints {
     public void setStep(Double step) {
         this.step = step;
     }
-    
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -41,6 +40,7 @@ public class NumericalConstraints extends Constraints {
         result = prime * result + ((maxValue == null) ? 0 : maxValue.hashCode());
         result = prime * result + ((minValue == null) ? 0 : minValue.hashCode());
         result = prime * result + ((step == null) ? 0 : step.hashCode());
+        result = prime * result + ((unit == null) ? 0 : unit.hashCode());
         return result;
     }
     @Override
@@ -49,7 +49,7 @@ public class NumericalConstraints extends Constraints {
             return true;
         if (!super.equals(obj))
             return false;
-        if (!(obj instanceof NumericalConstraints))
+        if (getClass() != obj.getClass())
             return false;
         NumericalConstraints other = (NumericalConstraints) obj;
         if (maxValue == null) {
@@ -67,6 +67,8 @@ public class NumericalConstraints extends Constraints {
                 return false;
         } else if (!step.equals(other.step))
             return false;
+        if (unit != other.unit)
+            return false;
         return true;
-    }    
+    }
 }
