@@ -84,7 +84,7 @@ public final class Config {
 
     private Properties config;
 
-    private Config() {
+    Config() {
         config = new Properties();
         
         try(InputStream in = this.getClass().getResourceAsStream(CONFIG_FILE)) {
@@ -104,10 +104,6 @@ public final class Config {
                 config.setProperty(key.getPropertyName(), value);
             }
         }
-    }
-
-    static Config valueOf() {
-        return new Config();
     }
 
     private void loadProperties(final String fileName, final Properties properties) {

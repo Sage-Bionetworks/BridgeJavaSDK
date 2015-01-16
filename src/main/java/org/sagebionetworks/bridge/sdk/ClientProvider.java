@@ -10,7 +10,7 @@ import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
 
 public class ClientProvider {
 
-    private static final Config config = Config.valueOf();
+    private static final Config config = new Config();
     
     private static final ClientInfo info = new ClientInfo(true);
     
@@ -38,7 +38,7 @@ public class ClientProvider {
         checkNotNull(signIn, "SignInCredentials required.");
 
         UserSession session = new BaseApiCaller(null).post(config.getAuthSignInApi(), signIn, UserSession.class);
-        return BridgeSession.valueOf(session);
+        return new BridgeSession(session);
     }
 
     /**

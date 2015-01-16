@@ -12,17 +12,13 @@ class BridgeSession implements Session {
     private boolean consented;
     private boolean dataSharing;
     
-    private BridgeSession(UserSession session) {
+    BridgeSession(UserSession session) {
         checkNotNull(session, Bridge.CANNOT_BE_NULL, "UserSession");
         
         this.username = session.getUsername();
         this.sessionToken = session.getSessionToken();
         this.consented = session.isConsented();
         this.dataSharing = session.isDataSharing();
-    }
-
-    static BridgeSession valueOf(UserSession session) {
-        return new BridgeSession(session);
     }
 
     /**
@@ -73,19 +69,19 @@ class BridgeSession implements Session {
     @Override
     public UserClient getUserClient() {
         checkState(isSignedIn(), NOT_AUTHENTICATED);
-        return BridgeUserClient.valueOf(this);
+        return new BridgeUserClient(this);
     }
 
     @Override
     public ResearcherClient getResearcherClient() {
         checkState(isSignedIn(), NOT_AUTHENTICATED);
-        return BridgeResearcherClient.valueOf(this);
+        return new BridgeResearcherClient(this);
     }
 
     @Override
     public AdminClient getAdminClient() {
         checkState(isSignedIn(), NOT_AUTHENTICATED);
-        return BridgeAdminClient.valueOf(this);
+        return new BridgeAdminClient(this);
     }
     
     @Override

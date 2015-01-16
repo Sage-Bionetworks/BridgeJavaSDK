@@ -47,12 +47,8 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     private static final TypeReference<ResourceListImpl<GuidVersionHolder>> gvhType = 
             new TypeReference<ResourceListImpl<GuidVersionHolder>>() {};
 
-    private BridgeUserClient(BridgeSession session) {
+    BridgeUserClient(BridgeSession session) {
         super(session);
-    }
-
-    static BridgeUserClient valueOf(BridgeSession session) {
-        return new BridgeUserClient(session);
     }
 
     /*
