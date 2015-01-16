@@ -25,12 +25,8 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     private final TypeReference<ResourceListImpl<Survey>> sType = new TypeReference<ResourceListImpl<Survey>>() {};
     private final TypeReference<ResourceListImpl<SchedulePlan>> spType = new TypeReference<ResourceListImpl<SchedulePlan>>() {};
 
-    private BridgeResearcherClient(BridgeSession session) {
+    BridgeResearcherClient(BridgeSession session) {
         super(session);
-    }
-
-    static BridgeResearcherClient valueOf(BridgeSession session) {
-        return new BridgeResearcherClient(session);
     }
 
     @Override

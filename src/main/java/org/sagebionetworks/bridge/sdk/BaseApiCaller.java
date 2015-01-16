@@ -63,8 +63,6 @@ class BaseApiCaller {
     private static final String BRIDGE_SESSION_HEADER = "Bridge-Session";
     private static final String CONNECTION_FAILED = "Connection to server failed or aborted.";
 
-    private static Utilities utils = Utilities.valueOf();
-
     // Create an SSL context that does no certificate validation whatsoever.
     private static class DefaultTrustManager implements X509TrustManager {
         @Override
@@ -338,7 +336,7 @@ class BaseApiCaller {
                     e = new EntityNotFoundException(message, url);
                 } else if (statusCode == 412) {
                     UserSession userSession = getResponseBodyAsType(response, UserSession.class);
-                    e = new ConsentRequiredException("Consent required.", url, BridgeSession.valueOf(userSession));
+                    e = new ConsentRequiredException("Consent required.", url, new BridgeSession(userSession));
                 } else if (statusCode == 409 && message.contains("already exists")) {
                     e = new EntityAlreadyExistsException(message, url);
                 } else if (statusCode == 409 && message.contains("has the wrong version number")) {
@@ -368,7 +366,7 @@ class BaseApiCaller {
             return url;
         } else {
             String fullUrl = config.getHost() + url;
-            assert utils.isValidUrl(fullUrl) : fullUrl;
+            assert Utilities.isValidUrl(fullUrl) : fullUrl;
 
             return fullUrl;
         }

@@ -20,12 +20,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
 
-    private BridgeAdminClient(BridgeSession session) {
+    BridgeAdminClient(BridgeSession session) {
         super(session);
-    }
-
-    static BridgeAdminClient valueOf(BridgeSession session) {
-        return new BridgeAdminClient(session);
     }
 
     @Override
