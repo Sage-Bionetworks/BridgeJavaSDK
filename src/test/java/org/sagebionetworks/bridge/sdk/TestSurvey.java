@@ -9,7 +9,7 @@ import org.sagebionetworks.bridge.sdk.models.surveys.DateConstraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.DateTimeConstraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.DecimalConstraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.DurationConstraints;
-import org.sagebionetworks.bridge.sdk.models.surveys.DurationUnit;
+import org.sagebionetworks.bridge.sdk.models.surveys.Unit;
 import org.sagebionetworks.bridge.sdk.models.surveys.Image;
 import org.sagebionetworks.bridge.sdk.models.surveys.IntegerConstraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.MultiValueConstraints;
@@ -123,9 +123,9 @@ public class TestSurvey extends Survey {
     private SurveyQuestion durationQuestion = new SurveyQuestion() {
         {
             DurationConstraints c = new DurationConstraints();
-            c.setMinValue(1L);
-            c.setMaxValue(120L);
-            c.setUnit(DurationUnit.minutes);
+            c.setMinValue(1d);
+            c.setMaxValue(120d);
+            c.setUnit(Unit.minutes);
             setPrompt("How log does your appointment take, on average?");
             setIdentifier(DURATION_ID);
             setConstraints(c);
@@ -136,8 +136,8 @@ public class TestSurvey extends Survey {
     private SurveyQuestion integerQuestion = new SurveyQuestion() {
         {
             IntegerConstraints c = new IntegerConstraints();
-            c.setMinValue(0L);
-            c.setMaxValue(4L);
+            c.setMinValue(0d);
+            c.setMaxValue(8d);
             c.getRules().add(new SurveyRule(Operator.le, 2, "phone_number"));
             c.getRules().add(new SurveyRule(Operator.de, null, "phone_number"));
 
