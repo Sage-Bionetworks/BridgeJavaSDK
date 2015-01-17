@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
 
 public class ABTestScheduleStrategy implements ScheduleStrategy {
-    
+
     public static class Group {
         private final int percentage;
         private final Schedule schedule;
@@ -25,6 +25,32 @@ public class ABTestScheduleStrategy implements ScheduleStrategy {
         }
         public Schedule getSchedule() {
             return schedule;
+        }
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + percentage;
+            result = prime * result + ((schedule == null) ? 0 : schedule.hashCode());
+            return result;
+        }
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            Group other = (Group) obj;
+            if (percentage != other.percentage)
+                return false;
+            if (schedule == null) {
+                if (other.schedule != null)
+                    return false;
+            } else if (!schedule.equals(other.schedule))
+                return false;
+            return true;
         }
     }
     
@@ -51,6 +77,31 @@ public class ABTestScheduleStrategy implements ScheduleStrategy {
     @JsonProperty("scheduleGroups")
     public List<Group> getGroups() {
         return this.groups;
+    }
+    
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((groups == null) ? 0 : groups.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ABTestScheduleStrategy other = (ABTestScheduleStrategy) obj;
+        if (groups == null) {
+            if (other.groups != null)
+                return false;
+        } else if (!groups.equals(other.groups))
+            return false;
+        return true;
     }
 
 }
