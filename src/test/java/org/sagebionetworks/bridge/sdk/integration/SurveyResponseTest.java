@@ -20,6 +20,7 @@ import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeServerException;
+import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
@@ -170,8 +171,8 @@ public class SurveyResponseTest {
         UserClient client = user.getSession().getUserClient();
         try {
             
-            SurveyQuestion question1 = survey.getQuestionByIdentifier("high_bp");
-            SurveyQuestion question2 = survey.getQuestionByIdentifier("BP X DAY");
+            SurveyQuestion question1 = survey.getQuestionByIdentifier(TestSurvey.BOOLEAN_ID);
+            SurveyQuestion question2 = survey.getQuestionByIdentifier(TestSurvey.INTEGER_ID);
 
             List<SurveyAnswer> answers = Lists.newArrayList();
 
@@ -195,4 +196,28 @@ public class SurveyResponseTest {
         }
     }
 
+    @Test
+    public void canTriggerValidationErrors() {
+        UserClient client = user.getSession().getUserClient();
+        
+        SurveyQuestion question1 = survey.getQuestionByIdentifier(TestSurvey.BOOLEAN_ID);
+        SurveyQuestion question2 = survey.getQuestionByIdentifier(TestSurvey.INTEGER_ID);
+
+        List<SurveyAnswer> answers = Lists.newArrayList();
+
+        SurveyAnswer answer = question1.createAnswerForQuestion("true", "desktop");
+        answers.add(answer);
+        
+        answer = question2.createAnswerForQuestion("44", "desktop");
+        answers.add(answer);
+
+        try {
+            client.submitAnswersToSurvey(survey, answers);
+            fail("Should have thrown an error");
+        } catch(InvalidEntityException e) {
+            assertEquals("SurveyResponse is invalid: 44 is higher than the maximum value of 8.0", e.getMessage());
+        }
+            
+    }
+    
 }
