@@ -69,6 +69,49 @@ public class ConsentSignature {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((birthdate == null) ? 0 : birthdate.hashCode());
+        result = prime * result + ((imageData == null) ? 0 : imageData.hashCode());
+        result = prime * result + ((imageMimeType == null) ? 0 : imageMimeType.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ConsentSignature other = (ConsentSignature) obj;
+        if (birthdate == null) {
+            if (other.birthdate != null)
+                return false;
+        } else if (!birthdate.equals(other.birthdate))
+            return false;
+        if (imageData == null) {
+            if (other.imageData != null)
+                return false;
+        } else if (!imageData.equals(other.imageData))
+            return false;
+        if (imageMimeType == null) {
+            if (other.imageMimeType != null)
+                return false;
+        } else if (!imageMimeType.equals(other.imageMimeType))
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "ResearchConsent[name=" + name + ", birthdate=" + birthdate.toString(ISODateTimeFormat.date()) +
                 ", hasImageData=" + (imageData != null) + ", imageMimeType=" + imageMimeType + "]";

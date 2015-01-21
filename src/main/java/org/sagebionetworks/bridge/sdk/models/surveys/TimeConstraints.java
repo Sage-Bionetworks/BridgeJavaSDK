@@ -5,4 +5,5 @@ public class TimeConstraints extends Constraints {
     public TimeConstraints() {
         setDataType(DataType.TIME);
     }
+    
 }

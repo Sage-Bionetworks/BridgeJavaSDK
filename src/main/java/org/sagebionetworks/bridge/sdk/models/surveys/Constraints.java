@@ -49,7 +49,6 @@ public abstract class Constraints {
     public void setAllowMultiple(boolean allowMultiple) {
         this.allowMultiple = allowMultiple;
     }
-
     @Override
     public int hashCode() {
         final int prime = 31;

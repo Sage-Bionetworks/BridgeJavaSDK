@@ -104,4 +104,9 @@ public class ABTestScheduleStrategy implements ScheduleStrategy {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "ABTestScheduleStrategy [groups=" + groups + "]";
+    }
+
 }
