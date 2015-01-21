@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
-import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
 
 public class UploadSessionTest {
     @Test

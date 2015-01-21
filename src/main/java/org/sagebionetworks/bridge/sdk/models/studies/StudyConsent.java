@@ -1,7 +1,5 @@
 package org.sagebionetworks.bridge.sdk.models.studies;
 
-import java.util.Objects;
-
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 
