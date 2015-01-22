@@ -1,6 +1,6 @@
 package org.sagebionetworks.bridge.sdk.models.users;
 
-public class SignUpCredentials {
+public final class SignUpCredentials {
 
     private String email;
     private String username;

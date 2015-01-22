@@ -1,6 +1,6 @@
 package org.sagebionetworks.bridge.sdk.models.users;
 
-public class ResetPasswordCredentials {
+public final class ResetPasswordCredentials {
 
     private final String email;
     

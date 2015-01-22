@@ -3,7 +3,7 @@ package org.sagebionetworks.bridge.sdk.models;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class UploadRequest {
+public final class UploadRequest {
 
     private String name;
     private long contentLength;

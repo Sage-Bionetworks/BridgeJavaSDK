@@ -3,7 +3,7 @@ package org.sagebionetworks.bridge.sdk.models.studies;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Tracker {
+public final class Tracker {
 
     private final String name;
     private final String type;

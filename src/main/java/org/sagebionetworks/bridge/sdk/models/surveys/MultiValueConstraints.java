@@ -1,12 +1,6 @@
 package org.sagebionetworks.bridge.sdk.models.surveys;
 
-import java.util.List;
-
-public class MultiValueConstraints extends Constraints {
-    
-    private List<SurveyQuestionOption> enumeration;
-    private boolean allowOther = false;
-    private boolean allowMultiple = false;
+public final class MultiValueConstraints extends Constraints {
     
     public MultiValueConstraints() {
         setDataType(DataType.STRING);
@@ -16,23 +10,42 @@ public class MultiValueConstraints extends Constraints {
         setDataType(dataType);
     }
     
-    public List<SurveyQuestionOption> getEnumeration() {
-        return enumeration;
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (allowMultiple ? 1231 : 1237);
+        result = prime * result + (allowOther ? 1231 : 1237);
+        result = prime * result + ((dataType == null) ? 0 : dataType.hashCode());
+        result = prime * result + ((enumeration == null) ? 0 : enumeration.hashCode());
+        result = prime * result + ((rules == null) ? 0 : rules.hashCode());
+        return result;
     }
-    public void setEnumeration(List<SurveyQuestionOption> enumeration) {
-        this.enumeration = enumeration;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        MultiValueConstraints other = (MultiValueConstraints) obj;
+        if (allowMultiple != other.allowMultiple)
+            return false;
+        if (allowOther != other.allowOther)
+            return false;
+        if (dataType != other.dataType)
+            return false;
+        if (enumeration == null) {
+            if (other.enumeration != null)
+                return false;
+        } else if (!enumeration.equals(other.enumeration))
+            return false;
+        if (rules == null) {
+            if (other.rules != null)
+                return false;
+        } else if (!rules.equals(other.rules))
+            return false;
+        return true;
     }
-    public boolean getAllowOther() {
-        return allowOther;
-    }
-    public void setAllowOther(boolean allowOther) {
-        this.allowOther = allowOther;
-    }
-    public boolean getAllowMultiple() {
-        return allowMultiple;
-    }
-    public void setAllowMultiple(boolean allowMultiple) {
-        this.allowMultiple = allowMultiple;
-    }
-
 }

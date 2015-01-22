@@ -1,7 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.users;
 
 public final class UserProfile {
-
+    
     private String firstName;
     private String lastName;
     private String username;

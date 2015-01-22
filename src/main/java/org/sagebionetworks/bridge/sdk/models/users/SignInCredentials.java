@@ -3,7 +3,7 @@ package org.sagebionetworks.bridge.sdk.models.users;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class SignInCredentials {
+public final class SignInCredentials {
 
     private String username;
     private String password;

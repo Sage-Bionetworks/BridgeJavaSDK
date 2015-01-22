@@ -9,7 +9,6 @@ import org.sagebionetworks.bridge.sdk.models.surveys.DateConstraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.DateTimeConstraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.DecimalConstraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.DurationConstraints;
-import org.sagebionetworks.bridge.sdk.models.surveys.Unit;
 import org.sagebionetworks.bridge.sdk.models.surveys.Image;
 import org.sagebionetworks.bridge.sdk.models.surveys.IntegerConstraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.MultiValueConstraints;
@@ -21,6 +20,7 @@ import org.sagebionetworks.bridge.sdk.models.surveys.SurveyRule;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyRule.Operator;
 import org.sagebionetworks.bridge.sdk.models.surveys.TimeConstraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.UiHint;
+import org.sagebionetworks.bridge.sdk.models.surveys.Unit;
 
 import com.google.common.collect.Lists;
 

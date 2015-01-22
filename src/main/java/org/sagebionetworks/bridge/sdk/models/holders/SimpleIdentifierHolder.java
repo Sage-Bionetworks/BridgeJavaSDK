@@ -3,7 +3,7 @@ package org.sagebionetworks.bridge.sdk.models.holders;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class SimpleIdentifierHolder implements IdentifierHolder {
+public final class SimpleIdentifierHolder implements IdentifierHolder {
 
     private final String identifier;
     

@@ -71,7 +71,7 @@ public final class HealthDataRecord implements GuidVersionHolder {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((data == null) ? 0 : data.toString().hashCode());
+        result = prime * result + ((data == null) ? 0 : data.hashCode());
         result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
         result = prime * result + ((guid == null) ? 0 : guid.hashCode());
         result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
@@ -91,7 +91,7 @@ public final class HealthDataRecord implements GuidVersionHolder {
         if (data == null) {
             if (other.data != null)
                 return false;
-        } else if (!data.toString().equals(other.data.toString()))
+        } else if (!data.equals(other.data))
             return false;
         if (endDate == null) {
             if (other.endDate != null)

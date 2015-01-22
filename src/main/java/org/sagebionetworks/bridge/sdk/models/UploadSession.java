@@ -5,7 +5,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class UploadSession {
+public final class UploadSession {
 
     private final String id;
     private final String url;

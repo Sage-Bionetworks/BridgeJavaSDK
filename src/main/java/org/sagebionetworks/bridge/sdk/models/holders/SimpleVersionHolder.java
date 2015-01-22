@@ -3,7 +3,7 @@ package org.sagebionetworks.bridge.sdk.models.holders;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class SimpleVersionHolder implements VersionHolder {
+public final class SimpleVersionHolder implements VersionHolder {
 
     private final Long version;
     

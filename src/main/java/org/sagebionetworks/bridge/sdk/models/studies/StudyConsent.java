@@ -6,7 +6,7 @@ import org.joda.time.format.ISODateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class StudyConsent {
+public final class StudyConsent {
 
     private DateTime createdOn;
     private boolean active;

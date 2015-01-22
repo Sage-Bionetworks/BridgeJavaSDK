@@ -7,6 +7,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
@@ -14,6 +18,13 @@ import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
 import com.google.common.collect.Lists;
 
 public class ResourceListTest {
+    
+    @Test
+    @Ignore // This actually throws an internal error in EqualsVerifier, we hit a bug
+    public void equalsContract() {
+        EqualsVerifier.forClass(ResourceList.class).suppress(Warning.NONFINAL_FIELDS).allFieldsShouldBeUsed().verify();
+    }
+    
     @Test
     public void hashCodeEquals() {
         ResourceList<UserProfile> c1 = createProfileList("test");
