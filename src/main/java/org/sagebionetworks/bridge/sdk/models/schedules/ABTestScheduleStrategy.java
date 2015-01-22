@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
 
-public class ABTestScheduleStrategy implements ScheduleStrategy {
+public final class ABTestScheduleStrategy implements ScheduleStrategy {
 
     public static class Group {
         private final int percentage;
