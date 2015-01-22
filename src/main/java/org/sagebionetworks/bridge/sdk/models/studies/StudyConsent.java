@@ -1,14 +1,12 @@
 package org.sagebionetworks.bridge.sdk.models.studies;
 
-import java.util.Objects;
-
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class StudyConsent {
+public final class StudyConsent {
 
     private DateTime createdOn;
     private boolean active;
@@ -62,24 +60,52 @@ public class StudyConsent {
     }
 
     @Override
-    public String toString() {
-        return "StudyConsent[createdOn=" + createdOn.toString(ISODateTimeFormat.dateTime()) + ", active=" + active
-                + ", path=" + path + ", minAge=" + minAge + ", version=" + version + "]";
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (active ? 1231 : 1237);
+        result = prime * result + ((createdOn == null) ? 0 : createdOn.hashCode());
+        result = prime * result + minAge;
+        result = prime * result + ((path == null) ? 0 : path.hashCode());
+        result = prime * result + ((version == null) ? 0 : version.hashCode());
+        return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
+        if (this == obj)
             return true;
-        } else if (obj == null) {
+        if (obj == null)
             return false;
-        } else if (obj.getClass() != this.getClass()) {
+        if (getClass() != obj.getClass())
             return false;
-        }
-        final StudyConsent that = (StudyConsent) obj;
-        return Objects.equals(this.createdOn, that.createdOn) && Objects.equals(this.active, that.active)
-                && Objects.equals(this.path, that.path) && Objects.equals(this.minAge, that.minAge)
-                && Objects.equals(this.version, that.version);
+        StudyConsent other = (StudyConsent) obj;
+        if (active != other.active)
+            return false;
+        if (createdOn == null) {
+            if (other.createdOn != null)
+                return false;
+        } else if (!createdOn.equals(other.createdOn))
+            return false;
+        if (minAge != other.minAge)
+            return false;
+        if (path == null) {
+            if (other.path != null)
+                return false;
+        } else if (!path.equals(other.path))
+            return false;
+        if (version == null) {
+            if (other.version != null)
+                return false;
+        } else if (!version.equals(other.version))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "StudyConsent[createdOn=" + createdOn.toString(ISODateTimeFormat.dateTime()) + ", active=" + active
+                + ", path=" + path + ", minAge=" + minAge + ", version=" + version + "]";
     }
 
 }

@@ -18,9 +18,6 @@ public final class Study implements VersionHolder {
     private List<String> trackers;
     private String hostname;
 
-    public Study() {
-    }
-
     public String getName() {
         return name;
     }

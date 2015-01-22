@@ -74,13 +74,12 @@ public class StudyTest {
         client.deleteStudy(newStudy.getIdentifier());
 
         String identifier = study.getIdentifier();
-        study = null;
-
         try {
             newStudy = client.getStudy(identifier);
             fail("Should have thrown exception");
         } catch(EntityNotFoundException e) {
         }
+        study = null;
     }
 
     @Test

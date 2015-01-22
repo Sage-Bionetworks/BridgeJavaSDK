@@ -8,14 +8,14 @@ import com.google.common.collect.Lists;
 
 public abstract class Constraints {
 
-    private DataType dataType;
-    private List<SurveyRule> rules = Lists.newArrayList();
+    protected DataType dataType;
+    protected List<SurveyRule> rules = Lists.newArrayList();
 
     // These are specific to the multi value constraints, and should be a separate
     // kind of constraint, but not until the Json parsing stuff above is fixed.
-    private List<SurveyQuestionOption> enumeration;
-    private boolean allowOther = false;
-    private boolean allowMultiple = false;
+    protected List<SurveyQuestionOption> enumeration;
+    protected boolean allowOther = false;
+    protected boolean allowMultiple = false;
 
     @JsonSerialize(using = EnumSerializer.class)
     public DataType getDataType() {
@@ -49,50 +49,5 @@ public abstract class Constraints {
     public void setAllowMultiple(boolean allowMultiple) {
         this.allowMultiple = allowMultiple;
     }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + (allowMultiple ? 1231 : 1237);
-        result = prime * result + (allowOther ? 1231 : 1237);
-        result = prime * result + ((dataType == null) ? 0 : dataType.hashCode());
-        result = prime * result + ((enumeration == null) ? 0 : enumeration.hashCode());
-        result = prime * result + ((rules == null) ? 0 : rules.hashCode());
-        return result;
-    }
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Constraints other = (Constraints) obj;
-        if (allowMultiple != other.allowMultiple)
-            return false;
-        if (allowOther != other.allowOther)
-            return false;
-        if (dataType != other.dataType)
-            return false;
-        if (enumeration == null) {
-            if (other.enumeration != null)
-                return false;
-        } else if (!enumeration.equals(other.enumeration))
-            return false;
-        if (rules == null) {
-            if (other.rules != null)
-                return false;
-        } else if (!rules.equals(other.rules))
-            return false;
-        return true;
-    }
-    @Override
-    public String toString() {
-        return "Constraints [dataType=" + dataType + ", rules=" + rules + ", enumeration=" + enumeration
-                + ", allowOther=" + allowOther + ", allowMultiple=" + allowMultiple + "]";
-    }
-
 
 }

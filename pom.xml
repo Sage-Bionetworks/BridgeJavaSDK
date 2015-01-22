@@ -113,6 +113,12 @@
             <artifactId>httpmime</artifactId>
             <version>4.3</version>
         </dependency>
+        <dependency>
+            <groupId>nl.jqno.equalsverifier</groupId>
+            <artifactId>equalsverifier</artifactId>
+            <version>1.6</version>
+            <scope>test</scope>
+        </dependency>        
     </dependencies>
 
     <!-- 

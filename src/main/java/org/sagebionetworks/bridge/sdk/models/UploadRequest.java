@@ -3,7 +3,7 @@ package org.sagebionetworks.bridge.sdk.models;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class UploadRequest {
+public final class UploadRequest {
 
     private String name;
     private long contentLength;
@@ -42,6 +42,46 @@ public class UploadRequest {
     public UploadRequest setContentLength(long contentLength) {
         this.contentLength = contentLength;
         return this;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (int) (contentLength ^ (contentLength >>> 32));
+        result = prime * result + ((contentMd5 == null) ? 0 : contentMd5.hashCode());
+        result = prime * result + ((contentType == null) ? 0 : contentType.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        UploadRequest other = (UploadRequest) obj;
+        if (contentLength != other.contentLength)
+            return false;
+        if (contentMd5 == null) {
+            if (other.contentMd5 != null)
+                return false;
+        } else if (!contentMd5.equals(other.contentMd5))
+            return false;
+        if (contentType == null) {
+            if (other.contentType != null)
+                return false;
+        } else if (!contentType.equals(other.contentType))
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        return true;
     }
 
     @Override
