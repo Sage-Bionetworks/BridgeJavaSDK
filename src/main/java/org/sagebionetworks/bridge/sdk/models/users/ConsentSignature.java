@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.joda.deser.LocalDateDeserializer;
 
-public class ConsentSignature {
+public final class ConsentSignature {
 
     private final String name;
     private final LocalDate birthdate;
@@ -113,7 +113,7 @@ public class ConsentSignature {
 
     @Override
     public String toString() {
-        return "ResearchConsent[name=" + name + ", birthdate=" + birthdate.toString(ISODateTimeFormat.date()) +
+        return "ConsentSignature[name=" + name + ", birthdate=" + birthdate.toString(ISODateTimeFormat.date()) +
                 ", hasImageData=" + (imageData != null) + ", imageMimeType=" + imageMimeType + "]";
     }
 }

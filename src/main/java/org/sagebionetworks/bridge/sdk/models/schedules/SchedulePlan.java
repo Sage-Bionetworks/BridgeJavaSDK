@@ -6,7 +6,7 @@ import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonDeserialize(as=SchedulePlan.class)
-public class SchedulePlan implements GuidVersionHolder {
+public final class SchedulePlan implements GuidVersionHolder {
 
     private String guid;
     private DateTime modifiedOn;

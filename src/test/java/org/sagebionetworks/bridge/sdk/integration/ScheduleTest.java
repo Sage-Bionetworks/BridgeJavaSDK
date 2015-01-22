@@ -8,11 +8,11 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
-import org.sagebionetworks.bridge.sdk.integration.SchedulePlanTest.TestABSchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 
 public class ScheduleTest {
@@ -28,7 +28,7 @@ public class ScheduleTest {
         researcher = TestUserHelper.createAndSignInUser(ScheduleTest.class, true, RESEARCHER_ROLE);
         
         ResearcherClient client = researcher.getSession().getResearcherClient();
-        planGuid = client.createSchedulePlan(new TestABSchedulePlan()).getGuid();
+        planGuid = client.createSchedulePlan(Tests.getABTestSchedulePlan()).getGuid();
     }
     
     @After

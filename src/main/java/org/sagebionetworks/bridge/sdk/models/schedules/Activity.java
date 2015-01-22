@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * a run of a survey. 
  *
  */
-public class Activity {
+public final class Activity {
     
     private final String label;
     private final ActivityType activityType;
@@ -77,15 +77,18 @@ public class Activity {
         return survey;
     }
 
+    
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((activityType == null) ? 0 : activityType.hashCode());
+        result = prime * result + ((label == null) ? 0 : label.hashCode());
         result = prime * result + ((ref == null) ? 0 : ref.hashCode());
         result = prime * result + ((survey == null) ? 0 : survey.hashCode());
-        result = prime * result + ((activityType == null) ? 0 : activityType.hashCode());
         return result;
     }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -95,6 +98,13 @@ public class Activity {
         if (getClass() != obj.getClass())
             return false;
         Activity other = (Activity) obj;
+        if (activityType != other.activityType)
+            return false;
+        if (label == null) {
+            if (other.label != null)
+                return false;
+        } else if (!label.equals(other.label))
+            return false;
         if (ref == null) {
             if (other.ref != null)
                 return false;
@@ -105,10 +115,9 @@ public class Activity {
                 return false;
         } else if (!survey.equals(other.survey))
             return false;
-        if (activityType != other.activityType)
-            return false;
         return true;
     }
+
     @Override
     public String toString() {
         return "Activity [activityType=" + activityType + ", ref=" + ref + ", survey=" + survey + "]";
