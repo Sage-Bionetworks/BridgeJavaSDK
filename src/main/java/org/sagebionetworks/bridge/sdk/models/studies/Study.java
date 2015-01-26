@@ -13,6 +13,8 @@ public final class Study implements VersionHolder {
     private String identifier;
     private Long version;
     private String researcherRole;
+    private String supportEmail;
+    private String consentNotificationEmail;
     private int minAgeOfConsent;
     private int maxNumOfParticipants;
     private List<String> trackers;
@@ -48,6 +50,22 @@ public final class Study implements VersionHolder {
 
     public void setResearcherRole(String researcherRole) {
         this.researcherRole = researcherRole;
+    }
+    
+    public String getSupportEmail() {
+        return supportEmail;
+    }
+
+    public void setSupportEmail(String supportEmail) {
+        this.supportEmail = supportEmail;
+    }
+
+    public String getConsentNotificationEmail() {
+        return consentNotificationEmail;
+    }
+
+    public void setConsentNotificationEmail(String consentNotificationEmail) {
+        this.consentNotificationEmail = consentNotificationEmail;
     }
 
     public int getMinAgeOfConsent() {
@@ -86,12 +104,14 @@ public final class Study implements VersionHolder {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((consentNotificationEmail == null) ? 0 : consentNotificationEmail.hashCode());
         result = prime * result + ((hostname == null) ? 0 : hostname.hashCode());
         result = prime * result + ((identifier == null) ? 0 : identifier.hashCode());
         result = prime * result + maxNumOfParticipants;
         result = prime * result + minAgeOfConsent;
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((researcherRole == null) ? 0 : researcherRole.hashCode());
+        result = prime * result + ((supportEmail == null) ? 0 : supportEmail.hashCode());
         result = prime * result + ((trackers == null) ? 0 : trackers.hashCode());
         result = prime * result + ((version == null) ? 0 : version.hashCode());
         return result;
@@ -106,6 +126,11 @@ public final class Study implements VersionHolder {
         if (getClass() != obj.getClass())
             return false;
         Study other = (Study) obj;
+        if (consentNotificationEmail == null) {
+            if (other.consentNotificationEmail != null)
+                return false;
+        } else if (!consentNotificationEmail.equals(other.consentNotificationEmail))
+            return false;
         if (hostname == null) {
             if (other.hostname != null)
                 return false;
@@ -130,6 +155,11 @@ public final class Study implements VersionHolder {
                 return false;
         } else if (!researcherRole.equals(other.researcherRole))
             return false;
+        if (supportEmail == null) {
+            if (other.supportEmail != null)
+                return false;
+        } else if (!supportEmail.equals(other.supportEmail))
+            return false;
         if (trackers == null) {
             if (other.trackers != null)
                 return false;
@@ -146,7 +176,8 @@ public final class Study implements VersionHolder {
     @Override
     public String toString() {
         return "Study [name=" + name + ", identifier=" + identifier + ", version=" + version + ", researcherRole="
-                + researcherRole + ", minAgeOfConsent=" + minAgeOfConsent + ", maxNumOfParticipants="
+                + researcherRole + ", supportEmail=" + supportEmail + ", consentNotificationEmail="
+                + consentNotificationEmail + ", minAgeOfConsent=" + minAgeOfConsent + ", maxNumOfParticipants="
                 + maxNumOfParticipants + ", trackers=" + trackers + ", hostname=" + hostname + "]";
     }
 

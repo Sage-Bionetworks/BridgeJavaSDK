@@ -45,6 +45,8 @@ public class StudyTest {
         study.setMinAgeOfConsent(18);
         study.setMaxNumOfParticipants(100);
         study.setName("Test Study [SDK]");
+        study.setSupportEmail("test@test.com");
+        study.setConsentNotificationEmail("test2@test.com");
         study.setTrackers(Lists.newArrayList("sage:A", "sage:B"));
 
         AdminClient client = admin.getSession().getAdminClient();
@@ -57,6 +59,8 @@ public class StudyTest {
         assertEquals(study.getMaxNumOfParticipants(), newStudy.getMaxNumOfParticipants());
         assertEquals(study.getName(), newStudy.getName());
         assertEquals(2, newStudy.getTrackers().size());
+        assertEquals("test@test.com", newStudy.getSupportEmail());
+        assertEquals("test2@test.com", newStudy.getConsentNotificationEmail());
         assertNotNull("Study hostname", newStudy.getHostname());
         assertNotNull("Study researcher role", newStudy.getResearcherRole());
 
@@ -64,12 +68,17 @@ public class StudyTest {
 
         study.setName(alteredName);
         study.setMaxNumOfParticipants(50);
+        study.setSupportEmail("test3@test.com");
+        study.setConsentNotificationEmail("test4@test.com");
         study.setVersion(holder.getVersion()); // also in newStudy.getVersion(), of course
+        
         client.updateStudy(study);
-
         newStudy = client.getStudy(study.getIdentifier());
+        
         assertEquals(alteredName, newStudy.getName());
         assertEquals(50, newStudy.getMaxNumOfParticipants());
+        assertEquals("test3@test.com", newStudy.getSupportEmail());
+        assertEquals("test4@test.com", newStudy.getConsentNotificationEmail());
 
         client.deleteStudy(newStudy.getIdentifier());
 
