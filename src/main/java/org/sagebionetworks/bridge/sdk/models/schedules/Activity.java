@@ -38,12 +38,7 @@ public final class Activity {
      * @param ref
      */
     public Activity(String label, GuidCreatedOnVersionHolder survey) {
-        checkNotNull(label);
-        checkNotNull(survey);
-        
-        this.label = label;
-        this.ref = ClientProvider.getConfig().getSurveyUserApi(survey.getGuid(), survey.getCreatedOn());
-        this.activityType = SurveyReference.isSurveyRef(ref) ? ActivityType.survey : ActivityType.task;
+        this(checkNotNull(label), checkNotNull(ClientProvider.getConfig().getSurveyUserApi(survey.getGuid(), survey.getCreatedOn())));
     }
     
     /**
