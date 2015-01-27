@@ -28,7 +28,7 @@ public final class Activity {
         
         this.label = label;
         this.ref = ref;
-        this.activityType = (ref.contains("/surveys/")) ? ActivityType.survey : ActivityType.task;
+        this.activityType = SurveyReference.isSurveyRef(ref) ? ActivityType.survey : ActivityType.task;
     }
     
     /**
@@ -43,7 +43,7 @@ public final class Activity {
         
         this.label = label;
         this.ref = ClientProvider.getConfig().getSurveyUserApi(survey.getGuid(), survey.getCreatedOn());
-        this.activityType = (ref.contains("/surveys/")) ? ActivityType.survey : ActivityType.task;
+        this.activityType = SurveyReference.isSurveyRef(ref) ? ActivityType.survey : ActivityType.task;
     }
     
     /**
