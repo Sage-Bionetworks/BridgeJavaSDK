@@ -66,7 +66,7 @@ public final class Activity {
      * through the SDK to retrieve the survey. 
      */
     public SurveyReference getSurvey() {
-        return ref.contains("/surveys/") ? new SurveyReference(ref) : null;
+        return SurveyReference.isSurveyRef(ref) ? new SurveyReference(ref) : null;
     }
     
     @JsonIgnore
