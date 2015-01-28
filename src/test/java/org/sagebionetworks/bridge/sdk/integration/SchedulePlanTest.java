@@ -11,6 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
+import org.sagebionetworks.bridge.sdk.ClientProvider;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
@@ -20,8 +21,11 @@ import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 import org.sagebionetworks.bridge.sdk.exceptions.UnauthorizedException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.schedules.Activity;
+import org.sagebionetworks.bridge.sdk.models.schedules.ActivityType;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
+import org.sagebionetworks.bridge.sdk.models.schedules.SimpleScheduleStrategy;
 
 public class SchedulePlanTest {
 
@@ -134,5 +138,25 @@ public class SchedulePlanTest {
         } catch (NullPointerException e) {
             assertEquals("Clear null-pointer message", "SchedulePlan cannot be null.", e.getMessage());
         }
+    }
+    
+    @Test
+    public void planCanPointToPublishedSurvey() {
+        // Can we point to the most recently published survey, rather than a specific version?
+        SchedulePlan plan = Tests.getSimpleSchedulePlan();
+        SimpleScheduleStrategy strategy = (SimpleScheduleStrategy)plan.getStrategy();
+        
+        String ref = ClientProvider.getConfig().getHost() + ClientProvider.getConfig().getRecentlyPublishedSurveyUserApi("AAA");
+        
+        Activity activity = new Activity("Test", ref);
+        assertEquals(ActivityType.survey, activity.getActivityType());
+
+        strategy.getSchedule().getActivities().clear();
+        strategy.getSchedule().getActivities().add(activity);
+        
+        GuidVersionHolder keys = researcherClient.createSchedulePlan(plan);
+        
+        plan = researcherClient.getSchedulePlan(keys.getGuid());
+        System.out.println(plan);
     }
 }
