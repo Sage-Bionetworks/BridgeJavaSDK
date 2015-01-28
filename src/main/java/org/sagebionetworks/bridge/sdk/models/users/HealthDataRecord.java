@@ -42,6 +42,10 @@ public final class HealthDataRecord implements GuidVersionHolder {
     public String getGuid() {
         return guid;
     }
+    
+    public void setGuid(String guid) {
+        this.guid = guid;
+    }
 
     public DateTime getStartDate() {
         return startDate;

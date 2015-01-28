@@ -126,7 +126,9 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         checkNotNull(record, "Record cannot be null.");
 
         String trackerId = tracker.getIdentifier();
-        return post(config.getHealthDataRecordApi(trackerId, record.getGuid()), record, SimpleGuidVersionHolder.class);
+        GuidVersionHolder holder = post(config.getHealthDataRecordApi(trackerId, record.getGuid()), record, SimpleGuidVersionHolder.class);
+        record.setVersion(holder.getVersion());
+        return holder;
     }
 
     @Override
@@ -162,7 +164,12 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         checkNotNull(records, "Records cannot be null.");
 
         String trackerId = tracker.getIdentifier();
-        return post(config.getHealthDataTrackerApi(trackerId), records, gvhType);
+        ResourceList<GuidVersionHolder> holders = post(config.getHealthDataTrackerApi(trackerId), records, gvhType);
+        for (int i=0; i < holders.getTotal(); i++) {
+            records.get(i).setGuid(holders.get(i).getGuid());
+            records.get(i).setVersion(holders.get(i).getVersion());
+        }
+        return holders;
     }
 
     /*

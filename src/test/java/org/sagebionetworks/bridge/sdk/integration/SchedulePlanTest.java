@@ -1,7 +1,9 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -37,7 +39,6 @@ public class SchedulePlanTest {
 
         researcherClient = researcher.getSession().getResearcherClient();
         userClient = user.getSession().getUserClient();
-
     }
 
     @After
@@ -77,7 +78,11 @@ public class SchedulePlanTest {
         SchedulePlan plan = Tests.getABTestSchedulePlan();
 
         // Create
+        
+        assertNull(plan.getVersion());
         keys = researcherClient.createSchedulePlan(plan);
+        assertEquals(keys.getGuid(), plan.getGuid());
+        assertEquals(keys.getVersion(), plan.getVersion());
 
         // Update
         plan = researcherClient.getSchedulePlan(keys.getGuid());
@@ -86,6 +91,7 @@ public class SchedulePlanTest {
 
         GuidVersionHolder newKeys = researcherClient.updateSchedulePlan(plan);
         assertNotEquals("Version should be updated", keys.getVersion(), newKeys.getVersion());
+        assertEquals(newKeys.getVersion(), plan.getVersion());
 
         // Get
         plan = researcherClient.getSchedulePlan(keys.getGuid());
