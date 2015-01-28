@@ -22,7 +22,6 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
@@ -77,13 +76,11 @@ public class SurveyTest {
     }
 
     @Test(expected=UnauthorizedException.class)
-    @Ignore
     public void cannotSubmitAsNormalUser() {
         user.getSession().getResearcherClient().getAllSurveysMostRecentVersion();
     }
 
     @Test
-    @Ignore
     public void saveAndRetrieveSurvey() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
         GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
@@ -95,7 +92,6 @@ public class SurveyTest {
     }
 
     @Test
-    @Ignore
     public void createVersionPublish() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
 
@@ -120,7 +116,6 @@ public class SurveyTest {
     }
 
     @Test
-    @Ignore
     public void getAllVersionsOfASurvey() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
 
@@ -134,7 +129,6 @@ public class SurveyTest {
     }
 
     @Test
-    @Ignore
     public void canGetMostRecentOrRecentlyPublishedSurvey() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
 
@@ -160,7 +154,6 @@ public class SurveyTest {
     }
 
     @Test
-    @Ignore
     public void canUpdateASurveyAndTypesAreCorrect() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
 
@@ -194,7 +187,6 @@ public class SurveyTest {
     }
 
     @Test
-    @Ignore
     public void dateBasedConstraintsPersistedCorrectly() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
 
@@ -211,7 +203,6 @@ public class SurveyTest {
     }
 
     @Test
-    @Ignore
     public void researcherCannotUpdatePublishedSurvey() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
         GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
@@ -231,7 +222,6 @@ public class SurveyTest {
     }
 
     @Test
-    @Ignore
     public void canGetMostRecentlyPublishedSurveyWithoutTimestamp() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
         TestSurvey survey = new TestSurvey();
@@ -271,7 +261,6 @@ public class SurveyTest {
     }
     
     @Test
-    @Ignore
     public void canRetrieveSurveyByIdentifier() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
         

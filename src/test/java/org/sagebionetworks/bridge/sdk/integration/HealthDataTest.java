@@ -11,7 +11,6 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
 
 import org.joda.time.DateTime;
 import org.junit.After;
@@ -57,7 +56,7 @@ public class HealthDataTest {
         UserClient client = testUser.getSession().getUserClient();
         testUser.getSession().signOut();
 
-        HealthDataRecord record = makeHDR("1111", DateTime.now().minusWeeks(1), DateTime.now(), data);
+        HealthDataRecord record = makeHDR(DateTime.now().minusWeeks(1), DateTime.now(), data);
         List<HealthDataRecord> records = Lists.newArrayList();
         records.add(record);
 
@@ -88,9 +87,9 @@ public class HealthDataTest {
         UserClient client = testUser.getSession().getUserClient();
         try {
             List<HealthDataRecord> records = new ArrayList<HealthDataRecord>();
-            records.add(makeHDR("1111", DateTime.now().minusWeeks(1), DateTime.now(), data));
-            records.add(makeHDR("2222", DateTime.now().minusWeeks(2), DateTime.now().minusWeeks(1), data));
-            records.add(makeHDR("3333", DateTime.now().minusWeeks(3), DateTime.now().minusWeeks(2), data));
+            records.add(makeHDR(DateTime.now().minusWeeks(1), DateTime.now(), data));
+            records.add(makeHDR(DateTime.now().minusWeeks(2), DateTime.now().minusWeeks(1), data));
+            records.add(makeHDR(DateTime.now().minusWeeks(3), DateTime.now().minusWeeks(2), data));
 
             ResourceList<GuidVersionHolder> holders = client.addHealthDataRecords(tracker, records);
             assertTrue("Number of holders = all records added", holders.getTotal() == records.size());
@@ -111,7 +110,7 @@ public class HealthDataTest {
         try {
             // Make sure there's something in Bridge so that we can test get.
             List<HealthDataRecord> add = new ArrayList<HealthDataRecord>();
-            add.add(makeHDR("5555", DateTime.now().minusWeeks(1), DateTime.now(), data));
+            add.add(makeHDR(DateTime.now().minusWeeks(1), DateTime.now(), data));
             
             assertNull(add.get(0).getVersion());
             assertNull(add.get(0).getGuid());
@@ -224,7 +223,7 @@ public class HealthDataTest {
         }
     }
 
-    private HealthDataRecord makeHDR(String guid, DateTime startDate, DateTime endDate, JsonNode data) {
+    private HealthDataRecord makeHDR(DateTime startDate, DateTime endDate, JsonNode data) {
         HealthDataRecord record = new HealthDataRecord();
         record.setData(data);
         record.setStartDate(startDate);
@@ -243,8 +242,7 @@ public class HealthDataTest {
         data.put("systolic", 130);
         data.put("diastolic", 70);
 
-        String uniqueId = UUID.randomUUID().toString();
-        final HealthDataRecord record = makeHDR(uniqueId, start, end, data);
+        final HealthDataRecord record = makeHDR(start, end, data);
 
         return new ResourceList<HealthDataRecord>() {
             @Override public List<HealthDataRecord> getItems() {
