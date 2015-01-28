@@ -61,8 +61,8 @@ public class StudyTest {
         
         newStudy = client.getStudy(study.getIdentifier());
         // These are set on the server, so to compare equality, they must be set.
-        study.setResearcherRole(identifier + "_researcher");
-        study.setHostname(identifier+"-local.sagebridge.org");
+        study.setResearcherRole(newStudy.getResearcherRole());
+        study.setHostname(newStudy.getHostname());
         assertEquals(study, newStudy);
         
         client.deleteStudy(identifier);
