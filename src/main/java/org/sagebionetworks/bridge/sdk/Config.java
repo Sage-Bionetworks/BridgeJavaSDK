@@ -47,6 +47,7 @@ public final class Config {
         HEALTH_DATA_TRACKER_RECORD_API,
         PROFILE_API,
         RESEARCHER_STUDY_API,
+        RESEARCHER_STUDY_PARTICIPANTS_API,
         SCHEDULES_API,
         SCHEDULEPLAN_API,
         SCHEDULEPLANS_API,
@@ -299,6 +300,9 @@ public final class Config {
     }
     public String getResearcherStudyApi() {
         return val(Props.RESEARCHER_STUDY_API);
+    }
+    public String getResearcherStudyParticipantsApi() {
+        return val(Props.RESEARCHER_STUDY_PARTICIPANTS_API);
     }
     public String getAdminStudiesApi() {
         return val(Props.ADMIN_STUDIES_API);
