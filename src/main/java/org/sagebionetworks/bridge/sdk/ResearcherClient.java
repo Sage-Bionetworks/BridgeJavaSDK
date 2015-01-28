@@ -246,7 +246,8 @@ public interface ResearcherClient {
     public VersionHolder updateStudy(Study study);
     
     /**
-     * Get a list of users who have signed consents to participate in the researcher's study.
+     * Get a list of users who have signed consents to participate in the researcher's study. 
+     * This list isn't sorted or paged.
      * @return
      */
     public ResourceList<StudyParticipant> getStudyParticipants();

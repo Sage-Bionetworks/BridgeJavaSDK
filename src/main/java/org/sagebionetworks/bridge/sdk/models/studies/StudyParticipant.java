@@ -1,5 +1,12 @@
 package org.sagebionetworks.bridge.sdk.models.studies;
 
+/**
+ * Information about a participant in a study. This class represents all the information 
+ * researchers will receive about a user in a study. One important piece of information 
+ * that's not included: the participant's username. Public forms of communication in the 
+ * Bridge system only identify participants with their usernames, so these can be pseudonyms
+ * where a participant wishes to remain anonymous relative to researchers in these forums.
+ */
 public final class StudyParticipant {
     
     private String firstName;
