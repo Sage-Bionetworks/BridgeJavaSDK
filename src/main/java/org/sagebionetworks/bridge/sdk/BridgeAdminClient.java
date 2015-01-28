@@ -58,12 +58,16 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
     @Override
     public VersionHolder createStudy(Study study) {
         session.checkSignedIn();
-        return post(config.getAdminStudiesApi(), study, SimpleVersionHolder.class);
+        VersionHolder holder = post(config.getAdminStudiesApi(), study, SimpleVersionHolder.class);
+        study.setVersion(holder.getVersion());
+        return holder;
     }
     @Override
     public VersionHolder updateStudy(Study study) {
         session.checkSignedIn();
-        return post(config.getAdminStudyApi(study.getIdentifier()), study, SimpleVersionHolder.class);
+        VersionHolder holder = post(config.getAdminStudyApi(study.getIdentifier()), study, SimpleVersionHolder.class);
+        study.setVersion(holder.getVersion());
+        return holder;
     }
     @Override
     public void deleteStudy(String identifier) {

@@ -1,7 +1,10 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -54,7 +57,7 @@ public class HealthDataTest {
         UserClient client = testUser.getSession().getUserClient();
         testUser.getSession().signOut();
 
-        HealthDataRecord record = makeHDR(0L, "1111", DateTime.now().minusWeeks(1), DateTime.now(), data);
+        HealthDataRecord record = makeHDR("1111", DateTime.now().minusWeeks(1), DateTime.now(), data);
         List<HealthDataRecord> records = Lists.newArrayList();
         records.add(record);
 
@@ -85,9 +88,9 @@ public class HealthDataTest {
         UserClient client = testUser.getSession().getUserClient();
         try {
             List<HealthDataRecord> records = new ArrayList<HealthDataRecord>();
-            records.add(makeHDR(0L, "1111", DateTime.now().minusWeeks(1), DateTime.now(), data));
-            records.add(makeHDR(1L, "2222", DateTime.now().minusWeeks(2), DateTime.now().minusWeeks(1), data));
-            records.add(makeHDR(0L, "3333", DateTime.now().minusWeeks(3), DateTime.now().minusWeeks(2), data));
+            records.add(makeHDR("1111", DateTime.now().minusWeeks(1), DateTime.now(), data));
+            records.add(makeHDR("2222", DateTime.now().minusWeeks(2), DateTime.now().minusWeeks(1), data));
+            records.add(makeHDR("3333", DateTime.now().minusWeeks(3), DateTime.now().minusWeeks(2), data));
 
             ResourceList<GuidVersionHolder> holders = client.addHealthDataRecords(tracker, records);
             assertTrue("Number of holders = all records added", holders.getTotal() == records.size());
@@ -108,19 +111,28 @@ public class HealthDataTest {
         try {
             // Make sure there's something in Bridge so that we can test get.
             List<HealthDataRecord> add = new ArrayList<HealthDataRecord>();
-            add.add(makeHDR(0L, "5555", DateTime.now().minusWeeks(1), DateTime.now(), data));
+            add.add(makeHDR("5555", DateTime.now().minusWeeks(1), DateTime.now(), data));
+            
+            assertNull(add.get(0).getVersion());
+            assertNull(add.get(0).getGuid());
             client.addHealthDataRecords(tracker, add);
+            assertNotNull(add.get(0).getVersion());
+            assertNotNull(add.get(0).getGuid());
 
             ResourceList<HealthDataRecord> records = client.getHealthDataRecordsInRange(tracker, DateTime.now()
                     .minusYears(30), DateTime.now());
             HealthDataRecord record = client.getHealthDataRecord(tracker, records.getItems().get(0).getGuid());
             assertTrue("retrieved record should be same as one chosen from list.", record.getGuid().equals(records.getItems().get(0).getGuid()));
 
+            Long version = record.getVersion();
+            
             ObjectNode data2 = record.getData().deepCopy();
             data2.put("systolic", 7000);
             record.setData(data2);
             GuidVersionHolder holder = client.updateHealthDataRecord(tracker, record);
-            assertTrue("record's version should be increased by 1.", holder.getVersion() == record.getVersion() + 1);
+            
+            assertEquals("record's version should be increased by 1.", holder.getVersion(), new Long(version + 1));
+            assertEquals("both model and key object have same version", holder.getVersion(), record.getVersion());
         } finally {
             ResourceList<HealthDataRecord> records = getAllRecords(client);
             for (HealthDataRecord record : records.getItems()) {
@@ -212,12 +224,11 @@ public class HealthDataTest {
         }
     }
 
-    private HealthDataRecord makeHDR(long version, String guid, DateTime startDate, DateTime endDate, JsonNode data) {
+    private HealthDataRecord makeHDR(String guid, DateTime startDate, DateTime endDate, JsonNode data) {
         HealthDataRecord record = new HealthDataRecord();
         record.setData(data);
         record.setStartDate(startDate);
         record.setEndDate(endDate);
-        record.setVersion(version);
         return record;
     }
 
@@ -233,7 +244,7 @@ public class HealthDataTest {
         data.put("diastolic", 70);
 
         String uniqueId = UUID.randomUUID().toString();
-        final HealthDataRecord record = makeHDR(0L, uniqueId, start, end, data);
+        final HealthDataRecord record = makeHDR(uniqueId, start, end, data);
 
         return new ResourceList<HealthDataRecord>() {
             @Override public List<HealthDataRecord> getItems() {
