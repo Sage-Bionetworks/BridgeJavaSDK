@@ -44,6 +44,11 @@ public class Tests {
         schedule.addActivity(new Activity("Task activity", taskIdentifier));
     }
     
+    private static void setSurveyActivity(Schedule schedule, String url) {
+        checkNotNull(url);
+        schedule.addActivity(new Activity("Survey activity", url));
+    }
+    
     public static SchedulePlan getABTestSchedulePlan() {
         SchedulePlan plan = new SchedulePlan();
         Schedule schedule1 = new Schedule() {
@@ -65,7 +70,7 @@ public class Tests {
         Schedule schedule3 = new Schedule() {
             {
                 setCronTrigger("* * *");
-                setTaskActivity(this, "task:CCC");
+                setSurveyActivity(this, "http://host/surveys/GUID-AAA/2015-01-27T17:46:31.237Z");
                 setExpires(Period.parse("PT60S"));
                 setLabel("Test label for the user");
             }

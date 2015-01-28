@@ -1,7 +1,9 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -9,6 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
+import org.sagebionetworks.bridge.sdk.ClientProvider;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
@@ -18,8 +21,11 @@ import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 import org.sagebionetworks.bridge.sdk.exceptions.UnauthorizedException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.schedules.Activity;
+import org.sagebionetworks.bridge.sdk.models.schedules.ActivityType;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
+import org.sagebionetworks.bridge.sdk.models.schedules.SimpleScheduleStrategy;
 
 public class SchedulePlanTest {
 
@@ -37,7 +43,6 @@ public class SchedulePlanTest {
 
         researcherClient = researcher.getSession().getResearcherClient();
         userClient = user.getSession().getUserClient();
-
     }
 
     @After
@@ -77,7 +82,11 @@ public class SchedulePlanTest {
         SchedulePlan plan = Tests.getABTestSchedulePlan();
 
         // Create
+        
+        assertNull(plan.getVersion());
         keys = researcherClient.createSchedulePlan(plan);
+        assertEquals(keys.getGuid(), plan.getGuid());
+        assertEquals(keys.getVersion(), plan.getVersion());
 
         // Update
         plan = researcherClient.getSchedulePlan(keys.getGuid());
@@ -86,6 +95,7 @@ public class SchedulePlanTest {
 
         GuidVersionHolder newKeys = researcherClient.updateSchedulePlan(plan);
         assertNotEquals("Version should be updated", keys.getVersion(), newKeys.getVersion());
+        assertEquals(newKeys.getVersion(), plan.getVersion());
 
         // Get
         plan = researcherClient.getSchedulePlan(keys.getGuid());
@@ -128,5 +138,25 @@ public class SchedulePlanTest {
         } catch (NullPointerException e) {
             assertEquals("Clear null-pointer message", "SchedulePlan cannot be null.", e.getMessage());
         }
+    }
+    
+    @Test
+    public void planCanPointToPublishedSurvey() {
+        // Can we point to the most recently published survey, rather than a specific version?
+        SchedulePlan plan = Tests.getSimpleSchedulePlan();
+        SimpleScheduleStrategy strategy = (SimpleScheduleStrategy)plan.getStrategy();
+        
+        String ref = ClientProvider.getConfig().getHost() + ClientProvider.getConfig().getRecentlyPublishedSurveyUserApi("AAA");
+        
+        Activity activity = new Activity("Test", ref);
+        assertEquals(ActivityType.survey, activity.getActivityType());
+
+        strategy.getSchedule().getActivities().clear();
+        strategy.getSchedule().getActivities().add(activity);
+        
+        GuidVersionHolder keys = researcherClient.createSchedulePlan(plan);
+        
+        plan = researcherClient.getSchedulePlan(keys.getGuid());
+        System.out.println(plan);
     }
 }

@@ -1,9 +1,13 @@
 package org.sagebionetworks.bridge.sdk.models.schedules;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.ClientProvider;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -16,29 +20,17 @@ public final class Activity {
     private final String label;
     private final ActivityType activityType;
     private final String ref;
-    private final GuidCreatedOnVersionHolder survey;
-    
-    // Constructor for de-serialization of Activity. Survey property is supplied by the server but 
-    // does not need to be set on the client.
-    @JsonCreator
-    private Activity(@JsonProperty("label") String label, @JsonProperty("activityType") ActivityType activityType,
-            @JsonProperty("ref") String ref, @JsonProperty("survey") GuidCreatedOnVersionHolder keys) {
-        this.label = label;
-        this.activityType = activityType;
-        this.ref = ref;
-        this.survey = keys;
-    }
-    
-    /**
-     * Create an activity to do a task.
-     * @param label
-     * @param activityType
-     * @param ref
-     */
-    public Activity(String label, String ref) {
-        this(label, ActivityType.task, ref, null);
-    }
 
+    @JsonCreator
+    public Activity(@JsonProperty("label") String label, @JsonProperty("ref") String ref) {
+        checkNotNull(label);
+        checkNotNull(ref);
+        
+        this.label = label;
+        this.ref = ref;
+        this.activityType = SurveyReference.isSurveyRef(ref) ? ActivityType.survey : ActivityType.task;
+    }
+    
     /**
      * Create an activity to do a survey.
      * @param label
@@ -46,7 +38,7 @@ public final class Activity {
      * @param ref
      */
     public Activity(String label, GuidCreatedOnVersionHolder survey) {
-        this(label, ActivityType.survey, ClientProvider.getConfig().getSurveyUserApi(survey.getGuid(), survey.getCreatedOn()), survey);
+        this(checkNotNull(label), checkNotNull(ClientProvider.getConfig().getSurveyUserApi(survey.getGuid(), survey.getCreatedOn())));
     }
     
     /**
@@ -73,10 +65,28 @@ public final class Activity {
      * For survey tasks, the key object for the survey referenced by the activity. This can be used 
      * through the SDK to retrieve the survey. 
      */
-    public GuidCreatedOnVersionHolder getSurvey() {
-        return survey;
+    public SurveyReference getSurvey() {
+        return SurveyReference.isSurveyRef(ref) ? new SurveyReference(ref) : null;
     }
-
+    
+    @JsonIgnore
+    public GuidCreatedOnVersionHolder getGuidCreatedOnVersionHolder() {
+        final SurveyReference survey = getSurvey();
+        if (survey != null && survey.getCreatedOn() != null) {
+            return new GuidCreatedOnVersionHolder() {
+                @Override public String getGuid() {
+                    return survey.getGuid();
+                }
+                @Override public DateTime getCreatedOn() {
+                    return DateTime.parse(survey.getCreatedOn());
+                }
+                @Override public Long getVersion() {
+                    return null;
+                }
+            };
+        }
+        return null;
+    }
     
     @Override
     public int hashCode() {
@@ -85,7 +95,6 @@ public final class Activity {
         result = prime * result + ((activityType == null) ? 0 : activityType.hashCode());
         result = prime * result + ((label == null) ? 0 : label.hashCode());
         result = prime * result + ((ref == null) ? 0 : ref.hashCode());
-        result = prime * result + ((survey == null) ? 0 : survey.hashCode());
         return result;
     }
 
@@ -110,17 +119,12 @@ public final class Activity {
                 return false;
         } else if (!ref.equals(other.ref))
             return false;
-        if (survey == null) {
-            if (other.survey != null)
-                return false;
-        } else if (!survey.equals(other.survey))
-            return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "Activity [activityType=" + activityType + ", ref=" + ref + ", survey=" + survey + "]";
+        return "Activity [activityType=" + activityType + ", ref=" + ref + "]";
     }
 
 }

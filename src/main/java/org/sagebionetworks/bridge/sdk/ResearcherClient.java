@@ -170,7 +170,7 @@ public interface ResearcherClient {
      * @param keys
      *            holder object containing a GUID string identifying the survey and DateTime of survey's version.
      */
-    public void publishSurvey(GuidCreatedOnVersionHolder keys);
+    public GuidCreatedOnVersionHolder publishSurvey(GuidCreatedOnVersionHolder keys);
 
     /**
      * Close a survey. A closed survey is one consented users cannot see.

@@ -116,7 +116,10 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     public GuidCreatedOnVersionHolder createSurvey(Survey survey) {
         session.checkSignedIn();
         checkNotNull(survey, Bridge.CANNOT_BE_NULL,"Survey object");
-        return post(config.getSurveysApi(), survey, SimpleGuidCreatedOnVersionHolder.class);
+        
+        GuidCreatedOnVersionHolder holder = post(config.getSurveysApi(), survey, SimpleGuidCreatedOnVersionHolder.class);
+        survey.setGuidCreatedOnVersionHolder(holder);
+        return holder;
     }
     @Override
     public GuidCreatedOnVersionHolder versionSurvey(GuidCreatedOnVersionHolder keys) {
@@ -130,16 +133,21 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     public GuidCreatedOnVersionHolder updateSurvey(Survey survey) {
         session.checkSignedIn();
         checkNotNull(survey, Bridge.CANNOT_BE_NULL,"Survey object");
-        return post(config.getSurveyApi(survey.getGuid(), new DateTime(survey.getCreatedOn())), survey,
+        
+        GuidCreatedOnVersionHolder holder = post(
+                config.getSurveyApi(survey.getGuid(), new DateTime(survey.getCreatedOn())), survey,
                 SimpleGuidCreatedOnVersionHolder.class);
+        survey.setGuidCreatedOnVersionHolder(holder);
+        return holder;
     }
     @Override
-    public void publishSurvey(GuidCreatedOnVersionHolder keys) {
+    public GuidCreatedOnVersionHolder publishSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
         checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
         checkArgument(isNotBlank(keys.getGuid()), Bridge.CANNOT_BE_BLANK, "guid");
         checkNotNull(keys.getCreatedOn(), Bridge.CANNOT_BE_NULL, "createdOn");
-        post(config.getPublishSurveyApi(keys.getGuid(), keys.getCreatedOn()));
+        return post(config.getPublishSurveyApi(keys.getGuid(), keys.getCreatedOn()), null, 
+                SimpleGuidCreatedOnVersionHolder.class);
     }
     @Override
     public GuidCreatedOnVersionHolder versionUpdateAndPublishSurvey(Survey survey, boolean publish) {
@@ -149,9 +157,11 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
         // in essence, updating new version to hold all the data of the supplied survey.
         GuidCreatedOnVersionHolder keys = versionSurvey(survey);
         survey.setGuidCreatedOnVersionHolder(keys);
-        keys = updateSurvey(survey); 
+        keys = updateSurvey(survey);
+        survey.setGuidCreatedOnVersionHolder(keys);
         if (publish) {
-            publishSurvey(survey);
+            keys = publishSurvey(survey);
+            survey.setGuidCreatedOnVersionHolder(keys);
         }
         return keys;
     }
@@ -180,7 +190,11 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     public GuidVersionHolder createSchedulePlan(SchedulePlan plan) {
         session.checkSignedIn();
         checkNotNull(plan, Bridge.CANNOT_BE_NULL, "SchedulePlan");
-        return post(config.getSchedulePlansApi(), plan, SimpleGuidVersionHolder.class);
+        
+        GuidVersionHolder holder = post(config.getSchedulePlansApi(), plan, SimpleGuidVersionHolder.class);
+        plan.setGuid(holder.getGuid());
+        plan.setVersion(holder.getVersion());
+        return holder;
     }
     @Override
     public SchedulePlan getSchedulePlan(String guid) {
@@ -192,7 +206,9 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     public GuidVersionHolder updateSchedulePlan(SchedulePlan plan) {
         session.checkSignedIn();
         checkNotNull(plan, Bridge.CANNOT_BE_NULL, "SchedulePlan");
-        return post(config.getSchedulePlanApi(plan.getGuid()), plan, SimpleGuidVersionHolder.class);
+        GuidVersionHolder holder = post(config.getSchedulePlanApi(plan.getGuid()), plan, SimpleGuidVersionHolder.class);
+        plan.setVersion(holder.getVersion());
+        return holder;
     }
     @Override
     public void deleteSchedulePlan(String guid) {
@@ -211,7 +227,9 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
         checkNotNull(study, Bridge.CANNOT_BE_NULL, "study");
         checkNotNull(isNotBlank(study.getIdentifier()), Bridge.CANNOT_BE_BLANK, "study identifier");
         
-        return post(config.getResearcherStudyApi(), study, SimpleVersionHolder.class);
+        VersionHolder holder = post(config.getResearcherStudyApi(), study, SimpleVersionHolder.class);
+        study.setVersion(holder.getVersion());
+        return holder;
     }
     @Override
     public ResourceList<StudyParticipant> getStudyParticipants() {

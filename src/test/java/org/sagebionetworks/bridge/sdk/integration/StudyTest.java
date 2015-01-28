@@ -1,7 +1,9 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import org.junit.After;
@@ -40,49 +42,30 @@ public class StudyTest {
 
     @Test
     public void crudStudy() throws Exception {
-        study = new Study();
-        study.setIdentifier(Tests.randomIdentifier());
-        study.setMinAgeOfConsent(18);
-        study.setMaxNumOfParticipants(100);
-        study.setName("Test Study [SDK]");
-        study.setSupportEmail("test@test.com");
-        study.setConsentNotificationEmail("test2@test.com");
-        study.setTrackers(Lists.newArrayList("sage:A", "sage:B"));
+        String identifier = Tests.randomIdentifier();
+        study = createStudy(identifier, null);
 
         AdminClient client = admin.getSession().getAdminClient();
+        
+        assertNull(study.getVersion());
         VersionHolder holder = client.createStudy(study);
-        assertNotNull(holder.getVersion());
+        compareHolderToModelObject(holder, study, null);
 
         Study newStudy = client.getStudy(study.getIdentifier());
+        assertEquals(study, createStudy(identifier, 1L));
 
-        assertEquals(study.getMinAgeOfConsent(), newStudy.getMinAgeOfConsent());
-        assertEquals(study.getMaxNumOfParticipants(), newStudy.getMaxNumOfParticipants());
-        assertEquals(study.getName(), newStudy.getName());
-        assertEquals(2, newStudy.getTrackers().size());
-        assertEquals("test@test.com", newStudy.getSupportEmail());
-        assertEquals("test2@test.com", newStudy.getConsentNotificationEmail());
-        assertNotNull("Study hostname", newStudy.getHostname());
-        assertNotNull("Study researcher role", newStudy.getResearcherRole());
-
-        String alteredName = "Altered Test Study [SDK]";
-
-        study.setName(alteredName);
-        study.setMaxNumOfParticipants(50);
-        study.setSupportEmail("test3@test.com");
-        study.setConsentNotificationEmail("test4@test.com");
-        study.setVersion(holder.getVersion()); // also in newStudy.getVersion(), of course
+        Long oldVersion = study.getVersion();
+        alterStudy(study);
+        holder = client.updateStudy(study);
+        compareHolderToModelObject(holder, study, oldVersion);
         
-        client.updateStudy(study);
         newStudy = client.getStudy(study.getIdentifier());
+        // These are set on the server, so to compare equality, they must be set.
+        study.setResearcherRole(identifier + "_researcher");
+        study.setHostname(identifier+"-local.sagebridge.org");
+        assertEquals(study, newStudy);
         
-        assertEquals(alteredName, newStudy.getName());
-        assertEquals(50, newStudy.getMaxNumOfParticipants());
-        assertEquals("test3@test.com", newStudy.getSupportEmail());
-        assertEquals("test4@test.com", newStudy.getConsentNotificationEmail());
-
-        client.deleteStudy(newStudy.getIdentifier());
-
-        String identifier = study.getIdentifier();
+        client.deleteStudy(identifier);
         try {
             newStudy = client.getStudy(identifier);
             fail("Should have thrown exception");
@@ -93,19 +76,15 @@ public class StudyTest {
 
     @Test
     public void researcherCannotAccessAnotherStudy() {
-        study = new Study();
-        study.setIdentifier(Tests.randomIdentifier());
-        study.setMinAgeOfConsent(18);
-        study.setMaxNumOfParticipants(100);
-        study.setName("Test Study [SDK]");
-        study.setTrackers(Lists.newArrayList("sage:A", "sage:B"));
+        String identifier = Tests.randomIdentifier();
+        study = createStudy(identifier, null);
 
         AdminClient client = admin.getSession().getAdminClient();
         client.createStudy(study);
 
         TestUser researcher = TestUserHelper.createAndSignInUser(StudyTest.class, false, Tests.TEST_KEY+"_researcher");
         try {
-            researcher.getSession().getAdminClient().getStudy(study.getIdentifier());
+            researcher.getSession().getAdminClient().getStudy(identifier);
             fail("Should not have been able to get this other study");
         } catch(UnauthorizedException e) {
             assertEquals("Unauthorized HTTP response code", 403, e.getStatusCode());
@@ -126,8 +105,6 @@ public class StudyTest {
         } finally {
             researcher.signOutAndDeleteUser();
         }
-
-
     }
 
     @Test(expected = UnauthorizedException.class)
@@ -139,6 +116,37 @@ public class StudyTest {
         } finally {
             user.signOutAndDeleteUser();
         }
+    }
+    
+    private void compareHolderToModelObject(VersionHolder holder, Study study, Long oldVersion) {
+        assertNotNull(holder.getVersion());
+        assertNotNull(study.getVersion());
+        assertEquals(holder.getVersion(), study.getVersion());
+        if (oldVersion != null) {
+            assertNotEquals(oldVersion, study.getVersion());
+        }
+    }
+
+    private Study createStudy(String identifier, Long version) {
+        Study study = new Study();
+        study.setIdentifier(identifier);
+        study.setMinAgeOfConsent(18);
+        study.setMaxNumOfParticipants(100);
+        study.setName("Test Study [SDK]");
+        study.setSupportEmail("test@test.com");
+        study.setConsentNotificationEmail("test2@test.com");
+        study.setTrackers(Lists.newArrayList("sage:A", "sage:B"));
+        if (version != null) {
+            study.setVersion(version);
+        }
+        return study;
+    }
+    
+    private void alterStudy(Study study) {
+        study.setName("Altered Test Study [SDK]");
+        study.setMaxNumOfParticipants(50);
+        study.setSupportEmail("test3@test.com");
+        study.setConsentNotificationEmail("test4@test.com");
     }
 
 }

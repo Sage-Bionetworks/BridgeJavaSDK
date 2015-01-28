@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.sagebionetworks.bridge.sdk.TestSurvey.BOOLEAN_ID;
@@ -94,11 +95,19 @@ public class SurveyTest {
     public void createVersionPublish() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
 
-        GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
+        Survey survey = new TestSurvey();
+        assertNull(survey.getGuid());
+        assertNull(survey.getVersion());
+        assertNull(survey.getCreatedOn());
+        GuidCreatedOnVersionHolder key = client.createSurvey(survey);
+        assertNotNull(survey.getGuid());
+        assertNotNull(survey.getVersion());
+        assertNotNull(survey.getCreatedOn());
+        
         GuidCreatedOnVersionHolder laterKey = client.versionSurvey(key);
         assertNotEquals("Version has been updated.", key.getCreatedOn(), laterKey.getCreatedOn());
 
-        Survey survey = client.getSurvey(laterKey.getGuid(), laterKey.getCreatedOn());
+        survey = client.getSurvey(laterKey.getGuid(), laterKey.getCreatedOn());
         assertFalse("survey is not published.", survey.isPublished());
 
         client.publishSurvey(survey);
@@ -169,7 +178,10 @@ public class SurveyTest {
         assertEquals("Type is SurveyQuestionOption", SurveyQuestionOption.class, multiCon.getEnumeration().get(0).getClass());
 
         survey.setName("New name");
-        client.updateSurvey(survey);
+        GuidCreatedOnVersionHolder holder = client.updateSurvey(survey);
+        // These should be updated.
+        assertEquals(holder.getVersion(), survey.getVersion());
+        
         survey = client.getSurvey(survey.getGuid(), survey.getCreatedOn());
         assertEquals("Name should have changed.", survey.getName(), "New name");
     }
@@ -236,13 +248,16 @@ public class SurveyTest {
         Survey existingSurvey = client.getSurvey(keys);
         existingSurvey.setName("This is an update test");
 
-        client.versionUpdateAndPublishSurvey(existingSurvey, true);
+        GuidCreatedOnVersionHolder holder = client.versionUpdateAndPublishSurvey(existingSurvey, true);
 
         ResourceList<Survey> allVersions = client.getSurveyAllVersions(keys.getGuid());
-
         assertEquals("There are now two versions", 2, allVersions.getTotal());
-        assertEquals("The latest has a new title", "This is an update test", allVersions.get(0).getName());
 
+        Survey mostRecent = client.getSurveyMostRecentlyPublishedVersion(existingSurvey.getGuid());
+        assertEquals(mostRecent.getGuid(), holder.getGuid());
+        assertEquals(mostRecent.getCreatedOn(), holder.getCreatedOn());
+        assertEquals(mostRecent.getVersion(), holder.getVersion());
+        assertEquals("The latest has a new title", "This is an update test", allVersions.get(0).getName());
     }
     
     @Test
