@@ -11,6 +11,9 @@ import java.util.Map;
 import org.joda.time.LocalDate;
 import org.joda.time.format.ISODateTimeFormat;
 import org.junit.Test;
+import org.sagebionetworks.bridge.sdk.ClientProvider;
+import org.sagebionetworks.bridge.sdk.ResearcherClient;
+import org.sagebionetworks.bridge.sdk.Session;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
@@ -72,13 +75,21 @@ public class ConsentTest {
         }
     }
 
-    @Test(expected=InvalidEntityException.class)
+    @Test //(expected=InvalidEntityException.class)
     public void userMustMeetMinAgeRequirements() {
+        Session session = ClientProvider.signIn(ClientProvider.getConfig().getAdminCredentials());
+        ResearcherClient c = session.getResearcherClient();
+        int minAge = c.getStudy().getMinAgeOfConsent();
+        session.signOut();
+        
         TestUser user = TestUserHelper.createAndSignInUser(ConsentTest.class, false);
         try {
             UserClient client = user.getSession().getUserClient();
             LocalDate date = LocalDate.now(); // impossibly young.
             client.consentToResearch(new ConsentSignature(user.getUsername(), date, null, null));
+            fail("Should have thrown exception, age is: " + minAge);
+        } catch(InvalidEntityException e) {
+            System.out.println("Minimum age is: " + minAge);
         } finally {
             user.signOutAndDeleteUser();
         }
