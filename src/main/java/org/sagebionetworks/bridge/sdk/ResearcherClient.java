@@ -8,7 +8,6 @@ import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.studies.StudyConsent;
-import org.sagebionetworks.bridge.sdk.models.studies.StudyParticipant;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 
 public interface ResearcherClient {

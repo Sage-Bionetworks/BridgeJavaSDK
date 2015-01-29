@@ -15,7 +15,6 @@ import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.studies.StudyConsent;
-import org.sagebionetworks.bridge.sdk.models.studies.StudyParticipant;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -25,7 +24,6 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     private final TypeReference<ResourceListImpl<StudyConsent>> scType = new TypeReference<ResourceListImpl<StudyConsent>>() {};
     private final TypeReference<ResourceListImpl<Survey>> sType = new TypeReference<ResourceListImpl<Survey>>() {};
     private final TypeReference<ResourceListImpl<SchedulePlan>> spType = new TypeReference<ResourceListImpl<SchedulePlan>>() {};
-    private final TypeReference<ResourceListImpl<StudyParticipant>> pType = new TypeReference<ResourceListImpl<StudyParticipant>>() {};
 
     BridgeResearcherClient(BridgeSession session) {
         super(session);
@@ -235,6 +233,6 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     public void sendStudyParticipantsRoster() {
         session.checkSignedIn();
         
-        post(config.getResearcherStudyParticipantsApi(), pType);
+        post(config.getResearcherStudyParticipantsApi());
     }
 }
