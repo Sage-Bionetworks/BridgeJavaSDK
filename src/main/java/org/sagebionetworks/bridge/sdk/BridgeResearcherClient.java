@@ -232,9 +232,9 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
         return holder;
     }
     @Override
-    public ResourceList<StudyParticipant> getStudyParticipants() {
+    public void sendStudyParticipantsRoster() {
         session.checkSignedIn();
         
-        return get(config.getResearcherStudyParticipantsApi(), pType);
+        post(config.getResearcherStudyParticipantsApi(), pType);
     }
 }

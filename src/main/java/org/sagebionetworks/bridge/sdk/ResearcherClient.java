@@ -246,10 +246,11 @@ public interface ResearcherClient {
     public VersionHolder updateStudy(Study study);
     
     /**
-     * Get a list of users who have signed consents to participate in the researcher's study. 
-     * This list isn't sorted or paged.
+     * Email a list of users who have signed consents to participate in the researcher's study. 
+     * The email is sent to the study's consent notification email contact. The list is sorted
+     * by the participants' email addresses. 
      * @return
      */
-    public ResourceList<StudyParticipant> getStudyParticipants();
+    public void sendStudyParticipantsRoster();
     
 }

@@ -70,7 +70,7 @@ final class ResourceListImpl<T> implements ResourceList<T> {
 
     @Override
     public String toString() {
-        return "ResourceListImpl [items=" + items + ", total=" + total + "]";
+        return "ResourceList [items=" + items + ", total=" + total + "]";
     }
     
 }
