@@ -1,7 +1,6 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
-
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -25,6 +24,8 @@ import com.google.common.collect.Lists;
 
 public class StudyTest {
 
+    private static final String BRIDGE_TESTING_CONSENT_EMAIL = "bridge-testing+consent@sagebridge.org";
+    
     private static TestUser admin;
     private static TestUser researcher;
     private Study study;
@@ -123,7 +124,14 @@ public class StudyTest {
         TestUser user = TestUserHelper.createAndSignInUser(StudyTest.class, true);
         try {
             ResearcherClient client = researcher.getSession().getResearcherClient();
+            
+            Study study = client.getStudy();
+            if (!BRIDGE_TESTING_CONSENT_EMAIL.equals(study.getConsentNotificationEmail())) {
+                study.setConsentNotificationEmail(BRIDGE_TESTING_CONSENT_EMAIL);
+                client.updateStudy(study);
+            }
             client.sendStudyParticipantsRoster();
+            
         } finally {
             user.signOutAndDeleteUser();
         }
