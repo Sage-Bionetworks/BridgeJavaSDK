@@ -229,4 +229,10 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
         study.setVersion(holder.getVersion());
         return holder;
     }
+    @Override
+    public void sendStudyParticipantsRoster() {
+        session.checkSignedIn();
+        
+        post(config.getResearcherStudyParticipantsApi());
+    }
 }

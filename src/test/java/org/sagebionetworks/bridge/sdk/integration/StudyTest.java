@@ -7,7 +7,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.AdminClient;
@@ -23,21 +24,29 @@ import com.google.common.collect.Lists;
 
 public class StudyTest {
 
-    private TestUser admin;
-
+    private static final String BRIDGE_TESTING_CONSENT_EMAIL = "bridge-testing+consent@sagebridge.org";
+    
+    private static TestUser admin;
+    private static TestUser researcher;
     private Study study;
 
-    @Before
-    public void before() {
+    @BeforeClass
+    public static void beforeClass() {
         admin = TestUserHelper.getSignedInAdmin();
+        researcher = TestUserHelper.createAndSignInUser(StudyTest.class, false, Tests.TEST_KEY+"_researcher");
     }
-
+    
+    @AfterClass
+    public static void afterClass() {
+        admin.getSession().signOut();
+        researcher.signOutAndDeleteUser();
+    }
+    
     @After
     public void after() {
         if (study != null) {
             admin.getSession().getAdminClient().deleteStudy(study.getIdentifier());
         }
-        admin.getSession().signOut();
     }
 
     @Test
@@ -82,29 +91,20 @@ public class StudyTest {
         AdminClient client = admin.getSession().getAdminClient();
         client.createStudy(study);
 
-        TestUser researcher = TestUserHelper.createAndSignInUser(StudyTest.class, false, Tests.TEST_KEY+"_researcher");
         try {
             researcher.getSession().getAdminClient().getStudy(identifier);
             fail("Should not have been able to get this other study");
         } catch(UnauthorizedException e) {
             assertEquals("Unauthorized HTTP response code", 403, e.getStatusCode());
-        } finally {
-            researcher.signOutAndDeleteUser();
         }
-
     }
 
     @Test
     public void researcherCanAccessStudy() {
-        TestUser researcher = TestUserHelper.createAndSignInUser(StudyTest.class, false, Tests.TEST_KEY+"_researcher");
-        try {
-            ResearcherClient rclient = researcher.getSession().getResearcherClient();
-            Study serverStudy = rclient.getStudy();
+        ResearcherClient rclient = researcher.getSession().getResearcherClient();
+        Study serverStudy = rclient.getStudy();
 
-            assertEquals(Tests.TEST_KEY+"_researcher", serverStudy.getResearcherRole());
-        } finally {
-            researcher.signOutAndDeleteUser();
-        }
+        assertEquals(Tests.TEST_KEY+"_researcher", serverStudy.getResearcherRole());
     }
 
     @Test(expected = UnauthorizedException.class)
@@ -116,6 +116,31 @@ public class StudyTest {
         } finally {
             user.signOutAndDeleteUser();
         }
+    }
+    
+    @Test
+    public void researcherCanRetrieveConsentedParticipants() {
+        // Note that this user has consented, not just signed up.
+        TestUser user = TestUserHelper.createAndSignInUser(StudyTest.class, true);
+        try {
+            ResearcherClient client = researcher.getSession().getResearcherClient();
+            
+            Study study = client.getStudy();
+            if (!BRIDGE_TESTING_CONSENT_EMAIL.equals(study.getConsentNotificationEmail())) {
+                study.setConsentNotificationEmail(BRIDGE_TESTING_CONSENT_EMAIL);
+                client.updateStudy(study);
+            }
+            client.sendStudyParticipantsRoster();
+            
+        } finally {
+            user.signOutAndDeleteUser();
+        }
+    }
+    
+    @Test(expected = UnauthorizedException.class)
+    public void adminCannotRetrieveParticipants() {
+        ResearcherClient client = admin.getSession().getResearcherClient();
+        client.sendStudyParticipantsRoster();
     }
     
     private void compareHolderToModelObject(VersionHolder holder, Study study, Long oldVersion) {
