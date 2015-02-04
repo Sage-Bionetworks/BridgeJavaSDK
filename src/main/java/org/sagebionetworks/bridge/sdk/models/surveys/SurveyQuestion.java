@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
@@ -14,14 +15,18 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonDeserialize(as=SurveyQuestion.class)
-public class SurveyQuestion implements GuidHolder {
+public final class SurveyQuestion implements SurveyElement, GuidHolder {
 
     private String guid;
     private String identifier;
+    private String type;
     private String prompt;
     private UiHint hint;
     private Constraints constraints;
 
+    public SurveyQuestion() {
+        setType("SurveyQuestion");
+    }
     @Override
     public String getGuid() {
         return guid;
@@ -34,6 +39,12 @@ public class SurveyQuestion implements GuidHolder {
     }
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
+    }
+    public String getType() {
+        return type;
+    }
+    public void setType(String type) {
+        this.type = type;
     }
     public String getPrompt() {
         return prompt;
@@ -93,10 +104,11 @@ public class SurveyQuestion implements GuidHolder {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((constraints == null) ? 0 : constraints.hashCode());
-        result = prime * result + ((guid == null) ? 0 : guid.hashCode());
+        result = prime * result + ((getGuid() == null) ? 0 : getGuid().hashCode());
         result = prime * result + ((hint == null) ? 0 : hint.hashCode());
-        result = prime * result + ((identifier == null) ? 0 : identifier.hashCode());
+        result = prime * result + ((getIdentifier() == null) ? 0 : getIdentifier().hashCode());
         result = prime * result + ((prompt == null) ? 0 : prompt.hashCode());
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
         return result;
     }
     @Override
@@ -108,34 +120,14 @@ public class SurveyQuestion implements GuidHolder {
         if (getClass() != obj.getClass())
             return false;
         SurveyQuestion other = (SurveyQuestion) obj;
-        if (constraints == null) {
-            if (other.constraints != null)
-                return false;
-        } else if (!constraints.equals(other.constraints))
-            return false;
-        if (guid == null) {
-            if (other.guid != null)
-                return false;
-        } else if (!guid.equals(other.guid))
-            return false;
-        if (hint != other.hint)
-            return false;
-        if (identifier == null) {
-            if (other.identifier != null)
-                return false;
-        } else if (!identifier.equals(other.identifier))
-            return false;
-        if (prompt == null) {
-            if (other.prompt != null)
-                return false;
-        } else if (!prompt.equals(other.prompt))
-            return false;
-        return true;
+        return (Objects.equals(constraints, other.constraints) && Objects.equals(guid, other.guid)
+                && Objects.equals(hint, other.hint) && Objects.equals(identifier, other.identifier)
+                && Objects.equals(prompt, other.prompt) && Objects.equals(type, other.type));
     }
     @Override
     public String toString() {
-        return "SurveyQuestion [guid=" + guid + ", identifier=" + identifier + ", prompt=" + prompt + ", hint=" + hint
-                + ", constraints=" + constraints + "]";
+        return "SurveyQuestion [guid=" + getGuid() + ", identifier=" + getIdentifier() + ", prompt=" + prompt
+                + ", hint=" + hint + ", constraints=" + constraints + "]";
     }
 
 }
