@@ -35,10 +35,14 @@ import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.Constraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.DataType;
 import org.sagebionetworks.bridge.sdk.models.surveys.DateTimeConstraints;
+import org.sagebionetworks.bridge.sdk.models.surveys.StringConstraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
+import org.sagebionetworks.bridge.sdk.models.surveys.SurveyElement;
+import org.sagebionetworks.bridge.sdk.models.surveys.SurveyInfoScreen;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyQuestion;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyQuestionOption;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyRule;
+import org.sagebionetworks.bridge.sdk.models.surveys.UiHint;
 
 public class SurveyTest {
 
@@ -86,8 +90,8 @@ public class SurveyTest {
         GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
         Survey survey = client.getSurvey(key);
 
-        List<SurveyQuestion> questions = survey.getQuestions();
-        String prompt = questions.get(1).getPrompt();
+        List<SurveyElement> questions = survey.getElements();
+        String prompt = ((SurveyQuestion)questions.get(1)).getPrompt();
         assertEquals("Prompt is correct.", "When did you last have a medical check-up?", prompt);
     }
 
@@ -161,7 +165,7 @@ public class SurveyTest {
         Survey survey = client.getSurvey(key.getGuid(), key.getCreatedOn());
         assertEquals("Type is Survey.", survey.getClass(), Survey.class);
 
-        List<SurveyQuestion> questions = survey.getQuestions();
+        List<SurveyElement> questions = survey.getElements();
         assertEquals("Type is SurveyQuestion.", questions.get(0).getClass(), SurveyQuestion.class);
 
         assertEquals("Type is BooleanConstraints.", DataType.BOOLEAN, getConstraints(survey, BOOLEAN_ID).getDataType());
@@ -270,9 +274,49 @@ public class SurveyTest {
         
         client.getSurveyMostRecentlyPublishedVersionByIdentifier(survey.getIdentifier());
     }
+    
+    @Test
+    public void canSaveAndRetrieveInfoScreen() {
+        ResearcherClient client = researcher.getSession().getResearcherClient();
+        
+        Survey survey = new Survey();
+        survey.setIdentifier("test-survey");
+        survey.setName("Test study");
+        
+        SurveyInfoScreen screen = new SurveyInfoScreen();
+        screen.setIdentifier("foo");
+        screen.setTitle("Title");
+        screen.setPrompt("Prompt");
+        screen.setPromptDetail("Prompt detail");
+        screen.setImageSource("https://pbs.twimg.com/profile_images/1642204340/ReferencePear_400x400.PNG");
+        survey.getElements().add(screen);
+        
+        // Add a question too just to verify that's okay
+        SurveyQuestion question = new SurveyQuestion();
+        question.setIdentifier("bar");
+        question.setPrompt("Prompt");
+        question.setUiHint(UiHint.TEXTFIELD);
+        question.setConstraints(new StringConstraints());
+        survey.getElements().add(question);
+        
+        GuidCreatedOnVersionHolder keys = client.createSurvey(survey);
+        
+        Survey newSurvey = client.getSurvey(keys);
+        assertEquals(2, newSurvey.getElements().size());
+        
+        SurveyInfoScreen newScreen = (SurveyInfoScreen)newSurvey.getElements().get(0);
+        
+        assertEquals(SurveyInfoScreen.class, newScreen.getClass());
+        assertNotNull(newScreen.getGuid());
+        assertEquals("foo", newScreen.getIdentifier());
+        assertEquals("Title", newScreen.getTitle());
+        assertEquals("Prompt", newScreen.getPrompt());
+        assertEquals("Prompt detail", newScreen.getPromptDetail());
+        assertEquals("https://pbs.twimg.com/profile_images/1642204340/ReferencePear_400x400.PNG", newScreen.getImageSource());
+    }
 
     private Constraints getConstraints(Survey survey, String id) {
-        return survey.getQuestionByIdentifier(id).getConstraints();
+        return ((SurveyQuestion)survey.getElementByIdentifier(id)).getConstraints();
     }
 
     private boolean containsAll(List<Survey> surveys, GuidCreatedOnVersionHolder... keys) {

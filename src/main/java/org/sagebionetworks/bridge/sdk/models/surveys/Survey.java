@@ -21,13 +21,13 @@ public class Survey implements GuidCreatedOnVersionHolder {
     private String name;
     private String identifier;
     private boolean published;
-    private List<SurveyQuestion> questions = Lists.newLinkedList();
+    private List<SurveyElement> elements = Lists.newLinkedList();
 
     @JsonCreator
     private Survey(@JsonProperty("guid") String guid, @JsonProperty("createdOn") DateTime createdOn,
             @JsonProperty("modifiedOn") DateTime modifiedOn, @JsonProperty("version") Long version,
             @JsonProperty("name") String name, @JsonProperty("identifier") String identifier,
-            @JsonProperty("published") boolean published, @JsonProperty("questions") List<SurveyQuestion> questions) {
+            @JsonProperty("published") boolean published, @JsonProperty("elements") List<SurveyElement> elements) {
         this.guid = guid;
         this.createdOn = createdOn;
         this.modifiedOn = modifiedOn;
@@ -35,7 +35,7 @@ public class Survey implements GuidCreatedOnVersionHolder {
         this.name = name;
         this.identifier = identifier;
         this.published = published;
-        this.questions = questions;
+        this.elements = elements;
     }
 
     public Survey() {
@@ -88,23 +88,23 @@ public class Survey implements GuidCreatedOnVersionHolder {
         return published;
     }
 
-    public List<SurveyQuestion> getQuestions() {
-        return questions;
+    public List<SurveyElement> getElements() {
+        return elements;
     }
 
-    public SurveyQuestion getQuestionByIdentifier(String identifier) {
-        for (SurveyQuestion question : questions) {
-            if (question.getIdentifier().equals(identifier)) {
-                return question;
+    public SurveyElement getElementByIdentifier(String identifier) {
+        for (SurveyElement element : elements) {
+            if (element.getIdentifier().equals(identifier)) {
+                return element;
             }
         }
         return null;
     }
 
-    public SurveyQuestion getQuestionByGUID(String guid) {
-        for (SurveyQuestion question : questions) {
-            if (question.getGuid().equals(guid)) {
-                return question;
+    public SurveyElement getElementByGUID(String guid) {
+        for (SurveyElement element : elements) {
+            if (element.getGuid().equals(guid)) {
+                return element;
             }
         }
         return null;
@@ -123,14 +123,14 @@ public class Survey implements GuidCreatedOnVersionHolder {
         return Objects.equals(this.guid, that.guid) && Objects.equals(this.createdOn, that.createdOn)
                 && Objects.equals(this.modifiedOn, that.modifiedOn) && Objects.equals(this.version, that.version)
                 && Objects.equals(this.name, that.name) && Objects.equals(this.identifier, that.identifier)
-                && Objects.equals(this.published, that.published) && Objects.equals(this.questions, that.questions);
+                && Objects.equals(this.published, that.published) && Objects.equals(this.elements, that.elements);
     }
 
     @Override
     public String toString() {
         return "Survey [guid=" + guid + ", createdOn=" + createdOn + ", modifiedOn=" + modifiedOn + ", version="
                 + version + ", name=" + name + ", identifier=" + identifier + ", published=" + published
-                + ", questions=" + questions + "]";
+                + ", questions=" + elements + "]";
     }
 
 }

@@ -75,8 +75,8 @@ public class SurveyResponseTest {
     public void submitAnswersColdForASurvey() {
         UserClient client = user.getSession().getUserClient();
 
-        SurveyQuestion question1 = survey.getQuestionByIdentifier("high_bp");
-        SurveyQuestion question2 = survey.getQuestionByIdentifier("BP X DAY");
+        SurveyQuestion question1 = (SurveyQuestion)survey.getElementByIdentifier("high_bp");
+        SurveyQuestion question2 = (SurveyQuestion)survey.getElementByIdentifier("BP X DAY");
 
         List<SurveyAnswer> answers = Lists.newArrayList();
 
@@ -110,39 +110,39 @@ public class SurveyResponseTest {
         values.put("time_for_appt", "PT30M");
         values.put("feeling", "[see array]"); // It's an array.
 
-        SurveyQuestion question = survey.getQuestionByIdentifier("high_bp"); // boolean
+        SurveyQuestion question = (SurveyQuestion)survey.getElementByIdentifier("high_bp"); // boolean
         SurveyAnswer answer = question.createAnswerForQuestion(values.get("high_bp"), "mobile");
         answers.add(answer);
 
-        question = survey.getQuestionByIdentifier("last_reading"); // datetime
+        question = (SurveyQuestion)survey.getElementByIdentifier("last_reading"); // datetime
         answer = question.createAnswerForQuestion(values.get("last_reading"), "mobile");
         answers.add(answer);
 
-        question = survey.getQuestionByIdentifier("last_checkup"); // date
+        question = (SurveyQuestion)survey.getElementByIdentifier("last_checkup"); // date
         answer = question.createAnswerForQuestion(values.get("last_checkup"), "mobile");
         answers.add(answer);
 
-        question = survey.getQuestionByIdentifier("phone_number"); // string
+        question = (SurveyQuestion)survey.getElementByIdentifier("phone_number"); // string
         answer = question.createAnswerForQuestion(values.get("phone_number"), "mobile");
         answers.add(answer);
 
-        question = survey.getQuestionByIdentifier("deleuterium_dosage"); // decimal
+        question = (SurveyQuestion)survey.getElementByIdentifier("deleuterium_dosage"); // decimal
         answer = question.createAnswerForQuestion(values.get("deleuterium_dosage"), "mobile");
         answers.add(answer);
 
-        question = survey.getQuestionByIdentifier("BP X DAY"); // integer
+        question = (SurveyQuestion)survey.getElementByIdentifier("BP X DAY"); // integer
         answer = question.createAnswerForQuestion(values.get("BP X DAY"), "mobile");
         answers.add(answer);
 
-        question = survey.getQuestionByIdentifier("deleuterium_x_day"); // time
+        question = (SurveyQuestion)survey.getElementByIdentifier("deleuterium_x_day"); // time
         answer = question.createAnswerForQuestion(values.get("deleuterium_x_day"), "mobile");
         answers.add(answer);
 
-        question = survey.getQuestionByIdentifier("time_for_appt"); // duration
+        question = (SurveyQuestion)survey.getElementByIdentifier("time_for_appt"); // duration
         answer = question.createAnswerForQuestion(values.get("time_for_appt"), "mobile");
         answers.add(answer);
 
-        question = survey.getQuestionByIdentifier("feeling"); // duration
+        question = (SurveyQuestion)survey.getElementByIdentifier("feeling"); // duration
         answer = question.createAnswerForQuestion(Lists.newArrayList("1", "3"), "mobile");
         answers.add(answer);
 
@@ -153,7 +153,7 @@ public class SurveyResponseTest {
         SurveyResponse response = client.getSurveyResponse(holder.getIdentifier());
 
         for (SurveyAnswer savedAnswer : response.getSurveyAnswers()) {
-            SurveyQuestion q = survey.getQuestionByGUID(savedAnswer.getQuestionGuid());
+            SurveyQuestion q = (SurveyQuestion)survey.getElementByGUID(savedAnswer.getQuestionGuid());
             String originalValue = values.get(q.getIdentifier());
             if ("[see array]".equals(originalValue)) {
                 assertEquals("Answers are correct", Lists.newArrayList("1", "3"), savedAnswer.getAnswers());
@@ -171,8 +171,8 @@ public class SurveyResponseTest {
         UserClient client = user.getSession().getUserClient();
         try {
             
-            SurveyQuestion question1 = survey.getQuestionByIdentifier(TestSurvey.BOOLEAN_ID);
-            SurveyQuestion question2 = survey.getQuestionByIdentifier(TestSurvey.INTEGER_ID);
+            SurveyQuestion question1 = (SurveyQuestion)survey.getElementByIdentifier(TestSurvey.BOOLEAN_ID);
+            SurveyQuestion question2 = (SurveyQuestion)survey.getElementByIdentifier(TestSurvey.INTEGER_ID);
 
             List<SurveyAnswer> answers = Lists.newArrayList();
 
@@ -200,8 +200,8 @@ public class SurveyResponseTest {
     public void canTriggerValidationErrors() {
         UserClient client = user.getSession().getUserClient();
         
-        SurveyQuestion question1 = survey.getQuestionByIdentifier(TestSurvey.BOOLEAN_ID);
-        SurveyQuestion question2 = survey.getQuestionByIdentifier(TestSurvey.INTEGER_ID);
+        SurveyQuestion question1 = (SurveyQuestion)survey.getElementByIdentifier(TestSurvey.BOOLEAN_ID);
+        SurveyQuestion question2 = (SurveyQuestion)survey.getElementByIdentifier(TestSurvey.INTEGER_ID);
 
         List<SurveyAnswer> answers = Lists.newArrayList();
 
