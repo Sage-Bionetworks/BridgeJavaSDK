@@ -24,27 +24,6 @@ import org.sagebionetworks.bridge.sdk.models.schedules.SurveyReference;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 
 public class Tests {
-
-    public static void main(String[] args) {
-        Config config = ClientProvider.getConfig();
-        config.set(Props.HOST, "https://parkinson-staging.sagebridge.org");
-
-        ResearcherClient client = ClientProvider.signIn(config.getAdminCredentials()).getResearcherClient();
-        
-        ResourceList<SchedulePlan> plans = client.getSchedulePlans();
-        
-        for (SchedulePlan plan : plans) {
-            SimpleScheduleStrategy strategy = (SimpleScheduleStrategy)plan.getStrategy();
-            
-            SurveyReference ref = strategy.getSchedule().getActivities().get(0).getSurvey();
-            
-            System.out.println(ref);
-            System.out.println(ref.getGuid());
-            
-            Survey survey = client.getSurveyMostRecentlyPublishedVersion(ref.getGuid());
-            System.out.println(survey);
-        }
-    }
     
     public static final String TEST_KEY = "api";
     
