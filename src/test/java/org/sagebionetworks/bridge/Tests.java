@@ -10,13 +10,42 @@ import java.util.Properties;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.time.Period;
+import org.sagebionetworks.bridge.sdk.ClientProvider;
+import org.sagebionetworks.bridge.sdk.Config;
+import org.sagebionetworks.bridge.sdk.Config.Props;
+import org.sagebionetworks.bridge.sdk.ResearcherClient;
+import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.schedules.ABTestScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.Activity;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
+import org.sagebionetworks.bridge.sdk.models.schedules.SimpleScheduleStrategy;
+import org.sagebionetworks.bridge.sdk.models.schedules.SurveyReference;
+import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 
 public class Tests {
 
+    public static void main(String[] args) {
+        Config config = ClientProvider.getConfig();
+        config.set(Props.HOST, "https://parkinson-staging.sagebridge.org");
+
+        ResearcherClient client = ClientProvider.signIn(config.getAdminCredentials()).getResearcherClient();
+        
+        ResourceList<SchedulePlan> plans = client.getSchedulePlans();
+        
+        for (SchedulePlan plan : plans) {
+            SimpleScheduleStrategy strategy = (SimpleScheduleStrategy)plan.getStrategy();
+            
+            SurveyReference ref = strategy.getSchedule().getActivities().get(0).getSurvey();
+            
+            System.out.println(ref);
+            System.out.println(ref.getGuid());
+            
+            Survey survey = client.getSurveyMostRecentlyPublishedVersion(ref.getGuid());
+            System.out.println(survey);
+        }
+    }
+    
     public static final String TEST_KEY = "api";
     
     public static final String ADMIN_ROLE = "admin";

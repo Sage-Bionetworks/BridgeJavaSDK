@@ -35,7 +35,7 @@ public class Survey implements GuidCreatedOnVersionHolder {
         this.name = name;
         this.identifier = identifier;
         this.published = published;
-        this.elements = elements;
+        this.elements = elements;    
     }
 
     public Survey() {
