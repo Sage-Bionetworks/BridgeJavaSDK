@@ -15,7 +15,7 @@ public final class SurveyInfoScreen implements SurveyElement, GuidHolder {
     private String title;
     private String prompt;
     private String promptDetail;
-    private String imageSource;
+    private Image image;
     
     public SurveyInfoScreen() {
         setType("SurveyInfoScreen");
@@ -61,44 +61,43 @@ public final class SurveyInfoScreen implements SurveyElement, GuidHolder {
         this.promptDetail = promptDetail;
     }
     
-    public String getImageSource() {
-        return imageSource;
+    public Image getImage() {
+        return image;
     }
-    public void setImageSource(String imageSource){
-        this.imageSource = imageSource;
+    public void setImage(Image image){
+        this.image = image;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((title == null) ? 0 : title.hashCode());
-        result = prime * result + ((prompt == null) ? 0 : prompt.hashCode());
-        result = prime * result + ((promptDetail == null) ? 0 : promptDetail.hashCode());
-        result = prime * result + ((imageSource == null) ? 0 : imageSource.hashCode());
-        result = prime * result + ((getGuid() == null) ? 0 : getGuid().hashCode());
-        result = prime * result + ((getIdentifier() == null) ? 0 : getIdentifier().hashCode());
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + Objects.hashCode(title);
+        result = prime * result + Objects.hashCode(prompt);
+        result = prime * result + Objects.hashCode(promptDetail);
+        result = prime * result + Objects.hashCode(image);
+        result = prime * result + Objects.hashCode(guid);
+        result = prime * result + Objects.hashCode(identifier);
+        result = prime * result + Objects.hashCode(type);
         return result;
     }
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         SurveyInfoScreen other = (SurveyInfoScreen) obj;
         return (Objects.equals(title, other.title) && Objects.equals(prompt, other.prompt)
-                && Objects.equals(promptDetail, other.promptDetail) && Objects.equals(imageSource, other.imageSource)
+                && Objects.equals(promptDetail, other.promptDetail) && Objects.equals(image, other.image)
                 && Objects.equals(guid, other.guid) && Objects.equals(identifier, other.identifier) && Objects.equals(
                 type, other.type));
     }
     @Override
     public String toString() {
-        return "SurveyInfoScreen [guid=" + getGuid() + ", identifier=" + getIdentifier() + ", title=" + title
-                + ", prompt=" + prompt + ", promptDetail=" + promptDetail + ", imageSource=" + imageSource + "]";
+        return String.format(
+                "SurveyInfoScreen [guid=%s, identifier=%s, title=%s, prompt=%s, promptDetail=%s, image=%s]", 
+                    guid, identifier, title, prompt, promptDetail, image);
     }
     
 }

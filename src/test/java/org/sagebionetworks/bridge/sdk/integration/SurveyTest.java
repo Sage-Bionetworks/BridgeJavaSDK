@@ -35,6 +35,7 @@ import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.Constraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.DataType;
 import org.sagebionetworks.bridge.sdk.models.surveys.DateTimeConstraints;
+import org.sagebionetworks.bridge.sdk.models.surveys.Image;
 import org.sagebionetworks.bridge.sdk.models.surveys.StringConstraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyElement;
@@ -288,7 +289,8 @@ public class SurveyTest {
         screen.setTitle("Title");
         screen.setPrompt("Prompt");
         screen.setPromptDetail("Prompt detail");
-        screen.setImageSource("https://pbs.twimg.com/profile_images/1642204340/ReferencePear_400x400.PNG");
+        Image image = new Image("https://pbs.twimg.com/profile_images/1642204340/ReferencePear_400x400.PNG", 400, 400);
+        screen.setImage(image);
         survey.getElements().add(screen);
         
         // Add a question too just to verify that's okay
@@ -312,7 +314,9 @@ public class SurveyTest {
         assertEquals("Title", newScreen.getTitle());
         assertEquals("Prompt", newScreen.getPrompt());
         assertEquals("Prompt detail", newScreen.getPromptDetail());
-        assertEquals("https://pbs.twimg.com/profile_images/1642204340/ReferencePear_400x400.PNG", newScreen.getImageSource());
+        assertEquals("https://pbs.twimg.com/profile_images/1642204340/ReferencePear_400x400.PNG", newScreen.getImage().getSource());
+        assertEquals(400, newScreen.getImage().getWidth());
+        assertEquals(400, newScreen.getImage().getHeight());
     }
 
     private Constraints getConstraints(Survey survey, String id) {
