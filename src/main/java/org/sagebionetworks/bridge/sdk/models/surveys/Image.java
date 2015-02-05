@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.surveys;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -47,16 +49,8 @@ public class Image {
         if (getClass() != obj.getClass())
             return false;
         Image other = (Image) obj;
-        if (height != other.height)
-            return false;
-        if (source == null) {
-            if (other.source != null)
-                return false;
-        } else if (!source.equals(other.source))
-            return false;
-        if (width != other.width)
-            return false;
-        return true;
+        return (Objects.equals(height, other.height) && Objects.equals(width, other.width) && Objects.equals(source,
+                other.source));
     }
 
     @Override
