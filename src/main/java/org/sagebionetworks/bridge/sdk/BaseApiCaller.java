@@ -61,6 +61,8 @@ class BaseApiCaller {
     private static final Logger logger = LoggerFactory.getLogger(BaseApiCaller.class);
 
     private static final String BRIDGE_SESSION_HEADER = "Bridge-Session";
+    private static final String BRIDGE_STUDY_HEADER = "Bridge-Study";
+    private static final String USER_AGENT_HEADER = "User-Agent";
     private static final String CONNECTION_FAILED = "Connection to server failed or aborted.";
 
     // Create an SSL context that does no certificate validation whatsoever.
@@ -268,7 +270,8 @@ class BaseApiCaller {
 
 
     private void addApplicationHeaders(Request request) {
-        request.setHeader("User-Agent", ClientProvider.getClientInfo().toString());
+        request.setHeader(USER_AGENT_HEADER, ClientProvider.getClientInfo().toString());
+        request.setHeader(BRIDGE_STUDY_HEADER, ClientProvider.getConfig().getStudyIdentifier());
         if (session != null && session.isSignedIn()) {
             request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
         }

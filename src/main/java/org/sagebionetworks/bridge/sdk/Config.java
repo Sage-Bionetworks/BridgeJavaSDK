@@ -56,6 +56,7 @@ public final class Config {
         STUDY_CONSENT_API,
         STUDY_CONSENT_GET_ACTIVE_API,
         STUDY_CONSENT_SET_ACTIVE_API,
+        STUDY_IDENTIFIER,
         SURVEY_API,
         SURVEY_RECENT_API,
         SURVEY_RECENTLY_PUBLISHED_API,
@@ -192,6 +193,9 @@ public final class Config {
     public String getStudyConsentApi(DateTime timestamp) {
         checkNotNull(timestamp);
         return String.format(val(Props.STUDY_CONSENT_API), timestamp.toString(ISODateTimeFormat.dateTime()));
+    }
+    public String getStudyIdentifier() {
+        return val(Props.STUDY_IDENTIFIER);
     }
     public String getActiveStudyConsentApi() {
         return val(Props.STUDY_CONSENT_GET_ACTIVE_API);
