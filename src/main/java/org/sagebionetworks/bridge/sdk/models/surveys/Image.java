@@ -34,8 +34,8 @@ public class Image {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + Objects.hashCode(source);
         result = prime * result + height;
-        result = prime * result + ((source == null) ? 0 : source.hashCode());
         result = prime * result + width;
         return result;
     }
@@ -44,9 +44,7 @@ public class Image {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         Image other = (Image) obj;
         return (Objects.equals(height, other.height) && Objects.equals(width, other.width) && Objects.equals(source,
@@ -55,7 +53,7 @@ public class Image {
 
     @Override
     public String toString() {
-        return "Image [source=" + source + ", width=" + width + ", height=" + height + "]";
+        return String.format("Image [source=%s, width=%s, height=%s]", source, width, height);
     }
 
 }

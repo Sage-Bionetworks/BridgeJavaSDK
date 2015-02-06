@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.holders;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -21,7 +23,7 @@ public final class SimpleVersionHolder implements VersionHolder {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((version == null) ? 0 : version.hashCode());
+        result = prime * result + Objects.hashCode(version);
         return result;
     }
 
@@ -29,17 +31,14 @@ public final class SimpleVersionHolder implements VersionHolder {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         SimpleVersionHolder other = (SimpleVersionHolder) obj;
-        if (version == null) {
-            if (other.version != null)
-                return false;
-        } else if (!version.equals(other.version))
-            return false;
-        return true;
+        return Objects.equals(version, other.version);
     }
 
+    @Override
+    public String toString() {
+        return String.format("SimpleVersionHolder [version=%s]", version);
+    }
 }

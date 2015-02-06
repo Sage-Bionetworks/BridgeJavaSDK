@@ -146,7 +146,8 @@ public class SchedulePlanTest {
         SchedulePlan plan = Tests.getSimpleSchedulePlan();
         SimpleScheduleStrategy strategy = (SimpleScheduleStrategy)plan.getStrategy();
         
-        String ref = ClientProvider.getConfig().getHost() + ClientProvider.getConfig().getRecentlyPublishedSurveyUserApi("AAA");
+        String ref = ClientProvider.getConfig().getEnvironment().getUrl()
+                + ClientProvider.getConfig().getRecentlyPublishedSurveyUserApi("AAA");
         
         Activity activity = new Activity("Test", ref);
         assertEquals(ActivityType.survey, activity.getActivityType());
@@ -163,9 +164,7 @@ public class SchedulePlanTest {
         plan.setModifiedOn(newPlan.getModifiedOn());
         // This switches from PT60S to PT1M. Which should be equal but are not... ?
         ((SimpleScheduleStrategy)plan.getStrategy()).getSchedule().setExpires(Period.parse("PT1M"));
-
-        // TODO: There was no assertion at the end of this test; this needs to be added but we have a 
-        // break on staging.
-        // assertEquals(plan, newPlan);
+        
+        assertEquals(plan, newPlan);
     }
 }

@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.users;
 
+import java.util.Objects;
+
 public final class ResetPasswordCredentials {
 
     private final String email;
@@ -16,7 +18,7 @@ public final class ResetPasswordCredentials {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((email == null) ? 0 : email.hashCode());
+        result = prime * result + Objects.hashCode(email);
         return result;
     }
 
@@ -24,22 +26,15 @@ public final class ResetPasswordCredentials {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         ResetPasswordCredentials other = (ResetPasswordCredentials) obj;
-        if (email == null) {
-            if (other.email != null)
-                return false;
-        } else if (!email.equals(other.email))
-            return false;
-        return true;
+        return Objects.equals(email, other.email);
     }
 
     @Override
     public String toString() {
-        return "ResetPasswordCredentials [email=" + email + "]";
+        return String.format("ResetPasswordCredentials [email=%s]", email);
     }
     
 }

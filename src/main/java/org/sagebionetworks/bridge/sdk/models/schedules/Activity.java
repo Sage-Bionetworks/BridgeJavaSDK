@@ -2,6 +2,8 @@ package org.sagebionetworks.bridge.sdk.models.schedules;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.Objects;
+
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.ClientProvider;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
@@ -92,9 +94,9 @@ public final class Activity {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((activityType == null) ? 0 : activityType.hashCode());
-        result = prime * result + ((label == null) ? 0 : label.hashCode());
-        result = prime * result + ((ref == null) ? 0 : ref.hashCode());
+        result = prime * result + Objects.hashCode(activityType);
+        result = prime * result + Objects.hashCode(label);
+        result = prime * result + Objects.hashCode(ref);
         return result;
     }
 
@@ -102,29 +104,16 @@ public final class Activity {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         Activity other = (Activity) obj;
-        if (activityType != other.activityType)
-            return false;
-        if (label == null) {
-            if (other.label != null)
-                return false;
-        } else if (!label.equals(other.label))
-            return false;
-        if (ref == null) {
-            if (other.ref != null)
-                return false;
-        } else if (!ref.equals(other.ref))
-            return false;
-        return true;
+        return (Objects.equals(activityType, other.activityType) && Objects.equals(label, other.label) && Objects
+                .equals(ref, other.ref));
     }
 
     @Override
     public String toString() {
-        return "Activity [activityType=" + activityType + ", ref=" + ref + "]";
+        return String.format("Activity [activityType=%s, ref=%s]", activityType, ref);
     }
 
 }

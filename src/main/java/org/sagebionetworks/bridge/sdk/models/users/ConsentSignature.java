@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.users;
 
+import java.util.Objects;
+
 import org.joda.time.LocalDate;
 import org.joda.time.format.ISODateTimeFormat;
 
@@ -72,10 +74,10 @@ public final class ConsentSignature {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((birthdate == null) ? 0 : birthdate.hashCode());
-        result = prime * result + ((imageData == null) ? 0 : imageData.hashCode());
-        result = prime * result + ((imageMimeType == null) ? 0 : imageMimeType.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + Objects.hashCode(birthdate);
+        result = prime * result + Objects.hashCode(imageData);
+        result = prime * result + Objects.hashCode(imageMimeType);
+        result = prime * result + Objects.hashCode(name);
         return result;
     }
 
@@ -83,37 +85,16 @@ public final class ConsentSignature {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         ConsentSignature other = (ConsentSignature) obj;
-        if (birthdate == null) {
-            if (other.birthdate != null)
-                return false;
-        } else if (!birthdate.equals(other.birthdate))
-            return false;
-        if (imageData == null) {
-            if (other.imageData != null)
-                return false;
-        } else if (!imageData.equals(other.imageData))
-            return false;
-        if (imageMimeType == null) {
-            if (other.imageMimeType != null)
-                return false;
-        } else if (!imageMimeType.equals(other.imageMimeType))
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        return true;
+        return (Objects.equals(birthdate, other.birthdate) && Objects.equals(imageData, other.imageData)
+                && Objects.equals(imageMimeType, other.imageMimeType) && Objects.equals(name, other.name));
     }
 
     @Override
     public String toString() {
-        return "ConsentSignature[name=" + name + ", birthdate=" + birthdate.toString(ISODateTimeFormat.date()) +
-                ", hasImageData=" + (imageData != null) + ", imageMimeType=" + imageMimeType + "]";
+        return String.format("ConsentSignature[name=%s, birthdate=%s, hasImageData=%s, imageMimeType=%s]", 
+                name, birthdate.toString(ISODateTimeFormat.date()), (imageData != null), imageMimeType);
     }
 }

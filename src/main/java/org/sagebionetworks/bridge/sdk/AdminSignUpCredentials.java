@@ -33,11 +33,6 @@ class AdminSignUpCredentials {
     public boolean isConsent() {
         return consent;
     }
-    @Override
-    public String toString() {
-        return "AdminSignUpCredentials [username=" + username + ", email=" + email + ", password=" + password
-                + ", roles=" + roles + ", consent=" + consent + "]";
-    }
 }
 
 

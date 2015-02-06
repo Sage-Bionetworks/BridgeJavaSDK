@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.surveys;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -39,39 +41,23 @@ public class SurveyQuestionOption {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((image == null) ? 0 : image.hashCode());
-        result = prime * result + ((label == null) ? 0 : label.hashCode());
-        result = prime * result + ((value == null) ? 0 : value.hashCode());
+        result = prime * result + Objects.hashCode(image);
+        result = prime * result + Objects.hashCode(label);
+        result = prime * result + Objects.hashCode(value);
         return result;
     }
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         SurveyQuestionOption other = (SurveyQuestionOption) obj;
-        if (image == null) {
-            if (other.image != null)
-                return false;
-        } else if (!image.equals(other.image))
-            return false;
-        if (label == null) {
-            if (other.label != null)
-                return false;
-        } else if (!label.equals(other.label))
-            return false;
-        if (value == null) {
-            if (other.value != null)
-                return false;
-        } else if (!value.equals(other.value))
-            return false;
-        return true;
+        return (Objects.equals(image, other.image) && Objects.equals(label, other.label) && Objects.equals(value,
+                other.value));
     }
     @Override
     public String toString() {
-        return "SurveyQuestionOption [label=" + label + ", value=" + value + ", image=" + image + "]";
+        return String.format("SurveyQuestionOption [label=%s, value=%s, image=%s]", label, value, image);
     }
 }

@@ -79,7 +79,7 @@ public class SurveyTest {
             }
         }
     }
-
+    
     @Test(expected=UnauthorizedException.class)
     public void cannotSubmitAsNormalUser() {
         user.getSession().getResearcherClient().getAllSurveysMostRecentVersion();
@@ -88,7 +88,7 @@ public class SurveyTest {
     @Test
     public void saveAndRetrieveSurvey() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
-        GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
+        GuidCreatedOnVersionHolder key = client.createSurvey(TestSurvey.getSurvey());
         Survey survey = client.getSurvey(key);
 
         List<SurveyElement> questions = survey.getElements();
@@ -100,7 +100,7 @@ public class SurveyTest {
     public void createVersionPublish() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
 
-        Survey survey = new TestSurvey();
+        Survey survey = TestSurvey.getSurvey();
         assertNull(survey.getGuid());
         assertNull(survey.getVersion());
         assertNull(survey.getCreatedOn());
@@ -124,7 +124,7 @@ public class SurveyTest {
     public void getAllVersionsOfASurvey() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
 
-        GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
+        GuidCreatedOnVersionHolder key = client.createSurvey(TestSurvey.getSurvey());
         key = client.versionSurvey(key);
 
         int count = client.getSurveyAllVersions(key.getGuid()).getTotal();
@@ -137,15 +137,15 @@ public class SurveyTest {
     public void canGetMostRecentOrRecentlyPublishedSurvey() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
 
-        GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
+        GuidCreatedOnVersionHolder key = client.createSurvey(TestSurvey.getSurvey());
         key = client.versionSurvey(key);
         key = client.versionSurvey(key);
 
-        GuidCreatedOnVersionHolder key1 = client.createSurvey(new TestSurvey());
+        GuidCreatedOnVersionHolder key1 = client.createSurvey(TestSurvey.getSurvey());
         key1 = client.versionSurvey(key1);
         key1 = client.versionSurvey(key1);
 
-        GuidCreatedOnVersionHolder key2 = client.createSurvey(new TestSurvey());
+        GuidCreatedOnVersionHolder key2 = client.createSurvey(TestSurvey.getSurvey());
         key2 = client.versionSurvey(key2);
         key2 = client.versionSurvey(key2);
 
@@ -162,7 +162,7 @@ public class SurveyTest {
     public void canUpdateASurveyAndTypesAreCorrect() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
 
-        GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
+        GuidCreatedOnVersionHolder key = client.createSurvey(TestSurvey.getSurvey());
         Survey survey = client.getSurvey(key.getGuid(), key.getCreatedOn());
         assertEquals("Type is Survey.", survey.getClass(), Survey.class);
 
@@ -195,7 +195,7 @@ public class SurveyTest {
     public void dateBasedConstraintsPersistedCorrectly() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
 
-        GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
+        GuidCreatedOnVersionHolder key = client.createSurvey(TestSurvey.getSurvey());
         Survey survey = client.getSurvey(key);
 
         DateTimeConstraints dateCon = (DateTimeConstraints)getConstraints(survey, DATETIME_ID);
@@ -210,7 +210,7 @@ public class SurveyTest {
     @Test
     public void researcherCannotUpdatePublishedSurvey() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
-        GuidCreatedOnVersionHolder key = client.createSurvey(new TestSurvey());
+        GuidCreatedOnVersionHolder key = client.createSurvey(TestSurvey.getSurvey());
         client.publishSurvey(key);
 
         try {
@@ -229,7 +229,7 @@ public class SurveyTest {
     @Test
     public void canGetMostRecentlyPublishedSurveyWithoutTimestamp() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
-        TestSurvey survey = new TestSurvey();
+        Survey survey = TestSurvey.getSurvey();
 
         GuidCreatedOnVersionHolder key = client.createSurvey(survey);
 
@@ -246,7 +246,7 @@ public class SurveyTest {
     @Test
     public void canCallMultiOperationMethodToMakeSurveyUpdate() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
-        TestSurvey survey = new TestSurvey();
+        Survey survey = TestSurvey.getSurvey();
 
         GuidCreatedOnVersionHolder keys = client.createSurvey(survey);
 
@@ -269,7 +269,7 @@ public class SurveyTest {
     public void canRetrieveSurveyByIdentifier() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
         
-        TestSurvey survey = new TestSurvey();
+        Survey survey = TestSurvey.getSurvey();
         GuidCreatedOnVersionHolder keys = client.createSurvey(survey);
         client.publishSurvey(keys);
         

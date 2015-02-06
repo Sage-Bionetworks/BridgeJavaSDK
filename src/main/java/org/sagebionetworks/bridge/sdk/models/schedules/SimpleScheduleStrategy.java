@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.schedules;
 
+import java.util.Objects;
+
 public class SimpleScheduleStrategy implements ScheduleStrategy {
 
     private Schedule schedule;
@@ -23,7 +25,7 @@ public class SimpleScheduleStrategy implements ScheduleStrategy {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((schedule == null) ? 0 : schedule.hashCode());
+        result = prime * result + Objects.hashCode(schedule);
         return result;
     }
 
@@ -31,22 +33,15 @@ public class SimpleScheduleStrategy implements ScheduleStrategy {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         SimpleScheduleStrategy other = (SimpleScheduleStrategy) obj;
-        if (schedule == null) {
-            if (other.schedule != null)
-                return false;
-        } else if (!schedule.equals(other.schedule))
-            return false;
-        return true;
+        return Objects.equals(schedule, other.schedule);
     }
 
     @Override
     public String toString() {
-        return "SimpleScheduleStrategy [schedule=" + schedule + "]";
+        return String.format("SimpleScheduleStrategy [schedule=%s]", schedule);
     }
     
 }

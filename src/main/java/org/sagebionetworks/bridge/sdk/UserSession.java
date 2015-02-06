@@ -50,10 +50,8 @@ final class UserSession {
 
     @Override
     public String toString() {
-        return "UserSession[username=" + username + ", sessionToken=" + sessionToken + ", authenticated="
-                + Boolean.toString(authenticated) + ", consented=" + Boolean.toString(consented) + ", dataSharing="
-                + Boolean.toString(dataSharing) + ", signedMostRecentConsent="
-                + Boolean.toString(signedMostRecentConsent) + "]";
+        return String.format("UserSession[username=%s, sessionToken=%s, authenticated=%s, consented=%s, dataSharing=%s, signedMostRecentConsent=%s]", 
+                username, sessionToken, authenticated, consented, dataSharing, signedMostRecentConsent);
     }
 
 }

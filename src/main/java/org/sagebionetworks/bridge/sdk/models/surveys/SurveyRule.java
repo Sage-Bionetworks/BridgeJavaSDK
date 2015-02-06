@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.surveys;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SurveyRule {
@@ -49,9 +51,9 @@ public class SurveyRule {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((skipToTarget == null) ? 0 : skipToTarget.hashCode());
-        result = prime * result + ((operator == null) ? 0 : operator.hashCode());
-        result = prime * result + ((value == null) ? 0 : value.hashCode());
+        result = prime * result + Objects.hashCode(skipToTarget);
+        result = prime * result + Objects.hashCode(operator);
+        result = prime * result + Objects.hashCode(value);
         return result;
     }
 
@@ -59,29 +61,16 @@ public class SurveyRule {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         SurveyRule other = (SurveyRule) obj;
-        if (skipToTarget == null) {
-            if (other.skipToTarget != null)
-                return false;
-        } else if (!skipToTarget.equals(other.skipToTarget))
-            return false;
-        if (operator != other.operator)
-            return false;
-        if (value == null) {
-            if (other.value != null)
-                return false;
-        } else if (!value.equals(other.value))
-            return false;
-        return true;
+        return (Objects.equals(skipToTarget, other.skipToTarget) && Objects.equals(operator, other.operator) && 
+                Objects.equals(value, other.value));
     }
 
     @Override
     public String toString() {
-        return "SurveyRule [operator=" + operator + ", value=" + value + ", skipToTarget=" + skipToTarget + "]";
+        return String.format("SurveyRule [operator=%s, value=%s, skipToTarget=%s]", operator, value, skipToTarget);
     }
 
 }

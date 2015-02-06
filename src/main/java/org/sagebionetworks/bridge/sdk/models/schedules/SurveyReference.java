@@ -2,6 +2,8 @@ package org.sagebionetworks.bridge.sdk.models.schedules;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.Objects;
+
 /**
  * A soft reference to a survey that may or may not specify a specific version.
  * @author alxdark
@@ -38,8 +40,8 @@ public final class SurveyReference {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((createdOn == null) ? 0 : createdOn.hashCode());
-        result = prime * result + ((guid == null) ? 0 : guid.hashCode());
+        result = prime * result + Objects.hashCode(createdOn);
+        result = prime * result + Objects.hashCode(guid);
         return result;
     }
 
@@ -47,22 +49,15 @@ public final class SurveyReference {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         SurveyReference other = (SurveyReference) obj;
-        if (createdOn == null) {
-            if (other.createdOn != null)
-                return false;
-        } else if (!createdOn.equals(other.createdOn))
-            return false;
-        if (guid == null) {
-            if (other.guid != null)
-                return false;
-        } else if (!guid.equals(other.guid))
-            return false;
-        return true;
+        return (Objects.equals(createdOn, other.createdOn) && Objects.equals(guid, other.guid));
+    }
+
+    @Override
+    public String toString() {
+        return String.format("SurveyReference [guid=%s, createdOn=%s]", guid, createdOn);
     }
     
 }

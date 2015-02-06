@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.schedules;
 
+import java.util.Objects;
+
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 
@@ -62,10 +64,10 @@ public final class SchedulePlan implements GuidVersionHolder {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((guid == null) ? 0 : guid.hashCode());
-        result = prime * result + ((modifiedOn == null) ? 0 : modifiedOn.hashCode());
-        result = prime * result + ((strategy == null) ? 0 : strategy.hashCode());
-        result = prime * result + ((version == null) ? 0 : version.hashCode());
+        result = prime * result + Objects.hashCode(guid);
+        result = prime * result + Objects.hashCode(modifiedOn);
+        result = prime * result + Objects.hashCode(strategy);
+        result = prime * result + Objects.hashCode(version);
         return result;
     }
 
@@ -73,38 +75,17 @@ public final class SchedulePlan implements GuidVersionHolder {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         SchedulePlan other = (SchedulePlan) obj;
-        if (guid == null) {
-            if (other.guid != null)
-                return false;
-        } else if (!guid.equals(other.guid))
-            return false;
-        if (modifiedOn == null) {
-            if (other.modifiedOn != null)
-                return false;
-        } else if (!modifiedOn.equals(other.modifiedOn))
-            return false;
-        if (strategy == null) {
-            if (other.strategy != null)
-                return false;
-        } else if (!strategy.equals(other.strategy))
-            return false;
-        if (version == null) {
-            if (other.version != null)
-                return false;
-        } else if (!version.equals(other.version))
-            return false;
-        return true;
+        return (Objects.equals(guid, other.guid) && Objects.equals(modifiedOn, other.modifiedOn)
+                && Objects.equals(strategy, other.strategy) && Objects.equals(version, other.version));
     }
 
     @Override
     public String toString() {
-        return "SchedulePlan [guid=" + guid + ", modifiedOn=" + modifiedOn + ", version=" + version + ", strategy="
-                + strategy + "]";
+        return String.format("SchedulePlan [guid=%s, modifiedOn=%s, version=%s, strategy=%s]", 
+                guid, modifiedOn, version, strategy);
     }
 
 }

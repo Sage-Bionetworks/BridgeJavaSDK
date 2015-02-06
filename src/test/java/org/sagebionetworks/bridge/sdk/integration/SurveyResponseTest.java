@@ -3,7 +3,6 @@ package org.sagebionetworks.bridge.sdk.integration;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -33,10 +32,6 @@ import com.google.common.collect.Maps;
 
 public class SurveyResponseTest {
     
-    public static final void main(String[] args) {
-        System.out.println( new BigDecimal("4.6").remainder(new BigDecimal("0.1")).toString() );
-    }
-
     private TestUser researcher;
     private TestUser user;
 
@@ -49,7 +44,7 @@ public class SurveyResponseTest {
         user = TestUserHelper.createAndSignInUser(SurveyResponseTest.class, true);
 
         ResearcherClient client = researcher.getSession().getResearcherClient();
-        TestSurvey testSurvey = new TestSurvey();
+        Survey testSurvey = TestSurvey.getSurvey();
         keys = client.createSurvey(testSurvey);
         client.publishSurvey(keys);
 

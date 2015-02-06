@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.holders;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -28,8 +30,8 @@ public final class SimpleGuidVersionHolder implements GuidVersionHolder {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((guid == null) ? 0 : guid.hashCode());
-        result = prime * result + ((version == null) ? 0 : version.hashCode());
+        result = prime * result + Objects.hashCode(guid);
+        result = prime * result + Objects.hashCode(version);
         return result;
     }
 
@@ -37,27 +39,15 @@ public final class SimpleGuidVersionHolder implements GuidVersionHolder {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         SimpleGuidVersionHolder other = (SimpleGuidVersionHolder) obj;
-        if (guid == null) {
-            if (other.guid != null)
-                return false;
-        } else if (!guid.equals(other.guid))
-            return false;
-        if (version == null) {
-            if (other.version != null)
-                return false;
-        } else if (!version.equals(other.version))
-            return false;
-        return true;
+        return Objects.equals(guid, other.guid) && Objects.equals(version, other.version);
     }
 
     @Override
     public String toString() {
-        return "SimpleGuidVersionHolder [guid=" + guid + ", version=" + version + "]";
+        return String.format("SimpleGuidVersionHolder [guid=%s, version=%s]", guid, version);
     }
 
 }

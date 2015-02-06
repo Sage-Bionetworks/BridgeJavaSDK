@@ -365,14 +365,10 @@ class BaseApiCaller {
 
     private String getFullUrl(String url) {
         assert url != null;
-        if (url.startsWith("http")) {
-            return url;
-        } else {
-            String fullUrl = config.getHost() + url;
-            assert Utilities.isValidUrl(fullUrl) : fullUrl;
-
-            return fullUrl;
-        }
+        
+        String fullUrl = config.getEnvironment().getUrl() + url;
+        assert Utilities.isValidUrl(fullUrl) : fullUrl;
+        return fullUrl;
     }
 
     /**

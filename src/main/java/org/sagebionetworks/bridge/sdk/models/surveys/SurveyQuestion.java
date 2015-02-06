@@ -103,21 +103,19 @@ public final class SurveyQuestion implements SurveyElement, GuidHolder {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((constraints == null) ? 0 : constraints.hashCode());
-        result = prime * result + ((getGuid() == null) ? 0 : getGuid().hashCode());
-        result = prime * result + ((hint == null) ? 0 : hint.hashCode());
-        result = prime * result + ((getIdentifier() == null) ? 0 : getIdentifier().hashCode());
-        result = prime * result + ((prompt == null) ? 0 : prompt.hashCode());
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + Objects.hashCode(constraints);
+        result = prime * result + Objects.hashCode(guid);
+        result = prime * result + Objects.hashCode(hint);
+        result = prime * result + Objects.hashCode(identifier);
+        result = prime * result + Objects.hashCode(prompt);
+        result = prime * result + Objects.hashCode(type);
         return result;
     }
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         SurveyQuestion other = (SurveyQuestion) obj;
         return (Objects.equals(constraints, other.constraints) && Objects.equals(guid, other.guid)
@@ -126,8 +124,8 @@ public final class SurveyQuestion implements SurveyElement, GuidHolder {
     }
     @Override
     public String toString() {
-        return "SurveyQuestion [guid=" + getGuid() + ", identifier=" + getIdentifier() + ", prompt=" + prompt
-                + ", hint=" + hint + ", constraints=" + constraints + "]";
+        return String.format("SurveyQuestion [guid=%s, identifier=%s, prompt=%s, hint=%s, constraints=%s]", 
+                guid, identifier, prompt, hint, constraints);
     }
 
 }

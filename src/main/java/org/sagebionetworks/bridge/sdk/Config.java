@@ -30,7 +30,6 @@ public final class Config {
         ADMIN_PASSWORD,
         ADMIN_STUDIES_API,
         ADMIN_STUDY_API,
-        HOST,
         LOG_LEVEL,
         AUTH_RESEND_EMAIL_VERIFICATION_API,
         AUTH_SIGNUP_API,
@@ -85,9 +84,11 @@ public final class Config {
     }
 
     private Properties config;
+    private Environment environment;
 
     Config() {
         config = new Properties();
+        environment = Environment.PRODUCTION;
         
         try(InputStream in = this.getClass().getResourceAsStream(CONFIG_FILE)) {
             config.load(in);
@@ -105,6 +106,9 @@ public final class Config {
             if (value != null) {
                 config.setProperty(key.getPropertyName(), value);
             }
+        }
+        if (config.getProperty("env") != null) {
+            environment = Environment.valueOf(config.getProperty("env").toUpperCase());
         }
     }
 
@@ -127,6 +131,9 @@ public final class Config {
         checkNotNull(value, "Must specify a value");
         config.setProperty(property.getPropertyName(), value);
     }
+    public void set(Environment env) {
+        this.environment = env;
+    }
     public SignInCredentials getAccountCredentials() {
         return new SignInCredentials(getAccountEmail(), getAccountPassword());
     }
@@ -148,8 +155,8 @@ public final class Config {
     public String getDevName() {
         return val(Props.DEV_NAME);
     }
-    public String getHost() {
-        return val(Props.HOST);
+    public Environment getEnvironment() {
+        return environment;
     }
     public String getLogLevel() {
         return val(Props.LOG_LEVEL);

@@ -95,8 +95,7 @@ public final class SurveyInfoScreen implements SurveyElement, GuidHolder {
     }
     @Override
     public String toString() {
-        return String.format(
-                "SurveyInfoScreen [guid=%s, identifier=%s, title=%s, prompt=%s, promptDetail=%s, image=%s]", 
+        return String.format("SurveyInfoScreen [guid=%s, identifier=%s, title=%s, prompt=%s, promptDetail=%s, image=%s]", 
                     guid, identifier, title, prompt, promptDetail, image);
     }
     
