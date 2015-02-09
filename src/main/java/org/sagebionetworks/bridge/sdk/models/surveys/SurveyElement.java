@@ -15,7 +15,5 @@ public interface SurveyElement {
     public void setGuid(String guid);
     public String getIdentifier();
     public void setIdentifier(String identifier);
-    public String getType();
-    public void setType(String type);
     
 }

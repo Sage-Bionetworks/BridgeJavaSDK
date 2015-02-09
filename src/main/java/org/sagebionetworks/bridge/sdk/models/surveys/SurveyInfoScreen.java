@@ -33,11 +33,10 @@ public final class SurveyInfoScreen implements SurveyElement, GuidHolder {
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
     }
-    @Override
-    public String getType() {
+    String getType() {
         return type;
     }
-    public void setType(String type) {
+    void setType(String type) {
         this.type = type;
     }
     public String getTitle() {

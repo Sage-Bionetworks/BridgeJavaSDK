@@ -5,9 +5,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.Objects;
 
 /**
- * A soft reference to a survey that may or may not specify a specific version.
- * @author alxdark
- *
+ * A "soft" reference to a survey that may or may not specify a version with a specific timestamp.
  */
 public final class SurveyReference {
     
@@ -28,10 +26,17 @@ public final class SurveyReference {
         this.createdOn = PUBLISHED_FRAGMENT.equals(parts[1]) ? null : parts[1];
     }
     
+    /**
+     * The guid for this survey (will always be present).
+     */
     public String getGuid() {
         return guid;
     }
 
+    /**
+     * The created date of this survey version, give as an ISO 8601 datetime string 
+     * (optional).
+     */
     public String getCreatedOn() {
         return createdOn;
     }
