@@ -22,10 +22,6 @@ public final class Activity {
     private final String label;
     private final ActivityType activityType;
     private final String ref;
-
-    private String getAbsoluteUrl(String url) {
-        return (url.startsWith("http")) ? url : ClientProvider.getConfig().getEnvironment().getUrl() + url;
-    }
     
     @JsonCreator
     public Activity(@JsonProperty("label") String label, @JsonProperty("ref") String ref) {
@@ -125,6 +121,10 @@ public final class Activity {
             };
         }
         return null;
+    }
+
+    private String getAbsoluteUrl(String url) {
+        return (url.startsWith("http")) ? url : ClientProvider.getConfig().getEnvironment().getUrl() + url;
     }
     
     @Override
