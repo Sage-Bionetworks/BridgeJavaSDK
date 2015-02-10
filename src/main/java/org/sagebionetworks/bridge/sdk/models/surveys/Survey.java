@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.collect.Lists;
 
 @JsonDeserialize(as=Survey.class)
-public class Survey implements GuidCreatedOnVersionHolder {
+public final class Survey implements GuidCreatedOnVersionHolder {
 
     private String guid;
     private DateTime createdOn;
@@ -111,12 +111,25 @@ public class Survey implements GuidCreatedOnVersionHolder {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Objects.hashCode(createdOn);
+        result = prime * result + Objects.hashCode(elements);
+        result = prime * result + Objects.hashCode(guid);
+        result = prime * result + Objects.hashCode(identifier);
+        result = prime * result + Objects.hashCode(modifiedOn);
+        result = prime * result + Objects.hashCode(name);
+        result = prime * result + Objects.hashCode(version);
+        result = prime * result + (published ? 1231 : 1237);
+        return result;
+    }
+    
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
-        } else if (obj == null) {
-            return false;
-        } else if (getClass() != obj.getClass()) {
+        } else if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         final Survey that = (Survey) obj;
@@ -128,9 +141,8 @@ public class Survey implements GuidCreatedOnVersionHolder {
 
     @Override
     public String toString() {
-        return "Survey [guid=" + guid + ", createdOn=" + createdOn + ", modifiedOn=" + modifiedOn + ", version="
-                + version + ", name=" + name + ", identifier=" + identifier + ", published=" + published
-                + ", questions=" + elements + "]";
+        return String.format("Survey [guid=%s, createdOn=%s, modifiedOn=%s, version=%s, name=%s, identifier=%s, published=%s, elements=%s]", 
+                guid, createdOn, modifiedOn, version, name, identifier, published, elements);
     }
 
 }

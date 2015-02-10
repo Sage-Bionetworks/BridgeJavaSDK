@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.users;
 
+import java.util.Objects;
+
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 
@@ -75,11 +77,11 @@ public final class HealthDataRecord implements GuidVersionHolder {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((data == null) ? 0 : data.hashCode());
-        result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
-        result = prime * result + ((guid == null) ? 0 : guid.hashCode());
-        result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
-        result = prime * result + ((version == null) ? 0 : version.hashCode());
+        result = prime * result + Objects.hashCode(data);
+        result = prime * result + Objects.hashCode(endDate);
+        result = prime * result + Objects.hashCode(guid);
+        result = prime * result + Objects.hashCode(startDate);
+        result = prime * result + Objects.hashCode(version);
         return result;
     }
 
@@ -87,42 +89,17 @@ public final class HealthDataRecord implements GuidVersionHolder {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         HealthDataRecord other = (HealthDataRecord) obj;
-        if (data == null) {
-            if (other.data != null)
-                return false;
-        } else if (!data.equals(other.data))
-            return false;
-        if (endDate == null) {
-            if (other.endDate != null)
-                return false;
-        } else if (!endDate.equals(other.endDate))
-            return false;
-        if (guid == null) {
-            if (other.guid != null)
-                return false;
-        } else if (!guid.equals(other.guid))
-            return false;
-        if (startDate == null) {
-            if (other.startDate != null)
-                return false;
-        } else if (!startDate.equals(other.startDate))
-            return false;
-        if (version == null) {
-            if (other.version != null)
-                return false;
-        } else if (!version.equals(other.version))
-            return false;
-        return true;
+        return (Objects.equals(data, other.data) && Objects.equals(endDate, other.endDate)
+                && Objects.equals(startDate, other.startDate) && Objects.equals(guid, other.guid) && Objects.equals(
+                version, other.version));
     }
 
     @Override
     public String toString() {
-        return "HealthDataRecord [version=" + version + ", guid=" + guid + ", startDate=" + startDate + ", endDate="
-                + endDate + ", data=" + data + "]";
+        return String.format("HealthDataRecord [version=%s, guid=%s, startDate=%s, endDate=%s, data=%s]", 
+                version, guid, startDate, endDate, data);
     }
 }

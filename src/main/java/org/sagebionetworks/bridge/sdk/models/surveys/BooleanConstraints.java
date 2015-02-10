@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.surveys;
 
+import java.util.Objects;
+
 
 public final class BooleanConstraints extends Constraints {
 
@@ -12,37 +14,20 @@ public final class BooleanConstraints extends Constraints {
         int result = 1;
         result = prime * result + (allowMultiple ? 1231 : 1237);
         result = prime * result + (allowOther ? 1231 : 1237);
-        result = prime * result + ((dataType == null) ? 0 : dataType.hashCode());
-        result = prime * result + ((enumeration == null) ? 0 : enumeration.hashCode());
-        result = prime * result + ((rules == null) ? 0 : rules.hashCode());
+        result = prime * result + Objects.hashCode(dataType);
+        result = prime * result + Objects.hashCode(enumeration);
+        result = prime * result + Objects.hashCode(rules);
         return result;
     }
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         BooleanConstraints other = (BooleanConstraints) obj;
-        if (allowMultiple != other.allowMultiple)
-            return false;
-        if (allowOther != other.allowOther)
-            return false;
-        if (dataType != other.dataType)
-            return false;
-        if (enumeration == null) {
-            if (other.enumeration != null)
-                return false;
-        } else if (!enumeration.equals(other.enumeration))
-            return false;
-        if (rules == null) {
-            if (other.rules != null)
-                return false;
-        } else if (!rules.equals(other.rules))
-            return false;
-        return true;
+        return (allowMultiple == other.allowMultiple && allowOther == other.allowOther
+                && Objects.equals(dataType, other.dataType) && Objects.equals(enumeration, other.enumeration) 
+                && Objects.equals(rules, other.rules));
     }
-    
 }

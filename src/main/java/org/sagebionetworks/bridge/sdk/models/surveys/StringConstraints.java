@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.surveys;
 
+import java.util.Objects;
+
 public final class StringConstraints extends Constraints {
 
     private Integer minLength;
@@ -35,12 +37,12 @@ public final class StringConstraints extends Constraints {
         int result = 1;
         result = prime * result + (allowMultiple ? 1231 : 1237);
         result = prime * result + (allowOther ? 1231 : 1237);
-        result = prime * result + ((dataType == null) ? 0 : dataType.hashCode());
-        result = prime * result + ((enumeration == null) ? 0 : enumeration.hashCode());
-        result = prime * result + ((rules == null) ? 0 : rules.hashCode());
-        result = prime * result + ((maxLength == null) ? 0 : maxLength.hashCode());
-        result = prime * result + ((minLength == null) ? 0 : minLength.hashCode());
-        result = prime * result + ((pattern == null) ? 0 : pattern.hashCode());
+        result = prime * result + Objects.hashCode(dataType);
+        result = prime * result + Objects.hashCode(enumeration);
+        result = prime * result + Objects.hashCode(rules);
+        result = prime * result + Objects.hashCode(maxLength);
+        result = prime * result + Objects.hashCode(minLength);
+        result = prime * result + Objects.hashCode(pattern);
         return result;
     }
 
@@ -48,43 +50,13 @@ public final class StringConstraints extends Constraints {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         StringConstraints other = (StringConstraints) obj;
-        if (allowMultiple != other.allowMultiple)
-            return false;
-        if (allowOther != other.allowOther)
-            return false;
-        if (dataType != other.dataType)
-            return false;
-        if (enumeration == null) {
-            if (other.enumeration != null)
-                return false;
-        } else if (!enumeration.equals(other.enumeration))
-            return false;
-        if (rules == null) {
-            if (other.rules != null)
-                return false;
-        } else if (!rules.equals(other.rules))
-            return false;
-        if (maxLength == null) {
-            if (other.maxLength != null)
-                return false;
-        } else if (!maxLength.equals(other.maxLength))
-            return false;
-        if (minLength == null) {
-            if (other.minLength != null)
-                return false;
-        } else if (!minLength.equals(other.minLength))
-            return false;
-        if (pattern == null) {
-            if (other.pattern != null)
-                return false;
-        } else if (!pattern.equals(other.pattern))
-            return false;
-        return true;
+        return (Objects.equals(dataType, other.dataType) && Objects.equals(enumeration, other.enumeration)
+                && Objects.equals(rules, other.rules) && Objects.equals(maxLength, other.maxLength)
+                && Objects.equals(minLength, other.minLength) && Objects.equals(pattern, other.pattern)
+                && allowMultiple == other.allowMultiple && allowOther == other.allowOther);
     }
 
 }

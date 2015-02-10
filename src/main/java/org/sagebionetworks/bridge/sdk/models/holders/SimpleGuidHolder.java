@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.holders;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -21,7 +23,7 @@ public final class SimpleGuidHolder implements GuidHolder {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((guid == null) ? 0 : guid.hashCode());
+        result = prime * result + Objects.hashCode(guid);
         return result;
     }
 
@@ -29,22 +31,15 @@ public final class SimpleGuidHolder implements GuidHolder {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         SimpleGuidHolder other = (SimpleGuidHolder) obj;
-        if (guid == null) {
-            if (other.guid != null)
-                return false;
-        } else if (!guid.equals(other.guid))
-            return false;
-        return true;
+        return Objects.equals(guid, other.guid);
     }
 
     @Override
     public String toString() {
-        return "SimpleGuidHolder [guid=" + guid + "]";
+        return String.format("SimpleGuidHolder [guid=%s]", guid);
     }
 
 }

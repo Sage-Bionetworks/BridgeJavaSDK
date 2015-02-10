@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.users;
 
+import java.util.Objects;
+
 public final class SignUpCredentials {
 
     private String email;
@@ -40,9 +42,9 @@ public final class SignUpCredentials {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((email == null) ? 0 : email.hashCode());
-        result = prime * result + ((password == null) ? 0 : password.hashCode());
-        result = prime * result + ((username == null) ? 0 : username.hashCode());
+        result = prime * result + Objects.hashCode(email);
+        result = prime * result + Objects.hashCode(password);
+        result = prime * result + Objects.hashCode(username);
         return result;
     }
 
@@ -50,31 +52,15 @@ public final class SignUpCredentials {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         SignUpCredentials other = (SignUpCredentials) obj;
-        if (email == null) {
-            if (other.email != null)
-                return false;
-        } else if (!email.equals(other.email))
-            return false;
-        if (password == null) {
-            if (other.password != null)
-                return false;
-        } else if (!password.equals(other.password))
-            return false;
-        if (username == null) {
-            if (other.username != null)
-                return false;
-        } else if (!username.equals(other.username))
-            return false;
-        return true;
+        return (Objects.equals(email, other.email) && Objects.equals(password, other.password) && Objects.equals(
+                username, other.username));
     }
 
     @Override
     public String toString() {
-        return "SignUpCredentials[email=" + email + ", username=" + username + ", password=[REDACTED]";
+        return String.format("SignUpCredentials[email=%s, username=%s, password=[REDACTED]", email, username);
     }
 }

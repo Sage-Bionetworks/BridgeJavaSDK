@@ -86,9 +86,7 @@ public final class UploadRequest {
 
     @Override
     public String toString() {
-        return "UploadRequest[ name=" + name +
-                "contentMd5=" + contentMd5 +
-                ", contentType=" + contentType +
-                ", contentLength=" + contentLength + "]";
+        return String.format("UploadRequest [name=%s, contentMd5=%s, contentType=%s, contentLength=%s]", 
+                name, contentMd5, contentType, contentLength);
     }
 }

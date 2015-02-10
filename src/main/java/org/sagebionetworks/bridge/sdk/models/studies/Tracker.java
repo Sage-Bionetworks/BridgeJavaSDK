@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.studies;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -39,10 +41,10 @@ public final class Tracker {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((identifier == null) ? 0 : identifier.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((schemaUrl == null) ? 0 : schemaUrl.hashCode());
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + Objects.hashCode(identifier);
+        result = prime * result + Objects.hashCode(name);
+        result = prime * result + Objects.hashCode(schemaUrl);
+        result = prime * result + Objects.hashCode(type);
         return result;
     }
 
@@ -50,37 +52,16 @@ public final class Tracker {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         Tracker other = (Tracker) obj;
-        if (identifier == null) {
-            if (other.identifier != null)
-                return false;
-        } else if (!identifier.equals(other.identifier))
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        if (schemaUrl == null) {
-            if (other.schemaUrl != null)
-                return false;
-        } else if (!schemaUrl.equals(other.schemaUrl))
-            return false;
-        if (type == null) {
-            if (other.type != null)
-                return false;
-        } else if (!type.equals(other.type))
-            return false;
-        return true;
+        return (Objects.equals(identifier, other.identifier) && Objects.equals(name, other.name)
+                && Objects.equals(schemaUrl, other.schemaUrl) && Objects.equals(type, other.type));
     }
 
     @Override
     public String toString() {
-        return "Tracker[name=" + name + ", type=" + type + ", schemeUrl=" + schemaUrl + ", id=" + identifier + "]";
+        return String.format("Tracker[name=%s, type=%s, schemeUrl=%s, id=%s]", name, type, schemaUrl, identifier);
     }
 
 }

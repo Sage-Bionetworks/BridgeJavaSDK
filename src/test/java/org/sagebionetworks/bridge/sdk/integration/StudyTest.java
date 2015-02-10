@@ -9,6 +9,7 @@ import static org.junit.Assert.fail;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.AdminClient;
@@ -72,6 +73,7 @@ public class StudyTest {
         // These are set on the server, so to compare equality, they must be set.
         study.setResearcherRole(newStudy.getResearcherRole());
         study.setHostname(newStudy.getHostname());
+        
         assertEquals(study, newStudy);
         
         client.deleteStudy(identifier);

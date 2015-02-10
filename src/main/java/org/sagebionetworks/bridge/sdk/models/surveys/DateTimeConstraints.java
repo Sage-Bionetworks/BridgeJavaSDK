@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.surveys;
 
+import java.util.Objects;
+
 import org.joda.time.DateTime;
 
 
@@ -38,12 +40,12 @@ public final class DateTimeConstraints extends Constraints {
         int result = 1;
         result = prime * result + (allowMultiple ? 1231 : 1237);
         result = prime * result + (allowOther ? 1231 : 1237);
-        result = prime * result + ((dataType == null) ? 0 : dataType.hashCode());
-        result = prime * result + ((enumeration == null) ? 0 : enumeration.hashCode());
-        result = prime * result + ((rules == null) ? 0 : rules.hashCode());
         result = prime * result + (allowFuture ? 1231 : 1237);
-        result = prime * result + ((earliestValue == null) ? 0 : earliestValue.hashCode());
-        result = prime * result + ((latestValue == null) ? 0 : latestValue.hashCode());
+        result = prime * result + Objects.hashCode(dataType);
+        result = prime * result + Objects.hashCode(enumeration);
+        result = prime * result + Objects.hashCode(rules);
+        result = prime * result + Objects.hashCode(earliestValue);
+        result = prime * result + Objects.hashCode(latestValue);
         return result;
     }
 
@@ -51,40 +53,13 @@ public final class DateTimeConstraints extends Constraints {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         DateTimeConstraints other = (DateTimeConstraints) obj;
-        if (allowMultiple != other.allowMultiple)
-            return false;
-        if (allowOther != other.allowOther)
-            return false;
-        if (dataType != other.dataType)
-            return false;
-        if (enumeration == null) {
-            if (other.enumeration != null)
-                return false;
-        } else if (!enumeration.equals(other.enumeration))
-            return false;
-        if (rules == null) {
-            if (other.rules != null)
-                return false;
-        } else if (!rules.equals(other.rules))
-            return false;
-        if (allowFuture != other.allowFuture)
-            return false;
-        if (earliestValue == null) {
-            if (other.earliestValue != null)
-                return false;
-        } else if (!earliestValue.equals(other.earliestValue))
-            return false;
-        if (latestValue == null) {
-            if (other.latestValue != null)
-                return false;
-        } else if (!latestValue.equals(other.latestValue))
-            return false;
-        return true;
+        return (Objects.equals(dataType, other.dataType) && Objects.equals(enumeration, other.enumeration)
+                && Objects.equals(rules, other.rules) && Objects.equals(earliestValue, other.earliestValue)
+                && Objects.equals(latestValue, other.latestValue) && allowMultiple == other.allowMultiple
+                && allowOther == other.allowOther && allowFuture == other.allowFuture);
     }
     
 }

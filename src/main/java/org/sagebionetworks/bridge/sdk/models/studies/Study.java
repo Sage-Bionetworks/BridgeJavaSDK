@@ -1,6 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.studies;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 
@@ -104,16 +105,16 @@ public final class Study implements VersionHolder {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((consentNotificationEmail == null) ? 0 : consentNotificationEmail.hashCode());
-        result = prime * result + ((hostname == null) ? 0 : hostname.hashCode());
-        result = prime * result + ((identifier == null) ? 0 : identifier.hashCode());
+        result = prime * result + Objects.hashCode(consentNotificationEmail);
+        result = prime * result + Objects.hashCode(hostname);
+        result = prime * result + Objects.hashCode(identifier);
+        result = prime * result + Objects.hashCode(name);
+        result = prime * result + Objects.hashCode(researcherRole);
+        result = prime * result + Objects.hashCode(supportEmail);
+        result = prime * result + Objects.hashCode(trackers);
+        result = prime * result + Objects.hashCode(version);
         result = prime * result + maxNumOfParticipants;
         result = prime * result + minAgeOfConsent;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((researcherRole == null) ? 0 : researcherRole.hashCode());
-        result = prime * result + ((supportEmail == null) ? 0 : supportEmail.hashCode());
-        result = prime * result + ((trackers == null) ? 0 : trackers.hashCode());
-        result = prime * result + ((version == null) ? 0 : version.hashCode());
         return result;
     }
 
@@ -121,64 +122,21 @@ public final class Study implements VersionHolder {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         Study other = (Study) obj;
-        if (consentNotificationEmail == null) {
-            if (other.consentNotificationEmail != null)
-                return false;
-        } else if (!consentNotificationEmail.equals(other.consentNotificationEmail))
-            return false;
-        if (hostname == null) {
-            if (other.hostname != null)
-                return false;
-        } else if (!hostname.equals(other.hostname))
-            return false;
-        if (identifier == null) {
-            if (other.identifier != null)
-                return false;
-        } else if (!identifier.equals(other.identifier))
-            return false;
-        if (maxNumOfParticipants != other.maxNumOfParticipants)
-            return false;
-        if (minAgeOfConsent != other.minAgeOfConsent)
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        if (researcherRole == null) {
-            if (other.researcherRole != null)
-                return false;
-        } else if (!researcherRole.equals(other.researcherRole))
-            return false;
-        if (supportEmail == null) {
-            if (other.supportEmail != null)
-                return false;
-        } else if (!supportEmail.equals(other.supportEmail))
-            return false;
-        if (trackers == null) {
-            if (other.trackers != null)
-                return false;
-        } else if (!trackers.equals(other.trackers))
-            return false;
-        if (version == null) {
-            if (other.version != null)
-                return false;
-        } else if (!version.equals(other.version))
-            return false;
-        return true;
+        return (Objects.equals(consentNotificationEmail, other.consentNotificationEmail)
+                && Objects.equals(hostname, other.hostname) && Objects.equals(identifier, other.identifier)
+                && (maxNumOfParticipants == other.maxNumOfParticipants) && (minAgeOfConsent == other.minAgeOfConsent)
+                && Objects.equals(name, other.name) && Objects.equals(researcherRole, other.researcherRole)
+                && Objects.equals(supportEmail, other.supportEmail) && Objects.equals(trackers, other.trackers) 
+                && Objects.equals(version, other.version));
     }
 
     @Override
     public String toString() {
-        return "Study [name=" + name + ", identifier=" + identifier + ", version=" + version + ", researcherRole="
-                + researcherRole + ", supportEmail=" + supportEmail + ", consentNotificationEmail="
-                + consentNotificationEmail + ", minAgeOfConsent=" + minAgeOfConsent + ", maxNumOfParticipants="
-                + maxNumOfParticipants + ", trackers=" + trackers + ", hostname=" + hostname + "]";
+        return String.format("Study [name=%s, identifier=%s, version=%s, researcherRole=%s, supportEmail=%s, consentNotificationEmail=%s, minAgeOfConsent=%s, maxNumOfParticipants=%s, trackers=%s, hostname=%s]", 
+                    name, identifier, version, researcherRole, supportEmail, consentNotificationEmail, minAgeOfConsent, maxNumOfParticipants, trackers, hostname);
     }
 
 }

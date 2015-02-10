@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.users;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -34,8 +36,8 @@ public final class SignInCredentials {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((password == null) ? 0 : password.hashCode());
-        result = prime * result + ((username == null) ? 0 : username.hashCode());
+        result = prime * result + Objects.hashCode(password);
+        result = prime * result + Objects.hashCode(username);
         return result;
     }
 
@@ -43,26 +45,14 @@ public final class SignInCredentials {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         SignInCredentials other = (SignInCredentials) obj;
-        if (password == null) {
-            if (other.password != null)
-                return false;
-        } else if (!password.equals(other.password))
-            return false;
-        if (username == null) {
-            if (other.username != null)
-                return false;
-        } else if (!username.equals(other.username))
-            return false;
-        return true;
+        return (Objects.equals(password, other.password) && Objects.equals(username, other.username));
     }
 
     @Override
     public String toString() {
-        return "SignInCredentials[username=" + username + ", password=[REDACTED]";
+        return String.format("SignInCredentials[username=%s, password=[REDACTED]", username);
     }
 }

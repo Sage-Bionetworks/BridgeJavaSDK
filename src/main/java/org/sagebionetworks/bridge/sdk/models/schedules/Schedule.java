@@ -2,6 +2,8 @@ package org.sagebionetworks.bridge.sdk.models.schedules;
 
 import java.util.List;
 
+import java.util.Objects;
+
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 
@@ -10,7 +12,7 @@ import com.google.common.collect.Lists;
 /**
  * A schedule for a set of activities in a study.
  */
-public class Schedule {
+public final class Schedule {
 
     private String label;
     private ScheduleType scheduleType = ScheduleType.once;
@@ -105,65 +107,35 @@ public class Schedule {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((activities == null) ? 0 : activities.hashCode());
-        result = prime * result + ((cronTrigger == null) ? 0 : cronTrigger.hashCode());
-        result = prime * result + ((endsOn == null) ? 0 : endsOn.hashCode());
-        result = prime * result + ((expires == null) ? 0 : expires.hashCode());
-        result = prime * result + ((label == null) ? 0 : label.hashCode());
-        result = prime * result + ((scheduleType == null) ? 0 : scheduleType.hashCode());
-        result = prime * result + ((startsOn == null) ? 0 : startsOn.hashCode());
+        result = prime * result + Objects.hashCode(activities);
+        result = prime * result + Objects.hashCode(cronTrigger);
+        result = prime * result + Objects.hashCode(endsOn);
+        result = prime * result + Objects.hashCode(expires);
+        result = prime * result + Objects.hashCode(label);
+        result = prime * result + Objects.hashCode(scheduleType);
+        result = prime * result + Objects.hashCode(startsOn);
         return result;
     }
     
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
-        if (getClass() != obj.getClass())
-            return false;
+        }
         Schedule other = (Schedule) obj;
-        if (activities == null) {
-            if (other.activities != null)
-                return false;
-        } else if (!activities.equals(other.activities))
-            return false;
-        if (cronTrigger == null) {
-            if (other.cronTrigger != null)
-                return false;
-        } else if (!cronTrigger.equals(other.cronTrigger))
-            return false;
-        if (endsOn == null) {
-            if (other.endsOn != null)
-                return false;
-        } else if (!endsOn.equals(other.endsOn))
-            return false;
-        if (expires == null) {
-            if (other.expires != null)
-                return false;
-        } else if (!expires.equals(other.expires))
-            return false;
-        if (label == null) {
-            if (other.label != null)
-                return false;
-        } else if (!label.equals(other.label))
-            return false;
-        if (scheduleType != other.scheduleType)
-            return false;
-        if (startsOn == null) {
-            if (other.startsOn != null)
-                return false;
-        } else if (!startsOn.equals(other.startsOn))
-            return false;
-        return true;
+        return (Objects.equals(activities, other.activities) && Objects.equals(cronTrigger, other.cronTrigger)
+                && Objects.equals(endsOn, other.endsOn) && Objects.equals(expires, other.expires)
+                && Objects.equals(label, other.label) && Objects.equals(scheduleType, other.scheduleType) && Objects
+                    .equals(startsOn, other.startsOn));
     }
     
     @Override
     public String toString() {
-        return "Schedule [label=" + label + ", scheduleType=" + scheduleType + ", cronTrigger=" + cronTrigger
-                + ", startsOn=" + startsOn + ", endsOn=" + endsOn + ", expires=" + expires + ", activities="
-                + activities + "]";
+        return String.format("Schedule [label=%s, scheduleType=%s, cronTrigger=%s, startsOn=%s, endsOn=%s, expires=%s, activities=%s]", 
+                label, scheduleType, cronTrigger, startsOn, endsOn, expires, activities);
     }
     
 }

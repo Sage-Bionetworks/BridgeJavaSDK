@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models;
 
+import java.util.Objects;
+
 import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -27,9 +29,9 @@ public final class UploadSession {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((expires == null) ? 0 : expires.hashCode());
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((url == null) ? 0 : url.hashCode());
+        result = prime * result + Objects.hashCode(expires);
+        result = prime * result + Objects.hashCode(id);
+        result = prime * result + Objects.hashCode(url);
         return result;
     }
 
@@ -37,31 +39,14 @@ public final class UploadSession {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         UploadSession other = (UploadSession) obj;
-        if (expires == null) {
-            if (other.expires != null)
-                return false;
-        } else if (!expires.equals(other.expires))
-            return false;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        if (url == null) {
-            if (other.url != null)
-                return false;
-        } else if (!url.equals(other.url))
-            return false;
-        return true;
+        return (Objects.equals(expires, other.expires) && Objects.equals(id, other.id) && Objects.equals(url, other.url));
     }
 
     @Override
     public String toString() {
-        return "UploadRequest[ id=" + id + "url=" + url + ", expires=" + expires + "]";
+        return String.format("UploadRequest [id=%s, url=%s, expires=%s]", id, url, expires);
     }
 }

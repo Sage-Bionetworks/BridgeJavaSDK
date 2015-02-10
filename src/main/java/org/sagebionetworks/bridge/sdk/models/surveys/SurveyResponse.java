@@ -1,6 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.surveys;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
@@ -85,4 +86,34 @@ public class SurveyResponse implements IdentifierHolder {
         return null;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Objects.hashCode(answers);
+        result = prime * result + Objects.hashCode(completedOn);
+        result = prime * result + Objects.hashCode(identifier);
+        result = prime * result + Objects.hashCode(startedOn);
+        result = prime * result + Objects.hashCode(status);
+        result = prime * result + Objects.hashCode(survey);
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        SurveyResponse other = (SurveyResponse) obj;
+        return (Objects.equals(answers, other.answers) && Objects.equals(completedOn, other.completedOn)
+                && Objects.equals(identifier, other.identifier) && Objects.equals(startedOn, other.startedOn)
+                && Objects.equals(status, other.status) && Objects.equals(survey, other.survey));
+    }
+    
+    @Override
+    public String toString() {
+        return String.format("SurveyResponse [identifier=%s, startedOn=%s, completedOn=%s, status=%s, survey=%s, answers=%s]", 
+                identifier, startedOn, completedOn, status, survey, answers);
+    }
 }

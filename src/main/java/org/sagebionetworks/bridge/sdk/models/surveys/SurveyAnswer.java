@@ -1,12 +1,13 @@
 package org.sagebionetworks.bridge.sdk.models.surveys;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.joda.time.DateTime;
 
 import com.google.common.collect.Lists;
 
-public class SurveyAnswer {
+public final class SurveyAnswer {
 
     private String questionGuid;
     private boolean declined;
@@ -58,9 +59,32 @@ public class SurveyAnswer {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Objects.hashCode(answeredOn);
+        result = prime * result + Objects.hashCode(answers);
+        result = prime * result + Objects.hashCode(client);
+        result = prime * result + Objects.hashCode(questionGuid);
+        result = prime * result + (declined ? 1231 : 1237);
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        SurveyAnswer other = (SurveyAnswer) obj;
+        return (Objects.equals(answeredOn, other.answeredOn) && Objects.equals(answers, other.answers)
+                && Objects.equals(questionGuid, other.questionGuid) && Objects.equals(client, other.client) && declined == other.declined);
+    }
+
+    @Override
     public String toString() {
-        return "SurveyAnswer [questionGuid=" + questionGuid + ", declined=" + declined + ", client=" + client
-                + ", answeredOn=" + answeredOn + ", answers=" + answers + "]";
+        return String.format("SurveyAnswer [questionGuid=%s, declined=%s, client=%s, answeredOn=%s, answers=%s]", 
+                questionGuid, declined, client, answeredOn, answers);
     }
 
 }

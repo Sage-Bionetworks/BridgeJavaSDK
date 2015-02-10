@@ -10,18 +10,10 @@ import java.util.Properties;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.time.Period;
-import org.sagebionetworks.bridge.sdk.ClientProvider;
-import org.sagebionetworks.bridge.sdk.Config;
-import org.sagebionetworks.bridge.sdk.Config.Props;
-import org.sagebionetworks.bridge.sdk.ResearcherClient;
-import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.schedules.ABTestScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.Activity;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
-import org.sagebionetworks.bridge.sdk.models.schedules.SimpleScheduleStrategy;
-import org.sagebionetworks.bridge.sdk.models.schedules.SurveyReference;
-import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 
 public class Tests {
     
@@ -59,30 +51,24 @@ public class Tests {
     
     public static SchedulePlan getABTestSchedulePlan() {
         SchedulePlan plan = new SchedulePlan();
-        Schedule schedule1 = new Schedule() {
-            {
-                setCronTrigger("* * *");
-                setTaskActivity(this, "task:AAA");
-                setExpires(Period.parse("PT60S"));
-                setLabel("Test label for the user");
-            }
-        };
-        Schedule schedule2 = new Schedule() {
-            {
-                setCronTrigger("* * *");
-                setTaskActivity(this, "task:BBB");
-                setExpires(Period.parse("PT60S"));
-                setLabel("Test label for the user");
-            }
-        };
-        Schedule schedule3 = new Schedule() {
-            {
-                setCronTrigger("* * *");
-                setSurveyActivity(this, "http://host/surveys/GUID-AAA/2015-01-27T17:46:31.237Z");
-                setExpires(Period.parse("PT60S"));
-                setLabel("Test label for the user");
-            }
-        };
+        Schedule schedule1 = new Schedule();
+        schedule1.setCronTrigger("* * *");
+        setTaskActivity(schedule1, "task:AAA");
+        schedule1.setExpires(Period.parse("PT60S"));
+        schedule1.setLabel("Test label for the user");
+        
+        Schedule schedule2 = new Schedule();
+        schedule2.setCronTrigger("* * *");
+        setTaskActivity(schedule2, "task:BBB");
+        schedule2.setExpires(Period.parse("PT60S"));
+        schedule2.setLabel("Test label for the user");
+
+        Schedule schedule3 = new Schedule();
+        schedule3.setCronTrigger("* * *");
+        setSurveyActivity(schedule3, "http://host/surveys/GUID-AAA/2015-01-27T17:46:31.237Z");
+        schedule3.setExpires(Period.parse("PT60S"));
+        schedule3.setLabel("Test label for the user");
+
         ABTestScheduleStrategy strategy = new ABTestScheduleStrategy();
         strategy.addGroup(40, schedule1);
         strategy.addGroup(40, schedule2);
@@ -93,14 +79,12 @@ public class Tests {
     
     public static SchedulePlan getSimpleSchedulePlan() {
         SchedulePlan plan = new SchedulePlan();
-        Schedule schedule = new Schedule() {
-            {
-                setCronTrigger("* * *");
-                setTaskActivity(this, "task:CCC");
-                setExpires(Period.parse("PT60S"));
-                setLabel("Test label for the user");
-            }
-        };
+        Schedule schedule = new Schedule();
+        schedule.setCronTrigger("* * *");
+        setTaskActivity(schedule, "task:CCC");
+        schedule.setExpires(Period.parse("PT60S"));
+        schedule.setLabel("Test label for the user");
+
         plan.setSchedule(schedule);
         return plan;
     }
