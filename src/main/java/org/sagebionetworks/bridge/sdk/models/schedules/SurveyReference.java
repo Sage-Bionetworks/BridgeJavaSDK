@@ -4,6 +4,8 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
@@ -13,11 +15,10 @@ import org.joda.time.format.ISODateTimeFormat;
  */
 public final class SurveyReference {
     
-    private static final String SURVEY_PATH_FRAGMENT = "/surveys/";
-    private static final String PUBLISHED_FRAGMENT = "published";
+    private static final Pattern SURVEY_URL = Pattern.compile(".*/surveys/(.*)/(.*)");
     
     public static final boolean isSurveyRef(String ref) {
-        return (ref != null && ref.contains(SURVEY_PATH_FRAGMENT));
+        return (ref != null && SURVEY_URL.matcher(ref).matches());
     }
 
     private final String guid;
@@ -25,19 +26,15 @@ public final class SurveyReference {
     
     public SurveyReference(String ref) {
         checkArgument(isNotBlank(ref));
-        
-        String[] parts = ref.split(SURVEY_PATH_FRAGMENT);
-        String guidString = null;
-        String createdOnString = null;
-        if (parts.length == 2) {
-            parts = parts[1].split("/");
-            if (parts.length == 2) {
-                guidString = parts[0];
-                createdOnString = PUBLISHED_FRAGMENT.equals(parts[1]) ? null : parts[1];
-            }
+    
+        Matcher match = SURVEY_URL.matcher(ref);
+        if (match.matches() && match.groupCount() == 2) {
+            this.guid = match.group(1);
+            this.createdOn = ("published".equals(match.group(1))) ? null : match.group(2); 
+        } else {
+            this.guid = null;
+            this.createdOn = null;
         }
-        this.guid = guidString;
-        this.createdOn = createdOnString;
     }
 
     public SurveyReference(String guid, DateTime createdOn) {
