@@ -1,8 +1,12 @@
 package org.sagebionetworks.bridge.sdk.models.schedules;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static com.google.common.base.Preconditions.checkArgument;
 
 import java.util.Objects;
+
+import org.joda.time.DateTime;
+import org.joda.time.format.ISODateTimeFormat;
 
 /**
  * A "soft" reference to a survey that may or may not specify a version with a specific timestamp.
@@ -20,12 +24,28 @@ public final class SurveyReference {
     private final String createdOn;
     
     public SurveyReference(String ref) {
-        checkNotNull(ref);
-        String[] parts = ref.split(SURVEY_PATH_FRAGMENT)[1].split("/");
-        this.guid = parts[0];
-        this.createdOn = PUBLISHED_FRAGMENT.equals(parts[1]) ? null : parts[1];
+        checkArgument(isNotBlank(ref));
+        
+        String[] parts = ref.split(SURVEY_PATH_FRAGMENT);
+        String guidString = null;
+        String createdOnString = null;
+        if (parts.length == 2) {
+            parts = parts[1].split("/");
+            if (parts.length == 2) {
+                guidString = parts[0];
+                createdOnString = PUBLISHED_FRAGMENT.equals(parts[1]) ? null : parts[1];
+            }
+        }
+        this.guid = guidString;
+        this.createdOn = createdOnString;
     }
-    
+
+    public SurveyReference(String guid, DateTime createdOn) {
+        checkArgument(isNotBlank(guid));
+        this.guid = guid;
+        this.createdOn = (createdOn == null) ? null : createdOn.toString(ISODateTimeFormat.dateTime());
+    }
+
     /**
      * The guid for this survey (will always be present).
      */

@@ -9,7 +9,6 @@ import static org.junit.Assert.fail;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.AdminClient;

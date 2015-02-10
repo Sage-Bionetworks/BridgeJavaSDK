@@ -23,14 +23,23 @@ public final class Activity {
     private final ActivityType activityType;
     private final String ref;
 
+    private String getAbsoluteUrl(String url) {
+        return (url.startsWith("http")) ? url : ClientProvider.getConfig().getEnvironment().getUrl() + url;
+    }
+    
     @JsonCreator
     public Activity(@JsonProperty("label") String label, @JsonProperty("ref") String ref) {
         checkNotNull(label);
         checkNotNull(ref);
-        
+
         this.label = label;
-        this.ref = ref;
-        this.activityType = SurveyReference.isSurveyRef(ref) ? ActivityType.survey : ActivityType.task;
+        if (SurveyReference.isSurveyRef(ref)) {
+            this.ref = getAbsoluteUrl(ref);
+            this.activityType = ActivityType.survey;
+        } else {
+            this.ref = ref;
+            this.activityType = ActivityType.task;
+        }
     }
     
     /**
@@ -40,7 +49,35 @@ public final class Activity {
      * @param ref
      */
     public Activity(String label, GuidCreatedOnVersionHolder survey) {
-        this(checkNotNull(label), checkNotNull(ClientProvider.getConfig().getSurveyUserApi(survey.getGuid(), survey.getCreatedOn())));
+        checkNotNull(label);
+        checkNotNull(survey);
+        checkNotNull(survey.getGuid());
+        checkNotNull(survey.getCreatedOn());
+        
+        String url = ClientProvider.getConfig().getSurveyUserApi(survey.getGuid(), survey.getCreatedOn());
+        this.label = label;
+        this.ref = getAbsoluteUrl(url);
+        this.activityType = ActivityType.survey;
+    }
+    
+    /**
+     * Create an activity to do a survey, using a survey reference. If no createdOn is provided, the 
+     * activity will point to the most recently published version of the survey.
+     * @param label
+     * @param activityType
+     * @param ref
+     */
+    public Activity(String label, SurveyReference survey) {
+        checkNotNull(label);
+        checkNotNull(survey);
+        checkNotNull(survey.getGuid());
+        
+        String url = (survey.getCreatedOn() != null) ?
+                ClientProvider.getConfig().getSurveyUserApi(survey.getGuid(), DateTime.parse(survey.getCreatedOn())) :
+                ClientProvider.getConfig().getRecentlyPublishedSurveyUserApi(survey.getGuid());
+        this.label = label;
+        this.ref = getAbsoluteUrl(url);
+        this.activityType = ActivityType.survey;
     }
     
     /**
@@ -113,7 +150,7 @@ public final class Activity {
 
     @Override
     public String toString() {
-        return String.format("Activity [activityType=%s, ref=%s]", activityType, ref);
+        return String.format("Activity [label=%s, activityType=%s, ref=%s]", label, activityType, ref);
     }
 
 }
