@@ -7,7 +7,7 @@ import org.joda.time.DateTime;
 
 import com.google.common.collect.Lists;
 
-public class SurveyAnswer {
+public final class SurveyAnswer {
 
     private String questionGuid;
     private boolean declined;
@@ -78,7 +78,7 @@ public class SurveyAnswer {
             return false;
         SurveyAnswer other = (SurveyAnswer) obj;
         return (Objects.equals(answeredOn, other.answeredOn) && Objects.equals(answers, other.answers)
-                && Objects.equals(client, other.client) && declined == other.declined);
+                && Objects.equals(questionGuid, other.questionGuid) && Objects.equals(client, other.client) && declined == other.declined);
     }
 
     @Override
