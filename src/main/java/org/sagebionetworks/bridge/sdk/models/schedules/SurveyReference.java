@@ -30,7 +30,7 @@ public final class SurveyReference {
         Matcher match = SURVEY_URL.matcher(ref);
         if (match.matches() && match.groupCount() == 2) {
             this.guid = match.group(1);
-            this.createdOn = ("published".equals(match.group(1))) ? null : match.group(2); 
+            this.createdOn = ("published".equals(match.group(2))) ? null : match.group(2); 
         } else {
             this.guid = null;
             this.createdOn = null;

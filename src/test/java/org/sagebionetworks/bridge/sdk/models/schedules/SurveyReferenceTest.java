@@ -28,6 +28,14 @@ public class SurveyReferenceTest {
         assertNull(ref.getCreatedOn());
     }
     
+    @Test
+    public void refConstructorToPublishedSurvey() {
+        SurveyReference ref = new SurveyReference("/foo/surveys/abc/published");
+        
+        assertEquals("abc", ref.getGuid());
+        assertNull(ref.getCreatedOn());
+    }
+    
     @Test(expected = IllegalArgumentException.class)
     public void failsWithBlankRef() {
         new SurveyReference(" ");
