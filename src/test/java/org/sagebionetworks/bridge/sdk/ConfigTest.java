@@ -20,4 +20,12 @@ public class ConfigTest {
         conf.getHealthDataTrackerApi(null);
     }
     
+    
+    @Test
+    public void configPicksUpSystemProperty() {
+        System.setProperty("ENV", "staging");
+        Config conf = new Config();
+        
+        assertEquals(Environment.STAGING, conf.getEnvironment());
+    }
 }
