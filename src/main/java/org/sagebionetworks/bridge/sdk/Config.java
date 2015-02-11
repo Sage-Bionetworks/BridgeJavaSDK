@@ -42,6 +42,7 @@ public final class Config {
         CONSENT_SUSPEND_API,
         CONSENT_RESUME_API,
         DEV_NAME,
+        ENV,
         HEALTH_DATA_TRACKER_API,
         HEALTH_DATA_TRACKER_RECORD_API,
         PROFILE_API,
@@ -95,7 +96,6 @@ public final class Config {
         } catch(IOException e) {
             throw new RuntimeException(e);
         }
-        // loadProperties(CONFIG_FILE, config);
         loadProperties(USER_CONFIG_FILE, config);
 
         for (Props key : Props.values()) {
@@ -107,8 +107,9 @@ public final class Config {
                 config.setProperty(key.getPropertyName(), value);
             }
         }
-        if (config.getProperty("env") != null) {
-            environment = Environment.valueOf(config.getProperty("env").toUpperCase());
+        String envName = config.getProperty("env");
+        if (envName != null) {
+            environment = Environment.valueOf(envName.toUpperCase());
         }
     }
 
