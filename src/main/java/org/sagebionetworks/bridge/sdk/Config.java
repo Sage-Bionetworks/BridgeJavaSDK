@@ -43,8 +43,6 @@ public final class Config {
         CONSENT_RESUME_API,
         DEV_NAME,
         ENV,
-        HEALTH_DATA_TRACKER_API,
-        HEALTH_DATA_TRACKER_RECORD_API,
         PROFILE_API,
         RESEARCHER_STUDY_API,
         RESEARCHER_STUDY_PARTICIPANTS_API,
@@ -72,7 +70,6 @@ public final class Config {
         SURVEYS_RECENT_API,
         SURVEYS_PUBLISHED_API,
         SURVEY_RESPONSE_API,
-        TRACKER_API,
         UPLOAD_API,
         UPLOAD_COMPLETE_API,
         USER_MANAGEMENT_API,
@@ -211,18 +208,6 @@ public final class Config {
     public String getVersionStudyConsentApi(DateTime timestamp) {
         checkNotNull(timestamp);
         return String.format(val(Props.STUDY_CONSENT_SET_ACTIVE_API), timestamp.toString(ISODateTimeFormat.dateTime()));
-    }
-    public String getTrackerApi() {
-        return val(Props.TRACKER_API);
-    }
-    public String getHealthDataTrackerApi(String trackerId) {
-        checkArgument(isNotBlank(trackerId));
-        return String.format(val(Props.HEALTH_DATA_TRACKER_API), trackerId);
-    }
-    public String getHealthDataRecordApi(String trackerId, String guid) {
-        checkArgument(isNotBlank(trackerId));
-        checkArgument(isNotBlank(guid));
-        return String.format(val(Props.HEALTH_DATA_TRACKER_RECORD_API), trackerId, guid);
     }
     public String getUploadApi() {
         return val(Props.UPLOAD_API);
