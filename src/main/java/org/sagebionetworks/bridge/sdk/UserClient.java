@@ -2,20 +2,16 @@ package org.sagebionetworks.bridge.sdk;
 
 import java.util.List;
 
-import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.UploadRequest;
 import org.sagebionetworks.bridge.sdk.models.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
-import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
-import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
 import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
-import org.sagebionetworks.bridge.sdk.models.users.HealthDataRecord;
 import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
 
 public interface UserClient {
@@ -59,79 +55,6 @@ public interface UserClient {
      * Suspend data sharing on the currently signed in account.
      */
     public void suspendDataSharing();
-
-    /**
-     * Retrieve a health data record associated with the tracker and recordId.
-     *
-     * @param tracker
-     *
-     * @param recordId
-     *            The guid string that identifies the health data record.
-     * @return
-     */
-    public HealthDataRecord getHealthDataRecord(Tracker tracker, String recordId);
-
-    /**
-     * Update a health data record associated with the tracker and recordId stored in the record parameter.
-     *
-     * @param tracker
-     *
-     * @param record
-     *            The HealthDataRecord that Bridge will use to update its copy of the associated record.
-     * @return
-     */
-    public GuidVersionHolder updateHealthDataRecord(Tracker tracker, HealthDataRecord record);
-
-    /**
-     * Delete a health data record associated with the tracker and the recordId.
-     *
-     * @param tracker
-     * @param recordId
-     *            The guid string that identifies the health data record.
-     */
-    public void deleteHealthDataRecord(Tracker tracker, String recordId);
-
-    /**
-     * Get all HealthDataRecords in the time range set by start date and end date associated with a given tracker.
-     *
-     * @param tracker
-     *
-     * @param startDate
-     *            The start date, with granularity to milliseconds, to search for HealthDataRecords.
-     * @param endDate
-     *            The start date, with granularity to milliseconds, to search for HealthDataRecords.
-     * @return List<HealthDataRecord>
-     */
-    public ResourceList<HealthDataRecord> getHealthDataRecordsInRange(Tracker tracker, DateTime startDate, DateTime endDate);
-
-    /**
-     * Add a group of HealthDataRecords to an associated tracker.
-     *
-     * @param tracker
-     *
-     * @param records
-     *            The list of HealthDataRecords to add to Bridge.
-     * @return List<IdVersionHolder> A list of objects that hold the ID and version of each HealthDataRecord added to
-     *         Bridge.
-     */
-    public ResourceList<GuidVersionHolder> addHealthDataRecords(Tracker tracker, List<HealthDataRecord> records);
-
-    /**
-     * Get all trackers on Bridge associated with a study.
-     *
-     * @return List<Tracker>
-     */
-    public ResourceList<Tracker> getAllTrackers();
-
-    /**
-     * Get the JSON schema for a tracker. The JSON schema will tell you what data is in a tracker, and how it is
-     * organized.
-     *
-     * @param tracker
-     *
-     * @return String The JSON Schema as a string.
-     */
-    public String getTrackerSchema(Tracker tracker);
 
     /**
      * Get all schedules associated with a study.

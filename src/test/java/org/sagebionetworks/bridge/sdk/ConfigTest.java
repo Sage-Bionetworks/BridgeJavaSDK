@@ -11,13 +11,14 @@ public class ConfigTest {
     public void createConfig() {
         Config conf = new Config();
         assertNotNull(conf);
-        assertEquals("conf returns values", "/api/v1/healthdata/asdf", conf.getHealthDataTrackerApi("asdf"));
+        assertEquals("conf returns values", "/researchers/v1/surveys/asdf/published",
+                conf.getSurveyMostRecentlyPublishedVersionApi("asdf"));
     }
     
     @Test(expected=IllegalArgumentException.class)
     public void configChecksArguments() {
         Config conf = new Config();
-        conf.getHealthDataTrackerApi(null);
+        conf.getSurveyMostRecentlyPublishedVersionApi(null);
     }
     
     

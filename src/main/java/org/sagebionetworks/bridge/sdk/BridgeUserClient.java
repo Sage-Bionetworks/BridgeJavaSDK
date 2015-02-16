@@ -8,16 +8,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.ContentType;
 import org.joda.time.DateTime;
-import org.joda.time.format.ISODateTimeFormat;
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.UploadRequest;
@@ -25,26 +21,20 @@ import org.sagebionetworks.bridge.sdk.models.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
-import org.sagebionetworks.bridge.sdk.models.holders.SimpleGuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleIdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
-import org.sagebionetworks.bridge.sdk.models.studies.Tracker;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
 import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
-import org.sagebionetworks.bridge.sdk.models.users.HealthDataRecord;
 import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
 class BridgeUserClient extends BaseApiCaller implements UserClient {
 
-    private final TypeReference<ResourceListImpl<Tracker>> tType = new TypeReference<ResourceListImpl<Tracker>>() {};
     private final TypeReference<ResourceListImpl<Schedule>> sType = new TypeReference<ResourceListImpl<Schedule>>() {};
-    private static final TypeReference<ResourceListImpl<HealthDataRecord>> hdrType = 
-            new TypeReference<ResourceListImpl<HealthDataRecord>>() {};
-    private static final TypeReference<ResourceListImpl<GuidVersionHolder>> gvhType = 
+    private static final TypeReference<ResourceListImpl<GuidVersionHolder>> gvhType =
             new TypeReference<ResourceListImpl<GuidVersionHolder>>() {};
 
     BridgeUserClient(BridgeSession session) {
@@ -104,90 +94,6 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
 
         post(config.getConsentSuspendApi());
         session.setDataSharing(false);
-    }
-
-    /*
-     * Health Data API
-     */
-    @Override
-    public HealthDataRecord getHealthDataRecord(Tracker tracker, String guid) {
-        session.checkSignedIn();
-        checkNotNull(tracker, "Tracker cannot be null.");
-        checkArgument(isNotBlank(guid), "guid cannot be null or empty.");
-
-        String trackerId = tracker.getIdentifier();
-        return get(config.getHealthDataRecordApi(trackerId, guid), HealthDataRecord.class);
-    }
-
-    @Override
-    public GuidVersionHolder updateHealthDataRecord(Tracker tracker, HealthDataRecord record) {
-        session.checkSignedIn();
-        checkNotNull(tracker, "Tracker cannot be null.");
-        checkNotNull(record, "Record cannot be null.");
-
-        String trackerId = tracker.getIdentifier();
-        GuidVersionHolder holder = post(config.getHealthDataRecordApi(trackerId, record.getGuid()), record, SimpleGuidVersionHolder.class);
-        record.setVersion(holder.getVersion());
-        return holder;
-    }
-
-    @Override
-    public void deleteHealthDataRecord(Tracker tracker, String guid) {
-        session.checkSignedIn();
-        checkNotNull(tracker, "Tracker cannot be null.");
-        checkArgument(isNotBlank(guid),"guid cannot be null or empty.");
-
-        String trackerId = tracker.getIdentifier();
-        delete(config.getHealthDataRecordApi(trackerId, guid));
-    }
-
-    @Override
-    public ResourceList<HealthDataRecord> getHealthDataRecordsInRange(Tracker tracker, DateTime startDate, DateTime endDate) {
-        session.checkSignedIn();
-        checkNotNull(tracker, "Tracker cannot be null.");
-        checkNotNull(startDate, "startDate cannot be null.");
-        checkNotNull(endDate, "endDate cannot be null.");
-        checkArgument(endDate.isAfter(startDate), "endDate must be after startDate.");
-
-        Map<String,String> queryParameters = new HashMap<String,String>();
-        queryParameters.put("startDate", startDate.toString(ISODateTimeFormat.dateTime()));
-        queryParameters.put("endDate", endDate.toString(ISODateTimeFormat.dateTime()));
-
-        String trackerId = tracker.getIdentifier();
-        return get(config.getHealthDataTrackerApi(trackerId) + toQueryString(queryParameters), hdrType);
-    }
-
-    @Override
-    public ResourceList<GuidVersionHolder> addHealthDataRecords(Tracker tracker, List<HealthDataRecord> records) {
-        session.checkSignedIn();
-        checkNotNull(tracker, "Tracker cannot be null.");
-        checkNotNull(records, "Records cannot be null.");
-
-        String trackerId = tracker.getIdentifier();
-        ResourceList<GuidVersionHolder> holders = post(config.getHealthDataTrackerApi(trackerId), records, gvhType);
-        for (int i=0; i < holders.getTotal(); i++) {
-            records.get(i).setGuid(holders.get(i).getGuid());
-            records.get(i).setVersion(holders.get(i).getVersion());
-        }
-        return holders;
-    }
-
-    /*
-     * Tracker API
-     */
-    @Override
-    public ResourceList<Tracker> getAllTrackers() {
-        session.checkSignedIn();
-
-        return get(config.getTrackerApi(), tType);
-    }
-
-    @Override
-    public String getTrackerSchema(Tracker tracker) {
-        session.checkSignedIn();
-
-        HttpResponse response = get(tracker.getSchemaUrl());
-        return getResponseBody(response);
     }
 
     /*
