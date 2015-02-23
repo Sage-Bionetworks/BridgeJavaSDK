@@ -19,7 +19,6 @@ import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.UploadRequest;
 import org.sagebionetworks.bridge.sdk.models.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
-import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleIdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
@@ -34,8 +33,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 class BridgeUserClient extends BaseApiCaller implements UserClient {
 
     private final TypeReference<ResourceListImpl<Schedule>> sType = new TypeReference<ResourceListImpl<Schedule>>() {};
-    private static final TypeReference<ResourceListImpl<GuidVersionHolder>> gvhType =
-            new TypeReference<ResourceListImpl<GuidVersionHolder>>() {};
 
     BridgeUserClient(BridgeSession session) {
         super(session);
