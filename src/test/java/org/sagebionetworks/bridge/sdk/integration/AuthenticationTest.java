@@ -66,6 +66,7 @@ public class AuthenticationTest {
         } finally {
             client.deleteStudy("secondstudy");
             testUser1.signOutAndDeleteUser();
+            config.set(Props.STUDY_IDENTIFIER, "api");
         }
     }
 }
