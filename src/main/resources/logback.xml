@@ -11,6 +11,7 @@
     </encoder>
   </appender>
 
+  <logger name="org.apache" level="warn" />
   <logger name="org.sagebionetworks.bridge.sdk.BaseApiCaller" level="${log.level}" />
 
   <root level="debug">
