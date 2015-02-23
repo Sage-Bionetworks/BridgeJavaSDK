@@ -86,7 +86,8 @@ public final class Config {
 
     Config() {
         config = new Properties();
-        environment = Environment.PRODUCTION;
+        // May not be set correctly in all environments; disable until we create formal releases 
+        // environment = Environment.PRODUCTION;
         
         try(InputStream in = this.getClass().getResourceAsStream(CONFIG_FILE)) {
             config.load(in);
@@ -108,6 +109,7 @@ public final class Config {
         if (envName != null) {
             environment = Environment.valueOf(envName.toUpperCase());
         }
+        checkNotNull(environment);
     }
 
     private void loadProperties(final String fileName, final Properties properties) {
