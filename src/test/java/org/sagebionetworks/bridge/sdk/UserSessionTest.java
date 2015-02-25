@@ -43,6 +43,6 @@ public class UserSessionTest {
         assertEquals(session.getUsername(), node.get("username").asText());
         assertEquals(session.isAuthenticated(), node.get("authenticated").asBoolean());
         assertEquals(session.isConsented(), node.get("consented").asBoolean());
-        assertEquals(session.isDataSharing(), node.get("dataSharing").asBoolean());
+        assertEquals("no_sharing", node.get("dataSharing").asText());
     }
 }

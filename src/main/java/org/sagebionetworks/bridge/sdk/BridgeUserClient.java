@@ -16,6 +16,7 @@ import org.apache.http.entity.ContentType;
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
+import org.sagebionetworks.bridge.sdk.models.ScopeOption;
 import org.sagebionetworks.bridge.sdk.models.UploadRequest;
 import org.sagebionetworks.bridge.sdk.models.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
@@ -78,19 +79,12 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     }
 
     @Override
-    public void resumeDataSharing() {
+    public void changeScopeOfSharing(ScopeOfSharing sharing) {
         session.checkSignedIn();
-
-        post(config.getConsentResumeApi());
-        session.setDataSharing(true);
-    }
-
-    @Override
-    public void suspendDataSharing() {
-        session.checkSignedIn();
-
-        post(config.getConsentSuspendApi());
-        session.setDataSharing(false);
+        
+        ScopeOption option = new ScopeOption(sharing);
+        post(config.getConsentChangeApi(), option);
+        session.setScopeOfSharing(sharing);
     }
 
     /*
