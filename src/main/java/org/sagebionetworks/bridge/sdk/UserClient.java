@@ -47,15 +47,11 @@ public interface UserClient {
     public ConsentSignature getConsentSignature();
 
     /**
-     * Resume data sharing on the currently signed in account.
+     * Change (stop, resume) the sharing of data for this participant.
+     * @param sharing
      */
-    public void resumeDataSharing();
-
-    /**
-     * Suspend data sharing on the currently signed in account.
-     */
-    public void suspendDataSharing();
-
+    public void changeSharingScope(SharingScope sharing);
+    
     /**
      * Get all schedules associated with a study.
      *

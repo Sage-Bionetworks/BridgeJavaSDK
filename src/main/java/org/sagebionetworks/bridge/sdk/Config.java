@@ -39,8 +39,7 @@ public final class Config {
         AUTH_REQUESTRESET_API,
         AUTH_RESET_API,
         CONSENT_API,
-        CONSENT_SUSPEND_API,
-        CONSENT_RESUME_API,
+        CONSENT_CHANGE_API,
         DEV_NAME,
         ENV,
         PROFILE_API,
@@ -188,11 +187,8 @@ public final class Config {
     public String getConsentApi() {
         return val(Props.CONSENT_API);
     }
-    public String getConsentSuspendApi() {
-        return val(Props.CONSENT_SUSPEND_API);
-    }
-    public String getConsentResumeApi() {
-        return val(Props.CONSENT_RESUME_API);
+    public String getConsentChangeApi() {
+        return val(Props.CONSENT_CHANGE_API);
     }
     public String getStudyConsentsApi() {
         return val(Props.STUDY_CONSENTS_API);

@@ -15,4 +15,10 @@ public final class ConsentRequiredException extends BridgeServerException {
     public final Session getSession() {
         return session;
     }
+
+    @Override
+    public String toString() {
+        return String.format("ConsentRequiredException[message=%s, statusCode=%s, endpoint=%s]", 
+            getMessage(), getStatusCode(), getRestEndpoint());
+    }
 }

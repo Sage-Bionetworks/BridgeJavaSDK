@@ -7,20 +7,21 @@ final class UserSession {
 
     private final String username;
     private final String sessionToken;
+    private final SharingScope sharingScope;
     private final boolean authenticated;
     private final boolean consented;
-    private final boolean dataSharing;
     private final boolean signedMostRecentConsent;
 
     @JsonCreator
     private UserSession(@JsonProperty("username") String username, @JsonProperty("sessionToken") String sessionToken,
             @JsonProperty("authenticated") boolean authenticated, @JsonProperty("consented") boolean consented,
-            @JsonProperty("dataSharing") boolean dataSharing, @JsonProperty("signedMostRecentConsent") boolean signedMostRecentConsent) {
+            @JsonProperty("sharingScope") SharingScope sharingScope,
+            @JsonProperty("signedMostRecentConsent") boolean signedMostRecentConsent) {
         this.username = username;
         this.sessionToken = sessionToken;
         this.consented = consented;
         this.authenticated = authenticated;
-        this.dataSharing = dataSharing;
+        this.sharingScope = sharingScope;
         this.signedMostRecentConsent = signedMostRecentConsent;
     }
 
@@ -39,9 +40,9 @@ final class UserSession {
     public boolean isConsented() {
         return this.consented;
     }
-
-    public boolean isDataSharing() {
-        return this.dataSharing;
+    
+    public SharingScope getSharingScope() {
+        return this.sharingScope;
     }
     
     public boolean hasSignedMostRecentConsent() {
@@ -50,8 +51,8 @@ final class UserSession {
 
     @Override
     public String toString() {
-        return String.format("UserSession[username=%s, sessionToken=%s, authenticated=%s, consented=%s, dataSharing=%s, signedMostRecentConsent=%s]", 
-                username, sessionToken, authenticated, consented, dataSharing, signedMostRecentConsent);
+        return String.format("UserSession[username=%s, sessionToken=%s, authenticated=%s, consented=%s, sharingScope=%s, signedMostRecentConsent=%s]", 
+                username, sessionToken, authenticated, consented, sharingScope, signedMostRecentConsent);
     }
 
 }

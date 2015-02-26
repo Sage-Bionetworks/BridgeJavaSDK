@@ -11,6 +11,9 @@ import java.util.Map;
 import org.joda.time.LocalDate;
 import org.joda.time.format.ISODateTimeFormat;
 import org.junit.Test;
+import org.sagebionetworks.bridge.sdk.ClientProvider;
+import org.sagebionetworks.bridge.sdk.SharingScope;
+import org.sagebionetworks.bridge.sdk.Session;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
@@ -18,6 +21,7 @@ import org.sagebionetworks.bridge.sdk.exceptions.ConsentRequiredException;
 import org.sagebionetworks.bridge.sdk.exceptions.EntityAlreadyExistsException;
 import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
+import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -28,14 +32,26 @@ public class ConsentTest {
     @Test
     public void canToggleDataSharing() {
         TestUser testUser = TestUserHelper.createAndSignInUser(ConsentTest.class, true);
+        UserClient client = testUser.getSession().getUserClient();
+        Session session = testUser.getSession();
         try {
-            UserClient client = testUser.getSession().getUserClient();
-
-            assertTrue("Initially sharing data", testUser.getSession().isDataSharing());
-            client.suspendDataSharing();
-            assertFalse("Not sharing data", testUser.getSession().isDataSharing());
-            client.resumeDataSharing();
-            assertTrue("Sharing data", testUser.getSession().isDataSharing());
+            // starts out with no sharing
+            assertEquals(SharingScope.no_sharing, session.getSharingScope());
+            
+            // Change, verify in-memory session changed, verify after signing in again that server state has changed
+            client.changeSharingScope(SharingScope.sponsors_and_partners);
+            assertEquals(SharingScope.sponsors_and_partners, testUser.getSession().getSharingScope());
+            session.signOut();
+            session = ClientProvider.signIn(new SignInCredentials(testUser.getEmail(), testUser.getPassword()));
+            client = session.getUserClient();
+            assertEquals(SharingScope.sponsors_and_partners, session.getSharingScope());
+            
+            // Do the same thing in reverse, setting to no sharing
+            client.changeSharingScope(SharingScope.no_sharing);
+            session.signOut();
+            session = ClientProvider.signIn(new SignInCredentials(testUser.getEmail(), testUser.getPassword()));
+            assertEquals(SharingScope.no_sharing, session.getSharingScope());
+            session.signOut();
         } finally {
             testUser.signOutAndDeleteUser();
         }
