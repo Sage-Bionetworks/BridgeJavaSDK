@@ -12,7 +12,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.format.ISODateTimeFormat;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.ClientProvider;
-import org.sagebionetworks.bridge.sdk.ScopeOfSharing;
+import org.sagebionetworks.bridge.sdk.SharingScope;
 import org.sagebionetworks.bridge.sdk.Session;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
@@ -36,21 +36,21 @@ public class ConsentTest {
         Session session = testUser.getSession();
         try {
             // starts out with no sharing
-            assertEquals(ScopeOfSharing.no_sharing, session.getScopeOfSharing());
+            assertEquals(SharingScope.no_sharing, session.getSharingScope());
             
             // Change, verify in-memory session changed, verify after signing in again that server state has changed
-            client.changeScopeOfSharing(ScopeOfSharing.sponsors_and_partners);
-            assertEquals(ScopeOfSharing.sponsors_and_partners, testUser.getSession().getScopeOfSharing());
+            client.changeSharingScope(SharingScope.sponsors_and_partners);
+            assertEquals(SharingScope.sponsors_and_partners, testUser.getSession().getSharingScope());
             session.signOut();
             session = ClientProvider.signIn(new SignInCredentials(testUser.getEmail(), testUser.getPassword()));
             client = session.getUserClient();
-            assertEquals(ScopeOfSharing.sponsors_and_partners, session.getScopeOfSharing());
+            assertEquals(SharingScope.sponsors_and_partners, session.getSharingScope());
             
             // Do the same thing in reverse, setting to no sharing
-            client.changeScopeOfSharing(ScopeOfSharing.no_sharing);
+            client.changeSharingScope(SharingScope.no_sharing);
             session.signOut();
             session = ClientProvider.signIn(new SignInCredentials(testUser.getEmail(), testUser.getPassword()));
-            assertEquals(ScopeOfSharing.no_sharing, session.getScopeOfSharing());
+            assertEquals(SharingScope.no_sharing, session.getSharingScope());
             session.signOut();
         } finally {
             testUser.signOutAndDeleteUser();

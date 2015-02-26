@@ -79,12 +79,12 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     }
 
     @Override
-    public void changeScopeOfSharing(ScopeOfSharing sharing) {
+    public void changeSharingScope(SharingScope sharingScope) {
         session.checkSignedIn();
         
-        ScopeOption option = new ScopeOption(sharing);
+        ScopeOption option = new ScopeOption(sharingScope);
         post(config.getConsentChangeApi(), option);
-        session.setScopeOfSharing(sharing);
+        session.setSharingScope(sharingScope);
     }
 
     /*

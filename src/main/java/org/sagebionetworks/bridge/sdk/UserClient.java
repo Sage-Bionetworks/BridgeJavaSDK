@@ -50,7 +50,7 @@ public interface UserClient {
      * Change (stop, resume) the sharing of data for this participant.
      * @param sharing
      */
-    public void changeScopeOfSharing(ScopeOfSharing sharing);
+    public void changeSharingScope(SharingScope sharing);
     
     /**
      * Get all schedules associated with a study.

@@ -7,7 +7,7 @@ class BridgeSession implements Session {
 
     private static final String NOT_AUTHENTICATED = "This session has been signed out; create a new session to retrieve a valid client.";
 
-    private ScopeOfSharing scopeOfSharing;
+    private SharingScope sharingScope;
     private String sessionToken;
     private String username;
     private boolean consented;
@@ -18,7 +18,7 @@ class BridgeSession implements Session {
         this.username = session.getUsername();
         this.sessionToken = session.getSessionToken();
         this.consented = session.isConsented();
-        this.scopeOfSharing = session.getScopeOfSharing();
+        this.sharingScope = session.getSharingScope();
     }
 
     /**
@@ -57,13 +57,13 @@ class BridgeSession implements Session {
     }
     
     @Override
-    public ScopeOfSharing getScopeOfSharing() {
+    public SharingScope getSharingScope() {
         checkState(isSignedIn(), NOT_AUTHENTICATED);
-        return scopeOfSharing;
+        return sharingScope;
     }
     
-    void setScopeOfSharing(ScopeOfSharing scopeOfSharing) {
-        this.scopeOfSharing = scopeOfSharing;
+    void setSharingScope(SharingScope sharingScope) {
+        this.sharingScope = sharingScope;
     }
     
     @Override
@@ -99,8 +99,8 @@ class BridgeSession implements Session {
 
     @Override
     public String toString() {
-        return String.format("BridgeSession [sessionToken=%s, username=%s, consented=%s, scopeOfSharing=%s]", 
-                sessionToken, username, consented, scopeOfSharing.name().toLowerCase());
+        return String.format("BridgeSession [sessionToken=%s, username=%s, consented=%s, sharingScope=%s]", 
+                sessionToken, username, consented, sharingScope.name().toLowerCase());
     }
 
 }

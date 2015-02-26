@@ -8,7 +8,7 @@ public interface Session {
 
     public String getSessionToken();
     
-    public ScopeOfSharing getScopeOfSharing();
+    public SharingScope getSharingScope();
 
     public boolean isConsented();
     
