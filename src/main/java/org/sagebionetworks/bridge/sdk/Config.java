@@ -272,6 +272,11 @@ public final class Config {
         checkNotNull(createdOn);
         return String.format(val(Props.SURVEY_USER_API), guid, createdOn.toString(ISODateTimeFormat.dateTime()));
     }
+    public String getSurveyUserApi(String guid, String createdOn) {
+        checkArgument(isNotBlank(guid));
+        checkNotNull(createdOn);
+        return String.format(val(Props.SURVEY_USER_API), guid, createdOn);
+    }
     public String getRecentlyPublishedSurveyUserApi(String guid) {
         checkArgument(isNotBlank(guid));
         return String.format(val(Props.SURVEY_RECENTLY_PUBLISHED_USER_API), guid);
