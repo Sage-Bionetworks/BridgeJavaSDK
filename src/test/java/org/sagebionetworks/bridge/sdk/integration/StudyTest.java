@@ -20,8 +20,6 @@ import org.sagebionetworks.bridge.sdk.exceptions.UnauthorizedException;
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 
-import com.google.common.collect.Lists;
-
 public class StudyTest {
 
     private static final String BRIDGE_TESTING_CONSENT_EMAIL = "bridge-testing+consent@sagebridge.org";
@@ -161,7 +159,6 @@ public class StudyTest {
         study.setName("Test Study [SDK]");
         study.setSupportEmail("test@test.com");
         study.setConsentNotificationEmail("test2@test.com");
-        study.setTrackers(Lists.newArrayList("sage:A", "sage:B"));
         if (version != null) {
             study.setVersion(version);
         }

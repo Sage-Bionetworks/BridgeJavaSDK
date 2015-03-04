@@ -40,7 +40,15 @@ public final class Activity {
      * @param ref
      */
     public Activity(String label, GuidCreatedOnVersionHolder survey) {
-        this(checkNotNull(label), checkNotNull(ClientProvider.getConfig().getSurveyUserApi(survey.getGuid(), survey.getCreatedOn())));
+        this(label, ClientProvider.getConfig().getEnvironment().getUrl()
+                + ClientProvider.getConfig().getSurveyUserApi(survey.getGuid(), survey.getCreatedOn()));
+    }
+    
+    public Activity(String label, SurveyReference reference) {
+        this(label, (reference.getCreatedOn() != null) ? ClientProvider.getConfig().getEnvironment().getUrl()
+                + ClientProvider.getConfig().getSurveyUserApi(reference.getGuid(), reference.getCreatedOn())
+                : ClientProvider.getConfig().getEnvironment().getUrl()
+                        + ClientProvider.getConfig().getRecentlyPublishedSurveyUserApi(reference.getGuid()));
     }
     
     /**

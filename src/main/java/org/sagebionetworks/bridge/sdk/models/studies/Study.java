@@ -1,6 +1,5 @@
 package org.sagebionetworks.bridge.sdk.models.studies;
 
-import java.util.List;
 import java.util.Objects;
 
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
@@ -18,7 +17,6 @@ public final class Study implements VersionHolder {
     private String consentNotificationEmail;
     private int minAgeOfConsent;
     private int maxNumOfParticipants;
-    private List<String> trackers;
     private String hostname;
 
     public String getName() {
@@ -85,14 +83,6 @@ public final class Study implements VersionHolder {
         this.maxNumOfParticipants = maxParticipants;
     }
 
-    public List<String> getTrackers() {
-        return trackers;
-    }
-
-    public void setTrackers(List<String> trackers) {
-        this.trackers = trackers;
-    }
-
     public String getHostname() {
         return hostname;
     }
@@ -111,7 +101,6 @@ public final class Study implements VersionHolder {
         result = prime * result + Objects.hashCode(name);
         result = prime * result + Objects.hashCode(researcherRole);
         result = prime * result + Objects.hashCode(supportEmail);
-        result = prime * result + Objects.hashCode(trackers);
         result = prime * result + Objects.hashCode(version);
         result = prime * result + maxNumOfParticipants;
         result = prime * result + minAgeOfConsent;
@@ -129,14 +118,13 @@ public final class Study implements VersionHolder {
                 && Objects.equals(hostname, other.hostname) && Objects.equals(identifier, other.identifier)
                 && (maxNumOfParticipants == other.maxNumOfParticipants) && (minAgeOfConsent == other.minAgeOfConsent)
                 && Objects.equals(name, other.name) && Objects.equals(researcherRole, other.researcherRole)
-                && Objects.equals(supportEmail, other.supportEmail) && Objects.equals(trackers, other.trackers) 
-                && Objects.equals(version, other.version));
+                && Objects.equals(supportEmail, other.supportEmail) && Objects.equals(version, other.version));
     }
 
     @Override
     public String toString() {
-        return String.format("Study [name=%s, identifier=%s, version=%s, researcherRole=%s, supportEmail=%s, consentNotificationEmail=%s, minAgeOfConsent=%s, maxNumOfParticipants=%s, trackers=%s, hostname=%s]", 
-                    name, identifier, version, researcherRole, supportEmail, consentNotificationEmail, minAgeOfConsent, maxNumOfParticipants, trackers, hostname);
+        return String.format("Study [name=%s, identifier=%s, version=%s, researcherRole=%s, supportEmail=%s, consentNotificationEmail=%s, minAgeOfConsent=%s, maxNumOfParticipants=%s, hostname=%s]", 
+                    name, identifier, version, researcherRole, supportEmail, consentNotificationEmail, minAgeOfConsent, maxNumOfParticipants, hostname);
     }
 
 }
