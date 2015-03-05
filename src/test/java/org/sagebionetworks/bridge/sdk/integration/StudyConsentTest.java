@@ -34,7 +34,7 @@ public class StudyConsentTest {
         TestUser user = TestUserHelper.createAndSignInUser(StudyConsentTest.class, true);
         try {
             StudyConsent consent = new StudyConsent();
-            consent.setPath("/dev/null");
+            consent.setPath("conf/email-templates/api-consent.html");
             consent.setMinAge(22);
 
             user.getSession().getResearcherClient().createStudyConsent(consent);
@@ -49,7 +49,7 @@ public class StudyConsentTest {
         ResearcherClient client = researcher.getSession().getResearcherClient();
 
         StudyConsent consent = new StudyConsent();
-        consent.setPath("/dev/null");
+        consent.setPath("conf/email-templates/api-consent.html");
         consent.setMinAge(22);
         client.createStudyConsent(consent);
 
