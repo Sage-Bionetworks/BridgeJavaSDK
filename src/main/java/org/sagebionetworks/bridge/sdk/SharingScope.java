@@ -9,7 +9,7 @@ public enum SharingScope {
      * Only export data for this participant to data sets that are restricted to the original 
      * study researchers and their affiliated research partners.
      */
-    sponsors_and_partners,
+    sponsors_and_partners_only,
     /**
      * Data for this participant can be exported for use by any researcher who qualifies given
      * the governance qualifications of this data set.

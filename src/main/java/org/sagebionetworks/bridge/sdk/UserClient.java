@@ -36,8 +36,10 @@ public interface UserClient {
      *
      * @param signature
      *            Name, birthdate, and optionally signature image, of consenter's signature.
+     * @param sharingScope
+     *            The scope of sharing allowed (initially) by this consent.
      */
-    public void consentToResearch(ConsentSignature signature);
+    public void consentToResearch(ConsentSignature signature, SharingScope sharingScope);
 
     /**
      * Returns the user's consent signature, which includes the name, birthdate, and signature image.

@@ -39,12 +39,12 @@ public class ConsentTest {
             assertEquals(SharingScope.no_sharing, session.getSharingScope());
             
             // Change, verify in-memory session changed, verify after signing in again that server state has changed
-            client.changeSharingScope(SharingScope.sponsors_and_partners);
-            assertEquals(SharingScope.sponsors_and_partners, testUser.getSession().getSharingScope());
+            client.changeSharingScope(SharingScope.sponsors_and_partners_only);
+            assertEquals(SharingScope.sponsors_and_partners_only, testUser.getSession().getSharingScope());
             session.signOut();
             session = ClientProvider.signIn(new SignInCredentials(testUser.getEmail(), testUser.getPassword()));
             client = session.getUserClient();
-            assertEquals(SharingScope.sponsors_and_partners, session.getSharingScope());
+            assertEquals(SharingScope.sponsors_and_partners_only, session.getSharingScope());
             
             // Do the same thing in reverse, setting to no sharing
             client.changeSharingScope(SharingScope.no_sharing);
@@ -80,7 +80,7 @@ public class ConsentTest {
                 assertEquals("Exception is a 412 Precondition Failed", 412, e.getStatusCode());
             }
             LocalDate date = new LocalDate(1970, 10, 10);
-            client.consentToResearch(new ConsentSignature(user.getUsername(), date, null, null));
+            client.consentToResearch(new ConsentSignature(user.getUsername(), date, null, null), SharingScope.sponsors_and_partners_only);
             assertTrue("User has consented", user.getSession().isConsented());
             client.getSchedules();
         } finally {
@@ -94,7 +94,7 @@ public class ConsentTest {
         try {
             UserClient client = user.getSession().getUserClient();
             LocalDate date = LocalDate.now(); // impossibly young.
-            client.consentToResearch(new ConsentSignature(user.getUsername(), date, null, null));
+            client.consentToResearch(new ConsentSignature(user.getUsername(), date, null, null), SharingScope.sponsors_and_partners_only);
         } finally {
             user.signOutAndDeleteUser();
         }
@@ -148,7 +148,10 @@ public class ConsentTest {
             assertNotNull("expected ConsentRequiredException", thrownConsentRequired);
 
             // give consent
-            client.consentToResearch(new ConsentSignature(name, birthdate, imageData, imageMimeType));
+            client.consentToResearch(new ConsentSignature(name, birthdate, imageData, imageMimeType), SharingScope.sponsors_and_partners_only);
+            
+            // Should have set this in the local session
+            assertEquals(SharingScope.sponsors_and_partners_only, testUser.getSession().getSharingScope());
 
             // get consent and validate that it's the same consent
             // For birthdate, we convert it to a formatted string, since DateTime.equals() can be wonky sometimes.
@@ -158,11 +161,14 @@ public class ConsentTest {
                     sigFromServer.getBirthdate().toString(ISODateTimeFormat.date()));
             assertEquals("imageData matches", imageData, sigFromServer.getImageData());
             assertEquals("imageMimeType matches", imageMimeType, sigFromServer.getImageMimeType());
-
+            
+            // Should have set this in the server session
+            assertEquals(SharingScope.sponsors_and_partners_only, testUser.getSession().getSharingScope());
+            
             // giving consent again will throw
             EntityAlreadyExistsException thrownAlreadyExists = null;
             try {
-                client.consentToResearch(new ConsentSignature("bad name", LocalDate.now(), null, null));
+                client.consentToResearch(new ConsentSignature("bad name", LocalDate.now(), null, null), SharingScope.sponsors_and_partners_only);
                 fail("expected EntityAlreadyExistsException");
             } catch (EntityAlreadyExistsException ex) {
                 thrownAlreadyExists = ex;
