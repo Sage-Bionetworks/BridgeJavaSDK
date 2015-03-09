@@ -133,41 +133,37 @@ public class ConsentTest {
     private static void giveAndGetConsentHelper(String name, LocalDate birthdate, String imageData,
             String imageMimeType) {
         TestUser testUser = TestUserHelper.createAndSignInUser(ConsentTest.class, false);
+        ConsentSignature sig = new ConsentSignature(name, birthdate, imageData, imageMimeType);
         try {
             UserClient client = testUser.getSession().getUserClient();
             assertFalse("User has not consented", testUser.getSession().isConsented());
 
             // get consent should fail if the user hasn't given consent
-            ConsentRequiredException thrownConsentRequired = null;
             try {
                 client.getConsentSignature();
-                fail("expected ConsentRequiredException");
+                fail("ConsentRequiredException not thrown");
             } catch (ConsentRequiredException ex) {
-                thrownConsentRequired = ex;
+                // expected
             }
-            assertNotNull("expected ConsentRequiredException", thrownConsentRequired);
 
             // give consent
-            client.consentToResearch(new ConsentSignature(name, birthdate, imageData, imageMimeType));
+            client.consentToResearch(sig);
 
             // get consent and validate that it's the same consent
-            // For birthdate, we convert it to a formatted string, since DateTime.equals() can be wonky sometimes.
             ConsentSignature sigFromServer = client.getConsentSignature();
+            
             assertEquals("name matches", name, sigFromServer.getName());
-            assertEquals("birthdate matches", birthdate.toString(ISODateTimeFormat.date()),
-                    sigFromServer.getBirthdate().toString(ISODateTimeFormat.date()));
+            assertEquals("birthdate matches", birthdate, sigFromServer.getBirthdate());
             assertEquals("imageData matches", imageData, sigFromServer.getImageData());
             assertEquals("imageMimeType matches", imageMimeType, sigFromServer.getImageMimeType());
 
             // giving consent again will throw
-            EntityAlreadyExistsException thrownAlreadyExists = null;
             try {
-                client.consentToResearch(new ConsentSignature("bad name", LocalDate.now(), null, null));
-                fail("expected EntityAlreadyExistsException");
+                client.consentToResearch(sig);
+                fail("EntityAlreadyExistsException not thrown");
             } catch (EntityAlreadyExistsException ex) {
-                thrownAlreadyExists = ex;
+                // expected
             }
-            assertNotNull("expected EntityAlreadyExistsException", thrownAlreadyExists);
         } finally {
             testUser.signOutAndDeleteUser();
         }
