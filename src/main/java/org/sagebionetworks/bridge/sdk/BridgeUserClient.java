@@ -30,7 +30,6 @@ import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
 import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 class BridgeUserClient extends BaseApiCaller implements UserClient {
 
@@ -64,26 +63,18 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
      */
 
     @Override
-    public void consentToResearch(ConsentSignature signature, SharingScope sharingScope) {
+    public void consentToResearch(ConsentSignature signature) {
         session.checkSignedIn();
 
         checkNotNull(signature, Bridge.CANNOT_BE_NULL, "ConsentSignature");
-        checkNotNull(sharingScope, Bridge.CANNOT_BE_NULL, "SharingScope");
-        
-        // The JSON sent to the server is unusual because it combines the arguments when submitting, 
-        // but the signature does not include sharing when it is returned from the server.
-        ObjectNode sigJson = Utilities.getMapper().valueToTree(signature);
-        sigJson.put("scope", sharingScope.name());
-        
-        post(config.getConsentPostApi(), sigJson);
+        post(config.getConsentApi(), signature);
         session.setConsented(true);
-        session.setSharingScope(sharingScope);
     }
 
     @Override
     public ConsentSignature getConsentSignature() {
         session.checkSignedIn();
-        ConsentSignature sig = get(config.getConsentGetApi(), ConsentSignature.class);
+        ConsentSignature sig = get(config.getConsentApi(), ConsentSignature.class);
         return sig;
     }
 
