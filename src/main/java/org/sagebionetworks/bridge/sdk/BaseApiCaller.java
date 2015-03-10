@@ -195,6 +195,10 @@ class BaseApiCaller {
         }
     }
 
+    protected HttpResponse post(String url, JsonNode node) {
+        return postJSON(url, node.toString());
+    }
+    
     protected <T> T post(String url, Object object, TypeReference<T> type) {
         try {
 
@@ -324,7 +328,6 @@ class BaseApiCaller {
             BridgeServerException e = null;
             try {
                 JsonNode node = getJsonNode(response);
-                logger.debug("Error {}: {}", response.getStatusLine().getStatusCode(), node.toString());
 
                 // Not having a message is actually pretty bad
                 String message = "There has been an error on the server";

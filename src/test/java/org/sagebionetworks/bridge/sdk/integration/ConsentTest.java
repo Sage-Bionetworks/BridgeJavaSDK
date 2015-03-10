@@ -1,8 +1,8 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -80,7 +80,7 @@ public class ConsentTest {
                 assertEquals("Exception is a 412 Precondition Failed", 412, e.getStatusCode());
             }
             LocalDate date = new LocalDate(1970, 10, 10);
-            client.consentToResearch(new ConsentSignature(user.getUsername(), date, null, null));
+            client.consentToResearch(new ConsentSignature(user.getUsername(), date, null, null), SharingScope.sponsors_and_partners);
             assertTrue("User has consented", user.getSession().isConsented());
             client.getSchedules();
         } finally {
@@ -94,7 +94,7 @@ public class ConsentTest {
         try {
             UserClient client = user.getSession().getUserClient();
             LocalDate date = LocalDate.now(); // impossibly young.
-            client.consentToResearch(new ConsentSignature(user.getUsername(), date, null, null));
+            client.consentToResearch(new ConsentSignature(user.getUsername(), date, null, null), SharingScope.all_qualified_researchers);
         } finally {
             user.signOutAndDeleteUser();
         }
@@ -147,8 +147,11 @@ public class ConsentTest {
             }
 
             // give consent
-            client.consentToResearch(sig);
-
+            client.consentToResearch(sig, SharingScope.all_qualified_researchers);
+            
+            // The local session should reflect the sharing scope
+            assertEquals(SharingScope.all_qualified_researchers, testUser.getSession().getSharingScope());
+            
             // get consent and validate that it's the same consent
             ConsentSignature sigFromServer = client.getConsentSignature();
             
@@ -156,14 +159,20 @@ public class ConsentTest {
             assertEquals("birthdate matches", birthdate, sigFromServer.getBirthdate());
             assertEquals("imageData matches", imageData, sigFromServer.getImageData());
             assertEquals("imageMimeType matches", imageMimeType, sigFromServer.getImageMimeType());
-
+            
             // giving consent again will throw
             try {
-                client.consentToResearch(sig);
+                client.consentToResearch(sig, SharingScope.all_qualified_researchers);
                 fail("EntityAlreadyExistsException not thrown");
             } catch (EntityAlreadyExistsException ex) {
                 // expected
             }
+
+            // The remote session should also reflect the sharing scope
+            testUser.getSession().signOut();
+            Session session = ClientProvider.signIn(new SignInCredentials(testUser.getUsername(), testUser.getPassword()));
+            assertEquals(SharingScope.all_qualified_researchers, session.getSharingScope());
+            
         } finally {
             testUser.signOutAndDeleteUser();
         }
