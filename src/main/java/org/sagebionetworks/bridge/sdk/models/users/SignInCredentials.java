@@ -7,15 +7,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class SignInCredentials {
 
+    private String studyIdentifier;
     private String username;
     private String password;
 
     @JsonCreator
-    public SignInCredentials(@JsonProperty("username") String username, @JsonProperty("password") String password) {
+    public SignInCredentials(@JsonProperty("study") String studyIdentifier, @JsonProperty("username") String username,
+            @JsonProperty("password") String password) {
+        this.studyIdentifier = studyIdentifier;
         this.username = username;
         this.password = password;
     }
 
+    @JsonProperty("study")
+    public String getStudyIdentifier() {
+        return studyIdentifier;
+    }
+    
     public String getUsername() {
         return this.username;
     }
@@ -24,6 +32,10 @@ public final class SignInCredentials {
         return this.password;
     }
 
+    public void setStudyIdentifier(String studyIdentifier) {
+        this.studyIdentifier = studyIdentifier;
+    }
+    
     public void setUsername(String username) {
         this.username = username;
     }
@@ -36,6 +48,7 @@ public final class SignInCredentials {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + Objects.hashCode(studyIdentifier);
         result = prime * result + Objects.hashCode(password);
         result = prime * result + Objects.hashCode(username);
         return result;
@@ -48,11 +61,12 @@ public final class SignInCredentials {
         if (obj == null || getClass() != obj.getClass())
             return false;
         SignInCredentials other = (SignInCredentials) obj;
-        return (Objects.equals(password, other.password) && Objects.equals(username, other.username));
+        return (Objects.equals(studyIdentifier, other.studyIdentifier) && Objects.equals(password, other.password) && Objects
+                .equals(username, other.username));
     }
 
     @Override
     public String toString() {
-        return String.format("SignInCredentials[username=%s, password=[REDACTED]", username);
+        return String.format("SignInCredentials[study=%, username=%s, password=[REDACTED]", studyIdentifier, username);
     }
 }

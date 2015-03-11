@@ -11,6 +11,7 @@ import java.util.Map;
 import org.joda.time.LocalDate;
 import org.joda.time.format.ISODateTimeFormat;
 import org.junit.Test;
+import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.ClientProvider;
 import org.sagebionetworks.bridge.sdk.SharingScope;
 import org.sagebionetworks.bridge.sdk.Session;
@@ -42,14 +43,14 @@ public class ConsentTest {
             client.changeSharingScope(SharingScope.sponsors_and_partners);
             assertEquals(SharingScope.sponsors_and_partners, testUser.getSession().getSharingScope());
             session.signOut();
-            session = ClientProvider.signIn(new SignInCredentials(testUser.getEmail(), testUser.getPassword()));
+            session = ClientProvider.signIn(new SignInCredentials(Tests.TEST_KEY, testUser.getEmail(), testUser.getPassword()));
             client = session.getUserClient();
             assertEquals(SharingScope.sponsors_and_partners, session.getSharingScope());
             
             // Do the same thing in reverse, setting to no sharing
             client.changeSharingScope(SharingScope.no_sharing);
             session.signOut();
-            session = ClientProvider.signIn(new SignInCredentials(testUser.getEmail(), testUser.getPassword()));
+            session = ClientProvider.signIn(new SignInCredentials(Tests.TEST_KEY, testUser.getEmail(), testUser.getPassword()));
             assertEquals(SharingScope.no_sharing, session.getSharingScope());
             session.signOut();
         } finally {

@@ -84,12 +84,12 @@ public class TestUserHelper {
         // email to bridge-testing@sagebase.org.
         String emailAddress = String.format("bridge-testing+%s@sagebase.org", name);
 
-        SignUpCredentials signUp = new SignUpCredentials(name, emailAddress, "P4ssword");
+        SignUpCredentials signUp = new SignUpCredentials(Tests.TEST_KEY, name, emailAddress, "P4ssword");
         adminClient.createUser(signUp, rolesList, consent);
 
         Session userSession = null;
         try {
-            SignInCredentials signIn = new SignInCredentials(name, "P4ssword");
+            SignInCredentials signIn = new SignInCredentials(Tests.TEST_KEY, name, "P4ssword");
             userSession = ClientProvider.signIn(signIn);
         } catch(ConsentRequiredException e) {
             userSession = e.getSession();

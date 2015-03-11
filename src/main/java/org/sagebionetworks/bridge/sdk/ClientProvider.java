@@ -4,7 +4,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-import org.sagebionetworks.bridge.sdk.models.users.ResetPasswordCredentials;
+import org.sagebionetworks.bridge.sdk.models.users.EmailCredentials;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
 
@@ -36,6 +36,9 @@ public class ClientProvider {
      */
     public static Session signIn(SignInCredentials signIn) {
         checkNotNull(signIn, "SignInCredentials required.");
+        checkArgument(isNotBlank(signIn.getStudyIdentifier()), "Study identifier cannot be blank/null");
+        checkArgument(isNotBlank(signIn.getUsername()), "Username cannot be blank/null");
+        checkArgument(isNotBlank(signIn.getPassword()), "Password cannot be blank/null");
 
         UserSession session = new BaseApiCaller(null).post(config.getAuthSignInApi(), signIn, UserSession.class);
         return new BridgeSession(session);
@@ -49,6 +52,7 @@ public class ClientProvider {
      */
     public static void signUp(SignUpCredentials signUp) {
         checkNotNull(signUp, "SignUpCredentials required.");
+        checkArgument(isNotBlank(signUp.getStudyIdentifier()), "Study identifier cannot be blank/null");
         checkArgument(isNotBlank(signUp.getEmail()), "Email cannot be blank/null");
         checkArgument(isNotBlank(signUp.getUsername()), "Username cannot be blank/null");
         checkArgument(isNotBlank(signUp.getPassword()), "Password cannot be blank/null");
@@ -60,22 +64,27 @@ public class ClientProvider {
      * Resend an email verification request to the supplied email address.
      * 
      * @param email
+     *      Email credentials associated with a Bridge account.
      */
-    public static void resendEmailVerification(String email) {
-        checkArgument(isNotBlank(email), "Email cannot be blank/null");
+    public static void resendEmailVerification(EmailCredentials email) {
+        checkNotNull(email, "EmailCredentials required");
+        checkArgument(isNotBlank(email.getStudyIdentifier()), "Study identifier cannot be blank/null");
+        checkArgument(isNotBlank(email.getEmail()), "Email cannot be blank/null");
         
-        new BaseApiCaller(null).post(config.getAuthResendEmailVerificationApi(), new ResetPasswordCredentials(email));
+        new BaseApiCaller(null).post(config.getAuthResendEmailVerificationApi(), email);
     }
 
     /**
      * Request your password be reset. A link to change the password will be sent to the provided email.
      *
      * @param email
-     *            Email associated with a Bridge account.
+     *            Email credentials associated with a Bridge account.
      */
-    public static void requestResetPassword(String email) {
-        checkArgument(isNotBlank(email), "Email cannot be blank/null");
+    public static void requestResetPassword(EmailCredentials email) {
+        checkNotNull(email, "EmailCredentials required");
+        checkArgument(isNotBlank(email.getStudyIdentifier()), "Study identifier cannot be blank/null");
+        checkArgument(isNotBlank(email.getEmail()), "Email cannot be blank/null");
 
-        new BaseApiCaller(null).post(config.getAuthRequestResetApi(), new ResetPasswordCredentials(email));
+        new BaseApiCaller(null).post(config.getAuthRequestResetApi(), email);
     }
 }
