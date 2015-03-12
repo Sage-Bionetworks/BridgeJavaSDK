@@ -15,7 +15,6 @@ import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 public class ClientProviderTest {
 
     @Test
-    @Ignore
     public void canAuthenticateAndCreateClientAndSignOut() {
         TestUser testUser = TestUserHelper.createAndSignInUser(ClientProviderTest.class, true);
         try {
