@@ -1,10 +1,10 @@
-package org.sagebionetworks.bridge.sdk.models;
+package org.sagebionetworks.bridge.sdk;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import org.sagebionetworks.bridge.sdk.SharingScope;
+import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 
-public class ScopeOption {
+class ScopeOption {
 
     private final SharingScope sharing;
     

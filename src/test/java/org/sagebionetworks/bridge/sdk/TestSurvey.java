@@ -110,7 +110,7 @@ public class TestSurvey {
         DurationConstraints c5 = new DurationConstraints();
         c5.setMinValue(1d);
         c5.setMaxValue(120d);
-        c5.setUnit(Unit.minutes);
+        c5.setUnit(Unit.MINUTES);
         durationQuestion.setPrompt("How log does your appointment take, on average?");
         durationQuestion.setIdentifier(DURATION_ID);
         durationQuestion.setConstraints(c5);
@@ -120,8 +120,8 @@ public class TestSurvey {
         IntegerConstraints c6 = new IntegerConstraints();
         c6.setMinValue(0d);
         c6.setMaxValue(8d);
-        c6.getRules().add(new SurveyRule(Operator.le, 2, "phone_number"));
-        c6.getRules().add(new SurveyRule(Operator.de, null, "phone_number"));
+        c6.getRules().add(new SurveyRule(Operator.LE, 2, "phone_number"));
+        c6.getRules().add(new SurveyRule(Operator.DE, null, "phone_number"));
         integerQuestion.setPrompt("How many times a day do you take your blood pressure?");
         integerQuestion.setIdentifier(INTEGER_ID);
         integerQuestion.setConstraints(c6);

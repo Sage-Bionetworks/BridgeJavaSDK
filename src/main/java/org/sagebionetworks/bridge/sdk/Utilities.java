@@ -44,6 +44,7 @@ public final class Utilities {
         // WRITE_DATES_AS_TIMESTAMPS causes JodaModule to use our preferred timestamp format. What a great module!
         mapper.registerModule(new JodaModule());
         mapper.registerModule(mod);
+        mapper.registerModule(new LowercaseEnumModule());
     }
 
     public static ObjectMapper getMapper() {

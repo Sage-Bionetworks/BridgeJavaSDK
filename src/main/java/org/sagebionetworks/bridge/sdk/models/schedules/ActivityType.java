@@ -5,6 +5,6 @@ package org.sagebionetworks.bridge.sdk.models.schedules;
  * using the Jackson JSON parser, and the API uses lower-case constant strings.
  */
 public enum ActivityType {
-    survey,
-    task
+    SURVEY,
+    TASK
 }

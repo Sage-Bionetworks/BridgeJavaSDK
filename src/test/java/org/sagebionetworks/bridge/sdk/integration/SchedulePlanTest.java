@@ -150,7 +150,7 @@ public class SchedulePlanTest {
                 + ClientProvider.getConfig().getRecentlyPublishedSurveyUserApi("AAA");
         
         Activity activity = new Activity("Test", ref);
-        assertEquals(ActivityType.survey, activity.getActivityType());
+        assertEquals(ActivityType.SURVEY, activity.getActivityType());
 
         strategy.getSchedule().getActivities().clear();
         strategy.getSchedule().getActivities().add(activity);

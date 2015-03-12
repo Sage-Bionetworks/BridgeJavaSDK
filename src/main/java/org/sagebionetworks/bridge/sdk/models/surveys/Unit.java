@@ -1,35 +1,35 @@
 package org.sagebionetworks.bridge.sdk.models.surveys;
 
 public enum Unit {
-    seconds,
-    minutes,
-    hours,
-    days,
-    weeks,
-    months,
-    years,
+    SECONDS,
+    MINUTES,
+    HOURS,
+    DAYS,
+    WEEKS,
+    MONTHS,
+    YEARS,
     
-    inches,
-    feet,
-    yards,
-    miles,
+    INCHES,
+    FEET,
+    YARDS,
+    MILES,
     
-    ounces,
-    pounds,
+    OUNCES,
+    POUNDS,
     
-    pints,
-    quarts,
-    gallons,
+    PINTS,
+    QUARTS,
+    GALLONS,
     
-    centimeters,
-    meters,
-    kilometers,
+    CENTIMETERS,
+    METERS,
+    KILOMETERS,
 
-    grams,
-    kilograms,
+    GRAMS,
+    KILOGRAMS,
     
-    milliliters,
-    cubic_centimeters,
-    liters,
-    cubic_meters;
+    MILLILITERS,
+    CUBIC_CENTIMETERS,
+    LITERS,
+    CUBIC_METERS;
 }

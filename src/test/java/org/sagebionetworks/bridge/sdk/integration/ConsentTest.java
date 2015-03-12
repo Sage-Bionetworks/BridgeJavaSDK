@@ -12,15 +12,16 @@ import org.joda.time.LocalDate;
 import org.joda.time.format.ISODateTimeFormat;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.ClientProvider;
-import org.sagebionetworks.bridge.sdk.SharingScope;
 import org.sagebionetworks.bridge.sdk.Session;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
+import org.sagebionetworks.bridge.sdk.Utilities;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.exceptions.ConsentRequiredException;
 import org.sagebionetworks.bridge.sdk.exceptions.EntityAlreadyExistsException;
 import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
+import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,21 +37,21 @@ public class ConsentTest {
         Session session = testUser.getSession();
         try {
             // starts out with no sharing
-            assertEquals(SharingScope.no_sharing, session.getSharingScope());
+            assertEquals(SharingScope.NO_SHARING, session.getSharingScope());
             
             // Change, verify in-memory session changed, verify after signing in again that server state has changed
-            client.changeSharingScope(SharingScope.sponsors_and_partners);
-            assertEquals(SharingScope.sponsors_and_partners, testUser.getSession().getSharingScope());
+            client.changeSharingScope(SharingScope.SPONSORS_AND_PARTNERS);
+            assertEquals(SharingScope.SPONSORS_AND_PARTNERS, testUser.getSession().getSharingScope());
             session.signOut();
             session = ClientProvider.signIn(new SignInCredentials(testUser.getEmail(), testUser.getPassword()));
             client = session.getUserClient();
-            assertEquals(SharingScope.sponsors_and_partners, session.getSharingScope());
+            assertEquals(SharingScope.SPONSORS_AND_PARTNERS, session.getSharingScope());
             
             // Do the same thing in reverse, setting to no sharing
-            client.changeSharingScope(SharingScope.no_sharing);
+            client.changeSharingScope(SharingScope.NO_SHARING);
             session.signOut();
             session = ClientProvider.signIn(new SignInCredentials(testUser.getEmail(), testUser.getPassword()));
-            assertEquals(SharingScope.no_sharing, session.getSharingScope());
+            assertEquals(SharingScope.NO_SHARING, session.getSharingScope());
             session.signOut();
         } finally {
             testUser.signOutAndDeleteUser();
@@ -109,7 +110,7 @@ public class ConsentTest {
                 "   \"imageData\":\"" + FAKE_IMAGE_DATA + "\",\n" +
                 "   \"imageMimeType\":\"image/fake\"\n" +
                 "}";
-        ObjectMapper jsonObjectMapper = new ObjectMapper();
+        ObjectMapper jsonObjectMapper = Utilities.getMapper();
 
         // de-serialize and validate
         ConsentSignature sig = jsonObjectMapper.readValue(sigJson, ConsentSignature.class);
