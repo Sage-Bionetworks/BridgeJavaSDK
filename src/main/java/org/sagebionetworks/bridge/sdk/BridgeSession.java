@@ -3,6 +3,8 @@ package org.sagebionetworks.bridge.sdk;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
+
 class BridgeSession implements Session {
 
     private static final String NOT_AUTHENTICATED = "This session has been signed out; create a new session to retrieve a valid client.";

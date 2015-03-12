@@ -8,13 +8,12 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class UserSessionTest {
 
-    private static ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    private static ObjectMapper mapper = Utilities.getMapper();
 
     @Test
     public void canConstructUserSessionFromJson() {

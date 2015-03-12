@@ -12,7 +12,6 @@ import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonDeserialize(as=SurveyQuestion.class)
 public final class SurveyQuestion implements SurveyElement, GuidHolder {
@@ -52,12 +51,10 @@ public final class SurveyQuestion implements SurveyElement, GuidHolder {
     public void setPrompt(String prompt) {
         this.prompt = prompt;
     }
-    @JsonSerialize(using = EnumSerializer.class)
     @JsonProperty("uiHint")
     public UiHint getUIHint() {
         return hint;
     }
-    @JsonDeserialize(using = UiHintDeserializer.class)
     public void setUiHint(UiHint hint) {
         this.hint = hint;
     }

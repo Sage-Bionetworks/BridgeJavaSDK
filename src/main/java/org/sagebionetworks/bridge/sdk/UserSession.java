@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk;
 
+import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

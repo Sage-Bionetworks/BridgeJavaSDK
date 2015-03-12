@@ -30,20 +30,25 @@ public final class Activity {
         
         this.label = label;
         this.ref = ref;
-        this.activityType = SurveyReference.isSurveyRef(ref) ? ActivityType.survey : ActivityType.task;
+        this.activityType = SurveyReference.isSurveyRef(ref) ? ActivityType.SURVEY : ActivityType.TASK;
     }
     
     /**
      * Create an activity to do a survey.
      * @param label
-     * @param activityType
-     * @param ref
+     * @param survey
      */
     public Activity(String label, GuidCreatedOnVersionHolder survey) {
         this(label, ClientProvider.getConfig().getEnvironment().getUrl()
                 + ClientProvider.getConfig().getSurveyUserApi(survey.getGuid(), survey.getCreatedOn()));
     }
     
+    /**
+     * Create an activity to do a survey (can be reference to a published survey with no specific
+     * timestamp)l
+     * @param label
+     * @param reference
+     */
     public Activity(String label, SurveyReference reference) {
         this(label, (reference.getCreatedOn() != null) ? ClientProvider.getConfig().getEnvironment().getUrl()
                 + ClientProvider.getConfig().getSurveyUserApi(reference.getGuid(), reference.getCreatedOn())

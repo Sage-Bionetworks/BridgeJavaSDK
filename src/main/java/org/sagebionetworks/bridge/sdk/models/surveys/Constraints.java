@@ -2,8 +2,6 @@ package org.sagebionetworks.bridge.sdk.models.surveys;
 
 import java.util.List;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.Lists;
 
 public abstract class Constraints {
@@ -17,11 +15,9 @@ public abstract class Constraints {
     protected boolean allowOther = false;
     protected boolean allowMultiple = false;
 
-    @JsonSerialize(using = EnumSerializer.class)
     public DataType getDataType() {
         return dataType;
     }
-    @JsonDeserialize(using = DataTypeDeserializer.class)
     void setDataType(DataType dataType) {
         this.dataType = dataType;
     }

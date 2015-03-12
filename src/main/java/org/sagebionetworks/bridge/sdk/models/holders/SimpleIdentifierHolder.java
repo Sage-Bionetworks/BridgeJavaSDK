@@ -1,6 +1,12 @@
 package org.sagebionetworks.bridge.sdk.models.holders;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 import java.util.Objects;
+
+
+import org.sagebionetworks.bridge.sdk.Bridge;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,6 +17,7 @@ public final class SimpleIdentifierHolder implements IdentifierHolder {
     
     @JsonCreator
     SimpleIdentifierHolder(@JsonProperty("identifier") String identifier) {
+        checkNotNull(isNotBlank(identifier), Bridge.CANNOT_BE_BLANK, "Identifier");
         this.identifier = identifier;
     }
     
