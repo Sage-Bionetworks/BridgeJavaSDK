@@ -9,9 +9,9 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdScalarDeserializer;
 
 @SuppressWarnings("serial")
-class LowerEnumDeserializer extends StdScalarDeserializer<Enum<?>> {
+class LowercaseEnumDeserializer extends StdScalarDeserializer<Enum<?>> {
 
-    protected LowerEnumDeserializer(Class<Enum<?>> clazz) {
+    protected LowercaseEnumDeserializer(Class<Enum<?>> clazz) {
         super(clazz);
     }
 

@@ -8,9 +8,9 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdScalarSerializer;
 
 @SuppressWarnings("rawtypes")
-class LowerEnumSerializer extends StdScalarSerializer<Enum> {
+class LowercaseEnumSerializer extends StdScalarSerializer<Enum> {
 
-    public LowerEnumSerializer() {
+    public LowercaseEnumSerializer() {
         super(Enum.class, false);
     }
 

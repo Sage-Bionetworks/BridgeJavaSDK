@@ -14,7 +14,7 @@ class LowercaseEnumModule extends SimpleModule {
 
     public LowercaseEnumModule() {
         super("bridge-enum-module", new Version(1, 0, 0, "", "org.sagebionetworks.bridge", "sdk"));
-        addSerializer(Enum.class, new LowerEnumSerializer());
+        addSerializer(Enum.class, new LowercaseEnumSerializer());
     }
     
     @Override
@@ -25,7 +25,7 @@ class LowercaseEnumModule extends SimpleModule {
             @Override
             public JsonDeserializer<?> findEnumDeserializer(Class<?> type, DeserializationConfig config,
                     BeanDescription beanDesc) throws JsonMappingException {
-                return new LowerEnumDeserializer((Class<Enum<?>>) type);
+                return new LowercaseEnumDeserializer((Class<Enum<?>>) type);
             }
         };
         context.addDeserializers(deser);
