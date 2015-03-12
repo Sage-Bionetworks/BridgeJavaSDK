@@ -123,8 +123,7 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     public GuidCreatedOnVersionHolder versionSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
         checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
-        checkArgument(isNotBlank(keys.getGuid()), Bridge.CANNOT_BE_BLANK, "guid");
-        checkNotNull(keys.getCreatedOn(), Bridge.CANNOT_BE_NULL, "createdOn");
+
         return post(config.getSurveyNewVersionApi(keys.getGuid(), keys.getCreatedOn()), null, SimpleGuidCreatedOnVersionHolder.class);
     }
     @Override
@@ -142,8 +141,7 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     public GuidCreatedOnVersionHolder publishSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
         checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
-        checkArgument(isNotBlank(keys.getGuid()), Bridge.CANNOT_BE_BLANK, "guid");
-        checkNotNull(keys.getCreatedOn(), Bridge.CANNOT_BE_NULL, "createdOn");
+
         return post(config.getPublishSurveyApi(keys.getGuid(), keys.getCreatedOn()), null, 
                 SimpleGuidCreatedOnVersionHolder.class);
     }
@@ -167,16 +165,14 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     public void closeSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
         checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
-        checkArgument(isNotBlank(keys.getGuid()), Bridge.CANNOT_BE_BLANK, "guid");
-        checkNotNull(keys.getCreatedOn(), Bridge.CANNOT_BE_NULL, "createdOn");
+
         post(config.getCloseSurveyApi(keys.getGuid(), keys.getCreatedOn()));
     }
     @Override
     public void deleteSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
         checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
-        checkArgument(isNotBlank(keys.getGuid()), Bridge.CANNOT_BE_BLANK, "guid");
-        checkNotNull(keys.getCreatedOn(), Bridge.CANNOT_BE_NULL, "createdOn");
+
         delete(config.getSurveyApi(keys.getGuid(), keys.getCreatedOn()));
     }
     @Override

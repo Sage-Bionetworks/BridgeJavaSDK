@@ -1,5 +1,8 @@
 package org.sagebionetworks.bridge.sdk.models.users;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -14,6 +17,10 @@ public final class SignInCredentials {
     @JsonCreator
     public SignInCredentials(@JsonProperty("study") String studyIdentifier, @JsonProperty("username") String username,
             @JsonProperty("password") String password) {
+        checkArgument(isNotBlank(studyIdentifier), "Study identifier cannot be blank/null");
+        checkArgument(isNotBlank(username), "Username cannot be blank/null");
+        checkArgument(isNotBlank(password), "Password cannot be blank/null");
+        
         this.studyIdentifier = studyIdentifier;
         this.username = username;
         this.password = password;
