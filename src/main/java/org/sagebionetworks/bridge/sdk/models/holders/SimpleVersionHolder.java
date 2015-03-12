@@ -1,6 +1,10 @@
 package org.sagebionetworks.bridge.sdk.models.holders;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.Objects;
+
+import org.sagebionetworks.bridge.sdk.Bridge;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,6 +15,7 @@ public final class SimpleVersionHolder implements VersionHolder {
     
     @JsonCreator
     SimpleVersionHolder(@JsonProperty("version") Long version) {
+        checkNotNull(version, Bridge.CANNOT_BE_NULL, "version");
         this.version = version; 
     }
     

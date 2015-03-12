@@ -15,7 +15,7 @@ import com.google.common.collect.Lists;
 public final class Schedule {
 
     private String label;
-    private ScheduleType scheduleType = ScheduleType.once;
+    private ScheduleType scheduleType = ScheduleType.ONCE;
     private String cronTrigger;
     private DateTime startsOn;
     private DateTime endsOn;
@@ -51,7 +51,7 @@ public final class Schedule {
     }
     public void setCronTrigger(String cronTrigger) {
         this.cronTrigger = cronTrigger;
-        this.scheduleType = (cronTrigger == null) ? ScheduleType.once : ScheduleType.recurring;
+        this.scheduleType = (cronTrigger == null) ? ScheduleType.ONCE : ScheduleType.RECURRING;
     }
     /**
      * This is the earliest date and time at which the activity should be shown to users in study

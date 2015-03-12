@@ -16,7 +16,6 @@ import org.apache.http.entity.ContentType;
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
-import org.sagebionetworks.bridge.sdk.models.ScopeOption;
 import org.sagebionetworks.bridge.sdk.models.UploadRequest;
 import org.sagebionetworks.bridge.sdk.models.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
@@ -27,6 +26,7 @@ import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
 import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
+import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -66,7 +66,6 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     @Override
     public void consentToResearch(ConsentSignature signature, SharingScope scope) {
         session.checkSignedIn();
-
         checkNotNull(signature, Bridge.CANNOT_BE_NULL, "ConsentSignature");
         checkNotNull(scope, Bridge.CANNOT_BE_NULL, "SharingScope");
         
@@ -91,6 +90,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     @Override
     public void changeSharingScope(SharingScope sharingScope) {
         session.checkSignedIn();
+        checkNotNull(sharingScope, Bridge.CANNOT_BE_NULL, "SharingScope");
         
         ScopeOption option = new ScopeOption(sharingScope);
         post(config.getConsentChangeApi(), option);
@@ -113,8 +113,6 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     public Survey getSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
         checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
-        checkArgument(isNotBlank(keys.getGuid()), Bridge.CANNOT_BE_BLANK, "guid");
-        checkNotNull(keys.getCreatedOn(), Bridge.CANNOT_BE_NULL, "createdOn");
 
         return get(config.getSurveyUserApi(keys.getGuid(), keys.getCreatedOn()), Survey.class);
     }
@@ -123,8 +121,6 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     public IdentifierHolder submitAnswersToSurvey(GuidCreatedOnVersionHolder keys, List<SurveyAnswer> answers) {
         session.checkSignedIn();
         checkNotNull(keys, "Survey keys cannot be null.");
-        checkArgument(isNotBlank(keys.getGuid()), "Survey guid cannot be null or empty.");
-        checkNotNull(keys.getCreatedOn(), "Survey createdOn cannot be null.");
         checkNotNull(answers, "Answers cannot be null.");
 
         return post(config.getSurveyUserApi(keys.getGuid(), keys.getCreatedOn()), answers, SimpleIdentifierHolder.class);

@@ -56,7 +56,7 @@ public class UTF8Test {
 
             // Force a refresh of the Redis session cache.
             testUser.getSession().signOut();
-            Session session = ClientProvider.signIn(new SignInCredentials(testUser.getEmail(), testUser.getPassword()));
+            Session session = ClientProvider.signIn(new SignInCredentials(Tests.TEST_KEY, testUser.getEmail(), testUser.getPassword()));
 
             profile = session.getUserClient().getProfile();
             assertEquals("☃", profile.getFirstName());

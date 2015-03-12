@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.AdminClient;
 import org.sagebionetworks.bridge.sdk.ClientProvider;
 import org.sagebionetworks.bridge.sdk.Config;
@@ -36,7 +37,7 @@ public class UserManagementTest {
         String password = "P4ssword";
         boolean consent = true;
 
-        SignUpCredentials signUp = new SignUpCredentials(username, email, password);
+        SignUpCredentials signUp = new SignUpCredentials(Tests.TEST_KEY, username, email, password);
 
         boolean result = admin.createUser(signUp, null, consent);
         assertTrue(result);

@@ -135,10 +135,10 @@ public final class Config {
         this.environment = env;
     }
     public SignInCredentials getAccountCredentials() {
-        return new SignInCredentials(getAccountEmail(), getAccountPassword());
+        return new SignInCredentials(getStudyIdentifier(), getAccountEmail(), getAccountPassword());
     }
     public SignInCredentials getAdminCredentials() {
-        return new SignInCredentials(getAdminEmail(), getAdminPassword());
+        return new SignInCredentials(getStudyIdentifier(), getAdminEmail(), getAdminPassword());
     }
     public String getAccountEmail() {
         return val(Props.ACCOUNT_EMAIL);
