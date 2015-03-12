@@ -1,6 +1,7 @@
 package org.sagebionetworks.bridge.sdk;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import com.fasterxml.jackson.core.JsonParser;
@@ -16,14 +17,9 @@ class LowercaseEnumDeserializer extends StdScalarDeserializer<Enum<?>> {
     }
 
     @Override
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public Enum<?> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         String text = jp.getText().toUpperCase();
-        try {
-            Method valueOfMethod = handledType().getDeclaredMethod("valueOf", String.class);
-            return (Enum<?>) valueOfMethod.invoke(null, text);
-        } catch (Exception e) {
-            throw new RuntimeException("Cannot deserialize enum " + handledType().getName() + " from " + text, e);
-        }
+        return (Enum<?>) Enum.valueOf((Class<Enum>)handledType(), text);
     }    
-    
 }
