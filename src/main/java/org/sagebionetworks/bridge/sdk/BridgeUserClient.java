@@ -16,7 +16,6 @@ import org.apache.http.entity.ContentType;
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
-import org.sagebionetworks.bridge.sdk.models.ScopeOption;
 import org.sagebionetworks.bridge.sdk.models.UploadRequest;
 import org.sagebionetworks.bridge.sdk.models.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
@@ -27,6 +26,7 @@ import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
 import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
+import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
 
 import com.fasterxml.jackson.core.type.TypeReference;

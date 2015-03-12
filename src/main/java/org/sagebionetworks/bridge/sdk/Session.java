@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk;
 
+import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
+
 public interface Session {
 
     public void checkSignedIn();
