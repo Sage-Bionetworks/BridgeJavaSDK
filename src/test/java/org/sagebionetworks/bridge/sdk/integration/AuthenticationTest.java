@@ -3,6 +3,7 @@ package org.sagebionetworks.bridge.sdk.integration;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.AdminClient;
 import org.sagebionetworks.bridge.sdk.ClientProvider;
 import org.sagebionetworks.bridge.sdk.Config;
@@ -12,6 +13,7 @@ import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeServerException;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
+import org.sagebionetworks.bridge.sdk.models.users.EmailCredentials;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
 
@@ -25,11 +27,11 @@ public class AuthenticationTest {
         
         try {
             
-            SignUpCredentials signUp = new SignUpCredentials(username, email, password);
+            SignUpCredentials signUp = new SignUpCredentials(Tests.TEST_KEY, username, email, password);
             ClientProvider.signUp(signUp);
             
             // Beyond an exception being thrown, there's not a lot you can test here.
-            ClientProvider.resendEmailVerification(email);
+            ClientProvider.resendEmailVerification(new EmailCredentials(Tests.TEST_KEY, email));
             
         } finally {
             Config config = ClientProvider.getConfig();
@@ -40,7 +42,7 @@ public class AuthenticationTest {
     
     @Test(expected = BridgeServerException.class)
     public void cannotSendToAnyRandomEmail() throws Exception {
-        ClientProvider.resendEmailVerification("fooboo-sagebridge@antwerp.com");
+        ClientProvider.resendEmailVerification(new EmailCredentials(Tests.TEST_KEY, "fooboo-sagebridge@antwerp.com"));
     }
     
     @Test
@@ -58,7 +60,7 @@ public class AuthenticationTest {
             // Can we sign in to secondstudy? No.
             try {
                 config.set(Props.STUDY_IDENTIFIER, "secondstudy");
-                ClientProvider.signIn(new SignInCredentials(testUser1.getUsername(), testUser1.getPassword()));
+                ClientProvider.signIn(new SignInCredentials("secondstudy", testUser1.getUsername(), testUser1.getPassword()));
                 fail("Should not have allowed sign in");
             } catch(BridgeServerException e) {
                 assertEquals(404, e.getStatusCode());

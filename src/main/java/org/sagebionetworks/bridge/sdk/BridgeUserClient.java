@@ -65,8 +65,8 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     @Override
     public void consentToResearch(ConsentSignature signature) {
         session.checkSignedIn();
-
         checkNotNull(signature, Bridge.CANNOT_BE_NULL, "ConsentSignature");
+        
         post(config.getConsentApi(), signature);
         session.setConsented(true);
     }
@@ -81,6 +81,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     @Override
     public void changeSharingScope(SharingScope sharingScope) {
         session.checkSignedIn();
+        checkNotNull(sharingScope, Bridge.CANNOT_BE_NULL, "SharingScope");
         
         ScopeOption option = new ScopeOption(sharingScope);
         post(config.getConsentChangeApi(), option);
@@ -103,8 +104,6 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     public Survey getSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
         checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
-        checkArgument(isNotBlank(keys.getGuid()), Bridge.CANNOT_BE_BLANK, "guid");
-        checkNotNull(keys.getCreatedOn(), Bridge.CANNOT_BE_NULL, "createdOn");
 
         return get(config.getSurveyUserApi(keys.getGuid(), keys.getCreatedOn()), Survey.class);
     }
@@ -113,8 +112,6 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     public IdentifierHolder submitAnswersToSurvey(GuidCreatedOnVersionHolder keys, List<SurveyAnswer> answers) {
         session.checkSignedIn();
         checkNotNull(keys, "Survey keys cannot be null.");
-        checkArgument(isNotBlank(keys.getGuid()), "Survey guid cannot be null or empty.");
-        checkNotNull(keys.getCreatedOn(), "Survey createdOn cannot be null.");
         checkNotNull(answers, "Answers cannot be null.");
 
         return post(config.getSurveyUserApi(keys.getGuid(), keys.getCreatedOn()), answers, SimpleIdentifierHolder.class);

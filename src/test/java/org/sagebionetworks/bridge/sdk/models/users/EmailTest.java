@@ -5,11 +5,10 @@ import nl.jqno.equalsverifier.Warning;
 
 import org.junit.Test;
 
-public class ResetPasswordCredentialsTest {
-    
+public class EmailTest {
     @Test
     public void equalsContract() {
-        EqualsVerifier.forClass(ResetPasswordCredentials.class).suppress(Warning.NONFINAL_FIELDS).allFieldsShouldBeUsed().verify();
+        EqualsVerifier.forClass(EmailCredentials.class).suppress(Warning.NONFINAL_FIELDS).allFieldsShouldBeUsed().verify();
     }
-    
+
 }

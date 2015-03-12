@@ -27,9 +27,6 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
     @Override
     public boolean createUser(SignUpCredentials signUp, Set<String> roles, boolean consent) {
         session.checkSignedIn();
-        checkArgument(isNotBlank(signUp.getUsername()));
-        checkArgument(isNotBlank(signUp.getPassword()));
-        checkArgument(isNotBlank(signUp.getEmail()));
 
         HttpResponse response = post(config.getUserManagementApi(), new AdminSignUpCredentials(signUp, roles, consent));
         return response.getStatusLine().getStatusCode() == 201;
