@@ -19,10 +19,10 @@ class LowercaseEnumDeserializer extends StdScalarDeserializer<Enum<?>> {
     public Enum<?> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         String text = jp.getText().toUpperCase();
         try {
-            Method valueOfMethod = getValueClass().getDeclaredMethod("valueOf", String.class);
+            Method valueOfMethod = handledType().getDeclaredMethod("valueOf", String.class);
             return (Enum<?>) valueOfMethod.invoke(null, text);
         } catch (Exception e) {
-            throw new RuntimeException("Cannot deserialize enum " + getValueClass().getName() + " from " + text, e);
+            throw new RuntimeException("Cannot deserialize enum " + handledType().getName() + " from " + text, e);
         }
     }    
     
