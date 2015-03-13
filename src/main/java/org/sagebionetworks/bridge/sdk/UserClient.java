@@ -74,7 +74,7 @@ public interface UserClient {
     /**
      * Submit a list of SurveyAnswers to a particular survey.
      *
-     * @param survey
+     * @param keys
      *            The survey that the answers will be added to.
      * @param answers
      *            The answers to add to the survey.

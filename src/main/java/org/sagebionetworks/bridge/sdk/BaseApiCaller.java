@@ -196,10 +196,6 @@ class BaseApiCaller {
         }
     }
 
-    protected HttpResponse post(String url, JsonNode node) {
-        return postJSON(url, node.toString());
-    }
-    
     protected <T> T post(String url, Object object, TypeReference<T> type) {
         try {
 

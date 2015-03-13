@@ -1,4 +1,4 @@
-package org.sagebionetworks.bridge.sdk;
+package org.sagebionetworks.bridge.sdk.json;
 
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.BeanDescription;
@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.deser.Deserializers.Base;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
 @SuppressWarnings("serial")
-class LowercaseEnumModule extends SimpleModule {
+public class LowercaseEnumModule extends SimpleModule {
 
     public LowercaseEnumModule() {
         super("bridge-enum-module", new Version(1, 0, 0, "", "org.sagebionetworks.bridge", "sdk"));

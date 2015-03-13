@@ -1,4 +1,4 @@
-package org.sagebionetworks.bridge.sdk.models.users;
+package org.sagebionetworks.bridge.sdk.json;
 
 import java.io.IOException;
 
@@ -10,7 +10,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
-class DateOnlySerializer extends JsonSerializer<LocalDate> {
+public class DateOnlySerializer extends JsonSerializer<LocalDate> {
 
     @Override
     public void serialize(LocalDate date, JsonGenerator generator, SerializerProvider provider) throws IOException,

@@ -30,7 +30,6 @@ import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 class BridgeUserClient extends BaseApiCaller implements UserClient {
 
@@ -68,14 +67,10 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         session.checkSignedIn();
         checkNotNull(signature, Bridge.CANNOT_BE_NULL, "ConsentSignature");
         checkNotNull(scope, Bridge.CANNOT_BE_NULL, "SharingScope");
+
+        ConsentSubmission submission = new ConsentSubmission(signature, scope);
         
-        // The JSON when consenting can contain the sharing value, but it is not part
-        // of the consent signature and is not returned with the consent signature, so 
-        // these are combined here before posting.
-        ObjectNode node = Utilities.getMapper().valueToTree(signature);
-        node.put("scope", scope.name().toLowerCase());
-        
-        post(config.getConsentApi(), node);
+        post(config.getConsentApi(), submission);
         session.setConsented(true);
         session.setSharingScope(scope);
     }
