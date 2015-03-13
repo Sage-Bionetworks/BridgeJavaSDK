@@ -36,9 +36,11 @@ public interface UserClient {
      * Consent to research.
      *
      * @param signature
-     *            Name, birthdate, and optionally signature image, of consenter's signature.
+     *          Name, birthdate, and optionally signature image, of consenter's signature.
+     * @param scope
+     *          Scope of sharing for this consent
      */
-    public void consentToResearch(ConsentSignature signature);
+    public void consentToResearch(ConsentSignature signature, SharingScope scope);
 
     /**
      * Returns the user's consent signature, which includes the name, birthdate, and signature image.
@@ -72,7 +74,7 @@ public interface UserClient {
     /**
      * Submit a list of SurveyAnswers to a particular survey.
      *
-     * @param survey
+     * @param keys
      *            The survey that the answers will be added to.
      * @param answers
      *            The answers to add to the survey.

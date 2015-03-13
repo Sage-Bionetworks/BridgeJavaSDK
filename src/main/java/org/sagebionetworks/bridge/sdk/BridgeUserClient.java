@@ -63,12 +63,16 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
      */
 
     @Override
-    public void consentToResearch(ConsentSignature signature) {
+    public void consentToResearch(ConsentSignature signature, SharingScope scope) {
         session.checkSignedIn();
         checkNotNull(signature, Bridge.CANNOT_BE_NULL, "ConsentSignature");
+        checkNotNull(scope, Bridge.CANNOT_BE_NULL, "SharingScope");
+
+        ConsentSubmission submission = new ConsentSubmission(signature, scope);
         
-        post(config.getConsentApi(), signature);
+        post(config.getConsentApi(), submission);
         session.setConsented(true);
+        session.setSharingScope(scope);
     }
 
     @Override

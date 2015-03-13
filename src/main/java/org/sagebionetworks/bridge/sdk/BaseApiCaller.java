@@ -20,6 +20,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
@@ -60,10 +61,11 @@ class BaseApiCaller {
 
     private static final Logger logger = LoggerFactory.getLogger(BaseApiCaller.class);
 
+    private static final String BRIDGE_API_STATUS_HEADER = "Bridge-Api-Status";
     private static final String BRIDGE_SESSION_HEADER = "Bridge-Session";
     private static final String USER_AGENT_HEADER = "User-Agent";
     private static final String CONNECTION_FAILED = "Connection to server failed or aborted.";
-
+    
     // Create an SSL context that does no certificate validation whatsoever.
     private static class DefaultTrustManager implements X509TrustManager {
         @Override
@@ -316,13 +318,18 @@ class BaseApiCaller {
             logger.debug("{} RESPONSE: <ERROR>", response.getStatusLine().getStatusCode());
         }
 
+        // Deprecation warning
+        Header[] statusHeaders = response.getHeaders(BRIDGE_API_STATUS_HEADER);
+        if (statusHeaders.length > 0 && "deprecated".equals(statusHeaders[0].getValue())) {
+            logger.warn(url + " is a deprecated API. This API may return 410 (Gone) at a future date. Please consult the API documentation for an alternative.");
+        }
+
         StatusLine status = response.getStatusLine();
         int statusCode = status.getStatusCode();
         if (statusCode < 200 || statusCode > 299) {
             BridgeServerException e = null;
             try {
                 JsonNode node = getJsonNode(response);
-                logger.debug("Error {}: {}", response.getStatusLine().getStatusCode(), node.toString());
 
                 // Not having a message is actually pretty bad
                 String message = "There has been an error on the server";
