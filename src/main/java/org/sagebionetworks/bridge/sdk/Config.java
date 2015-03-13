@@ -38,8 +38,7 @@ public final class Config {
         AUTH_VERIFYEMAIL_API,
         AUTH_REQUESTRESET_API,
         AUTH_RESET_API,
-        CONSENT_GET_API,
-        CONSENT_POST_API,
+        CONSENT_API,
         CONSENT_CHANGE_API,
         DEV_NAME,
         ENV,
@@ -185,11 +184,8 @@ public final class Config {
     public String getProfileApi() {
         return val(Props.PROFILE_API);
     }
-    public String getConsentGetApi() {
-        return val(Props.CONSENT_GET_API);
-    }
-    public String getConsentPostApi() {
-        return val(Props.CONSENT_POST_API);
+    public String getConsentApi() {
+        return val(Props.CONSENT_API);
     }
     public String getConsentChangeApi() {
         return val(Props.CONSENT_CHANGE_API);

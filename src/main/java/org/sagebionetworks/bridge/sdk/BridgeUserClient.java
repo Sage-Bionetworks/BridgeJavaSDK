@@ -75,7 +75,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         ObjectNode node = Utilities.getMapper().valueToTree(signature);
         node.put("scope", scope.name().toLowerCase());
         
-        post(config.getConsentPostApi(), node);
+        post(config.getConsentApi(), node);
         session.setConsented(true);
         session.setSharingScope(scope);
     }
@@ -83,7 +83,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     @Override
     public ConsentSignature getConsentSignature() {
         session.checkSignedIn();
-        ConsentSignature sig = get(config.getConsentGetApi(), ConsentSignature.class);
+        ConsentSignature sig = get(config.getConsentApi(), ConsentSignature.class);
         return sig;
     }
 
