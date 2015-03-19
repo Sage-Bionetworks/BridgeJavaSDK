@@ -21,8 +21,12 @@ public final class UserProfile {
     private String username;
     private String phone;
     private String email;
-    private Map<String,String> attributes = new HashMap<String,String>();
+    private Map<String,String> attributes;
 
+    public UserProfile() {
+        attributes = new HashMap<String,String>();
+    }
+    
     public String getFirstName() {
         return firstName;
     }

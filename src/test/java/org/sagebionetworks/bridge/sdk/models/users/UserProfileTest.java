@@ -83,8 +83,6 @@ public class UserProfileTest {
             assertEquals("Attribute 'username' conflicts with existing Java field name.", e.getMessage());
         }
     }
-    
-    
 
     private JsonNode marshalUnmarshal(UserProfile profile) throws JsonProcessingException, IOException {
         String json = Utilities.getMapper().writeValueAsString(profile);

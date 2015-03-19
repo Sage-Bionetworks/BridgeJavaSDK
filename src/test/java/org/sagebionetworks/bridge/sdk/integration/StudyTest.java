@@ -9,7 +9,6 @@ import static org.junit.Assert.fail;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.AdminClient;
@@ -84,7 +83,6 @@ public class StudyTest {
     }
 
     @Test
-    @Ignore
     public void researcherCannotAccessAnotherStudy() {
         String identifier = Tests.randomIdentifier();
         study = createStudy(identifier, null);
@@ -101,7 +99,6 @@ public class StudyTest {
     }
 
     @Test
-    @Ignore
     public void researcherCanAccessStudy() {
         ResearcherClient rclient = researcher.getSession().getResearcherClient();
         Study serverStudy = rclient.getStudy();
@@ -110,7 +107,6 @@ public class StudyTest {
     }
 
     @Test(expected = UnauthorizedException.class)
-    @Ignore
     public void butNormalUserCannotAccessStudy() {
         TestUser user = TestUserHelper.createAndSignInUser(StudyTest.class, false);
         try {
@@ -122,7 +118,6 @@ public class StudyTest {
     }
     
     @Test
-    @Ignore
     public void researcherCanRetrieveConsentedParticipants() {
         // Note that this user has consented, not just signed up.
         TestUser user = TestUserHelper.createAndSignInUser(StudyTest.class, true);
@@ -142,7 +137,6 @@ public class StudyTest {
     }
     
     @Test(expected = UnauthorizedException.class)
-    @Ignore
     public void adminCannotRetrieveParticipants() {
         ResearcherClient client = admin.getSession().getResearcherClient();
         client.sendStudyParticipantsRoster();
