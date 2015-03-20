@@ -1,6 +1,8 @@
 package org.sagebionetworks.bridge.sdk.models.studies;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 
@@ -18,7 +20,12 @@ public final class Study implements VersionHolder {
     private int minAgeOfConsent;
     private int maxNumOfParticipants;
     private String hostname;
+    private Set<String> userProfileAttributes;
 
+    public Study() {
+        userProfileAttributes = new HashSet<String>();
+    }
+    
     public String getName() {
         return name;
     }
@@ -90,6 +97,14 @@ public final class Study implements VersionHolder {
     public void setHostname(String hostname) {
         this.hostname = hostname;
     }
+    
+    public Set<String> getUserProfileAttributes() {
+        return userProfileAttributes;
+    }
+    
+    public void setUserProfileAttributes(Set<String> attributes) {
+        this.userProfileAttributes = attributes;
+    }
 
     @Override
     public int hashCode() {
@@ -102,6 +117,7 @@ public final class Study implements VersionHolder {
         result = prime * result + Objects.hashCode(researcherRole);
         result = prime * result + Objects.hashCode(supportEmail);
         result = prime * result + Objects.hashCode(version);
+        result = prime * result + Objects.hashCode(userProfileAttributes);
         result = prime * result + maxNumOfParticipants;
         result = prime * result + minAgeOfConsent;
         return result;
@@ -118,13 +134,14 @@ public final class Study implements VersionHolder {
                 && Objects.equals(hostname, other.hostname) && Objects.equals(identifier, other.identifier)
                 && (maxNumOfParticipants == other.maxNumOfParticipants) && (minAgeOfConsent == other.minAgeOfConsent)
                 && Objects.equals(name, other.name) && Objects.equals(researcherRole, other.researcherRole)
-                && Objects.equals(supportEmail, other.supportEmail) && Objects.equals(version, other.version));
+                && Objects.equals(supportEmail, other.supportEmail) && Objects.equals(version, other.version)
+                && Objects.equals(userProfileAttributes, other.userProfileAttributes));
     }
 
     @Override
     public String toString() {
-        return String.format("Study [name=%s, identifier=%s, version=%s, researcherRole=%s, supportEmail=%s, consentNotificationEmail=%s, minAgeOfConsent=%s, maxNumOfParticipants=%s, hostname=%s]", 
-                    name, identifier, version, researcherRole, supportEmail, consentNotificationEmail, minAgeOfConsent, maxNumOfParticipants, hostname);
+        return String.format("Study [name=%s, identifier=%s, version=%s, researcherRole=%s, supportEmail=%s, consentNotificationEmail=%s, minAgeOfConsent=%s, maxNumOfParticipants=%s, hostname=%s, userProfileAttributes=%s]", 
+                    name, identifier, version, researcherRole, supportEmail, consentNotificationEmail, minAgeOfConsent, maxNumOfParticipants, hostname, userProfileAttributes);
     }
 
 }

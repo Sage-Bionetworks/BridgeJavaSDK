@@ -31,6 +31,7 @@ public class UserProfileTest {
         UserProfile profile = client.getProfile();
         profile.setFirstName("Davey");
         profile.setLastName("Crockett");
+        profile.setAttribute("can_be_recontacted", "true");
 
         client.saveProfile(profile);
 
@@ -38,6 +39,7 @@ public class UserProfileTest {
 
         assertEquals("First name updated", "Davey", profile.getFirstName());
         assertEquals("Last name updated", "Crockett", profile.getLastName());
+        assertEquals("Attribute set", "true", profile.getAttribute("can_be_recontacted"));
     }
 
 }

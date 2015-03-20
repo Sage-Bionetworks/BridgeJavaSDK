@@ -1,15 +1,32 @@
 package org.sagebionetworks.bridge.sdk.models.users;
 
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static com.google.common.base.Preconditions.checkArgument;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.google.common.collect.Sets;
 
 public final class UserProfile {
+    
+    private static final Set<String> FIXED_PROPERTIES = Sets.newHashSet("firstName", "lastName", "username", "phone", "email");
     
     private String firstName;
     private String lastName;
     private String username;
     private String phone;
     private String email;
+    private Map<String,String> attributes;
 
+    public UserProfile() {
+        attributes = new HashMap<String,String>();
+    }
+    
     public String getFirstName() {
         return firstName;
     }
@@ -40,7 +57,25 @@ public final class UserProfile {
     public void setEmail(String email) {
         this.email = email;
     }
-    
+    public void removeAttribute(String name) {
+        if (isNotBlank(name)) {
+            attributes.remove(name);
+        }
+    }
+    @JsonAnySetter
+    public void setAttribute(String name, String value) {
+        checkArgument(!FIXED_PROPERTIES.contains(name), "Attribute '"+name+"' conflicts with existing Java field name.");
+        if (isNotBlank(name) && isNotBlank(value)) {
+            attributes.put(name, value);
+        }
+    }
+    public String getAttribute(String name) {
+        return attributes.get(name);
+    }
+    @JsonAnyGetter
+    Map<String,String> getAttributes() {
+        return attributes;
+    }
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -50,6 +85,7 @@ public final class UserProfile {
         result = prime * result + Objects.hashCode(lastName);
         result = prime * result + Objects.hashCode(phone);
         result = prime * result + Objects.hashCode(username);
+        result = prime * result + Objects.hashCode(attributes);
         return result;
     }
     @Override
@@ -61,11 +97,11 @@ public final class UserProfile {
         UserProfile other = (UserProfile) obj;
         return (Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName)
                 && Objects.equals(lastName, other.lastName) && Objects.equals(phone, other.phone) && Objects.equals(
-                username, other.username));
+                username, other.username) && Objects.equals(attributes, other.attributes));
     }
     @Override
     public String toString() {
-        return String.format("UserProfile [firstName=%s, lastName=%s, username=%s, phone=%s, email=%s]", 
-                firstName, lastName, username, phone, email);
+        return String.format("UserProfile [firstName=%s, lastName=%s, username=%s, phone=%s, email=%s, attributes=%s]", 
+                firstName, lastName, username, phone, email, attributes);
     }
 }

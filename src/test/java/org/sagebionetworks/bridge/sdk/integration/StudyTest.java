@@ -159,6 +159,7 @@ public class StudyTest {
         study.setName("Test Study [SDK]");
         study.setSupportEmail("test@test.com");
         study.setConsentNotificationEmail("test2@test.com");
+        study.getUserProfileAttributes().add("new_profile_attribute");
         if (version != null) {
             study.setVersion(version);
         }
