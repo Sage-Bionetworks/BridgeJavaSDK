@@ -22,7 +22,7 @@ import org.sagebionetworks.bridge.sdk.models.studies.Study;
 
 public class StudyTest {
 
-    private static final String BRIDGE_TESTING_CONSENT_EMAIL = "bridge-testing+consent@sagebridge.org";
+    private static final String BRIDGE_TESTING_CONSENT_EMAIL = "bridge-testing+consent@sagebase.org";
     
     private static TestUser admin;
     private static TestUser researcher;
