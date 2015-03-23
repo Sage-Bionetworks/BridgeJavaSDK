@@ -21,7 +21,7 @@ public class StudyTest {
         study.getUserProfileAttributes().add("test");
         
         String json = Utilities.getMapper().writeValueAsString(study);
-        assertEquals("{\"name\":\"Test Name\",\"minAgeOfConsent\":0,\"maxNumOfParticipants\":0,\"profileAttributes\":[\"test\"]}", json);
+        assertEquals("{\"name\":\"Test Name\",\"minAgeOfConsent\":0,\"maxNumOfParticipants\":0,\"userProfileAttributes\":[\"test\"]}", json);
         
         Study newStudy = Utilities.getMapper().readValue(json, Study.class);
         
