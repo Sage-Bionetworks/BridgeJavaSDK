@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
+import org.sagebionetworks.bridge.sdk.models.users.ExternalIdentifier;
 import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
 
 public class UserProfileTest {
@@ -40,6 +41,13 @@ public class UserProfileTest {
         assertEquals("First name updated", "Davey", profile.getFirstName());
         assertEquals("Last name updated", "Crockett", profile.getLastName());
         assertEquals("Attribute set", "true", profile.getAttribute("can_be_recontacted"));
+    }
+    
+    @Test
+    public void canAddExternalIdentifier() throws Exception {
+        final UserClient client = user.getSession().getUserClient();
+        
+        client.addExternalUserIdentifier(new ExternalIdentifier("ABC-123-XYZ"));
     }
 
 }

@@ -42,6 +42,7 @@ public final class Config {
         CONSENT_CHANGE_API,
         DEV_NAME,
         ENV,
+        EXTERNAL_IDENTIFIER_API,
         PROFILE_API,
         RESEARCHER_STUDY_API,
         RESEARCHER_STUDY_PARTICIPANTS_API,
@@ -180,6 +181,9 @@ public final class Config {
     }
     public String getAuthResetApi() {
         return val(Props.AUTH_RESET_API);
+    }
+    public String getExternalIdentifierApi() {
+        return val(Props.EXTERNAL_IDENTIFIER_API);
     }
     public String getProfileApi() {
         return val(Props.PROFILE_API);
