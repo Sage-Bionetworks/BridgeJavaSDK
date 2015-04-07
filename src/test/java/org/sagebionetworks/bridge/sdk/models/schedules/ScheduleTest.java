@@ -10,5 +10,5 @@ public class ScheduleTest {
     public void equalsContract() {
         EqualsVerifier.forClass(Schedule.class).suppress(Warning.NONFINAL_FIELDS).allFieldsShouldBeUsed().verify();
     }
-
+    
 }

@@ -67,9 +67,8 @@ public class StudyTest {
         compareHolderToModelObject(holder, study, oldVersion);
         
         newStudy = client.getStudy(study.getIdentifier());
-        // These are set on the server, so to compare equality, they must be set.
+        // This is set on the server, so to compare equality, they must be set.
         study.setResearcherRole(newStudy.getResearcherRole());
-        study.setHostname(newStudy.getHostname());
         
         assertEquals(study, newStudy);
         
