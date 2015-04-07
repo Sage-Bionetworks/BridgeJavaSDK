@@ -162,8 +162,6 @@ public class SchedulePlanTest {
         plan.setGuid(keys.getGuid());
         plan.setVersion(keys.getVersion());
         plan.setModifiedOn(newPlan.getModifiedOn());
-        // This switches from PT60S to PT1M. Which should be equal but are not... ?
-        ((SimpleScheduleStrategy)plan.getStrategy()).getSchedule().setExpires(Period.parse("PT1M"));
         
         assertEquals(plan, newPlan);
     }
