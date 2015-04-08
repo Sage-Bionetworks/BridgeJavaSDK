@@ -51,6 +51,7 @@ public class Tests {
     
     public static SchedulePlan getABTestSchedulePlan() {
         SchedulePlan plan = new SchedulePlan();
+        plan.setLabel("A/B Test Schedule Plan");
         Schedule schedule1 = new Schedule();
         schedule1.setCronTrigger("0 0 11 ? * MON,WED,FRI *");
         setTaskActivity(schedule1, "task:AAA");
@@ -79,6 +80,7 @@ public class Tests {
     
     public static SchedulePlan getSimpleSchedulePlan() {
         SchedulePlan plan = new SchedulePlan();
+        plan.setLabel("Cron-based schedule");
         Schedule schedule = new Schedule();
         schedule.setCronTrigger("0 0 11 ? * MON,WED,FRI *");
         setTaskActivity(schedule, "task:CCC");
