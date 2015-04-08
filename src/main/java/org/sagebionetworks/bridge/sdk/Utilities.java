@@ -41,27 +41,8 @@ public final class Utilities {
         mod.addAbstractTypeMapping(GuidHolder.class, SimpleGuidHolder.class);
         mod.addAbstractTypeMapping(GuidVersionHolder.class, SimpleGuidVersionHolder.class);
         mod.addAbstractTypeMapping(GuidCreatedOnVersionHolder.class, SimpleGuidCreatedOnVersionHolder.class);
-        
-        /* This works, but we don't want to do it. While it's nice to have shorter dates and times in some classes, like 
-         * the Schedule (where seconds/milliseconds aren't needed), we do not know if this creates challenges for some 
-         * language libraries when parsing ISO 8601 strings, and there are DateTimes in the system that we do want to 
-         * server as timestamps to the millisecond. If used, we'd need to scope to specific properties of specific objects.
-        mod.addSerializer(LocalTime.class, new StdSerializer<LocalTime>(LocalTime.class) {
-            @Override public void serialize(LocalTime value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonGenerationException {
-                jgen.writeString(value.toString("HH:mm"));
-            }
-        });
-        mod.addSerializer(DateTime.class, new StdSerializer<DateTime>(DateTime.class) {
-            @Override public void serialize(DateTime value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonGenerationException {
-                jgen.writeString(value.toString("yyyy-MM-dd'T'HH:mmZZ"));
-            }
-        });
-         */
-        
-        // WRITE_DATES_AS_TIMESTAMPS causes JodaModule to use our preferred timestamp format. Great module, but 
-        // timestamps are overly precise (milliseconds).
-        mapper.registerModule(new JodaModule());
         mapper.registerModule(mod);
+        mapper.registerModule(new JodaModule());
         mapper.registerModule(new LowercaseEnumModule());
     }
 
