@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.joda.time.Period;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
