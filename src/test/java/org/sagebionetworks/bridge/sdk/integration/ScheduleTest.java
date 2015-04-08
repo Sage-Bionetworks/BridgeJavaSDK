@@ -49,6 +49,8 @@ public class ScheduleTest {
         SchedulePlan plan = researcher.getSession().getResearcherClient().getSchedulePlan(planGuid);
         // Fields that are set on the server.
         originalPlan.setGuid(plan.getGuid());
+        originalPlan.setModifiedOn(plan.getModifiedOn());
+        originalPlan.setVersion(plan.getVersion());
         assertEquals(originalPlan, plan);
     }
     
