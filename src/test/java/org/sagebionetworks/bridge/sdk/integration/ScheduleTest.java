@@ -14,6 +14,7 @@ import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
+import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 
 public class ScheduleTest {
 
@@ -40,6 +41,17 @@ public class ScheduleTest {
             user.signOutAndDeleteUser();
             researcher.signOutAndDeleteUser();
         }
+    }
+    
+    @Test
+    public void schedulePlanIsCorrect() throws Exception {
+        SchedulePlan originalPlan = Tests.getABTestSchedulePlan();
+        SchedulePlan plan = researcher.getSession().getResearcherClient().getSchedulePlan(planGuid);
+        // Fields that are set on the server.
+        originalPlan.setGuid(plan.getGuid());
+        originalPlan.setModifiedOn(plan.getModifiedOn());
+        originalPlan.setVersion(plan.getVersion());
+        assertEquals(originalPlan, plan);
     }
     
     @Test

@@ -8,28 +8,29 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class SurveyQuestionOption {
     
     private final String label;
+    private final String detail;
     private final String value;
     private final Image image;
 
     @JsonCreator
-    public SurveyQuestionOption(@JsonProperty("label") String label, @JsonProperty("value") String value,
-            @JsonProperty("image") Image image) {
+    public SurveyQuestionOption(@JsonProperty("label") String label, @JsonProperty("detail") String detail, 
+        @JsonProperty("value") String value, @JsonProperty("image") Image image) {
         this.label = label;
+        this.detail = detail;
         this.value = value;
         this.image = image;
     }
     public SurveyQuestionOption(String label, String value) {
-        this.label = label;
-        this.value = value;
-        this.image = null;
+        this(label, null, value, null);
     }
     public SurveyQuestionOption(String label) {
-        this.label = label;
-        this.value = label;
-        this.image = null;
+        this(label, null, label, null);
     }
     public String getLabel() {
         return label;
+    }
+    public String getDetail() {
+        return detail;
     }
     public String getValue() {
         return value;
@@ -42,6 +43,7 @@ public class SurveyQuestionOption {
         final int prime = 31;
         int result = 1;
         result = prime * result + Objects.hashCode(image);
+        result = prime * result + Objects.hashCode(detail);
         result = prime * result + Objects.hashCode(label);
         result = prime * result + Objects.hashCode(value);
         return result;
@@ -53,11 +55,11 @@ public class SurveyQuestionOption {
         if (obj == null || getClass() != obj.getClass())
             return false;
         SurveyQuestionOption other = (SurveyQuestionOption) obj;
-        return (Objects.equals(image, other.image) && Objects.equals(label, other.label) && Objects.equals(value,
-                other.value));
+        return (Objects.equals(image, other.image) && Objects.equals(detail, other.detail) 
+                && Objects.equals(label, other.label) && Objects.equals(value, other.value));
     }
     @Override
     public String toString() {
-        return String.format("SurveyQuestionOption [label=%s, value=%s, image=%s]", label, value, image);
+        return String.format("SurveyQuestionOption [label=%s, value=%s, detail=%s, image=%s]", label, value, detail, image);
     }
 }

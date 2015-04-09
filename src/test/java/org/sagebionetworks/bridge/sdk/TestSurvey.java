@@ -48,9 +48,11 @@ public class TestSurvey {
         Image great = new Image("http://great.svg", 600, 300);
         MultiValueConstraints mvc = new MultiValueConstraints(DataType.INTEGER);
         List<SurveyQuestionOption> options = Lists.newArrayList(
-                new SurveyQuestionOption("Terrible", "1", terrible), new SurveyQuestionOption("Poor", "2", poor),
-                new SurveyQuestionOption("OK", "3", ok), new SurveyQuestionOption("Good", "4", good),
-                new SurveyQuestionOption("Great", "5", great));
+                new SurveyQuestionOption("Terrible", null, "1", terrible), 
+                new SurveyQuestionOption("Poor", null, "2", poor),
+                new SurveyQuestionOption("OK", null, "3", ok), 
+                new SurveyQuestionOption("Good", null, "4", good),
+                new SurveyQuestionOption("Great", null, "5", great));
         mvc.setEnumeration(options);
         mvc.setAllowOther(false);
         mvc.setAllowMultiple(true);
@@ -65,6 +67,7 @@ public class TestSurvey {
         c.setMaxLength(255);
         c.setPattern("\\d{3}-\\d{3}-\\d{4}");
         stringQuestion.setPrompt("Please enter an emergency phone number (###-###-####)?");
+        stringQuestion.setPromptDetail("This should be someone else's number.");
         stringQuestion.setIdentifier(STRING_ID);
         stringQuestion.setConstraints(c);
         stringQuestion.setUiHint(UiHint.TEXTFIELD);

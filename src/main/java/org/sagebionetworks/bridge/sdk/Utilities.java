@@ -41,10 +41,8 @@ public final class Utilities {
         mod.addAbstractTypeMapping(GuidHolder.class, SimpleGuidHolder.class);
         mod.addAbstractTypeMapping(GuidVersionHolder.class, SimpleGuidVersionHolder.class);
         mod.addAbstractTypeMapping(GuidCreatedOnVersionHolder.class, SimpleGuidCreatedOnVersionHolder.class);
-        
-        // WRITE_DATES_AS_TIMESTAMPS causes JodaModule to use our preferred timestamp format. What a great module!
-        mapper.registerModule(new JodaModule());
         mapper.registerModule(mod);
+        mapper.registerModule(new JodaModule());
         mapper.registerModule(new LowercaseEnumModule());
     }
 

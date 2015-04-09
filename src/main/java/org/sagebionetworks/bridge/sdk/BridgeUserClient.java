@@ -26,6 +26,7 @@ import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
 import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
+import org.sagebionetworks.bridge.sdk.models.users.ExternalIdentifier;
 import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
 
@@ -56,6 +57,14 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
 
         post(config.getProfileApi(), profile);
         session.setUsername(profile.getUsername());
+    }
+    
+    @Override
+    public void addExternalUserIdentifier(ExternalIdentifier identifier) {
+        session.checkSignedIn();
+        checkNotNull(identifier, Bridge.CANNOT_BE_NULL, "ExternalIdentifier");
+        
+        post(config.getExternalIdentifierApi(), identifier);
     }
 
     /*

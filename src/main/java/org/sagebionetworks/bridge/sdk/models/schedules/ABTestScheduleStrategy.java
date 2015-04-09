@@ -44,6 +44,10 @@ public final class ABTestScheduleStrategy implements ScheduleStrategy {
             Group other = (Group) obj;
             return (percentage == other.percentage && Objects.equals(schedule, other.schedule));
         }
+        @Override
+        public String toString() {
+            return String.format("ABTestScheduleStrategy.Group [percentage=%s, schedule=%s]", percentage, schedule);
+        }
     }
     
     List<Group> groups = Lists.newArrayList();
