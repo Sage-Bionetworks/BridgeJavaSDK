@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.joda.time.Period;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -162,8 +161,6 @@ public class SchedulePlanTest {
         plan.setGuid(keys.getGuid());
         plan.setVersion(keys.getVersion());
         plan.setModifiedOn(newPlan.getModifiedOn());
-        // This switches from PT60S to PT1M. Which should be equal but are not... ?
-        ((SimpleScheduleStrategy)plan.getStrategy()).getSchedule().setExpires(Period.parse("PT1M"));
         
         assertEquals(plan, newPlan);
     }

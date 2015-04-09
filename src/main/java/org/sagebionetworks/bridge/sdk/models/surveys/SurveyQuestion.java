@@ -19,7 +19,9 @@ public final class SurveyQuestion implements SurveyElement, GuidHolder {
     private String guid;
     private String identifier;
     private String type;
+    private String title;
     private String prompt;
+    private String promptDetail;
     private UiHint hint;
     private Constraints constraints;
 
@@ -45,11 +47,23 @@ public final class SurveyQuestion implements SurveyElement, GuidHolder {
     void setType(String type) {
         this.type = type;
     }
+    public String getTitle() {
+        return title;
+    }
+    public void setTitle(String title) {
+        this.title = title;
+    }
     public String getPrompt() {
         return prompt;
     }
     public void setPrompt(String prompt) {
         this.prompt = prompt;
+    }
+    public String getPromptDetail() {
+        return promptDetail;
+    }
+    public void setPromptDetail(String promptDetail) {
+        this.promptDetail = promptDetail;
     }
     @JsonProperty("uiHint")
     public UiHint getUIHint() {
@@ -104,7 +118,9 @@ public final class SurveyQuestion implements SurveyElement, GuidHolder {
         result = prime * result + Objects.hashCode(guid);
         result = prime * result + Objects.hashCode(hint);
         result = prime * result + Objects.hashCode(identifier);
+        result = prime * result + Objects.hashCode(title);
         result = prime * result + Objects.hashCode(prompt);
+        result = prime * result + Objects.hashCode(promptDetail);
         result = prime * result + Objects.hashCode(type);
         return result;
     }
@@ -117,12 +133,13 @@ public final class SurveyQuestion implements SurveyElement, GuidHolder {
         SurveyQuestion other = (SurveyQuestion) obj;
         return (Objects.equals(constraints, other.constraints) && Objects.equals(guid, other.guid)
                 && Objects.equals(hint, other.hint) && Objects.equals(identifier, other.identifier)
-                && Objects.equals(prompt, other.prompt) && Objects.equals(type, other.type));
+                && Objects.equals(title, other.title) && Objects.equals(prompt, other.prompt) 
+                && Objects.equals(promptDetail, other.promptDetail) && Objects.equals(type, other.type));
     }
     @Override
     public String toString() {
-        return String.format("SurveyQuestion [guid=%s, identifier=%s, prompt=%s, hint=%s, constraints=%s]", 
-                guid, identifier, prompt, hint, constraints);
+        return String.format("SurveyQuestion [guid=%s, identifier=%s, title=%s, prompt=%s, promptDetail=%s, hint=%s, constraints=%s]", 
+                guid, identifier, title, prompt, promptDetail, hint, constraints);
     }
 
 }

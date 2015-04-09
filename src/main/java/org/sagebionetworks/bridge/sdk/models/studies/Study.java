@@ -19,7 +19,6 @@ public final class Study implements VersionHolder {
     private String consentNotificationEmail;
     private int minAgeOfConsent;
     private int maxNumOfParticipants;
-    private String hostname;
     private Set<String> userProfileAttributes;
 
     public Study() {
@@ -90,14 +89,6 @@ public final class Study implements VersionHolder {
         this.maxNumOfParticipants = maxParticipants;
     }
 
-    public String getHostname() {
-        return hostname;
-    }
-
-    public void setHostname(String hostname) {
-        this.hostname = hostname;
-    }
-    
     public Set<String> getUserProfileAttributes() {
         return userProfileAttributes;
     }
@@ -111,7 +102,6 @@ public final class Study implements VersionHolder {
         final int prime = 31;
         int result = 1;
         result = prime * result + Objects.hashCode(consentNotificationEmail);
-        result = prime * result + Objects.hashCode(hostname);
         result = prime * result + Objects.hashCode(identifier);
         result = prime * result + Objects.hashCode(name);
         result = prime * result + Objects.hashCode(researcherRole);
@@ -131,7 +121,7 @@ public final class Study implements VersionHolder {
             return false;
         Study other = (Study) obj;
         return (Objects.equals(consentNotificationEmail, other.consentNotificationEmail)
-                && Objects.equals(hostname, other.hostname) && Objects.equals(identifier, other.identifier)
+                && Objects.equals(identifier, other.identifier)
                 && (maxNumOfParticipants == other.maxNumOfParticipants) && (minAgeOfConsent == other.minAgeOfConsent)
                 && Objects.equals(name, other.name) && Objects.equals(researcherRole, other.researcherRole)
                 && Objects.equals(supportEmail, other.supportEmail) && Objects.equals(version, other.version)
@@ -140,8 +130,8 @@ public final class Study implements VersionHolder {
 
     @Override
     public String toString() {
-        return String.format("Study [name=%s, identifier=%s, version=%s, researcherRole=%s, supportEmail=%s, consentNotificationEmail=%s, minAgeOfConsent=%s, maxNumOfParticipants=%s, hostname=%s, userProfileAttributes=%s]", 
-                    name, identifier, version, researcherRole, supportEmail, consentNotificationEmail, minAgeOfConsent, maxNumOfParticipants, hostname, userProfileAttributes);
+        return String.format("Study [name=%s, identifier=%s, version=%s, researcherRole=%s, supportEmail=%s, consentNotificationEmail=%s, minAgeOfConsent=%s, maxNumOfParticipants=%s, userProfileAttributes=%s]", 
+                    name, identifier, version, researcherRole, supportEmail, consentNotificationEmail, minAgeOfConsent, maxNumOfParticipants, userProfileAttributes);
     }
 
 }

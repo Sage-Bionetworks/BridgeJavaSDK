@@ -51,22 +51,23 @@ public class Tests {
     
     public static SchedulePlan getABTestSchedulePlan() {
         SchedulePlan plan = new SchedulePlan();
+        plan.setLabel("A/B Test Schedule Plan");
         Schedule schedule1 = new Schedule();
-        schedule1.setCronTrigger("* * *");
+        schedule1.setCronTrigger("0 0 11 ? * MON,WED,FRI *");
         setTaskActivity(schedule1, "task:AAA");
-        schedule1.setExpires(Period.parse("PT60S"));
+        schedule1.setExpires(Period.parse("PT1H"));
         schedule1.setLabel("Test label for the user");
         
         Schedule schedule2 = new Schedule();
-        schedule2.setCronTrigger("* * *");
+        schedule2.setCronTrigger("0 0 11 ? * MON,WED,FRI *");
         setTaskActivity(schedule2, "task:BBB");
-        schedule2.setExpires(Period.parse("PT60S"));
+        schedule2.setExpires(Period.parse("PT1H"));
         schedule2.setLabel("Test label for the user");
 
         Schedule schedule3 = new Schedule();
-        schedule3.setCronTrigger("* * *");
+        schedule3.setCronTrigger("0 0 11 ? * MON,WED,FRI *");
         setSurveyActivity(schedule3, "http://host/surveys/GUID-AAA/2015-01-27T17:46:31.237Z");
-        schedule3.setExpires(Period.parse("PT60S"));
+        schedule3.setExpires(Period.parse("PT1H"));
         schedule3.setLabel("Test label for the user");
 
         ABTestScheduleStrategy strategy = new ABTestScheduleStrategy();
@@ -79,10 +80,11 @@ public class Tests {
     
     public static SchedulePlan getSimpleSchedulePlan() {
         SchedulePlan plan = new SchedulePlan();
+        plan.setLabel("Cron-based schedule");
         Schedule schedule = new Schedule();
-        schedule.setCronTrigger("* * *");
+        schedule.setCronTrigger("0 0 11 ? * MON,WED,FRI *");
         setTaskActivity(schedule, "task:CCC");
-        schedule.setExpires(Period.parse("PT60S"));
+        schedule.setExpires(Period.parse("PT1H"));
         schedule.setLabel("Test label for the user");
 
         plan.setSchedule(schedule);

@@ -10,5 +10,4 @@ public class SurveyTest {
     public void equalsContract() {
         EqualsVerifier.forClass(Survey.class).suppress(Warning.NONFINAL_FIELDS).allFieldsShouldBeUsed().verify();
     }
-
 }
