@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.schedules;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -33,11 +35,16 @@ public final class Schedule {
     public void setTimes(List<LocalTime> times) {
         this.times = times;
     }
+    public void addTimes(LocalTime... times) {
+        for (LocalTime time : times) {
+            checkNotNull(time);
+            this.times.add(time);
+        }
+    }
     public void addTimes(String... times) {
-        if (times != null) {
-            for (String time : times) {
-                this.times.add(LocalTime.parse(time));
-            }
+        for (String time : times) {
+            checkNotNull(time);
+            this.times.add(LocalTime.parse(time));
         }
     }
     /**

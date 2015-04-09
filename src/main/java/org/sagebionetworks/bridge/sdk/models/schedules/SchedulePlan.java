@@ -20,44 +20,34 @@ public final class SchedulePlan implements GuidVersionHolder {
     public String getGuid() {
         return guid;
     }
-
     public void setGuid(String guid) {
         this.guid = guid;
     }
-    
     public String getLabel() {
         return label;
     }
-    
     public void setLabel(String label) {
         this.label = label;
     }
-
     public DateTime getModifiedOn() {
         return modifiedOn;
     }
-
     public void setModifiedOn(DateTime modifiedOn) {
         this.modifiedOn = modifiedOn;
     }
-
     @Override
     public Long getVersion() {
         return version;
     }
-
     public void setVersion(Long version) {
         this.version = version;
     }
-
     public ScheduleStrategy getStrategy() {
         return strategy;
     }
-
     public void setStrategy(ScheduleStrategy strategy) {
         this.strategy = strategy;
     }
-    
     /**
      * Set a schedule directly for a plan: all users in the study will get the same activities
      * on the same schedule. Equivalent to creating a SimpleScheduleStrategy with the same 
@@ -95,8 +85,8 @@ public final class SchedulePlan implements GuidVersionHolder {
 
     @Override
     public String toString() {
-        return String.format("SchedulePlan [guid=%s, label=%s, modifiedOn=%s, version=%s, strategy=%s]", 
-                guid, label, modifiedOn, version, strategy);
+        return String.format("SchedulePlan [label=%s, guid=%s, modifiedOn=%s, version=%s, strategy=%s]", 
+                label, guid, modifiedOn, version, strategy);
     }
 
 }
