@@ -2,6 +2,10 @@ package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.*;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.fluent.Request;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.util.EntityUtils;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.AdminClient;
@@ -47,7 +51,7 @@ public class AuthenticationTest {
     
     @Test
     public void accountWithOneStudySeparateFromAccountWithSecondStudy() {
-        TestUser testUser1 = TestUserHelper.createAndSignInUser(ConsentTest.class, true);
+        TestUser testUser1 = TestUserHelper.createAndSignInUser(AuthenticationTest.class, true);
         Config config = ClientProvider.getConfig();
         AdminClient client = ClientProvider.signIn(config.getAdminCredentials()).getAdminClient();
         try {
@@ -70,5 +74,18 @@ public class AuthenticationTest {
             testUser1.signOutAndDeleteUser();
             config.set(Props.STUDY_IDENTIFIER, "api");
         }
+    }
+    
+    // BRIDGE-465. We can at least verify that it gets processed as an error.
+    @Test
+    public void emailVerificationThrowsTheCorrectError() throws Exception {
+        Config config = ClientProvider.getConfig();
+        
+        HttpResponse response = Request
+                        .Post(config.getEnvironment().getUrl() + "/api/v1/auth/verifyEmail?study=api")
+                        .body(new StringEntity("{\"sptoken\":\"testtoken\"}"))
+                        .execute().returnResponse();
+        assertEquals(404, response.getStatusLine().getStatusCode());
+        assertEquals("{\"message\":\"Account not found.\"}", EntityUtils.toString(response.getEntity()));
     }
 }
