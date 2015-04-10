@@ -5,7 +5,6 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.http.HttpResponse;
 import org.joda.time.DateTime;
@@ -14,7 +13,6 @@ import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
-import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -25,10 +23,10 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
     }
 
     @Override
-    public boolean createUser(SignUpCredentials signUp, Set<String> roles, boolean consent) {
+    public boolean createUser(SignUpByAdmin signUp) {
         session.checkSignedIn();
 
-        HttpResponse response = post(config.getUserManagementApi(), new AdminSignUpCredentials(signUp, roles, consent));
+        HttpResponse response = post(config.getUserManagementApi(), signUp);
         return response.getStatusLine().getStatusCode() == 201;
     }
     @Override

@@ -5,13 +5,12 @@ import static org.junit.Assert.assertTrue;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.AdminClient;
+import org.sagebionetworks.bridge.sdk.SignUpByAdmin;
 import org.sagebionetworks.bridge.sdk.ClientProvider;
 import org.sagebionetworks.bridge.sdk.Config;
 import org.sagebionetworks.bridge.sdk.Session;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
-import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
 
 public class UserManagementTest {
 
@@ -37,9 +36,9 @@ public class UserManagementTest {
         String password = "P4ssword";
         boolean consent = true;
 
-        SignUpCredentials signUp = new SignUpCredentials(Tests.TEST_KEY, username, email, password);
+        SignUpByAdmin signUp = new SignUpByAdmin(username, email, password, null, consent);
 
-        boolean result = admin.createUser(signUp, null, consent);
+        boolean result = admin.createUser(signUp);
         assertTrue(result);
 
         // This is already done as part of deletion, and doesn't make sense separately because we're not
