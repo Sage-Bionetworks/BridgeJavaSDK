@@ -1,6 +1,7 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.util.List;
@@ -66,6 +67,32 @@ public class SurveyResponseTest {
         }
     }
 
+    /**
+     * You don't need answers to create a survey response. You get the identifier for future answers
+     * to submit. 
+     */
+    @Test
+    public void createSurveyResponseBeforeYouHaveAnswers() {
+        UserClient client = user.getSession().getUserClient();
+
+        List<SurveyAnswer> answers = Lists.newArrayList();
+
+        IdentifierHolder keys = client.submitAnswersToSurvey(survey, answers);
+
+        SurveyResponse surveyResponse = client.getSurveyResponse(keys.getIdentifier());
+        assertNotNull(surveyResponse.getIdentifier());
+        
+        SurveyQuestion question1 = (SurveyQuestion)survey.getElementByIdentifier("high_bp");
+        SurveyAnswer answer = question1.createAnswerForQuestion("true", "desktop");
+        answers.add(answer);
+        
+        client.addAnswersToResponse(surveyResponse, answers);
+        surveyResponse = client.getSurveyResponse(keys.getIdentifier());
+        assertEquals(1, surveyResponse.getSurveyAnswers().size());
+
+        client.deleteSurveyResponse(surveyResponse.getIdentifier());        
+    }
+    
     @Test
     public void submitAnswersColdForASurvey() {
         UserClient client = user.getSession().getUserClient();
