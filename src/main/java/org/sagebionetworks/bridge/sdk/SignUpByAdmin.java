@@ -1,23 +1,29 @@
 package org.sagebionetworks.bridge.sdk;
 
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static com.google.common.base.Preconditions.checkArgument;
+
 import java.util.Set;
 
-import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
-
-class AdminSignUpCredentials {
+public class SignUpByAdmin {
+    
     private final String username;
     private final String email;
     private final String password;
     private final Set<String> roles;
     private final boolean consent;
 
-    public AdminSignUpCredentials(SignUpCredentials signUp, Set<String> roles, boolean consent) {
-        this.username = signUp.getUsername();
-        this.email = signUp.getEmail();
-        this.password = signUp.getPassword();
+    public SignUpByAdmin(String username, String email, String password, Set<String> roles, boolean consent) {
+        checkArgument(isNotBlank(username));
+        checkArgument(isNotBlank(email));
+        checkArgument(isNotBlank(password));
+        this.username = username;
+        this.email = email;
+        this.password = password;
         this.roles = roles;
         this.consent = consent;
     }
+    
     public String getUsername() {
         return username;
     }
