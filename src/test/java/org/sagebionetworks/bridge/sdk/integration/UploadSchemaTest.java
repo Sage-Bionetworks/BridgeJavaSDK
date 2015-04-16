@@ -10,6 +10,8 @@ import com.google.common.collect.ImmutableList;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
@@ -22,6 +24,8 @@ import org.sagebionetworks.bridge.sdk.models.upload.UploadFieldType;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadSchema;
 
 public class UploadSchemaTest {
+    private static final Logger LOG = LoggerFactory.getLogger(UploadSchemaTest.class);
+
     private static final String TEST_SCHEMA_ID = "integration-test-schema";
     private static final String TEST_SCHEMA_NAME = "Upload Schema Integration Tests";
 
@@ -40,7 +44,7 @@ public class UploadSchemaTest {
             try {
                 researcher.signOutAndDeleteUser();
             } catch (RuntimeException ex) {
-                // do nothing
+                LOG.error("Error deleting temporary researcher account: " + ex.getMessage(), ex);
             }
         }
 
@@ -48,7 +52,7 @@ public class UploadSchemaTest {
             try {
                 user.signOutAndDeleteUser();
             } catch (RuntimeException ex) {
-                // do nothing
+                LOG.error("Error deleting temporary user account: " + ex.getMessage(), ex);
             }
         }
     }
