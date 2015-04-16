@@ -16,6 +16,7 @@ import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.studies.StudyConsent;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
+import org.sagebionetworks.bridge.sdk.models.upload.UploadSchema;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -24,6 +25,8 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     private final TypeReference<ResourceListImpl<StudyConsent>> scType = new TypeReference<ResourceListImpl<StudyConsent>>() {};
     private final TypeReference<ResourceListImpl<Survey>> sType = new TypeReference<ResourceListImpl<Survey>>() {};
     private final TypeReference<ResourceListImpl<SchedulePlan>> spType = new TypeReference<ResourceListImpl<SchedulePlan>>() {};
+    private static final TypeReference<ResourceListImpl<UploadSchema>> TYPE_REF_UPLOAD_SCHEMA_LIST =
+            new TypeReference<ResourceListImpl<UploadSchema>>() {};
 
     BridgeResearcherClient(BridgeSession session) {
         super(session);
@@ -230,5 +233,25 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
         session.checkSignedIn();
         
         post(config.getResearcherStudyParticipantsApi());
+    }
+
+    @Override
+    public UploadSchema createOrUpdateUploadSchema(UploadSchema schema) {
+        session.checkSignedIn();
+        checkNotNull(schema, Bridge.CANNOT_BE_NULL, "schema");
+        return post(config.getUploadSchemaApi(), schema, UploadSchema.class);
+    }
+
+    @Override
+    public UploadSchema getUploadSchemaById(String schemaId) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(schemaId), Bridge.CANNOT_BE_BLANK, "schemaId");
+        return get(config.getUploadSchemaByIdApi(schemaId), UploadSchema.class);
+    }
+
+    @Override
+    public ResourceList<UploadSchema> getUploadSchemaForStudy() {
+        session.checkSignedIn();
+        return get(config.getUploadSchemaForStudyApi(), TYPE_REF_UPLOAD_SCHEMA_LIST);
     }
 }

@@ -9,6 +9,7 @@ import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.studies.StudyConsent;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
+import org.sagebionetworks.bridge.sdk.models.upload.UploadSchema;
 
 public interface ResearcherClient {
 
@@ -251,5 +252,35 @@ public interface ResearcherClient {
      * @return
      */
     public void sendStudyParticipantsRoster();
-    
+
+    // UPLOAD SCHEMAS
+
+    /**
+     * This method creates an upload schema in the current study, using the schema ID of the specified schema, or
+     * updates an existing schema if it already exists. This method returns the created schema, which has its revision
+     * number properly updated.
+     *
+     * @param uploadSchema
+     *         schema to create or update, must be non-null
+     * @return the created or updated schema, will be non-null
+     */
+    public UploadSchema createOrUpdateUploadSchema(UploadSchema schema);
+
+    /**
+     * This method fetches an upload schema from the current study with the specified schema ID. If there is more than
+     * one revision of the schema, this fetches the latest revision. If the schema doesn't exist, this method throws an
+     * EntityNotFoundException.
+     *
+     * @param schemaId
+     *         ID of the schema to fetch, must be non-null and non-empty
+     * @return the fetched schema, will be non-null
+     */
+    public UploadSchema getUploadSchemaById(String schemaId);
+
+    /**
+     * Fetches all revisions of all upload schemas in the current study.
+     *
+     * @return a list of upload schemas
+     */
+    public ResourceList<UploadSchema> getUploadSchemaForStudy();
 }

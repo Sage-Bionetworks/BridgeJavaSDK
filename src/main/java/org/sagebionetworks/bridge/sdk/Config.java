@@ -72,6 +72,9 @@ public final class Config {
         SURVEY_RESPONSE_API,
         UPLOAD_API,
         UPLOAD_COMPLETE_API,
+        UPLOADSCHEMA_API,
+        UPLOADSCHEMA_BY_ID_API,
+        UPLOADSCHEMA_FOR_STUDY_API,
         USER_MANAGEMENT_API,
         USER_MANAGEMENT_CONSENT_API,
         USER_MANAGEMENT_ALLTESTUSERS_API;
@@ -302,6 +305,19 @@ public final class Config {
         checkArgument(isNotBlank(guid));
         return String.format(val(Props.SCHEDULEPLAN_API), guid);
     }
+
+    public String getUploadSchemaApi() {
+        return val(Props.UPLOADSCHEMA_API);
+    }
+
+    public String getUploadSchemaByIdApi(String schemaId) {
+        return String.format(val(Props.UPLOADSCHEMA_BY_ID_API), schemaId);
+    }
+
+    public String getUploadSchemaForStudyApi() {
+        return val(Props.UPLOADSCHEMA_FOR_STUDY_API);
+    }
+
     public String getResearcherStudyApi() {
         return val(Props.RESEARCHER_STUDY_API);
     }

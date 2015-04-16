@@ -4,7 +4,9 @@ import static org.apache.commons.validator.routines.UrlValidator.ALLOW_LOCAL_URL
 import static org.apache.commons.validator.routines.UrlValidator.NO_FRAGMENTS;
 
 import java.io.IOException;
+import java.util.Map;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.apache.http.client.fluent.Request;
@@ -29,6 +31,8 @@ public final class Utilities {
     private static final String[] schemes = { "http", "https" };
     private static final UrlValidator urlValidator = new UrlValidator(schemes, NO_FRAGMENTS + ALLOW_LOCAL_URLS);
     private static final EmailValidator emailValidator = EmailValidator.getInstance();
+    public static final TypeReference<Map<String, Object>> TYPE_REF_RAW_MAP =
+            new TypeReference<Map<String, Object>>(){};
 
     private static final ObjectMapper mapper = new ObjectMapper();
     static {
