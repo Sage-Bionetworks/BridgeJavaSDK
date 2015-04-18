@@ -1,92 +1,170 @@
 package org.sagebionetworks.bridge.sdk.models;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.File;
+import java.io.IOException;
+import java.util.Objects;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.common.io.Files;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
+
+/** Represents an upload request to the Bridge Server. */
+@JsonDeserialize(builder = UploadRequest.Builder.class)
 public final class UploadRequest {
+    private final String name;
+    private final long contentLength;
+    private final String contentMd5;
+    private final String contentType;
 
-    private String name;
-    private long contentLength;
-    private String contentMd5;
-    private String contentType;
-
-    @JsonCreator
-    private UploadRequest(@JsonProperty("name") String name, @JsonProperty("contentLength") long contentLength,
-            @JsonProperty("contentMd5") String contentMd5, @JsonProperty("contentType") String contentType) {
+    /** Private constructor. Construction of an UploadRequest should go through the Builder. */
+    private UploadRequest(String name, long contentLength, String contentMd5, String contentType) {
         this.name = name;
         this.contentLength = contentLength;
         this.contentMd5 = contentMd5;
         this.contentType = contentType;
     }
 
-    public UploadRequest() {
+    /** File name, always non-null and non-empty. */
+    public String getName() {
+        return this.name;
     }
 
-    public String getName() { return this.name; }
-    public String getContentMd5() { return this.contentMd5; }
-    public String getContentType() { return this.contentType; }
-    public long getContentLength() { return this.contentLength; }
+    /** File hash, as a string with the Base64-encoding of the file's MD5 hash. Always non-null and non-empty. */
+    public String getContentMd5() {
+        return this.contentMd5;
+    }
 
-    public UploadRequest setName(String name) {
-        this.name = name;
-        return this;
+    /** File's MIME type, always non-null and non-empty. */
+    public String getContentType() {
+        return this.contentType;
     }
-    public UploadRequest setContentMd5(String contentMd5) {
-        this.contentMd5 = contentMd5;
-        return this;
-    }
-    public UploadRequest setContentType(String contentType) {
-        this.contentType = contentType;
-        return this;
-    }
-    public UploadRequest setContentLength(long contentLength) {
-        this.contentLength = contentLength;
-        return this;
+
+    /** File's length in bytes, always non-negative. */
+    public long getContentLength() {
+        return this.contentLength;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (int) (contentLength ^ (contentLength >>> 32));
-        result = prime * result + ((contentMd5 == null) ? 0 : contentMd5.hashCode());
-        result = prime * result + ((contentType == null) ? 0 : contentType.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + Objects.hashCode(contentLength);
+        result = prime * result + Objects.hashCode(contentMd5);
+        result = prime * result + Objects.hashCode(contentType);
+        result = prime * result + Objects.hashCode(name);
         return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
-        if (getClass() != obj.getClass())
-            return false;
+        }
         UploadRequest other = (UploadRequest) obj;
-        if (contentLength != other.contentLength)
-            return false;
-        if (contentMd5 == null) {
-            if (other.contentMd5 != null)
-                return false;
-        } else if (!contentMd5.equals(other.contentMd5))
-            return false;
-        if (contentType == null) {
-            if (other.contentType != null)
-                return false;
-        } else if (!contentType.equals(other.contentType))
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        return true;
+        return Objects.equals(contentLength, other.contentLength) && Objects.equals(contentMd5, other.contentMd5)
+                && Objects.equals(contentType, other.contentType) && Objects.equals(name, other.name);
     }
 
     @Override
     public String toString() {
         return String.format("UploadRequest [name=%s, contentMd5=%s, contentType=%s, contentLength=%s]", 
                 name, contentMd5, contentType, contentLength);
+    }
+
+    /** Builder for UploadRequest. */
+    public static class Builder {
+        private String name;
+        private long contentLength;
+        private String contentMd5;
+        private String contentType;
+
+        /** Sets the name, content length, and content MD5 from the given file. This does not set the content type. */
+        public Builder withFile(File file) throws IOException {
+            name = file.getName();
+            contentLength = file.length();
+
+            byte[] fileBytes = Files.toByteArray(file);
+            contentMd5 = Base64.encodeBase64String(DigestUtils.md5(fileBytes));
+
+            return this;
+        }
+
+        /** @see org.sagebionetworks.bridge.sdk.models.UploadRequest#getName */
+        public String getName() {
+            return name;
+        }
+
+        /** @see org.sagebionetworks.bridge.sdk.models.UploadRequest#getName */
+        public Builder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        /** @see org.sagebionetworks.bridge.sdk.models.UploadRequest#getContentLength */
+        public long getContentLength() {
+            return contentLength;
+        }
+
+        /** @see org.sagebionetworks.bridge.sdk.models.UploadRequest#getContentLength */
+        public Builder withContentLength(long contentLength) {
+            this.contentLength = contentLength;
+            return this;
+        }
+
+        /** @see org.sagebionetworks.bridge.sdk.models.UploadRequest#getContentMd5 */
+        public String getContentMd5() {
+            return contentMd5;
+        }
+
+        /** @see org.sagebionetworks.bridge.sdk.models.UploadRequest#getContentMd5 */
+        public Builder withContentMd5(String contentMd5) {
+            this.contentMd5 = contentMd5;
+            return this;
+        }
+
+        /** @see org.sagebionetworks.bridge.sdk.models.UploadRequest#getContentType */
+        public String getContentType() {
+            return contentType;
+        }
+
+        /** @see org.sagebionetworks.bridge.sdk.models.UploadRequest#getContentType */
+        public Builder withContentType(String contentType) {
+            this.contentType = contentType;
+            return this;
+        }
+
+        /**
+         * Builds and validates an UploadRequest. This validates that name is non-null and non-empty, content length is
+         * non-negative, content MD5 is non-null and non-empty, and content type is non-null and non-empty. This method
+         * does not validate that the named file exists or that its length and MD5 are accurate. To ensure account
+         * length and MD5, use {@link #withFile}.
+         *
+         * @return validated UploadRequest
+         * @throws BridgeSDKException
+         *         if called with invalid fields
+         */
+        public UploadRequest build() throws BridgeSDKException {
+            if (StringUtils.isBlank(name)) {
+                throw new BridgeSDKException("name cannot be blank");
+            }
+            if (contentLength < 0) {
+                throw new BridgeSDKException("content length cannot be negative");
+            }
+            if (StringUtils.isBlank(contentMd5)) {
+                throw new BridgeSDKException("contentMd5 cannot be blank");
+            }
+            if (StringUtils.isBlank(contentType)) {
+                throw new BridgeSDKException("contentType cannot be blank");
+            }
+
+            return new UploadRequest(name, contentLength, contentMd5, contentType);
+        }
     }
 }
