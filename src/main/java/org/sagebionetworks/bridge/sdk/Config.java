@@ -72,6 +72,7 @@ public final class Config {
         SURVEY_RESPONSE_API,
         UPLOAD_API,
         UPLOAD_COMPLETE_API,
+        UPLOAD_STATUS_API,
         UPLOADSCHEMA_API,
         UPLOADSCHEMA_BY_ID_API,
         UPLOADSCHEMA_FOR_STUDY_API,
@@ -219,6 +220,9 @@ public final class Config {
     }
     public String getUploadCompleteApi(String uploadId) {
         return String.format(val(Props.UPLOAD_COMPLETE_API), uploadId);
+    }
+    public String getUploadStatusApi(String uploadId) {
+        return String.format(val(Props.UPLOAD_STATUS_API), uploadId);
     }
     public String getUserManagementApi() {
         return val(Props.USER_MANAGEMENT_API);

@@ -25,6 +25,7 @@ import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
+import org.sagebionetworks.bridge.sdk.models.upload.UploadValidationStatus;
 import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
 import org.sagebionetworks.bridge.sdk.models.users.ExternalIdentifier;
 import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
@@ -199,5 +200,12 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         s3Put(url, entity, request);
         
         post(config.getUploadCompleteApi(session.getId()));
+    }
+
+    @Override
+    public UploadValidationStatus getUploadStatus(String uploadId) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(uploadId), Bridge.CANNOT_BE_BLANK, "uploadId");
+        return get(config.getUploadStatusApi(uploadId), UploadValidationStatus.class);
     }
 }

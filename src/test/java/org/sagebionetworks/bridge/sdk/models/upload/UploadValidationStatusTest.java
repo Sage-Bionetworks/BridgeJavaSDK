@@ -5,13 +5,16 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 
+import org.sagebionetworks.bridge.sdk.Utilities;
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 
+@SuppressWarnings("unchecked")
 public class UploadValidationStatusTest {
     @Test(expected = BridgeSDKException.class)
     public void nullId() {
@@ -105,7 +108,45 @@ public class UploadValidationStatusTest {
         assertEquals("baz", resultMessageList.get(2));
     }
 
-    // TODO json serialization
+    @Test
+    public void serialization() throws Exception {
+        // start with JSON
+        String jsonText = "{\n" +
+                "   \"id\":\"json-upload\",\n" +
+                "   \"status\":\"succeeded\",\n" +
+                "   \"messageList\":[\n" +
+                "       \"foo\",\n" +
+                "       \"bar\",\n" +
+                "       \"baz\"\n" +
+                "   ]\n" +
+                "}";
+
+        // convert to POJO
+        UploadValidationStatus status = Utilities.getMapper().readValue(jsonText, UploadValidationStatus.class);
+        assertEquals("json-upload", status.getId());
+        assertEquals(UploadStatus.SUCCEEDED, status.getStatus());
+
+        List<String> messageList = status.getMessageList();
+        assertEquals(3, messageList.size());
+        assertEquals("foo", messageList.get(0));
+        assertEquals("bar", messageList.get(1));
+        assertEquals("baz", messageList.get(2));
+
+        // convert back to JSON
+        String convertedJson = Utilities.getMapper().writeValueAsString(status);
+
+        // then convert to a map so we can validate the raw JSON
+        Map<String, Object> jsonMap = Utilities.getMapper().readValue(convertedJson, Utilities.TYPE_REF_RAW_MAP);
+        assertEquals(3, jsonMap.size());
+        assertEquals("json-upload", jsonMap.get("id"));
+        assertEquals("succeeded", jsonMap.get("status"));
+
+        List<String> messageJsonList = (List<String>) jsonMap.get("messageList");
+        assertEquals(3, messageJsonList.size());
+        assertEquals("foo", messageJsonList.get(0));
+        assertEquals("bar", messageJsonList.get(1));
+        assertEquals("baz", messageJsonList.get(2));
+    }
 
     @Test
     public void equalsVerifier() {
