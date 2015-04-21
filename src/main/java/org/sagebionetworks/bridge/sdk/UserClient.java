@@ -11,6 +11,7 @@ import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
+import org.sagebionetworks.bridge.sdk.models.upload.UploadValidationStatus;
 import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
 import org.sagebionetworks.bridge.sdk.models.users.ExternalIdentifier;
 import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
@@ -156,4 +157,12 @@ public interface UserClient {
      */
     public void upload(UploadSession session, UploadRequest request, String fileName);
 
+    /**
+     * Gets the upload status (status and validation messages) for the given upload ID
+     *
+     * @param uploadId
+     *         ID of the upload, obtained from the upload session
+     * @return object containing upload status and validation messages
+     */
+    public UploadValidationStatus getUploadStatus(String uploadId);
 }

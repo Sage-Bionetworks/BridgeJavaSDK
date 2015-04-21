@@ -3,12 +3,14 @@ package org.sagebionetworks.bridge.sdk.models.upload;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.StringUtils;
 
-import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
+import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 
 /**
  * This class represents a schema for the uploads sent by the mobile apps. This can be created and updated by study
@@ -114,8 +116,16 @@ public final class UploadSchema {
         }
 
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getFieldDefinitions */
+        @JsonProperty("fieldDefinitions")
         public Builder withFieldDefinitions(List<UploadFieldDefinition> fieldDefinitions) {
             this.fieldDefinitions = fieldDefinitions;
+            return this;
+        }
+
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getFieldDefinitions */
+        @JsonIgnore
+        public Builder withFieldDefinitions(UploadFieldDefinition... fieldDefinitions) {
+            this.fieldDefinitions = ImmutableList.copyOf(fieldDefinitions);
             return this;
         }
 
@@ -154,7 +164,7 @@ public final class UploadSchema {
 
         /**
          * <p>
-         * Builds and validates an UploadSchema. This will throw a BridgeSDKException under the following conditions:
+         * Builds and validates an UploadSchema. This will throw a InvalidEntityException under the following conditions:
          *   <ul>
          *     <li>fieldDefinitions is null or empty</li>
          *     <li>fieldDefinitions contains null or invalid entries</li>
@@ -170,32 +180,32 @@ public final class UploadSchema {
          * </p>
          *
          * @return validated UploadSchema
-         * @throws BridgeSDKException
+         * @throws InvalidEntityException
          *         if called with invalid fields
          */
-        public UploadSchema build() throws BridgeSDKException {
+        public UploadSchema build() throws InvalidEntityException {
             // fieldDefinitions
             // We do not need to validate inside the elements of fieldDefinitions, because (1)
             // UploadFieldDefinition is self-validating and (2) we copy this to an ImmutableList, which does not
             // permit null values.
             if (fieldDefinitions == null || fieldDefinitions.isEmpty()) {
-                throw new BridgeSDKException("fieldDefinitions cannot be null or empty");
+                throw new InvalidEntityException("fieldDefinitions cannot be null or empty");
             }
 
             // name
             if (StringUtils.isBlank(name)) {
-                throw new BridgeSDKException("name cannot be blank");
+                throw new InvalidEntityException("name cannot be blank");
             }
 
             // revision is optional, but if specified, must be non-negative. (0 is allowed if it's a new schema.
             // revisions 1 and above are saved schemas)
             if (revision != null && revision < 0) {
-                throw new BridgeSDKException("revision cannot be negative");
+                throw new InvalidEntityException("revision cannot be negative");
             }
 
             // schema ID
             if (StringUtils.isBlank(schemaId)) {
-                throw new BridgeSDKException("schemaId cannot be blank");
+                throw new InvalidEntityException("schemaId cannot be blank");
             }
 
             return new UploadSchema(ImmutableList.copyOf(fieldDefinitions), name, revision, schemaId);

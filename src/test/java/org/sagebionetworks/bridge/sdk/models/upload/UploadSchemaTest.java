@@ -12,56 +12,61 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 
 import org.sagebionetworks.bridge.sdk.Utilities;
-import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
+import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 
 @SuppressWarnings("unchecked")
 public class UploadSchemaTest {
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void nullFieldDefList() {
         new UploadSchema.Builder().withName("Test Schema").withSchemaId("test-schema").build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void emptyFieldDefList() {
         new UploadSchema.Builder().withFieldDefinitions(ImmutableList.<UploadFieldDefinition>of())
                 .withName("Test Schema").withSchemaId("test-schema").build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
+    public void emptyFieldDefVarargs() {
+        new UploadSchema.Builder().withFieldDefinitions().withName("Test Schema").withSchemaId("test-schema").build();
+    }
+
+    @Test(expected = InvalidEntityException.class)
     public void nullName() {
         new UploadSchema.Builder().withFieldDefinitions(mutableFieldDefList()).withSchemaId("test-schema").build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void emptyName() {
         new UploadSchema.Builder().withFieldDefinitions(mutableFieldDefList()).withName("").withSchemaId("test-schema")
                 .build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void blankName() {
         new UploadSchema.Builder().withFieldDefinitions(mutableFieldDefList()).withName("   ")
                 .withSchemaId("test-schema").build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void negativeRevision() {
         new UploadSchema.Builder().withFieldDefinitions(mutableFieldDefList()).withName("Test Schema").withRevision(-1)
                 .withSchemaId("test-schema").build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void nullSchemaId() {
         new UploadSchema.Builder().withFieldDefinitions(mutableFieldDefList()).withName("Test Schema").build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void emptySchemaId() {
         new UploadSchema.Builder().withFieldDefinitions(mutableFieldDefList()).withName("Test Schema").withSchemaId("")
                 .build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void blankSchemaId() {
         new UploadSchema.Builder().withFieldDefinitions(mutableFieldDefList()).withName("Test Schema")
                 .withSchemaId("   ").build();
@@ -82,7 +87,7 @@ public class UploadSchemaTest {
         assertEquals("test-field", outputFieldDefList.get(0).getName());
 
         // check that modifying the inputFieldDefList doesn't modify the outputFieldDefList
-        inputFieldDefList.add(makeField("added-field", UploadFieldType.INT));
+        inputFieldDefList.add(new UploadFieldDefinition("added-field", UploadFieldType.INT));
         assertEquals(1, outputFieldDefList.size());
     }
 
@@ -112,6 +117,25 @@ public class UploadSchemaTest {
         List<UploadFieldDefinition> outputFieldDefList = testSchema.getFieldDefinitions();
         assertEquals(1, outputFieldDefList.size());
         assertEquals("test-field", outputFieldDefList.get(0).getName());
+    }
+
+    @Test
+    public void fieldDefVarargs() {
+        UploadSchema testSchema = new UploadSchema.Builder().withFieldDefinitions(
+                    new UploadFieldDefinition("foo", UploadFieldType.STRING),
+                    new UploadFieldDefinition("bar", UploadFieldType.BOOLEAN),
+                    new UploadFieldDefinition("baz", UploadFieldType.INT))
+                .withName("Field Def Varargs Schema").withSchemaId("field-def-varargs-schema").build();
+        assertEquals("Field Def Varargs Schema", testSchema.getName());
+        assertNull(testSchema.getRevision());
+        assertEquals("field-def-varargs-schema", testSchema.getSchemaId());
+
+        // only check the field name, since everything else is tested by UploadFieldDefinitionTest
+        List<UploadFieldDefinition> outputFieldDefList = testSchema.getFieldDefinitions();
+        assertEquals(3, outputFieldDefList.size());
+        assertEquals("foo", outputFieldDefList.get(0).getName());
+        assertEquals("bar", outputFieldDefList.get(1).getName());
+        assertEquals("baz", outputFieldDefList.get(2).getName());
     }
 
     @Test
@@ -163,11 +187,7 @@ public class UploadSchemaTest {
 
     private static List<UploadFieldDefinition> mutableFieldDefList() {
         List<UploadFieldDefinition> fieldDefList = new ArrayList<>();
-        fieldDefList.add(makeField("test-field", UploadFieldType.STRING));
+        fieldDefList.add(new UploadFieldDefinition("test-field", UploadFieldType.STRING));
         return fieldDefList;
-    }
-
-    private static UploadFieldDefinition makeField(String name, UploadFieldType type) {
-        return new UploadFieldDefinition.Builder().withName(name).withType(type).build();
     }
 }

@@ -10,25 +10,25 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 
 import org.sagebionetworks.bridge.sdk.Utilities;
-import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
+import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 
 public class UploadFieldDefinitionTest {
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void nullName() {
         new UploadFieldDefinition.Builder().withType(UploadFieldType.INLINE_JSON_BLOB).build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void emptyName() {
         new UploadFieldDefinition.Builder().withName("").withType(UploadFieldType.INLINE_JSON_BLOB).build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void blankName() {
         new UploadFieldDefinition.Builder().withName("   ").withType(UploadFieldType.INLINE_JSON_BLOB).build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void nullType() {
         new UploadFieldDefinition.Builder().withName("null-type").build();
     }
@@ -58,6 +58,34 @@ public class UploadFieldDefinitionTest {
         assertEquals("required-false", fieldDef.getName());
         assertFalse(fieldDef.isRequired());
         assertEquals(UploadFieldType.INT, fieldDef.getType());
+    }
+
+    @Test(expected = InvalidEntityException.class)
+    public void convenienceConstructorNullName() {
+        new UploadFieldDefinition(null, UploadFieldType.STRING);
+    }
+
+    @Test(expected = InvalidEntityException.class)
+    public void convenienceConstructorEmptyName() {
+        new UploadFieldDefinition("", UploadFieldType.STRING);
+    }
+
+    @Test(expected = InvalidEntityException.class)
+    public void convenienceConstructorBlankName() {
+        new UploadFieldDefinition("   ", UploadFieldType.STRING);
+    }
+
+    @Test(expected = InvalidEntityException.class)
+    public void convenienceConstructorNullType() {
+        new UploadFieldDefinition("null-type", null);
+    }
+
+    @Test
+    public void convenienceConstructor() {
+        UploadFieldDefinition fieldDef = new UploadFieldDefinition("convenience-constructor", UploadFieldType.STRING);
+        assertEquals("convenience-constructor", fieldDef.getName());
+        assertTrue(fieldDef.isRequired());
+        assertEquals(UploadFieldType.STRING, fieldDef.getType());
     }
 
     @Test
