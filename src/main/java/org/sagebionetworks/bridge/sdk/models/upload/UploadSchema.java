@@ -110,6 +110,19 @@ public final class UploadSchema {
         private Integer revision;
         private String schemaId;
 
+        /**
+         * Sets all builder fields to be a copy of the specified schema. This returns the builder, which can be used to
+         * make additional changes to the schema being built. This is commonly used for updating a schema from a
+         * pre-existing one.
+         */
+        public Builder copyOf(UploadSchema other) {
+            this.fieldDefinitions = other.fieldDefinitions;
+            this.name = other.name;
+            this.revision = other.revision;
+            this.schemaId = other.schemaId;
+            return this;
+        }
+
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getFieldDefinitions */
         public List<UploadFieldDefinition> getFieldDefinitions() {
             return fieldDefinitions;
