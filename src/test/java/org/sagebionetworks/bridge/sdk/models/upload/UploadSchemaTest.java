@@ -122,9 +122,9 @@ public class UploadSchemaTest {
     @Test
     public void fieldDefVarargs() {
         UploadSchema testSchema = new UploadSchema.Builder().withFieldDefinitions(
-                    new UploadFieldDefinition("foo", UploadFieldType.STRING),
-                    new UploadFieldDefinition("bar", UploadFieldType.BOOLEAN),
-                    new UploadFieldDefinition("baz", UploadFieldType.INT))
+                new UploadFieldDefinition("foo", UploadFieldType.STRING),
+                new UploadFieldDefinition("bar", UploadFieldType.BOOLEAN),
+                new UploadFieldDefinition("baz", UploadFieldType.INT))
                 .withName("Field Def Varargs Schema").withSchemaId("field-def-varargs-schema").build();
         assertEquals("Field Def Varargs Schema", testSchema.getName());
         assertNull(testSchema.getRevision());
@@ -136,6 +136,14 @@ public class UploadSchemaTest {
         assertEquals("foo", outputFieldDefList.get(0).getName());
         assertEquals("bar", outputFieldDefList.get(1).getName());
         assertEquals("baz", outputFieldDefList.get(2).getName());
+    }
+
+    @Test
+    public void builderCopyOf() {
+        UploadSchema originalSchema = new UploadSchema.Builder().withFieldDefinitions(mutableFieldDefList())
+                .withName("Copied Schema").withRevision(1).withSchemaId("copied-schema").build();
+        UploadSchema copiedSchema = new UploadSchema.Builder().copyOf(originalSchema).build();
+        assertEquals(originalSchema, copiedSchema);
     }
 
     @Test

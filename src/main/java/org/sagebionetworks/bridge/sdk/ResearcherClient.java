@@ -267,6 +267,26 @@ public interface ResearcherClient {
     public UploadSchema createOrUpdateUploadSchema(UploadSchema schema);
 
     /**
+     * This method deletes all revisions of the upload schema with the specified schema ID. If there are no schemas
+     * with this schema ID, this method throws an EntityNotFoundException.
+     *
+     * @param schemaId
+     *         schema ID of the upload schemas to delete, must be non-null and non-empty
+     */
+    public void deleteUploadSchemaById(String schemaId);
+
+    /**
+     * This method deletes an upload schema with the specified schema ID and revision. If the schema doesn't exist,
+     * this method throws an EntityNotFoundException.
+     *
+     * @param schemaId
+     *         schema ID of the upload schema to delete
+     * @param revision
+     *         revision number of the upload schema to delete, must be positive
+     */
+    public void deleteUploadSchemaByIdAndRevision(String schemaId, int revision);
+
+    /**
      * This method fetches an upload schema from the current study with the specified schema ID. If there is more than
      * one revision of the schema, this fetches the latest revision. If the schema doesn't exist, this method throws an
      * EntityNotFoundException.

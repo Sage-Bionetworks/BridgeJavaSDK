@@ -243,6 +243,21 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     }
 
     @Override
+    public void deleteUploadSchemaById(String schemaId) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(schemaId), Bridge.CANNOT_BE_BLANK, "schemaId");
+        delete(config.getUploadSchemaByIdApi(schemaId));
+    }
+
+    @Override
+    public void deleteUploadSchemaByIdAndRevision(String schemaId, int revision) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(schemaId), Bridge.CANNOT_BE_BLANK, "schemaId");
+        checkArgument(revision > 0, "revision must be positive");
+        delete(config.getUploadSchemaByIdAndRevisionApi(schemaId, revision));
+    }
+
+    @Override
     public UploadSchema getUploadSchemaById(String schemaId) {
         session.checkSignedIn();
         checkArgument(isNotBlank(schemaId), Bridge.CANNOT_BE_BLANK, "schemaId");
