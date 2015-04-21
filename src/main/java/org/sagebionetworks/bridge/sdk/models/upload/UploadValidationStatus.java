@@ -8,7 +8,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.StringUtils;
 
-import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
+import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 
 /** This class represents upload validation status and messages. */
 @JsonDeserialize(builder = UploadValidationStatus.Builder.class)
@@ -109,6 +109,12 @@ public final class UploadValidationStatus {
             return this;
         }
 
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadValidationStatus#getMessageList */
+        public Builder withMessages(String... messages) {
+            this.messageList = ImmutableList.copyOf(messages);
+            return this;
+        }
+
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadValidationStatus#getStatus */
         public UploadStatus getStatus() {
             return status;
@@ -125,25 +131,25 @@ public final class UploadValidationStatus {
          * be non-null and must contain strings that are non-null and non-empty. status must be non-null.
          *
          * @return a validated UploadValidationStatus instance
-         * @throws BridgeSDKException
+         * @throws InvalidEntityException
          *         if called with invalid fields
          */
-        public UploadValidationStatus build() throws BridgeSDKException {
+        public UploadValidationStatus build() throws InvalidEntityException {
             if (StringUtils.isBlank(id)) {
-                throw new BridgeSDKException("id cannot be blank");
+                throw new InvalidEntityException("id cannot be blank");
             }
             if (messageList == null) {
-                throw new BridgeSDKException("messageList cannot be null");
+                throw new InvalidEntityException("messageList cannot be null");
             }
             if (status == null) {
-                throw new BridgeSDKException("status cannot be null");
+                throw new InvalidEntityException("status cannot be null");
             }
 
             // loop through and validate message list
             int numMessages = messageList.size();
             for (int i = 0; i < numMessages; i++) {
                 if (StringUtils.isBlank(messageList.get(i))) {
-                    throw new BridgeSDKException(String.format("messageList[%d] is blank", i));
+                    throw new InvalidEntityException(String.format("messageList[%d] is blank", i));
                 }
             }
 

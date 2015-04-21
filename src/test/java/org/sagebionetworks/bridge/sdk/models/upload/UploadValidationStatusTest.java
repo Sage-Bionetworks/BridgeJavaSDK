@@ -12,40 +12,40 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 
 import org.sagebionetworks.bridge.sdk.Utilities;
-import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
+import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 
 @SuppressWarnings("unchecked")
 public class UploadValidationStatusTest {
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void nullId() {
         new UploadValidationStatus.Builder().withMessageList(ImmutableList.<String>of())
                 .withStatus(UploadStatus.UNKNOWN).build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void emptyId() {
         new UploadValidationStatus.Builder().withId("").withMessageList(ImmutableList.<String>of())
                 .withStatus(UploadStatus.UNKNOWN).build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void blankId() {
         new UploadValidationStatus.Builder().withId("   ").withMessageList(ImmutableList.<String>of())
                 .withStatus(UploadStatus.UNKNOWN).build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void nullMessageList() {
         new UploadValidationStatus.Builder().withId("test-upload-id").withStatus(UploadStatus.UNKNOWN).build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void nullStatus() {
         new UploadValidationStatus.Builder().withId("test-upload-id").withMessageList(ImmutableList.<String>of())
                 .build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void nullMessage() {
         List<String> messageList = new ArrayList<>();
         messageList.add("first");
@@ -56,7 +56,7 @@ public class UploadValidationStatusTest {
                 .withStatus(UploadStatus.UNKNOWN).build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void emptyMessage() {
         List<String> messageList = new ArrayList<>();
         messageList.add("first");
@@ -67,7 +67,7 @@ public class UploadValidationStatusTest {
                 .withStatus(UploadStatus.UNKNOWN).build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void blankMessage() {
         List<String> messageList = new ArrayList<>();
         messageList.add("first");
@@ -75,6 +75,25 @@ public class UploadValidationStatusTest {
         messageList.add("last");
 
         new UploadValidationStatus.Builder().withId("test-upload-id").withMessageList(messageList)
+                .withStatus(UploadStatus.UNKNOWN).build();
+    }
+
+    // This actually triggers an error on withMessages() from ImmutableList not accepting null elements. As per
+    // Guava docs, this is a null pointer exception.
+    @Test(expected = NullPointerException.class)
+    public void nullMessageVarargs() {
+        new UploadValidationStatus.Builder().withMessages("first", null, "last");
+    }
+
+    @Test(expected = InvalidEntityException.class)
+    public void emptyMessageVarargs() {
+        new UploadValidationStatus.Builder().withId("test-upload-id").withMessages("first", "", "last")
+                .withStatus(UploadStatus.UNKNOWN).build();
+    }
+
+    @Test(expected = InvalidEntityException.class)
+    public void blankMessageVarargs() {
+        new UploadValidationStatus.Builder().withId("test-upload-id").withMessages("first", "   ", "last")
                 .withStatus(UploadStatus.UNKNOWN).build();
     }
 
@@ -94,7 +113,7 @@ public class UploadValidationStatusTest {
     }
 
     @Test
-    public void happyCaseWithmessages() {
+    public void happyCaseWithMessages() {
         UploadValidationStatus status = new UploadValidationStatus.Builder().withId("failed-upload-id")
                 .withMessageList(ImmutableList.of("foo", "bar", "baz")).withStatus(UploadStatus.VALIDATION_FAILED)
                 .build();
@@ -106,6 +125,20 @@ public class UploadValidationStatusTest {
         assertEquals("foo", resultMessageList.get(0));
         assertEquals("bar", resultMessageList.get(1));
         assertEquals("baz", resultMessageList.get(2));
+    }
+
+    @Test
+    public void happyCaseWithMessageVarargs() {
+        UploadValidationStatus status = new UploadValidationStatus.Builder().withId("varargs-upload-id")
+                .withMessages("qwerty", "asdf", "jkl;").withStatus(UploadStatus.VALIDATION_FAILED).build();
+        assertEquals("varargs-upload-id", status.getId());
+        assertEquals(UploadStatus.VALIDATION_FAILED, status.getStatus());
+
+        List<String> resultMessageList = status.getMessageList();
+        assertEquals(3, resultMessageList.size());
+        assertEquals("qwerty", resultMessageList.get(0));
+        assertEquals("asdf", resultMessageList.get(1));
+        assertEquals("jkl;", resultMessageList.get(2));
     }
 
     @Test

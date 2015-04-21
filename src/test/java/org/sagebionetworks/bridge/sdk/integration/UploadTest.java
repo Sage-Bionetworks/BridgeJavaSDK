@@ -8,7 +8,6 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.util.Locale;
 
-import com.google.common.collect.ImmutableList;
 import org.joda.time.DateTime;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -63,10 +62,10 @@ public class UploadTest {
             iosSurveySchema = new UploadSchema.Builder()
                     .withSchemaId("ios-survey")
                     .withName("iOS Survey Response")
-                    .withFieldDefinitions(ImmutableList.of(
-                            makeUploadFieldDef("answers", UploadFieldType.ATTACHMENT_JSON_TABLE),
-                            makeUploadFieldDef("item", UploadFieldType.STRING),
-                            makeUploadFieldDef("taskRunId", UploadFieldType.STRING)))
+                    .withFieldDefinitions(
+                            new UploadFieldDefinition("answers", UploadFieldType.ATTACHMENT_JSON_TABLE),
+                            new UploadFieldDefinition("item", UploadFieldType.STRING),
+                            new UploadFieldDefinition("taskRunId", UploadFieldType.STRING))
                     .build();
             researcherClient.createOrUpdateUploadSchema(iosSurveySchema);
         }
@@ -81,9 +80,9 @@ public class UploadTest {
             jsonDataSchema = new UploadSchema.Builder()
                     .withSchemaId("upload-test-json-data")
                     .withName("Upload Test JSON Data")
-                    .withFieldDefinitions(ImmutableList.of(
-                            makeUploadFieldDef("string.json.string", UploadFieldType.STRING),
-                            makeUploadFieldDef("blob.json.blob", UploadFieldType.ATTACHMENT_JSON_BLOB)))
+                    .withFieldDefinitions(
+                            new UploadFieldDefinition("string.json.string", UploadFieldType.STRING),
+                            new UploadFieldDefinition("blob.json.blob", UploadFieldType.ATTACHMENT_JSON_BLOB))
                     .build();
             researcherClient.createOrUpdateUploadSchema(jsonDataSchema);
         }
@@ -100,30 +99,25 @@ public class UploadTest {
                     // in the current version, non-JSON data matches by name, not by ID, so for testing purposes,
                     // keep schema and name the same
                     .withName("upload-test-non-json")
-                    .withFieldDefinitions(ImmutableList.of(
-                            makeUploadFieldDef("nonJson.txt", UploadFieldType.ATTACHMENT_BLOB),
-                            makeUploadFieldDef("jsonFile.json", UploadFieldType.ATTACHMENT_JSON_BLOB)))
+                    .withFieldDefinitions(
+                            new UploadFieldDefinition("nonJson.txt", UploadFieldType.ATTACHMENT_BLOB),
+                            new UploadFieldDefinition("jsonFile.json", UploadFieldType.ATTACHMENT_JSON_BLOB))
                     .build();
             researcherClient.createOrUpdateUploadSchema(nonJsonSchema);
         }
     }
 
     @AfterClass
-    public static void afterClass() {
+    public static void deleteResearcher() {
         if (researcher != null) {
-            try {
-                researcher.signOutAndDeleteUser();
-            } catch (RuntimeException ex) {
-                LOG.error("Error deleting temporary researcher account: " + ex.getMessage(), ex);
-            }
+            researcher.signOutAndDeleteUser();
         }
+    }
 
+    @AfterClass
+    public static void deleteUser() {
         if (user != null) {
-            try {
-                user.signOutAndDeleteUser();
-            } catch (RuntimeException ex) {
-                LOG.error("Error deleting temporary user account: " + ex.getMessage(), ex);
-            }
+            user.signOutAndDeleteUser();
         }
     }
 
@@ -209,9 +203,4 @@ public class UploadTest {
         String envName = ClientProvider.getConfig().getEnvironment().name().toLowerCase(Locale.ENGLISH);
         return "src/test/resources/upload-test/" + envName + "/" + fileLeafName;
     }
-
-    private static UploadFieldDefinition makeUploadFieldDef(String name, UploadFieldType type) {
-        return new UploadFieldDefinition.Builder().withName(name).withType(type).build();
-    }
 }
-

@@ -5,7 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.apache.commons.lang3.StringUtils;
 
-import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
+import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 
 /**
  * This class represents a field definition for an upload schema. This could map to a top-level key-value pair in the
@@ -17,11 +17,38 @@ public final class UploadFieldDefinition {
     private final boolean required;
     private final UploadFieldType type;
 
-    /** Private constructor. Construction of an UploadFieldDefinition should go through the Builder. */
-    private UploadFieldDefinition(String name, boolean required, UploadFieldType type) {
+    /**
+     * Private constructor. Construction of an UploadFieldDefinition should go through the Builder. This constructor
+     * should not be made public, since we don't want to potentially end up with dozens of "convenience constructors"
+     * if we add more fields to this class.
+     */
+    private UploadFieldDefinition(String name, boolean required, UploadFieldType type) throws InvalidEntityException {
+        if (StringUtils.isBlank(name)) {
+            throw new InvalidEntityException("name cannot be blank");
+        }
+        if (type == null) {
+            throw new InvalidEntityException("type cannot be null");
+        }
+
         this.name = name;
         this.required = required;
         this.type = type;
+    }
+
+    /**
+     * Convenience constructor for UploadFieldDefinition. This constructor takes in only the required parameters (name
+     * and type) and sets all other fields to defaults. For more sophisticated construction options, please use the
+     * Builder.
+     *
+     * @param name
+     *         field name
+     * @param type
+     *         field type
+     * @throws InvalidEntityException
+     *         if called with invalid fields
+     */
+    public UploadFieldDefinition(String name, UploadFieldType type) throws InvalidEntityException {
+        this(name, true, type);
     }
 
     /** The field name, always non-null and non-empty. */
@@ -116,18 +143,12 @@ public final class UploadFieldDefinition {
          * BridgeSDKException.
          *
          * @return validated UploadFieldDefinition
-         * @throws BridgeSDKException
+         * @throws InvalidEntityException
          *         if called with invalid fields
          */
-        public UploadFieldDefinition build() throws BridgeSDKException {
-            if (StringUtils.isBlank(name)) {
-                throw new BridgeSDKException("name cannot be blank");
-            }
+        public UploadFieldDefinition build() throws InvalidEntityException {
             if (required == null) {
                 required = true;
-            }
-            if (type == null) {
-                throw new BridgeSDKException("type cannot be null");
             }
 
             return new UploadFieldDefinition(name, required, type);

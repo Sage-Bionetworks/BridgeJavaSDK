@@ -10,8 +10,6 @@ import com.google.common.collect.ImmutableList;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
@@ -24,8 +22,6 @@ import org.sagebionetworks.bridge.sdk.models.upload.UploadFieldType;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadSchema;
 
 public class UploadSchemaTest {
-    private static final Logger LOG = LoggerFactory.getLogger(UploadSchemaTest.class);
-
     private static final String TEST_SCHEMA_ID = "integration-test-schema";
     private static final String TEST_SCHEMA_NAME = "Upload Schema Integration Tests";
 
@@ -39,21 +35,16 @@ public class UploadSchemaTest {
     }
 
     @AfterClass
-    public static void afterClass() {
+    public static void deleteResearcher() {
         if (researcher != null) {
-            try {
-                researcher.signOutAndDeleteUser();
-            } catch (RuntimeException ex) {
-                LOG.error("Error deleting temporary researcher account: " + ex.getMessage(), ex);
-            }
+            researcher.signOutAndDeleteUser();
         }
+    }
 
+    @AfterClass
+    public static void deleteUser() {
         if (user != null) {
-            try {
-                user.signOutAndDeleteUser();
-            } catch (RuntimeException ex) {
-                LOG.error("Error deleting temporary user account: " + ex.getMessage(), ex);
-            }
+            user.signOutAndDeleteUser();
         }
     }
 
@@ -77,7 +68,10 @@ public class UploadSchemaTest {
         if (!foundSchema) {
             // Step 2: Schema doesn't exist, so create it.
             List<UploadFieldDefinition> submittedFieldDefList = ImmutableList.of(
-                    makeField("foo", true, UploadFieldType.STRING), makeField("bar", false, UploadFieldType.INT));
+                    new UploadFieldDefinition.Builder().withName("foo").withRequired(true)
+                            .withType(UploadFieldType.STRING).build(),
+                    new UploadFieldDefinition.Builder().withName("bar").withRequired(false)
+                            .withType(UploadFieldType.INT).build());
             UploadSchema submittedSchema = new UploadSchema.Builder().withName(TEST_SCHEMA_NAME)
                     .withSchemaId(TEST_SCHEMA_ID).withFieldDefinitions(submittedFieldDefList).build();
             UploadSchema createdSchema = researcherClient.createOrUpdateUploadSchema(submittedSchema);
@@ -112,9 +106,5 @@ public class UploadSchemaTest {
     @Test(expected=UnauthorizedException.class)
     public void unauthorizedTest() {
         user.getSession().getResearcherClient().getUploadSchemaForStudy();
-    }
-
-    private static UploadFieldDefinition makeField(String name, boolean required, UploadFieldType type) {
-        return new UploadFieldDefinition.Builder().withName(name).withRequired(required).withType(type).build();
     }
 }

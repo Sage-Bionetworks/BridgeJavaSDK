@@ -10,7 +10,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
+import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 
 /** Represents an upload request to the Bridge Server. */
 @JsonDeserialize(builder = UploadRequest.Builder.class)
@@ -147,21 +147,21 @@ public final class UploadRequest {
          * length and MD5, use {@link #withFile}.
          *
          * @return validated UploadRequest
-         * @throws BridgeSDKException
+         * @throws InvalidEntityException
          *         if called with invalid fields
          */
-        public UploadRequest build() throws BridgeSDKException {
+        public UploadRequest build() throws InvalidEntityException {
             if (StringUtils.isBlank(name)) {
-                throw new BridgeSDKException("name cannot be blank");
+                throw new InvalidEntityException("name cannot be blank");
             }
             if (contentLength < 0) {
-                throw new BridgeSDKException("content length cannot be negative");
+                throw new InvalidEntityException("content length cannot be negative");
             }
             if (StringUtils.isBlank(contentMd5)) {
-                throw new BridgeSDKException("contentMd5 cannot be blank");
+                throw new InvalidEntityException("contentMd5 cannot be blank");
             }
             if (StringUtils.isBlank(contentType)) {
-                throw new BridgeSDKException("contentType cannot be blank");
+                throw new InvalidEntityException("contentType cannot be blank");
             }
 
             return new UploadRequest(name, contentLength, contentMd5, contentType);

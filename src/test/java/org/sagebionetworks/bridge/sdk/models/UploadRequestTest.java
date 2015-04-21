@@ -10,62 +10,62 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 
 import org.sagebionetworks.bridge.sdk.Utilities;
-import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
+import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 
 public class UploadRequestTest {
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void nullName() {
         new UploadRequest.Builder().withContentLength(42).withContentMd5("dummy md5").withContentType("text/plain")
                 .build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void emptyName() {
         new UploadRequest.Builder().withName("").withContentLength(42).withContentMd5("dummy md5")
                 .withContentType("text/plain").build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void blankName() {
         new UploadRequest.Builder().withName("   ").withContentLength(42).withContentMd5("dummy md5")
                 .withContentType("text/plain").build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void negativeLength() {
         new UploadRequest.Builder().withName("test-file").withContentLength(-1).withContentMd5("dummy md5")
                 .withContentType("text/plain").build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void nullMd5() {
         new UploadRequest.Builder().withName("test-file").withContentLength(42).withContentType("text/plain").build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void emptyMd5() {
         new UploadRequest.Builder().withName("test-file").withContentLength(42).withContentMd5("")
                 .withContentType("text/plain").build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void blankMd5() {
         new UploadRequest.Builder().withName("test-file").withContentLength(42).withContentMd5("   ")
                 .withContentType("text/plain").build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void nullType() {
         new UploadRequest.Builder().withName("test-file").withContentLength(42).withContentMd5("dummy md5").build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void emptyType() {
         new UploadRequest.Builder().withName("test-file").withContentLength(42).withContentMd5("dummy md5")
                 .withContentType("").build();
     }
 
-    @Test(expected = BridgeSDKException.class)
+    @Test(expected = InvalidEntityException.class)
     public void blankType() {
         new UploadRequest.Builder().withName("test-file").withContentLength(42).withContentMd5("dummy md5")
                 .withContentType("   ").build();
