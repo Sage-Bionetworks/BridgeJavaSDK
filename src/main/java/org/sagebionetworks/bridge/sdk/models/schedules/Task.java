@@ -1,9 +1,10 @@
 package org.sagebionetworks.bridge.sdk.models.schedules;
 
+import java.util.Objects;
+
 import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sun.org.apache.xerces.internal.utils.Objects;
 
 public final class Task {
 
