@@ -1,8 +1,8 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
-
-import java.util.List;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import org.joda.time.DateTime;
 import org.junit.After;
@@ -15,10 +15,12 @@ import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.schedules.Activity;
+import org.sagebionetworks.bridge.sdk.models.schedules.ActivityType;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.schedules.ScheduleType;
 import org.sagebionetworks.bridge.sdk.models.schedules.Task;
+import org.sagebionetworks.bridge.sdk.models.schedules.TaskStatus;
 
 public class TaskTest {
     
@@ -64,7 +66,29 @@ public class TaskTest {
     @Test
     public void createSchedulePlanGetTask() {
         ResourceList<Task> tasks = userClient.getTasks(DateTime.now().plusDays(3));
-        System.out.println(tasks);
+        assertEquals("one task returned", 1, tasks.getTotal());
+        
+        Task task = tasks.get(0);
+        assertEquals(TaskStatus.SCHEDULED, task.getStatus());
+        assertNotNull(task.getScheduledOn());
+        assertNull(task.getExpiresOn());
+        
+        Activity activity = task.getActivity();
+        assertEquals(ActivityType.TASK, activity.getActivityType());
+        assertEquals("Activity 1", activity.getLabel());
+        assertEquals("task:task1", activity.getRef());
+
+        task.setStartedOn(DateTime.now());
+        userClient.updateTasks(tasks.getItems());
+        tasks = userClient.getTasks(DateTime.now().plusDays(3));
+        assertEquals(1, tasks.getTotal());
+        assertEquals(TaskStatus.STARTED, task.getStatus());
+        
+        task = tasks.get(0);
+        task.setFinishedOn(DateTime.now());
+        userClient.updateTasks(tasks.getItems());
+        tasks = userClient.getTasks(DateTime.now().plusDays(3));
+        assertEquals(0, tasks.getTotal());
     }
     
     
