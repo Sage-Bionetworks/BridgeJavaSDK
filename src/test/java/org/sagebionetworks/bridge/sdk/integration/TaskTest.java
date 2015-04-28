@@ -2,6 +2,9 @@ package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
+
+import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,10 +13,12 @@ import org.sagebionetworks.bridge.sdk.ResearcherClient;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
+import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.schedules.Activity;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.schedules.ScheduleType;
+import org.sagebionetworks.bridge.sdk.models.schedules.Task;
 
 public class TaskTest {
     
@@ -58,7 +63,8 @@ public class TaskTest {
     
     @Test
     public void createSchedulePlanGetTask() {
-        
+        ResourceList<Task> tasks = userClient.getTasks(DateTime.now().plusDays(3));
+        System.out.println(tasks);
     }
     
     
