@@ -6,6 +6,9 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.ISODateTimeFormat;
+
 /**
  * A "soft" reference to a survey that may or may not specify a version with a specific timestamp.
  */
@@ -43,6 +46,10 @@ public final class SurveyReference {
      */
     public String getCreatedOn() {
         return createdOn;
+    }
+    
+    public DateTime getCreatedOnDateTime() {
+        return (createdOn == null) ? null : ISODateTimeFormat.dateTime().parseDateTime(createdOn);
     }
 
     @Override
