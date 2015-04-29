@@ -66,7 +66,7 @@ public class Tests {
 
         Schedule schedule3 = new Schedule();
         schedule3.setCronTrigger("0 0 11 ? * MON,WED,FRI *");
-        setSurveyActivity(schedule3, "http://host/surveys/GUID-AAA/2015-01-27T17:46:31.237Z");
+        setSurveyActivity(schedule3, "http://host/surveys/GUID-AAA/revisions/2015-01-27T17:46:31.237Z");
         schedule3.setExpires(Period.parse("PT1H"));
         schedule3.setLabel("Test label for the user");
 

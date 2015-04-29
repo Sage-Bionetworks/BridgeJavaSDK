@@ -76,7 +76,6 @@ public final class Config {
         UPLOADSCHEMA_API,
         UPLOADSCHEMA_BY_ID_API,
         UPLOADSCHEMA_BY_ID_AND_REV_API,
-        UPLOADSCHEMA_FOR_STUDY_API,
         USER_MANAGEMENT_API,
         USER_MANAGEMENT_CONSENT_API,
         USER_MANAGEMENT_ALLTESTUSERS_API;
@@ -321,10 +320,6 @@ public final class Config {
 
     public String getUploadSchemaByIdAndRevisionApi(String schemaId, int revision) {
         return String.format(val(Props.UPLOADSCHEMA_BY_ID_AND_REV_API), schemaId, revision);
-    }
-
-    public String getUploadSchemaForStudyApi() {
-        return val(Props.UPLOADSCHEMA_FOR_STUDY_API);
     }
 
     public String getResearcherStudyApi() {

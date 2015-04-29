@@ -54,7 +54,7 @@ public class UploadTest {
 
         UploadSchema iosSurveySchema = null;
         try {
-            iosSurveySchema = researcherClient.getUploadSchemaById("ios-survey");
+            iosSurveySchema = researcherClient.getUploadSchema("ios-survey");
         } catch (EntityNotFoundException ex) {
             // no-op
         }
@@ -72,7 +72,7 @@ public class UploadTest {
 
         UploadSchema jsonDataSchema = null;
         try {
-            jsonDataSchema = researcherClient.getUploadSchemaById("upload-test-json-data");
+            jsonDataSchema = researcherClient.getUploadSchema("upload-test-json-data");
         } catch (EntityNotFoundException ex) {
             // no-op
         }
@@ -89,7 +89,7 @@ public class UploadTest {
 
         UploadSchema nonJsonSchema = null;
         try {
-            nonJsonSchema = researcherClient.getUploadSchemaById("upload-test-non-json");
+            nonJsonSchema = researcherClient.getUploadSchema("upload-test-non-json");
         } catch (EntityNotFoundException ex) {
             // no-op
         }

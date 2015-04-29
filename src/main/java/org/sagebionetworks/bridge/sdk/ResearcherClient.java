@@ -273,7 +273,7 @@ public interface ResearcherClient {
      * @param schemaId
      *         schema ID of the upload schemas to delete, must be non-null and non-empty
      */
-    public void deleteUploadSchemaById(String schemaId);
+    public void deleteUploadSchemaAllRevisions(String schemaId);
 
     /**
      * This method deletes an upload schema with the specified schema ID and revision. If the schema doesn't exist,
@@ -284,7 +284,7 @@ public interface ResearcherClient {
      * @param revision
      *         revision number of the upload schema to delete, must be positive
      */
-    public void deleteUploadSchemaByIdAndRevision(String schemaId, int revision);
+    public void deleteUploadSchema(String schemaId, int revision);
 
     /**
      * This method fetches an upload schema from the current study with the specified schema ID. If there is more than
@@ -295,12 +295,12 @@ public interface ResearcherClient {
      *         ID of the schema to fetch, must be non-null and non-empty
      * @return the fetched schema, will be non-null
      */
-    public UploadSchema getUploadSchemaById(String schemaId);
+    public UploadSchema getUploadSchema(String schemaId);
 
     /**
      * Fetches all revisions of all upload schemas in the current study.
      *
      * @return a list of upload schemas
      */
-    public ResourceList<UploadSchema> getUploadSchemaForStudy();
+    public ResourceList<UploadSchema> getUploadSchemasAllRevisions();
 }

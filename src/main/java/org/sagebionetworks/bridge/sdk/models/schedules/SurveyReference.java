@@ -3,12 +3,15 @@ package org.sagebionetworks.bridge.sdk.models.schedules;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A "soft" reference to a survey that may or may not specify a version with a specific timestamp.
  */
 public final class SurveyReference {
     
+    private static final Pattern p = Pattern.compile("/surveys/(.*)/revisions/(.*)");
     private static final String SURVEY_PATH_FRAGMENT = "/surveys/";
     private static final String PUBLISHED_FRAGMENT = "published";
     
@@ -21,9 +24,10 @@ public final class SurveyReference {
     
     public SurveyReference(String ref) {
         checkNotNull(ref);
-        String[] parts = ref.split(SURVEY_PATH_FRAGMENT)[1].split("/");
-        this.guid = parts[0];
-        this.createdOn = PUBLISHED_FRAGMENT.equals(parts[1]) ? null : parts[1];
+        Matcher m = p.matcher(ref);
+        m.find();
+        this.guid = m.group(1);
+        this.createdOn = (PUBLISHED_FRAGMENT.equals(m.group(2))) ? null : m.group(2);
     }
     
     /**

@@ -14,7 +14,7 @@ public class ConfigTest {
     public void createConfig() {
         Config conf = new Config();
         assertNotNull(conf);
-        assertEquals("conf returns values", "/researchers/v1/surveys/asdf/published",
+        assertEquals("conf returns values", "/researchers/v1/surveys/asdf/revisions/published",
                 conf.getSurveyMostRecentlyPublishedVersionApi("asdf"));
     }
     

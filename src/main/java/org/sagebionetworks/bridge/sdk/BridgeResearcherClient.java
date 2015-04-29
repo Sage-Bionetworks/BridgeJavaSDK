@@ -243,14 +243,14 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     }
 
     @Override
-    public void deleteUploadSchemaById(String schemaId) {
+    public void deleteUploadSchemaAllRevisions(String schemaId) {
         session.checkSignedIn();
         checkArgument(isNotBlank(schemaId), Bridge.CANNOT_BE_BLANK, "schemaId");
         delete(config.getUploadSchemaByIdApi(schemaId));
     }
 
     @Override
-    public void deleteUploadSchemaByIdAndRevision(String schemaId, int revision) {
+    public void deleteUploadSchema(String schemaId, int revision) {
         session.checkSignedIn();
         checkArgument(isNotBlank(schemaId), Bridge.CANNOT_BE_BLANK, "schemaId");
         checkArgument(revision > 0, "revision must be positive");
@@ -258,15 +258,15 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     }
 
     @Override
-    public UploadSchema getUploadSchemaById(String schemaId) {
+    public UploadSchema getUploadSchema(String schemaId) {
         session.checkSignedIn();
         checkArgument(isNotBlank(schemaId), Bridge.CANNOT_BE_BLANK, "schemaId");
         return get(config.getUploadSchemaByIdApi(schemaId), UploadSchema.class);
     }
 
     @Override
-    public ResourceList<UploadSchema> getUploadSchemaForStudy() {
+    public ResourceList<UploadSchema> getUploadSchemasAllRevisions() {
         session.checkSignedIn();
-        return get(config.getUploadSchemaForStudyApi(), TYPE_REF_UPLOAD_SCHEMA_LIST);
+        return get(config.getUploadSchemaApi(), TYPE_REF_UPLOAD_SCHEMA_LIST);
     }
 }
