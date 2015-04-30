@@ -1,8 +1,7 @@
 package org.sagebionetworks.bridge.sdk.exceptions;
 
+@SuppressWarnings("serial")
 public class BadRequestException extends BridgeServerException {
-
-    private static final long serialVersionUID = -2319926413669559039L;
 
     public BadRequestException(String message, String endpoint) {
         super(message, 400, endpoint);

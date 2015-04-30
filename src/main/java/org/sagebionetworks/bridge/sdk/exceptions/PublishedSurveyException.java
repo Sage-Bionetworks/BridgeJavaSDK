@@ -3,9 +3,8 @@ package org.sagebionetworks.bridge.sdk.exceptions;
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.schedules.SurveyReference;
 
+@SuppressWarnings("serial")
 public class PublishedSurveyException extends BridgeServerException {
-
-    private static final long serialVersionUID = 5150621818895986256L;
 
     private final SurveyReference reference;
 
