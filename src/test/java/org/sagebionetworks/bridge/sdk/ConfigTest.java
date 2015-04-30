@@ -14,14 +14,14 @@ public class ConfigTest {
     public void createConfig() {
         Config conf = new Config();
         assertNotNull(conf);
-        assertEquals("conf returns values", "/researchers/v1/surveys/asdf/published",
-                conf.getSurveyMostRecentlyPublishedVersionApi("asdf"));
+        assertEquals("conf returns values", "/researchers/v1/surveys/asdf/revisions/published",
+                conf.getSurveyMostRecentlyPublishedRevisionApi("asdf"));
     }
     
     @Test(expected=IllegalArgumentException.class)
     public void configChecksArguments() {
         Config conf = new Config();
-        conf.getSurveyMostRecentlyPublishedVersionApi(null);
+        conf.getSurveyMostRecentlyPublishedRevisionApi(null);
     }
     
     // Doesn't work on Travis, does work locally.

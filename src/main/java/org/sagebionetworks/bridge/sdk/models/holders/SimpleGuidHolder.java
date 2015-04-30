@@ -15,7 +15,7 @@ public final class SimpleGuidHolder implements GuidHolder {
     private final String guid;
     
     @JsonCreator
-    SimpleGuidHolder(@JsonProperty("guid") String guid) {
+    public SimpleGuidHolder(@JsonProperty("guid") String guid) {
         checkNotNull(isNotBlank(guid), Bridge.CANNOT_BE_BLANK, "guid");
         this.guid = guid;
     }

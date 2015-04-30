@@ -16,7 +16,7 @@ public final class SimpleIdentifierHolder implements IdentifierHolder {
     private final String identifier;
     
     @JsonCreator
-    SimpleIdentifierHolder(@JsonProperty("identifier") String identifier) {
+    public SimpleIdentifierHolder(@JsonProperty("identifier") String identifier) {
         checkNotNull(isNotBlank(identifier), Bridge.CANNOT_BE_BLANK, "Identifier");
         this.identifier = identifier;
     }

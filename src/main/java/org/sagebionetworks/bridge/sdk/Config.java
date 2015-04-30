@@ -64,8 +64,8 @@ public final class Config {
         SURVEY_WITH_IDENTIFIER_USER_API,
         SURVEY_PUBLISH_API,
         SURVEY_CLOSE_API,
-        SURVEY_VERSIONS_API,
-        SURVEY_VERSIONS_NEW_API,
+        SURVEY_REVISIONS_API,
+        SURVEY_REVISIONS_NEW_API,
         SURVEYS_API,
         SURVEYS_RECENT_API,
         SURVEYS_PUBLISHED_API,
@@ -77,7 +77,6 @@ public final class Config {
         UPLOADSCHEMA_API,
         UPLOADSCHEMA_BY_ID_API,
         UPLOADSCHEMA_BY_ID_AND_REV_API,
-        UPLOADSCHEMA_FOR_STUDY_API,
         USER_MANAGEMENT_API,
         USER_MANAGEMENT_CONSENT_API,
         USER_MANAGEMENT_ALLTESTUSERS_API;
@@ -249,26 +248,26 @@ public final class Config {
         checkNotNull(createdOn);
         return String.format(val(Props.SURVEY_API), guid, createdOn.toString(ISODateTimeFormat.dateTime()));
     }
-    public String getSurveyMostRecentlyPublishedVersionApi(String guid) {
+    public String getSurveyMostRecentlyPublishedRevisionApi(String guid) {
         checkArgument(isNotBlank(guid));
         return String.format(val(Props.SURVEY_RECENTLY_PUBLISHED_API), guid);
     }
-    public String getSurveyMostRecentlyPublishedVersionByIdentifierApi(String identifier) {
+    public String getSurveyMostRecentlyPublishedRevisionByIdentifierApi(String identifier) {
         checkArgument(isNotBlank(identifier));
         return String.format(val(Props.SURVEY_RECENTLY_PUBLISHED_BY_IDENTIFIER_API), identifier);
     }
-    public String getSurveyMostRecentVersionApi(String guid) {
+    public String getSurveyMostRecentRevisionApi(String guid) {
         checkArgument(isNotBlank(guid));
         return String.format(val(Props.SURVEY_RECENT_API), guid);
     }
-    public String getSurveyVersionsApi(String guid) {
+    public String getSurveyRevisionsApi(String guid) {
         checkArgument(isNotBlank(guid));
-        return String.format(val(Props.SURVEY_VERSIONS_API), guid);
+        return String.format(val(Props.SURVEY_REVISIONS_API), guid);
     }
-    public String getSurveyNewVersionApi(String guid, DateTime createdOn) {
+    public String getSurveyNewRevisionApi(String guid, DateTime createdOn) {
         checkArgument(isNotBlank(guid));
         checkNotNull(createdOn);
-        return String.format(val(Props.SURVEY_VERSIONS_NEW_API), guid, createdOn.toString(ISODateTimeFormat.dateTime()));
+        return String.format(val(Props.SURVEY_REVISIONS_NEW_API), guid, createdOn.toString(ISODateTimeFormat.dateTime()));
     }
     public String getPublishSurveyApi(String guid, DateTime createdOn) {
         checkArgument(isNotBlank(guid));
@@ -325,10 +324,6 @@ public final class Config {
 
     public String getUploadSchemaByIdAndRevisionApi(String schemaId, int revision) {
         return String.format(val(Props.UPLOADSCHEMA_BY_ID_AND_REV_API), schemaId, revision);
-    }
-
-    public String getUploadSchemaForStudyApi() {
-        return val(Props.UPLOADSCHEMA_FOR_STUDY_API);
     }
 
     public String getResearcherStudyApi() {
