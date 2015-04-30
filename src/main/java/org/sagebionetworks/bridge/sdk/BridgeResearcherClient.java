@@ -265,7 +265,7 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     }
 
     @Override
-    public ResourceList<UploadSchema> getUploadSchemasAllRevisions() {
+    public ResourceList<UploadSchema> getAllUploadSchemasAllRevisions() {
         session.checkSignedIn();
         return get(config.getUploadSchemaApi(), TYPE_REF_UPLOAD_SCHEMA_LIST);
     }

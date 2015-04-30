@@ -302,5 +302,5 @@ public interface ResearcherClient {
      *
      * @return a list of upload schemas
      */
-    public ResourceList<UploadSchema> getUploadSchemasAllRevisions();
+    public ResourceList<UploadSchema> getAllUploadSchemasAllRevisions();
 }
