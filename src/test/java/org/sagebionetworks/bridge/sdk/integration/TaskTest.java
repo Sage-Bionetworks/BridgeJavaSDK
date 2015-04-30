@@ -88,7 +88,7 @@ public class TaskTest {
         task.setFinishedOn(DateTime.now());
         userClient.updateTasks(tasks.getItems());
         tasks = userClient.getTasks(DateTime.now().plusDays(3));
-        assertEquals(0, tasks.getTotal());
+        assertEquals(0, tasks.getTotal()); // no tasks == finished
     }
     
     

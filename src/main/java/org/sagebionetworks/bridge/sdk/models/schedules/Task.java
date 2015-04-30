@@ -15,7 +15,7 @@ public final class Task {
     private DateTime startedOn;
     private DateTime finishedOn;
 
-    public Task(@JsonProperty("guid") String guid, @JsonProperty("activity") Activity activity,
+    Task(@JsonProperty("guid") String guid, @JsonProperty("activity") Activity activity,
         @JsonProperty("scheduledOn") DateTime scheduledOn, @JsonProperty("expiresOn") DateTime expiresOn,
         @JsonProperty("startedOn") DateTime startedOn, @JsonProperty("finishedOn") DateTime finishedOn) {
         this.guid = guid;
