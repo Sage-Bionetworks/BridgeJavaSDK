@@ -16,7 +16,7 @@ public final class SimpleGuidVersionHolder implements GuidVersionHolder {
     private final Long version;
     
     @JsonCreator
-    SimpleGuidVersionHolder(@JsonProperty("guid") String guid, @JsonProperty("version") Long version) {
+    public SimpleGuidVersionHolder(@JsonProperty("guid") String guid, @JsonProperty("version") Long version) {
         checkNotNull(isNotBlank(guid), Bridge.CANNOT_BE_BLANK, "guid");
         this.guid = guid;
         this.version = version;

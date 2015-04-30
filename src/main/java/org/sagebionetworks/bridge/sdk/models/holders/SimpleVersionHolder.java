@@ -14,7 +14,7 @@ public final class SimpleVersionHolder implements VersionHolder {
     private final Long version;
     
     @JsonCreator
-    SimpleVersionHolder(@JsonProperty("version") Long version) {
+    public SimpleVersionHolder(@JsonProperty("version") Long version) {
         checkNotNull(version, Bridge.CANNOT_BE_NULL, "version");
         this.version = version; 
     }

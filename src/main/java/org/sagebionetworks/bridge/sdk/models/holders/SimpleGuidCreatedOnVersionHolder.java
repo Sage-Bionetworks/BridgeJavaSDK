@@ -19,7 +19,7 @@ public final class SimpleGuidCreatedOnVersionHolder implements GuidCreatedOnVers
     private final Long version;
 
     @JsonCreator
-    SimpleGuidCreatedOnVersionHolder(@JsonProperty("guid") String guid,
+    public SimpleGuidCreatedOnVersionHolder(@JsonProperty("guid") String guid,
             @JsonProperty("createdOn") DateTime createdOn, @JsonProperty("version") Long version) {
         checkArgument(isNotBlank(guid), Bridge.CANNOT_BE_BLANK, "guid");
         checkNotNull(createdOn, Bridge.CANNOT_BE_NULL, "createdOn");

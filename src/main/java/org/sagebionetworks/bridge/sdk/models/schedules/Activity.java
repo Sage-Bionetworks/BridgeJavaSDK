@@ -4,9 +4,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Objects;
 
-import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.ClientProvider;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.SimpleGuidCreatedOnVersionHolder;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -88,17 +88,7 @@ public final class Activity {
     public GuidCreatedOnVersionHolder getGuidCreatedOnVersionHolder() {
         final SurveyReference survey = getSurvey();
         if (survey != null && survey.getCreatedOn() != null) {
-            return new GuidCreatedOnVersionHolder() {
-                @Override public String getGuid() {
-                    return survey.getGuid();
-                }
-                @Override public DateTime getCreatedOn() {
-                    return DateTime.parse(survey.getCreatedOn());
-                }
-                @Override public Long getVersion() {
-                    return null;
-                }
-            };
+            return new SimpleGuidCreatedOnVersionHolder(survey.getGuid(), survey.getCreatedOn(), 0L);
         }
         return null;
     }

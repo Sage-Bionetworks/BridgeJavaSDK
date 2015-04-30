@@ -7,57 +7,59 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.ISODateTimeFormat;
+import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.holders.SimpleGuidCreatedOnVersionHolder;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A "soft" reference to a survey that may or may not specify a version with a specific timestamp.
  */
 public final class SurveyReference {
     
-    private static final Pattern p = Pattern.compile("/surveys/(.*)/revisions/(.*)");
-    private static final String SURVEY_PATH_FRAGMENT = "/surveys/";
     private static final String PUBLISHED_FRAGMENT = "published";
+    private static final String REGEXP = "http[s]?\\://.*/surveys/([^/]*)/revisions/([^/]*)";
+    private static final Pattern patttern = Pattern.compile(REGEXP);
     
     public static final boolean isSurveyRef(String ref) {
-        return (ref != null && ref.contains(SURVEY_PATH_FRAGMENT));
+        return (ref != null && ref.matches(REGEXP));
     }
-
+    
     private final String guid;
-    private final String createdOn;
+    private final DateTime createdOn;
     
     public SurveyReference(String ref) {
         checkNotNull(ref);
-        Matcher m = p.matcher(ref);
-        m.find();
-        this.guid = m.group(1);
-        this.createdOn = (PUBLISHED_FRAGMENT.equals(m.group(2))) ? null : m.group(2);
+        Matcher matcher = patttern.matcher(ref);
+        matcher.find();
+        this.guid = matcher.group(1);
+        String createdOnString = (PUBLISHED_FRAGMENT.equals(matcher.group(2))) ? null : matcher.group(2);
+        this.createdOn = (createdOnString != null) ? DateTime.parse(createdOnString) : null;    
+        checkNotNull(guid);
     }
     
-    /**
-     * The guid for this survey (will always be present).
-     */
     public String getGuid() {
         return guid;
     }
 
-    /**
-     * The created date of this survey version, give as an ISO 8601 datetime string 
-     * (optional).
-     */
-    public String getCreatedOn() {
+    public DateTime getCreatedOn() {
         return createdOn;
     }
     
-    public DateTime getCreatedOnDateTime() {
-        return (createdOn == null) ? null : ISODateTimeFormat.dateTime().parseDateTime(createdOn);
+    @JsonIgnore
+    public GuidCreatedOnVersionHolder getGuidCreatedOnVersionHolder() {
+        if (createdOn == null) {
+            return null;
+        }
+        return new SimpleGuidCreatedOnVersionHolder(guid, createdOn, 0L);
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + Objects.hashCode(createdOn);
         result = prime * result + Objects.hashCode(guid);
+        result = prime * result + Objects.hashCode(createdOn);
         return result;
     }
 
@@ -68,7 +70,7 @@ public final class SurveyReference {
         if (obj == null || getClass() != obj.getClass())
             return false;
         SurveyReference other = (SurveyReference) obj;
-        return (Objects.equals(createdOn, other.createdOn) && Objects.equals(guid, other.guid));
+        return Objects.equals(guid, other.guid) && Objects.equals(createdOn, other.createdOn);
     }
 
     @Override

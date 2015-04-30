@@ -1,7 +1,6 @@
 package org.sagebionetworks.bridge.sdk.exceptions;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.ISODateTimeFormat;
 import org.sagebionetworks.bridge.sdk.models.schedules.SurveyReference;
 
 public class PublishedSurveyException extends BridgeServerException {
@@ -20,7 +19,7 @@ public class PublishedSurveyException extends BridgeServerException {
     }
 
     public DateTime getCreatedOn() {
-        return reference.getCreatedOnDateTime();
+        return reference.getCreatedOn();
     }
 
     @Override
