@@ -70,6 +70,7 @@ public final class Config {
         SURVEYS_RECENT_API,
         SURVEYS_PUBLISHED_API,
         SURVEY_RESPONSE_API,
+        TASKS_API,
         UPLOAD_API,
         UPLOAD_COMPLETE_API,
         UPLOAD_STATUS_API,
@@ -309,6 +310,9 @@ public final class Config {
     public String getSchedulePlanApi(String guid) {
         checkArgument(isNotBlank(guid));
         return String.format(val(Props.SCHEDULEPLAN_API), guid);
+    }
+    public String getTasksApi() {
+        return val(Props.TASKS_API);
     }
 
     public String getUploadSchemaApi() {

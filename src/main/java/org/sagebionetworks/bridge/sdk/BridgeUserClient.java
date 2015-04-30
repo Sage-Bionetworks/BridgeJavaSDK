@@ -22,6 +22,7 @@ import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleIdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
+import org.sagebionetworks.bridge.sdk.models.schedules.Task;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
@@ -36,6 +37,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 class BridgeUserClient extends BaseApiCaller implements UserClient {
 
     private final TypeReference<ResourceListImpl<Schedule>> sType = new TypeReference<ResourceListImpl<Schedule>>() {};
+    
+    private final TypeReference<ResourceListImpl<Task>> tType = new TypeReference<ResourceListImpl<Task>>() {};
 
     BridgeUserClient(BridgeSession session) {
         super(session);
@@ -207,5 +210,20 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         session.checkSignedIn();
         checkArgument(isNotBlank(uploadId), Bridge.CANNOT_BE_BLANK, "uploadId");
         return get(config.getUploadStatusApi(uploadId), UploadValidationStatus.class);
+    }
+
+    @Override
+    public ResourceList<Task> getTasks(DateTime until) {
+        session.checkSignedIn();
+        
+        String queryString = (until == null) ? "" : "?until="+until.toString();
+        return get(config.getTasksApi() + queryString, tType);
+    }
+
+    @Override
+    public void updateTasks(List<Task> tasks) {
+        checkNotNull(tasks);
+        session.checkSignedIn();
+        post(config.getTasksApi(), tasks);
     }
 }
