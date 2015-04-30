@@ -15,13 +15,13 @@ public class ConfigTest {
         Config conf = new Config();
         assertNotNull(conf);
         assertEquals("conf returns values", "/researchers/v1/surveys/asdf/revisions/published",
-                conf.getSurveyMostRecentlyPublishedVersionApi("asdf"));
+                conf.getSurveyMostRecentlyPublishedRevisionApi("asdf"));
     }
     
     @Test(expected=IllegalArgumentException.class)
     public void configChecksArguments() {
         Config conf = new Config();
-        conf.getSurveyMostRecentlyPublishedVersionApi(null);
+        conf.getSurveyMostRecentlyPublishedRevisionApi(null);
     }
     
     // Doesn't work on Travis, does work locally.

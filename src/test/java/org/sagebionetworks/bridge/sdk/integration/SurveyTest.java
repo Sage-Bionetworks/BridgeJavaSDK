@@ -64,7 +64,7 @@ public class SurveyTest {
         try {
             ResearcherClient client = researcher.getSession().getResearcherClient();
             deleteAllSurveysInStudy(client);
-            assertEquals("Should be no surveys.", 0, client.getAllSurveysMostRecentVersion().getTotal());
+            assertEquals("Should be no surveys.", 0, client.getAllSurveysMostRecent().getTotal());
         } finally {
             researcher.signOutAndDeleteUser();
             user.signOutAndDeleteUser();
@@ -72,17 +72,17 @@ public class SurveyTest {
     }
 
     private void deleteAllSurveysInStudy(ResearcherClient client) {
-        for (Survey survey : client.getAllSurveysMostRecentVersion()) {
-            for (Survey version : client.getSurveyAllVersions(survey.getGuid())) {
-                client.closeSurvey(version);
-                client.deleteSurvey(version);
+        for (Survey survey : client.getAllSurveysMostRecent()) {
+            for (Survey revision : client.getSurveyAllRevisions(survey.getGuid())) {
+                client.closeSurvey(revision);
+                client.deleteSurvey(revision);
             }
         }
     }
     
     @Test(expected=UnauthorizedException.class)
     public void cannotSubmitAsNormalUser() {
-        user.getSession().getResearcherClient().getAllSurveysMostRecentVersion();
+        user.getSession().getResearcherClient().getAllSurveysMostRecent();
     }
 
     @Test
@@ -127,7 +127,7 @@ public class SurveyTest {
         GuidCreatedOnVersionHolder key = client.createSurvey(TestSurvey.getSurvey());
         key = client.versionSurvey(key);
 
-        int count = client.getSurveyAllVersions(key.getGuid()).getTotal();
+        int count = client.getSurveyAllRevisions(key.getGuid()).getTotal();
         assertEquals("Two versions for this survey.", 2, count);
 
         client.closeSurvey(key);
@@ -149,12 +149,12 @@ public class SurveyTest {
         key2 = client.versionSurvey(key2);
         key2 = client.versionSurvey(key2);
 
-        ResourceList<Survey> recentSurveys = client.getAllSurveysMostRecentVersion();
+        ResourceList<Survey> recentSurveys = client.getAllSurveysMostRecent();
         assertTrue("Recent versions of surveys exist in recentSurveys.", containsAll(recentSurveys.getItems(), key, key1, key2));
 
         client.publishSurvey(key);
         client.publishSurvey(key2);
-        ResourceList<Survey> publishedSurveys = client.getAllSurveysMostRecentVersion();
+        ResourceList<Survey> publishedSurveys = client.getAllSurveysMostRecent();
         assertTrue("Published surveys contain recently published.", containsAll(publishedSurveys.getItems(), key, key2));
     }
 
@@ -238,7 +238,7 @@ public class SurveyTest {
         client.publishSurvey(key2);
         client.versionSurvey(key2);
 
-        Survey found = client.getSurveyMostRecentlyPublishedVersion(key2.getGuid());
+        Survey found = client.getSurveyMostRecentlyPublished(key2.getGuid());
         assertEquals("This returns the right version", key2.getCreatedOn(), found.getCreatedOn());
         assertNotEquals("And these are really different versions", key.getCreatedOn(), found.getCreatedOn());
     }
@@ -255,14 +255,14 @@ public class SurveyTest {
 
         GuidCreatedOnVersionHolder holder = client.versionUpdateAndPublishSurvey(existingSurvey, true);
 
-        ResourceList<Survey> allVersions = client.getSurveyAllVersions(keys.getGuid());
-        assertEquals("There are now two versions", 2, allVersions.getTotal());
+        ResourceList<Survey> allRevisions = client.getSurveyAllRevisions(keys.getGuid());
+        assertEquals("There are now two versions", 2, allRevisions.getTotal());
 
-        Survey mostRecent = client.getSurveyMostRecentlyPublishedVersion(existingSurvey.getGuid());
+        Survey mostRecent = client.getSurveyMostRecentlyPublished(existingSurvey.getGuid());
         assertEquals(mostRecent.getGuid(), holder.getGuid());
         assertEquals(mostRecent.getCreatedOn(), holder.getCreatedOn());
         assertEquals(mostRecent.getVersion(), holder.getVersion());
-        assertEquals("The latest has a new title", "This is an update test", allVersions.get(0).getName());
+        assertEquals("The latest has a new title", "This is an update test", allRevisions.get(0).getName());
     }
     
     @Test
@@ -273,7 +273,7 @@ public class SurveyTest {
         GuidCreatedOnVersionHolder keys = client.createSurvey(survey);
         client.publishSurvey(keys);
         
-        client.getSurveyMostRecentlyPublishedVersionByIdentifier(survey.getIdentifier());
+        client.getSurveyMostRecentlyPublishedByIdentifier(survey.getIdentifier());
     }
     
     @Test

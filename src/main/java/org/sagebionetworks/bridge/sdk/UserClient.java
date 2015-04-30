@@ -76,7 +76,7 @@ public interface UserClient {
     public ResourceList<Schedule> getSchedules();
 
     /**
-     * Get a survey versionedOn a particular DateTime and associated with the given guid String.
+     * Get a survey version with a GUID and a createdOn timestamp.
      *
      * @param keys
      *
