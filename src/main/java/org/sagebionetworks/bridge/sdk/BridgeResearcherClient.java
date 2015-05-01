@@ -80,36 +80,36 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
         return get(config.getSurveyApi(keys.getGuid(), keys.getCreatedOn()), Survey.class);
     }
     @Override
-    public ResourceList<Survey> getSurveyAllVersions(String guid) {
+    public ResourceList<Survey> getSurveyAllRevisions(String guid) {
         session.checkSignedIn();
         checkArgument(isNotBlank(guid), Bridge.CANNOT_BE_BLANK, "guid");
-        return get(config.getSurveyVersionsApi(guid), sType);
+        return get(config.getSurveyRevisionsApi(guid), sType);
     }
     @Override
-    public Survey getSurveyMostRecentlyPublishedVersion(String guid) {
+    public Survey getSurveyMostRecentlyPublished(String guid) {
         session.checkSignedIn();
         checkArgument(isNotBlank(guid), Bridge.CANNOT_BE_BLANK, "guid");
-        return get(config.getSurveyMostRecentlyPublishedVersionApi(guid), Survey.class);
+        return get(config.getSurveyMostRecentlyPublishedRevisionApi(guid), Survey.class);
     }
     @Override
-    public Survey getSurveyMostRecentlyPublishedVersionByIdentifier(String identifier) {
+    public Survey getSurveyMostRecentlyPublishedByIdentifier(String identifier) {
         session.checkSignedIn();
         checkArgument(isNotBlank(identifier), Bridge.CANNOT_BE_BLANK, "identifier");
-        return get(config.getSurveyMostRecentlyPublishedVersionByIdentifierApi(identifier), Survey.class);
+        return get(config.getSurveyMostRecentlyPublishedRevisionByIdentifierApi(identifier), Survey.class);
     }
     @Override
-    public Survey getSurveyMostRecentVersion(String guid) {
+    public Survey getSurveyMostRecent(String guid) {
         session.checkSignedIn();
         checkArgument(isNotBlank(guid), Bridge.CANNOT_BE_BLANK, "guid");
-        return get(config.getSurveyMostRecentVersionApi(guid), Survey.class);
+        return get(config.getSurveyMostRecentRevisionApi(guid), Survey.class);
     }
     @Override
-    public ResourceList<Survey> getAllSurveysMostRecentlyPublishedVersion() {
+    public ResourceList<Survey> getAllSurveysMostRecentlyPublished() {
         session.checkSignedIn();
         return get(config.getSurveysPublishedApi(), sType);
     }
     @Override
-    public ResourceList<Survey> getAllSurveysMostRecentVersion() {
+    public ResourceList<Survey> getAllSurveysMostRecent() {
         session.checkSignedIn();
         return get(config.getSurveysRecentApi(), sType);
     }
@@ -127,7 +127,7 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
         session.checkSignedIn();
         checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
 
-        return post(config.getSurveyNewVersionApi(keys.getGuid(), keys.getCreatedOn()), null, SimpleGuidCreatedOnVersionHolder.class);
+        return post(config.getSurveyNewRevisionApi(keys.getGuid(), keys.getCreatedOn()), null, SimpleGuidCreatedOnVersionHolder.class);
     }
     @Override
     public GuidCreatedOnVersionHolder updateSurvey(Survey survey) {
@@ -243,14 +243,14 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     }
 
     @Override
-    public void deleteUploadSchemaById(String schemaId) {
+    public void deleteUploadSchemaAllRevisions(String schemaId) {
         session.checkSignedIn();
         checkArgument(isNotBlank(schemaId), Bridge.CANNOT_BE_BLANK, "schemaId");
         delete(config.getUploadSchemaByIdApi(schemaId));
     }
 
     @Override
-    public void deleteUploadSchemaByIdAndRevision(String schemaId, int revision) {
+    public void deleteUploadSchema(String schemaId, int revision) {
         session.checkSignedIn();
         checkArgument(isNotBlank(schemaId), Bridge.CANNOT_BE_BLANK, "schemaId");
         checkArgument(revision > 0, "revision must be positive");
@@ -258,15 +258,15 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     }
 
     @Override
-    public UploadSchema getUploadSchemaById(String schemaId) {
+    public UploadSchema getUploadSchema(String schemaId) {
         session.checkSignedIn();
         checkArgument(isNotBlank(schemaId), Bridge.CANNOT_BE_BLANK, "schemaId");
         return get(config.getUploadSchemaByIdApi(schemaId), UploadSchema.class);
     }
 
     @Override
-    public ResourceList<UploadSchema> getUploadSchemaForStudy() {
+    public ResourceList<UploadSchema> getAllUploadSchemasAllRevisions() {
         session.checkSignedIn();
-        return get(config.getUploadSchemaForStudyApi(), TYPE_REF_UPLOAD_SCHEMA_LIST);
+        return get(config.getUploadSchemaApi(), TYPE_REF_UPLOAD_SCHEMA_LIST);
     }
 }

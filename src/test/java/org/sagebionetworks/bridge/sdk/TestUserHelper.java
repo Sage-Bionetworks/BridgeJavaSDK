@@ -9,6 +9,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.exceptions.ConsentRequiredException;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
+import org.sagebionetworks.bridge.sdk.models.users.SignUpByAdmin;
 
 import com.google.common.collect.Sets;
 

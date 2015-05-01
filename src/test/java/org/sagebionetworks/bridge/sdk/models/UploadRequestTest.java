@@ -97,7 +97,7 @@ public class UploadRequestTest {
         UploadRequest req = new UploadRequest.Builder().withFile(file).withContentType("application/zip").build();
         assertEquals("non-json-encrypted", req.getName());
         assertEquals(1231, req.getContentLength());
-        assertEquals("rvEOqlhktlOk+7sKG/Euvg==", req.getContentMd5());
+        assertEquals("sb9igDhUaTSURFMyVRdmDA==", req.getContentMd5());
         assertEquals("application/zip", req.getContentType());
     }
 

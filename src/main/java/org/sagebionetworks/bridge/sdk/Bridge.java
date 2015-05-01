@@ -1,9 +1,6 @@
 package org.sagebionetworks.bridge.sdk;
 
-/**
- * We don't want to expose these, you can't share between packages, oh Java.
- *
- */
+// We don't want to expose these, but you can't share between packages in Java.
 public class Bridge {
 
     public static final String CANNOT_BE_NULL = "%s cannot be null.";

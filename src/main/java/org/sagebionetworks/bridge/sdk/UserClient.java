@@ -2,12 +2,14 @@ package org.sagebionetworks.bridge.sdk;
 
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.UploadRequest;
 import org.sagebionetworks.bridge.sdk.models.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
+import org.sagebionetworks.bridge.sdk.models.schedules.Task;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
@@ -76,7 +78,7 @@ public interface UserClient {
     public ResourceList<Schedule> getSchedules();
 
     /**
-     * Get a survey versionedOn a particular DateTime and associated with the given guid String.
+     * Get a survey version with a GUID and a createdOn timestamp.
      *
      * @param keys
      *
@@ -165,4 +167,20 @@ public interface UserClient {
      * @return object containing upload status and validation messages
      */
     public UploadValidationStatus getUploadStatus(String uploadId);
+    
+    /**
+     * Get the list of available or scheduled tasks.
+     * @param until
+     *      return tasks from now until the date and time of the until parameter (if null, 
+     *      the server's default will be used, currently 4 days).
+     * @return
+     */
+    public ResourceList<Task> getTasks(DateTime until);
+    
+    /**
+     * Update these tasks (by setting either the startedOn or finishedOn values of the task). 
+     * The only other required value that must be set for the task is its GUID.
+     * @param tasks
+     */
+    public void updateTasks(List<Task> tasks);
 }

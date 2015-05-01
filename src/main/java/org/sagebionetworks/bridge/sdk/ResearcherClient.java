@@ -55,15 +55,15 @@ public interface ResearcherClient {
     public void activateStudyConsent(DateTime createdOn);
 
     /**
-     * Get the survey versionedOn a particular DateTime and identified by the surveyGuid.
+     * Get the survey by its GUID for a particular DateTime revision.
      *
      * @param guid
      *            GUID identifying the survey.
-     * @param versionedOn
+     * @param revision
      *            The DateTime the survey was versioned on.
      * @return Survey
      */
-    public Survey getSurvey(String guid, DateTime versionedOn);
+    public Survey getSurvey(String guid, DateTime revision);
 
     /**
      * Take the supplied instance of a survey, make it the most recent version of the survey, save it, and 
@@ -101,14 +101,14 @@ public interface ResearcherClient {
      * @param guid
      * @return
      */
-    public ResourceList<Survey> getSurveyAllVersions(String guid);
+    public ResourceList<Survey> getSurveyAllRevisions(String guid);
     
     /**
      * Get the most recent version of a survey (the version with the latest createdOn timestamp).
      * @param guid
      * @return
      */
-    public Survey getSurveyMostRecentVersion(String guid);
+    public Survey getSurveyMostRecent(String guid);
     
     /**
      * Get the most recent version of a survey that has been published (the version with the latest createdOn timestamp
@@ -120,7 +120,7 @@ public interface ResearcherClient {
      *      The guid of the survey
      * @return
      */
-    public Survey getSurveyMostRecentlyPublishedVersion(String guid);
+    public Survey getSurveyMostRecentlyPublished(String guid);
     
     /**
      * Get the most recent version of a survey that has been published (the version with the latest createdOn timestamp
@@ -131,19 +131,19 @@ public interface ResearcherClient {
      *      The identifier of the survey
      * @return
      */
-    public Survey getSurveyMostRecentlyPublishedVersionByIdentifier(String identifier);
+    public Survey getSurveyMostRecentlyPublishedByIdentifier(String identifier);
     
     /**
      * Get the most recent and published version of every survey in a study (each survey with a unique GUID).
      * @return
      */
-    public ResourceList<Survey> getAllSurveysMostRecentlyPublishedVersion();
+    public ResourceList<Survey> getAllSurveysMostRecentlyPublished();
     
     /**
      * Get the most recent version of every survey in a study (each survey with a unique GUID).
      * @return
      */
-    public ResourceList<Survey> getAllSurveysMostRecentVersion();
+    public ResourceList<Survey> getAllSurveysMostRecent();
 
     /**
      * Create a new version for the survey identified by a guid string and the DateTime it was versioned on.
@@ -273,7 +273,7 @@ public interface ResearcherClient {
      * @param schemaId
      *         schema ID of the upload schemas to delete, must be non-null and non-empty
      */
-    public void deleteUploadSchemaById(String schemaId);
+    public void deleteUploadSchemaAllRevisions(String schemaId);
 
     /**
      * This method deletes an upload schema with the specified schema ID and revision. If the schema doesn't exist,
@@ -284,7 +284,7 @@ public interface ResearcherClient {
      * @param revision
      *         revision number of the upload schema to delete, must be positive
      */
-    public void deleteUploadSchemaByIdAndRevision(String schemaId, int revision);
+    public void deleteUploadSchema(String schemaId, int revision);
 
     /**
      * This method fetches an upload schema from the current study with the specified schema ID. If there is more than
@@ -295,12 +295,12 @@ public interface ResearcherClient {
      *         ID of the schema to fetch, must be non-null and non-empty
      * @return the fetched schema, will be non-null
      */
-    public UploadSchema getUploadSchemaById(String schemaId);
+    public UploadSchema getUploadSchema(String schemaId);
 
     /**
      * Fetches all revisions of all upload schemas in the current study.
      *
      * @return a list of upload schemas
      */
-    public ResourceList<UploadSchema> getUploadSchemaForStudy();
+    public ResourceList<UploadSchema> getAllUploadSchemasAllRevisions();
 }
