@@ -39,8 +39,8 @@ public class TaskTest {
         
         Schedule schedule = new Schedule();
         schedule.setLabel("Schedule 1");
-        schedule.setScheduleType(ScheduleType.ONCE);
         schedule.setDelay("P3D");
+        schedule.setScheduleType(ScheduleType.ONCE);
         schedule.addTimes("10:00");
         schedule.addActivity(new Activity("Activity 1", "task:task1"));
         
@@ -65,9 +65,9 @@ public class TaskTest {
     
     @Test
     public void createSchedulePlanGetTask() {
-        ResourceList<Task> tasks = userClient.getTasks(DateTime.now().plusDays(3));
+        ResourceList<Task> tasks = userClient.getTasks(DateTime.now().plusDays(4));
         assertEquals("one task returned", 1, tasks.getTotal());
-        
+
         Task task = tasks.get(0);
         assertEquals(TaskStatus.SCHEDULED, task.getStatus());
         assertNotNull(task.getScheduledOn());
