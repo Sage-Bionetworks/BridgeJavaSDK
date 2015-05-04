@@ -40,7 +40,6 @@ public class TaskTest {
         Schedule schedule = new Schedule();
         schedule.setLabel("Schedule 1");
         schedule.setScheduleType(ScheduleType.ONCE);
-        schedule.setDelay("P3D");
         schedule.addTimes("10:00");
         schedule.addActivity(new Activity("Activity 1", "task:task1"));
         
