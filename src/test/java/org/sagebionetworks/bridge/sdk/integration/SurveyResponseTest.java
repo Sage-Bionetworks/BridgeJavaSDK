@@ -13,6 +13,8 @@ import org.joda.time.format.ISODateTimeFormat;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+import org.sagebionetworks.bridge.IntegrationSmokeTest;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
 import org.sagebionetworks.bridge.sdk.TestSurvey;
@@ -31,6 +33,7 @@ import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+@Category(IntegrationSmokeTest.class)
 public class SurveyResponseTest {
     
     private TestUser researcher;
@@ -58,12 +61,12 @@ public class SurveyResponseTest {
     @After
     public void after() {
         try {
+            user.signOutAndDeleteUser();
             ResearcherClient client = researcher.getSession().getResearcherClient();
             client.closeSurvey(survey);
             client.deleteSurvey(survey);
         } finally {
             researcher.signOutAndDeleteUser();
-            user.signOutAndDeleteUser();
         }
     }
 
