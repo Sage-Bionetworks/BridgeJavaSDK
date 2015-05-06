@@ -98,7 +98,7 @@ public class SurveyTest {
         client.publishSurvey(key);
         
         UserClient userClient = user.getSession().getUserClient();
-        survey = userClient.getSurveyMostRecent(key.getGuid());
+        survey = userClient.getSurveyMostRecentlyPublished(key.getGuid());
         // And again, correct
         questions = survey.getElements();
         prompt = ((SurveyQuestion)questions.get(1)).getPrompt();

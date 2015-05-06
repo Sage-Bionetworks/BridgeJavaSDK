@@ -91,7 +91,7 @@ public interface UserClient {
      * @param guid
      * @return
      */
-    public Survey getSurveyMostRecent(String guid);
+    public Survey getSurveyMostRecentlyPublished(String guid);
     
     /**
      * Submit a list of SurveyAnswers to a particular survey.
