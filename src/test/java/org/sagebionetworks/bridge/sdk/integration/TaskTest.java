@@ -8,6 +8,8 @@ import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+import org.sagebionetworks.bridge.IntegrationSmokeTest;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
@@ -22,6 +24,7 @@ import org.sagebionetworks.bridge.sdk.models.schedules.ScheduleType;
 import org.sagebionetworks.bridge.sdk.models.schedules.Task;
 import org.sagebionetworks.bridge.sdk.models.schedules.TaskStatus;
 
+@Category(IntegrationSmokeTest.class)
 public class TaskTest {
     
     private TestUser user;
