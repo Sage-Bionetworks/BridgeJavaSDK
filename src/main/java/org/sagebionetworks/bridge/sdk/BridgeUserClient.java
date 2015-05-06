@@ -126,6 +126,14 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     }
     
     @Override
+    public Survey getSurveyMostRecent(String guid) {
+        session.checkSignedIn();
+        checkNotNull(guid, Bridge.CANNOT_BE_NULL, "guid");
+        
+        return get(config.getRecentlyPublishedSurveyUserApi(guid), Survey.class);
+    }
+    
+    @Override
     public IdentifierHolder submitAnswersToSurvey(GuidCreatedOnVersionHolder keys, List<SurveyAnswer> answers) {
         session.checkSignedIn();
         checkNotNull(keys, "Survey keys cannot be null.");
