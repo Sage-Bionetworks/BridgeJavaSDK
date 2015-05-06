@@ -87,9 +87,10 @@ public interface UserClient {
     public Survey getSurvey(GuidCreatedOnVersionHolder keys);
     
     /**
-     * Get the most recently published survey available for the provided guid.
+     * Get the most recently published survey available for the provided survey GUID.
      * @param guid
-     * @return
+     * 
+     * @return Survey
      */
     public Survey getSurveyMostRecentlyPublished(String guid);
     
