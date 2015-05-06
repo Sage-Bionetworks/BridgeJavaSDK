@@ -49,21 +49,20 @@ public class SurveyResponseTest {
         keys = client.createSurvey(testSurvey);
         client.publishSurvey(keys);
 
-        // It's unfortunate but all of the questions have been assigned GUIDs so we need to
-        // retrieve the whole thing here in order to submit answers. The API should return
-        // all the guids for the questions.
+        // The API does not return all the guids for the questions as well as the survey when you 
+        // save the survey. We have to get the whole survey, with questions, to get these GUIDs
         survey = client.getSurvey(keys.getGuid(), keys.getCreatedOn());
     }
 
     @After
     public void after() {
         try {
+            user.signOutAndDeleteUser();
             ResearcherClient client = researcher.getSession().getResearcherClient();
             client.closeSurvey(survey);
             client.deleteSurvey(survey);
         } finally {
             researcher.signOutAndDeleteUser();
-            user.signOutAndDeleteUser();
         }
     }
 
@@ -89,8 +88,6 @@ public class SurveyResponseTest {
         client.addAnswersToResponse(surveyResponse, answers);
         surveyResponse = client.getSurveyResponse(keys.getIdentifier());
         assertEquals(1, surveyResponse.getSurveyAnswers().size());
-
-        client.deleteSurveyResponse(surveyResponse.getIdentifier());        
     }
     
     @Test
@@ -112,8 +109,6 @@ public class SurveyResponseTest {
 
         SurveyResponse surveyResponse = client.getSurveyResponse(keys.getIdentifier());
         assertEquals("There should be two answers.", surveyResponse.getSurveyAnswers().size(), 2);
-
-        client.deleteSurveyResponse(surveyResponse.getIdentifier());
     }
 
     @Test
@@ -183,38 +178,31 @@ public class SurveyResponseTest {
                 assertEquals("Answer is correct", originalValue, savedAnswer.getAnswers().get(0));
             }
         }
-
-        client.deleteSurveyResponse(response.getIdentifier());
     }
     
     @Test
     public void canSubmitSurveyResponseWithAnIdentifier() {
         String identifier = RandomStringUtils.randomAlphabetic(10);
         UserClient client = user.getSession().getUserClient();
+        
+        SurveyQuestion question1 = (SurveyQuestion)survey.getElementByIdentifier(TestSurvey.BOOLEAN_ID);
+        SurveyQuestion question2 = (SurveyQuestion)survey.getElementByIdentifier(TestSurvey.INTEGER_ID);
+
+        List<SurveyAnswer> answers = Lists.newArrayList();
+
+        SurveyAnswer answer = question1.createAnswerForQuestion("true", "desktop");
+        answers.add(answer);
+        
+        answer = question2.createAnswerForQuestion("4", "desktop");
+        answers.add(answer);
+        
+        client.submitAnswersToSurvey(survey, identifier, answers);
+        
         try {
-            
-            SurveyQuestion question1 = (SurveyQuestion)survey.getElementByIdentifier(TestSurvey.BOOLEAN_ID);
-            SurveyQuestion question2 = (SurveyQuestion)survey.getElementByIdentifier(TestSurvey.INTEGER_ID);
-
-            List<SurveyAnswer> answers = Lists.newArrayList();
-
-            SurveyAnswer answer = question1.createAnswerForQuestion("true", "desktop");
-            answers.add(answer);
-            
-            answer = question2.createAnswerForQuestion("4", "desktop");
-            answers.add(answer);
-            
             client.submitAnswersToSurvey(survey, identifier, answers);
-            
-            try {
-                client.submitAnswersToSurvey(survey, identifier, answers);
-                fail("Should have thrown an error");
-            } catch(BridgeServerException e) {
-                assertEquals("Entity already exists HTTP status code", 409, e.getStatusCode());
-            }
-            
-        } finally {
-            client.deleteSurveyResponse(identifier);
+            fail("Should have thrown an error");
+        } catch(BridgeServerException e) {
+            assertEquals("Entity already exists HTTP status code", 409, e.getStatusCode());
         }
     }
 

@@ -171,14 +171,6 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         post(config.getSurveyResponseApi(response.getIdentifier()), answers);
     }
 
-    @Override
-    public void deleteSurveyResponse(String identifier) {
-        session.checkSignedIn();
-        checkNotNull(isNotBlank(identifier), "Survey response identifier cannot be null or blank.");
-
-        delete(config.getSurveyResponseApi(identifier));
-    }
-
     /*
      * Upload API
      */

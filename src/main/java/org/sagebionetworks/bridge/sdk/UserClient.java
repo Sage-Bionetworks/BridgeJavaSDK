@@ -141,14 +141,6 @@ public interface UserClient {
     public void addAnswersToResponse(SurveyResponse response, List<SurveyAnswer> answers);
 
     /**
-     * Delete a particular survey response.
-     *
-     * @param identifier
-     *            The identifier of the survey response to delete.
-     */
-    public void deleteSurveyResponse(String identifier);
-
-    /**
      * Request an upload session from the user.
      *
      * @param request
