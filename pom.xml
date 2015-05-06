@@ -10,30 +10,15 @@
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <surefire.version>2.18.1</surefire.version>
     </properties> 
     
-    <!-- 
-    <distributionManagement>
-        <repository>
-            <id>sagebionetworks</id>
-            <name>sagebionetworks-releases</name>
-            <url>http://sagebionetworks.artifactoryonline.com/sagebionetworks/libs-releases-local</url>
-        </repository>
-        <snapshotRepository>
-            <id>sagebionetworks</id>
-            <name>sagebionetworks-snapshots</name>
-            <url>http://sagebionetworks.artifactoryonline.com/sagebionetworks/libs-snapshots-local</url>
-            <uniqueVersion>false</uniqueVersion>
-        </snapshotRepository>
-    </distributionManagement>    
-     -->
-     
-	<pluginRepositories>
+    <pluginRepositories>
         <pluginRepository>
             <id>jcenter-repository</id>
             <url>http://jcenter.bintray.com</url>
         </pluginRepository>
-	</pluginRepositories>
+    </pluginRepositories>
      
     <organization>
         <name>Sage Bionetworks</name>
@@ -120,20 +105,6 @@
             <scope>test</scope>
         </dependency>        
     </dependencies>
-
-    <!-- 
-    <distributionManagement>
-        <repository>
-            <id>sagebionetworks-releases</id>
-            <url>http://sagebionetworks.artifactoryonline.com/sagebionetworks/ext-releases-local</url>
-        </repository>
-		<snapshotRepository>
-			<id>sagebionetworks-snapshots</id>
-			<url>http://sagebionetworks.artifactoryonline.com/sagebionetworks/libs-snapshots-local</url>
-			<uniqueVersion>false</uniqueVersion>
-		</snapshotRepository>        
-    </distributionManagement>
-         -->
          
     <build>
         <plugins>
@@ -156,34 +127,58 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
-	        <plugin>
-	            <groupId>org.jfrog.buildinfo</groupId>
-	            <artifactId>artifactory-maven-plugin</artifactId>
-	            <version>2.2.2</version>
-	            <inherited>false</inherited>
-	            <executions>
-	                <execution>
-	                    <id>build-info</id>
-	                    <goals>
-	                        <goal>publish</goal>
-	                    </goals>
-	                    <configuration>
-							<deployProperties>
-							    <groupId>${project.groupId}</groupId>
-							    <artifactId>${project.artifactId}</artifactId>
-							    <version>${project.version}</version>
-							</deployProperties>	                        
-	                        <publisher>
-	                            <contextUrl>http://sagebionetworks.artifactoryonline.com/sagebionetworks</contextUrl>
-	                            <username>${env.ARTIFACTORY_USERNAME}</username>
-	                            <password>${env.ARTIFACTORY_PASSWORD}</password>
-	                            <repoKey>libs-releases-local</repoKey>
-	                            <snapshotRepoKey>libs-snapshots-local</snapshotRepoKey>
-	                        </publisher>
-	                    </configuration>
-	                </execution>
-	            </executions>
-	        </plugin>
+            <plugin>
+                <groupId>org.jfrog.buildinfo</groupId>
+                <artifactId>artifactory-maven-plugin</artifactId>
+                <version>2.2.2</version>
+                <inherited>false</inherited>
+                <executions>
+                    <execution>
+                        <id>build-info</id>
+                        <goals>
+                            <goal>publish</goal>
+                        </goals>
+                        <configuration>
+                            <deployProperties>
+                                <groupId>${project.groupId}</groupId>
+                                <artifactId>${project.artifactId}</artifactId>
+                                <version>${project.version}</version>
+                            </deployProperties>                            
+                            <publisher>
+                                <contextUrl>http://sagebionetworks.artifactoryonline.com/sagebionetworks</contextUrl>
+                                <username>${env.ARTIFACTORY_USERNAME}</username>
+                                <password>${env.ARTIFACTORY_PASSWORD}</password>
+                                <repoKey>libs-releases-local</repoKey>
+                                <snapshotRepoKey>libs-snapshots-local</snapshotRepoKey>
+                            </publisher>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+    
+    <profiles>
+        <profile>
+            <id>integration-smoke-tests</id>
+            <activation>
+                <!-- -DjunitCategory=integrationSmokeTests -->
+                <property>
+                    <name>junitCategory</name>
+                    <value>integrationSmokeTests</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${surefire.version}</version>
+                        <configuration>
+                            <groups>org.sagebionetworks.bridge.IntegrationSmokeTest</groups>
+                        </configuration>
+                    </plugin>            
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

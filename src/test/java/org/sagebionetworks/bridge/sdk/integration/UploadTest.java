@@ -12,9 +12,10 @@ import org.joda.time.DateTime;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.sagebionetworks.bridge.IntegrationSmokeTest;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.ClientProvider;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
@@ -29,6 +30,7 @@ import org.sagebionetworks.bridge.sdk.models.upload.UploadSchema;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadStatus;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadValidationStatus;
 
+@Category(IntegrationSmokeTest.class)
 public class UploadTest {
     private static final Logger LOG = LoggerFactory.getLogger(UploadTest.class);
 
