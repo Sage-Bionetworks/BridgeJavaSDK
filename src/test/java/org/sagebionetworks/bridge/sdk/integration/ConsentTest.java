@@ -1,7 +1,6 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -11,6 +10,8 @@ import java.util.Map;
 import org.joda.time.LocalDate;
 import org.joda.time.format.ISODateTimeFormat;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+import org.sagebionetworks.bridge.IntegrationSmokeTest;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.ClientProvider;
 import org.sagebionetworks.bridge.sdk.Session;
@@ -27,6 +28,7 @@ import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@Category(IntegrationSmokeTest.class)
 @SuppressWarnings("unchecked")
 public class ConsentTest {
     private static final String FAKE_IMAGE_DATA = "VGhpcyBpc24ndCBhIHJlYWwgaW1hZ2Uu";

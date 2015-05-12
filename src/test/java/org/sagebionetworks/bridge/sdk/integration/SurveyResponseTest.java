@@ -13,6 +13,8 @@ import org.joda.time.format.ISODateTimeFormat;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+import org.sagebionetworks.bridge.IntegrationSmokeTest;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
 import org.sagebionetworks.bridge.sdk.TestSurvey;
@@ -31,6 +33,7 @@ import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+@Category(IntegrationSmokeTest.class)
 public class SurveyResponseTest {
     
     private TestUser researcher;
@@ -184,7 +187,7 @@ public class SurveyResponseTest {
     public void canSubmitSurveyResponseWithAnIdentifier() {
         String identifier = RandomStringUtils.randomAlphabetic(10);
         UserClient client = user.getSession().getUserClient();
-        
+
         SurveyQuestion question1 = (SurveyQuestion)survey.getElementByIdentifier(TestSurvey.BOOLEAN_ID);
         SurveyQuestion question2 = (SurveyQuestion)survey.getElementByIdentifier(TestSurvey.INTEGER_ID);
 

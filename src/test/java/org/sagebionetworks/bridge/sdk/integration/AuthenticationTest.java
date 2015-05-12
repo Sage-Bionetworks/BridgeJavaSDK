@@ -7,6 +7,8 @@ import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+import org.sagebionetworks.bridge.IntegrationSmokeTest;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.AdminClient;
 import org.sagebionetworks.bridge.sdk.ClientProvider;
@@ -21,6 +23,7 @@ import org.sagebionetworks.bridge.sdk.models.users.EmailCredentials;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
 
+@Category(IntegrationSmokeTest.class)
 public class AuthenticationTest {
 
     @Test

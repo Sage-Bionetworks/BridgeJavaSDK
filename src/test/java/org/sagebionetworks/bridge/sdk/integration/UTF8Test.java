@@ -3,7 +3,8 @@ package org.sagebionetworks.bridge.sdk.integration;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-
+import org.junit.experimental.categories.Category;
+import org.sagebionetworks.bridge.IntegrationSmokeTest;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.AdminClient;
 import org.sagebionetworks.bridge.sdk.ClientProvider;
@@ -15,6 +16,7 @@ import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
 
+@Category(IntegrationSmokeTest.class)
 public class UTF8Test {
     @Test
     public void canSaveAndRetrieveDataStoredInDynamo() {
