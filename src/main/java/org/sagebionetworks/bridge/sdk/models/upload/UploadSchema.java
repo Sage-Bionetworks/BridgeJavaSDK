@@ -22,14 +22,16 @@ public final class UploadSchema {
     private final String name;
     private final Integer revision;
     private final String schemaId;
+    private final UploadSchemaType schemaType;
 
     /** Private constructor. Construction of an UploadSchema should go through the Builder. */
     private UploadSchema(List<UploadFieldDefinition> fieldDefinitions, String name, Integer revision,
-            String schemaId) {
+            String schemaId, UploadSchemaType schemaType) {
         this.fieldDefinitions = fieldDefinitions;
         this.name = name;
         this.revision = revision;
         this.schemaId = schemaId;
+        this.schemaType = schemaType;
     }
 
     /**
@@ -73,6 +75,11 @@ public final class UploadSchema {
         return schemaId;
     }
 
+    /** Schema type, for example survey vs data. */
+    public UploadSchemaType getSchemaType() {
+        return schemaType;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -81,6 +88,7 @@ public final class UploadSchema {
         result = prime * result + Objects.hashCode(name);
         result = prime * result + Objects.hashCode(revision);
         result = prime * result + Objects.hashCode(schemaId);
+        result = prime * result + Objects.hashCode(schemaType);
         return result;
     }
 
@@ -94,13 +102,14 @@ public final class UploadSchema {
         }
         UploadSchema other = (UploadSchema) obj;
         return Objects.equals(fieldDefinitions, other.fieldDefinitions) && Objects.equals(name, other.name)
-                && Objects.equals(revision, other.revision) && Objects.equals(schemaId, other.schemaId);
+                && Objects.equals(revision, other.revision) && Objects.equals(schemaId, other.schemaId)
+                && Objects.equals(this.schemaType, other.schemaType);
     }
 
     @Override
     public String toString() {
-        return String.format("UploadSchema[name=%s, revision=%s, schemaId=%s, fieldDefinitions=[%s]]", name, revision,
-                schemaId, Joiner.on(", ").join(fieldDefinitions));
+        return String.format("UploadSchema[name=%s, revision=%s, schemaId=%s, schemaType=%s, fieldDefinitions=[%s]]",
+                name, revision, schemaId, schemaType.name(), Joiner.on(", ").join(fieldDefinitions));
     }
 
     /** Builder for UploadSchema */
@@ -109,6 +118,7 @@ public final class UploadSchema {
         private String name;
         private Integer revision;
         private String schemaId;
+        private UploadSchemaType schemaType;
 
         /**
          * Sets all builder fields to be a copy of the specified schema. This returns the builder, which can be used to
@@ -120,6 +130,7 @@ public final class UploadSchema {
             this.name = other.name;
             this.revision = other.revision;
             this.schemaId = other.schemaId;
+            this.schemaType = other.schemaType;
             return this;
         }
 
@@ -175,6 +186,17 @@ public final class UploadSchema {
             return this;
         }
 
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSchemaType */
+        public UploadSchemaType getSchemaType() {
+            return schemaType;
+        }
+
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSchemaType */
+        public Builder withSchemaType(UploadSchemaType schemaType) {
+            this.schemaType = schemaType;
+            return this;
+        }
+
         /**
          * <p>
          * Builds and validates an UploadSchema. This will throw a InvalidEntityException under the following conditions:
@@ -184,6 +206,7 @@ public final class UploadSchema {
          *     <li>name is null or empty</li>
          *     <li>revision is negative</li>
          *     <li>schemaId is null or empty</li>
+         *     <li>schemaType is null</li>
          *   </ul>
          * </p>
          * <p>
@@ -221,7 +244,12 @@ public final class UploadSchema {
                 throw new InvalidEntityException("schemaId cannot be blank");
             }
 
-            return new UploadSchema(ImmutableList.copyOf(fieldDefinitions), name, revision, schemaId);
+            // schema type
+            if (schemaType == null) {
+                throw new InvalidEntityException("schemaType cannot be null");
+            }
+
+            return new UploadSchema(ImmutableList.copyOf(fieldDefinitions), name, revision, schemaId, schemaType);
         }
     }
 }

@@ -18,68 +18,80 @@ import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 public class UploadSchemaTest {
     @Test(expected = InvalidEntityException.class)
     public void nullFieldDefList() {
-        new UploadSchema.Builder().withName("Test Schema").withSchemaId("test-schema").build();
+        new UploadSchema.Builder().withName("Test Schema").withSchemaId("test-schema")
+                .withSchemaType(UploadSchemaType.IOS_DATA).build();
     }
 
     @Test(expected = InvalidEntityException.class)
     public void emptyFieldDefList() {
         new UploadSchema.Builder().withFieldDefinitions(ImmutableList.<UploadFieldDefinition>of())
-                .withName("Test Schema").withSchemaId("test-schema").build();
+                .withName("Test Schema").withSchemaId("test-schema").withSchemaType(UploadSchemaType.IOS_DATA).build();
     }
 
     @Test(expected = InvalidEntityException.class)
     public void emptyFieldDefVarargs() {
-        new UploadSchema.Builder().withFieldDefinitions().withName("Test Schema").withSchemaId("test-schema").build();
+        new UploadSchema.Builder().withFieldDefinitions().withName("Test Schema").withSchemaId("test-schema")
+                .withSchemaType(UploadSchemaType.IOS_DATA).build();
     }
 
     @Test(expected = InvalidEntityException.class)
     public void nullName() {
-        new UploadSchema.Builder().withFieldDefinitions(mutableFieldDefList()).withSchemaId("test-schema").build();
+        new UploadSchema.Builder().withFieldDefinitions(mutableFieldDefList()).withSchemaId("test-schema")
+                .withSchemaType(UploadSchemaType.IOS_DATA).build();
     }
 
     @Test(expected = InvalidEntityException.class)
     public void emptyName() {
         new UploadSchema.Builder().withFieldDefinitions(mutableFieldDefList()).withName("").withSchemaId("test-schema")
-                .build();
+                .withSchemaType(UploadSchemaType.IOS_DATA).build();
     }
 
     @Test(expected = InvalidEntityException.class)
     public void blankName() {
         new UploadSchema.Builder().withFieldDefinitions(mutableFieldDefList()).withName("   ")
-                .withSchemaId("test-schema").build();
+                .withSchemaId("test-schema").withSchemaType(UploadSchemaType.IOS_DATA).build();
     }
 
     @Test(expected = InvalidEntityException.class)
     public void negativeRevision() {
         new UploadSchema.Builder().withFieldDefinitions(mutableFieldDefList()).withName("Test Schema").withRevision(-1)
-                .withSchemaId("test-schema").build();
+                .withSchemaId("test-schema").withSchemaType(UploadSchemaType.IOS_DATA).build();
     }
 
     @Test(expected = InvalidEntityException.class)
     public void nullSchemaId() {
-        new UploadSchema.Builder().withFieldDefinitions(mutableFieldDefList()).withName("Test Schema").build();
+        new UploadSchema.Builder().withFieldDefinitions(mutableFieldDefList()).withName("Test Schema")
+                .withSchemaType(UploadSchemaType.IOS_DATA).build();
     }
 
     @Test(expected = InvalidEntityException.class)
     public void emptySchemaId() {
         new UploadSchema.Builder().withFieldDefinitions(mutableFieldDefList()).withName("Test Schema").withSchemaId("")
-                .build();
+                .withSchemaType(UploadSchemaType.IOS_DATA).build();
     }
 
     @Test(expected = InvalidEntityException.class)
     public void blankSchemaId() {
         new UploadSchema.Builder().withFieldDefinitions(mutableFieldDefList()).withName("Test Schema")
-                .withSchemaId("   ").build();
+                .withSchemaId("   ").withSchemaType(UploadSchemaType.IOS_DATA).build();
+    }
+
+    @Test(expected = InvalidEntityException.class)
+    public void nullSchemaType() {
+        new UploadSchema.Builder().withFieldDefinitions(mutableFieldDefList()).withName("Test Schema")
+                .withSchemaId("test-schema").build();
     }
 
     @Test
     public void happyCase() {
         List<UploadFieldDefinition> inputFieldDefList = mutableFieldDefList();
         UploadSchema testSchema = new UploadSchema.Builder().withFieldDefinitions(inputFieldDefList)
-                .withName("Happy Case Schema").withSchemaId("happy-schema").build();
+                .withName("Happy Case Schema").withSchemaId("happy-schema").withSchemaType(UploadSchemaType.IOS_DATA)
+                .build();
         assertEquals("Happy Case Schema", testSchema.getName());
         assertNull(testSchema.getRevision());
         assertEquals("happy-schema", testSchema.getSchemaId());
+        assertEquals(UploadSchemaType.IOS_DATA, testSchema.getSchemaType());
 
         // only check the field name, since everything else is tested by UploadFieldDefinitionTest
         List<UploadFieldDefinition> outputFieldDefList = testSchema.getFieldDefinitions();
@@ -94,10 +106,12 @@ public class UploadSchemaTest {
     @Test
     public void zeroRevision() {
         UploadSchema testSchema = new UploadSchema.Builder().withFieldDefinitions(mutableFieldDefList())
-                .withName("Zero Revision Schema").withRevision(0).withSchemaId("zero-revision-schema").build();
+                .withName("Zero Revision Schema").withRevision(0).withSchemaId("zero-revision-schema")
+                .withSchemaType(UploadSchemaType.IOS_SURVEY).build();
         assertEquals("Zero Revision Schema", testSchema.getName());
         assertEquals(0, testSchema.getRevision().intValue());
         assertEquals("zero-revision-schema", testSchema.getSchemaId());
+        assertEquals(UploadSchemaType.IOS_SURVEY, testSchema.getSchemaType());
 
         // only check the field name, since everything else is tested by UploadFieldDefinitionTest
         List<UploadFieldDefinition> outputFieldDefList = testSchema.getFieldDefinitions();
@@ -108,10 +122,12 @@ public class UploadSchemaTest {
     @Test
     public void positiveRevision() {
         UploadSchema testSchema = new UploadSchema.Builder().withFieldDefinitions(mutableFieldDefList())
-                .withName("Positive Revision Schema").withRevision(1).withSchemaId("positive-revision-schema").build();
+                .withName("Positive Revision Schema").withRevision(1).withSchemaId("positive-revision-schema")
+                .withSchemaType(UploadSchemaType.IOS_SURVEY).build();
         assertEquals("Positive Revision Schema", testSchema.getName());
         assertEquals(1, testSchema.getRevision().intValue());
         assertEquals("positive-revision-schema", testSchema.getSchemaId());
+        assertEquals(UploadSchemaType.IOS_SURVEY, testSchema.getSchemaType());
 
         // only check the field name, since everything else is tested by UploadFieldDefinitionTest
         List<UploadFieldDefinition> outputFieldDefList = testSchema.getFieldDefinitions();
@@ -125,10 +141,12 @@ public class UploadSchemaTest {
                 new UploadFieldDefinition("foo", UploadFieldType.STRING),
                 new UploadFieldDefinition("bar", UploadFieldType.BOOLEAN),
                 new UploadFieldDefinition("baz", UploadFieldType.INT))
-                .withName("Field Def Varargs Schema").withSchemaId("field-def-varargs-schema").build();
+                .withName("Field Def Varargs Schema").withSchemaId("field-def-varargs-schema")
+                .withSchemaType(UploadSchemaType.IOS_SURVEY).build();
         assertEquals("Field Def Varargs Schema", testSchema.getName());
         assertNull(testSchema.getRevision());
         assertEquals("field-def-varargs-schema", testSchema.getSchemaId());
+        assertEquals(UploadSchemaType.IOS_SURVEY, testSchema.getSchemaType());
 
         // only check the field name, since everything else is tested by UploadFieldDefinitionTest
         List<UploadFieldDefinition> outputFieldDefList = testSchema.getFieldDefinitions();
@@ -141,7 +159,8 @@ public class UploadSchemaTest {
     @Test
     public void builderCopyOf() {
         UploadSchema originalSchema = new UploadSchema.Builder().withFieldDefinitions(mutableFieldDefList())
-                .withName("Copied Schema").withRevision(1).withSchemaId("copied-schema").build();
+                .withName("Copied Schema").withRevision(1).withSchemaId("copied-schema")
+                .withSchemaType(UploadSchemaType.IOS_SURVEY).build();
         UploadSchema copiedSchema = new UploadSchema.Builder().copyOf(originalSchema).build();
         assertEquals(originalSchema, copiedSchema);
     }
@@ -153,6 +172,7 @@ public class UploadSchemaTest {
                 "   \"name\":\"Test Schema\",\n" +
                 "   \"revision\":3,\n" +
                 "   \"schemaId\":\"test-schema\",\n" +
+                "   \"schemaType\":\"ios_data\",\n" +
                 "   \"fieldDefinitions\":[\n" +
                 "       {\n" +
                 "           \"name\":\"foo\",\n" +
@@ -166,6 +186,7 @@ public class UploadSchemaTest {
         assertEquals("Test Schema", uploadSchema.getName());
         assertEquals(3, uploadSchema.getRevision().intValue());
         assertEquals("test-schema", uploadSchema.getSchemaId());
+        assertEquals(UploadSchemaType.IOS_DATA, uploadSchema.getSchemaType());
 
         // only check the field name, since everything else is tested by UploadFieldDefinitionTest
         List<UploadFieldDefinition> fieldDefList = uploadSchema.getFieldDefinitions();
@@ -177,10 +198,11 @@ public class UploadSchemaTest {
 
         // then convert to a map so we can validate the raw JSON
         Map<String, Object> jsonMap = Utilities.getMapper().readValue(convertedJson, Utilities.TYPE_REF_RAW_MAP);
-        assertEquals(4, jsonMap.size());
+        assertEquals(5, jsonMap.size());
         assertEquals("Test Schema", jsonMap.get("name"));
         assertEquals(3, jsonMap.get("revision"));
         assertEquals("test-schema", jsonMap.get("schemaId"));
+        assertEquals("ios_data", jsonMap.get("schemaType"));
 
         // only check the field name, since everything else is tested by UploadFieldDefinitionTest
         List<Map<String, Object>> fieldDefJsonList = (List<Map<String, Object>>) jsonMap.get("fieldDefinitions");

@@ -27,6 +27,7 @@ import org.sagebionetworks.bridge.sdk.models.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadFieldType;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadSchema;
+import org.sagebionetworks.bridge.sdk.models.upload.UploadSchemaType;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadStatus;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadValidationStatus;
 
@@ -64,12 +65,31 @@ public class UploadTest {
             iosSurveySchema = new UploadSchema.Builder()
                     .withSchemaId("ios-survey")
                     .withName("iOS Survey Response")
+                    .withSchemaType(UploadSchemaType.IOS_DATA)
                     .withFieldDefinitions(
                             new UploadFieldDefinition("answers", UploadFieldType.ATTACHMENT_JSON_TABLE),
                             new UploadFieldDefinition("item", UploadFieldType.STRING),
                             new UploadFieldDefinition("taskRunId", UploadFieldType.STRING))
                     .build();
             researcherClient.createOrUpdateUploadSchema(iosSurveySchema);
+        }
+
+        UploadSchema uploadTestSurveySchema = null;
+        try {
+            uploadTestSurveySchema = researcherClient.getUploadSchema("upload-test-ios-survey");
+        } catch (EntityNotFoundException ex) {
+            // no-op
+        }
+        if (uploadTestSurveySchema == null) {
+            uploadTestSurveySchema = new UploadSchema.Builder()
+                    .withSchemaId("upload-test-ios-survey")
+                    .withName("Upload Test iOS Survey")
+                    .withSchemaType(UploadSchemaType.IOS_SURVEY)
+                    .withFieldDefinitions(
+                            new UploadFieldDefinition("foo", UploadFieldType.STRING),
+                            new UploadFieldDefinition("bar", UploadFieldType.INT))
+                    .build();
+            researcherClient.createOrUpdateUploadSchema(uploadTestSurveySchema);
         }
 
         UploadSchema jsonDataSchema = null;
@@ -82,6 +102,7 @@ public class UploadTest {
             jsonDataSchema = new UploadSchema.Builder()
                     .withSchemaId("upload-test-json-data")
                     .withName("Upload Test JSON Data")
+                    .withSchemaType(UploadSchemaType.IOS_DATA)
                     .withFieldDefinitions(
                             new UploadFieldDefinition("string.json.string", UploadFieldType.STRING),
                             new UploadFieldDefinition("blob.json.blob", UploadFieldType.ATTACHMENT_JSON_BLOB))
@@ -98,9 +119,8 @@ public class UploadTest {
         if (nonJsonSchema == null) {
             nonJsonSchema = new UploadSchema.Builder()
                     .withSchemaId("upload-test-non-json")
-                    // in the current version, non-JSON data matches by name, not by ID, so for testing purposes,
-                    // keep schema and name the same
                     .withName("upload-test-non-json")
+                    .withSchemaType(UploadSchemaType.IOS_DATA)
                     .withFieldDefinitions(
                             new UploadFieldDefinition("nonJson.txt", UploadFieldType.ATTACHMENT_BLOB),
                             new UploadFieldDefinition("jsonFile.json", UploadFieldType.ATTACHMENT_JSON_BLOB))
