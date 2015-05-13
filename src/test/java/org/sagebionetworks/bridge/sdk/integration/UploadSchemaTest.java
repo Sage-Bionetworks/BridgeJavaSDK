@@ -21,6 +21,7 @@ import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadFieldType;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadSchema;
+import org.sagebionetworks.bridge.sdk.models.upload.UploadSchemaType;
 
 public class UploadSchemaTest {
     private static final Logger LOG = LoggerFactory.getLogger(UploadSchemaTest.class);
@@ -66,7 +67,8 @@ public class UploadSchemaTest {
 
         // Step 1: Create initial version of schema.
         UploadSchema schemaV1 = new UploadSchema.Builder().withFieldDefinitions(fooFieldDef)
-                .withName("Upload Schema Integration Tests").withSchemaId(schemaId).build();
+                .withName("Upload Schema Integration Tests").withSchemaId(schemaId)
+                .withSchemaType(UploadSchemaType.IOS_DATA).build();
         UploadSchema createdSchemaV1 = createOrUpdateSchemaAndVerify(schemaV1);
 
         // Step 2: Update to v2
@@ -135,6 +137,7 @@ public class UploadSchemaTest {
         assertEquals(schema.getFieldDefinitions(), returnedSchema.getFieldDefinitions());
         assertEquals(schema.getName(), returnedSchema.getName());
         assertEquals(schema.getSchemaId(), returnedSchema.getSchemaId());
+        assertEquals(schema.getSchemaType(), returnedSchema.getSchemaType());
 
         if (schema.getRevision() == null) {
             assertEquals(1, returnedSchema.getRevision().intValue());
