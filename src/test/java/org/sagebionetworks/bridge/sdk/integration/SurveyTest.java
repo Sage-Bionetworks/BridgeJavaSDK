@@ -47,7 +47,7 @@ import org.sagebionetworks.bridge.sdk.models.surveys.SurveyRule;
 import org.sagebionetworks.bridge.sdk.models.surveys.UiHint;
 
 public class SurveyTest {
-
+    
     private TestUser researcher;
     private TestUser user;
 
@@ -303,6 +303,7 @@ public class SurveyTest {
         SurveyQuestion question = new SurveyQuestion();
         question.setIdentifier("bar");
         question.setPrompt("Prompt");
+        question.setFireEvent(true);
         question.setUiHint(UiHint.TEXTFIELD);
         question.setConstraints(new StringConstraints());
         survey.getElements().add(question);
@@ -323,6 +324,14 @@ public class SurveyTest {
         assertEquals("https://pbs.twimg.com/profile_images/1642204340/ReferencePear_400x400.PNG", newScreen.getImage().getSource());
         assertEquals(400, newScreen.getImage().getWidth());
         assertEquals(400, newScreen.getImage().getHeight());
+        
+        SurveyQuestion newQuestion = (SurveyQuestion)newSurvey.getElements().get(1);
+        assertEquals(SurveyQuestion.class, newQuestion.getClass());
+        assertNotNull(newQuestion.getGuid());
+        assertEquals("bar", newQuestion.getIdentifier());
+        assertEquals("Prompt", newQuestion.getPrompt());
+        assertEquals(true, newQuestion.getFireEvent());
+        assertEquals(UiHint.TEXTFIELD, newQuestion.getUIHint());
     }
 
     private Constraints getConstraints(Survey survey, String id) {

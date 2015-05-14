@@ -21,6 +21,7 @@ public final class SurveyQuestion implements SurveyElement, GuidHolder {
     private String type;
     private String prompt;
     private String promptDetail;
+    private boolean fireEvent;
     private UiHint hint;
     private Constraints constraints;
 
@@ -57,6 +58,12 @@ public final class SurveyQuestion implements SurveyElement, GuidHolder {
     }
     public void setPromptDetail(String promptDetail) {
         this.promptDetail = promptDetail;
+    }
+    public boolean getFireEvent() {
+        return fireEvent;
+    }
+    public void setFireEvent(boolean fireEvent) {
+        this.fireEvent = fireEvent;
     }
     @JsonProperty("uiHint")
     public UiHint getUIHint() {
@@ -113,6 +120,7 @@ public final class SurveyQuestion implements SurveyElement, GuidHolder {
         result = prime * result + Objects.hashCode(identifier);
         result = prime * result + Objects.hashCode(prompt);
         result = prime * result + Objects.hashCode(promptDetail);
+        result = prime * result + Objects.hashCode(fireEvent);
         result = prime * result + Objects.hashCode(type);
         return result;
     }
@@ -126,12 +134,12 @@ public final class SurveyQuestion implements SurveyElement, GuidHolder {
         return (Objects.equals(constraints, other.constraints) && Objects.equals(guid, other.guid)
                 && Objects.equals(hint, other.hint) && Objects.equals(identifier, other.identifier)
                 && Objects.equals(prompt, other.prompt) && Objects.equals(promptDetail, other.promptDetail) 
-                && Objects.equals(type, other.type));
+                && Objects.equals(fireEvent, other.fireEvent) && Objects.equals(type, other.type));
     }
     @Override
     public String toString() {
-        return String.format("SurveyQuestion [guid=%s, identifier=%s, prompt=%s, promptDetail=%s, hint=%s, constraints=%s]", 
-                guid, identifier, prompt, promptDetail, hint, constraints);
+        return String.format("SurveyQuestion [guid=%s, identifier=%s, prompt=%s, promptDetail=%s, fireEvent=%s, hint=%s, constraints=%s]", 
+                guid, identifier, prompt, promptDetail, fireEvent, hint, constraints);
     }
 
 }
