@@ -12,18 +12,14 @@ public final class StudyConsent {
 
     private DateTime createdOn;
     private boolean active;
-    private String path;
-    private int minAge;
-    private Long version;
+    private String documentContent;
 
     @JsonCreator
     private StudyConsent(@JsonProperty("timestamp") String createdOn, @JsonProperty("active") boolean active,
-            @JsonProperty("path") String path, @JsonProperty("minAge") int minAge, @JsonProperty("version") Long version) {
+        @JsonProperty("documentContent") String documentContent) {
         this.createdOn = createdOn == null ? null : DateTime.parse(createdOn, ISODateTimeFormat.dateTime());
         this.active = active;
-        this.path = path;
-        this.minAge = minAge;
-        this.version = version;
+        this.documentContent = documentContent;
     }
     
     public StudyConsent() {
@@ -37,39 +33,21 @@ public final class StudyConsent {
         return active;
     }
     
-    public String getPath() {
-        return path;
+    public String getDocumentContent() {
+        return documentContent;
     }
     
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public int getMinAge() {
-        return minAge;
-    }
-    
-    public void setMinAge(int minAge) {
-        this.minAge = minAge;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-    
-    public void setVersion(Long version) {
-        this.version = version;
+    public void setDocumentContent(String documentContent) {
+        this.documentContent = documentContent;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + Objects.hashCode(createdOn);
-        result = prime * result + Objects.hashCode(path);
-        result = prime * result + Objects.hashCode(version);
-        result = prime * result + (active ? 1231 : 1237);
-        result = prime * result + minAge;
+        result = prime * Objects.hash(createdOn);
+        result = prime * Objects.hash(active);
+        result = prime * Objects.hash(documentContent);
         return result;
     }
 
@@ -80,13 +58,14 @@ public final class StudyConsent {
         if (obj == null || getClass() != obj.getClass())
             return false;
         StudyConsent other = (StudyConsent) obj;
-        return (Objects.equals(createdOn, other.createdOn) && Objects.equals(path, other.path)
-                && Objects.equals(version, other.version) && active == other.active && minAge == other.minAge);
+        return (Objects.equals(createdOn, other.createdOn) && 
+                Objects.equals(documentContent, other.documentContent) && 
+                Objects.equals(active, other.active));
     }
 
     @Override
     public String toString() {
-        return String.format("StudyConsent[createdOn=%s, active=%s, path=%s, minAge=%s, version=%s]", 
-                createdOn.toString(ISODateTimeFormat.dateTime()), active, path, minAge, version);
+        return String.format("StudyConsent[createdOn=%s, active=%s, documentContent=%s]", 
+                (createdOn == null) ? null : createdOn.toString(ISODateTimeFormat.dateTime()), active, documentContent);
     }
 }
