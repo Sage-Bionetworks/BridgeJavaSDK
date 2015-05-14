@@ -52,9 +52,8 @@ public class SurveyResponseTest {
         keys = client.createSurvey(testSurvey);
         client.publishSurvey(keys);
 
-        // It's unfortunate but all of the questions have been assigned GUIDs so we need to
-        // retrieve the whole thing here in order to submit answers. The API should return
-        // all the guids for the questions.
+        // The API does not return all the guids for the questions as well as the survey when you 
+        // save the survey. We have to get the whole survey, with questions, to get these GUIDs
         survey = client.getSurvey(keys.getGuid(), keys.getCreatedOn());
     }
 
@@ -188,7 +187,7 @@ public class SurveyResponseTest {
     public void canSubmitSurveyResponseWithAnIdentifier() {
         String identifier = RandomStringUtils.randomAlphabetic(10);
         UserClient client = user.getSession().getUserClient();
-            
+
         SurveyQuestion question1 = (SurveyQuestion)survey.getElementByIdentifier(TestSurvey.BOOLEAN_ID);
         SurveyQuestion question2 = (SurveyQuestion)survey.getElementByIdentifier(TestSurvey.INTEGER_ID);
 

@@ -67,9 +67,6 @@ public class StudyTest {
         compareHolderToModelObject(holder, study, oldVersion);
         
         newStudy = client.getStudy(study.getIdentifier());
-        // This is set on the server, so to compare equality, they must be set.
-        study.setResearcherRole(newStudy.getResearcherRole());
-        
         assertEquals(study, newStudy);
         
         client.deleteStudy(identifier);
@@ -95,14 +92,6 @@ public class StudyTest {
         } catch(UnauthorizedException e) {
             assertEquals("Unauthorized HTTP response code", 403, e.getStatusCode());
         }
-    }
-
-    @Test
-    public void researcherCanAccessStudy() {
-        ResearcherClient rclient = researcher.getSession().getResearcherClient();
-        Study serverStudy = rclient.getStudy();
-
-        assertEquals(Tests.TEST_KEY+"_researcher", serverStudy.getResearcherRole());
     }
 
     @Test(expected = UnauthorizedException.class)

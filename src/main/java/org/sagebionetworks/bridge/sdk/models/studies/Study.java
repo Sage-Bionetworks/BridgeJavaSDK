@@ -14,7 +14,6 @@ public final class Study implements VersionHolder {
     private String name;
     private String identifier;
     private Long version;
-    private String researcherRole;
     private String supportEmail;
     private String consentNotificationEmail;
     private int minAgeOfConsent;
@@ -47,14 +46,6 @@ public final class Study implements VersionHolder {
 
     public void setVersion(Long version) {
         this.version = version;
-    }
-
-    public String getResearcherRole() {
-        return researcherRole;
-    }
-
-    public void setResearcherRole(String researcherRole) {
-        this.researcherRole = researcherRole;
     }
     
     public String getSupportEmail() {
@@ -104,7 +95,6 @@ public final class Study implements VersionHolder {
         result = prime * result + Objects.hashCode(consentNotificationEmail);
         result = prime * result + Objects.hashCode(identifier);
         result = prime * result + Objects.hashCode(name);
-        result = prime * result + Objects.hashCode(researcherRole);
         result = prime * result + Objects.hashCode(supportEmail);
         result = prime * result + Objects.hashCode(version);
         result = prime * result + Objects.hashCode(userProfileAttributes);
@@ -123,15 +113,14 @@ public final class Study implements VersionHolder {
         return (Objects.equals(consentNotificationEmail, other.consentNotificationEmail)
                 && Objects.equals(identifier, other.identifier)
                 && (maxNumOfParticipants == other.maxNumOfParticipants) && (minAgeOfConsent == other.minAgeOfConsent)
-                && Objects.equals(name, other.name) && Objects.equals(researcherRole, other.researcherRole)
-                && Objects.equals(supportEmail, other.supportEmail) && Objects.equals(version, other.version)
-                && Objects.equals(userProfileAttributes, other.userProfileAttributes));
+                && Objects.equals(name, other.name) && Objects.equals(supportEmail, other.supportEmail) 
+                && Objects.equals(version, other.version) && Objects.equals(userProfileAttributes, other.userProfileAttributes));
     }
 
     @Override
     public String toString() {
-        return String.format("Study [name=%s, identifier=%s, version=%s, researcherRole=%s, supportEmail=%s, consentNotificationEmail=%s, minAgeOfConsent=%s, maxNumOfParticipants=%s, userProfileAttributes=%s]", 
-                    name, identifier, version, researcherRole, supportEmail, consentNotificationEmail, minAgeOfConsent, maxNumOfParticipants, userProfileAttributes);
+        return String.format("Study [name=%s, identifier=%s, version=%s, supportEmail=%s, consentNotificationEmail=%s, minAgeOfConsent=%s, maxNumOfParticipants=%s, userProfileAttributes=%s]", 
+                    name, identifier, version, supportEmail, consentNotificationEmail, minAgeOfConsent, maxNumOfParticipants, userProfileAttributes);
     }
 
 }

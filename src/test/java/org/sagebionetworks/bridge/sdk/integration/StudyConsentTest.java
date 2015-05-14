@@ -34,8 +34,7 @@ public class StudyConsentTest {
         TestUser user = TestUserHelper.createAndSignInUser(StudyConsentTest.class, true);
         try {
             StudyConsent consent = new StudyConsent();
-            consent.setPath("conf/email-templates/api-consent.html");
-            consent.setMinAge(22);
+            consent.setDocumentContent("<document/>");
 
             user.getSession().getResearcherClient().createStudyConsent(consent);
 
@@ -49,8 +48,7 @@ public class StudyConsentTest {
         ResearcherClient client = researcher.getSession().getResearcherClient();
 
         StudyConsent consent = new StudyConsent();
-        consent.setPath("conf/email-templates/api-consent.html");
-        consent.setMinAge(22);
+        consent.setDocumentContent("<document/>");
         client.createStudyConsent(consent);
 
         ResourceList<StudyConsent> studyConsents = client.getAllStudyConsents();
@@ -62,7 +60,9 @@ public class StudyConsentTest {
 
         StudyConsent current = client.getStudyConsent(studyConsents.getItems().get(0).getCreatedOn());
         assertNotNull("studyConsent should not be null.", current);
-        assertEquals("Retrieved study consent should equal one asked for.", current, studyConsents.getItems().get(0));
+        
+        assertEquals(consent.getDocumentContent(), current.getDocumentContent());
+        assertNotNull(current.getCreatedOn());
 
         client.activateStudyConsent(current.getCreatedOn());
 

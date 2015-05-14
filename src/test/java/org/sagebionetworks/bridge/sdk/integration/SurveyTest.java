@@ -28,7 +28,7 @@ import org.sagebionetworks.bridge.sdk.ResearcherClient;
 import org.sagebionetworks.bridge.sdk.TestSurvey;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
-import org.sagebionetworks.bridge.sdk.Utilities;
+import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.exceptions.PublishedSurveyException;
 import org.sagebionetworks.bridge.sdk.exceptions.UnauthorizedException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
@@ -55,20 +55,17 @@ public class SurveyTest {
     public void before() {
         researcher = TestUserHelper.createAndSignInUser(SurveyTest.class, true, Tests.RESEARCHER_ROLE);
         user = TestUserHelper.createAndSignInUser(SurveyTest.class, true);
-
-        ResearcherClient client = researcher.getSession().getResearcherClient();
-        deleteAllSurveysInStudy(client);
     }
 
     @After
     public void after() {
         try {
+            user.signOutAndDeleteUser();
             ResearcherClient client = researcher.getSession().getResearcherClient();
             deleteAllSurveysInStudy(client);
             assertEquals("Should be no surveys.", 0, client.getAllSurveysMostRecent().getTotal());
         } finally {
             researcher.signOutAndDeleteUser();
-            user.signOutAndDeleteUser();
         }
     }
 
@@ -94,6 +91,14 @@ public class SurveyTest {
 
         List<SurveyElement> questions = survey.getElements();
         String prompt = ((SurveyQuestion)questions.get(1)).getPrompt();
+        assertEquals("Prompt is correct.", "When did you last have a medical check-up?", prompt);
+        client.publishSurvey(key);
+        
+        UserClient userClient = user.getSession().getUserClient();
+        survey = userClient.getSurveyMostRecentlyPublished(key.getGuid());
+        // And again, correct
+        questions = survey.getElements();
+        prompt = ((SurveyQuestion)questions.get(1)).getPrompt();
         assertEquals("Prompt is correct.", "When did you last have a medical check-up?", prompt);
     }
 
