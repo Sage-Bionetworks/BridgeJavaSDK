@@ -28,6 +28,7 @@ import org.sagebionetworks.bridge.sdk.ResearcherClient;
 import org.sagebionetworks.bridge.sdk.TestSurvey;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
+import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.exceptions.PublishedSurveyException;
 import org.sagebionetworks.bridge.sdk.exceptions.UnauthorizedException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
@@ -93,6 +94,14 @@ public class SurveyTest {
 
         List<SurveyElement> questions = survey.getElements();
         String prompt = ((SurveyQuestion)questions.get(1)).getPrompt();
+        assertEquals("Prompt is correct.", "When did you last have a medical check-up?", prompt);
+        client.publishSurvey(key);
+        
+        UserClient userClient = user.getSession().getUserClient();
+        survey = userClient.getSurveyMostRecentlyPublished(key.getGuid());
+        // And again, correct
+        questions = survey.getElements();
+        prompt = ((SurveyQuestion)questions.get(1)).getPrompt();
         assertEquals("Prompt is correct.", "When did you last have a medical check-up?", prompt);
     }
 
