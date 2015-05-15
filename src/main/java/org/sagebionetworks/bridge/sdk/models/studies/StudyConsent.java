@@ -45,9 +45,9 @@ public final class StudyConsent {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * Objects.hash(createdOn);
-        result = prime * Objects.hash(active);
-        result = prime * Objects.hash(documentContent);
+        result = prime * result + Objects.hash(createdOn);
+        result = prime * result + Objects.hash(active);
+        result = prime * result + Objects.hash(documentContent);
         return result;
     }
 
