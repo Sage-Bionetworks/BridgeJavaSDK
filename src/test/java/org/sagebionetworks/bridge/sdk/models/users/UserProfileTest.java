@@ -27,7 +27,6 @@ public class UserProfileTest {
         UserProfile profile = new UserProfile();
         profile.setFirstName("first name");
         profile.setLastName("last name");
-        profile.setPhone("123-456-7890");
         profile.setEmail("email@email.com");
         profile.setUsername("username");
         profile.setAttribute("can_be_recontacted", "true");
@@ -38,14 +37,12 @@ public class UserProfileTest {
         assertTrue(node.has("lastName"));
         assertTrue(node.has("username"));
         assertTrue(node.has("email"));
-        assertTrue(node.has("phone"));
         assertTrue(node.has("can_be_recontacted"));
 
         assertEquals("first name", node.get("firstName").asText());
         assertEquals("last name", node.get("lastName").asText());
         assertEquals("username", node.get("username").asText());
         assertEquals("email@email.com", node.get("email").asText());
-        assertEquals("123-456-7890", node.get("phone").asText());
         assertEquals("true", node.get("can_be_recontacted").asText());
     }
     
