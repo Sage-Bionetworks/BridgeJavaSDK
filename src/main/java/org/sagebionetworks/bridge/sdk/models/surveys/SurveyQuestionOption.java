@@ -20,6 +20,9 @@ public class SurveyQuestionOption {
         this.value = value;
         this.image = image;
     }
+    public SurveyQuestionOption(String label, String detail, String value) {
+        this(label, detail, value, null);
+    }
     public SurveyQuestionOption(String label, String value) {
         this(label, null, value, null);
     }

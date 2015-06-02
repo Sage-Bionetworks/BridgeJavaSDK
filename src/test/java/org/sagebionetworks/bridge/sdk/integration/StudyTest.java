@@ -7,8 +7,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.AdminClient;
@@ -28,16 +28,10 @@ public class StudyTest {
     private static TestUser researcher;
     private Study study;
 
-    @BeforeClass
-    public static void beforeClass() {
+    @Before
+    public void before() {
         admin = TestUserHelper.getSignedInAdmin();
         researcher = TestUserHelper.createAndSignInUser(StudyTest.class, false, Tests.TEST_KEY+"_researcher");
-    }
-    
-    @AfterClass
-    public static void afterClass() {
-        admin.getSession().signOut();
-        researcher.signOutAndDeleteUser();
     }
     
     @After
@@ -45,6 +39,8 @@ public class StudyTest {
         if (study != null) {
             admin.getSession().getAdminClient().deleteStudy(study.getIdentifier());
         }
+        researcher.signOutAndDeleteUser();
+        admin.getSession().signOut();
     }
 
     @Test

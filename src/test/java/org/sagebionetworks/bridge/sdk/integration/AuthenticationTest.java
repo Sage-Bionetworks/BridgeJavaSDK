@@ -62,6 +62,7 @@ public class AuthenticationTest {
             Study study = new Study();
             study.setIdentifier("secondstudy");
             study.setName("Second Study");
+            study.setSupportEmail("bridge-testing@sagebase.org");
             client.createStudy(study);
             
             // Can we sign in to secondstudy? No.
