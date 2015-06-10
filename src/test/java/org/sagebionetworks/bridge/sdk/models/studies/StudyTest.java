@@ -7,6 +7,8 @@ import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.Utilities;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 public class StudyTest {
     
     @Test
@@ -21,7 +23,12 @@ public class StudyTest {
         study.getUserProfileAttributes().add("test");
         
         String json = Utilities.getMapper().writeValueAsString(study);
-        assertEquals("{\"name\":\"Test Name\",\"minAgeOfConsent\":0,\"maxNumOfParticipants\":0,\"userProfileAttributes\":[\"test\"]}", json);
+        JsonNode node = Utilities.getMapper().readTree(json);
+        
+        assertEquals("Test Name", node.get("name").asText());
+        assertEquals(0, node.get("minAgeOfConsent").asInt());
+        assertEquals(0, node.get("maxNumOfParticipants").asInt());
+        assertEquals("test", node.get("userProfileAttributes").get(0).asText());
         
         Study newStudy = Utilities.getMapper().readValue(json, Study.class);
         
