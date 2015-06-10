@@ -41,11 +41,6 @@ public class UserManagementTest {
         boolean result = admin.createUser(signUp);
         assertTrue(result);
 
-        // This is already done as part of deletion, and doesn't make sense separately because we're not
-        // supporting someone removing themself from a study.
-        // result = userManagementApi.revokeAllConsentRecords(email);
-        // assertTrue(result);
-
         result = admin.deleteUser(email);
         assertTrue(result);
     }
