@@ -1,5 +1,9 @@
 package org.sagebionetworks.bridge.sdk.models.studies;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -27,6 +31,9 @@ public final class EmailTemplate {
     @JsonCreator
     public EmailTemplate(@JsonProperty("subject") String subject, @JsonProperty("body") String body,
                     @JsonProperty("mimeType") MimeType mimeType) {
+        checkArgument(isNotBlank(subject));
+        checkArgument(isNotBlank(body));
+        checkNotNull(mimeType);
         this.subject = subject;
         this.mimeType = mimeType;
         this.body = body;
