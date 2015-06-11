@@ -170,9 +170,22 @@ public final class Study implements VersionHolder {
                 && Objects.equals(resetPasswordTemplate, other.resetPasswordTemplate));
     }
 
+    /* Error occurs: java.util.UnknownFormatConversionException: Conversion = 'i' Using Eclipse version for the moment.
     @Override
     public String toString() {
         return String.format("Study [name=%s, sponsorName=%, identifier=%s, version=%s, supportEmail=%s, consentNotificationEmail=%s, technicalEmail=%s, minAgeOfConsent=%s, maxNumOfParticipants=%s, userProfileAttributes=%s, passwordPolicy=%s, verifyEmailTemplate=%s, resetPasswordTemplate=%s]", 
                     name, sponsorName, identifier, version, supportEmail, consentNotificationEmail, technicalEmail, minAgeOfConsent, maxNumOfParticipants, userProfileAttributes, passwordPolicy, verifyEmailTemplate, resetPasswordTemplate);
+    }
+        */
+
+    @Override
+    public String toString() {
+        return "Study [name=" + name + ", sponsorName=" + sponsorName + ", identifier=" + identifier + ", version="
+            + version + ", supportEmail=" + supportEmail + ", consentNotificationEmail="
+            + consentNotificationEmail + ", technicalEmail=" + technicalEmail + ", minAgeOfConsent="
+            + minAgeOfConsent + ", maxNumOfParticipants=" + maxNumOfParticipants
+            + ", userProfileAttributes=" + userProfileAttributes + ", passwordPolicy=" + passwordPolicy
+            + ", verifyEmailTemplate=" + verifyEmailTemplate + ", resetPasswordTemplate="
+            + resetPasswordTemplate + "]";
     }
 }
