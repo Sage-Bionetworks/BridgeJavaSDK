@@ -28,7 +28,7 @@ public class StudyTest {
         study.setTechnicalEmail("bridge-testing+technical@sagebase.org");
         study.setConsentNotificationEmail("bridge-testing+consent@sagebase.org");
         study.getUserProfileAttributes().add("test");
-        study.setPasswordPolicy(new PasswordPolicy(7, false, true, false));
+        study.setPasswordPolicy(new PasswordPolicy(7, false, true, true, false));
         study.setVerifyEmailTemplate(new EmailTemplate("subject", "body ${url}", MimeType.TEXT));
         study.setResetPasswordTemplate(new EmailTemplate("subject", "<p>body ${url}</p>", MimeType.HTML));
         
@@ -50,6 +50,7 @@ public class StudyTest {
         assertEquals(7, passwordPolicyNode.get("minLength").asInt());
         assertEquals(false, passwordPolicyNode.get("numericRequired").asBoolean());
         assertEquals(true, passwordPolicyNode.get("symbolRequired").asBoolean());
+        assertEquals(true, passwordPolicyNode.get("lowerCaseRequired").asBoolean());
         assertEquals(false, passwordPolicyNode.get("upperCaseRequired").asBoolean());
         
         JsonNode veTemplate = node.get("verifyEmailTemplate");
