@@ -12,13 +12,18 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 public final class Study implements VersionHolder {
     
     private String name;
+    private String sponsorName;
     private String identifier;
     private Long version;
     private String supportEmail;
     private String consentNotificationEmail;
+    private String technicalEmail;
     private int minAgeOfConsent;
     private int maxNumOfParticipants;
     private Set<String> userProfileAttributes;
+    private PasswordPolicy passwordPolicy;
+    private EmailTemplate verifyEmailTemplate;
+    private EmailTemplate resetPasswordTemplate;
 
     public Study() {
         userProfileAttributes = new HashSet<String>();
@@ -30,6 +35,14 @@ public final class Study implements VersionHolder {
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public String getSponsorName() {
+        return sponsorName;
+    }
+    
+    public void setSponsorName(String sponsorName) {
+        this.sponsorName = sponsorName;
     }
 
     public String getIdentifier() {
@@ -63,6 +76,14 @@ public final class Study implements VersionHolder {
     public void setConsentNotificationEmail(String consentNotificationEmail) {
         this.consentNotificationEmail = consentNotificationEmail;
     }
+    
+    public String getTechnicalEmail() {
+        return technicalEmail;
+    }
+    
+    public void setTechnicalEmail(String technicalEmail) {
+        this.technicalEmail = technicalEmail;
+    }
 
     public int getMinAgeOfConsent() {
         return minAgeOfConsent;
@@ -88,18 +109,47 @@ public final class Study implements VersionHolder {
         this.userProfileAttributes = attributes;
     }
 
+    public PasswordPolicy getPasswordPolicy() {
+        return passwordPolicy;
+    }
+
+    public void setPasswordPolicy(PasswordPolicy passwordPolicy) {
+        this.passwordPolicy = passwordPolicy;
+    }
+
+    public EmailTemplate getVerifyEmailTemplate() {
+        return verifyEmailTemplate;
+    }
+
+    public void setVerifyEmailTemplate(EmailTemplate verifyEmailTemplate) {
+        this.verifyEmailTemplate = verifyEmailTemplate;
+    }
+
+    public EmailTemplate getResetPasswordTemplate() {
+        return resetPasswordTemplate;
+    }
+
+    public void setResetPasswordTemplate(EmailTemplate resetPasswordTemplate) {
+        this.resetPasswordTemplate = resetPasswordTemplate;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + Objects.hashCode(consentNotificationEmail);
-        result = prime * result + Objects.hashCode(identifier);
         result = prime * result + Objects.hashCode(name);
+        result = prime * result + Objects.hashCode(sponsorName);
+        result = prime * result + Objects.hashCode(identifier);
         result = prime * result + Objects.hashCode(supportEmail);
+        result = prime * result + Objects.hashCode(consentNotificationEmail);
+        result = prime * result + Objects.hashCode(technicalEmail);
         result = prime * result + Objects.hashCode(version);
         result = prime * result + Objects.hashCode(userProfileAttributes);
-        result = prime * result + maxNumOfParticipants;
-        result = prime * result + minAgeOfConsent;
+        result = prime * result + Objects.hashCode(passwordPolicy);
+        result = prime * result + Objects.hashCode(verifyEmailTemplate);
+        result = prime * result + Objects.hashCode(resetPasswordTemplate);
+        result = prime * result + Objects.hashCode(maxNumOfParticipants);
+        result = prime * result + Objects.hashCode(minAgeOfConsent);
         return result;
     }
 
@@ -114,13 +164,15 @@ public final class Study implements VersionHolder {
                 && Objects.equals(identifier, other.identifier)
                 && (maxNumOfParticipants == other.maxNumOfParticipants) && (minAgeOfConsent == other.minAgeOfConsent)
                 && Objects.equals(name, other.name) && Objects.equals(supportEmail, other.supportEmail) 
-                && Objects.equals(version, other.version) && Objects.equals(userProfileAttributes, other.userProfileAttributes));
+                && Objects.equals(version, other.version) && Objects.equals(userProfileAttributes, other.userProfileAttributes)
+                && Objects.equals(sponsorName, other.sponsorName) && Objects.equals(technicalEmail, other.technicalEmail) 
+                && Objects.equals(verifyEmailTemplate, other.verifyEmailTemplate) && Objects.equals(passwordPolicy, other.passwordPolicy)
+                && Objects.equals(resetPasswordTemplate, other.resetPasswordTemplate));
     }
 
     @Override
     public String toString() {
-        return String.format("Study [name=%s, identifier=%s, version=%s, supportEmail=%s, consentNotificationEmail=%s, minAgeOfConsent=%s, maxNumOfParticipants=%s, userProfileAttributes=%s]", 
-                    name, identifier, version, supportEmail, consentNotificationEmail, minAgeOfConsent, maxNumOfParticipants, userProfileAttributes);
+        return String.format("Study [name=%s, sponsorName=%s, identifier=%s, version=%s, supportEmail=%s, consentNotificationEmail=%s, technicalEmail=%s, minAgeOfConsent=%s, maxNumOfParticipants=%s, userProfileAttributes=%s, passwordPolicy=%s, verifyEmailTemplate=%s, resetPasswordTemplate=%s]",
+            name, sponsorName, identifier, version, supportEmail, consentNotificationEmail, technicalEmail, minAgeOfConsent, maxNumOfParticipants, userProfileAttributes, passwordPolicy, verifyEmailTemplate, resetPasswordTemplate);
     }
-
 }

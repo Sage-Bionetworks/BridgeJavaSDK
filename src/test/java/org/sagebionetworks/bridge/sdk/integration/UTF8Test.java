@@ -29,7 +29,9 @@ public class UTF8Test {
             Study study = new Study();
             study.setIdentifier(studyId);
             study.setName(studyName);
-            study.setSupportEmail("bridge-testing@sagebase.org");
+            study.setTechnicalEmail("bridge-testing+technical@sagebase.org");
+            study.setSupportEmail("bridge-testing+support@sagebase.org");
+            study.setConsentNotificationEmail("bridge-testing+consent@sagebase.org");
 
             // create study
             adminClient.createStudy(study);
@@ -52,7 +54,7 @@ public class UTF8Test {
 
             UserProfile profile = client.getProfile();
             profile.setFirstName("☃");
-            // I understand from the source of this text that it is actualy UTF-16.
+            // I understand from the source of this text that it is actually UTF-16.
             // It should still work.
             profile.setLastName("지구상의　３대　극지라　불리는");
             client.saveProfile(profile); // should be update

@@ -20,8 +20,6 @@ import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 
 public class StudyTest {
-
-    private static final String BRIDGE_TESTING_CONSENT_EMAIL = "bridge-testing+consent@sagebase.org";
     
     private static TestUser admin;
     private static TestUser researcher;
@@ -44,25 +42,38 @@ public class StudyTest {
 
     @Test
     public void crudStudy() throws Exception {
-        String identifier = Tests.randomIdentifier();
-        study = createStudy(identifier, null);
-
         AdminClient client = admin.getSession().getAdminClient();
         
+        String identifier = Tests.randomIdentifier();
+        study = getStudyObject(identifier, null);
         assertNull(study.getVersion());
+        
         VersionHolder holder = client.createStudy(study);
-        compareHolderToModelObject(holder, study, null);
+        assertVersionHasUpdated(holder, study, null);
 
         Study newStudy = client.getStudy(study.getIdentifier());
-        assertEquals(study, createStudy(identifier, 1L));
-
+        // Verify study has been set with default password/email templates
+        assertNotNull(newStudy.getPasswordPolicy());
+        assertNotNull(newStudy.getVerifyEmailTemplate());
+        assertNotNull(newStudy.getResetPasswordTemplate());
+        assertEquals(study.getName(), newStudy.getName());
+        assertEquals(study.getMinAgeOfConsent(), newStudy.getMinAgeOfConsent());
+        assertEquals(study.getMaxNumOfParticipants(), newStudy.getMaxNumOfParticipants());
+        assertEquals(study.getSponsorName(), newStudy.getSponsorName());
+        assertEquals(study.getSupportEmail(), newStudy.getSupportEmail());
+        assertEquals(study.getTechnicalEmail(), newStudy.getTechnicalEmail());
+        assertEquals(study.getConsentNotificationEmail(), newStudy.getConsentNotificationEmail());
+        
         Long oldVersion = study.getVersion();
         alterStudy(study);
         holder = client.updateStudy(study);
-        compareHolderToModelObject(holder, study, oldVersion);
+        assertVersionHasUpdated(holder, study, oldVersion);
         
-        newStudy = client.getStudy(study.getIdentifier());
-        assertEquals(study, newStudy);
+        Study newerStudy = client.getStudy(study.getIdentifier());
+        assertEquals("Altered Test Study [SDK]", newerStudy.getName());
+        assertEquals(50, newerStudy.getMaxNumOfParticipants());
+        assertEquals("test3@test.com", newerStudy.getSupportEmail());
+        assertEquals("test4@test.com", newerStudy.getConsentNotificationEmail());
         
         client.deleteStudy(identifier);
         try {
@@ -76,7 +87,7 @@ public class StudyTest {
     @Test
     public void researcherCannotAccessAnotherStudy() {
         String identifier = Tests.randomIdentifier();
-        study = createStudy(identifier, null);
+        study = getStudyObject(identifier, null);
 
         AdminClient client = admin.getSession().getAdminClient();
         client.createStudy(study);
@@ -102,18 +113,13 @@ public class StudyTest {
     
     @Test
     public void researcherCanRetrieveConsentedParticipants() {
-        // Note that this user has consented, not just signed up.
+        // This should fail... this person is not a researcher...
         TestUser user = TestUserHelper.createAndSignInUser(StudyTest.class, true);
         try {
             ResearcherClient client = researcher.getSession().getResearcherClient();
-            
-            Study study = client.getStudy();
-            if (!BRIDGE_TESTING_CONSENT_EMAIL.equals(study.getConsentNotificationEmail())) {
-                study.setConsentNotificationEmail(BRIDGE_TESTING_CONSENT_EMAIL);
-                client.updateStudy(study);
-            }
             client.sendStudyParticipantsRoster();
-            
+        } catch(Exception e) {
+            fail("Threw exception");
         } finally {
             user.signOutAndDeleteUser();
         }
@@ -125,7 +131,7 @@ public class StudyTest {
         client.sendStudyParticipantsRoster();
     }
     
-    private void compareHolderToModelObject(VersionHolder holder, Study study, Long oldVersion) {
+    private void assertVersionHasUpdated(VersionHolder holder, Study study, Long oldVersion) {
         assertNotNull(holder.getVersion());
         assertNotNull(study.getVersion());
         assertEquals(holder.getVersion(), study.getVersion());
@@ -134,14 +140,17 @@ public class StudyTest {
         }
     }
 
-    private Study createStudy(String identifier, Long version) {
+    private Study getStudyObject(String identifier, Long version) {
         Study study = new Study();
         study.setIdentifier(identifier);
         study.setMinAgeOfConsent(18);
         study.setMaxNumOfParticipants(100);
         study.setName("Test Study [SDK]");
+        study.setSponsorName("The Test Study Folks [SDK]");
         study.setSupportEmail("test@test.com");
         study.setConsentNotificationEmail("test2@test.com");
+        study.setTechnicalEmail("test3@test.com");
+        study.setTechnicalEmail("test3@test.com");
         study.getUserProfileAttributes().add("new_profile_attribute");
         if (version != null) {
             study.setVersion(version);
