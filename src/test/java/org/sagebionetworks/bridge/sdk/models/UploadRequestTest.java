@@ -93,11 +93,11 @@ public class UploadRequestTest {
 
     @Test
     public void fromFile() throws Exception {
-        File file = new File("src/test/resources/upload-test/local/non-json-encrypted");
+        File file = new File("src/test/resources/upload-test/production/non-json-encrypted");
         UploadRequest req = new UploadRequest.Builder().withFile(file).withContentType("application/zip").build();
         assertEquals("non-json-encrypted", req.getName());
-        assertEquals(1231, req.getContentLength());
-        assertEquals("sb9igDhUaTSURFMyVRdmDA==", req.getContentMd5());
+        assertEquals(1224, req.getContentLength());
+        assertEquals("+nRdR9Pg6voPdlZQj80iHA==", req.getContentMd5());
         assertEquals("application/zip", req.getContentType());
     }
 
