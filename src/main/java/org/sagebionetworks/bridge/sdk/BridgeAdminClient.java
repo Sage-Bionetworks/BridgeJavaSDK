@@ -30,27 +30,31 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
         HttpResponse response = post(config.getUserManagementApi(), signUp);
         return response.getStatusLine().getStatusCode() == 201;
     }
+
     @Override
     public boolean deleteUser(String email) {
         session.checkSignedIn();
         checkArgument(isNotBlank(email));
 
-        Map<String,String> queryParams = new HashMap<String,String>();
+        Map<String, String> queryParams = new HashMap<String, String>();
         queryParams.put("email", email);
 
         HttpResponse response = delete(config.getUserManagementApi() + toQueryString(queryParams));
         return response.getStatusLine().getStatusCode() == 200;
     }
+
     @Override
     public Study getStudy(String identifier) {
         session.checkSignedIn();
         return get(config.getAdminStudyApi(identifier), Study.class);
     }
+
     @Override
     public ResourceList<Study> getAllStudies() {
         session.checkSignedIn();
         return get(config.getAdminStudiesApi(), new TypeReference<ResourceListImpl<Study>>() {});
     }
+
     @Override
     public VersionHolder createStudy(Study study) {
         session.checkSignedIn();
@@ -58,6 +62,7 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
         study.setVersion(holder.getVersion());
         return holder;
     }
+
     @Override
     public VersionHolder updateStudy(Study study) {
         session.checkSignedIn();
@@ -65,6 +70,7 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
         study.setVersion(holder.getVersion());
         return holder;
     }
+
     @Override
     public void deleteStudy(String identifier) {
         session.checkSignedIn();
@@ -81,5 +87,16 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
     public void deleteSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
         delete(config.getSurveyApi(keys.getGuid(), keys.getCreatedOn()));
+    }
+
+    @Override
+    public ResourceList<String> getCacheItemKeys() {
+        session.checkSignedIn();
+        return get(config.getCacheApi(), new TypeReference<ResourceListImpl<String>>() {});
+    }
+    @Override
+    public void deleteCacheKey(String key) {
+        session.checkSignedIn();
+        delete(config.getDeleteCacheApi(key));
     }
 }
