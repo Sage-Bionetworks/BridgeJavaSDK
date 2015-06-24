@@ -94,6 +94,7 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
         session.checkSignedIn();
         return get(config.getCacheApi(), new TypeReference<ResourceListImpl<String>>() {});
     }
+
     @Override
     public void deleteCacheKey(String key) {
         session.checkSignedIn();
