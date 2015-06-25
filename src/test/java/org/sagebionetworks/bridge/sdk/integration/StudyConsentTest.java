@@ -30,11 +30,11 @@ public class StudyConsentTest {
     }
 
     @Test(expected=BridgeServerException.class)
-    public void mustBeAdminToAdd() {
+    public void mustBeResearcherToAdd() {
         TestUser user = TestUserHelper.createAndSignInUser(StudyConsentTest.class, true);
         try {
             StudyConsent consent = new StudyConsent();
-            consent.setDocumentContent("<document/>");
+            consent.setDocumentContent("<p>Test content.</p>");
 
             user.getSession().getResearcherClient().createStudyConsent(consent);
 
@@ -48,7 +48,7 @@ public class StudyConsentTest {
         ResearcherClient client = researcher.getSession().getResearcherClient();
 
         StudyConsent consent = new StudyConsent();
-        consent.setDocumentContent("<document/>");
+        consent.setDocumentContent("<p>Test content</p>");
         client.createStudyConsent(consent);
 
         ResourceList<StudyConsent> studyConsents = client.getAllStudyConsents();
@@ -66,8 +66,16 @@ public class StudyConsentTest {
 
         client.activateStudyConsent(current.getCreatedOn());
 
-        StudyConsent mostRecent = client.getMostRecentlyActivatedStudyConsent();
-        assertTrue("Active consent is returned.", mostRecent.isActive());
+        StudyConsent active = client.getActiveStudyConsent();
+        assertTrue("Active consent is returned.", active.isActive());
+        
+        client.createStudyConsent(current);
+        
+        StudyConsent newOne = client.getMostRecentStudyConsent();
+        assertTrue(newOne.getCreatedOn().isAfter(active.getCreatedOn()));
+        
+        ResourceList<StudyConsent> studyConsents2 = client.getAllStudyConsents();
+        assertEquals(studyConsents.getTotal()+1, studyConsents2.getTotal());
     }
 
 }

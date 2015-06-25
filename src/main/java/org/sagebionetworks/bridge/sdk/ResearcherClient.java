@@ -15,19 +15,27 @@ public interface ResearcherClient {
 
     // STUDY CONSENTS
     /**
-     * Get all consent documents associated with the study currently signed into.
+     * Get all revisions of the consent document for the study of the current researcher.
      *
      * @return List<StudyConsent>
      */
     public ResourceList<StudyConsent> getAllStudyConsents();
 
     /**
-     * Get the most recently activated consent document. Can have more than one concurrently active consent document,
-     * and this method retrieves only the most recent.
+     * Get the activate consent document revision. This is the published revision that is sent to users, and thus a 
+     * version of the consent that has been approved by your IRB. There is only one consent revision active at any 
+     * given time.
      *
      * @return StudyConsent
      */
-    public StudyConsent getMostRecentlyActivatedStudyConsent();
+    public StudyConsent getActiveStudyConsent();
+    
+    /**
+     * Get the most recent revision of the consent document.
+     * 
+     * @return StudyConsent
+     */
+    public StudyConsent getMostRecentStudyConsent();
 
     /**
      * Get a consent document that was created at a DateTime.
@@ -39,7 +47,7 @@ public interface ResearcherClient {
     public StudyConsent getStudyConsent(DateTime createdOn);
 
     /**
-     * Add a consent document to the study.
+     * Create a consent document revision.
      *
      * @param consent
      *            The consent document to add.
@@ -47,7 +55,7 @@ public interface ResearcherClient {
     public void createStudyConsent(StudyConsent consent);
 
     /**
-     * Activate a consent document created at a DateTime. Can have more than one concurrently active consent document.
+     * Activate a consent document created at a DateTime. This will de-activate the previously active revision.
      *
      * @param createdOn
      *            DateTime consent document was created. This acts as an identifier for the consent document.

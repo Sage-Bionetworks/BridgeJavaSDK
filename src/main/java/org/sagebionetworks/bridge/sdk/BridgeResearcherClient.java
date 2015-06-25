@@ -39,11 +39,17 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
         return get(config.getStudyConsentsApi(), scType);
     }
     @Override
-    public StudyConsent getMostRecentlyActivatedStudyConsent() {
+    public StudyConsent getActiveStudyConsent() {
         session.checkSignedIn();
 
         return get(config.getActiveStudyConsentApi(), StudyConsent.class);
     }
+    @Override
+    public StudyConsent getMostRecentStudyConsent() {
+        session.checkSignedIn();
+
+        return get(config.getMostRecentStudyConsentApi(), StudyConsent.class);
+    };
     @Override
     public StudyConsent getStudyConsent(DateTime createdOn) {
         session.checkSignedIn();

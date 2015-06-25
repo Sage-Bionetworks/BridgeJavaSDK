@@ -53,6 +53,7 @@ public final class Config {
         STUDY_CONSENTS_API,
         STUDY_CONSENT_API,
         STUDY_CONSENT_GET_ACTIVE_API,
+        STUDY_CONSENT_GET_MOST_RECENT_API,
         STUDY_CONSENT_SET_ACTIVE_API,
         STUDY_IDENTIFIER,
         SURVEY_API,
@@ -211,6 +212,9 @@ public final class Config {
     }
     public String getActiveStudyConsentApi() {
         return val(Props.STUDY_CONSENT_GET_ACTIVE_API);
+    }
+    public String getMostRecentStudyConsentApi() {
+        return val(Props.STUDY_CONSENT_GET_MOST_RECENT_API);
     }
     public String getVersionStudyConsentApi(DateTime timestamp) {
         checkNotNull(timestamp);
