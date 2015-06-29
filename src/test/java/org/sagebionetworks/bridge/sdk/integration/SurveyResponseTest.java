@@ -64,7 +64,6 @@ public class SurveyResponseTest {
             System.out.println("Waiting before we read survey state");
             Thread.sleep(4000);
             ResearcherClient client = researcher.getSession().getResearcherClient();
-            client.closeSurvey(survey);
             client.deleteSurvey(survey);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
