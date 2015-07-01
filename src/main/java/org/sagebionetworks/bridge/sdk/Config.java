@@ -30,6 +30,8 @@ public final class Config {
         ADMIN_PASSWORD,
         ADMIN_STUDIES_API,
         ADMIN_STUDY_API,
+        CACHE_API,
+        CACHE_DELETE_API,
         LOG_LEVEL,
         AUTH_RESEND_EMAIL_VERIFICATION_API,
         AUTH_SIGNUP_API,
@@ -157,6 +159,13 @@ public final class Config {
     }
     public String getAdminPassword() {
         return val(Props.ADMIN_PASSWORD);
+    }
+    public String getCacheApi() {
+        return val(Props.CACHE_API);
+    }
+    public String getDeleteCacheApi(String key) {
+        checkNotNull(key);
+        return String.format(val(Props.CACHE_DELETE_API), key);
     }
     public String getDevName() {
         return val(Props.DEV_NAME);

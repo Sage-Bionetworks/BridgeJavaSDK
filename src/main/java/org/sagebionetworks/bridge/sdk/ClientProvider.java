@@ -2,6 +2,7 @@ package org.sagebionetworks.bridge.sdk;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import org.sagebionetworks.bridge.sdk.exceptions.ConsentRequiredException;
 import org.sagebionetworks.bridge.sdk.models.users.EmailCredentials;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
@@ -32,7 +33,7 @@ public class ClientProvider {
      *            The credentials you wish to sign in with.
      * @return Session
      */
-    public static Session signIn(SignInCredentials signIn) {
+    public static Session signIn(SignInCredentials signIn) throws ConsentRequiredException {
         checkNotNull(signIn, "SignInCredentials required.");
 
         UserSession session = new BaseApiCaller(null).post(config.getAuthSignInApi(), signIn, UserSession.class);

@@ -40,5 +40,9 @@ public interface AdminClient {
     public void deleteSurvey(String guid, DateTime createdOn);
 
     public void deleteSurvey(GuidCreatedOnVersionHolder keys);
+    
+    public ResourceList<String> getCacheItemKeys();
+    
+    public void deleteCacheKey(String key);
 
 }

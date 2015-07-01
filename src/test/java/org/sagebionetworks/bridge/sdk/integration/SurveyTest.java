@@ -72,7 +72,6 @@ public class SurveyTest {
     private void deleteAllSurveysInStudy(DeveloperClient client) {
         for (Survey survey : client.getAllSurveysMostRecent()) {
             for (Survey revision : client.getSurveyAllRevisions(survey.getGuid())) {
-                client.closeSurvey(revision);
                 client.deleteSurvey(revision);
             }
         }
@@ -135,8 +134,6 @@ public class SurveyTest {
 
         int count = client.getSurveyAllRevisions(key.getGuid()).getTotal();
         assertEquals("Two versions for this survey.", 2, count);
-
-        client.closeSurvey(key);
     }
 
     @Test
@@ -216,19 +213,23 @@ public class SurveyTest {
     @Test
     public void researcherCannotUpdatePublishedSurvey() {
         DeveloperClient client = developer.getSession().getDeveloperClient();
-        GuidCreatedOnVersionHolder key = client.createSurvey(TestSurvey.getSurvey());
-        client.publishSurvey(key);
+        Survey survey = TestSurvey.getSurvey();
+        GuidCreatedOnVersionHolder keys = client.createSurvey(survey);
+        keys = client.publishSurvey(keys);
+        survey.setGuidCreatedOnVersionHolder(keys);
+        
+        survey.setName("This is a new name");
 
         try {
-            client.deleteSurvey(key);
-            fail("attempting to delete a published survey should throw an exception.");
+            client.updateSurvey(survey);
+            fail("attempting to update a published survey should throw an exception.");
         } catch(PublishedSurveyException e) {
             assertEquals("PublishedSurveyException holds same guid as key used to delete Survey.",
-                    key.getGuid(), e.getGuid());
+                    keys.getGuid(), e.getGuid());
 
             // Need to getMillis because DateTimes aren't treated as equal if they exist in different time zones.
             assertEquals("PublishedSurveyException holds same createdOn as key used to delete Survey.",
-                    key.getCreatedOn().getMillis(), e.getCreatedOn().getMillis());
+                    keys.getCreatedOn().getMillis(), e.getCreatedOn().getMillis());
         }
     }
 
