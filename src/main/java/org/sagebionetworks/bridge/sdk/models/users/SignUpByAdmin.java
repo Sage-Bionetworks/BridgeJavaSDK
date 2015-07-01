@@ -5,15 +5,17 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import java.util.Set;
 
+import org.sagebionetworks.bridge.sdk.Roles;
+
 public class SignUpByAdmin {
     
     private final String username;
     private final String email;
     private final String password;
-    private final Set<String> roles;
+    private final Set<Roles> roles;
     private final boolean consent;
 
-    public SignUpByAdmin(String username, String email, String password, Set<String> roles, boolean consent) {
+    public SignUpByAdmin(String username, String email, String password, Set<Roles> roles, boolean consent) {
         checkArgument(isNotBlank(username));
         checkArgument(isNotBlank(email));
         checkArgument(isNotBlank(password));
@@ -33,7 +35,7 @@ public class SignUpByAdmin {
     public String getPassword() {
         return password;
     }
-    public Set<String> getRoles() {
+    public Set<Roles> getRoles() {
         return roles;
     }
     public boolean isConsent() {

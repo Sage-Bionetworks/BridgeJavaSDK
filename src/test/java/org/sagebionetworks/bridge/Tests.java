@@ -19,10 +19,6 @@ public class Tests {
     
     public static final String TEST_KEY = "api";
     
-    public static final String ADMIN_ROLE = "admin";
-
-    public static final String RESEARCHER_ROLE = TEST_KEY + "_researcher";
-
     public static final Properties getApplicationProperties() {
         Properties properties = new Properties();
         File file = new File("src/main/resources/bridge-sdk.properties");

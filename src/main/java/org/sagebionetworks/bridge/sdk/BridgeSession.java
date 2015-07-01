@@ -75,6 +75,12 @@ class BridgeSession implements Session {
     }
 
     @Override
+    public DeveloperClient getDeveloperClient() {
+        checkState(isSignedIn(), NOT_AUTHENTICATED);
+        return new BridgeDeveloperClient(this);
+    }
+    
+    @Override
     public ResearcherClient getResearcherClient() {
         checkState(isSignedIn(), NOT_AUTHENTICATED);
         return new BridgeResearcherClient(this);

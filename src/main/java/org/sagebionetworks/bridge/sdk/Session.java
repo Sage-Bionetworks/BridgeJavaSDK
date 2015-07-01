@@ -20,6 +20,8 @@ public interface Session {
     
     public UserClient getUserClient();
     
+    public DeveloperClient getDeveloperClient();
+    
     public ResearcherClient getResearcherClient();
     
     public AdminClient getAdminClient();

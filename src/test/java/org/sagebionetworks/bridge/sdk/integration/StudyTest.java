@@ -11,7 +11,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.AdminClient;
+import org.sagebionetworks.bridge.sdk.DeveloperClient;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
+import org.sagebionetworks.bridge.sdk.Roles;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.exceptions.EntityNotFoundException;
@@ -28,7 +30,7 @@ public class StudyTest {
     @Before
     public void before() {
         admin = TestUserHelper.getSignedInAdmin();
-        researcher = TestUserHelper.createAndSignInUser(StudyTest.class, false, Tests.TEST_KEY+"_researcher");
+        researcher = TestUserHelper.createAndSignInUser(StudyTest.class, false, Roles.RESEARCHER);
     }
     
     @After
@@ -104,7 +106,7 @@ public class StudyTest {
     public void butNormalUserCannotAccessStudy() {
         TestUser user = TestUserHelper.createAndSignInUser(StudyTest.class, false);
         try {
-            ResearcherClient rclient = user.getSession().getResearcherClient();
+            DeveloperClient rclient = user.getSession().getDeveloperClient();
             rclient.getStudy();
         } finally {
             user.signOutAndDeleteUser();

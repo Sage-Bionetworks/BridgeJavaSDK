@@ -11,9 +11,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.sagebionetworks.bridge.Tests;
-import org.sagebionetworks.bridge.sdk.ResearcherClient;
+import org.sagebionetworks.bridge.sdk.DeveloperClient;
+import org.sagebionetworks.bridge.sdk.Roles;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.exceptions.EntityNotFoundException;
 import org.sagebionetworks.bridge.sdk.exceptions.UnauthorizedException;
@@ -28,19 +27,19 @@ public class UploadSchemaTest {
 
     private static final String TEST_SCHEMA_ID_PREFIX = "integration-test-schema-";
 
-    private static TestUserHelper.TestUser researcher;
+    private static TestUserHelper.TestUser developer;
     private static TestUserHelper.TestUser user;
 
     @BeforeClass
     public static void beforeClass() {
-        researcher = TestUserHelper.createAndSignInUser(UploadSchemaTest.class, false, Tests.RESEARCHER_ROLE);
+        developer = TestUserHelper.createAndSignInUser(UploadSchemaTest.class, false, Roles.DEVELOPER);
         user = TestUserHelper.createAndSignInUser(UploadSchemaTest.class, true);
     }
 
     @AfterClass
     public static void deleteResearcher() {
-        if (researcher != null) {
-            researcher.signOutAndDeleteUser();
+        if (developer != null) {
+            developer.signOutAndDeleteUser();
         }
     }
 
@@ -53,7 +52,7 @@ public class UploadSchemaTest {
 
     @Test
     public void test() {
-        ResearcherClient researcherClient = researcher.getSession().getResearcherClient();
+        DeveloperClient developerClient = developer.getSession().getDeveloperClient();
         String schemaId = TEST_SCHEMA_ID_PREFIX + RandomStringUtils.randomAlphabetic(4);
         LOG.info("schemaId=" + schemaId);
 
@@ -82,14 +81,14 @@ public class UploadSchemaTest {
         createOrUpdateSchemaAndVerify(schemaV3);
 
         // Step 4: Delete v3 and verify the getter returns v2.
-        researcherClient.deleteUploadSchema(schemaId, 3);
-        UploadSchema returnedAfterDelete = researcherClient.getUploadSchema(schemaId);
+        developerClient.deleteUploadSchema(schemaId, 3);
+        UploadSchema returnedAfterDelete = developerClient.getUploadSchema(schemaId);
         assertEquals(updatedSchemaV2, returnedAfterDelete);
 
         // Step 4a: Use list API to verify v1 and v2 are both still present
         boolean v1Found = false;
         boolean v2Found = false;
-        ResourceList<UploadSchema> schemaList = researcherClient.getAllUploadSchemasAllRevisions();
+        ResourceList<UploadSchema> schemaList = developerClient.getAllUploadSchemasAllRevisions();
         for (UploadSchema oneSchema : schemaList) {
             if (oneSchema.getSchemaId().equals(schemaId)) {
                 int rev = oneSchema.getRevision();
@@ -108,12 +107,12 @@ public class UploadSchemaTest {
         assertTrue(v2Found);
 
         // Step 5: Delete all schemas with the test schema ID
-        researcherClient.deleteUploadSchemaAllRevisions(schemaId);
+        developerClient.deleteUploadSchemaAllRevisions(schemaId);
 
         // Step 5a: Get API should throw
         Exception thrownEx = null;
         try {
-            researcherClient.getUploadSchema(schemaId);
+            developerClient.getUploadSchema(schemaId);
             fail("expected exception");
         } catch (EntityNotFoundException ex) {
             thrownEx = ex;
@@ -121,7 +120,7 @@ public class UploadSchemaTest {
         assertNotNull(thrownEx);
 
         // Step 5b: Use list API to verify no schemas with this ID
-        ResourceList<UploadSchema> schemaList2 = researcherClient.getAllUploadSchemasAllRevisions();
+        ResourceList<UploadSchema> schemaList2 = developerClient.getAllUploadSchemasAllRevisions();
         for (UploadSchema oneSchema : schemaList2) {
             if (oneSchema.getSchemaId().equals(schemaId)) {
                 fail("Found schema with ID " + schemaId + " even though it should have been deleted");
@@ -130,8 +129,8 @@ public class UploadSchemaTest {
     }
 
     private static UploadSchema createOrUpdateSchemaAndVerify(UploadSchema schema) {
-        ResearcherClient researcherClient = researcher.getSession().getResearcherClient();
-        UploadSchema returnedSchema = researcherClient.createOrUpdateUploadSchema(schema);
+        DeveloperClient developerClient = developer.getSession().getDeveloperClient();
+        UploadSchema returnedSchema = developerClient.createOrUpdateUploadSchema(schema);
 
         // all fields should match, except revision which is incremented
         assertEquals(schema.getFieldDefinitions(), returnedSchema.getFieldDefinitions());
@@ -150,6 +149,6 @@ public class UploadSchemaTest {
 
     @Test(expected=UnauthorizedException.class)
     public void unauthorizedTest() {
-        user.getSession().getResearcherClient().getAllUploadSchemasAllRevisions();
+        user.getSession().getDeveloperClient().getAllUploadSchemasAllRevisions();
     }
 }

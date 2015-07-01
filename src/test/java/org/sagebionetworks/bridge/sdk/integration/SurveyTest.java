@@ -23,8 +23,8 @@ import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.sagebionetworks.bridge.Tests;
-import org.sagebionetworks.bridge.sdk.ResearcherClient;
+import org.sagebionetworks.bridge.sdk.DeveloperClient;
+import org.sagebionetworks.bridge.sdk.Roles;
 import org.sagebionetworks.bridge.sdk.TestSurvey;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
@@ -48,12 +48,12 @@ import org.sagebionetworks.bridge.sdk.models.surveys.UiHint;
 
 public class SurveyTest {
     
-    private TestUser researcher;
+    private TestUser developer;
     private TestUser user;
 
     @Before
     public void before() {
-        researcher = TestUserHelper.createAndSignInUser(SurveyTest.class, true, Tests.RESEARCHER_ROLE);
+        developer = TestUserHelper.createAndSignInUser(SurveyTest.class, true, Roles.DEVELOPER);
         user = TestUserHelper.createAndSignInUser(SurveyTest.class, true);
     }
 
@@ -61,15 +61,15 @@ public class SurveyTest {
     public void after() {
         try {
             user.signOutAndDeleteUser();
-            ResearcherClient client = researcher.getSession().getResearcherClient();
+            DeveloperClient client = developer.getSession().getDeveloperClient();
             deleteAllSurveysInStudy(client);
             assertEquals("Should be no surveys.", 0, client.getAllSurveysMostRecent().getTotal());
         } finally {
-            researcher.signOutAndDeleteUser();
+            developer.signOutAndDeleteUser();
         }
     }
 
-    private void deleteAllSurveysInStudy(ResearcherClient client) {
+    private void deleteAllSurveysInStudy(DeveloperClient client) {
         for (Survey survey : client.getAllSurveysMostRecent()) {
             for (Survey revision : client.getSurveyAllRevisions(survey.getGuid())) {
                 client.closeSurvey(revision);
@@ -80,12 +80,12 @@ public class SurveyTest {
     
     @Test(expected=UnauthorizedException.class)
     public void cannotSubmitAsNormalUser() {
-        user.getSession().getResearcherClient().getAllSurveysMostRecent();
+        user.getSession().getDeveloperClient().getAllSurveysMostRecent();
     }
 
     @Test
     public void saveAndRetrieveSurvey() {
-        ResearcherClient client = researcher.getSession().getResearcherClient();
+        DeveloperClient client = developer.getSession().getDeveloperClient();
         GuidCreatedOnVersionHolder key = client.createSurvey(TestSurvey.getSurvey());
         Survey survey = client.getSurvey(key);
 
@@ -104,7 +104,7 @@ public class SurveyTest {
 
     @Test
     public void createVersionPublish() {
-        ResearcherClient client = researcher.getSession().getResearcherClient();
+        DeveloperClient client = developer.getSession().getDeveloperClient();
 
         Survey survey = TestSurvey.getSurvey();
         assertNull(survey.getGuid());
@@ -128,7 +128,7 @@ public class SurveyTest {
 
     @Test
     public void getAllVersionsOfASurvey() {
-        ResearcherClient client = researcher.getSession().getResearcherClient();
+        DeveloperClient client = developer.getSession().getDeveloperClient();
 
         GuidCreatedOnVersionHolder key = client.createSurvey(TestSurvey.getSurvey());
         key = client.versionSurvey(key);
@@ -141,7 +141,7 @@ public class SurveyTest {
 
     @Test
     public void canGetMostRecentOrRecentlyPublishedSurvey() {
-        ResearcherClient client = researcher.getSession().getResearcherClient();
+        DeveloperClient client = developer.getSession().getDeveloperClient();
 
         GuidCreatedOnVersionHolder key = client.createSurvey(TestSurvey.getSurvey());
         key = client.versionSurvey(key);
@@ -166,7 +166,7 @@ public class SurveyTest {
 
     @Test
     public void canUpdateASurveyAndTypesAreCorrect() {
-        ResearcherClient client = researcher.getSession().getResearcherClient();
+        DeveloperClient client = developer.getSession().getDeveloperClient();
 
         GuidCreatedOnVersionHolder key = client.createSurvey(TestSurvey.getSurvey());
         Survey survey = client.getSurvey(key.getGuid(), key.getCreatedOn());
@@ -199,7 +199,7 @@ public class SurveyTest {
 
     @Test
     public void dateBasedConstraintsPersistedCorrectly() {
-        ResearcherClient client = researcher.getSession().getResearcherClient();
+        DeveloperClient client = developer.getSession().getDeveloperClient();
 
         GuidCreatedOnVersionHolder key = client.createSurvey(TestSurvey.getSurvey());
         Survey survey = client.getSurvey(key);
@@ -215,7 +215,7 @@ public class SurveyTest {
 
     @Test
     public void researcherCannotUpdatePublishedSurvey() {
-        ResearcherClient client = researcher.getSession().getResearcherClient();
+        DeveloperClient client = developer.getSession().getDeveloperClient();
         GuidCreatedOnVersionHolder key = client.createSurvey(TestSurvey.getSurvey());
         client.publishSurvey(key);
 
@@ -234,7 +234,7 @@ public class SurveyTest {
 
     @Test
     public void canGetMostRecentlyPublishedSurveyWithoutTimestamp() {
-        ResearcherClient client = researcher.getSession().getResearcherClient();
+        DeveloperClient client = developer.getSession().getDeveloperClient();
         Survey survey = TestSurvey.getSurvey();
 
         GuidCreatedOnVersionHolder key = client.createSurvey(survey);
@@ -251,7 +251,7 @@ public class SurveyTest {
 
     @Test
     public void canCallMultiOperationMethodToMakeSurveyUpdate() {
-        ResearcherClient client = researcher.getSession().getResearcherClient();
+        DeveloperClient client = developer.getSession().getDeveloperClient();
         Survey survey = TestSurvey.getSurvey();
 
         GuidCreatedOnVersionHolder keys = client.createSurvey(survey);
@@ -273,7 +273,7 @@ public class SurveyTest {
     
     @Test
     public void canRetrieveSurveyByIdentifier() {
-        ResearcherClient client = researcher.getSession().getResearcherClient();
+        DeveloperClient client = developer.getSession().getDeveloperClient();
         
         Survey survey = TestSurvey.getSurvey();
         GuidCreatedOnVersionHolder keys = client.createSurvey(survey);
@@ -284,7 +284,7 @@ public class SurveyTest {
     
     @Test
     public void canSaveAndRetrieveInfoScreen() {
-        ResearcherClient client = researcher.getSession().getResearcherClient();
+        DeveloperClient client = developer.getSession().getDeveloperClient();
         
         Survey survey = new Survey();
         survey.setIdentifier("test-survey");
