@@ -16,9 +16,9 @@ import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sagebionetworks.bridge.IntegrationSmokeTest;
-import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.ClientProvider;
-import org.sagebionetworks.bridge.sdk.ResearcherClient;
+import org.sagebionetworks.bridge.sdk.DeveloperClient;
+import org.sagebionetworks.bridge.sdk.Roles;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.exceptions.EntityNotFoundException;
@@ -43,21 +43,21 @@ public class UploadTest {
     // Retry up to 6 times, so we don't spend more than 30 seconds per test.
     private static final int UPLOAD_STATUS_DELAY_RETRIES = 6;
 
-    private static TestUserHelper.TestUser researcher;
+    private static TestUserHelper.TestUser developer;
     private static TestUserHelper.TestUser user;
 
     @BeforeClass
     public static void beforeClass() {
-        // researcher is to ensure schemas exist. user is to do uploads
-        researcher = TestUserHelper.createAndSignInUser(UploadSchemaTest.class, false, Tests.RESEARCHER_ROLE);
+        // developer is to ensure schemas exist. user is to do uploads
+        developer = TestUserHelper.createAndSignInUser(UploadSchemaTest.class, false, Roles.DEVELOPER);
         user = TestUserHelper.createAndSignInUser(UploadSchemaTest.class, true);
 
         // ensure schemas exist, so we have something to upload against
-        ResearcherClient researcherClient = researcher.getSession().getResearcherClient();
+        DeveloperClient developerClient = developer.getSession().getDeveloperClient();
 
         UploadSchema iosSurveySchema = null;
         try {
-            iosSurveySchema = researcherClient.getUploadSchema("ios-survey");
+            iosSurveySchema = developerClient.getUploadSchema("ios-survey");
         } catch (EntityNotFoundException ex) {
             // no-op
         }
@@ -71,12 +71,12 @@ public class UploadTest {
                             new UploadFieldDefinition("item", UploadFieldType.STRING),
                             new UploadFieldDefinition("taskRunId", UploadFieldType.STRING))
                     .build();
-            researcherClient.createOrUpdateUploadSchema(iosSurveySchema);
+            developerClient.createOrUpdateUploadSchema(iosSurveySchema);
         }
 
         UploadSchema uploadTestSurveySchema = null;
         try {
-            uploadTestSurveySchema = researcherClient.getUploadSchema("upload-test-ios-survey");
+            uploadTestSurveySchema = developerClient.getUploadSchema("upload-test-ios-survey");
         } catch (EntityNotFoundException ex) {
             // no-op
         }
@@ -89,12 +89,12 @@ public class UploadTest {
                             new UploadFieldDefinition("foo", UploadFieldType.STRING),
                             new UploadFieldDefinition("bar", UploadFieldType.INT))
                     .build();
-            researcherClient.createOrUpdateUploadSchema(uploadTestSurveySchema);
+            developerClient.createOrUpdateUploadSchema(uploadTestSurveySchema);
         }
 
         UploadSchema jsonDataSchema = null;
         try {
-            jsonDataSchema = researcherClient.getUploadSchema("upload-test-json-data");
+            jsonDataSchema = developerClient.getUploadSchema("upload-test-json-data");
         } catch (EntityNotFoundException ex) {
             // no-op
         }
@@ -107,12 +107,12 @@ public class UploadTest {
                             new UploadFieldDefinition("string.json.string", UploadFieldType.STRING),
                             new UploadFieldDefinition("blob.json.blob", UploadFieldType.ATTACHMENT_JSON_BLOB))
                     .build();
-            researcherClient.createOrUpdateUploadSchema(jsonDataSchema);
+            developerClient.createOrUpdateUploadSchema(jsonDataSchema);
         }
 
         UploadSchema nonJsonSchema = null;
         try {
-            nonJsonSchema = researcherClient.getUploadSchema("upload-test-non-json");
+            nonJsonSchema = developerClient.getUploadSchema("upload-test-non-json");
         } catch (EntityNotFoundException ex) {
             // no-op
         }
@@ -125,14 +125,14 @@ public class UploadTest {
                             new UploadFieldDefinition("nonJson.txt", UploadFieldType.ATTACHMENT_BLOB),
                             new UploadFieldDefinition("jsonFile.json", UploadFieldType.ATTACHMENT_JSON_BLOB))
                     .build();
-            researcherClient.createOrUpdateUploadSchema(nonJsonSchema);
+            developerClient.createOrUpdateUploadSchema(nonJsonSchema);
         }
     }
 
     @AfterClass
     public static void deleteResearcher() {
-        if (researcher != null) {
-            researcher.signOutAndDeleteUser();
+        if (developer != null) {
+            developer.signOutAndDeleteUser();
         }
     }
 

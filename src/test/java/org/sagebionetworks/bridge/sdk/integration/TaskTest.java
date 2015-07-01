@@ -10,8 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.sagebionetworks.bridge.IntegrationSmokeTest;
-import org.sagebionetworks.bridge.Tests;
-import org.sagebionetworks.bridge.sdk.ResearcherClient;
+import org.sagebionetworks.bridge.sdk.DeveloperClient;
+import org.sagebionetworks.bridge.sdk.Roles;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
@@ -28,16 +28,16 @@ import org.sagebionetworks.bridge.sdk.models.schedules.TaskStatus;
 public class TaskTest {
     
     private TestUser user;
-    private TestUser researcher;
-    private ResearcherClient researcherClient;
+    private TestUser developer;
+    private DeveloperClient developerClient;
     private UserClient userClient;
 
     @Before
     public void before() {
-        researcher = TestUserHelper.createAndSignInUser(SchedulePlanTest.class, true, Tests.RESEARCHER_ROLE);
+        developer = TestUserHelper.createAndSignInUser(SchedulePlanTest.class, true, Roles.DEVELOPER);
         user = TestUserHelper.createAndSignInUser(SchedulePlanTest.class, true);
 
-        researcherClient = researcher.getSession().getResearcherClient();
+        developerClient = developer.getSession().getDeveloperClient();
         userClient = user.getSession().getUserClient();
         
         Schedule schedule = new Schedule();
@@ -50,18 +50,18 @@ public class TaskTest {
         SchedulePlan plan = new SchedulePlan();
         plan.setLabel("Schedule plan 1");
         plan.setSchedule(schedule);
-        researcherClient.createSchedulePlan(plan);
+        developerClient.createSchedulePlan(plan);
     }
 
     @After
     public void after() {
         try {
-            for (SchedulePlan plan : researcherClient.getSchedulePlans()) {
-                researcherClient.deleteSchedulePlan(plan.getGuid());
+            for (SchedulePlan plan : developerClient.getSchedulePlans()) {
+                developerClient.deleteSchedulePlan(plan.getGuid());
             }
-            assertEquals("Test should have deleted all schedule plans.", researcherClient.getSchedulePlans().getTotal(), 0);
+            assertEquals("Test should have deleted all schedule plans.", developerClient.getSchedulePlans().getTotal(), 0);
         } finally {
-            researcher.signOutAndDeleteUser();
+            developer.signOutAndDeleteUser();
             user.signOutAndDeleteUser();
         }
     }
@@ -93,6 +93,5 @@ public class TaskTest {
         tasks = userClient.getTasks(DateTime.now().plusDays(3));
         assertEquals(0, tasks.getTotal()); // no tasks == finished
     }
-    
     
 }

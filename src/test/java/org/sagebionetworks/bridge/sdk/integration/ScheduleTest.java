@@ -1,7 +1,6 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
-import static org.sagebionetworks.bridge.Tests.RESEARCHER_ROLE;
 
 import java.util.List;
 
@@ -9,7 +8,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
-import org.sagebionetworks.bridge.sdk.ResearcherClient;
+import org.sagebionetworks.bridge.sdk.DeveloperClient;
+import org.sagebionetworks.bridge.sdk.Roles;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
@@ -21,32 +21,32 @@ public class ScheduleTest {
     private String planGuid;
     
     private TestUser user;
-    private TestUser researcher;
+    private TestUser developer;
     
     @Before
     public void before() {
         user = TestUserHelper.createAndSignInUser(ScheduleTest.class, true);
-        researcher = TestUserHelper.createAndSignInUser(ScheduleTest.class, true, RESEARCHER_ROLE);
+        developer = TestUserHelper.createAndSignInUser(ScheduleTest.class, true, Roles.DEVELOPER);
         
-        ResearcherClient client = researcher.getSession().getResearcherClient();
+        DeveloperClient client = developer.getSession().getDeveloperClient();
         planGuid = client.createSchedulePlan(Tests.getABTestSchedulePlan()).getGuid();
     }
     
     @After
     public void after() {
         try {
-            ResearcherClient client = researcher.getSession().getResearcherClient();
+            DeveloperClient client = developer.getSession().getDeveloperClient();
             client.deleteSchedulePlan(planGuid);
         } finally {
             user.signOutAndDeleteUser();
-            researcher.signOutAndDeleteUser();
+            developer.signOutAndDeleteUser();
         }
     }
     
     @Test
     public void schedulePlanIsCorrect() throws Exception {
         SchedulePlan originalPlan = Tests.getABTestSchedulePlan();
-        SchedulePlan plan = researcher.getSession().getResearcherClient().getSchedulePlan(planGuid);
+        SchedulePlan plan = developer.getSession().getDeveloperClient().getSchedulePlan(planGuid);
         // Fields that are set on the server.
         originalPlan.setGuid(plan.getGuid());
         originalPlan.setModifiedOn(plan.getModifiedOn());

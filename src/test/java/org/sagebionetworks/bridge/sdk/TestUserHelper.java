@@ -21,18 +21,18 @@ public class TestUserHelper {
         private final String username;
         private final String email;
         private final String password;
-        private final Set<String> roles;
+        private final Set<Roles> roles;
 
         public TestUser(AdminClient client, Session userSession, String username, String email, String password,
-                Set<String> roleList) {
+                Set<Roles> roleList) {
 
             this.adminClient = client;
             this.userSession = userSession;
             this.username = username;
             this.email = email;
             this.password = password;
-            this.roles = (roleList == null) ? new HashSet<String>() : roleList;
-            roles.add("test_users");
+            this.roles = (roleList == null) ? new HashSet<Roles>() : roleList;
+            roles.add(Roles.TEST_USERS);
         }
         public Session getSession() {
             return userSession;
@@ -46,7 +46,7 @@ public class TestUserHelper {
         public String getPassword() {
             return password;
         }
-        public Set<String> getRoles() {
+        public Set<Roles> getRoles() {
             return roles;
         }
         public boolean signOutAndDeleteUser() {
@@ -63,10 +63,10 @@ public class TestUserHelper {
         Session session = ClientProvider.signIn(config.getAdminCredentials());
         AdminClient adminClient = session.getAdminClient();
 
-        return new TestUserHelper.TestUser(adminClient, session, "", "", "", Sets.newHashSet(Tests.ADMIN_ROLE));
+        return new TestUserHelper.TestUser(adminClient, session, "", "", "", Sets.newHashSet(Roles.ADMIN));
     }
 
-    public static TestUser createAndSignInUser(Class<?> cls, boolean consent, String... roles) {
+    public static TestUser createAndSignInUser(Class<?> cls, boolean consent, Roles... roles) {
         checkNotNull(cls);
 
         ClientProvider.getClientInfo().withAppName("Integration Tests");
@@ -75,8 +75,8 @@ public class TestUserHelper {
         Session session = ClientProvider.signIn(config.getAdminCredentials());
         AdminClient adminClient = session.getAdminClient();
 
-        Set<String> rolesList = (roles == null) ? Sets.<String>newHashSet() : Sets.newHashSet(roles);
-        rolesList.add("test_users");
+        Set<Roles> rolesList = (roles == null) ? Sets.<Roles>newHashSet() : Sets.newHashSet(roles);
+        rolesList.add(Roles.TEST_USERS);
         String name = makeUserName(cls);
 
         // For email address, we don't want consent emails to bounce or SES will get mad at us. All test user email

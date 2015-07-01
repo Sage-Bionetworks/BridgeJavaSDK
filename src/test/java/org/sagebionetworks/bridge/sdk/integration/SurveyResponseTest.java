@@ -15,8 +15,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.sagebionetworks.bridge.IntegrationSmokeTest;
-import org.sagebionetworks.bridge.Tests;
-import org.sagebionetworks.bridge.sdk.ResearcherClient;
+import org.sagebionetworks.bridge.sdk.DeveloperClient;
+import org.sagebionetworks.bridge.sdk.Roles;
 import org.sagebionetworks.bridge.sdk.TestSurvey;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
@@ -36,7 +36,7 @@ import com.google.common.collect.Maps;
 @Category(IntegrationSmokeTest.class)
 public class SurveyResponseTest {
     
-    private TestUser researcher;
+    private TestUser developer;
     private TestUser user;
 
     private Survey survey;
@@ -44,10 +44,10 @@ public class SurveyResponseTest {
 
     @Before
     public void before() {
-        researcher = TestUserHelper.createAndSignInUser(SurveyResponseTest.class, true, Tests.RESEARCHER_ROLE);
+        developer = TestUserHelper.createAndSignInUser(SurveyResponseTest.class, true, Roles.DEVELOPER);
         user = TestUserHelper.createAndSignInUser(SurveyResponseTest.class, true);
 
-        ResearcherClient client = researcher.getSession().getResearcherClient();
+        DeveloperClient client = developer.getSession().getDeveloperClient();
         Survey testSurvey = TestSurvey.getSurvey();
         keys = client.createSurvey(testSurvey);
         client.publishSurvey(keys);
@@ -63,12 +63,12 @@ public class SurveyResponseTest {
             user.signOutAndDeleteUser();
             System.out.println("Waiting before we read survey state");
             Thread.sleep(4000);
-            ResearcherClient client = researcher.getSession().getResearcherClient();
+            DeveloperClient client = developer.getSession().getDeveloperClient();
             client.deleteSurvey(survey);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         } finally {
-            researcher.signOutAndDeleteUser();
+            developer.signOutAndDeleteUser();
         }
     }
 
