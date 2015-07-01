@@ -171,13 +171,6 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
         return keys;
     }
     @Override
-    public void closeSurvey(GuidCreatedOnVersionHolder keys) {
-        session.checkSignedIn();
-        checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
-
-        post(config.getCloseSurveyApi(keys.getGuid(), keys.getCreatedOn()));
-    }
-    @Override
     public void deleteSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
         checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
