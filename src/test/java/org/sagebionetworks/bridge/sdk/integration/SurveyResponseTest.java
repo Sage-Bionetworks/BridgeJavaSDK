@@ -10,8 +10,8 @@ import java.util.Map;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.sagebionetworks.bridge.IntegrationSmokeTest;
@@ -36,14 +36,14 @@ import com.google.common.collect.Maps;
 @Category(IntegrationSmokeTest.class)
 public class SurveyResponseTest {
     
-    private TestUser developer;
-    private TestUser user;
+    private static TestUser developer;
+    private static TestUser user;
 
-    private Survey survey;
-    private GuidCreatedOnVersionHolder keys;
-
-    @Before
-    public void before() {
+    private static Survey survey;
+    private static GuidCreatedOnVersionHolder keys;
+    
+    @BeforeClass
+    public static void beforeClass() {
         developer = TestUserHelper.createAndSignInUser(SurveyResponseTest.class, true, Roles.DEVELOPER);
         user = TestUserHelper.createAndSignInUser(SurveyResponseTest.class, true);
 
@@ -57,21 +57,15 @@ public class SurveyResponseTest {
         survey = client.getSurvey(keys.getGuid(), keys.getCreatedOn());
     }
 
-    @After
-    public void after() {
+    @AfterClass
+    public static void afterClass() {
         try {
             user.signOutAndDeleteUser();
-            System.out.println("Waiting before we read survey state");
-            Thread.sleep(4000);
-            DeveloperClient client = developer.getSession().getDeveloperClient();
-            client.deleteSurvey(survey);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
         } finally {
             developer.signOutAndDeleteUser();
         }
     }
-
+    
     /**
      * You don't need answers to create a survey response. You get the identifier for future answers
      * to submit. 
@@ -80,20 +74,22 @@ public class SurveyResponseTest {
     public void createSurveyResponseBeforeYouHaveAnswers() {
         UserClient client = user.getSession().getUserClient();
 
-        List<SurveyAnswer> answers = Lists.newArrayList();
+        IdentifierHolder keys = client.submitAnswersToSurvey(survey, Lists.<SurveyAnswer>newArrayList());
 
-        IdentifierHolder keys = client.submitAnswersToSurvey(survey, answers);
-
+        // Create a response and verify it is empty.
         SurveyResponse surveyResponse = client.getSurveyResponse(keys.getIdentifier());
         assertNotNull(surveyResponse.getIdentifier());
+        assertEquals(0, surveyResponse.getSurveyAnswers().size());
         
+        // Create one answer and add it to the response.
         SurveyQuestion question1 = (SurveyQuestion)survey.getElementByIdentifier("high_bp");
-        SurveyAnswer answer = question1.createAnswerForQuestion("true", "desktop");
-        answers.add(answer);
+        List<SurveyAnswer> answers = Lists.newArrayList(question1.createAnswerForQuestion("true", "desktop"));
         
         client.addAnswersToResponse(surveyResponse, answers);
+        
+        // The response should be there.
         surveyResponse = client.getSurveyResponse(keys.getIdentifier());
-        assertEquals(1, surveyResponse.getSurveyAnswers().size());
+        assertEquals("There should be one answer", 1, surveyResponse.getSurveyAnswers().size());
     }
     
     @Test
@@ -101,20 +97,15 @@ public class SurveyResponseTest {
         UserClient client = user.getSession().getUserClient();
 
         SurveyQuestion question1 = (SurveyQuestion)survey.getElementByIdentifier("high_bp");
-        SurveyQuestion question2 = (SurveyQuestion)survey.getElementByIdentifier("BP X DAY");
-
+        SurveyQuestion question2 = (SurveyQuestion)survey.getElementByIdentifier("deleuterium_dosage");
         List<SurveyAnswer> answers = Lists.newArrayList();
-
-        SurveyAnswer answer = question1.createAnswerForQuestion("true", "desktop");
-        answers.add(answer);
-
-        answer = question2.createAnswerForQuestion("4", "desktop");
-        answers.add(answer);
+        answers.add(question1.createAnswerForQuestion("true", "desktop"));
+        answers.add(question2.createAnswerForQuestion("5.0", "desktop"));
 
         IdentifierHolder keys = client.submitAnswersToSurvey(survey, answers);
 
         SurveyResponse surveyResponse = client.getSurveyResponse(keys.getIdentifier());
-        assertEquals("There should be two answers.", surveyResponse.getSurveyAnswers().size(), 2);
+        assertEquals("There should be two answers.", 2, surveyResponse.getSurveyAnswers().size());
     }
 
     @Test
@@ -193,14 +184,9 @@ public class SurveyResponseTest {
 
         SurveyQuestion question1 = (SurveyQuestion)survey.getElementByIdentifier(TestSurvey.BOOLEAN_ID);
         SurveyQuestion question2 = (SurveyQuestion)survey.getElementByIdentifier(TestSurvey.INTEGER_ID);
-
         List<SurveyAnswer> answers = Lists.newArrayList();
-
-        SurveyAnswer answer = question1.createAnswerForQuestion("true", "desktop");
-        answers.add(answer);
-        
-        answer = question2.createAnswerForQuestion("4", "desktop");
-        answers.add(answer);
+        answers.add(question1.createAnswerForQuestion("true", "desktop"));
+        answers.add(question2.createAnswerForQuestion("4", "desktop"));
         
         client.submitAnswersToSurvey(survey, identifier, answers);
         
