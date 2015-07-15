@@ -6,8 +6,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.joda.time.LocalDate;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.exceptions.ConsentRequiredException;
+import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
+import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 import org.sagebionetworks.bridge.sdk.models.users.SignUpByAdmin;
 
@@ -93,7 +96,10 @@ public class TestUserHelper {
             userSession = ClientProvider.signIn(signIn);
         } catch(ConsentRequiredException e) {
             userSession = e.getSession();
-            // Do nothing. Some tests want to play around with a user who has not yet consented.
+            if (consent) {
+                ConsentSignature signature = new ConsentSignature("Tester", LocalDate.parse("1970-02-02"), null, null);
+                userSession.getUserClient().consentToResearch(signature, SharingScope.NO_SHARING);
+            }
         }
         return new TestUserHelper.TestUser(adminClient, userSession, signUp.getUsername(), signUp.getEmail(),
                 signUp.getPassword(), rolesList);
