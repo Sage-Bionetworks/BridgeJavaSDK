@@ -40,7 +40,7 @@ public final class Activity {
      */
     public Activity(String label, GuidCreatedOnVersionHolder survey) {
         this(label, ClientProvider.getConfig().getEnvironment().getUrl()
-                + ClientProvider.getConfig().getSurveyUserApi(survey.getGuid(), survey.getCreatedOn()));
+                + ClientProvider.getConfig().getSurveyApi(survey.getGuid(), survey.getCreatedOn()));
     }
     
     /**
@@ -51,7 +51,7 @@ public final class Activity {
      */
     public Activity(String label, SurveyReference reference) {
         this(label, (reference.getCreatedOn() != null) ? ClientProvider.getConfig().getEnvironment().getUrl()
-                + ClientProvider.getConfig().getSurveyUserApi(reference.getGuid(), reference.getCreatedOn())
+                + ClientProvider.getConfig().getSurveyApi(reference.getGuid(), reference.getCreatedOn())
                 : ClientProvider.getConfig().getEnvironment().getUrl()
                         + ClientProvider.getConfig().getRecentlyPublishedSurveyUserApi(reference.getGuid()));
     }

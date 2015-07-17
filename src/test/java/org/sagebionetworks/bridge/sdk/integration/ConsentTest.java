@@ -183,4 +183,15 @@ public class ConsentTest {
             testUser.signOutAndDeleteUser();
         }
     }
+    
+    @Test
+    public void canEmailConsentAgreement() {
+        TestUser testUser = TestUserHelper.createAndSignInUser(ConsentTest.class, true);
+        try {
+            UserClient client = testUser.getSession().getUserClient();
+            client.emailConsentSignature(); // just verify it throws no errors
+        } finally {
+            testUser.signOutAndDeleteUser();
+        }
+    }
 }

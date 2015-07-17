@@ -76,9 +76,9 @@ public class AuthenticationTest {
                 assertEquals(404, e.getStatusCode());
             }
         } finally {
+            config.set(Props.STUDY_IDENTIFIER, "api");
             client.deleteStudy("secondstudy");
             testUser1.signOutAndDeleteUser();
-            config.set(Props.STUDY_IDENTIFIER, "api");
         }
     }
     

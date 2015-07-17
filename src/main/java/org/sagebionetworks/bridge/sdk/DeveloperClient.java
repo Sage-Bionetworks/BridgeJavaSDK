@@ -136,14 +136,6 @@ public interface DeveloperClient {
     public GuidCreatedOnVersionHolder publishSurvey(GuidCreatedOnVersionHolder keys);
 
     /**
-     * Close a survey. A closed survey is one consented users cannot see.
-     *
-     * @param keys
-     *            holder object containing a GUID string identifying the survey and DateTime of survey's version.
-     */
-    public void closeSurvey(GuidCreatedOnVersionHolder keys);
-
-    /**
      * Delete a survey.
      *
      * @param keys

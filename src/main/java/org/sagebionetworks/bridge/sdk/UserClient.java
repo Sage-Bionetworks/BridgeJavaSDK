@@ -63,6 +63,11 @@ public interface UserClient {
      * @return consent signature
      */
     public ConsentSignature getConsentSignature();
+    
+    /**
+     * Email the signed consent agreement to the participant's email address.
+     */
+    public void emailConsentSignature();
 
     /**
      * Change (stop, resume) the sharing of data for this participant.

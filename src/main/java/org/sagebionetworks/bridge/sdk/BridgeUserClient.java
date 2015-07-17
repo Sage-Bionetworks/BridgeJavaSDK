@@ -83,7 +83,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
 
         ConsentSubmission submission = new ConsentSubmission(signature, scope);
         
-        post(config.getConsentApi(), submission);
+        post(config.getConsentSignatureApi(), submission);
         session.setConsented(true);
         session.setSharingScope(scope);
     }
@@ -91,8 +91,14 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     @Override
     public ConsentSignature getConsentSignature() {
         session.checkSignedIn();
-        ConsentSignature sig = get(config.getConsentApi(), ConsentSignature.class);
+        ConsentSignature sig = get(config.getConsentSignatureApi(), ConsentSignature.class);
         return sig;
+    }
+
+    @Override
+    public void emailConsentSignature() {
+        session.checkSignedIn();
+        post(config.getEmailConsentSignatureApi());
     }
 
     @Override
@@ -122,7 +128,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         session.checkSignedIn();
         checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
 
-        return get(config.getSurveyUserApi(keys.getGuid(), keys.getCreatedOn()), Survey.class);
+        return get(config.getSurveyApi(keys.getGuid(), keys.getCreatedOn()), Survey.class);
     }
     
     @Override
@@ -139,7 +145,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         checkNotNull(keys, "Survey keys cannot be null.");
         checkNotNull(answers, "Answers cannot be null.");
 
-        return post(config.getSurveyUserApi(keys.getGuid(), keys.getCreatedOn()), answers, SimpleIdentifierHolder.class);
+        return post(config.getSurveyResponseWithSurveyApi(keys.getGuid(), keys.getCreatedOn()), answers, SimpleIdentifierHolder.class);
     }
 
     @Override
@@ -151,7 +157,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         checkNotNull(identifier, "identifier cannot be null.");
         checkNotNull(answers, "Answers cannot be null.");
 
-        return post(config.getSurveyWithIdentifierUserApi(survey.getGuid(), survey.getCreatedOn(), identifier), answers, SimpleIdentifierHolder.class);
+        return post(config.getSurveyResponseWithIdentifierApi(survey.getGuid(), survey.getCreatedOn(), identifier), answers, SimpleIdentifierHolder.class);
     }
     
     @Override
