@@ -95,16 +95,17 @@ public final class Config {
 
     Config() {
         config = new Properties();
-        // May not be set correctly in all environments; disable until we create formal releases 
-        // environment = Environment.PRODUCTION;
         
+        // Load from default configuration file
         try(InputStream in = this.getClass().getResourceAsStream(CONFIG_FILE)) {
             config.load(in);
         } catch(IOException e) {
             throw new RuntimeException(e);
         }
+        // Overwrite from user's local file
         loadProperties(USER_CONFIG_FILE, config);
 
+        // Finally, overwrite from environment variables and system properties
         for (Props key : Props.values()) {
             String value = System.getenv(key.name());
             if (value == null) {
