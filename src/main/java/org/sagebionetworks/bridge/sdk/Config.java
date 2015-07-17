@@ -47,6 +47,7 @@ public final class Config {
         CONSENT_SIGNATURE_API,
         CONSENT_SIGNATURE_EMAIL_API,
         DEV_NAME,
+        ENV,
         LOG_LEVEL,
         SCHEDULEPLANS_API,
         SCHEDULEPLAN_API,
