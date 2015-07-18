@@ -1,15 +1,11 @@
 package org.sagebionetworks.bridge.sdk.models.schedules;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkArgument;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.util.Objects;
 
-import org.sagebionetworks.bridge.sdk.ClientProvider;
-import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
-import org.sagebionetworks.bridge.sdk.models.holders.SimpleGuidCreatedOnVersionHolder;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -20,40 +16,33 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class Activity {
     
     private final String label;
+    private final String labelDetail;
+    private final TaskReference task;
+    private final SurveyReference survey;
+    private final SurveyResponseReference response;
     private final ActivityType activityType;
-    private final String ref;
-
+    
     @JsonCreator
-    public Activity(@JsonProperty("label") String label, @JsonProperty("ref") String ref) {
-        checkNotNull(label);
-        checkNotNull(ref);
+    private Activity(@JsonProperty("label") String label, @JsonProperty("labelDetail") String labelDetail, 
+        @JsonProperty("task") TaskReference task, @JsonProperty("survey") SurveyReference survey, 
+        @JsonProperty("surveyResponse") SurveyResponseReference response) {
+        checkArgument(isNotBlank(label));
+        checkArgument(task != null || survey != null);
         
         this.label = label;
-        this.ref = ref;
-        this.activityType = SurveyReference.isSurveyRef(ref) ? ActivityType.SURVEY : ActivityType.TASK;
+        this.labelDetail = labelDetail;
+        this.survey = survey;
+        this.task = task;
+        this.response = response;
+        this.activityType = (task != null) ? ActivityType.TASK : ActivityType.SURVEY;
     }
     
-    /**
-     * Create an activity to do a survey.
-     * @param label
-     * @param survey
-     */
-    public Activity(String label, GuidCreatedOnVersionHolder survey) {
-        this(label, ClientProvider.getConfig().getEnvironment().getUrl()
-                + ClientProvider.getConfig().getSurveyApi(survey.getGuid(), survey.getCreatedOn()));
+    public Activity(String label, String labelDetail, TaskReference task) {
+        this(label, labelDetail, task, null, null);
     }
     
-    /**
-     * Create an activity to do a survey (can be reference to a published survey with no specific
-     * timestamp)l
-     * @param label
-     * @param reference
-     */
-    public Activity(String label, SurveyReference reference) {
-        this(label, (reference.getCreatedOn() != null) ? ClientProvider.getConfig().getEnvironment().getUrl()
-                + ClientProvider.getConfig().getSurveyApi(reference.getGuid(), reference.getCreatedOn())
-                : ClientProvider.getConfig().getEnvironment().getUrl()
-                        + ClientProvider.getConfig().getRecentlyPublishedSurveyUserApi(reference.getGuid()));
+    public Activity(String label, String labelDetail, SurveyReference survey) {
+        this(label, labelDetail, null, survey, null);
     }
     
     /**
@@ -63,34 +52,37 @@ public final class Activity {
         return label;
     }
     /**
+     * A label detail to show a participant in order to identify this activity in a user interface.  
+     */
+    public String getLabelDetail() {
+        return labelDetail;
+    }
+    /**
      * The type of this activity.
      */
     public ActivityType getActivityType() {
         return activityType;
     }
     /**
-     * The string reference identifier for the activity, which varies based on the activity type. 
-     * for tasks, this will be a unique identifier for the task; for surveys, this will be a link 
-     * to retrieve the survey via the Bridge API.
+     * For survey tasks, the key object for the survey referenced by the activity. This can be used 
+     * through the SDK to retrieve the survey. 
      */
-    public String getRef() {
-        return ref;
+    public SurveyReference getSurvey() {
+        return survey;
     }
     /**
      * For survey tasks, the key object for the survey referenced by the activity. This can be used 
      * through the SDK to retrieve the survey. 
      */
-    public SurveyReference getSurvey() {
-        return SurveyReference.isSurveyRef(ref) ? new SurveyReference(ref) : null;
+    public TaskReference getTask() {
+        return task;
     }
-    
-    @JsonIgnore
-    public GuidCreatedOnVersionHolder getGuidCreatedOnVersionHolder() {
-        final SurveyReference survey = getSurvey();
-        if (survey != null && survey.getCreatedOn() != null) {
-            return new SimpleGuidCreatedOnVersionHolder(survey.getGuid(), survey.getCreatedOn(), 0L);
-        }
-        return null;
+    /**
+     * For survey tasks, the key object for the survey referenced by the activity. This can be used 
+     * through the SDK to retrieve the survey. 
+     */
+    public SurveyResponseReference getSurveyResponse() {
+        return response;
     }
     
     @Override
@@ -99,7 +91,10 @@ public final class Activity {
         int result = 1;
         result = prime * result + Objects.hashCode(activityType);
         result = prime * result + Objects.hashCode(label);
-        result = prime * result + Objects.hashCode(ref);
+        result = prime * result + Objects.hashCode(labelDetail);
+        result = prime * result + Objects.hashCode(response);
+        result = prime * result + Objects.hashCode(survey);
+        result = prime * result + Objects.hashCode(task);
         return result;
     }
 
@@ -110,13 +105,16 @@ public final class Activity {
         if (obj == null || getClass() != obj.getClass())
             return false;
         Activity other = (Activity) obj;
-        return (Objects.equals(activityType, other.activityType) && Objects.equals(label, other.label) && Objects
-                .equals(ref, other.ref));
+        return (Objects.equals(activityType, other.activityType) && 
+            Objects.equals(label, other.label) && Objects.equals(labelDetail, other.labelDetail) &&
+            Objects.equals(response, other.response) && Objects.equals(survey, other.survey) &&
+            Objects.equals(task, other.task));
+                        
     }
 
     @Override
     public String toString() {
-        return String.format("Activity [activityType=%s, ref=%s]", activityType, ref);
+        return String.format("Activity [label=%s, labelDetail=%s, task=%s, survey=%s, response=%s, activityType=%s]",
+            label, labelDetail, task, survey, response, activityType);
     }
-
 }
