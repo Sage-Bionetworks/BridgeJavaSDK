@@ -100,7 +100,6 @@ public class AuthenticationTest {
     // Should not be able to tell from the sign up response if an email is enrolled in the study or not.
     // Server change is not yet checked in for this.
     @Test
-    @Ignore
     public void secondTimeSignUpLooksTheSameAsFirstTimeSignUp() {
         TestUser testUser = TestUserHelper.createAndSignInUser(AuthenticationTest.class, true);
         try {
