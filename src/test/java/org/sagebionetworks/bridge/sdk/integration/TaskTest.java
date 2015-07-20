@@ -22,6 +22,7 @@ import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.schedules.ScheduleType;
 import org.sagebionetworks.bridge.sdk.models.schedules.Task;
+import org.sagebionetworks.bridge.sdk.models.schedules.TaskReference;
 import org.sagebionetworks.bridge.sdk.models.schedules.TaskStatus;
 
 @Category(IntegrationSmokeTest.class)
@@ -45,7 +46,7 @@ public class TaskTest {
         schedule.setDelay("P3D");
         schedule.setScheduleType(ScheduleType.ONCE);
         schedule.addTimes("10:00");
-        schedule.addActivity(new Activity("Activity 1", "task:task1"));
+        schedule.addActivity(new Activity("Activity 1", "", new TaskReference("task1")));
         
         SchedulePlan plan = new SchedulePlan();
         plan.setLabel("Schedule plan 1");
@@ -79,7 +80,7 @@ public class TaskTest {
         Activity activity = task.getActivity();
         assertEquals(ActivityType.TASK, activity.getActivityType());
         assertEquals("Activity 1", activity.getLabel());
-        assertEquals("task:task1", activity.getRef());
+        assertEquals("task1", activity.getTask().getIdentifier());
 
         task.setStartedOn(DateTime.now());
         userClient.updateTasks(tasks.getItems());

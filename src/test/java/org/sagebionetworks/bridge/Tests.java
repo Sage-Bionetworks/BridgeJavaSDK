@@ -9,11 +9,14 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.sagebionetworks.bridge.sdk.models.schedules.ABTestScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.Activity;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
+import org.sagebionetworks.bridge.sdk.models.schedules.SurveyReference;
+import org.sagebionetworks.bridge.sdk.models.schedules.TaskReference;
 
 public class Tests {
     
@@ -37,12 +40,13 @@ public class Tests {
     // This seems like something that should be added to schedule.
     private static void setTaskActivity(Schedule schedule, String taskIdentifier) {
         checkNotNull(taskIdentifier);
-        schedule.addActivity(new Activity("Task activity", taskIdentifier));
+        schedule.addActivity(new Activity("Task activity", null, new TaskReference(taskIdentifier)));
     }
     
-    private static void setSurveyActivity(Schedule schedule, String url) {
-        checkNotNull(url);
-        schedule.addActivity(new Activity("Survey activity", url));
+    private static void setSurveyActivity(Schedule schedule, String identifier, String guid, DateTime createdOn) {
+        checkNotNull(identifier);
+        checkNotNull(guid);
+        schedule.addActivity(new Activity("Survey activity", null, new SurveyReference(identifier, guid, createdOn)));
     }
     
     public static SchedulePlan getABTestSchedulePlan() {
@@ -62,7 +66,7 @@ public class Tests {
 
         Schedule schedule3 = new Schedule();
         schedule3.setCronTrigger("0 0 11 ? * MON,WED,FRI *");
-        setSurveyActivity(schedule3, "http://host/surveys/GUID-AAA/revisions/2015-01-27T17:46:31.237Z");
+        setSurveyActivity(schedule3, "identifier", "GUID-AAA", DateTime.parse("2015-01-27T17:46:31.237Z"));
         schedule3.setExpires(Period.parse("PT1H"));
         schedule3.setLabel("Test label for the user");
 

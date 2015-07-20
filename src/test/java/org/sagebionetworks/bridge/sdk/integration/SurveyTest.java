@@ -226,12 +226,6 @@ public class SurveyTest {
             client.updateSurvey(survey);
             fail("attempting to update a published survey should throw an exception.");
         } catch(PublishedSurveyException e) {
-            assertEquals("PublishedSurveyException holds same guid as key used to delete Survey.",
-                    keys.getGuid(), e.getGuid());
-
-            // Need to getMillis because DateTimes aren't treated as equal if they exist in different time zones.
-            assertEquals("PublishedSurveyException holds same createdOn as key used to delete Survey.",
-                    keys.getCreatedOn().getMillis(), e.getCreatedOn().getMillis());
         }
     }
 

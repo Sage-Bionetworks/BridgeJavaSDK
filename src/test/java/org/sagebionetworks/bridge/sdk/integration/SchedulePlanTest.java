@@ -10,7 +10,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
-import org.sagebionetworks.bridge.sdk.ClientProvider;
 import org.sagebionetworks.bridge.sdk.DeveloperClient;
 import org.sagebionetworks.bridge.sdk.Roles;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
@@ -26,6 +25,7 @@ import org.sagebionetworks.bridge.sdk.models.schedules.ActivityType;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.schedules.SimpleScheduleStrategy;
+import org.sagebionetworks.bridge.sdk.models.schedules.SurveyReference;
 
 public class SchedulePlanTest {
 
@@ -146,10 +146,7 @@ public class SchedulePlanTest {
         SchedulePlan plan = Tests.getSimpleSchedulePlan();
         SimpleScheduleStrategy strategy = (SimpleScheduleStrategy)plan.getStrategy();
         
-        String ref = ClientProvider.getConfig().getEnvironment().getUrl()
-                + ClientProvider.getConfig().getRecentlyPublishedSurveyUserApi("AAA");
-        
-        Activity activity = new Activity("Test", ref);
+        Activity activity = new Activity("Test", null, new SurveyReference("identifier", "AAA"));
         assertEquals(ActivityType.SURVEY, activity.getActivityType());
 
         strategy.getSchedule().getActivities().clear();

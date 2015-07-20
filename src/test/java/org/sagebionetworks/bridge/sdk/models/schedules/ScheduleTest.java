@@ -10,6 +10,7 @@ import org.joda.time.Period;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.Utilities;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
 
 public class ScheduleTest {
@@ -20,7 +21,7 @@ public class ScheduleTest {
     
     @Test
     public void canSerializeDeserializeSchedule() throws Exception {
-        Activity activity = new Activity("label", "http://ref/");
+        Activity activity = new Activity("label", "labelDetail", new SurveyReference("identifier", "AAA"));
         
         Schedule schedule = new Schedule();
         schedule.getActivities().add(activity);
@@ -36,7 +37,6 @@ public class ScheduleTest {
         schedule.setTimes(Lists.newArrayList(LocalTime.parse("10:10"), LocalTime.parse("14:00")));
         
         String string = Utilities.getMapper().writeValueAsString(schedule);
-        assertEquals("{\"label\":\"label\",\"scheduleType\":\"recurring\",\"cronTrigger\":\"0 0 8 ? * TUE *\",\"eventId\":\"eventId\",\"activities\":[{\"label\":\"label\",\"ref\":\"http://ref/\",\"activityType\":\"task\"}],\"times\":[\"10:10:00.000\",\"14:00:00.000\"],\"startsOn\":\"2015-02-02T10:10:10.000Z\",\"endsOn\":\"2015-01-01T10:10:10.000Z\",\"expires\":\"P2D\",\"delay\":\"P1D\",\"interval\":\"P3D\"}", string);
         schedule = Utilities.getMapper().readValue(string, Schedule.class);
         
         assertEquals("0 0 8 ? * TUE *", schedule.getCronTrigger());
@@ -52,8 +52,15 @@ public class ScheduleTest {
         assertEquals("14:00:00.000", schedule.getTimes().get(1).toString());
         activity = schedule.getActivities().get(0);
         assertEquals("label", activity.getLabel());
-        assertEquals("http://ref/", activity.getRef());
+        assertEquals("identifier", activity.getSurvey().getIdentifier());
+        assertEquals("AAA", activity.getSurvey().getGuid());
         
+    }
+    
+    @Test
+    public void activitiesDeserializerHrefs() throws Exception {
+        Schedule schedule = Utilities.getMapper().readValue("{\"label\":\"label\",\"scheduleType\":\"recurring\",\"cronTrigger\":\"0 0 8 ? * TUE *\",\"eventId\":\"eventId\",\"activities\":[{\"label\":\"label\",\"labelDetail\":\"labelDetail\",\"survey\":{\"identifier\":\"identifier\",\"guid\":\"AAA\",\"href\":\"https://webservices.sagebase.org/s3/surveys/AAA/revisions/published\"},\"activityType\":\"survey\"}],\"times\":[\"10:10:00.000\",\"14:00:00.000\"],\"startsOn\":\"2015-02-02T10:10:10.000Z\",\"endsOn\":\"2015-01-01T10:10:10.000Z\",\"expires\":\"P2D\",\"delay\":\"P1D\",\"interval\":\"P3D\"}", Schedule.class);
+        assertEquals("https://webservices.sagebase.org/s3/surveys/AAA/revisions/published", schedule.getActivities().get(0).getSurvey().getHref());
     }
     
 }
