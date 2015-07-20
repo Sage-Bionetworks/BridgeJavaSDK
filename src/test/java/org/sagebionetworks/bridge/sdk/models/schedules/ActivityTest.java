@@ -12,9 +12,4 @@ public class ActivityTest {
         EqualsVerifier.forClass(Activity.class).suppress(Warning.NONFINAL_FIELDS).allFieldsShouldBeUsed().verify();
     }
     
-    @Test
-    public void equalsForActivity() {
-        EqualsVerifier.forClass(SurveyReference.class).suppress(Warning.NONFINAL_FIELDS).allFieldsShouldBeUsed().verify();   
-    }
-    
 }
