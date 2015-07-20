@@ -40,9 +40,9 @@ public final class Config {
         CACHE_API,
         CACHE_KEY_API,
         CONSENTS_API,
-        CONSENT_ACTIVATE_API,
-        CONSENT_ACTIVE_API,
+        CONSENT_PUBLISHED_API,
         CONSENT_API,
+        CONSENT_PUBLISH_API,
         CONSENT_RECENT_API,
         CONSENT_SIGNATURE_API,
         CONSENT_SIGNATURE_EMAIL_API,
@@ -227,15 +227,15 @@ public final class Config {
     public String getStudyIdentifier() {
         return val(Props.STUDY_IDENTIFIER);
     }
-    public String getActiveStudyConsentApi() {
-        return val(Props.CONSENT_ACTIVE_API);
+    public String getPublishedStudyConsentApi() {
+        return val(Props.CONSENT_PUBLISHED_API);
     }
     public String getMostRecentStudyConsentApi() {
         return val(Props.CONSENT_RECENT_API);
     }
-    public String getActiveStudyConsentApi(DateTime timestamp) {
+    public String getPublishStudyConsentApi(DateTime timestamp) {
         checkNotNull(timestamp);
-        return String.format(val(Props.CONSENT_ACTIVATE_API), timestamp.toString(ISODateTimeFormat.dateTime()));
+        return String.format(val(Props.CONSENT_PUBLISH_API), timestamp.toString(ISODateTimeFormat.dateTime()));
     }
     public String getUploadApi() {
         return val(Props.UPLOADS_API);
