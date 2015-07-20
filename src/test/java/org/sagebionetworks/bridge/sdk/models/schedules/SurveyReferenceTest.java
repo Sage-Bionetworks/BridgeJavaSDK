@@ -16,7 +16,8 @@ public class SurveyReferenceTest {
     
     @Test
     public void equalsHashCode() {
-        EqualsVerifier.forClass(SurveyReference.class).suppress(Warning.NONFINAL_FIELDS).allFieldsShouldBeUsed().verify();
+        // Do not want to compare for href, which is computed by the server.
+        EqualsVerifier.forClass(SurveyReference.class).suppress(Warning.NONFINAL_FIELDS).verify();
     }
     
     @Test

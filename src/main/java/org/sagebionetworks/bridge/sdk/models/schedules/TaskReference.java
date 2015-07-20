@@ -8,7 +8,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class TaskReference {
+public final class TaskReference {
     
     private final String identifier;
     
