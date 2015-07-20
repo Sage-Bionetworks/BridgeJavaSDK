@@ -64,15 +64,15 @@ public class StudyConsentTest {
         assertEquals(consent.getDocumentContent(), current.getDocumentContent());
         assertNotNull(current.getCreatedOn());
 
-        client.activateStudyConsent(current.getCreatedOn());
+        client.publishStudyConsent(current.getCreatedOn());
 
-        StudyConsent active = client.getActiveStudyConsent();
-        assertTrue("Active consent is returned.", active.isActive());
+        StudyConsent published = client.getPublishedStudyConsent();
+        assertTrue("Published consent is returned.", published.isActive());
         
         client.createStudyConsent(current);
         
         StudyConsent newOne = client.getMostRecentStudyConsent();
-        assertTrue(newOne.getCreatedOn().isAfter(active.getCreatedOn()));
+        assertTrue(newOne.getCreatedOn().isAfter(published.getCreatedOn()));
         
         ResourceList<StudyConsent> studyConsents2 = client.getAllStudyConsents();
         assertEquals(studyConsents.getTotal()+1, studyConsents2.getTotal());

@@ -15,13 +15,13 @@ public interface ResearcherClient {
     public ResourceList<StudyConsent> getAllStudyConsents();
 
     /**
-     * Get the activate consent document revision. This is the published revision that is sent to users, and thus a
-     * version of the consent that has been approved by your IRB. There is only one consent revision active at any given
-     * time.
+     * Get the published consent document revision. This is the revision that is sent to users, and should be a
+     * version of the consent that has been approved by your IRB. Only one revision of your consent is published 
+     * at any given time.
      *
      * @return StudyConsent
      */
-    public StudyConsent getActiveStudyConsent();
+    public StudyConsent getPublishedStudyConsent();
 
     /**
      * Get the most recent revision of the consent document.
@@ -48,12 +48,12 @@ public interface ResearcherClient {
     public void createStudyConsent(StudyConsent consent);
 
     /**
-     * Activate a consent document created at a DateTime. This will de-activate the previously active revision.
+     * Publish a consent document created at a DateTime. The prior published revision will no longer be published.
      *
      * @param createdOn
      *            DateTime consent document was created. This acts as an identifier for the consent document.
      */
-    public void activateStudyConsent(DateTime createdOn);
+    public void publishStudyConsent(DateTime createdOn);
 
     /**
      * Email a list of users who have signed consents to participate in the researcher's study. The email is sent to the
