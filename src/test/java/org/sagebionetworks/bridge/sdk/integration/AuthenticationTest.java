@@ -90,9 +90,9 @@ public class AuthenticationTest {
         Config config = ClientProvider.getConfig();
         
         HttpResponse response = Request
-                        .Post(config.getEnvironment().getUrl() + "/api/v1/auth/verifyEmail?study=api")
-                        .body(new StringEntity("{\"sptoken\":\"testtoken\"}"))
-                        .execute().returnResponse();
+            .Post(config.getEnvironment().getUrl() + "/api/v1/auth/verifyEmail?study=api")
+            .body(new StringEntity("{\"sptoken\":\"testtoken\",\"study\":\"api\"}"))
+            .execute().returnResponse();
         assertEquals(404, response.getStatusLine().getStatusCode());
         assertEquals("{\"message\":\"Account not found.\"}", EntityUtils.toString(response.getEntity()));
     }
