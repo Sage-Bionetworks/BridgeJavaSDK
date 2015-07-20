@@ -8,7 +8,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class SurveyResponseReference {
+public final class SurveyResponseReference {
     
     private final String guid;
     private final String href;
@@ -33,7 +33,6 @@ public class SurveyResponseReference {
         final int prime = 31;
         int result = 1;
         result = prime * result + Objects.hashCode(guid);
-        result = prime * result + Objects.hashCode(href);
         return result;
     }
 
@@ -44,7 +43,7 @@ public class SurveyResponseReference {
         if (obj == null || getClass() != obj.getClass())
             return false;
         SurveyResponseReference other = (SurveyResponseReference) obj;
-        return (Objects.equals(guid, other.guid) && Objects.equals(href, other.href));
+        return (Objects.equals(guid, other.guid));
     }
 
     @Override

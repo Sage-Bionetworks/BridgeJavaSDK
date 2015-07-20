@@ -61,7 +61,6 @@ public final class SurveyReference {
         result = prime * result + Objects.hashCode(createdOn);
         result = prime * result + Objects.hashCode(guid);
         result = prime * result + Objects.hashCode(identifier);
-        result = prime * result + Objects.hashCode(href);
         return result;
     }
 
@@ -73,7 +72,7 @@ public final class SurveyReference {
             return false;
         SurveyReference other = (SurveyReference) obj;
         return (Objects.equals(createdOn, other.createdOn) && Objects.equals(guid, other.guid) &&
-            Objects.equals(identifier, other.identifier) && Objects.equals(href, other.href));
+            Objects.equals(identifier, other.identifier));
     }
 
     @Override
