@@ -10,7 +10,6 @@ import org.joda.time.Period;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.Utilities;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
 
 public class ScheduleTest {
