@@ -21,6 +21,7 @@ import org.sagebionetworks.bridge.sdk.exceptions.BridgeServerException;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.users.EmailCredentials;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
+import org.sagebionetworks.bridge.sdk.models.users.SignUpByAdmin;
 import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
 
 @Category(IntegrationSmokeTest.class)
@@ -93,5 +94,22 @@ public class AuthenticationTest {
                         .execute().returnResponse();
         assertEquals(404, response.getStatusLine().getStatusCode());
         assertEquals("{\"message\":\"Account not found.\"}", EntityUtils.toString(response.getEntity()));
+    }
+    
+    // Should not be able to tell from the sign up response if an email is enrolled in the study or not.
+    @Test
+    public void secondTimeSignUpLooksTheSameAsFirstTimeSignUp() {
+        TestUser testUser = TestUserHelper.createAndSignInUser(AuthenticationTest.class, true);
+        try {
+            testUser.getSession().signOut();
+            
+            // Now create the same user.
+            SignUpCredentials signup = new SignUpCredentials(Tests.TEST_KEY, testUser.getUsername(), testUser.getEmail(), testUser.getPassword());
+            ClientProvider.signUp(signup);
+            // This should not have thrown an error.
+            
+        } finally {
+            testUser.signOutAndDeleteUser();
+        }
     }
 }
