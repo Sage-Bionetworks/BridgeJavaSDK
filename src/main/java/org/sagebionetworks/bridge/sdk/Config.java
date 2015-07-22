@@ -65,6 +65,7 @@ public final class Config {
         SURVEYS_PUBLISHED_API,
         SURVEYS_RECENT_API,
         SURVEY_API,
+        SURVEY_DELETE_PERMANENTLY_API,
         SURVEY_IDENTIFIER_API,
         SURVEY_PUBLISHED_REVISION_API,
         SURVEY_PUBLISH_API,
@@ -265,6 +266,11 @@ public final class Config {
         checkArgument(isNotBlank(guid));
         checkNotNull(createdOn);
         return String.format(val(Props.SURVEY_API), guid, createdOn.toString(ISODateTimeFormat.dateTime()));
+    }
+    public String getDeleteSurveyPermanentlyApi(String guid, DateTime createdOn) {
+        checkArgument(isNotBlank(guid));
+        checkNotNull(createdOn);
+        return String.format(val(Props.SURVEY_DELETE_PERMANENTLY_API), guid, createdOn.toString(ISODateTimeFormat.dateTime()));
     }
     public String getSurveyApi(String guid, String createdOn) {
         checkArgument(isNotBlank(guid));

@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
-import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleVersionHolder;
@@ -78,15 +77,9 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
     }
 
     @Override
-    public void deleteSurvey(String guid, DateTime createdOn) {
+    public void deleteSurveyPermanently(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
-        delete(config.getSurveyApi(guid, createdOn));
-    }
-
-    @Override
-    public void deleteSurvey(GuidCreatedOnVersionHolder keys) {
-        session.checkSignedIn();
-        delete(config.getSurveyApi(keys.getGuid(), keys.getCreatedOn()));
+        delete(config.getDeleteSurveyPermanentlyApi(keys.getGuid(), keys.getCreatedOn()));
     }
 
     @Override
