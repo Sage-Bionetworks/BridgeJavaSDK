@@ -47,9 +47,14 @@ public class AuthenticationTest {
         }
     }
     
-    @Test(expected = BridgeServerException.class)
-    public void cannotSendToAnyRandomEmail() throws Exception {
+    @Test
+    public void resendingEmailVerificationToUnknownEmailDoesNotThrowException() throws Exception {
         ClientProvider.resendEmailVerification(new EmailCredentials(Tests.TEST_KEY, "fooboo-sagebridge@antwerp.com"));
+    }
+    
+    @Test
+    public void requestingResetPasswordForUnknownEmailDoesNotThrowException() throws Exception {
+        ClientProvider.requestResetPassword(new EmailCredentials(Tests.TEST_KEY, "fooboo-sagebridge@antwerp.com"));
     }
     
     @Test
