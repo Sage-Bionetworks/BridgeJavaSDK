@@ -6,7 +6,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.sagebionetworks.bridge.IntegrationSmokeTest;
@@ -22,7 +21,6 @@ import org.sagebionetworks.bridge.sdk.exceptions.BridgeServerException;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.users.EmailCredentials;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
-import org.sagebionetworks.bridge.sdk.models.users.SignUpByAdmin;
 import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
 
 @Category(IntegrationSmokeTest.class)
