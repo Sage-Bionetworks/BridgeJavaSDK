@@ -23,8 +23,10 @@ import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.sagebionetworks.bridge.sdk.AdminClient;
 import org.sagebionetworks.bridge.sdk.DeveloperClient;
 import org.sagebionetworks.bridge.sdk.Roles;
+import org.sagebionetworks.bridge.sdk.Session;
 import org.sagebionetworks.bridge.sdk.TestSurvey;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
@@ -60,21 +62,22 @@ public class SurveyTest {
     @After
     public void after() {
         try {
+            DeveloperClient devClient = developer.getSession().getDeveloperClient();
+            Session session = TestUserHelper.getSignedInAdmin().getSession();
+            System.out.println(session.getUsername());
+            AdminClient adminClient = session.getAdminClient();
+            deleteAllSurveysInStudy(devClient, adminClient);
             user.signOutAndDeleteUser();
-            DeveloperClient client = developer.getSession().getDeveloperClient();
-            deleteAllSurveysInStudy(client);
         } finally {
             developer.signOutAndDeleteUser();
         }
     }
 
     // It looks like none of the surveys are "unpublished". This is a problem.
-    private void deleteAllSurveysInStudy(DeveloperClient client) {
-        for (Survey survey : client.getAllSurveysMostRecent()) {
-            for (Survey revision : client.getSurveyAllRevisions(survey.getGuid())) {
-                if (!revision.isPublished()) {
-                    client.deleteSurvey(revision);    
-                }
+    private void deleteAllSurveysInStudy(DeveloperClient devClient, AdminClient adminClient) {
+        for (Survey survey : devClient.getAllSurveysMostRecent()) {
+            for (Survey revision : devClient.getSurveyAllRevisions(survey.getGuid())) {
+                adminClient.deleteSurveyPermanently(revision);    
             }
         }
     }
