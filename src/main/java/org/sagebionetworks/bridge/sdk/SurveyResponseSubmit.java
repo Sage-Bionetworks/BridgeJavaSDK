@@ -6,6 +6,11 @@ import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 
+/**
+ * This class, which is hidden from the client's API, is used to return the correctly structured JSON
+ * to the server for creating a server response, without creating redundant or complicating information 
+ * in the SurveyResponse object that is returned from the API (where it is structured as a read-only object).
+ */
 class SurveyResponseSubmit {
 
     private String surveyGuid;
