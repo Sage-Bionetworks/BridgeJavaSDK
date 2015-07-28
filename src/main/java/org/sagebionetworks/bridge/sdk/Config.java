@@ -58,9 +58,8 @@ public final class Config {
         STUDY_API,
         STUDY_IDENTIFIER,
         STUDY_SELF_API,
+        SURVEYRESPONSES_API,
         SURVEYRESPONSE_API,
-        SURVEYRESPONSE_WITH_IDENTIFIER_API,
-        SURVEYRESPONSE_WITH_SURVEY_API,
         SURVEYS_API,
         SURVEYS_PUBLISHED_API,
         SURVEYS_RECENT_API,
@@ -246,7 +245,7 @@ public final class Config {
     public String getUploadStatusApi(String uploadId) {
         return String.format(val(Props.UPLOADSTATUS_API), uploadId);
     }
-    public String getUserManagementApi() {
+    public String getUsersApi() {
         return val(Props.USERS_API);
     }
     public String getSchedulesApi() {
@@ -301,17 +300,12 @@ public final class Config {
         checkArgument(isNotBlank(guid));
         return String.format(val(Props.SURVEY_PUBLISHED_REVISION_API), guid);
     }
+    public String getSurveyResponseApi() {
+        return val(Props.SURVEYRESPONSES_API);
+    }
     public String getSurveyResponseApi(String guid) {
         checkArgument(isNotBlank(guid));
         return String.format(val(Props.SURVEYRESPONSE_API), guid);
-    }
-    public String getSurveyResponseWithSurveyApi(String guid, DateTime createdOn) {
-        checkArgument(isNotBlank(guid));
-        return String.format(val(Props.SURVEYRESPONSE_WITH_SURVEY_API), guid, createdOn.toString(ISODateTimeFormat.dateTime()));
-    }
-    public String getSurveyResponseWithIdentifierApi(String guid, DateTime createdOn, String identifier) {
-        checkArgument(isNotBlank(guid));
-        return String.format(val(Props.SURVEYRESPONSE_WITH_IDENTIFIER_API), guid, createdOn.toString(ISODateTimeFormat.dateTime()), identifier);
     }
     public String getSchedulePlansApi() {
         return val(Props.SCHEDULEPLANS_API);
@@ -323,7 +317,7 @@ public final class Config {
     public String getTasksApi() {
         return val(Props.TASKS_API);
     }
-    public String getUploadSchemaApi() {
+    public String getUploadSchemasApi() {
         return val(Props.UPLOADSCHEMAS_API);
     }
     public String getUploadSchemaByIdApi(String schemaId) {
@@ -332,16 +326,16 @@ public final class Config {
     public String getUploadSchemaByIdAndRevisionApi(String schemaId, int revision) {
         return String.format(val(Props.UPLOADSCHEMA_REVISION_API), schemaId, revision);
     }
-    public String getResearcherStudyApi() {
+    public String getStudySelfApi() {
         return val(Props.STUDY_SELF_API);
     }
-    public String getResearcherStudyParticipantsApi() {
+    public String getEmailParticipantRosterApi() {
         return val(Props.USERS_EMAIL_API);
     }
-    public String getAdminStudiesApi() {
+    public String getStudiesApi() {
         return val(Props.STUDIES_API);
     }
-    public String getAdminStudyApi(String identifier) {
+    public String getStudyApi(String identifier) {
         checkArgument(isNotBlank(identifier));
         return String.format(val(Props.STUDY_API), identifier);
     }

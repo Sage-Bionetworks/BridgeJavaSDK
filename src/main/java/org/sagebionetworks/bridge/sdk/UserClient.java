@@ -100,7 +100,8 @@ public interface UserClient {
     public Survey getSurveyMostRecentlyPublished(String guid);
     
     /**
-     * Submit a list of SurveyAnswers to a particular survey.
+     * Submit a list of SurveyAnswers to a particular survey. An identifier for the survey response will be 
+     * auto-generated and returned by the server.
      *
      * @param keys
      *            The survey that the answers will be added to.
@@ -115,7 +116,7 @@ public interface UserClient {
      * for the survey response (the value should be a unique string, like a GUID, that 
      * has not been used for any prior submissions).
      *
-     * @param survey
+     * @param keys
      *            The survey that the answers will be added to.
      * @param identifier
      *            A unique string to identify this set of survey answers as originating
@@ -124,26 +125,26 @@ public interface UserClient {
      *            The answers to add to the survey.
      * @return IdentifierHolder A holder storing the GUID of the survey.
      */
-    public IdentifierHolder submitAnswersToSurvey(Survey survey, String identifier, List<SurveyAnswer> answers);
+    public IdentifierHolder submitAnswersToSurvey(GuidCreatedOnVersionHolder keys, String identifier, List<SurveyAnswer> answers);
     
     /**
-     * Get the survey response associated with the guid string paramater.
+     * Get the survey response associated with the identifier string.
      *
-     * @param surveyResponseGuid
-     *            The GUID identifying the SurveyResponse
+     * @param identifier
+     *            The identifier for this SurveyResponse
      * @return SurveyResponse
      */
-    public SurveyResponse getSurveyResponse(String surveyResponseGuid);
+    public SurveyResponse getSurveyResponse(String identifier);
 
     /**
      * Add a list of SurveyAnswers to a SurveyResponse.
      *
-     * @param response
-     *            The response that answers will be added to.
+     * @param identifier
+     *            The identifier for the response that answers will be added (the response must already exist).
      * @param answers
      *            The answers that will be added to the response.
      */
-    public void addAnswersToResponse(SurveyResponse response, List<SurveyAnswer> answers);
+    public void addAnswersToResponse(String identifier, List<SurveyAnswer> answers);
 
     /**
      * Request an upload session from the user.

@@ -85,7 +85,7 @@ public class SurveyResponseTest {
         SurveyQuestion question1 = (SurveyQuestion)survey.getElementByIdentifier("high_bp");
         List<SurveyAnswer> answers = Lists.newArrayList(question1.createAnswerForQuestion("true", "desktop"));
         
-        client.addAnswersToResponse(surveyResponse, answers);
+        client.addAnswersToResponse(surveyResponse.getIdentifier(), answers);
         
         // The response should be there.
         surveyResponse = client.getSurveyResponse(keys.getIdentifier());
