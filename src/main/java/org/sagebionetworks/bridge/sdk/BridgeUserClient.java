@@ -145,19 +145,19 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         checkNotNull(keys, "Survey keys cannot be null.");
         checkNotNull(answers, "Answers cannot be null.");
 
-        return post(config.getSurveyResponseWithSurveyApi(keys.getGuid(), keys.getCreatedOn()), answers, SimpleIdentifierHolder.class);
+        SurveyResponseSubmit response = new SurveyResponseSubmit(keys, null, answers);
+        return post(config.getSurveyResponseApi(), response, SimpleIdentifierHolder.class);
     }
 
     @Override
-    public IdentifierHolder submitAnswersToSurvey(Survey survey, String identifier, List<SurveyAnswer> answers) {
+    public IdentifierHolder submitAnswersToSurvey(GuidCreatedOnVersionHolder keys, String identifier, List<SurveyAnswer> answers) {
         session.checkSignedIn();
-        checkNotNull(survey, "Survey cannot be null.");
-        checkArgument(isNotBlank(survey.getGuid()), "Survey guid cannot be null or empty.");
-        checkNotNull(survey.getCreatedOn(), "Survey createdOn cannot be null.");
+        checkNotNull(keys, "GuidCreatedOnVersionHolder cannot be null.");
         checkNotNull(identifier, "identifier cannot be null.");
         checkNotNull(answers, "Answers cannot be null.");
 
-        return post(config.getSurveyResponseWithIdentifierApi(survey.getGuid(), survey.getCreatedOn(), identifier), answers, SimpleIdentifierHolder.class);
+        SurveyResponseSubmit response = new SurveyResponseSubmit(keys, identifier, answers);
+        return post(config.getSurveyResponseApi(), response, SimpleIdentifierHolder.class);
     }
     
     @Override
@@ -169,18 +169,18 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     }
 
     @Override
-    public void addAnswersToResponse(SurveyResponse response, List<SurveyAnswer> answers) {
+    public void addAnswersToResponse(String identifier, List<SurveyAnswer> answers) {
         session.checkSignedIn();
-        checkNotNull(response, "Response cannot be null.");
+        checkArgument(isNotBlank(identifier), "Identifier cannot be null or empty.");
         checkNotNull(answers, "Answers cannot be null.");
-
-        post(config.getSurveyResponseApi(response.getIdentifier()), answers);
+        
+        SurveyResponseSubmit res = new SurveyResponseSubmit(null, identifier, answers);
+        post(config.getSurveyResponseApi(identifier), res);
     }
 
     /*
      * Upload API
      */
-
     @Override
     public UploadSession requestUploadSession(UploadRequest request) {
         session.checkSignedIn();
