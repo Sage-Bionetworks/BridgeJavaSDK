@@ -272,17 +272,6 @@ public class SurveyTest {
     }
     
     @Test
-    public void canRetrieveSurveyByIdentifier() {
-        DeveloperClient client = developer.getSession().getDeveloperClient();
-        
-        Survey survey = TestSurvey.getSurvey();
-        GuidCreatedOnVersionHolder keys = client.createSurvey(survey);
-        client.publishSurvey(keys);
-        
-        client.getSurveyMostRecentlyPublishedByIdentifier(survey.getIdentifier());
-    }
-    
-    @Test
     public void canSaveAndRetrieveInfoScreen() {
         DeveloperClient client = developer.getSession().getDeveloperClient();
         
