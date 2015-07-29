@@ -65,7 +65,6 @@ public final class Config {
         SURVEYS_RECENT_API,
         SURVEY_API,
         SURVEY_DELETE_PERMANENTLY_API,
-        SURVEY_IDENTIFIER_API,
         SURVEY_PUBLISHED_REVISION_API,
         SURVEY_PUBLISH_API,
         SURVEY_RECENT_REVISION_API,
@@ -279,10 +278,6 @@ public final class Config {
     public String getSurveyMostRecentlyPublishedRevisionApi(String guid) {
         checkArgument(isNotBlank(guid));
         return String.format(val(Props.SURVEY_PUBLISHED_REVISION_API), guid);
-    }
-    public String getSurveyMostRecentlyPublishedRevisionByIdentifierApi(String identifier) {
-        checkArgument(isNotBlank(identifier));
-        return String.format(val(Props.SURVEY_IDENTIFIER_API), identifier);
     }
     public String getSurveyMostRecentRevisionApi(String guid) {
         checkArgument(isNotBlank(guid));
