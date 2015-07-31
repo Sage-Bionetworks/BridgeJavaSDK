@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
@@ -83,9 +84,9 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
     }
 
     @Override
-    public ResourceList<String> getCacheItemKeys() {
+    public List<String> getCacheItemKeys() {
         session.checkSignedIn();
-        return get(config.getCacheApi(), new TypeReference<ResourceListImpl<String>>() {});
+        return get(config.getCacheApi(), new TypeReference<List<String>>() {});
     }
 
     @Override

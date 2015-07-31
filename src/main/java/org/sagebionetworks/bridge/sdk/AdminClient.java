@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk;
 
+import java.util.List;
+
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
@@ -43,7 +45,7 @@ public interface AdminClient {
      */
     public void deleteSurveyPermanently(GuidCreatedOnVersionHolder keys);
     
-    public ResourceList<String> getCacheItemKeys();
+    public List<String> getCacheItemKeys();
     
     public void deleteCacheKey(String key);
 
