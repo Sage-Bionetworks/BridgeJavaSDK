@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.After;
@@ -18,6 +19,7 @@ import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.exceptions.EntityNotFoundException;
 import org.sagebionetworks.bridge.sdk.exceptions.UnauthorizedException;
+import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 
@@ -131,6 +133,14 @@ public class StudyTest {
     public void adminCannotRetrieveParticipants() {
         ResearcherClient client = admin.getSession().getResearcherClient();
         client.sendStudyParticipantsRoster();
+    }
+    
+    @Test
+    public void adminCanGetAllStudies() {
+        AdminClient client = admin.getSession().getAdminClient();
+        
+        ResourceList<Study> studies = client.getAllStudies();
+        assertTrue(studies.getTotal() > 0);
     }
     
     private void assertVersionHasUpdated(VersionHolder holder, Study study, Long oldVersion) {
