@@ -328,6 +328,7 @@ public class SurveyTest {
     }
 
     private void containsAll(String message, List<Survey> surveys, GuidCreatedOnVersionHolder... keys) {
+        Thread.sleep(2000);
         assertEquals("Returned items match the expected number of items", keys.length, surveys.size());
         int count = 0;
         for (GuidCreatedOnVersionHolder key : keys) {
