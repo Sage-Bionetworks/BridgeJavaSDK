@@ -142,7 +142,7 @@ public class SurveyTest {
     }
 
     @Test
-    public void canGetMostRecentOrRecentlyPublishedSurvey() {
+    public void canGetMostRecentOrRecentlyPublishedSurvey() throws InterruptedException {
         DeveloperClient client = developer.getSession().getDeveloperClient();
 
         GuidCreatedOnVersionHolder key = client.createSurvey(TestSurvey.getSurvey());
@@ -327,7 +327,7 @@ public class SurveyTest {
         return ((SurveyQuestion)survey.getElementByIdentifier(id)).getConstraints();
     }
 
-    private void containsAll(String message, List<Survey> surveys, GuidCreatedOnVersionHolder... keys) {
+    private void containsAll(String message, List<Survey> surveys, GuidCreatedOnVersionHolder... keys) throws InterruptedException {
         Thread.sleep(2000);
         assertEquals("Returned items match the expected number of items", keys.length, surveys.size());
         int count = 0;
