@@ -158,12 +158,12 @@ public class SurveyTest {
         key2 = client.versionSurvey(key2);
 
         ResourceList<Survey> recentSurveys = client.getAllSurveysMostRecent();
-        assertTrue("Recent versions of surveys exist in recentSurveys.", containsAll(recentSurveys.getItems(), key, key1, key2));
+        containsAll("Recent versions of surveys exist in recentSurveys.", recentSurveys.getItems(), key, key1, key2);
 
         client.publishSurvey(key);
         client.publishSurvey(key2);
-        ResourceList<Survey> publishedSurveys = client.getAllSurveysMostRecent();
-        assertTrue("Published surveys contain recently published.", containsAll(publishedSurveys.getItems(), key, key2));
+        ResourceList<Survey> publishedSurveys = client.getAllSurveysMostRecentlyPublished();
+        containsAll("Published surveys contain recently published.", publishedSurveys.getItems(), key, key2);
     }
 
     @Test
@@ -327,15 +327,16 @@ public class SurveyTest {
         return ((SurveyQuestion)survey.getElementByIdentifier(id)).getConstraints();
     }
 
-    private boolean containsAll(List<Survey> surveys, GuidCreatedOnVersionHolder... keys) {
+    private void containsAll(String message, List<Survey> surveys, GuidCreatedOnVersionHolder... keys) {
+        assertEquals("Returned items match the expected number of items", keys.length, surveys.size());
         int count = 0;
-        for (Survey survey : surveys) {
-            for (GuidCreatedOnVersionHolder key : keys) {
+        for (GuidCreatedOnVersionHolder key : keys) {
+            for (Survey survey : surveys) {
                 if (survey.getGuid().equals(key.getGuid()) && survey.getCreatedOn().equals(key.getCreatedOn())) {
                     count++;
                 }
             }
         }
-        return count == keys.length;
+        assertEquals(message, keys.length, count);
     }
 }
