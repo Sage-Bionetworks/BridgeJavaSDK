@@ -4,10 +4,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
-import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleVersionHolder;
@@ -27,7 +27,7 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
     public boolean createUser(SignUpByAdmin signUp) {
         session.checkSignedIn();
 
-        HttpResponse response = post(config.getUserManagementApi(), signUp);
+        HttpResponse response = post(config.getUsersApi(), signUp);
         return response.getStatusLine().getStatusCode() == 201;
     }
 
@@ -39,26 +39,26 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
         Map<String, String> queryParams = new HashMap<String, String>();
         queryParams.put("email", email);
 
-        HttpResponse response = delete(config.getUserManagementApi() + toQueryString(queryParams));
+        HttpResponse response = delete(config.getUsersApi() + toQueryString(queryParams));
         return response.getStatusLine().getStatusCode() == 200;
     }
 
     @Override
     public Study getStudy(String identifier) {
         session.checkSignedIn();
-        return get(config.getAdminStudyApi(identifier), Study.class);
+        return get(config.getStudyApi(identifier), Study.class);
     }
 
     @Override
     public ResourceList<Study> getAllStudies() {
         session.checkSignedIn();
-        return get(config.getAdminStudiesApi(), new TypeReference<ResourceListImpl<Study>>() {});
+        return get(config.getStudiesApi(), new TypeReference<ResourceListImpl<Study>>() {});
     }
 
     @Override
     public VersionHolder createStudy(Study study) {
         session.checkSignedIn();
-        VersionHolder holder = post(config.getAdminStudiesApi(), study, SimpleVersionHolder.class);
+        VersionHolder holder = post(config.getStudiesApi(), study, SimpleVersionHolder.class);
         study.setVersion(holder.getVersion());
         return holder;
     }
@@ -66,7 +66,7 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
     @Override
     public VersionHolder updateStudy(Study study) {
         session.checkSignedIn();
-        VersionHolder holder = post(config.getAdminStudyApi(study.getIdentifier()), study, SimpleVersionHolder.class);
+        VersionHolder holder = post(config.getStudyApi(study.getIdentifier()), study, SimpleVersionHolder.class);
         study.setVersion(holder.getVersion());
         return holder;
     }
@@ -74,25 +74,19 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
     @Override
     public void deleteStudy(String identifier) {
         session.checkSignedIn();
-        delete(config.getAdminStudyApi(identifier));
+        delete(config.getStudyApi(identifier));
     }
 
     @Override
-    public void deleteSurvey(String guid, DateTime createdOn) {
+    public void deleteSurveyPermanently(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
-        delete(config.getSurveyApi(guid, createdOn));
+        delete(config.getDeleteSurveyPermanentlyApi(keys.getGuid(), keys.getCreatedOn()));
     }
 
     @Override
-    public void deleteSurvey(GuidCreatedOnVersionHolder keys) {
+    public List<String> getCacheItemKeys() {
         session.checkSignedIn();
-        delete(config.getSurveyApi(keys.getGuid(), keys.getCreatedOn()));
-    }
-
-    @Override
-    public ResourceList<String> getCacheItemKeys() {
-        session.checkSignedIn();
-        return get(config.getCacheApi(), new TypeReference<ResourceListImpl<String>>() {});
+        return get(config.getCacheApi(), new TypeReference<List<String>>() {});
     }
 
     @Override
