@@ -22,7 +22,6 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.AdminClient;
 import org.sagebionetworks.bridge.sdk.DeveloperClient;
@@ -48,8 +47,6 @@ import org.sagebionetworks.bridge.sdk.models.surveys.SurveyQuestion;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyQuestionOption;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyRule;
 import org.sagebionetworks.bridge.sdk.models.surveys.UiHint;
-
-import com.google.common.collect.Lists;
 
 public class SurveyTest {
     
@@ -86,13 +83,11 @@ public class SurveyTest {
     }
     
     @Test(expected=UnauthorizedException.class)
-    @Ignore
     public void cannotSubmitAsNormalUser() {
         user.getSession().getDeveloperClient().getAllSurveysMostRecent();
     }
 
     @Test
-    @Ignore
     public void saveAndRetrieveSurvey() {
         DeveloperClient client = developer.getSession().getDeveloperClient();
         GuidCreatedOnVersionHolder key = client.createSurvey(TestSurvey.getSurvey());
@@ -112,7 +107,6 @@ public class SurveyTest {
     }
 
     @Test
-    @Ignore
     public void createVersionPublish() {
         DeveloperClient client = developer.getSession().getDeveloperClient();
 
@@ -137,7 +131,6 @@ public class SurveyTest {
     }
 
     @Test
-    @Ignore
     public void getAllVersionsOfASurvey() {
         DeveloperClient client = developer.getSession().getDeveloperClient();
 
@@ -174,7 +167,6 @@ public class SurveyTest {
     }
 
     @Test
-    @Ignore
     public void canUpdateASurveyAndTypesAreCorrect() {
         DeveloperClient client = developer.getSession().getDeveloperClient();
 
@@ -208,7 +200,6 @@ public class SurveyTest {
     }
 
     @Test
-    @Ignore
     public void dateBasedConstraintsPersistedCorrectly() {
         DeveloperClient client = developer.getSession().getDeveloperClient();
 
@@ -225,7 +216,6 @@ public class SurveyTest {
     }
 
     @Test
-    @Ignore
     public void researcherCannotUpdatePublishedSurvey() {
         DeveloperClient client = developer.getSession().getDeveloperClient();
         Survey survey = TestSurvey.getSurvey();
@@ -243,7 +233,6 @@ public class SurveyTest {
     }
 
     @Test
-    @Ignore
     public void canGetMostRecentlyPublishedSurveyWithoutTimestamp() {
         DeveloperClient client = developer.getSession().getDeveloperClient();
         Survey survey = TestSurvey.getSurvey();
@@ -261,7 +250,6 @@ public class SurveyTest {
     }
 
     @Test
-    @Ignore
     public void canCallMultiOperationMethodToMakeSurveyUpdate() {
         DeveloperClient client = developer.getSession().getDeveloperClient();
         Survey survey = TestSurvey.getSurvey();
@@ -284,7 +272,6 @@ public class SurveyTest {
     }
     
     @Test
-    @Ignore
     public void canSaveAndRetrieveInfoScreen() {
         DeveloperClient client = developer.getSession().getDeveloperClient();
         
