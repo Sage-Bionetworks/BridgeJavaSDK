@@ -59,7 +59,7 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     public void sendStudyParticipantsRoster() {
         session.checkSignedIn();
         
-        post(config.getResearcherStudyParticipantsApi());
+        post(config.getEmailParticipantRosterApi());
     }
 
 }

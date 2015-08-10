@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonDeserialize(as=SurveyResponse.class)
-public class SurveyResponse implements IdentifierHolder {
+public final class SurveyResponse implements IdentifierHolder {
 
     private final String identifier;
     private final DateTime startedOn;

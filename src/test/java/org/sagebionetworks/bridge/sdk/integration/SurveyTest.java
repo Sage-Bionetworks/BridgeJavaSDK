@@ -23,8 +23,10 @@ import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.sagebionetworks.bridge.sdk.AdminClient;
 import org.sagebionetworks.bridge.sdk.DeveloperClient;
 import org.sagebionetworks.bridge.sdk.Roles;
+import org.sagebionetworks.bridge.sdk.Session;
 import org.sagebionetworks.bridge.sdk.TestSurvey;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
@@ -60,21 +62,22 @@ public class SurveyTest {
     @After
     public void after() {
         try {
+            DeveloperClient devClient = developer.getSession().getDeveloperClient();
+            Session session = TestUserHelper.getSignedInAdmin().getSession();
+            System.out.println(session.getUsername());
+            AdminClient adminClient = session.getAdminClient();
+            deleteAllSurveysInStudy(devClient, adminClient);
             user.signOutAndDeleteUser();
-            DeveloperClient client = developer.getSession().getDeveloperClient();
-            deleteAllSurveysInStudy(client);
         } finally {
             developer.signOutAndDeleteUser();
         }
     }
 
     // It looks like none of the surveys are "unpublished". This is a problem.
-    private void deleteAllSurveysInStudy(DeveloperClient client) {
-        for (Survey survey : client.getAllSurveysMostRecent()) {
-            for (Survey revision : client.getSurveyAllRevisions(survey.getGuid())) {
-                if (!revision.isPublished()) {
-                    client.deleteSurvey(revision);    
-                }
+    private void deleteAllSurveysInStudy(DeveloperClient devClient, AdminClient adminClient) {
+        for (Survey survey : devClient.getAllSurveysMostRecent()) {
+            for (Survey revision : devClient.getSurveyAllRevisions(survey.getGuid())) {
+                adminClient.deleteSurveyPermanently(revision);    
             }
         }
     }
@@ -139,7 +142,7 @@ public class SurveyTest {
     }
 
     @Test
-    public void canGetMostRecentOrRecentlyPublishedSurvey() {
+    public void canGetMostRecentOrRecentlyPublishedSurvey() throws InterruptedException {
         DeveloperClient client = developer.getSession().getDeveloperClient();
 
         GuidCreatedOnVersionHolder key = client.createSurvey(TestSurvey.getSurvey());
@@ -155,12 +158,12 @@ public class SurveyTest {
         key2 = client.versionSurvey(key2);
 
         ResourceList<Survey> recentSurveys = client.getAllSurveysMostRecent();
-        assertTrue("Recent versions of surveys exist in recentSurveys.", containsAll(recentSurveys.getItems(), key, key1, key2));
+        containsAll("Recent versions of surveys exist in recentSurveys.", recentSurveys.getItems(), key, key1, key2);
 
         client.publishSurvey(key);
         client.publishSurvey(key2);
-        ResourceList<Survey> publishedSurveys = client.getAllSurveysMostRecent();
-        assertTrue("Published surveys contain recently published.", containsAll(publishedSurveys.getItems(), key, key2));
+        ResourceList<Survey> publishedSurveys = client.getAllSurveysMostRecentlyPublished();
+        containsAll("Published surveys contain recently published.", publishedSurveys.getItems(), key, key2);
     }
 
     @Test
@@ -269,17 +272,6 @@ public class SurveyTest {
     }
     
     @Test
-    public void canRetrieveSurveyByIdentifier() {
-        DeveloperClient client = developer.getSession().getDeveloperClient();
-        
-        Survey survey = TestSurvey.getSurvey();
-        GuidCreatedOnVersionHolder keys = client.createSurvey(survey);
-        client.publishSurvey(keys);
-        
-        client.getSurveyMostRecentlyPublishedByIdentifier(survey.getIdentifier());
-    }
-    
-    @Test
     public void canSaveAndRetrieveInfoScreen() {
         DeveloperClient client = developer.getSession().getDeveloperClient();
         
@@ -335,15 +327,17 @@ public class SurveyTest {
         return ((SurveyQuestion)survey.getElementByIdentifier(id)).getConstraints();
     }
 
-    private boolean containsAll(List<Survey> surveys, GuidCreatedOnVersionHolder... keys) {
+    private void containsAll(String message, List<Survey> surveys, GuidCreatedOnVersionHolder... keys) throws InterruptedException {
+        Thread.sleep(2000);
+        assertEquals("Returned items match the expected number of items", keys.length, surveys.size());
         int count = 0;
-        for (Survey survey : surveys) {
-            for (GuidCreatedOnVersionHolder key : keys) {
+        for (GuidCreatedOnVersionHolder key : keys) {
+            for (Survey survey : surveys) {
                 if (survey.getGuid().equals(key.getGuid()) && survey.getCreatedOn().equals(key.getCreatedOn())) {
                     count++;
                 }
             }
         }
-        return count == keys.length;
+        assertEquals(message, keys.length, count);
     }
 }

@@ -1,6 +1,7 @@
 package org.sagebionetworks.bridge.sdk;
 
-import org.joda.time.DateTime;
+import java.util.List;
+
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
@@ -37,11 +38,14 @@ public interface AdminClient {
 
     public void deleteStudy(String identifier);
 
-    public void deleteSurvey(String guid, DateTime createdOn);
-
-    public void deleteSurvey(GuidCreatedOnVersionHolder keys);
+    /**
+     * Delete a survey permanently. This delete will occur whether or not the survey version is in use 
+     * or not; developers should use the deleteSurvey() method on the DeveloperClient.
+     * @param keys
+     */
+    public void deleteSurveyPermanently(GuidCreatedOnVersionHolder keys);
     
-    public ResourceList<String> getCacheItemKeys();
+    public List<String> getCacheItemKeys();
     
     public void deleteCacheKey(String key);
 

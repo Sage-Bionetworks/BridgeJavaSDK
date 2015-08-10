@@ -83,18 +83,6 @@ public interface DeveloperClient {
     public Survey getSurveyMostRecentlyPublished(String guid);
 
     /**
-     * Get the most recent version of a survey that has been published (the version with the latest createdOn timestamp
-     * that has been published). Note that this does not return "the survey version that was most recently switched to
-     * the published state". Publishing versions out of their creation order does not change the version that is
-     * returned by this method unless a later version is switched to the published state.
-     * 
-     * @param identifier
-     *            The identifier of the survey
-     * @return
-     */
-    public Survey getSurveyMostRecentlyPublishedByIdentifier(String identifier);
-
-    /**
      * Get the most recent and published version of every survey in a study (each survey with a unique GUID).
      * 
      * @return

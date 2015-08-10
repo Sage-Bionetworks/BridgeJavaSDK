@@ -56,12 +56,6 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
         return get(config.getSurveyMostRecentlyPublishedRevisionApi(guid), Survey.class);
     }
     @Override
-    public Survey getSurveyMostRecentlyPublishedByIdentifier(String identifier) {
-        session.checkSignedIn();
-        checkArgument(isNotBlank(identifier), Bridge.CANNOT_BE_BLANK, "identifier");
-        return get(config.getSurveyMostRecentlyPublishedRevisionByIdentifierApi(identifier), Survey.class);
-    }
-    @Override
     public Survey getSurveyMostRecent(String guid) {
         session.checkSignedIn();
         checkArgument(isNotBlank(guid), Bridge.CANNOT_BE_BLANK, "guid");
@@ -173,7 +167,7 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
     @Override
     public Study getStudy() {
         session.checkSignedIn();
-        return get(config.getResearcherStudyApi(), Study.class);
+        return get(config.getStudySelfApi(), Study.class);
     }
     @Override
     public VersionHolder updateStudy(Study study) {
@@ -181,7 +175,7 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
         checkNotNull(study, Bridge.CANNOT_BE_NULL, "study");
         checkNotNull(isNotBlank(study.getIdentifier()), Bridge.CANNOT_BE_BLANK, "study identifier");
         
-        VersionHolder holder = post(config.getResearcherStudyApi(), study, SimpleVersionHolder.class);
+        VersionHolder holder = post(config.getStudySelfApi(), study, SimpleVersionHolder.class);
         study.setVersion(holder.getVersion());
         return holder;
     }
@@ -190,7 +184,7 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
     public UploadSchema createOrUpdateUploadSchema(UploadSchema schema) {
         session.checkSignedIn();
         checkNotNull(schema, Bridge.CANNOT_BE_NULL, "schema");
-        return post(config.getUploadSchemaApi(), schema, UploadSchema.class);
+        return post(config.getUploadSchemasApi(), schema, UploadSchema.class);
     }
 
     @Override
@@ -218,6 +212,6 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
     @Override
     public ResourceList<UploadSchema> getAllUploadSchemasAllRevisions() {
         session.checkSignedIn();
-        return get(config.getUploadSchemaApi(), TYPE_REF_UPLOAD_SCHEMA_LIST);
+        return get(config.getUploadSchemasApi(), TYPE_REF_UPLOAD_SCHEMA_LIST);
     }
 }
