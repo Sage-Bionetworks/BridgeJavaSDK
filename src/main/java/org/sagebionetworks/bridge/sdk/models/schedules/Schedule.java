@@ -9,6 +9,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
 
@@ -179,7 +180,24 @@ public final class Schedule {
     public List<Activity> getActivities() {
         return activities;
     }
-    
+    /**
+     * A persistent schedule is one that keeps a task alive in the list of tasks, 
+     * recreating it every time it is completed. Persistent schedules are scheduled to 
+     * occur one time, but have an event ID that immediately triggers re-scheduling when 
+     * one of the activities assigned by the schedule is completed.
+     * @return
+     */
+    @JsonIgnore
+    public boolean getPersistent() {
+        if (activities != null) {
+            for (Activity activity : activities) {
+                if (activity.isPersistentlyRescheduledBy(this)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     @Override
     public int hashCode() {
         final int prime = 31;

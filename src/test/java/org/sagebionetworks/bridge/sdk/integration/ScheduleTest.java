@@ -27,9 +27,6 @@ public class ScheduleTest {
     public void before() {
         user = TestUserHelper.createAndSignInUser(ScheduleTest.class, true);
         developer = TestUserHelper.createAndSignInUser(ScheduleTest.class, true, Roles.DEVELOPER);
-        
-        DeveloperClient client = developer.getSession().getDeveloperClient();
-        planGuid = client.createSchedulePlan(Tests.getABTestSchedulePlan()).getGuid();
     }
     
     @After
@@ -45,6 +42,9 @@ public class ScheduleTest {
     
     @Test
     public void schedulePlanIsCorrect() throws Exception {
+        DeveloperClient client = developer.getSession().getDeveloperClient();
+        planGuid = client.createSchedulePlan(Tests.getABTestSchedulePlan()).getGuid();
+        
         SchedulePlan originalPlan = Tests.getABTestSchedulePlan();
         SchedulePlan plan = developer.getSession().getDeveloperClient().getSchedulePlan(planGuid);
         // Fields that are set on the server.
@@ -53,13 +53,44 @@ public class ScheduleTest {
         originalPlan.setVersion(plan.getVersion());
         assertEquals(originalPlan, plan);
     }
-    
+
     @Test
     public void canRetrieveSchedulesForAUser() throws Exception {
-        final UserClient client = user.getSession().getUserClient();
+        DeveloperClient client = developer.getSession().getDeveloperClient();
+        planGuid = client.createSchedulePlan(Tests.getABTestSchedulePlan()).getGuid();
+
+        final UserClient userClient = user.getSession().getUserClient();
         
-        List<Schedule> schedules = client.getSchedules().getItems();
+        List<Schedule> schedules = userClient.getSchedules().getItems();
         assertEquals("There should be one schedule for this user", 1, schedules.size());
+    }
+    
+    @Test
+    public void persistentSchedulePlanMarkedPersistent() throws Exception {
+        SchedulePlan plan = Tests.getPersistentSchedulePlan();
+        DeveloperClient client = developer.getSession().getDeveloperClient();
+        
+        planGuid = client.createSchedulePlan(plan).getGuid();
+
+        plan = client.getSchedulePlan(planGuid);
+        Schedule schedule = Tests.getSimpleSchedule(plan);
+        
+        assertEquals(true, schedule.getPersistent());
+        assertEquals(true, schedule.getActivities().get(0).isPersistentlyRescheduledBy(schedule));
+    }
+    
+    @Test
+    public void simpleSchedulePlanNotMarkedPersistent() throws Exception {
+        SchedulePlan plan = Tests.getSimpleSchedulePlan();
+        DeveloperClient client = developer.getSession().getDeveloperClient();
+
+        planGuid = client.createSchedulePlan(plan).getGuid();
+
+        plan = client.getSchedulePlan(planGuid);
+        Schedule schedule = Tests.getSimpleSchedule(plan);
+        
+        assertEquals(false, schedule.getPersistent());
+        assertEquals(false, schedule.getActivities().get(0).isPersistentlyRescheduledBy(schedule));
     }
     
 }
