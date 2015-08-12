@@ -85,7 +85,7 @@ public final class Activity {
         return response;
     }
     public boolean isPersistentlyRescheduledBy(Schedule schedule) {
-        if (schedule.getEventId() != null && schedule.getScheduleType() == ScheduleType.ONCE) {
+        if (schedule.getEventId() != null && schedule.getDelay() == null && schedule.getScheduleType() == ScheduleType.ONCE) {
             if (schedule.getEventId().contains(getSelfFinishedEventId())) {
                 return true;
             }
