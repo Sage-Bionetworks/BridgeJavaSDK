@@ -190,7 +190,7 @@ public final class Schedule {
      */
     @JsonIgnore
     public boolean getPersistent() {
-        if (activities != null && schedulesImmediatelyAfterEvent()) {
+        if (activities != null) {
             for (Activity activity : activities) {
                 if (activity.isPersistentlyRescheduledBy(this)) {
                     return true;
@@ -202,7 +202,7 @@ public final class Schedule {
     public boolean schedulesImmediatelyAfterEvent() {
         return getEventId() != null && 
                getScheduleType() == ScheduleType.ONCE &&        
-               (getDelay() == null || getDelay().toStandardMinutes().isLessThan(Minutes.ONE));
+               (getDelay() == null || getDelay().toDurationFrom(DateTime.now()).getMillis() <= 0L);
     }
     @Override
     public int hashCode() {
