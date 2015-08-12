@@ -84,6 +84,15 @@ public final class Activity {
     public SurveyResponseReference getSurveyResponse() {
         return response;
     }
+    public boolean isPersistentlyRescheduledBy(Schedule schedule) {
+        return schedule.schedulesImmediatelyAfterEvent() && 
+               schedule.getEventId().contains(getSelfFinishedEventId());
+    }
+    private String getSelfFinishedEventId() {
+        return (getActivityType() == ActivityType.SURVEY) ?
+            ("survey:"+getSurvey().getGuid()+":finished") :
+            ("task:"+getTask().getIdentifier()+":finished");
+    }
     
     @Override
     public int hashCode() {

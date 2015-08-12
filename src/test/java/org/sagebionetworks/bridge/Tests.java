@@ -15,6 +15,7 @@ import org.sagebionetworks.bridge.sdk.models.schedules.ABTestScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.Activity;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
+import org.sagebionetworks.bridge.sdk.models.schedules.SimpleScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.SurveyReference;
 import org.sagebionetworks.bridge.sdk.models.schedules.TaskReference;
 
@@ -90,5 +91,21 @@ public class Tests {
         plan.setSchedule(schedule);
         return plan;
     }
+    
+    public static SchedulePlan getPersistentSchedulePlan() {
+        SchedulePlan plan = new SchedulePlan();
+        plan.setLabel("Persistent schedule");
+        Schedule schedule = new Schedule();
+        setTaskActivity(schedule, "CCC");
+        schedule.setEventId("task:"+schedule.getActivities().get(0).getTask().getIdentifier()+":finished");
+        schedule.setLabel("Test label");
 
+        plan.setSchedule(schedule);
+        return plan;
+    }
+
+    public static Schedule getSimpleSchedule(SchedulePlan plan) {
+        return ((SimpleScheduleStrategy)plan.getStrategy()).getSchedule();
+    }
+    
 }
