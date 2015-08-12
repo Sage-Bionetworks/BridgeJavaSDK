@@ -7,6 +7,7 @@ import java.util.Objects;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
+import org.joda.time.Minutes;
 import org.joda.time.Period;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -189,7 +190,7 @@ public final class Schedule {
      */
     @JsonIgnore
     public boolean getPersistent() {
-        if (activities != null) {
+        if (activities != null && schedulesImmediatelyAfterEvent()) {
             for (Activity activity : activities) {
                 if (activity.isPersistentlyRescheduledBy(this)) {
                     return true;
@@ -197,6 +198,11 @@ public final class Schedule {
             }
         }
         return false;
+    }
+    public boolean schedulesImmediatelyAfterEvent() {
+        return getEventId() != null && 
+               getScheduleType() == ScheduleType.ONCE &&        
+               (getDelay() == null || getDelay().toStandardMinutes().isLessThan(Minutes.ONE));
     }
     @Override
     public int hashCode() {
