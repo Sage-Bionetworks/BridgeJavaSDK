@@ -14,16 +14,19 @@ public final class Task {
     private final DateTime expiresOn;
     private DateTime startedOn;
     private DateTime finishedOn;
+    private boolean persistent;
 
     Task(@JsonProperty("guid") String guid, @JsonProperty("activity") Activity activity,
         @JsonProperty("scheduledOn") DateTime scheduledOn, @JsonProperty("expiresOn") DateTime expiresOn,
-        @JsonProperty("startedOn") DateTime startedOn, @JsonProperty("finishedOn") DateTime finishedOn) {
+        @JsonProperty("startedOn") DateTime startedOn, @JsonProperty("finishedOn") DateTime finishedOn, 
+        @JsonProperty("persistent") boolean persistent) {
         this.guid = guid;
         this.activity = activity;
         this.scheduledOn = scheduledOn;
         this.expiresOn = expiresOn;
         this.startedOn = startedOn;
         this.finishedOn = finishedOn;
+        this.persistent = persistent;
     }
     
     public TaskStatus getStatus() {
@@ -65,6 +68,9 @@ public final class Task {
     public void setFinishedOn(DateTime finishedOn) {
         this.finishedOn = finishedOn;
     }
+    public boolean getPersistent() {
+        return persistent;
+    }
 
     @Override
     public int hashCode() {
@@ -76,6 +82,7 @@ public final class Task {
         result = prime * result + Objects.hashCode(guid);
         result = prime * result + Objects.hashCode(scheduledOn);
         result = prime * result + Objects.hashCode(startedOn);
+        result = prime * result + Objects.hashCode(persistent);
         return result;
     }
 
@@ -88,13 +95,14 @@ public final class Task {
         Task other = (Task) obj;
         return (Objects.equals(activity, other.activity) && Objects.equals(expiresOn, other.expiresOn) && 
                 Objects.equals(finishedOn, other.finishedOn) && Objects.equals(guid, other.guid) && 
-                Objects.equals(scheduledOn, other.scheduledOn) && Objects.equals(startedOn, other.startedOn));
+                Objects.equals(scheduledOn, other.scheduledOn) && Objects.equals(startedOn, other.startedOn) && 
+                Objects.equals(persistent, other.persistent));
     }
 
     @Override
     public String toString() {
-        return String.format("Task [guid=%s, activity=%s, scheduledOn=%s, expiresOn=%s, startedOn=%s, finishedOn=%s]", 
-            guid, activity, scheduledOn, expiresOn, startedOn, finishedOn);
+        return String.format("Task [guid=%s, activity=%s, scheduledOn=%s, expiresOn=%s, startedOn=%s, finishedOn=%s, persistent=%s]", 
+            guid, activity, scheduledOn, expiresOn, startedOn, finishedOn, persistent);
     }
     
 }
