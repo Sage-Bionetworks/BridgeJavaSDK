@@ -87,6 +87,7 @@ class BaseApiCaller {
         }
     }
 
+    @SuppressWarnings("deprecation")
     private final HttpClient client = HttpClientBuilder.create()
             .setRedirectStrategy(new LaxRedirectStrategy())
             .setRetryHandler(new DefaultHttpRequestRetryHandler(5, true))
