@@ -99,8 +99,8 @@ public class SchedulePlanTest {
 
         // Get
         plan = developerClient.getSchedulePlan(keys.getGuid());
-        assertEquals("Strategy type has been changed", "SimpleScheduleStrategy", plan.getStrategy().getClass()
-                .getSimpleName());
+        assertEquals("Strategy type has been changed", "SimpleScheduleStrategy", 
+            plan.getStrategy().getClass().getSimpleName());
 
         ResourceList<Schedule> schedules = userClient.getSchedules();
         assertTrue("Schedules exist", !schedules.getItems().isEmpty());

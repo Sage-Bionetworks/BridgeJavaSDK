@@ -48,7 +48,7 @@ public class StudyTest {
     public void crudStudy() throws Exception {
         AdminClient client = admin.getSession().getAdminClient();
         
-        String identifier = Tests.randomIdentifier();
+        String identifier = Tests.randomIdentifier(StudyTest.class);
         study = getStudyObject(identifier, null);
         assertNull(study.getVersion());
         
@@ -90,7 +90,7 @@ public class StudyTest {
 
     @Test
     public void researcherCannotAccessAnotherStudy() {
-        String identifier = Tests.randomIdentifier();
+        String identifier = Tests.randomIdentifier(StudyTest.class);
         study = getStudyObject(identifier, null);
 
         AdminClient client = admin.getSession().getAdminClient();
