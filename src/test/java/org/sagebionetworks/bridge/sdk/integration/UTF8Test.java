@@ -20,7 +20,7 @@ import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
 public class UTF8Test {
     @Test
     public void canSaveAndRetrieveDataStoredInDynamo() {
-        String studyId = Tests.randomIdentifier();
+        String studyId = Tests.randomIdentifier(UTF8Test.class);
         String studyName = "☃지구상의　３대　극지라　불리는";
         AdminClient adminClient = TestUserHelper.getSignedInAdmin().getSession().getAdminClient();
 

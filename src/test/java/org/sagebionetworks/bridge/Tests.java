@@ -34,8 +34,8 @@ public class Tests {
         return properties;
     }
     
-    public static final String randomIdentifier() {
-        return ("sdk-" + RandomStringUtils.randomAlphabetic(5)).toLowerCase();
+    public static final String randomIdentifier(Class<?> cls) {
+        return ("sdk-" + cls.getSimpleName().toLowerCase() + "-" + RandomStringUtils.randomAlphabetic(5)).toLowerCase();
     }
     
     // This seems like something that should be added to schedule.
