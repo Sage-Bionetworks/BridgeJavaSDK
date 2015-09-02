@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
 import org.sagebionetworks.bridge.sdk.Roles;
@@ -43,7 +44,12 @@ public class StudyConsentTest {
         }
     }
 
+    // This test creates 2 study consents every time it runs. On sign-in, we call getActiveConsents(), which becomes
+    // more expensive as we have more study consents. This is causing DDB throttling issues. In the short-term, I have
+    // disabled this test. In the long term, we need to add clean-up to this integration test and/or re-think how we do
+    // study consents. See https://sagebionetworks.jira.com/browse/BRIDGE-778
     @Test
+    @Ignore
     public void addAndActivateConsent() {
         ResearcherClient client = researcher.getSession().getResearcherClient();
 
