@@ -66,10 +66,12 @@ public class AuthenticationTest {
         TestUser testUser1 = TestUserHelper.createAndSignInUser(AuthenticationTest.class, true);
         Config config = ClientProvider.getConfig();
         AdminClient client = ClientProvider.signIn(config.getAdminCredentials()).getAdminClient();
+        String studyId = Tests.randomIdentifier(AuthenticationTest.class);
+
         try {
             // Make a second study for this test:
             Study study = new Study();
-            study.setIdentifier("secondstudy");
+            study.setIdentifier(studyId);
             study.setName("Second Study");
             study.setSupportEmail("bridge-testing+support@sagebase.org");
             study.setConsentNotificationEmail("bridge-testing+consent@sagebase.org");
@@ -78,8 +80,8 @@ public class AuthenticationTest {
             
             // Can we sign in to secondstudy? No.
             try {
-                config.set(Props.STUDY_IDENTIFIER, "secondstudy");
-                ClientProvider.signIn(new SignInCredentials("secondstudy", testUser1.getUsername(), testUser1.getPassword()));
+                config.set(Props.STUDY_IDENTIFIER, studyId);
+                ClientProvider.signIn(new SignInCredentials(studyId, testUser1.getUsername(), testUser1.getPassword()));
                 fail("Should not have allowed sign in");
             } catch(BridgeServerException e) {
                 assertEquals(404, e.getStatusCode());
@@ -88,7 +90,7 @@ public class AuthenticationTest {
             fail("Threw an exception creating a study: " + e.getMessage());
         } finally {
             config.set(Props.STUDY_IDENTIFIER, "api");
-            client.deleteStudy("secondstudy");
+            client.deleteStudy(studyId);
             testUser1.signOutAndDeleteUser();
         }
     }
