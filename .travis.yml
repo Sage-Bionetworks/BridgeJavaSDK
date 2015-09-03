@@ -4,4 +4,4 @@ jdk:
 - openjdk7
 
 script:
-- mvn clean deploy
+- mvn clean test
