@@ -47,12 +47,11 @@ public class UTF8Test {
             fail(t.getMessage());
         } finally {
             // clean-up: delete study
-            //adminClient.deleteStudy(studyId);
+            adminClient.deleteStudy(studyId);
         }
     }
 
     @Test
-    @Ignore
     public void canSaveAndRetrieveDataStoredInRedis() {
         TestUser testUser = TestUserHelper.createAndSignInUser(UTF8Test.class, true);
         try {
