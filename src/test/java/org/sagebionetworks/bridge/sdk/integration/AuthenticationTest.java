@@ -73,6 +73,7 @@ public class AuthenticationTest {
             Study study = new Study();
             study.setIdentifier(studyId);
             study.setName("Second Study");
+            study.setSponsorName("Second Study");
             study.setSupportEmail("bridge-testing+support@sagebase.org");
             study.setConsentNotificationEmail("bridge-testing+consent@sagebase.org");
             study.setTechnicalEmail("bridge-testing+technical@sagebase.org");

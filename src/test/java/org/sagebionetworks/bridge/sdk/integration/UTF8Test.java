@@ -30,6 +30,7 @@ public class UTF8Test {
             Study study = new Study();
             study.setIdentifier(studyId);
             study.setName(studyName);
+            study.setSponsorName(studyName);
             study.setTechnicalEmail("bridge-testing+technical@sagebase.org");
             study.setSupportEmail("bridge-testing+support@sagebase.org");
             study.setConsentNotificationEmail("bridge-testing+consent@sagebase.org");
