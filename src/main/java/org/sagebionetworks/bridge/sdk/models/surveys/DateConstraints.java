@@ -2,13 +2,13 @@ package org.sagebionetworks.bridge.sdk.models.surveys;
 
 import java.util.Objects;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 public final class DateConstraints extends Constraints {
 
     private boolean allowFuture = false;
-    private DateTime earliestValue;
-    private DateTime latestValue;
+    private LocalDate earliestValue;
+    private LocalDate latestValue;
 
     public DateConstraints() {
         setDataType(DataType.DATE);
@@ -20,16 +20,16 @@ public final class DateConstraints extends Constraints {
     public void setAllowFuture(boolean allowFuture) {
         this.allowFuture = allowFuture;
     }
-    public DateTime getEarliestValue() {
+    public LocalDate getEarliestValue() {
         return earliestValue;
     }
-    public void setEarliestValue(DateTime earliestValue) {
+    public void setEarliestValue(LocalDate earliestValue) {
         this.earliestValue = earliestValue;
     }
-    public DateTime getLatestValue() {
+    public LocalDate getLatestValue() {
         return latestValue;
     }
-    public void setLatestValue(DateTime latestValue) {
+    public void setLatestValue(LocalDate latestValue) {
         this.latestValue = latestValue;
     }
 
