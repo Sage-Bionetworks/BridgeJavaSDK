@@ -68,7 +68,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         session.checkSignedIn();
         checkNotNull(identifier, Bridge.CANNOT_BE_NULL, "ExternalIdentifier");
         
-        post(config.geSetExternalIdApi(), identifier);
+        post(config.getSetExternalIdApi(), identifier);
     }
 
     /*
