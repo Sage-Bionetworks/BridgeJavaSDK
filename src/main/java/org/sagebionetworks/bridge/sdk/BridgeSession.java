@@ -100,7 +100,7 @@ class BridgeSession implements Session {
     @Override
     public synchronized void signOut() {
         if (sessionToken != null) {
-            new BaseApiCaller(this).post(ClientProvider.getConfig().getAuthSignOutApi());
+            new BaseApiCaller(this).post(ClientProvider.getConfig().getSignOutApi());
             sessionToken = null;
         }
     }

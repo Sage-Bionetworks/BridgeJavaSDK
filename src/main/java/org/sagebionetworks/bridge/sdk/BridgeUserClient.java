@@ -68,7 +68,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         session.checkSignedIn();
         checkNotNull(identifier, Bridge.CANNOT_BE_NULL, "ExternalIdentifier");
         
-        post(config.getExternalIdentifierApi(), identifier);
+        post(config.geSetExternalIdApi(), identifier);
     }
 
     /*
@@ -107,7 +107,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         checkNotNull(sharingScope, Bridge.CANNOT_BE_NULL, "SharingScope");
         
         ScopeOption option = new ScopeOption(sharingScope);
-        post(config.getConsentChangeApi(), option);
+        post(config.getSetDataSharingApi(), option);
         session.setSharingScope(sharingScope);
     }
 
@@ -136,7 +136,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         session.checkSignedIn();
         checkNotNull(guid, Bridge.CANNOT_BE_NULL, "guid");
         
-        return get(config.getRecentlyPublishedSurveyUserApi(guid), Survey.class);
+        return get(config.getRecentlyPublishedSurveyForUserApi(guid), Survey.class);
     }
     
     @Override
@@ -146,7 +146,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         checkNotNull(answers, "Answers cannot be null.");
 
         SurveyResponseSubmit response = new SurveyResponseSubmit(keys, null, answers);
-        return post(config.getSurveyResponseApi(), response, SimpleIdentifierHolder.class);
+        return post(config.getSurveyResponsesApi(), response, SimpleIdentifierHolder.class);
     }
 
     @Override
@@ -157,7 +157,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         checkNotNull(answers, "Answers cannot be null.");
 
         SurveyResponseSubmit response = new SurveyResponseSubmit(keys, identifier, answers);
-        return post(config.getSurveyResponseApi(), response, SimpleIdentifierHolder.class);
+        return post(config.getSurveyResponsesApi(), response, SimpleIdentifierHolder.class);
     }
     
     @Override
@@ -186,7 +186,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         session.checkSignedIn();
         checkNotNull(request, "Request cannot be null.");
 
-        return post(config.getUploadApi(), request, UploadSession.class);
+        return post(config.getUploadsApi(), request, UploadSession.class);
     }
 
     @Override
@@ -208,7 +208,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         String url = session.getUrl().toString();
         s3Put(url, entity, request);
         
-        post(config.getUploadCompleteApi(session.getId()));
+        post(config.getCompleteUploadApi(session.getId()));
     }
 
     @Override

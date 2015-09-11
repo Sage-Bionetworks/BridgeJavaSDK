@@ -47,29 +47,29 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
     public ResourceList<Survey> getSurveyAllRevisions(String guid) {
         session.checkSignedIn();
         checkArgument(isNotBlank(guid), Bridge.CANNOT_BE_BLANK, "guid");
-        return get(config.getSurveyRevisionsApi(guid), sType);
+        return get(config.getSurveyAllRevisionsApi(guid), sType);
     }
     @Override
     public Survey getSurveyMostRecentlyPublished(String guid) {
         session.checkSignedIn();
         checkArgument(isNotBlank(guid), Bridge.CANNOT_BE_BLANK, "guid");
-        return get(config.getSurveyMostRecentlyPublishedRevisionApi(guid), Survey.class);
+        return get(config.getMostRecentlyPublishedSurveyRevisionApi(guid), Survey.class);
     }
     @Override
     public Survey getSurveyMostRecent(String guid) {
         session.checkSignedIn();
         checkArgument(isNotBlank(guid), Bridge.CANNOT_BE_BLANK, "guid");
-        return get(config.getSurveyMostRecentRevisionApi(guid), Survey.class);
+        return get(config.getMostRecentSurveyRevisionApi(guid), Survey.class);
     }
     @Override
     public ResourceList<Survey> getAllSurveysMostRecentlyPublished() {
         session.checkSignedIn();
-        return get(config.getSurveysPublishedApi(), sType);
+        return get(config.getPublishedSurveysApi(), sType);
     }
     @Override
     public ResourceList<Survey> getAllSurveysMostRecent() {
         session.checkSignedIn();
-        return get(config.getSurveysRecentApi(), sType);
+        return get(config.getRecentSurveysApi(), sType);
     }
     @Override
     public GuidCreatedOnVersionHolder createSurvey(Survey survey) {
@@ -85,7 +85,7 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
         session.checkSignedIn();
         checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
 
-        return post(config.getSurveyNewRevisionApi(keys.getGuid(), keys.getCreatedOn()), null, SimpleGuidCreatedOnVersionHolder.class);
+        return post(config.getVersionSurveyApi(keys.getGuid(), keys.getCreatedOn()), null, SimpleGuidCreatedOnVersionHolder.class);
     }
     @Override
     public GuidCreatedOnVersionHolder updateSurvey(Survey survey) {
@@ -167,7 +167,7 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
     @Override
     public Study getStudy() {
         session.checkSignedIn();
-        return get(config.getStudySelfApi(), Study.class);
+        return get(config.getCurrentStudyApi(), Study.class);
     }
     @Override
     public VersionHolder updateStudy(Study study) {
@@ -175,7 +175,7 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
         checkNotNull(study, Bridge.CANNOT_BE_NULL, "study");
         checkNotNull(isNotBlank(study.getIdentifier()), Bridge.CANNOT_BE_BLANK, "study identifier");
         
-        VersionHolder holder = post(config.getStudySelfApi(), study, SimpleVersionHolder.class);
+        VersionHolder holder = post(config.getCurrentStudyApi(), study, SimpleVersionHolder.class);
         study.setVersion(holder.getVersion());
         return holder;
     }
@@ -191,7 +191,7 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
     public void deleteUploadSchemaAllRevisions(String schemaId) {
         session.checkSignedIn();
         checkArgument(isNotBlank(schemaId), Bridge.CANNOT_BE_BLANK, "schemaId");
-        delete(config.getUploadSchemaByIdApi(schemaId));
+        delete(config.getUploadSchemaAllRevisionsApi(schemaId));
     }
 
     @Override
@@ -199,7 +199,7 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
         session.checkSignedIn();
         checkArgument(isNotBlank(schemaId), Bridge.CANNOT_BE_BLANK, "schemaId");
         checkArgument(revision > 0, "revision must be positive");
-        delete(config.getUploadSchemaByIdAndRevisionApi(schemaId, revision));
+        delete(config.getUploadSchemaApi(schemaId, revision));
     }
 
     /*
@@ -221,19 +221,19 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
     public ResourceList<UploadSchema> getUploadSchema(String schemaId) {
         session.checkSignedIn();
         checkArgument(isNotBlank(schemaId), Bridge.CANNOT_BE_BLANK, "schemaId");
-        return get("", TYPE_REF_UPLOAD_SCHEMA_LIST);
+        return get(config.getUploadSchemaAllRevisionsApi(schemaId), TYPE_REF_UPLOAD_SCHEMA_LIST);
     }
     
     @Override
     public UploadSchema getMostRecentUploadSchemaRevision(String schemaId) {
         session.checkSignedIn();
         checkArgument(isNotBlank(schemaId), Bridge.CANNOT_BE_BLANK, "schemaId");
-        return get("", UploadSchema.class);
+        return get(config.getMostRecentUploadSchemaApi(schemaId), UploadSchema.class);
     }
 
     @Override
     public ResourceList<UploadSchema> getAllUploadSchemas() {
         session.checkSignedIn();
-        return get("", TYPE_REF_UPLOAD_SCHEMA_LIST);
+        return get(config.getUploadSchemasApi(), TYPE_REF_UPLOAD_SCHEMA_LIST);
     }
 }

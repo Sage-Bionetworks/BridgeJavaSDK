@@ -133,14 +133,21 @@ public final class Config {
         }
     }
 
-    // Accessor for the public API that allows consumer to change any value that
-    // is in the configuration files, programmatically, if that's something they
-    // want to do.
+    /**
+     * Method to reset any of the default values that are defined in the bridge-sdk.properties
+     * configuration file.
+     * @param property
+     * @param value
+     */
     public void set(Props property, String value) {
         checkNotNull(property, "Must specify a property");
         checkNotNull(value, "Must specify a value");
         config.setProperty(property.getPropertyName(), value);
     }
+    /**
+     * Method to set the environment of the SDK.
+     * @param env
+     */
     public void set(Environment env) {
         this.environment = env;
     }
@@ -165,7 +172,7 @@ public final class Config {
     public String getCacheApi() {
         return val(Props.V3_CACHE);
     }
-    public String getCacheKeyApi(String key) {
+    public String getCacheApi(String key) {
         checkNotNull(key);
         return String.format(val(Props.V3_CACHE_CACHEKEY), key);
     }
@@ -178,37 +185,34 @@ public final class Config {
     public String getLogLevel() {
         return val(Props.LOG_LEVEL);
     }
-    public String getAuthResendEmailVerificationApi() {
+    public String getResendEmailVerificationApi() {
         return val(Props.V3_AUTH_RESENDEMAILVERIFICATION);
     }
-    public String getAuthSignUpApi() {
+    public String getSignUpApi() {
         return val(Props.V3_AUTH_SIGNUP);
     }
-    public String getAuthSignInApi() {
+    public String getSignInApi() {
         return val(Props.V3_AUTH_SIGNIN);
     }
-    public String getAuthSignOutApi() {
+    public String getSignOutApi() {
         return val(Props.V3_AUTH_SIGNOUT);
     }
-    public String getAuthVerifyEmailApi() {
+    public String getVerifyEmailApi() {
         return val(Props.V3_AUTH_VERIFYEMAIL);
     }
-    public String getAuthRequestResetApi() {
+    public String getRequestResetPasswordApi() {
         return val(Props.V3_AUTH_REQUESTRESETPASSWORD);
     }
-    public String getAuthResetApi() {
+    public String getResetPasswordApi() {
         return val(Props.V3_AUTH_RESETPASSWORD);
     }
-    public String getExternalIdentifierApi() {
+    public String geSetExternalIdApi() {
         return val(Props.V3_USERS_SELF_EXTERNALID);
     }
     public String getProfileApi() {
         return val(Props.V3_USERS_SELF);
     }
-    public String getConsentApi() {
-        return val(Props.V3_CONSENTS_TIMESTAMP);
-    }
-    public String getConsentChangeApi() {
+    public String getSetDataSharingApi() {
         return val(Props.V3_USERS_SELF_DATASHARING);
     }
     public String getConsentsApi() {
@@ -237,10 +241,10 @@ public final class Config {
         checkNotNull(timestamp);
         return String.format(val(Props.V3_CONSENTS_TIMESTAMP_PUBLISH), timestamp.toString(ISODateTimeFormat.dateTime()));
     }
-    public String getUploadApi() {
+    public String getUploadsApi() {
         return val(Props.V3_UPLOADS);
     }
-    public String getUploadCompleteApi(String uploadId) {
+    public String getCompleteUploadApi(String uploadId) {
         return String.format(val(Props.V3_UPLOADS_UPLOADID_COMPLETE), uploadId);
     }
     public String getUploadStatusApi(String uploadId) {
@@ -255,40 +259,39 @@ public final class Config {
     public String getSurveysApi() {
         return val(Props.V3_SURVEYS);
     }
-    public String getSurveysRecentApi() {
+    public String getRecentSurveysApi() {
         return val(Props.V3_SURVEYS_RECENT);
     }
-    public String getSurveysPublishedApi() {
+    public String getPublishedSurveysApi() {
         return val(Props.V3_SURVEYS_PUBLISHED);
     }
     public String getSurveyApi(String guid, DateTime createdOn) {
-        checkArgument(isNotBlank(guid));
         checkNotNull(createdOn);
-        return String.format(val(Props.V3_SURVEYS), guid, createdOn.toString(ISODateTimeFormat.dateTime()));
-    }
-    public String getDeleteSurveyPermanentlyApi(String guid, DateTime createdOn) {
-        checkArgument(isNotBlank(guid));
-        checkNotNull(createdOn);
-        return String.format(val(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PHYSICAL_TRUE), guid, createdOn.toString(ISODateTimeFormat.dateTime()));
+        return getSurveyApi(guid, createdOn.toString(ISODateTimeFormat.dateTime()));
     }
     public String getSurveyApi(String guid, String createdOn) {
         checkArgument(isNotBlank(guid));
         checkNotNull(createdOn);
         return String.format(val(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON), guid, createdOn);
     }
-    public String getSurveyMostRecentlyPublishedRevisionApi(String guid) {
+    public String getDeleteSurveyPermanentlyApi(String guid, DateTime createdOn) {
+        checkArgument(isNotBlank(guid));
+        checkNotNull(createdOn);
+        return String.format(val(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PHYSICAL_TRUE), guid, createdOn.toString(ISODateTimeFormat.dateTime()));
+    }
+    public String getMostRecentlyPublishedSurveyRevisionApi(String guid) {
         checkArgument(isNotBlank(guid));
         return String.format(val(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_PUBLISHED), guid);
     }
-    public String getSurveyMostRecentRevisionApi(String guid) {
+    public String getMostRecentSurveyRevisionApi(String guid) {
         checkArgument(isNotBlank(guid));
         return String.format(val(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_RECENT), guid);
     }
-    public String getSurveyRevisionsApi(String guid) {
+    public String getSurveyAllRevisionsApi(String guid) {
         checkArgument(isNotBlank(guid));
         return String.format(val(Props.V3_SURVEYS_SURVEYGUID_REVISIONS), guid);
     }
-    public String getSurveyNewRevisionApi(String guid, DateTime createdOn) {
+    public String getVersionSurveyApi(String guid, DateTime createdOn) {
         checkArgument(isNotBlank(guid));
         checkNotNull(createdOn);
         return String.format(val(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_VERSION), guid, createdOn.toString(ISODateTimeFormat.dateTime()));
@@ -298,16 +301,16 @@ public final class Config {
         checkNotNull(createdOn);
         return String.format(val(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PUBLISH), guid, createdOn.toString(ISODateTimeFormat.dateTime()));
     }
-    public String getRecentlyPublishedSurveyUserApi(String guid) {
+    public String getRecentlyPublishedSurveyForUserApi(String guid) {
         checkArgument(isNotBlank(guid));
         return String.format(val(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_PUBLISHED), guid);
     }
-    public String getSurveyResponseApi() {
+    public String getSurveyResponsesApi() {
         return val(Props.V3_SURVEYRESPONSES);
     }
-    public String getSurveyResponseApi(String guid) {
-        checkArgument(isNotBlank(guid));
-        return String.format(val(Props.V3_SURVEYRESPONSES), guid);
+    public String getSurveyResponseApi(String identifier) {
+        checkArgument(isNotBlank(identifier));
+        return String.format(val(Props.V3_SURVEYRESPONSES_IDENTIFIER), identifier);
     }
     public String getSchedulePlansApi() {
         return val(Props.V3_SCHEDULEPLANS);
@@ -322,17 +325,21 @@ public final class Config {
     public String getUploadSchemasApi() {
         return val(Props.V3_UPLOADSCHEMAS);
     }
-    public String getUploadSchemaByIdApi(String schemaId) {
+    public String getUploadSchemaAllRevisionsApi(String schemaId) {
+        checkArgument(isNotBlank(schemaId));
         return String.format(val(Props.V3_UPLOADSCHEMAS_SCHEMAID), schemaId);
     }
-    public String getUploadSchemaByIdAndRevisionApi(String schemaId, int revision) {
+    public String getMostRecentUploadSchemaApi(String schemaId) {
+        checkArgument(isNotBlank(schemaId));
+        return String.format(val(Props.V3_UPLOADSCHEMAS_SCHEMAID_RECENT), schemaId);
+    }
+    public String getUploadSchemaApi(String schemaId, int revision) {
+        checkArgument(isNotBlank(schemaId));
+        checkArgument(revision != 0);
         return String.format(val(Props.V3_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REV), schemaId, revision);
     }
-    public String getStudySelfApi() {
+    public String getCurrentStudyApi() {
         return val(Props.V3_STUDIES_SELF);
-    }
-    public String getEmailParticipantRosterApi() {
-        return val(Props.V3_USERS_EMAILPARTICIPANTROSTER);
     }
     public String getStudiesApi() {
         return val(Props.V3_STUDIES);
@@ -343,6 +350,9 @@ public final class Config {
     }
     public String getSdkVersion() {
         return val(Props.SDK_VERSION);
+    }
+    public String getEmailParticipantRosterApi() {
+        return val(Props.V3_USERS_EMAILPARTICIPANTROSTER);
     }
 
     private String val(Props prop) {
