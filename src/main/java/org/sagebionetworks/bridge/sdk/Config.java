@@ -206,7 +206,7 @@ public final class Config {
     public String getResetPasswordApi() {
         return val(Props.V3_AUTH_RESETPASSWORD);
     }
-    public String geSetExternalIdApi() {
+    public String getSetExternalIdApi() {
         return val(Props.V3_USERS_SELF_EXTERNALID);
     }
     public String getProfileApi() {
