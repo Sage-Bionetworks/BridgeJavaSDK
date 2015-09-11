@@ -224,20 +224,28 @@ public interface DeveloperClient {
     public void deleteUploadSchema(String schemaId, int revision);
 
     /**
-     * This method fetches an upload schema from the current study with the specified schema ID. If there is more than
-     * one revision of the schema, this fetches the latest revision. If the schema doesn't exist, this method throws an
-     * EntityNotFoundException.
+     * This method fetches all revisions of an upload schema from the current study with the specified schema ID. If 
+     * the schema doesn't exist, this method throws an EntityNotFoundException.
      *
      * @param schemaId
      *            ID of the schema to fetch, must be non-null and non-empty
      * @return the fetched schema, will be non-null
      */
-    public UploadSchema getUploadSchema(String schemaId);
+    public ResourceList<UploadSchema> getUploadSchema(String schemaId);
+    
+    /**
+     * This method fetches the most recent revision of an upload schema from the current study with the specified 
+     * schema ID (the version with the highest revision number). If the schema doesn't exist, this method throws an 
+     * EntityNotFoundException.
+     * @param schemaId
+     * @return
+     */
+    public UploadSchema getMostRecentUploadSchemaRevision(String schemaId);
 
     /**
-     * Fetches all revisions of all upload schemas in the current study.
+     * Fetches the most recent revision of all upload schemas in the current study.
      *
      * @return a list of upload schemas
      */
-    public ResourceList<UploadSchema> getAllUploadSchemasAllRevisions();
+    public ResourceList<UploadSchema> getAllUploadSchemas();
 }

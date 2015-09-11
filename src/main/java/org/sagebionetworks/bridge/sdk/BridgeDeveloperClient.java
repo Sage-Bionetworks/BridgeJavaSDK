@@ -202,6 +202,7 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
         delete(config.getUploadSchemaByIdAndRevisionApi(schemaId, revision));
     }
 
+    /*
     @Override
     public UploadSchema getUploadSchema(String schemaId) {
         session.checkSignedIn();
@@ -213,5 +214,26 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
     public ResourceList<UploadSchema> getAllUploadSchemasAllRevisions() {
         session.checkSignedIn();
         return get(config.getUploadSchemasApi(), TYPE_REF_UPLOAD_SCHEMA_LIST);
+    }
+    */
+
+    @Override
+    public ResourceList<UploadSchema> getUploadSchema(String schemaId) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(schemaId), Bridge.CANNOT_BE_BLANK, "schemaId");
+        return get("", TYPE_REF_UPLOAD_SCHEMA_LIST);
+    }
+    
+    @Override
+    public UploadSchema getMostRecentUploadSchemaRevision(String schemaId) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(schemaId), Bridge.CANNOT_BE_BLANK, "schemaId");
+        return get("", UploadSchema.class);
+    }
+
+    @Override
+    public ResourceList<UploadSchema> getAllUploadSchemas() {
+        session.checkSignedIn();
+        return get("", TYPE_REF_UPLOAD_SCHEMA_LIST);
     }
 }
