@@ -36,7 +36,7 @@ public class ClientProvider {
     public static Session signIn(SignInCredentials signIn) throws ConsentRequiredException {
         checkNotNull(signIn, "SignInCredentials required.");
 
-        UserSession session = new BaseApiCaller(null).post(config.getAuthSignInApi(), signIn, UserSession.class);
+        UserSession session = new BaseApiCaller(null).post(config.getSignInApi(), signIn, UserSession.class);
         return new BridgeSession(session);
     }
 
@@ -49,7 +49,7 @@ public class ClientProvider {
     public static void signUp(SignUpCredentials signUp) {
         checkNotNull(signUp, "SignUpCredentials required.");
 
-        new BaseApiCaller(null).post(config.getAuthSignUpApi(), signUp);
+        new BaseApiCaller(null).post(config.getSignUpApi(), signUp);
     }
     
     /**
@@ -61,7 +61,7 @@ public class ClientProvider {
     public static void resendEmailVerification(EmailCredentials email) {
         checkNotNull(email, "EmailCredentials required");
         
-        new BaseApiCaller(null).post(config.getAuthResendEmailVerificationApi(), email);
+        new BaseApiCaller(null).post(config.getResendEmailVerificationApi(), email);
     }
 
     /**
@@ -73,6 +73,6 @@ public class ClientProvider {
     public static void requestResetPassword(EmailCredentials email) {
         checkNotNull(email, "EmailCredentials required");
 
-        new BaseApiCaller(null).post(config.getAuthRequestResetApi(), email);
+        new BaseApiCaller(null).post(config.getRequestResetPasswordApi(), email);
     }
 }

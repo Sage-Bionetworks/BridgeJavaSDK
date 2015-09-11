@@ -82,13 +82,13 @@ public class UploadSchemaTest {
 
         // Step 4: Delete v3 and verify the getter returns v2.
         developerClient.deleteUploadSchema(schemaId, 3);
-        UploadSchema returnedAfterDelete = developerClient.getUploadSchema(schemaId);
+        UploadSchema returnedAfterDelete = developerClient.getMostRecentUploadSchemaRevision(schemaId);
         assertEquals(updatedSchemaV2, returnedAfterDelete);
 
         // Step 4a: Use list API to verify v1 and v2 are both still present
         boolean v1Found = false;
         boolean v2Found = false;
-        ResourceList<UploadSchema> schemaList = developerClient.getAllUploadSchemasAllRevisions();
+        ResourceList<UploadSchema> schemaList = developerClient.getUploadSchema(schemaId);
         for (UploadSchema oneSchema : schemaList) {
             if (oneSchema.getSchemaId().equals(schemaId)) {
                 int rev = oneSchema.getRevision();
@@ -120,7 +120,7 @@ public class UploadSchemaTest {
         assertNotNull(thrownEx);
 
         // Step 5b: Use list API to verify no schemas with this ID
-        ResourceList<UploadSchema> schemaList2 = developerClient.getAllUploadSchemasAllRevisions();
+        ResourceList<UploadSchema> schemaList2 = developerClient.getAllUploadSchemas();
         for (UploadSchema oneSchema : schemaList2) {
             if (oneSchema.getSchemaId().equals(schemaId)) {
                 fail("Found schema with ID " + schemaId + " even though it should have been deleted");
@@ -149,6 +149,6 @@ public class UploadSchemaTest {
 
     @Test(expected=UnauthorizedException.class)
     public void unauthorizedTest() {
-        user.getSession().getDeveloperClient().getAllUploadSchemasAllRevisions();
+        user.getSession().getDeveloperClient().getAllUploadSchemas();
     }
 }
