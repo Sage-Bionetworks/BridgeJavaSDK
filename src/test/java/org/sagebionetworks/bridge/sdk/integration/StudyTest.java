@@ -68,12 +68,12 @@ public class StudyTest {
         assertEquals(study.getTechnicalEmail(), newStudy.getTechnicalEmail());
         assertEquals(study.getConsentNotificationEmail(), newStudy.getConsentNotificationEmail());
         
-        Long oldVersion = study.getVersion();
-        alterStudy(study);
-        holder = client.updateStudy(study);
-        assertVersionHasUpdated(holder, study, oldVersion);
+        Long oldVersion = newStudy.getVersion();
+        alterStudy(newStudy);
+        holder = client.updateStudy(newStudy);
+        assertVersionHasUpdated(holder, newStudy, oldVersion);
         
-        Study newerStudy = client.getStudy(study.getIdentifier());
+        Study newerStudy = client.getStudy(newStudy.getIdentifier());
         assertEquals("Altered Test Study [SDK]", newerStudy.getName());
         assertEquals(50, newerStudy.getMaxNumOfParticipants());
         assertEquals("test3@test.com", newerStudy.getSupportEmail());
