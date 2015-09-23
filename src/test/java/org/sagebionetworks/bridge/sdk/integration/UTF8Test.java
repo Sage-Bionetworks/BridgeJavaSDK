@@ -25,19 +25,21 @@ public class UTF8Test {
         String studyName = "☃지구상의　３대　극지라　불리는";
         AdminClient adminClient = TestUserHelper.getSignedInAdmin().getSession().getAdminClient();
 
+        // make minimal study
+        Study study = new Study();
+        study.setIdentifier(studyId);
+        study.setName(studyName);
+        study.setSponsorName(studyName);
+        study.setTechnicalEmail("bridge-testing+technical@sagebase.org");
+        study.setSupportEmail("bridge-testing+support@sagebase.org");
+        study.setConsentNotificationEmail("bridge-testing+consent@sagebase.org");
+        study.setResetPasswordTemplate(Tests.TEST_RESET_PASSWORD_TEMPLATE);
+        study.setVerifyEmailTemplate(Tests.TEST_VERIFY_EMAIL_TEMPLATE);
+
+        // create study
+        adminClient.createStudy(study);
+
         try {
-            // make minimal study
-            Study study = new Study();
-            study.setIdentifier(studyId);
-            study.setName(studyName);
-            study.setSponsorName(studyName);
-            study.setTechnicalEmail("bridge-testing+technical@sagebase.org");
-            study.setSupportEmail("bridge-testing+support@sagebase.org");
-            study.setConsentNotificationEmail("bridge-testing+consent@sagebase.org");
-
-            // create study
-            adminClient.createStudy(study);
-
             // get study back and verify fields
             Study returnedStudy = adminClient.getStudy(studyId);
             assertEquals(studyId, returnedStudy.getIdentifier());
