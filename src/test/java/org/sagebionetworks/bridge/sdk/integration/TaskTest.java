@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -69,7 +70,7 @@ public class TaskTest {
     
     @Test
     public void createSchedulePlanGetTask() {
-        ResourceList<Task> tasks = userClient.getTasks(DateTime.now().plusDays(4));
+        ResourceList<Task> tasks = userClient.getTasks(4, DateTimeZone.getDefault());
         assertEquals("one task returned", 1, tasks.getTotal());
 
         Task task = tasks.get(0);
@@ -84,14 +85,14 @@ public class TaskTest {
 
         task.setStartedOn(DateTime.now());
         userClient.updateTasks(tasks.getItems());
-        tasks = userClient.getTasks(DateTime.now().plusDays(3));
+        tasks = userClient.getTasks(3, DateTimeZone.getDefault());
         assertEquals(1, tasks.getTotal());
         assertEquals(TaskStatus.STARTED, task.getStatus());
         
         task = tasks.get(0);
         task.setFinishedOn(DateTime.now());
         userClient.updateTasks(tasks.getItems());
-        tasks = userClient.getTasks(DateTime.now().plusDays(3));
+        tasks = userClient.getTasks(3, DateTimeZone.getDefault());
         assertEquals(0, tasks.getTotal()); // no tasks == finished
     }
     
