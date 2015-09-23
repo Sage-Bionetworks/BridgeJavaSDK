@@ -25,19 +25,24 @@ import org.sagebionetworks.bridge.sdk.models.studies.Study;
 
 public class StudyTest {
     
-    private static TestUser admin;
-    private static TestUser researcher;
+    private TestUser admin;
+    private boolean createdStudy;
+    private TestUser researcher;
     private Study study;
 
     @Before
     public void before() {
         admin = TestUserHelper.getSignedInAdmin();
         researcher = TestUserHelper.createAndSignInUser(StudyTest.class, false, Roles.RESEARCHER);
+
+        // it's unclear if junit cleans up vars between each test
+        createdStudy = false;
+        study = null;
     }
     
     @After
     public void after() {
-        if (study != null) {
+        if (createdStudy && study != null) {
             admin.getSession().getAdminClient().deleteStudy(study.getIdentifier());
         }
         researcher.signOutAndDeleteUser();
@@ -53,10 +58,11 @@ public class StudyTest {
         assertNull(study.getVersion());
         
         VersionHolder holder = client.createStudy(study);
+        createdStudy = true;
         assertVersionHasUpdated(holder, study, null);
 
         Study newStudy = client.getStudy(study.getIdentifier());
-        // Verify study has been set with default password/email templates
+        // Verify study has password/email templates
         assertNotNull(newStudy.getPasswordPolicy());
         assertNotNull(newStudy.getVerifyEmailTemplate());
         assertNotNull(newStudy.getResetPasswordTemplate());
@@ -95,6 +101,7 @@ public class StudyTest {
 
         AdminClient client = admin.getSession().getAdminClient();
         client.createStudy(study);
+        createdStudy = true;
 
         try {
             researcher.getSession().getAdminClient().getStudy(identifier);
@@ -162,8 +169,9 @@ public class StudyTest {
         study.setSupportEmail("test@test.com");
         study.setConsentNotificationEmail("test2@test.com");
         study.setTechnicalEmail("test3@test.com");
-        study.setTechnicalEmail("test3@test.com");
         study.getUserProfileAttributes().add("new_profile_attribute");
+        study.setResetPasswordTemplate(Tests.TEST_RESET_PASSWORD_TEMPLATE);
+        study.setVerifyEmailTemplate(Tests.TEST_VERIFY_EMAIL_TEMPLATE);
         if (version != null) {
             study.setVersion(version);
         }

@@ -68,17 +68,19 @@ public class AuthenticationTest {
         AdminClient client = ClientProvider.signIn(config.getAdminCredentials()).getAdminClient();
         String studyId = Tests.randomIdentifier(AuthenticationTest.class);
 
+        // Make a second study for this test:
+        Study study = new Study();
+        study.setIdentifier(studyId);
+        study.setName("Second Study");
+        study.setSponsorName("Second Study");
+        study.setSupportEmail("bridge-testing+support@sagebase.org");
+        study.setConsentNotificationEmail("bridge-testing+consent@sagebase.org");
+        study.setTechnicalEmail("bridge-testing+technical@sagebase.org");
+        study.setResetPasswordTemplate(Tests.TEST_RESET_PASSWORD_TEMPLATE);
+        study.setVerifyEmailTemplate(Tests.TEST_VERIFY_EMAIL_TEMPLATE);
+        client.createStudy(study);
+
         try {
-            // Make a second study for this test:
-            Study study = new Study();
-            study.setIdentifier(studyId);
-            study.setName("Second Study");
-            study.setSponsorName("Second Study");
-            study.setSupportEmail("bridge-testing+support@sagebase.org");
-            study.setConsentNotificationEmail("bridge-testing+consent@sagebase.org");
-            study.setTechnicalEmail("bridge-testing+technical@sagebase.org");
-            client.createStudy(study);
-            
             // Can we sign in to secondstudy? No.
             try {
                 config.set(Props.STUDY_IDENTIFIER, studyId);
@@ -87,8 +89,6 @@ public class AuthenticationTest {
             } catch(BridgeServerException e) {
                 assertEquals(404, e.getStatusCode());
             }
-        } catch(Exception e) {
-            fail("Threw an exception creating a study: " + e.getMessage());
         } finally {
             config.set(Props.STUDY_IDENTIFIER, "api");
             client.deleteStudy(studyId);
