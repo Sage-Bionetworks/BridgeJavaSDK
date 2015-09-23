@@ -1,7 +1,6 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -44,8 +43,6 @@ public class UTF8Test {
             Study returnedStudy = adminClient.getStudy(studyId);
             assertEquals(studyId, returnedStudy.getIdentifier());
             assertEquals(studyName, returnedStudy.getName());
-        } catch(Throwable t) {
-            fail(t.getMessage());
         } finally {
             // clean-up: delete study
             adminClient.deleteStudy(studyId);

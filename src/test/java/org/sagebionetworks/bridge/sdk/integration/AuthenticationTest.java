@@ -89,8 +89,6 @@ public class AuthenticationTest {
             } catch(BridgeServerException e) {
                 assertEquals(404, e.getStatusCode());
             }
-        } catch(Exception e) {
-            fail("Threw an exception creating a study: " + e.getMessage());
         } finally {
             config.set(Props.STUDY_IDENTIFIER, "api");
             client.deleteStudy(studyId);
