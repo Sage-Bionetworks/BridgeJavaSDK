@@ -6,6 +6,8 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -226,10 +228,14 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     @Override
     public ResourceList<Task> getTasks(int daysAhead, DateTimeZone timeZone) {
         session.checkSignedIn();
-        
-        String offsetString = DATETIME_FORMATTER.withZone(timeZone).print(0);
-        String queryString = "?daysAhead="+Integer.toString(daysAhead)+"&offset="+offsetString;
-        return get(config.getTasksApi() + queryString, tType);
+        try {
+            String offsetString = DATETIME_FORMATTER.withZone(timeZone).print(0);
+            String queryString = "?daysAhead=" + Integer.toString(daysAhead) + "&offset="
+                            + URLEncoder.encode(offsetString, "UTF-8");
+            return get(config.getTasksApi() + queryString, tType);
+        } catch(UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
