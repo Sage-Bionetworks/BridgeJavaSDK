@@ -178,7 +178,7 @@ public interface UserClient {
      * Get the list of available or scheduled tasks.
      * @param daysAhead
      *      return tasks from now until the number of days ahead from now (maximum of 4 days)
-     * @param timeZOne
+     * @param timeZone
      *      the timezone the tasks should use when returning scheduledOn and expiresOn dates
      * @return
      */
