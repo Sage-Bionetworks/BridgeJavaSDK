@@ -14,6 +14,9 @@ import org.apache.http.HttpEntity;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.ContentType;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.UploadRequest;
@@ -36,6 +39,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 class BridgeUserClient extends BaseApiCaller implements UserClient {
 
+    private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormat.forPattern("ZZ");
+    
     private final TypeReference<ResourceListImpl<Schedule>> sType = new TypeReference<ResourceListImpl<Schedule>>() {};
     
     private final TypeReference<ResourceListImpl<Task>> tType = new TypeReference<ResourceListImpl<Task>>() {};
@@ -219,10 +224,11 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     }
 
     @Override
-    public ResourceList<Task> getTasks(DateTime until) {
+    public ResourceList<Task> getTasks(int daysAhead, DateTimeZone timeZone) {
         session.checkSignedIn();
         
-        String queryString = (until == null) ? "" : "?until="+until.toString();
+        String offsetString = DATETIME_FORMATTER.withZone(timeZone).print(0);
+        String queryString = "?daysAhead="+Integer.toString(daysAhead)+"&offset="+offsetString;
         return get(config.getTasksApi() + queryString, tType);
     }
 

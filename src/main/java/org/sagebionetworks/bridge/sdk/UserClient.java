@@ -2,7 +2,7 @@ package org.sagebionetworks.bridge.sdk;
 
 import java.util.List;
 
-import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.UploadRequest;
 import org.sagebionetworks.bridge.sdk.models.UploadSession;
@@ -176,12 +176,13 @@ public interface UserClient {
     
     /**
      * Get the list of available or scheduled tasks.
-     * @param until
-     *      return tasks from now until the date and time of the until parameter (if null, 
-     *      the server's default will be used, currently 4 days).
+     * @param daysAhead
+     *      return tasks from now until the number of days ahead from now (maximum of 4 days)
+     * @param timeZone
+     *      the timezone the tasks should use when returning scheduledOn and expiresOn dates
      * @return
      */
-    public ResourceList<Task> getTasks(DateTime until);
+    public ResourceList<Task> getTasks(int daysAhead, DateTimeZone timeZone);
     
     /**
      * Update these tasks (by setting either the startedOn or finishedOn values of the task). 
