@@ -28,6 +28,14 @@ public final class SimpleGuidCreatedOnVersionHolder implements GuidCreatedOnVers
         this.createdOn = createdOn;
         this.version = version;
     }
+
+    /**
+     * Copy constructor. This is used to get an immutable simple version holder from a survey or an unknown concrete
+     * version holder type.
+     */
+    public SimpleGuidCreatedOnVersionHolder(GuidCreatedOnVersionHolder other) {
+        this(other.getGuid(), other.getCreatedOn(), other.getVersion());
+    }
     
     public String getGuid() {
         return guid;
@@ -64,9 +72,7 @@ public final class SimpleGuidCreatedOnVersionHolder implements GuidCreatedOnVers
 
     @Override
     public String toString() {
-        return String.format("SimpleGuidCreatedOnVersionHolder [guid=%s, createdOn=$s, version=%s]", 
+        return String.format("SimpleGuidCreatedOnVersionHolder [guid=%s, createdOn=%s, version=%s]",
                 guid, createdOn, version);
     }
-
-
 }
