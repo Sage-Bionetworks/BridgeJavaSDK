@@ -15,8 +15,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.sagebionetworks.bridge.IntegrationSmokeTest;
+import org.sagebionetworks.bridge.sdk.AdminClient;
 import org.sagebionetworks.bridge.sdk.DeveloperClient;
 import org.sagebionetworks.bridge.sdk.Roles;
+import org.sagebionetworks.bridge.sdk.Session;
 import org.sagebionetworks.bridge.sdk.TestSurvey;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
@@ -58,14 +60,27 @@ public class SurveyResponseTest {
     }
 
     @AfterClass
-    public static void afterClass() {
-        try {
-            user.signOutAndDeleteUser();
-        } finally {
+    public static void deleteDeveloper() {
+        if (developer != null) {
             developer.signOutAndDeleteUser();
         }
     }
-    
+
+    @AfterClass
+    public static void deleteUser() {
+        if (user != null) {
+            user.signOutAndDeleteUser();
+        }
+    }
+
+    @AfterClass
+    public static void deleteSurvey() {
+        // cleanup test survey
+        Session session = TestUserHelper.getSignedInAdmin().getSession();
+        AdminClient adminClient = session.getAdminClient();
+        adminClient.deleteSurveyPermanently(keys);
+    }
+
     /**
      * You don't need answers to create a survey response. You get the identifier for future answers
      * to submit. 
