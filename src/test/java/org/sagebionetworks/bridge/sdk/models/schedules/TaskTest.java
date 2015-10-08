@@ -25,10 +25,10 @@ public class TaskTest {
             DateTime.parse("2014-06-01T10:00:00.000-07:00").withZone(UTC), 
             DateTime.parse("2014-06-14T10:00:00.000-07:00").withZone(UTC), 
             DateTime.parse("2014-06-08T17:32:12.970-07:00").withZone(UTC),
-            null, true);
+            null, 2, 8, true);
         
         String json = Utilities.getMapper().writeValueAsString(task);
-        assertEquals("{\"guid\":\"AAA-BBB-CCC\",\"activity\":{\"label\":\"Activity Label 1\",\"task\":{\"identifier\":\"task1\"},\"activityType\":\"task\"},\"scheduledOn\":\"2014-06-01T17:00:00.000Z\",\"expiresOn\":\"2014-06-14T17:00:00.000Z\",\"startedOn\":\"2014-06-09T00:32:12.970Z\",\"persistent\":true,\"status\":\"started\"}", json);
+        assertEquals("{\"guid\":\"AAA-BBB-CCC\",\"activity\":{\"label\":\"Activity Label 1\",\"task\":{\"identifier\":\"task1\"},\"activityType\":\"task\"},\"scheduledOn\":\"2014-06-01T17:00:00.000Z\",\"expiresOn\":\"2014-06-14T17:00:00.000Z\",\"startedOn\":\"2014-06-09T00:32:12.970Z\",\"minAppVersion\":2,\"maxAppVersion\":8,\"persistent\":true,\"status\":\"started\"}", json);
         
         Task newTask = Utilities.getMapper().readValue(json, Task.class);
         assertEquals(task.getGuid(), newTask.getGuid());
@@ -37,6 +37,8 @@ public class TaskTest {
         assertEquals(task.getExpiresOn(), newTask.getExpiresOn());
         assertEquals(task.getStartedOn(), newTask.getStartedOn());
         assertEquals(task.getPersistent(), newTask.getPersistent());
+        assertEquals(2, task.getMinAppVersion().intValue());
+        assertEquals(8, task.getMaxAppVersion().intValue());
         assertNull(newTask.getFinishedOn());
     }
 }

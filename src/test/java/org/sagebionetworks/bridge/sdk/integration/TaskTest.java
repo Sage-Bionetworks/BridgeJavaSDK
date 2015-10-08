@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.sagebionetworks.bridge.IntegrationSmokeTest;
+import org.sagebionetworks.bridge.sdk.ClientProvider;
 import org.sagebionetworks.bridge.sdk.DeveloperClient;
 import org.sagebionetworks.bridge.sdk.Roles;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
@@ -52,6 +53,8 @@ public class TaskTest {
         SchedulePlan plan = new SchedulePlan();
         plan.setLabel("Schedule plan 1");
         plan.setSchedule(schedule);
+        plan.setMinAppVersion(2);
+        plan.setMaxAppVersion(4);
         developerClient.createSchedulePlan(plan);
     }
 
@@ -70,9 +73,25 @@ public class TaskTest {
     
     @Test
     public void createSchedulePlanGetTask() {
+        // At first, we are an application way outside the bounds of the target, nothing should be returned
+        ClientProvider.getClientInfo().withAppVersion(10);
         ResourceList<Task> tasks = userClient.getTasks(4, DateTimeZone.getDefault());
+        assertEquals("no tasks returned, app version too high", 0, tasks.getTotal());
+        
+        // Two however... that's fine
+        ClientProvider.getClientInfo().withAppVersion(2);
+        tasks = userClient.getTasks(4, DateTimeZone.getDefault());
         assertEquals("one task returned", 1, tasks.getTotal());
-
+        
+        // Check again... with a higher app version, the task won't be returned
+        ClientProvider.getClientInfo().withAppVersion(10);
+        tasks = userClient.getTasks(4, DateTimeZone.getDefault());
+        assertEquals("no tasks returned, app version too high", 0, tasks.getTotal());
+        
+        // Get that task again for the rest of the test
+        ClientProvider.getClientInfo().withAppVersion(2);
+        tasks = userClient.getTasks(4, DateTimeZone.getDefault());
+        
         Task task = tasks.get(0);
         assertEquals(TaskStatus.SCHEDULED, task.getStatus());
         assertNotNull(task.getScheduledOn());
@@ -94,6 +113,8 @@ public class TaskTest {
         userClient.updateTasks(tasks.getItems());
         tasks = userClient.getTasks(3, DateTimeZone.getDefault());
         assertEquals(0, tasks.getTotal()); // no tasks == finished
+        
+        ClientProvider.getClientInfo().withAppVersion(null);
     }
     
 }

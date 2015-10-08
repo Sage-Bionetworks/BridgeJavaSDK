@@ -57,6 +57,8 @@ public class Tests {
     
     public static SchedulePlan getABTestSchedulePlan() {
         SchedulePlan plan = new SchedulePlan();
+        plan.setMinAppVersion(2);
+        plan.setMaxAppVersion(8);
         plan.setLabel("A/B Test Schedule Plan");
         Schedule schedule1 = new Schedule();
         schedule1.setCronTrigger("0 0 11 ? * MON,WED,FRI *");

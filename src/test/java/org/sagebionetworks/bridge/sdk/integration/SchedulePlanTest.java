@@ -2,6 +2,7 @@ package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -82,14 +83,21 @@ public class SchedulePlanTest {
         SchedulePlan plan = Tests.getABTestSchedulePlan();
 
         // Create
-        
         assertNull(plan.getVersion());
         keys = developerClient.createSchedulePlan(plan);
         assertEquals(keys.getGuid(), plan.getGuid());
         assertEquals(keys.getVersion(), plan.getVersion());
 
-        // Update
         plan = developerClient.getSchedulePlan(keys.getGuid());
+        // Verify some fields are correct
+        assertNotNull(plan.getGuid());
+        assertNotNull(plan.getModifiedOn());
+        assertNotNull(plan.getVersion());
+        assertEquals("A/B Test Schedule Plan", plan.getLabel());
+        assertEquals(2, plan.getMinAppVersion().intValue());
+        assertEquals(8, plan.getMaxAppVersion().intValue());
+        
+        // Update
         SchedulePlan simplePlan = Tests.getSimpleSchedulePlan();
         plan.setStrategy(simplePlan.getStrategy());
 
