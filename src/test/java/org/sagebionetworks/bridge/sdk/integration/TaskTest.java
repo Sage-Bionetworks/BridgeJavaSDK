@@ -83,7 +83,9 @@ public class TaskTest {
         tasks = userClient.getTasks(4, DateTimeZone.getDefault());
         assertEquals("one task returned", 1, tasks.getTotal());
         
-        // Check again... with a higher app version, the task won't be returned
+        // Check again... with a higher app version, the task won't be returned.
+        // This verifies that even after a task is created, we will still filter it
+        // when retrieved from the server (not just when creating tasks).
         ClientProvider.getClientInfo().withAppVersion(10);
         tasks = userClient.getTasks(4, DateTimeZone.getDefault());
         assertEquals("no tasks returned, app version too high", 0, tasks.getTotal());
