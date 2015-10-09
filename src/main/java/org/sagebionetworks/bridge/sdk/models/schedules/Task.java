@@ -14,11 +14,14 @@ public final class Task {
     private final DateTime expiresOn;
     private DateTime startedOn;
     private DateTime finishedOn;
+    private final Integer minAppVersion;
+    private final Integer maxAppVersion;
     private boolean persistent;
 
     Task(@JsonProperty("guid") String guid, @JsonProperty("activity") Activity activity,
         @JsonProperty("scheduledOn") DateTime scheduledOn, @JsonProperty("expiresOn") DateTime expiresOn,
         @JsonProperty("startedOn") DateTime startedOn, @JsonProperty("finishedOn") DateTime finishedOn, 
+        @JsonProperty("minAppVersion") Integer minAppVersion, @JsonProperty("maxAppVersion") Integer maxAppVersion, 
         @JsonProperty("persistent") boolean persistent) {
         this.guid = guid;
         this.activity = activity;
@@ -27,6 +30,8 @@ public final class Task {
         this.startedOn = startedOn;
         this.finishedOn = finishedOn;
         this.persistent = persistent;
+        this.minAppVersion = minAppVersion;
+        this.maxAppVersion = maxAppVersion;
     }
     
     public TaskStatus getStatus() {
@@ -68,6 +73,12 @@ public final class Task {
     public void setFinishedOn(DateTime finishedOn) {
         this.finishedOn = finishedOn;
     }
+    public Integer getMinAppVersion() {
+        return minAppVersion;
+    }
+    public Integer getMaxAppVersion() {
+        return maxAppVersion;
+    }
     public boolean getPersistent() {
         return persistent;
     }
@@ -82,6 +93,8 @@ public final class Task {
         result = prime * result + Objects.hashCode(guid);
         result = prime * result + Objects.hashCode(scheduledOn);
         result = prime * result + Objects.hashCode(startedOn);
+        result = prime * result + Objects.hashCode(minAppVersion);
+        result = prime * result + Objects.hashCode(maxAppVersion);
         result = prime * result + Objects.hashCode(persistent);
         return result;
     }
@@ -96,7 +109,8 @@ public final class Task {
         return (Objects.equals(activity, other.activity) && Objects.equals(expiresOn, other.expiresOn) && 
                 Objects.equals(finishedOn, other.finishedOn) && Objects.equals(guid, other.guid) && 
                 Objects.equals(scheduledOn, other.scheduledOn) && Objects.equals(startedOn, other.startedOn) && 
-                Objects.equals(persistent, other.persistent));
+                Objects.equals(persistent, other.persistent) && Objects.equals(minAppVersion, other.minAppVersion) && 
+                Objects.equals(maxAppVersion, other.maxAppVersion));
     }
 
     @Override

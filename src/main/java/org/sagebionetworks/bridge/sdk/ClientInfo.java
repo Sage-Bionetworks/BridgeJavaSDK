@@ -10,7 +10,7 @@ import com.google.common.collect.Lists;
 public final class ClientInfo {
     
     private String appName = "";
-    private String appVersion = "";
+    private Integer appVersion;
     private String device = "";
     private String osName = "";
     private String osVersion = "";
@@ -34,13 +34,12 @@ public final class ClientInfo {
         return this;
     }
     /**
-     * The application version of the application using this SDK. No versioning format 
-     * is enforced by the SDK.
+     * The application version of the application using this SDK. This must be a number.
      * @param appVersion
      * @return
      */
-    public synchronized ClientInfo withAppVersion(String appVersion) {
-        this.appVersion = emptyStringIfNull(appVersion);
+    public synchronized ClientInfo withAppVersion(Integer appVersion) {
+        this.appVersion = appVersion;
         return this;
     }
     /**
@@ -86,19 +85,19 @@ public final class ClientInfo {
     @Override
     public synchronized String toString() {
         List<String> stanzas = Lists.newArrayListWithCapacity(3);
-        if (isNotBlank(appName) && isNotBlank(appVersion)) {
+        if (isNotBlank(appName) && appVersion != null) {
             stanzas.add(String.format("%s/%s", appName, appVersion));
         } else if (isNotBlank(appName)) {
             stanzas.add(appName);
-        } else if (isNotBlank(appVersion)) {
-            stanzas.add(appVersion);
+        } else if (appVersion != null) {
+            stanzas.add(Integer.toString(appVersion));
         }
         if (isNotBlank(device) && isNotBlank(osName)) {
-            stanzas.add(String.format("(%s; %s/%s)", device, osName, osVersion));
+            stanzas.add(String.format("(%s; %s %s)", device, osName, osVersion));
         } else if (isNotBlank(device)) {
             stanzas.add(String.format("(%s)", device));
         } else if (isNotBlank(osName)){
-            stanzas.add(String.format("(%s/%s)", osName, osVersion));
+            stanzas.add(String.format("(%s; %s)", osName, osVersion));
         }
         if (isNotBlank(sdkVersion)) {
             stanzas.add(String.format("BridgeJavaSDK/%s", sdkVersion));    
