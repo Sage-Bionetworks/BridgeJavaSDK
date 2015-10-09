@@ -93,7 +93,7 @@ public final class ClientInfo {
             stanzas.add(Integer.toString(appVersion));
         }
         if (isNotBlank(device) && isNotBlank(osName)) {
-            stanzas.add(String.format("(%s; %s; %s)", device, osName, osVersion));
+            stanzas.add(String.format("(%s; %s %s)", device, osName, osVersion));
         } else if (isNotBlank(device)) {
             stanzas.add(String.format("(%s)", device));
         } else if (isNotBlank(osName)){
