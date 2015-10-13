@@ -17,6 +17,7 @@ public final class Activity {
     
     private final String label;
     private final String labelDetail;
+    private final String guid;
     private final TaskReference task;
     private final SurveyReference survey;
     private final SurveyResponseReference response;
@@ -24,13 +25,15 @@ public final class Activity {
     
     @JsonCreator
     private Activity(@JsonProperty("label") String label, @JsonProperty("labelDetail") String labelDetail, 
-        @JsonProperty("task") TaskReference task, @JsonProperty("survey") SurveyReference survey, 
+        @JsonProperty("guid") String guid, @JsonProperty("task") TaskReference task, 
+        @JsonProperty("survey") SurveyReference survey, 
         @JsonProperty("surveyResponse") SurveyResponseReference response) {
         checkArgument(isNotBlank(label));
         checkArgument(task != null || survey != null);
         
         this.label = label;
         this.labelDetail = labelDetail;
+        this.guid = guid;
         this.survey = survey;
         this.task = task;
         this.response = response;
@@ -38,11 +41,11 @@ public final class Activity {
     }
     
     public Activity(String label, String labelDetail, TaskReference task) {
-        this(label, labelDetail, task, null, null);
+        this(label, labelDetail, null, task, null, null);
     }
     
     public Activity(String label, String labelDetail, SurveyReference survey) {
-        this(label, labelDetail, null, survey, null);
+        this(label, labelDetail, null, null, survey, null);
     }
     
     /**
@@ -56,6 +59,13 @@ public final class Activity {
      */
     public String getLabelDetail() {
         return labelDetail;
+    }
+    /**
+     * The GUID for this activity.
+     * @return
+     */
+    public String getGuid() {
+        return guid;
     }
     /**
      * The type of this activity.
@@ -85,8 +95,12 @@ public final class Activity {
         return response;
     }
     public boolean isPersistentlyRescheduledBy(Schedule schedule) {
-        return schedule.schedulesImmediatelyAfterEvent() && 
-               schedule.getEventId().contains(getSelfFinishedEventId());
+        return schedule.schedulesImmediatelyAfterEvent() && getActivityFinishedEventId(schedule);
+    }
+    private boolean getActivityFinishedEventId(Schedule schedule) {
+        String activityFinishedEventId = "activity:"+getGuid()+":finished";
+        return schedule.getEventId().contains(getSelfFinishedEventId()) ||
+               schedule.getEventId().contains(activityFinishedEventId);
     }
     private String getSelfFinishedEventId() {
         return (getActivityType() == ActivityType.SURVEY) ?
@@ -101,6 +115,7 @@ public final class Activity {
         result = prime * result + Objects.hashCode(activityType);
         result = prime * result + Objects.hashCode(label);
         result = prime * result + Objects.hashCode(labelDetail);
+        result = prime * result + Objects.hashCode(guid);
         result = prime * result + Objects.hashCode(response);
         result = prime * result + Objects.hashCode(survey);
         result = prime * result + Objects.hashCode(task);
@@ -117,13 +132,13 @@ public final class Activity {
         return (Objects.equals(activityType, other.activityType) && 
             Objects.equals(label, other.label) && Objects.equals(labelDetail, other.labelDetail) &&
             Objects.equals(response, other.response) && Objects.equals(survey, other.survey) &&
-            Objects.equals(task, other.task));
+            Objects.equals(guid, other.guid) && Objects.equals(task, other.task));
                         
     }
 
     @Override
     public String toString() {
-        return String.format("Activity [label=%s, labelDetail=%s, task=%s, survey=%s, response=%s, activityType=%s]",
-            label, labelDetail, task, survey, response, activityType);
+        return String.format("Activity [label=%s, labelDetail=%s, guid=%s,task=%s, survey=%s, response=%s, activityType=%s]",
+            label, labelDetail, guid, task, survey, response, activityType);
     }
 }
