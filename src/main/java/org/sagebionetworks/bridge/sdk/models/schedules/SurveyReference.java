@@ -16,32 +16,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public final class SurveyReference {
     
-    private final String identifier;
     private final String guid;
     private final DateTime createdOn;
     private final String href;
     
     @JsonCreator
-    private SurveyReference(@JsonProperty("identifier") String identifier, @JsonProperty("guid") String guid,
-                    @JsonProperty("createdOn") DateTime createdOn, @JsonProperty("href") String href) {
-        checkArgument(isNotBlank(identifier));
+    private SurveyReference(@JsonProperty("guid") String guid, @JsonProperty("createdOn") DateTime createdOn,
+            @JsonProperty("href") String href) {
         checkArgument(isNotBlank(guid));
-        this.identifier = identifier;
         this.guid = guid;
         this.createdOn = (createdOn == null) ? null : createdOn;
         this.href = href;
     }
     
-    public SurveyReference(String identifier, String guid) {
-        this(identifier, guid, null, null);
+    public SurveyReference(String guid) {
+        this(guid, null, null);
     }
 
-    public SurveyReference(String identifier, String guid, DateTime createdOn) {
-        this(identifier, guid, createdOn, null);
-    }
-    
-    public String getIdentifier() {
-        return identifier;
+    public SurveyReference(String guid, DateTime createdOn) {
+        this(guid, createdOn, null);
     }
     public String getGuid() {
         return guid;
@@ -60,7 +53,6 @@ public final class SurveyReference {
         int result = 1;
         result = prime * result + Objects.hashCode(createdOn);
         result = prime * result + Objects.hashCode(guid);
-        result = prime * result + Objects.hashCode(identifier);
         return result;
     }
 
@@ -71,13 +63,12 @@ public final class SurveyReference {
         if (obj == null || getClass() != obj.getClass())
             return false;
         SurveyReference other = (SurveyReference) obj;
-        return (Objects.equals(createdOn, other.createdOn) && Objects.equals(guid, other.guid) &&
-            Objects.equals(identifier, other.identifier));
+        return (Objects.equals(createdOn, other.createdOn) && Objects.equals(guid, other.guid));
     }
 
     @Override
     public String toString() {
-        return String.format("SurveyReference [identifier=%s, guid=%s, createdOn=%s, href=%s]",
-            identifier, guid, createdOn, getHref());
+        return String.format("SurveyReference [guid=%s, createdOn=%s, href=%s]",
+            guid, createdOn, getHref());
     }    
 }

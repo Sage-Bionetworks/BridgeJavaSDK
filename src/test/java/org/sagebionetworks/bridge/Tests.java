@@ -6,17 +6,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.sagebionetworks.bridge.sdk.models.schedules.ABTestScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.Activity;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.schedules.SimpleScheduleStrategy;
-import org.sagebionetworks.bridge.sdk.models.schedules.SurveyReference;
 import org.sagebionetworks.bridge.sdk.models.schedules.TaskReference;
 import org.sagebionetworks.bridge.sdk.models.studies.EmailTemplate;
 
@@ -49,12 +48,6 @@ public class Tests {
         schedule.addActivity(new Activity("Task activity", null, new TaskReference(taskIdentifier)));
     }
     
-    private static void setSurveyActivity(Schedule schedule, String identifier, String guid, DateTime createdOn) {
-        checkNotNull(identifier);
-        checkNotNull(guid);
-        schedule.addActivity(new Activity("Survey activity", null, new SurveyReference(identifier, guid, createdOn)));
-    }
-    
     public static SchedulePlan getABTestSchedulePlan() {
         SchedulePlan plan = new SchedulePlan();
         plan.setMinAppVersion(2);
@@ -74,7 +67,9 @@ public class Tests {
 
         Schedule schedule3 = new Schedule();
         schedule3.setCronTrigger("0 0 11 ? * MON,WED,FRI *");
-        setSurveyActivity(schedule3, "identifier", "GUID-AAA", DateTime.parse("2015-01-27T17:46:31.237Z"));
+        setTaskActivity(schedule3, "task:CCC");
+        // This doesn't exist and now it matters, because we look for a survey to update the identifier
+        // setSurveyActivity(schedule3, "identifier", "GUID-AAA", DateTime.parse("2015-01-27T17:46:31.237Z"));
         schedule3.setExpires(Period.parse("PT1H"));
         schedule3.setLabel("Test label for the user");
 
@@ -115,4 +110,11 @@ public class Tests {
         return ((SimpleScheduleStrategy)plan.getStrategy()).getSchedule();
     }
     
+    public static List<Activity> getActivitiesFromSimpleStrategy(SchedulePlan plan) {
+        return ((SimpleScheduleStrategy)plan.getStrategy()).getSchedule().getActivities();    
+    }
+    
+    public static Activity getActivityFromSimpleStrategy(SchedulePlan plan) {
+        return ((SimpleScheduleStrategy)plan.getStrategy()).getSchedule().getActivities().get(0);    
+    }
 }

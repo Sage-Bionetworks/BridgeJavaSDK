@@ -21,7 +21,7 @@ public class ScheduleTest {
     
     @Test
     public void canSerializeDeserializeSchedule() throws Exception {
-        Activity activity = new Activity("label", "labelDetail", new SurveyReference("identifier", "AAA"));
+        Activity activity = new Activity("label", "labelDetail", new SurveyReference("AAA"));
         
         Schedule schedule = new Schedule();
         schedule.getActivities().add(activity);
@@ -53,7 +53,6 @@ public class ScheduleTest {
         activity = schedule.getActivities().get(0);
         assertNull(activity.getGuid()); // Created on server
         assertEquals("label", activity.getLabel());
-        assertEquals("identifier", activity.getSurvey().getIdentifier());
         assertEquals("AAA", activity.getSurvey().getGuid());
     }
     
