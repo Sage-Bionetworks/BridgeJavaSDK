@@ -22,18 +22,16 @@ public class SurveyReferenceTest {
     
     @Test
     public void correctlyParsesSurveyURL() {
-        SurveyReference ref = new SurveyReference("identifier", "AAA-BBB-CCC", CREATED_ON);
+        SurveyReference ref = new SurveyReference("AAA-BBB-CCC", CREATED_ON);
         
-        assertEquals("identifier", ref.getIdentifier());
         assertEquals("AAA-BBB-CCC", ref.getGuid());
         assertEquals(CREATED_ON, ref.getCreatedOn());
     }
     
     @Test
     public void correctlyParsesPublishedSurveyURL() {
-        SurveyReference ref = new SurveyReference("identifier", "AAA-BBB-CCC");
+        SurveyReference ref = new SurveyReference("AAA-BBB-CCC");
         
-        assertEquals("identifier", ref.getIdentifier());
         assertEquals("AAA-BBB-CCC", ref.getGuid());
         assertNull(ref.getCreatedOn());
     }

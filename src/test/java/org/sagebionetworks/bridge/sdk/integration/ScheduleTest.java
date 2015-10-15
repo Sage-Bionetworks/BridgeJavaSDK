@@ -43,14 +43,19 @@ public class ScheduleTest {
     @Test
     public void schedulePlanIsCorrect() throws Exception {
         DeveloperClient client = developer.getSession().getDeveloperClient();
-        planGuid = client.createSchedulePlan(Tests.getABTestSchedulePlan()).getGuid();
+        planGuid = client.createSchedulePlan(Tests.getSimpleSchedulePlan()).getGuid();
         
-        SchedulePlan originalPlan = Tests.getABTestSchedulePlan();
+        SchedulePlan originalPlan = Tests.getSimpleSchedulePlan();
         SchedulePlan plan = developer.getSession().getDeveloperClient().getSchedulePlan(planGuid);
         // Fields that are set on the server.
         originalPlan.setGuid(plan.getGuid());
         originalPlan.setModifiedOn(plan.getModifiedOn());
         originalPlan.setVersion(plan.getVersion());
+
+        originalPlan.setGuid(plan.getGuid());
+        originalPlan.setModifiedOn(plan.getModifiedOn());
+        Tests.getActivitiesFromSimpleStrategy(originalPlan).set(0, Tests.getActivityFromSimpleStrategy(plan));
+        
         assertEquals(originalPlan, plan);
     }
 

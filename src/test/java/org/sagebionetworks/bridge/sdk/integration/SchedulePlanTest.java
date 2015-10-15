@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.DeveloperClient;
 import org.sagebionetworks.bridge.sdk.Roles;
+import org.sagebionetworks.bridge.sdk.TestSurvey;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
@@ -20,6 +21,7 @@ import org.sagebionetworks.bridge.sdk.exceptions.EntityNotFoundException;
 import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 import org.sagebionetworks.bridge.sdk.exceptions.UnauthorizedException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
+import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Activity;
 import org.sagebionetworks.bridge.sdk.models.schedules.ActivityType;
@@ -27,6 +29,7 @@ import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.schedules.SimpleScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.SurveyReference;
+import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 
 public class SchedulePlanTest {
 
@@ -57,6 +60,8 @@ public class SchedulePlanTest {
                 developerClient.deleteSchedulePlan(plan.getGuid());
             }
             assertEquals("Test should have deleted all schedule plans.", developerClient.getSchedulePlans().getTotal(), 0);
+        } catch(Throwable t){
+            t.printStackTrace();
         } finally {
             developer.signOutAndDeleteUser();
             user.signOutAndDeleteUser();
@@ -150,24 +155,32 @@ public class SchedulePlanTest {
     
     @Test
     public void planCanPointToPublishedSurvey() {
-        // Can we point to the most recently published survey, rather than a specific version?
-        SchedulePlan plan = Tests.getSimpleSchedulePlan();
-        SimpleScheduleStrategy strategy = (SimpleScheduleStrategy)plan.getStrategy();
-        
-        Activity activity = new Activity("Test", null, new SurveyReference("identifier", "AAA"));
-        assertEquals(ActivityType.SURVEY, activity.getActivityType());
+        GuidCreatedOnVersionHolder surveyKeys = null;
+        try {
+            Survey survey = TestSurvey.getSurvey();
+            surveyKeys = developerClient.createSurvey(survey);
+            
+            // Can we point to the most recently published survey, rather than a specific version?
+            SchedulePlan plan = Tests.getSimpleSchedulePlan();
+            SimpleScheduleStrategy strategy = (SimpleScheduleStrategy)plan.getStrategy();
+            
+            Activity activity = new Activity("Test", null, new SurveyReference(surveyKeys.getGuid(), surveyKeys.getCreatedOn()));
+            assertEquals(ActivityType.SURVEY, activity.getActivityType());
 
-        strategy.getSchedule().getActivities().clear();
-        strategy.getSchedule().getActivities().add(activity);
-        
-        GuidVersionHolder keys = developerClient.createSchedulePlan(plan);
-        SchedulePlan newPlan = developerClient.getSchedulePlan(keys.getGuid());
-        
-        // values that are not updated passed over for simple equality comparison
-        plan.setGuid(keys.getGuid());
-        plan.setVersion(keys.getVersion());
-        plan.setModifiedOn(newPlan.getModifiedOn());
-        
-        assertEquals(plan, newPlan);
+            strategy.getSchedule().getActivities().clear();
+            strategy.getSchedule().getActivities().add(activity);
+            
+            GuidVersionHolder keys = developerClient.createSchedulePlan(plan);
+            SchedulePlan newPlan = developerClient.getSchedulePlan(keys.getGuid());
+            
+            // values that are not updated passed over for simple equality comparison
+            plan.setGuid(newPlan.getGuid());
+            plan.setModifiedOn(newPlan.getModifiedOn());
+            Tests.getActivitiesFromSimpleStrategy(plan).set(0, Tests.getActivityFromSimpleStrategy(newPlan));
+            
+            assertEquals(plan, newPlan);
+        } finally {
+            developerClient.deleteSurvey(surveyKeys);
+        }
     }
 }
