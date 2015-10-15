@@ -6,7 +6,7 @@ import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public final class Task {
+public final class ScheduledActivity {
 
     private final String guid;
     private final Activity activity;
@@ -18,7 +18,7 @@ public final class Task {
     private final Integer maxAppVersion;
     private boolean persistent;
 
-    Task(@JsonProperty("guid") String guid, @JsonProperty("activity") Activity activity,
+    ScheduledActivity(@JsonProperty("guid") String guid, @JsonProperty("activity") Activity activity,
         @JsonProperty("scheduledOn") DateTime scheduledOn, @JsonProperty("expiresOn") DateTime expiresOn,
         @JsonProperty("startedOn") DateTime startedOn, @JsonProperty("finishedOn") DateTime finishedOn, 
         @JsonProperty("minAppVersion") Integer minAppVersion, @JsonProperty("maxAppVersion") Integer maxAppVersion, 
@@ -34,19 +34,19 @@ public final class Task {
         this.maxAppVersion = maxAppVersion;
     }
     
-    public TaskStatus getStatus() {
+    public ScheduledActivityStatus getStatus() {
         if (finishedOn != null && startedOn == null) {
-            return TaskStatus.DELETED;
+            return ScheduledActivityStatus.DELETED;
         } else if (finishedOn != null && startedOn != null) {
-            return TaskStatus.FINISHED;
+            return ScheduledActivityStatus.FINISHED;
         } else if (startedOn != null) {
-            return TaskStatus.STARTED;
+            return ScheduledActivityStatus.STARTED;
         } else if (expiresOn != null && DateTime.now().isAfter(expiresOn)) {
-            return TaskStatus.EXPIRED;
+            return ScheduledActivityStatus.EXPIRED;
         } else if (scheduledOn != null && DateTime.now().isBefore(scheduledOn)) {
-            return TaskStatus.SCHEDULED;
+            return ScheduledActivityStatus.SCHEDULED;
         }
-        return TaskStatus.AVAILABLE;
+        return ScheduledActivityStatus.AVAILABLE;
     }
 
     public String getGuid() {
@@ -105,7 +105,7 @@ public final class Task {
             return true;
         if (obj == null || getClass() != obj.getClass())
             return false;
-        Task other = (Task) obj;
+        ScheduledActivity other = (ScheduledActivity) obj;
         return (Objects.equals(activity, other.activity) && Objects.equals(expiresOn, other.expiresOn) && 
                 Objects.equals(finishedOn, other.finishedOn) && Objects.equals(guid, other.guid) && 
                 Objects.equals(scheduledOn, other.scheduledOn) && Objects.equals(startedOn, other.startedOn) && 
@@ -115,7 +115,7 @@ public final class Task {
 
     @Override
     public String toString() {
-        return String.format("Task [guid=%s, activity=%s, scheduledOn=%s, expiresOn=%s, startedOn=%s, finishedOn=%s, persistent=%s]", 
+        return String.format("ScheduledActivity [guid=%s, activity=%s, scheduledOn=%s, expiresOn=%s, startedOn=%s, finishedOn=%s, persistent=%s]", 
             guid, activity, scheduledOn, expiresOn, startedOn, finishedOn, persistent);
     }
     

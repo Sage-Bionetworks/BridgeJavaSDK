@@ -27,7 +27,7 @@ import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleIdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
-import org.sagebionetworks.bridge.sdk.models.schedules.Task;
+import org.sagebionetworks.bridge.sdk.models.schedules.ScheduledActivity;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
@@ -45,7 +45,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     
     private final TypeReference<ResourceListImpl<Schedule>> sType = new TypeReference<ResourceListImpl<Schedule>>() {};
     
-    private final TypeReference<ResourceListImpl<Task>> tType = new TypeReference<ResourceListImpl<Task>>() {};
+    private final TypeReference<ResourceListImpl<ScheduledActivity>> saType = new TypeReference<ResourceListImpl<ScheduledActivity>>() {};
 
     BridgeUserClient(BridgeSession session) {
         super(session);
@@ -226,22 +226,22 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     }
 
     @Override
-    public ResourceList<Task> getTasks(int daysAhead, DateTimeZone timeZone) {
+    public ResourceList<ScheduledActivity> getScheduledActivities(int daysAhead, DateTimeZone timeZone) {
         session.checkSignedIn();
         try {
             String offsetString = DATETIME_FORMATTER.withZone(timeZone).print(0);
             String queryString = "?daysAhead=" + Integer.toString(daysAhead) + "&offset="
                             + URLEncoder.encode(offsetString, "UTF-8");
-            return get(config.getTasksApi() + queryString, tType);
+            return get(config.getScheduledActivitiesApi() + queryString, saType);
         } catch(UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void updateTasks(List<Task> tasks) {
-        checkNotNull(tasks);
+    public void updateScheduledActivities(List<ScheduledActivity> scheduledActivities) {
+        checkNotNull(scheduledActivities);
         session.checkSignedIn();
-        post(config.getTasksApi(), tasks);
+        post(config.getScheduledActivitiesApi(), scheduledActivities);
     }
 }
