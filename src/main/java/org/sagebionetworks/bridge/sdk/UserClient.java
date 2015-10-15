@@ -9,7 +9,7 @@ import org.sagebionetworks.bridge.sdk.models.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
-import org.sagebionetworks.bridge.sdk.models.schedules.Task;
+import org.sagebionetworks.bridge.sdk.models.schedules.ScheduledActivity;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
@@ -175,19 +175,19 @@ public interface UserClient {
     public UploadValidationStatus getUploadStatus(String uploadId);
     
     /**
-     * Get the list of available or scheduled tasks.
+     * Get the list of available or scheduled activities.
      * @param daysAhead
-     *      return tasks from now until the number of days ahead from now (maximum of 4 days)
+     *      return activities from now until the number of days ahead from now (maximum of 4 days)
      * @param timeZone
-     *      the timezone the tasks should use when returning scheduledOn and expiresOn dates
+     *      the timezone the activities should use when returning scheduledOn and expiresOn dates
      * @return
      */
-    public ResourceList<Task> getTasks(int daysAhead, DateTimeZone timeZone);
+    public ResourceList<ScheduledActivity> getScheduledActivities(int daysAhead, DateTimeZone timeZone);
     
     /**
-     * Update these tasks (by setting either the startedOn or finishedOn values of the task). 
-     * The only other required value that must be set for the task is its GUID.
-     * @param tasks
+     * Update these activities (by setting either the startedOn or finishedOn values of each activity). 
+     * The only other required value that must be set for the activity is its GUID.
+     * @param scheduledActivities
      */
-    public void updateTasks(List<Task> tasks);
+    public void updateScheduledActivities(List<ScheduledActivity> scheduledActivities);
 }

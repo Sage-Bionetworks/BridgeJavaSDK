@@ -74,22 +74,21 @@ public final class Activity {
         return activityType;
     }
     /**
-     * For survey tasks, the key object for the survey referenced by the activity. This can be used 
+     * For survey activities, the key object for the survey referenced by the activity. This can be used 
      * through the SDK to retrieve the survey. 
      */
     public SurveyReference getSurvey() {
         return survey;
     }
     /**
-     * For survey tasks, the key object for the survey referenced by the activity. This can be used 
-     * through the SDK to retrieve the survey. 
+     * For task activities, the key object indicating the task to be performed.
      */
     public TaskReference getTask() {
         return task;
     }
     /**
-     * For survey tasks, the key object for the survey referenced by the activity. This can be used 
-     * through the SDK to retrieve the survey. 
+     * For survey activities, the key object for the survey response referenced by the activity. This can be used
+     * through the SDK to submit survey answers and retrieve saved answers.
      */
     public SurveyResponseReference getSurveyResponse() {
         return response;

@@ -137,7 +137,7 @@ public final class Schedule {
     }
     /**
      * A delay period between when a schedule event occurs, and when the schedule
-     * creates the first scheduled task.
+     * creates the first scheduled activity.
      * @return
      */
     public Period getDelay() {
@@ -151,7 +151,7 @@ public final class Schedule {
         this.delay = Period.parse(delay);
     }
     /**
-     * The interval between tasks produced by this scheduler.
+     * The interval between activities produced by this scheduler.
      * @return
      */
     public Period getInterval() {
@@ -181,10 +181,10 @@ public final class Schedule {
         return activities;
     }
     /**
-     * A persistent schedule is one that keeps a task alive in the list of tasks, 
-     * recreating it every time it is completed. Persistent schedules are scheduled to 
-     * occur one time, but have an event ID that immediately triggers re-scheduling when 
-     * one of the activities assigned by the schedule is completed.
+     * A persistent schedule is one that keeps an activity alive in the list of scheduled 
+     * activities, recreating it every time it is completed. Persistent schedules are 
+     * scheduled to occur one time, but have an event ID that immediately triggers 
+     * re-scheduling when one of the activities assigned by the schedule is completed.
      * @return
      */
     @JsonIgnore

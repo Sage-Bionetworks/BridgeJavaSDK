@@ -23,12 +23,12 @@ import org.sagebionetworks.bridge.sdk.models.schedules.ActivityType;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.schedules.ScheduleType;
-import org.sagebionetworks.bridge.sdk.models.schedules.Task;
+import org.sagebionetworks.bridge.sdk.models.schedules.ScheduledActivity;
 import org.sagebionetworks.bridge.sdk.models.schedules.TaskReference;
-import org.sagebionetworks.bridge.sdk.models.schedules.TaskStatus;
+import org.sagebionetworks.bridge.sdk.models.schedules.ScheduledActivityStatus;
 
 @Category(IntegrationSmokeTest.class)
-public class TaskTest {
+public class ScheduledActivityTest {
     
     private TestUser user;
     private TestUser developer;
@@ -72,49 +72,49 @@ public class TaskTest {
     }
     
     @Test
-    public void createSchedulePlanGetTask() {
+    public void createSchedulePlanGetScheduledActivities() {
         // At first, we are an application way outside the bounds of the target, nothing should be returned
         ClientProvider.getClientInfo().withAppVersion(10);
-        ResourceList<Task> tasks = userClient.getTasks(4, DateTimeZone.getDefault());
-        assertEquals("no tasks returned, app version too high", 0, tasks.getTotal());
+        ResourceList<ScheduledActivity> scheduledActivities = userClient.getScheduledActivities(4, DateTimeZone.getDefault());
+        assertEquals("no activities returned, app version too high", 0, scheduledActivities.getTotal());
         
         // Two however... that's fine
         ClientProvider.getClientInfo().withAppVersion(2);
-        tasks = userClient.getTasks(4, DateTimeZone.getDefault());
-        assertEquals("one task returned", 1, tasks.getTotal());
+        scheduledActivities = userClient.getScheduledActivities(4, DateTimeZone.getDefault());
+        assertEquals("one activity returned", 1, scheduledActivities.getTotal());
         
-        // Check again... with a higher app version, the task won't be returned.
-        // This verifies that even after a task is created, we will still filter it
-        // when retrieved from the server (not just when creating tasks).
+        // Check again... with a higher app version, the activity won't be returned.
+        // This verifies that even after an activity is created, we will still filter it
+        // when retrieved from the server (not just when creating activities).
         ClientProvider.getClientInfo().withAppVersion(10);
-        tasks = userClient.getTasks(4, DateTimeZone.getDefault());
-        assertEquals("no tasks returned, app version too high", 0, tasks.getTotal());
+        scheduledActivities = userClient.getScheduledActivities(4, DateTimeZone.getDefault());
+        assertEquals("no activities returned, app version too high", 0, scheduledActivities.getTotal());
         
-        // Get that task again for the rest of the test
+        // Get that activity again for the rest of the test
         ClientProvider.getClientInfo().withAppVersion(2);
-        tasks = userClient.getTasks(4, DateTimeZone.getDefault());
+        scheduledActivities = userClient.getScheduledActivities(4, DateTimeZone.getDefault());
         
-        Task task = tasks.get(0);
-        assertEquals(TaskStatus.SCHEDULED, task.getStatus());
-        assertNotNull(task.getScheduledOn());
-        assertNull(task.getExpiresOn());
+        ScheduledActivity schActivity = scheduledActivities.get(0);
+        assertEquals(ScheduledActivityStatus.SCHEDULED, schActivity.getStatus());
+        assertNotNull(schActivity.getScheduledOn());
+        assertNull(schActivity.getExpiresOn());
         
-        Activity activity = task.getActivity();
+        Activity activity = schActivity.getActivity();
         assertEquals(ActivityType.TASK, activity.getActivityType());
         assertEquals("Activity 1", activity.getLabel());
         assertEquals("task1", activity.getTask().getIdentifier());
 
-        task.setStartedOn(DateTime.now());
-        userClient.updateTasks(tasks.getItems());
-        tasks = userClient.getTasks(3, DateTimeZone.getDefault());
-        assertEquals(1, tasks.getTotal());
-        assertEquals(TaskStatus.STARTED, task.getStatus());
+        schActivity.setStartedOn(DateTime.now());
+        userClient.updateScheduledActivities(scheduledActivities.getItems());
+        scheduledActivities = userClient.getScheduledActivities(3, DateTimeZone.getDefault());
+        assertEquals(1, scheduledActivities.getTotal());
+        assertEquals(ScheduledActivityStatus.STARTED, schActivity.getStatus());
         
-        task = tasks.get(0);
-        task.setFinishedOn(DateTime.now());
-        userClient.updateTasks(tasks.getItems());
-        tasks = userClient.getTasks(3, DateTimeZone.getDefault());
-        assertEquals(0, tasks.getTotal()); // no tasks == finished
+        schActivity = scheduledActivities.get(0);
+        schActivity.setFinishedOn(DateTime.now());
+        userClient.updateScheduledActivities(scheduledActivities.getItems());
+        scheduledActivities = userClient.getScheduledActivities(3, DateTimeZone.getDefault());
+        assertEquals(0, scheduledActivities.getTotal()); // no activities == finished
         
         ClientProvider.getClientInfo().withAppVersion(null);
     }
