@@ -1,6 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.schedules;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 
@@ -50,10 +51,10 @@ public class ScheduleTest {
         assertEquals("10:10:00.000", schedule.getTimes().get(0).toString());
         assertEquals("14:00:00.000", schedule.getTimes().get(1).toString());
         activity = schedule.getActivities().get(0);
+        assertNull(activity.getGuid()); // Created on server
         assertEquals("label", activity.getLabel());
         assertEquals("identifier", activity.getSurvey().getIdentifier());
         assertEquals("AAA", activity.getSurvey().getGuid());
-        
     }
     
     @Test
