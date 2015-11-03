@@ -36,6 +36,7 @@ import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
 import org.sagebionetworks.bridge.sdk.models.users.ExternalIdentifier;
 import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
+import org.sagebionetworks.bridge.sdk.models.users.Withdrawal;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -118,6 +119,16 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         session.setSharingScope(sharingScope);
     }
 
+    @Override
+    public void withdrawConsentToResearch(String reason) {
+        session.checkSignedIn();
+        
+        Withdrawal withdrawal = new Withdrawal(reason);
+        post(config.getWithdrawConsentSignatureApi(), withdrawal);
+        session.setSharingScope(SharingScope.NO_SHARING);
+        session.setConsented(false);
+    }
+    
     /*
      * Schedules API
      */

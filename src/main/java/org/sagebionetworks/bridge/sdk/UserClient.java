@@ -76,6 +76,13 @@ public interface UserClient {
     public void changeSharingScope(SharingScope sharing);
     
     /**
+     * Withdraw user's consent to participate in research. The user will no longer be able to submit 
+     * data to the server without receiving an error response from the server (ConsentRequiredException).
+     * @param reason
+     */
+    public void withdrawConsentToResearch(String reason);
+    
+    /**
      * Get all schedules associated with a study.
      *
      * @return List<Schedule>

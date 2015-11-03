@@ -173,12 +173,22 @@ public class ConsentTest {
             } catch (EntityAlreadyExistsException ex) {
                 // expected
             }
-
+            
             // The remote session should also reflect the sharing scope
             testUser.getSession().signOut();
             Session session = ClientProvider.signIn(new SignInCredentials("api", testUser.getUsername(), testUser.getPassword()));
             assertEquals(SharingScope.ALL_QUALIFIED_RESEARCHERS, session.getSharingScope());
-            
+
+            // withdraw consent
+            client = session.getUserClient();
+            client.withdrawConsentToResearch("Withdrawing test user from study.");
+            // This method should now (immediately) throw a ConsentRequiredException
+            try {
+                client.getSchedules();
+                fail("Should have thrown exception");
+            } catch(ConsentRequiredException e) {
+                // what we want
+            }
         } finally {
             testUser.signOutAndDeleteUser();
         }
