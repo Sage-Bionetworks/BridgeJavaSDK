@@ -240,8 +240,8 @@ public final class Schedule {
     
     @Override
     public String toString() {
-        return String.format("Schedule [label=%s, scheduleType=%s, cronTrigger=%s, startsOn=%s, endsOn=%s, expires=%s, eventId=%s, delay=%s, interval=%s, times=%s, activities=%s]", 
-                label, scheduleType, cronTrigger, startsOn, endsOn, expires, eventId, delay, interval, times, activities);
+        return String.format("Schedule [label=%s, scheduleType=%s, cronTrigger=%s, startsOn=%s, endsOn=%s, expires=%s, eventId=%s, delay=%s, interval=%s, times=%s, persistent=%s, activities=%s]", 
+                label, scheduleType, cronTrigger, startsOn, endsOn, expires, eventId, delay, interval, times, getPersistent(), activities);
     }
     
 }

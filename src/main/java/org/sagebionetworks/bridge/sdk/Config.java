@@ -42,7 +42,8 @@ public final class Config {
         V3_AUTH_VERIFYEMAIL, 
         V3_AUTH_RESENDEMAILVERIFICATION, 
         V3_CONSENTS_SIGNATURE, 
-        V3_CONSENTS_SIGNATURE_EMAIL, 
+        V3_CONSENTS_SIGNATURE_EMAIL,
+        V3_CONSENTS_SIGNATURE_WITHDRAW, 
         V3_CONSENTS, 
         V3_CONSENTS_RECENT, 
         V3_CONSENTS_PUBLISHED, 
@@ -254,6 +255,10 @@ public final class Config {
 
     public String getEmailConsentSignatureApi() {
         return val(Props.V3_CONSENTS_SIGNATURE_EMAIL);
+    }
+    
+    public String getWithdrawConsentSignatureApi() {
+        return val(Props.V3_CONSENTS_SIGNATURE_WITHDRAW);
     }
 
     public String getStudyIdentifier() {
