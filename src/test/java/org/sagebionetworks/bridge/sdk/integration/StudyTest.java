@@ -23,6 +23,8 @@ import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 
+import com.google.common.collect.Sets;
+
 public class StudyTest {
     
     private TestUser admin;
@@ -73,6 +75,9 @@ public class StudyTest {
         assertEquals(study.getSupportEmail(), newStudy.getSupportEmail());
         assertEquals(study.getTechnicalEmail(), newStudy.getTechnicalEmail());
         assertEquals(study.getConsentNotificationEmail(), newStudy.getConsentNotificationEmail());
+        assertEquals(study.getUserProfileAttributes(), newStudy.getUserProfileAttributes());
+        assertEquals(study.getTaskIdentifiers(), newStudy.getTaskIdentifiers());
+        assertEquals(study.getDataGroups(), newStudy.getDataGroups());
         
         Long oldVersion = newStudy.getVersion();
         alterStudy(newStudy);
@@ -170,6 +175,8 @@ public class StudyTest {
         study.setConsentNotificationEmail("test2@test.com");
         study.setTechnicalEmail("test3@test.com");
         study.getUserProfileAttributes().add("new_profile_attribute");
+        study.setTaskIdentifiers(Sets.newHashSet("taskA")); // setting it differently just for the heck of it 
+        study.setDataGroups(Sets.newHashSet("beta_users", "production_users"));
         study.setResetPasswordTemplate(Tests.TEST_RESET_PASSWORD_TEMPLATE);
         study.setVerifyEmailTemplate(Tests.TEST_VERIFY_EMAIL_TEMPLATE);
         if (version != null) {

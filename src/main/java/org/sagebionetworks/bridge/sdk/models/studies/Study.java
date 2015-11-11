@@ -21,12 +21,16 @@ public final class Study implements VersionHolder {
     private int minAgeOfConsent;
     private int maxNumOfParticipants;
     private Set<String> userProfileAttributes;
+    private Set<String> taskIdentifiers;
+    private Set<String> dataGroups;
     private PasswordPolicy passwordPolicy;
     private EmailTemplate verifyEmailTemplate;
     private EmailTemplate resetPasswordTemplate;
 
     public Study() {
         userProfileAttributes = new HashSet<String>();
+        taskIdentifiers = new HashSet<String>();
+        dataGroups = new HashSet<String>();
     }
     
     public String getName() {
@@ -109,6 +113,22 @@ public final class Study implements VersionHolder {
         this.userProfileAttributes = attributes;
     }
 
+    public Set<String> getTaskIdentifiers() {
+        return taskIdentifiers;
+    }
+    
+    public void setDataGroups(Set<String> dataGroups) {
+        this.dataGroups = dataGroups;
+    }
+    
+    public Set<String> getDataGroups() {
+        return dataGroups;
+    }
+    
+    public void setTaskIdentifiers(Set<String> taskIdentifiers) {
+        this.taskIdentifiers = taskIdentifiers;
+    }
+    
     public PasswordPolicy getPasswordPolicy() {
         return passwordPolicy;
     }
@@ -145,6 +165,8 @@ public final class Study implements VersionHolder {
         result = prime * result + Objects.hashCode(technicalEmail);
         result = prime * result + Objects.hashCode(version);
         result = prime * result + Objects.hashCode(userProfileAttributes);
+        result = prime * result + Objects.hashCode(taskIdentifiers);
+        result = prime * result + Objects.hashCode(dataGroups);
         result = prime * result + Objects.hashCode(passwordPolicy);
         result = prime * result + Objects.hashCode(verifyEmailTemplate);
         result = prime * result + Objects.hashCode(resetPasswordTemplate);
@@ -165,6 +187,7 @@ public final class Study implements VersionHolder {
                 && (maxNumOfParticipants == other.maxNumOfParticipants) && (minAgeOfConsent == other.minAgeOfConsent)
                 && Objects.equals(name, other.name) && Objects.equals(supportEmail, other.supportEmail) 
                 && Objects.equals(version, other.version) && Objects.equals(userProfileAttributes, other.userProfileAttributes)
+                && Objects.equals(taskIdentifiers, other.taskIdentifiers) && Objects.equals(dataGroups, other.dataGroups)
                 && Objects.equals(sponsorName, other.sponsorName) && Objects.equals(technicalEmail, other.technicalEmail) 
                 && Objects.equals(verifyEmailTemplate, other.verifyEmailTemplate) && Objects.equals(passwordPolicy, other.passwordPolicy)
                 && Objects.equals(resetPasswordTemplate, other.resetPasswordTemplate));
@@ -172,7 +195,7 @@ public final class Study implements VersionHolder {
 
     @Override
     public String toString() {
-        return String.format("Study [name=%s, sponsorName=%s, identifier=%s, version=%s, supportEmail=%s, consentNotificationEmail=%s, technicalEmail=%s, minAgeOfConsent=%s, maxNumOfParticipants=%s, userProfileAttributes=%s, passwordPolicy=%s, verifyEmailTemplate=%s, resetPasswordTemplate=%s]",
-            name, sponsorName, identifier, version, supportEmail, consentNotificationEmail, technicalEmail, minAgeOfConsent, maxNumOfParticipants, userProfileAttributes, passwordPolicy, verifyEmailTemplate, resetPasswordTemplate);
+        return String.format("Study [name=%s, sponsorName=%s, identifier=%s, version=%s, supportEmail=%s, consentNotificationEmail=%s, technicalEmail=%s, minAgeOfConsent=%s, maxNumOfParticipants=%s, userProfileAttributes=%s, taskIdentifiers=%s, dataGroups=%s, passwordPolicy=%s, verifyEmailTemplate=%s, resetPasswordTemplate=%s]",
+            name, sponsorName, identifier, version, supportEmail, consentNotificationEmail, technicalEmail, minAgeOfConsent, maxNumOfParticipants, userProfileAttributes, taskIdentifiers, dataGroups, passwordPolicy, verifyEmailTemplate, resetPasswordTemplate);
     }
 }
