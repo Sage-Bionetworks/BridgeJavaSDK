@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.util.Set;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.After;
@@ -25,6 +27,7 @@ import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.schedules.ScheduleType;
 import org.sagebionetworks.bridge.sdk.models.schedules.ScheduledActivity;
 import org.sagebionetworks.bridge.sdk.models.schedules.TaskReference;
+import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.schedules.ScheduledActivityStatus;
 
 @Category(IntegrationSmokeTest.class)
@@ -41,6 +44,13 @@ public class ScheduledActivityTest {
         user = TestUserHelper.createAndSignInUser(SchedulePlanTest.class, true);
 
         developerClient = developer.getSession().getDeveloperClient();
+        Study study = developerClient.getStudy();
+        Set<String> taskIdentifiers = study.getTaskIdentifiers();
+        if (!taskIdentifiers.contains("task1")) {
+            study.getTaskIdentifiers().add("task1");
+            developerClient.updateStudy(study);
+        }
+        
         userClient = user.getSession().getUserClient();
         
         Schedule schedule = new Schedule();
@@ -49,7 +59,7 @@ public class ScheduledActivityTest {
         schedule.setScheduleType(ScheduleType.ONCE);
         schedule.addTimes("10:00");
         schedule.addActivity(new Activity("Activity 1", "", new TaskReference("task1")));
-        
+
         SchedulePlan plan = new SchedulePlan();
         plan.setLabel("Schedule plan 1");
         plan.setSchedule(schedule);

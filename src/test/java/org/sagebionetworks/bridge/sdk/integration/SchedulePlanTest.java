@@ -7,6 +7,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Set;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,10 +31,14 @@ import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.schedules.SimpleScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.SurveyReference;
+import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
+
+import com.google.common.collect.Sets;
 
 public class SchedulePlanTest {
 
+    private static final Set<String> TASK_IDENTIFIERS = Sets.newHashSet("task:AAA", "task:BBB", "task:CCC");
     private GuidVersionHolder keys;
 
     private TestUser user;
@@ -46,6 +52,13 @@ public class SchedulePlanTest {
         user = TestUserHelper.createAndSignInUser(SchedulePlanTest.class, true);
 
         developerClient = developer.getSession().getDeveloperClient();
+        Study study = developerClient.getStudy();
+        Set<String> taskIdentifiers = study.getTaskIdentifiers();
+        if (!taskIdentifiers.containsAll(TASK_IDENTIFIERS)) {
+            taskIdentifiers.addAll(TASK_IDENTIFIERS);
+            developerClient.updateStudy(study);
+        }
+        
         userClient = user.getSession().getUserClient();
     }
 
