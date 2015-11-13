@@ -37,6 +37,8 @@ public final class UploadSchema {
     /**
      * A list of fields defined in the schema. This can be changed across different schema revisions. This is always
      * non-null, non-empty, and immutable.
+     * 
+     * @return fieldDefinitions
      */
     public List<UploadFieldDefinition> getFieldDefinitions() {
         return fieldDefinitions;
@@ -45,6 +47,8 @@ public final class UploadSchema {
     /**
      * Human-friendly displayable schema name, such as "Tapping Activity Task". This can be changed across different
      * schema revisions. This is always non-null and non-empty.
+     * 
+     * @return name
      */
     public String getName() {
         return name;
@@ -61,6 +65,8 @@ public final class UploadSchema {
      * <p>
      * This field is optional, but if set, must be non-negative.
      * </p>
+     * 
+     * @return revision
      */
     public Integer getRevision() {
         return revision;
@@ -70,12 +76,17 @@ public final class UploadSchema {
      * Unique identifier for the schema. This need only be unique to a given study. This should included in the upload
      * data. This can be human readable, such as "tapping-task". This cannot be changed across different schema
      * revisions. This is always non-null and non-empty.
+     * 
+     * @return schemaId
      */
     public String getSchemaId() {
         return schemaId;
     }
 
-    /** Schema type, for example survey vs data. */
+    /** 
+     * Schema type, for example survey vs data. 
+     * @return uploadSchemaType
+     */
     public UploadSchemaType getSchemaType() {
         return schemaType;
     }
@@ -124,6 +135,8 @@ public final class UploadSchema {
          * Sets all builder fields to be a copy of the specified schema. This returns the builder, which can be used to
          * make additional changes to the schema being built. This is commonly used for updating a schema from a
          * pre-existing one.
+         * @param uploadSchema
+         * @return builder
          */
         public Builder copyOf(UploadSchema other) {
             this.fieldDefinitions = other.fieldDefinitions;
@@ -134,64 +147,103 @@ public final class UploadSchema {
             return this;
         }
 
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getFieldDefinitions */
+        /** 
+         * @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getFieldDefinitions 
+         * @return builder
+         */
         public List<UploadFieldDefinition> getFieldDefinitions() {
             return fieldDefinitions;
         }
 
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getFieldDefinitions */
+        /** 
+         * @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getFieldDefinitions
+         * @param fieldDefinitions 
+         * @return builder
+         */
         @JsonProperty("fieldDefinitions")
         public Builder withFieldDefinitions(List<UploadFieldDefinition> fieldDefinitions) {
             this.fieldDefinitions = fieldDefinitions;
             return this;
         }
 
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getFieldDefinitions */
+        /** 
+         * @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getFieldDefinitions
+         * @param fieldDefinitions
+         * @return builder
+         */
         @JsonIgnore
         public Builder withFieldDefinitions(UploadFieldDefinition... fieldDefinitions) {
             this.fieldDefinitions = ImmutableList.copyOf(fieldDefinitions);
             return this;
         }
 
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getName */
+        /** 
+         * @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getName
+         * @return builder
+         */
         public String getName() {
             return name;
         }
 
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getName */
+        /** 
+         * @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getName
+         * @param name
+         * @return builder
+         */
         public Builder withName(String name) {
             this.name = name;
             return this;
         }
 
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getRevision */
+        /** 
+         * @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getRevision
+         * @return builder
+         */
         public Integer getRevision() {
             return revision;
         }
 
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getRevision */
+        /** 
+         * @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getRevision
+         * @param revision
+         * @return builder
+         */
         public Builder withRevision(Integer revision) {
             this.revision = revision;
             return this;
         }
 
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSchemaId */
+        /** 
+         * @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSchemaId
+         * @return schemaId
+         */
         public String getSchemaId() {
             return schemaId;
         }
 
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSchemaId */
+        /** 
+         * @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSchemaId
+         * @param schemaId;
+         * @return builder
+         */
         public Builder withSchemaId(String schemaId) {
             this.schemaId = schemaId;
             return this;
         }
 
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSchemaType */
+        /** 
+         * @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSchemaType
+         * @return uploadSchemaType
+         */
         public UploadSchemaType getSchemaType() {
             return schemaType;
         }
 
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSchemaType */
+        /** 
+         * @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSchemaType
+         * @param schemaType
+         * @return builder
+         */
         public Builder withSchemaType(UploadSchemaType schemaType) {
             this.schemaType = schemaType;
             return this;
@@ -200,6 +252,7 @@ public final class UploadSchema {
         /**
          * <p>
          * Builds and validates an UploadSchema. This will throw a InvalidEntityException under the following conditions:
+         * </p>
          *   <ul>
          *     <li>fieldDefinitions is null or empty</li>
          *     <li>fieldDefinitions contains null or invalid entries</li>
@@ -208,7 +261,6 @@ public final class UploadSchema {
          *     <li>schemaId is null or empty</li>
          *     <li>schemaType is null</li>
          *   </ul>
-         * </p>
          * <p>
          * The constructed UploadSchema's field definition list will not be backed by the list passed in by
          * {@link #withFieldDefinitions}. That is, changes to the list passed in by {@link #withFieldDefinitions} will

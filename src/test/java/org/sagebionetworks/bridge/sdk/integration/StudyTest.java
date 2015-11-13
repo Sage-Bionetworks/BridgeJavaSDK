@@ -1,6 +1,7 @@
 package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -29,15 +30,11 @@ public class StudyTest {
     
     private TestUser admin;
     private boolean createdStudy;
-    private TestUser researcher;
     private Study study;
 
     @Before
     public void before() {
         admin = TestUserHelper.getSignedInAdmin();
-        researcher = TestUserHelper.createAndSignInUser(StudyTest.class, false, Roles.RESEARCHER);
-
-        // it's unclear if junit cleans up vars between each test
         createdStudy = false;
         study = null;
     }
@@ -47,7 +44,6 @@ public class StudyTest {
         if (createdStudy && study != null) {
             admin.getSession().getAdminClient().deleteStudy(study.getIdentifier());
         }
-        researcher.signOutAndDeleteUser();
         admin.getSession().signOut();
     }
 
@@ -78,6 +74,10 @@ public class StudyTest {
         assertEquals(study.getUserProfileAttributes(), newStudy.getUserProfileAttributes());
         assertEquals(study.getTaskIdentifiers(), newStudy.getTaskIdentifiers());
         assertEquals(study.getDataGroups(), newStudy.getDataGroups());
+        // This was set to true even though we didn't set it.
+        assertTrue(newStudy.isStrictUploadValidationEnabled());
+        // And this is true because admins can set it to true. 
+        assertTrue(newStudy.isHealthCodeExportEnabled());
         
         Long oldVersion = newStudy.getVersion();
         alterStudy(newStudy);
@@ -101,18 +101,23 @@ public class StudyTest {
 
     @Test
     public void researcherCannotAccessAnotherStudy() {
-        String identifier = Tests.randomIdentifier(StudyTest.class);
-        study = getStudyObject(identifier, null);
-
-        AdminClient client = admin.getSession().getAdminClient();
-        client.createStudy(study);
-        createdStudy = true;
-
+        TestUser researcher = TestUserHelper.createAndSignInUser(StudyTest.class, false, Roles.RESEARCHER);
         try {
-            researcher.getSession().getAdminClient().getStudy(identifier);
-            fail("Should not have been able to get this other study");
-        } catch(UnauthorizedException e) {
-            assertEquals("Unauthorized HTTP response code", 403, e.getStatusCode());
+            String identifier = Tests.randomIdentifier(StudyTest.class);
+            study = getStudyObject(identifier, null);
+
+            AdminClient client = admin.getSession().getAdminClient();
+            client.createStudy(study);
+            createdStudy = true;
+
+            try {
+                researcher.getSession().getAdminClient().getStudy(identifier);
+                fail("Should not have been able to get this other study");
+            } catch(UnauthorizedException e) {
+                assertEquals("Unauthorized HTTP response code", 403, e.getStatusCode());
+            }
+        } finally {
+            researcher.signOutAndDeleteUser();
         }
     }
 
@@ -128,8 +133,25 @@ public class StudyTest {
     }
     
     @Test
+    public void developerCannotSetHealthCodeToExport() {
+        TestUser developer = TestUserHelper.createAndSignInUser(StudyTest.class, false, Roles.DEVELOPER);
+        try {
+            DeveloperClient devClient = developer.getSession().getDeveloperClient();
+            
+            Study study = devClient.getStudy();
+            study.setHealthCodeExportEnabled(true);
+            devClient.updateStudy(study);
+            
+            study = devClient.getStudy();
+            assertFalse(study.isHealthCodeExportEnabled());
+        } finally {
+            developer.signOutAndDeleteUser();
+        }
+    }
+    
+    @Test
     public void researcherCanRetrieveConsentedParticipants() {
-        // This should fail... this person is not a researcher...
+        TestUser researcher = TestUserHelper.createAndSignInUser(StudyTest.class, false, Roles.RESEARCHER);
         TestUser user = TestUserHelper.createAndSignInUser(StudyTest.class, true);
         try {
             ResearcherClient client = researcher.getSession().getResearcherClient();
@@ -138,6 +160,7 @@ public class StudyTest {
             fail("Threw exception");
         } finally {
             user.signOutAndDeleteUser();
+            researcher.signOutAndDeleteUser();
         }
     }
     
@@ -179,6 +202,7 @@ public class StudyTest {
         study.setDataGroups(Sets.newHashSet("beta_users", "production_users"));
         study.setResetPasswordTemplate(Tests.TEST_RESET_PASSWORD_TEMPLATE);
         study.setVerifyEmailTemplate(Tests.TEST_VERIFY_EMAIL_TEMPLATE);
+        study.setHealthCodeExportEnabled(true);
         if (version != null) {
             study.setVersion(version);
         }

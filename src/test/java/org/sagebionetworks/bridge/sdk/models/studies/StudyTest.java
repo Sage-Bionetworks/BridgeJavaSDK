@@ -33,6 +33,8 @@ public class StudyTest {
         study.setPasswordPolicy(new PasswordPolicy(7, false, true, true, false));
         study.setVerifyEmailTemplate(new EmailTemplate("subject", "body ${url}", MimeType.TEXT));
         study.setResetPasswordTemplate(new EmailTemplate("subject", "<p>body ${url}</p>", MimeType.HTML));
+        study.setStrictUploadValidationEnabled(true);
+        study.setHealthCodeExportEnabled(true);
         
         String json = Utilities.getMapper().writeValueAsString(study);
         JsonNode node = Utilities.getMapper().readTree(json);
@@ -49,6 +51,8 @@ public class StudyTest {
         assertEquals("test", node.get("userProfileAttributes").get(0).asText());
         assertEquals("taskA", node.get("taskIdentifiers").get(0).asText());
         assertEquals("beta_users", node.get("dataGroups").get(0).asText());
+        assertEquals(true, node.get("strictUploadValidationEnabled").asBoolean());
+        assertEquals(true, node.get("healthCodeExportEnabled").asBoolean());
         
         JsonNode passwordPolicyNode = node.get("passwordPolicy");
         assertEquals(7, passwordPolicyNode.get("minLength").asInt());
