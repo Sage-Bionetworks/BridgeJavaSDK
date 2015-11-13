@@ -26,7 +26,9 @@ public final class Study implements VersionHolder {
     private PasswordPolicy passwordPolicy;
     private EmailTemplate verifyEmailTemplate;
     private EmailTemplate resetPasswordTemplate;
-
+    private boolean strictUploadValidationEnabled;
+    private boolean healthCodeExportEnabled;
+    
     public Study() {
         userProfileAttributes = new HashSet<String>();
         taskIdentifiers = new HashSet<String>();
@@ -129,6 +131,22 @@ public final class Study implements VersionHolder {
         this.taskIdentifiers = taskIdentifiers;
     }
     
+    public boolean isStrictUploadValidationEnabled() {
+        return strictUploadValidationEnabled;
+    }
+
+    public void setStrictUploadValidationEnabled(boolean enabled) {
+        this.strictUploadValidationEnabled = enabled;
+    }
+    
+    public boolean isHealthCodeExportEnabled() {
+        return healthCodeExportEnabled;
+    }
+    
+    public void setHealthCodeExportEnabled(boolean enabled) {
+        this.healthCodeExportEnabled = enabled;
+    }
+    
     public PasswordPolicy getPasswordPolicy() {
         return passwordPolicy;
     }
@@ -172,6 +190,8 @@ public final class Study implements VersionHolder {
         result = prime * result + Objects.hashCode(resetPasswordTemplate);
         result = prime * result + Objects.hashCode(maxNumOfParticipants);
         result = prime * result + Objects.hashCode(minAgeOfConsent);
+        result = prime * result + Objects.hashCode(strictUploadValidationEnabled);
+        result = prime * result + Objects.hashCode(healthCodeExportEnabled);
         return result;
     }
 
@@ -190,12 +210,14 @@ public final class Study implements VersionHolder {
                 && Objects.equals(taskIdentifiers, other.taskIdentifiers) && Objects.equals(dataGroups, other.dataGroups)
                 && Objects.equals(sponsorName, other.sponsorName) && Objects.equals(technicalEmail, other.technicalEmail) 
                 && Objects.equals(verifyEmailTemplate, other.verifyEmailTemplate) && Objects.equals(passwordPolicy, other.passwordPolicy)
-                && Objects.equals(resetPasswordTemplate, other.resetPasswordTemplate));
+                && Objects.equals(resetPasswordTemplate, other.resetPasswordTemplate)
+                && Objects.equals(strictUploadValidationEnabled, other.strictUploadValidationEnabled)
+                && Objects.equals(healthCodeExportEnabled, other.healthCodeExportEnabled));
     }
 
     @Override
     public String toString() {
-        return String.format("Study [name=%s, sponsorName=%s, identifier=%s, version=%s, supportEmail=%s, consentNotificationEmail=%s, technicalEmail=%s, minAgeOfConsent=%s, maxNumOfParticipants=%s, userProfileAttributes=%s, taskIdentifiers=%s, dataGroups=%s, passwordPolicy=%s, verifyEmailTemplate=%s, resetPasswordTemplate=%s]",
-            name, sponsorName, identifier, version, supportEmail, consentNotificationEmail, technicalEmail, minAgeOfConsent, maxNumOfParticipants, userProfileAttributes, taskIdentifiers, dataGroups, passwordPolicy, verifyEmailTemplate, resetPasswordTemplate);
+        return String.format("Study [name=%s, sponsorName=%s, identifier=%s, version=%s, supportEmail=%s, consentNotificationEmail=%s, technicalEmail=%s, minAgeOfConsent=%s, maxNumOfParticipants=%s, userProfileAttributes=%s, taskIdentifiers=%s, dataGroups=%s, strictUploadValidationEnabled=%s, healthCodeExportEnabled=%s, passwordPolicy=%s, verifyEmailTemplate=%s, resetPasswordTemplate=%s]",
+            name, sponsorName, identifier, version, supportEmail, consentNotificationEmail, technicalEmail, minAgeOfConsent, maxNumOfParticipants, userProfileAttributes, taskIdentifiers, dataGroups, strictUploadValidationEnabled, healthCodeExportEnabled, passwordPolicy, verifyEmailTemplate, resetPasswordTemplate);
     }
 }
