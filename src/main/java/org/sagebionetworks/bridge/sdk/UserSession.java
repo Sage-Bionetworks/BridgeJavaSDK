@@ -27,10 +27,7 @@ final class UserSession {
             @JsonProperty("authenticated") boolean authenticated, @JsonProperty("consented") boolean consented,
             @JsonProperty("sharingScope") SharingScope sharingScope,
             @JsonProperty("signedMostRecentConsent") boolean signedMostRecentConsent,
-            @JsonProperty("dataGroups") 
-            @JsonDeserialize(using=DataGroupsDeserializer.class)
-            @JsonSerialize(using=DataGroupsSerializer.class)
-            DataGroups dataGroups) {
+            @JsonProperty("dataGroups") DataGroups dataGroups) {
         
         this.username = username;
         this.sessionToken = sessionToken;

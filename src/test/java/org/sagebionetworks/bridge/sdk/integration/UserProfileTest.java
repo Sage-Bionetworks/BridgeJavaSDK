@@ -78,8 +78,6 @@ public class UserProfileTest {
         client.updateDataGroups(new DataGroups());
         newGroup = client.getDataGroups();
         assertEquals(0, newGroup.getDataGroups().size());
-        
-        
     }
 
 }
