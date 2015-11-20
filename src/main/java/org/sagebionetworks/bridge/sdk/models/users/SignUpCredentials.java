@@ -49,6 +49,10 @@ public final class SignUpCredentials {
     public String getPassword() {
         return this.password;
     }
+    
+    public DataGroups getDataGroups() {
+        return this.dataGroups;
+    }
 
     public void setStudyIdentifier(String studyIdentifier) {
         this.studyIdentifier = studyIdentifier;
@@ -64,10 +68,6 @@ public final class SignUpCredentials {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-    
-    public DataGroups getDataGroups() {
-        return this.dataGroups;
     }
     
     public void setDataGroups(DataGroups dataGroups) {

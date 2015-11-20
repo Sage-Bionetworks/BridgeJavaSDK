@@ -47,7 +47,9 @@ public class SignInTest {
     public void canGetDataGroups(){
         UserClient client = user.getSession().getUserClient();
         
-        client.updateDataGroups(new DataGroups(Sets.newHashSet("sdk-int-1")));
+        DataGroups dataGroups = new DataGroups();
+        dataGroups.setDataGroups(Sets.newHashSet("sdk-int-1"));
+        client.updateDataGroups(dataGroups);
         
         user.getSession().signOut();
         

@@ -28,7 +28,9 @@ public class DataGroupsDeserializer extends StdScalarDeserializer<DataGroups> {
         for (int i=0; i < node.size(); i++) {
             set.add(node.get(i).asText());
         }
-        return new DataGroups(set);
+        DataGroups dataGroups = new DataGroups();
+        dataGroups.setDataGroups(set);
+        return dataGroups;
     }
 
 }

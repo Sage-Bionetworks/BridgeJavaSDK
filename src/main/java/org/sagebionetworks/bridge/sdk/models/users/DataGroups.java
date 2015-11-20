@@ -9,15 +9,6 @@ public final class DataGroups {
     
     private Set<String> dataGroups = ImmutableSet.of();
     
-    public DataGroups() {
-    }
-    
-    public DataGroups(Set<String> groups) {
-        if (groups != null) {
-            this.dataGroups = ImmutableSet.copyOf(groups);    
-        }
-    }
-    
     public Set<String> getDataGroups() {
         return dataGroups;
     }
