@@ -15,6 +15,7 @@ import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadValidationStatus;
 import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
+import org.sagebionetworks.bridge.sdk.models.users.DataGroups;
 import org.sagebionetworks.bridge.sdk.models.users.ExternalIdentifier;
 import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
@@ -89,6 +90,18 @@ public interface UserClient {
      */
     public ResourceList<Schedule> getSchedules();
 
+    /**
+     * Update the list of data groups associated with this user.
+     * @param dataGroups
+     */
+    public void updateDataGroups(DataGroups dataGroups);
+    
+    /**
+     * Get the data groups associated with this user.
+     * @return
+     */
+    public DataGroups getDataGroups();
+    
     /**
      * Get a survey version with a GUID and a createdOn timestamp.
      *

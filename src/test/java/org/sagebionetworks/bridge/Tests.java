@@ -22,6 +22,7 @@ import org.sagebionetworks.bridge.sdk.models.studies.EmailTemplate;
 public class Tests {
     
     public static final String TEST_KEY = "api";
+    
     public static final EmailTemplate TEST_RESET_PASSWORD_TEMPLATE = new EmailTemplate("Reset your password",
             "<p>${url}</p>", EmailTemplate.MimeType.HTML);
     public static final EmailTemplate TEST_VERIFY_EMAIL_TEMPLATE = new EmailTemplate("Verify your email",

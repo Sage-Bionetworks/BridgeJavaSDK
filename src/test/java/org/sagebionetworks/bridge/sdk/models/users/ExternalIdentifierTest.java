@@ -1,14 +1,14 @@
 package org.sagebionetworks.bridge.sdk.models.users;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
-import nl.jqno.equalsverifier.Warning;
 
 import org.junit.Test;
 
 public class ExternalIdentifierTest {
+    
     @Test
     public void equalsContract() {
-        EqualsVerifier.forClass(ExternalIdentifier.class).suppress(Warning.NONFINAL_FIELDS).allFieldsShouldBeUsed().verify();
+        EqualsVerifier.forClass(ExternalIdentifier.class).allFieldsShouldBeUsed().verify();
     }
     
     @Test(expected=IllegalArgumentException.class)

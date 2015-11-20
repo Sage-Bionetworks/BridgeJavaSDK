@@ -1,5 +1,6 @@
 package org.sagebionetworks.bridge.sdk;
 
+import org.sagebionetworks.bridge.sdk.models.users.DataGroups;
 import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 
 public interface Session {
@@ -17,6 +18,8 @@ public interface Session {
     public boolean isSignedIn();
     
     public void signOut();
+    
+    public DataGroups getDataGroups();
     
     public UserClient getUserClient();
     

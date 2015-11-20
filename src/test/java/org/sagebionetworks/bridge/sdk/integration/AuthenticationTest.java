@@ -36,7 +36,7 @@ public class AuthenticationTest {
         
         try {
             
-            SignUpCredentials signUp = new SignUpCredentials(Tests.TEST_KEY, username, email, password);
+            SignUpCredentials signUp = new SignUpCredentials(Tests.TEST_KEY, username, email, password, null);
             ClientProvider.signUp(signUp);
             
             // Beyond an exception being thrown, there's not a lot you can test here.
@@ -120,7 +120,7 @@ public class AuthenticationTest {
             testUser.getSession().signOut();
             
             // Now create the same user.
-            SignUpCredentials signup = new SignUpCredentials(Tests.TEST_KEY, testUser.getUsername(), testUser.getEmail(), testUser.getPassword());
+            SignUpCredentials signup = new SignUpCredentials(Tests.TEST_KEY, testUser.getUsername(), testUser.getEmail(), testUser.getPassword(), null);
             ClientProvider.signUp(signup);
             // This should not have thrown an error.
             

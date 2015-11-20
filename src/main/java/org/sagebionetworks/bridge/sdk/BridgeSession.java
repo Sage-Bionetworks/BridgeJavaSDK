@@ -3,6 +3,7 @@ package org.sagebionetworks.bridge.sdk;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import org.sagebionetworks.bridge.sdk.models.users.DataGroups;
 import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 
 class BridgeSession implements Session {
@@ -13,6 +14,7 @@ class BridgeSession implements Session {
     private String sessionToken;
     private String username;
     private boolean consented;
+    private DataGroups dataGroups;
     
     BridgeSession(UserSession session) {
         checkNotNull(session, Bridge.CANNOT_BE_NULL, "UserSession");
@@ -21,6 +23,7 @@ class BridgeSession implements Session {
         this.sessionToken = session.getSessionToken();
         this.consented = session.isConsented();
         this.sharingScope = session.getSharingScope();
+        this.dataGroups = session.getDataGroups();
     }
 
     /**
@@ -66,6 +69,10 @@ class BridgeSession implements Session {
     
     void setSharingScope(SharingScope sharingScope) {
         this.sharingScope = sharingScope;
+    }
+    
+    public DataGroups getDataGroups() {
+        return dataGroups;
     }
     
     @Override
