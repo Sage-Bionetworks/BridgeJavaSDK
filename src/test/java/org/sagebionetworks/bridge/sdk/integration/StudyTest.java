@@ -45,6 +45,7 @@ public class StudyTest {
     
     @After
     public void after() {
+        ClientProvider.getClientInfo().withDevice(null).withOsName(null).withOsVersion(null);
         if (createdStudy && study != null) {
             admin.getSession().getAdminClient().deleteStudy(study.getIdentifier());
         }
@@ -206,7 +207,6 @@ public class StudyTest {
             
         } catch(UnsupportedVersionException e) {
             // This is good.
-            ClientProvider.getClientInfo().withOsName(null).withAppVersion(null);
         } finally {
             user.signOutAndDeleteUser();
         }
