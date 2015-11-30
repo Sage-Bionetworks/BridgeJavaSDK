@@ -35,6 +35,8 @@ public class StudyTest {
         study.setResetPasswordTemplate(new EmailTemplate("subject", "<p>body ${url}</p>", MimeType.HTML));
         study.setStrictUploadValidationEnabled(true);
         study.setHealthCodeExportEnabled(true);
+        study.getMinSupportedAppVersions().put(OperatingSystem.IOS, 12);
+        study.getMinSupportedAppVersions().put(OperatingSystem.ANDROID, 14);
         
         String json = Utilities.getMapper().writeValueAsString(study);
         JsonNode node = Utilities.getMapper().readTree(json);
@@ -53,6 +55,8 @@ public class StudyTest {
         assertEquals("beta_users", node.get("dataGroups").get(0).asText());
         assertEquals(true, node.get("strictUploadValidationEnabled").asBoolean());
         assertEquals(true, node.get("healthCodeExportEnabled").asBoolean());
+        assertEquals(12, node.get("minSupportedAppVersions").get("iPhone OS").asInt());
+        assertEquals(14, node.get("minSupportedAppVersions").get("Android").asInt());
         
         JsonNode passwordPolicyNode = node.get("passwordPolicy");
         assertEquals(7, passwordPolicyNode.get("minLength").asInt());
@@ -73,6 +77,7 @@ public class StudyTest {
         
         // And the resultant object is equal to the original (comparing by value)
         Study newStudy = Utilities.getMapper().readValue(json, Study.class);
+        
         assertEquals(study, newStudy);
     }
 }

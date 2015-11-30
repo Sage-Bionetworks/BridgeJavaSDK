@@ -1,8 +1,13 @@
 package org.sagebionetworks.bridge.sdk.models.studies;
 
+import static org.sagebionetworks.bridge.sdk.Utilities.TO_STRING_STYLE;
+
+import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 
@@ -28,11 +33,13 @@ public final class Study implements VersionHolder {
     private EmailTemplate resetPasswordTemplate;
     private boolean strictUploadValidationEnabled;
     private boolean healthCodeExportEnabled;
+    private EnumMap<OperatingSystem,Integer> minSupportedAppVersions;
     
     public Study() {
         userProfileAttributes = new HashSet<String>();
         taskIdentifiers = new HashSet<String>();
         dataGroups = new HashSet<String>();
+        minSupportedAppVersions = new EnumMap<OperatingSystem,Integer>(OperatingSystem.class);
     }
     
     public String getName() {
@@ -171,28 +178,20 @@ public final class Study implements VersionHolder {
         this.resetPasswordTemplate = resetPasswordTemplate;
     }
 
+    public EnumMap<OperatingSystem,Integer> getMinSupportedAppVersions() {
+        return minSupportedAppVersions;
+    }
+    
+    public void setMinSupportedAppVersions(EnumMap<OperatingSystem,Integer> minSupportedAppVersions) {
+        this.minSupportedAppVersions = minSupportedAppVersions;
+    }
+
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + Objects.hashCode(name);
-        result = prime * result + Objects.hashCode(sponsorName);
-        result = prime * result + Objects.hashCode(identifier);
-        result = prime * result + Objects.hashCode(supportEmail);
-        result = prime * result + Objects.hashCode(consentNotificationEmail);
-        result = prime * result + Objects.hashCode(technicalEmail);
-        result = prime * result + Objects.hashCode(version);
-        result = prime * result + Objects.hashCode(userProfileAttributes);
-        result = prime * result + Objects.hashCode(taskIdentifiers);
-        result = prime * result + Objects.hashCode(dataGroups);
-        result = prime * result + Objects.hashCode(passwordPolicy);
-        result = prime * result + Objects.hashCode(verifyEmailTemplate);
-        result = prime * result + Objects.hashCode(resetPasswordTemplate);
-        result = prime * result + Objects.hashCode(maxNumOfParticipants);
-        result = prime * result + Objects.hashCode(minAgeOfConsent);
-        result = prime * result + Objects.hashCode(strictUploadValidationEnabled);
-        result = prime * result + Objects.hashCode(healthCodeExportEnabled);
-        return result;
+        return Objects.hash(name, sponsorName, identifier, supportEmail, consentNotificationEmail, version,
+                technicalEmail, userProfileAttributes, taskIdentifiers, dataGroups, passwordPolicy, verifyEmailTemplate,
+                resetPasswordTemplate, maxNumOfParticipants, minAgeOfConsent, strictUploadValidationEnabled,
+                healthCodeExportEnabled, minSupportedAppVersions);
     }
 
     @Override
@@ -203,21 +202,32 @@ public final class Study implements VersionHolder {
             return false;
         Study other = (Study) obj;
         return (Objects.equals(consentNotificationEmail, other.consentNotificationEmail)
-                && Objects.equals(identifier, other.identifier)
-                && (maxNumOfParticipants == other.maxNumOfParticipants) && (minAgeOfConsent == other.minAgeOfConsent)
-                && Objects.equals(name, other.name) && Objects.equals(supportEmail, other.supportEmail) 
-                && Objects.equals(version, other.version) && Objects.equals(userProfileAttributes, other.userProfileAttributes)
-                && Objects.equals(taskIdentifiers, other.taskIdentifiers) && Objects.equals(dataGroups, other.dataGroups)
-                && Objects.equals(sponsorName, other.sponsorName) && Objects.equals(technicalEmail, other.technicalEmail) 
-                && Objects.equals(verifyEmailTemplate, other.verifyEmailTemplate) && Objects.equals(passwordPolicy, other.passwordPolicy)
+                && Objects.equals(identifier, other.identifier) && (maxNumOfParticipants == other.maxNumOfParticipants)
+                && (minAgeOfConsent == other.minAgeOfConsent) && Objects.equals(name, other.name)
+                && Objects.equals(supportEmail, other.supportEmail) && Objects.equals(version, other.version)
+                && Objects.equals(userProfileAttributes, other.userProfileAttributes)
+                && Objects.equals(taskIdentifiers, other.taskIdentifiers)
+                && Objects.equals(dataGroups, other.dataGroups) && Objects.equals(sponsorName, other.sponsorName)
+                && Objects.equals(technicalEmail, other.technicalEmail)
+                && Objects.equals(verifyEmailTemplate, other.verifyEmailTemplate)
+                && Objects.equals(passwordPolicy, other.passwordPolicy)
                 && Objects.equals(resetPasswordTemplate, other.resetPasswordTemplate)
                 && Objects.equals(strictUploadValidationEnabled, other.strictUploadValidationEnabled)
-                && Objects.equals(healthCodeExportEnabled, other.healthCodeExportEnabled));
+                && Objects.equals(healthCodeExportEnabled, other.healthCodeExportEnabled)
+                && Objects.equals(minSupportedAppVersions, other.minSupportedAppVersions));
     }
-
+    
     @Override
     public String toString() {
-        return String.format("Study [name=%s, sponsorName=%s, identifier=%s, version=%s, supportEmail=%s, consentNotificationEmail=%s, technicalEmail=%s, minAgeOfConsent=%s, maxNumOfParticipants=%s, userProfileAttributes=%s, taskIdentifiers=%s, dataGroups=%s, strictUploadValidationEnabled=%s, healthCodeExportEnabled=%s, passwordPolicy=%s, verifyEmailTemplate=%s, resetPasswordTemplate=%s]",
-            name, sponsorName, identifier, version, supportEmail, consentNotificationEmail, technicalEmail, minAgeOfConsent, maxNumOfParticipants, userProfileAttributes, taskIdentifiers, dataGroups, strictUploadValidationEnabled, healthCodeExportEnabled, passwordPolicy, verifyEmailTemplate, resetPasswordTemplate);
+        return new ToStringBuilder(this, TO_STRING_STYLE).append("name", name).append("sponsorName", sponsorName)
+                .append("identifier", identifier).append("version", version).append("supportEmail", supportEmail)
+                .append("consentNotificationEmail", consentNotificationEmail).append("technicalEmail", technicalEmail)
+                .append("minAgeOfConsent", minAgeOfConsent).append("maxNumOfParticipants", maxNumOfParticipants)
+                .append("userProfileAttributes", userProfileAttributes).append("taskIdentifiers", taskIdentifiers)
+                .append("dataGroups", dataGroups).append("strictUploadValidationEnabled", strictUploadValidationEnabled)
+                .append("healthCodeExportEnabled", healthCodeExportEnabled).append("passwordPolicy", passwordPolicy)
+                .append("minSupportedAppVersions", minSupportedAppVersions)
+                .append("verifyEmailTemplate", verifyEmailTemplate)
+                .append("resetPasswordTemplate", resetPasswordTemplate).toString();
     }
 }
