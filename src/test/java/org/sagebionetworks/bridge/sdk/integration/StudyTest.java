@@ -190,7 +190,7 @@ public class StudyTest {
     public void userCannotAccessApisWithDeprecatedClient() {
         AdminClient adminClient = admin.getSession().getAdminClient();
         Study study = adminClient.getStudy(Tests.TEST_KEY);
-        // Set a minimum value that should not break much...
+        // Set a minimum value that should not any other tests
         if (study.getMinSupportedAppVersions().get(OperatingSystem.ANDROID) == null) {
             study.getMinSupportedAppVersions().put(OperatingSystem.ANDROID, 1);
             adminClient.updateStudy(study);
