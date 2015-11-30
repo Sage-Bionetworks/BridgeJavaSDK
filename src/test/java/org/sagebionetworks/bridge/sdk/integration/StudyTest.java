@@ -8,11 +8,13 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.AdminClient;
+import org.sagebionetworks.bridge.sdk.ClientProvider;
 import org.sagebionetworks.bridge.sdk.DeveloperClient;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
 import org.sagebionetworks.bridge.sdk.Roles;
@@ -20,6 +22,7 @@ import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.exceptions.EntityNotFoundException;
 import org.sagebionetworks.bridge.sdk.exceptions.UnauthorizedException;
+import org.sagebionetworks.bridge.sdk.exceptions.UnsupportedVersionException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.OperatingSystem;
@@ -181,6 +184,32 @@ public class StudyTest {
         
         ResourceList<Study> studies = client.getAllStudies();
         assertTrue(studies.getTotal() > 0);
+    }
+    
+    @Test
+    public void userCannotAccessApisWithDeprecatedClient() {
+        AdminClient adminClient = admin.getSession().getAdminClient();
+        Study study = adminClient.getStudy(Tests.TEST_KEY);
+        // Set a minimum value that should not break much...
+        if (study.getMinSupportedAppVersions().get(OperatingSystem.ANDROID) == null) {
+            study.getMinSupportedAppVersions().put(OperatingSystem.ANDROID, 1);
+            adminClient.updateStudy(study);
+        }
+        TestUser user = TestUserHelper.createAndSignInUser(StudyTest.class, true);
+        try {
+            
+            // This is a version zero client, it should not be accepted
+            ClientProvider.getClientInfo().withOsName("Android").withDevice("Unknown").withOsVersion("1")
+                    .withAppVersion(0);
+            user.getSession().getUserClient().getScheduledActivities(3, DateTimeZone.UTC);
+            fail("Should have thrown exception");
+            
+        } catch(UnsupportedVersionException e) {
+            // This is good.
+            ClientProvider.getClientInfo().withOsName(null).withAppVersion(null);
+        } finally {
+            user.signOutAndDeleteUser();
+        }
     }
     
     private void assertVersionHasUpdated(VersionHolder holder, Study study, Long oldVersion) {
