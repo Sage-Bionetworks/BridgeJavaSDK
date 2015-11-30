@@ -20,8 +20,10 @@ class LowercaseEnumDeserializer extends StdScalarDeserializer<Enum<?>> {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public Enum<?> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         String text = jp.getText().toUpperCase();
-        // This is hacky but the value we're using is not the enum name, it's a string os name in the enumeration,
-        // so adjusting here.
+        // We set this enumeration deserializer as a module for the default ObjectMapper we use, and it is very
+        // simple. But in the case of the OperatingSystem enum, we want to use a label that is not the name of the 
+        // enumeration, so that requires special handling (Jackson doesn't recognize the @JsonCreator annotation once 
+        // we're using our own deserializer).
         if (handledType() == OperatingSystem.class) {
             return OperatingSystem.create(text);
         }
