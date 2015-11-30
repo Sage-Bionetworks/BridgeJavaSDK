@@ -22,6 +22,7 @@ import org.sagebionetworks.bridge.sdk.exceptions.EntityNotFoundException;
 import org.sagebionetworks.bridge.sdk.exceptions.UnauthorizedException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
+import org.sagebionetworks.bridge.sdk.models.studies.OperatingSystem;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 
 import com.google.common.collect.Sets;
@@ -74,6 +75,10 @@ public class StudyTest {
         assertEquals(study.getUserProfileAttributes(), newStudy.getUserProfileAttributes());
         assertEquals(study.getTaskIdentifiers(), newStudy.getTaskIdentifiers());
         assertEquals(study.getDataGroups(), newStudy.getDataGroups());
+        assertEquals(study.getMinSupportedAppVersions().get(OperatingSystem.ANDROID),
+                newStudy.getMinSupportedAppVersions().get(OperatingSystem.ANDROID));
+        assertEquals(study.getMinSupportedAppVersions().get(OperatingSystem.IOS),
+                newStudy.getMinSupportedAppVersions().get(OperatingSystem.IOS));
         // This was set to true even though we didn't set it.
         assertTrue(newStudy.isStrictUploadValidationEnabled());
         // And this is true because admins can set it to true. 
@@ -203,6 +208,8 @@ public class StudyTest {
         study.setResetPasswordTemplate(Tests.TEST_RESET_PASSWORD_TEMPLATE);
         study.setVerifyEmailTemplate(Tests.TEST_VERIFY_EMAIL_TEMPLATE);
         study.setHealthCodeExportEnabled(true);
+        study.getMinSupportedAppVersions().put(OperatingSystem.ANDROID, 10);
+        study.getMinSupportedAppVersions().put(OperatingSystem.IOS, 14);
         if (version != null) {
             study.setVersion(version);
         }

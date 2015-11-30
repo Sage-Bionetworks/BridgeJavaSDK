@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.Map;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.apache.http.client.fluent.Request;
@@ -34,24 +36,39 @@ public final class Utilities {
     public static final TypeReference<Map<String, Object>> TYPE_REF_RAW_MAP =
             new TypeReference<Map<String, Object>>(){};
 
-    private static final ObjectMapper mapper = new ObjectMapper();
+    /**
+     * This mimics the style of the toString() methods we've been writing in a more manual way.
+     */
+    @SuppressWarnings("serial")
+    private static final class Style extends ToStringStyle {
+        public Style() {
+            super();
+            setFieldSeparator(", ");
+            setUseShortClassName(true);
+            setUseIdentityHashCode(false);
+        }
+    }
+    
+    public static final ToStringStyle TO_STRING_STYLE = new Style();
+    
+    private static final ObjectMapper MAPPER = new ObjectMapper();
     static {
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        mapper.configure(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS, false);
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        MAPPER.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        MAPPER.configure(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS, false);
+        MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         
         SimpleModule mod = new SimpleModule();
         mod.addAbstractTypeMapping(GuidHolder.class, SimpleGuidHolder.class);
         mod.addAbstractTypeMapping(GuidVersionHolder.class, SimpleGuidVersionHolder.class);
         mod.addAbstractTypeMapping(GuidCreatedOnVersionHolder.class, SimpleGuidCreatedOnVersionHolder.class);
-        mapper.registerModule(mod);
-        mapper.registerModule(new JodaModule());
-        mapper.registerModule(new LowercaseEnumModule());
+        MAPPER.registerModule(mod);
+        MAPPER.registerModule(new JodaModule());
+        MAPPER.registerModule(new LowercaseEnumModule());
     }
 
     public static ObjectMapper getMapper() {
-        return mapper;
+        return MAPPER;
     }
 
     static boolean isValidEmail(String email) {
