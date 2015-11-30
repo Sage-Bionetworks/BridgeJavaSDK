@@ -1,5 +1,9 @@
 package org.sagebionetworks.bridge.sdk.exceptions;
 
+import static org.sagebionetworks.bridge.sdk.Utilities.TO_STRING_STYLE;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 @SuppressWarnings("serial")
 public class BridgeServerException extends RuntimeException {
 
@@ -62,7 +66,9 @@ public class BridgeServerException extends RuntimeException {
 
     @Override
     public String toString() {
-        return "BridgeServerException[message=" + getMessage() + ", statusCode=" + getStatusCode() + ", endpoint="
-                + getRestEndpoint() + "]";
+        return new ToStringBuilder(this, TO_STRING_STYLE)
+                .append("message", getMessage())
+                .append("statusCode", getStatusCode())
+                .append("endpoint",getRestEndpoint()).toString();
     }
 }

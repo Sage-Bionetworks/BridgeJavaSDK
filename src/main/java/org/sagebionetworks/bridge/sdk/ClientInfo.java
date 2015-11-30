@@ -92,12 +92,8 @@ public final class ClientInfo {
         } else if (appVersion != null) {
             stanzas.add(Integer.toString(appVersion));
         }
-        if (isNotBlank(device) && isNotBlank(osName)) {
-            stanzas.add(String.format("(%s; %s %s)", device, osName, osVersion));
-        } else if (isNotBlank(device)) {
-            stanzas.add(String.format("(%s)", device));
-        } else if (isNotBlank(osName)){
-            stanzas.add(String.format("(%s; %s)", osName, osVersion));
+        if (isNotBlank(device) && isNotBlank(osName) && osVersion != null) {
+            stanzas.add(String.format("(%s; %s/%s)", device, osName, osVersion));
         }
         if (isNotBlank(sdkVersion)) {
             stanzas.add(String.format("BridgeJavaSDK/%s", sdkVersion));    

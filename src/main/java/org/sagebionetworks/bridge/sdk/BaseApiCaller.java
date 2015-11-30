@@ -45,6 +45,7 @@ import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 import org.sagebionetworks.bridge.sdk.exceptions.NotAuthenticatedException;
 import org.sagebionetworks.bridge.sdk.exceptions.PublishedSurveyException;
 import org.sagebionetworks.bridge.sdk.exceptions.UnauthorizedException;
+import org.sagebionetworks.bridge.sdk.exceptions.UnsupportedVersionException;
 import org.sagebionetworks.bridge.sdk.models.UploadRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -272,6 +273,7 @@ class BaseApiCaller {
 
 
     private void addApplicationHeaders(Request request) {
+        logger.debug("User-Agent: " + ClientProvider.getClientInfo().toString());
         request.setHeader(USER_AGENT_HEADER, ClientProvider.getClientInfo().toString());
         if (session != null && session.isSignedIn()) {
             request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
@@ -343,6 +345,8 @@ class BaseApiCaller {
                     e = new UnauthorizedException(message, url);
                 } else if (statusCode == 404 && message.length() > "not found.".length()) {
                     e = new EntityNotFoundException(message, url);
+                } else if (statusCode == 410) {
+                    e = new UnsupportedVersionException(message, url);
                 } else if (statusCode == 412) {
                     UserSession userSession = getResponseBodyAsType(response, UserSession.class);
                     e = new ConsentRequiredException("Consent required.", url, new BridgeSession(userSession));
