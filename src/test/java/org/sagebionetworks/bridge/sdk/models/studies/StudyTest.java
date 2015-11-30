@@ -39,7 +39,6 @@ public class StudyTest {
         study.getMinSupportedAppVersions().put(OperatingSystem.ANDROID, 14);
         
         String json = Utilities.getMapper().writeValueAsString(study);
-        System.out.println(json);
         JsonNode node = Utilities.getMapper().readTree(json);
         
         assertEquals("Test Name", node.get("name").asText());
