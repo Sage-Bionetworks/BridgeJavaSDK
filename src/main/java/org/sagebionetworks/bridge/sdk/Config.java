@@ -68,7 +68,6 @@ public final class Config {
         V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PHYSICAL_TRUE, 
         V3_SURVEYRESPONSES, 
         V3_SURVEYRESPONSES_IDENTIFIER, 
-        V3_SCHEDULES, 
         V3_UPLOADS, 
         V3_UPLOADS_UPLOADID_COMPLETE, 
         V3_UPLOADSTATUSES_UPLOADID, 
@@ -84,7 +83,8 @@ public final class Config {
         V3_BACKFILL_NAME, 
         V3_BACKFILL_NAME_START, 
         V3_CACHE, 
-        V3_CACHE_CACHEKEY;
+        V3_CACHE_CACHEKEY,
+        V4_SCHEDULES;
 
         public String getPropertyName() {
             return this.name().replace("_", ".").toLowerCase();
@@ -296,7 +296,7 @@ public final class Config {
     }
 
     public String getSchedulesApi() {
-        return val(Props.V3_SCHEDULES);
+        return val(Props.V4_SCHEDULES);
     }
 
     public String getSurveysApi() {
