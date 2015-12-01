@@ -33,6 +33,7 @@ import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadValidationStatus;
 import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
+import org.sagebionetworks.bridge.sdk.models.users.DataGroups;
 import org.sagebionetworks.bridge.sdk.models.users.ExternalIdentifier;
 import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
@@ -255,4 +256,21 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         session.checkSignedIn();
         post(config.getScheduledActivitiesApi(), scheduledActivities);
     }
+    
+    @Override
+    public void updateDataGroups(DataGroups dataGroups) {
+        checkNotNull(dataGroups);
+        checkNotNull(dataGroups.getDataGroups());
+        session.checkSignedIn();
+        
+        post(config.getDataGroupsApi(), dataGroups);
+    }
+    
+    @Override
+    public DataGroups getDataGroups() {
+        session.checkSignedIn();
+        
+        return get(config.getDataGroupsApi(), DataGroups.class);
+    }
+    
 }

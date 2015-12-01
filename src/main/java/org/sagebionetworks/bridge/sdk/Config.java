@@ -51,7 +51,8 @@ public final class Config {
         V3_CONSENTS_TIMESTAMP_PUBLISH, 
         V3_USERS, 
         V3_USERS_EMAILPARTICIPANTROSTER, 
-        V3_USERS_SELF, 
+        V3_USERS_SELF,
+        V3_USERS_SELF_DATAGROUPS,
         V3_USERS_SELF_EXTERNALID, 
         V3_USERS_SELF_EMAILDATA, 
         V3_USERS_SELF_UNSUBSCRIBEEMAIL, 
@@ -236,6 +237,10 @@ public final class Config {
         return val(Props.V3_USERS_SELF);
     }
 
+    public String getDataGroupsApi() {
+        return val(Props.V3_USERS_SELF_DATAGROUPS);
+    }
+    
     public String getSetDataSharingApi() {
         return val(Props.V3_USERS_SELF_DATASHARING);
     }

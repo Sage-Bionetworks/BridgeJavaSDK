@@ -7,30 +7,40 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.sagebionetworks.bridge.IntegrationSmokeTest;
+import org.sagebionetworks.bridge.sdk.Roles;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
+import org.sagebionetworks.bridge.sdk.models.studies.Study;
+import org.sagebionetworks.bridge.sdk.models.users.DataGroups;
 import org.sagebionetworks.bridge.sdk.models.users.ExternalIdentifier;
 import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
+
+import com.google.common.collect.Sets;
 
 @Category(IntegrationSmokeTest.class)
 public class UserProfileTest {
 
-    private TestUser user;
+    private TestUser developer;
 
     @Before
     public void before() {
-        user = TestUserHelper.createAndSignInUser(UserProfileTest.class, true);
+        developer = TestUserHelper.createAndSignInUser(UserProfileTest.class, true, Roles.DEVELOPER);
+        
+        Study study = developer.getSession().getDeveloperClient().getStudy();
+        study.getDataGroups().add("sdk-int-1");
+        study.getDataGroups().add("sdk-int-2");
+        developer.getSession().getDeveloperClient().updateStudy(study);
     }
 
     @After
     public void after() {
-        user.signOutAndDeleteUser();
+        developer.signOutAndDeleteUser();
     }
 
     @Test
     public void canUpdateProfile() throws Exception {
-        final UserClient client = user.getSession().getUserClient();
+        final UserClient client = developer.getSession().getUserClient();
 
         UserProfile profile = client.getProfile();
         profile.setFirstName("Davey");
@@ -48,9 +58,26 @@ public class UserProfileTest {
     
     @Test
     public void canAddExternalIdentifier() throws Exception {
-        final UserClient client = user.getSession().getUserClient();
+        final UserClient client = developer.getSession().getUserClient();
         
         client.addExternalUserIdentifier(new ExternalIdentifier("ABC-123-XYZ"));
+    }
+    
+    @Test
+    public void canUpdateDataGroups() throws Exception {
+        final UserClient client = developer.getSession().getUserClient();
+        
+        DataGroups dataGroups = new DataGroups();
+        dataGroups.setDataGroups(Sets.newHashSet("sdk-int-1", "sdk-int-2"));
+        
+        client.updateDataGroups(dataGroups);
+        
+        DataGroups newGroup = client.getDataGroups();
+        assertEquals(Sets.newHashSet("sdk-int-1","sdk-int-2"), newGroup.getDataGroups());
+        
+        client.updateDataGroups(new DataGroups());
+        newGroup = client.getDataGroups();
+        assertEquals(0, newGroup.getDataGroups().size());
     }
 
 }

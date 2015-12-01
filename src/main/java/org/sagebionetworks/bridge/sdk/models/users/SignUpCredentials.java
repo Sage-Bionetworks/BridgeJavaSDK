@@ -1,11 +1,14 @@
 package org.sagebionetworks.bridge.sdk.models.users;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
-
 import java.util.Objects;
 
+import org.sagebionetworks.bridge.sdk.json.DataGroupsDeserializer;
+import org.sagebionetworks.bridge.sdk.json.DataGroupsSerializer;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public final class SignUpCredentials {
 
@@ -13,17 +16,21 @@ public final class SignUpCredentials {
     private String email;
     private String username;
     private String password;
+    @JsonDeserialize(using=DataGroupsDeserializer.class)
+    @JsonSerialize(using=DataGroupsSerializer.class)
+    private DataGroups dataGroups;
 
-    public SignUpCredentials(String studyIdentifier, String username, String email, String password) {
-        checkArgument(isNotBlank(studyIdentifier), "Study identifier cannot be blank/null");
-        checkArgument(isNotBlank(email), "Email cannot be blank/null");
-        checkArgument(isNotBlank(username), "Username cannot be blank/null");
-        checkArgument(isNotBlank(password), "Password cannot be blank/null");
-        
+    @JsonCreator
+    public SignUpCredentials(@JsonProperty("study") String studyIdentifier, 
+            @JsonProperty("username") String username, 
+            @JsonProperty("email") String email, 
+            @JsonProperty("password") String password, 
+            @JsonProperty("dataGroups") DataGroups dataGroups) {
         this.studyIdentifier = studyIdentifier;
-        this.username = username;
         this.email = email;
+        this.username = username;
         this.password = password;
+        this.dataGroups = dataGroups;
     }
     
     @JsonProperty("study")
@@ -42,6 +49,10 @@ public final class SignUpCredentials {
     public String getPassword() {
         return this.password;
     }
+    
+    public DataGroups getDataGroups() {
+        return this.dataGroups;
+    }
 
     public void setStudyIdentifier(String studyIdentifier) {
         this.studyIdentifier = studyIdentifier;
@@ -58,16 +69,14 @@ public final class SignUpCredentials {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    public void setDataGroups(DataGroups dataGroups) {
+        this.dataGroups = dataGroups;
+    }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + Objects.hashCode(studyIdentifier);
-        result = prime * result + Objects.hashCode(email);
-        result = prime * result + Objects.hashCode(password);
-        result = prime * result + Objects.hashCode(username);
-        return result;
+        return Objects.hash(studyIdentifier, email, password, username, dataGroups);
     }
 
     @Override
@@ -78,12 +87,13 @@ public final class SignUpCredentials {
             return false;
         SignUpCredentials other = (SignUpCredentials) obj;
         return (Objects.equals(studyIdentifier, other.studyIdentifier) && Objects.equals(email, other.email)
-                && Objects.equals(password, other.password) && Objects.equals(username, other.username));
+                && Objects.equals(password, other.password) && Objects.equals(username, other.username)
+                && Objects.equals(dataGroups, other.dataGroups));
     }
 
     @Override
     public String toString() {
-        return String.format("SignUpCredentials[studyIdentifier=%s, email=%s, username=%s, password=[REDACTED]",
-                studyIdentifier, email, username);
+        return String.format("SignUpCredentials[studyIdentifier=%s, email=%s, username=%s, password=[REDACTED], dataGroups=%s",
+                studyIdentifier, email, username, dataGroups);
     }
 }

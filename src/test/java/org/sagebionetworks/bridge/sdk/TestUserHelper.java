@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.time.LocalDate;
+
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.exceptions.ConsentRequiredException;
 import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
@@ -18,6 +19,8 @@ import com.google.common.collect.Sets;
 
 public class TestUserHelper {
 
+    public static final String PASSWORD = "P4ssword";
+    
     public static class TestUser {
         private final AdminClient adminClient;
         private final Session userSession;
@@ -59,6 +62,9 @@ public class TestUserHelper {
         public boolean isSignedIn() {
             return userSession.isSignedIn();
         }
+        public SignInCredentials getSignInCredentials() {
+            return new SignInCredentials(Tests.TEST_KEY, email, PASSWORD);
+        }
     }
 
     public static TestUser getSignedInAdmin() {
@@ -87,12 +93,12 @@ public class TestUserHelper {
         // email to bridge-testing@sagebase.org.
         String emailAddress = makeEmail(name);
 
-        SignUpByAdmin signUp = new SignUpByAdmin(name, emailAddress, "P4ssword", rolesList, consent);
+        SignUpByAdmin signUp = new SignUpByAdmin(name, emailAddress, PASSWORD, rolesList, consent);
         adminClient.createUser(signUp);
 
         Session userSession = null;
         try {
-            SignInCredentials signIn = new SignInCredentials(Tests.TEST_KEY, name, "P4ssword");
+            SignInCredentials signIn = new SignInCredentials(Tests.TEST_KEY, name, PASSWORD);
             userSession = ClientProvider.signIn(signIn);
         } catch(ConsentRequiredException e) {
             userSession = e.getSession();
