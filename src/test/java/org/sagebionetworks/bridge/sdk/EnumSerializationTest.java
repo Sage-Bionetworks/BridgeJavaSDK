@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.models.schedules.ScheduleType;
+import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

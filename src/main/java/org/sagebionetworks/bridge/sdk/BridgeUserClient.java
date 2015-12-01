@@ -219,9 +219,9 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
             byte[] b = Files.readAllBytes(Paths.get(fileName));
             entity = new ByteArrayEntity(b, ContentType.create(request.getContentType()));
         } catch (FileNotFoundException e) {
-            throw new BridgeSDKException(e);
+            throw new BridgeSDKException(e.getMessage(), e, config.getCompleteUploadApi(session.getId()));
         } catch (IOException e) {
-            throw new BridgeSDKException(e);
+            throw new BridgeSDKException(e.getMessage(), e, config.getCompleteUploadApi(session.getId()));
         }
         String url = session.getUrl().toString();
         s3Put(url, entity, request);

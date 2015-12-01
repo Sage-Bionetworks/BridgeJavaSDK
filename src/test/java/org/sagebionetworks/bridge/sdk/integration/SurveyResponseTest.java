@@ -23,7 +23,7 @@ import org.sagebionetworks.bridge.sdk.TestSurvey;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
-import org.sagebionetworks.bridge.sdk.exceptions.BridgeServerException;
+import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
@@ -208,7 +208,7 @@ public class SurveyResponseTest {
         try {
             client.submitAnswersToSurvey(survey, identifier, answers);
             fail("Should have thrown an error");
-        } catch(BridgeServerException e) {
+        } catch(BridgeSDKException e) {
             assertEquals("Entity already exists HTTP status code", 409, e.getStatusCode());
         }
     }

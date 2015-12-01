@@ -9,7 +9,8 @@ import nl.jqno.equalsverifier.Warning;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
-import org.sagebionetworks.bridge.sdk.Utilities;
+
+import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 public class ScheduledActivityTest {
     

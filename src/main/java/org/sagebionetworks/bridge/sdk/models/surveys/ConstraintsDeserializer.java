@@ -3,7 +3,7 @@ package org.sagebionetworks.bridge.sdk.models.surveys;
 import java.io.IOException;
 import java.util.Map;
 
-import org.sagebionetworks.bridge.sdk.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;

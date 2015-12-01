@@ -36,7 +36,6 @@ import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.util.EntityUtils;
 import org.sagebionetworks.bridge.sdk.exceptions.BadRequestException;
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
-import org.sagebionetworks.bridge.sdk.exceptions.BridgeServerException;
 import org.sagebionetworks.bridge.sdk.exceptions.ConcurrentModificationException;
 import org.sagebionetworks.bridge.sdk.exceptions.ConsentRequiredException;
 import org.sagebionetworks.bridge.sdk.exceptions.EntityAlreadyExistsException;
@@ -47,6 +46,7 @@ import org.sagebionetworks.bridge.sdk.exceptions.PublishedSurveyException;
 import org.sagebionetworks.bridge.sdk.exceptions.UnauthorizedException;
 import org.sagebionetworks.bridge.sdk.exceptions.UnsupportedVersionException;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadRequest;
+import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -121,9 +121,9 @@ class BaseApiCaller {
             return response;
 
         } catch (ClientProtocolException e) {
-            throw new BridgeServerException(CONNECTION_FAILED, e, url);
+            throw new BridgeSDKException(CONNECTION_FAILED, e, url);
         } catch (IOException e) {
-            throw new BridgeServerException(CONNECTION_FAILED, e, url);
+            throw new BridgeSDKException(CONNECTION_FAILED, e, url);
         }
     }
 
@@ -139,9 +139,9 @@ class BaseApiCaller {
             return response;
 
         } catch (ClientProtocolException e) {
-            throw new BridgeServerException(CONNECTION_FAILED, e, url);
+            throw new BridgeSDKException(CONNECTION_FAILED, e, url);
         } catch (IOException e) {
-            throw new BridgeServerException(CONNECTION_FAILED, e, url);
+            throw new BridgeSDKException(CONNECTION_FAILED, e, url);
         }
     }
 
@@ -157,9 +157,9 @@ class BaseApiCaller {
             return response;
 
         } catch (ClientProtocolException e) {
-            throw new BridgeServerException(CONNECTION_FAILED, e, url);
+            throw new BridgeSDKException(CONNECTION_FAILED, e, url);
         } catch (IOException e) {
-            throw new BridgeServerException(CONNECTION_FAILED, e, url);
+            throw new BridgeSDKException(CONNECTION_FAILED, e, url);
         }
     }
 
@@ -185,9 +185,9 @@ class BaseApiCaller {
             return response;
 
         } catch (ClientProtocolException e) {
-            throw new BridgeServerException(CONNECTION_FAILED, e, url);
+            throw new BridgeSDKException(CONNECTION_FAILED, e, url);
         } catch (IOException e) {
-            throw new BridgeServerException(CONNECTION_FAILED, e, url);
+            throw new BridgeSDKException(CONNECTION_FAILED, e, url);
         }
     }
 
@@ -244,7 +244,7 @@ class BaseApiCaller {
             return response;
 
         } catch (IOException e) {
-            throw new BridgeServerException(CONNECTION_FAILED, e, url);
+            throw new BridgeSDKException(CONNECTION_FAILED, e, url);
         }
     }
 
@@ -260,7 +260,7 @@ class BaseApiCaller {
             return response;
 
         } catch (IOException e) {
-            throw new BridgeServerException(CONNECTION_FAILED, e, url);
+            throw new BridgeSDKException(CONNECTION_FAILED, e, url);
         }
     }
 
@@ -333,7 +333,7 @@ class BaseApiCaller {
         StatusLine status = response.getStatusLine();
         int statusCode = status.getStatusCode();
         if (statusCode < 200 || statusCode > 299) {
-            BridgeServerException e = null;
+            BridgeSDKException e = null;
             try {
                 JsonNode node = getJsonNode(response);
 
@@ -366,11 +366,11 @@ class BaseApiCaller {
                 } else if (statusCode == 400) {
                     e = new BadRequestException(message, url);
                 } else {
-                    e = new BridgeServerException(message, status.getStatusCode(), url);
+                    e = new BridgeSDKException(message, status.getStatusCode(), url);
                 }
             } catch(Throwable t) {
                 t.printStackTrace();
-                throw new BridgeServerException(status.getReasonPhrase(), status.getStatusCode(), url);
+                throw new BridgeSDKException(status.getReasonPhrase(), status.getStatusCode(), url);
             }
             throw e;
         }

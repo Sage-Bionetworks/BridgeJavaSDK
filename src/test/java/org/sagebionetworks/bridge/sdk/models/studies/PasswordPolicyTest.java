@@ -4,7 +4,8 @@ import static org.junit.Assert.assertEquals;
 import nl.jqno.equalsverifier.EqualsVerifier;
 
 import org.junit.Test;
-import org.sagebionetworks.bridge.sdk.Utilities;
+
+import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 import com.fasterxml.jackson.databind.JsonNode;
 

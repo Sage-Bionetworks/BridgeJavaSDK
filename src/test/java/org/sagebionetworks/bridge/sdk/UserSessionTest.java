@@ -8,6 +8,8 @@ import java.io.IOException;
 
 import org.junit.Test;
 
+import org.sagebionetworks.bridge.sdk.utils.Utilities;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
