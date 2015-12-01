@@ -37,21 +37,21 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     @Override
     public StudyConsent getStudyConsent(DateTime createdOn) {
         session.checkSignedIn();
-        checkNotNull(createdOn, Bridge.CANNOT_BE_NULL, "createdOn");
+        checkNotNull(createdOn, CANNOT_BE_NULL, "createdOn");
 
         return get(config.getConsentApi(createdOn), StudyConsent.class);
     }
     @Override
     public void createStudyConsent(StudyConsent consent) {
         session.checkSignedIn();
-        checkNotNull(consent, Bridge.CANNOT_BE_NULL, "consent");
+        checkNotNull(consent, CANNOT_BE_NULL, "consent");
 
         post(config.getConsentsApi(), consent, StudyConsent.class);
     }
     @Override
     public void publishStudyConsent(DateTime createdOn) {
         session.checkSignedIn();
-        checkNotNull(createdOn, Bridge.CANNOT_BE_NULL, "createdOn");
+        checkNotNull(createdOn, CANNOT_BE_NULL, "createdOn");
 
         post(config.getPublishStudyConsentApi(createdOn));
     }

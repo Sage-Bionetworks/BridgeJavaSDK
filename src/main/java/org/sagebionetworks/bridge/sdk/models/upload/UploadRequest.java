@@ -1,4 +1,4 @@
-package org.sagebionetworks.bridge.sdk.models;
+package org.sagebionetworks.bridge.sdk.models.upload;
 
 import java.io.File;
 import java.io.IOException;
@@ -96,45 +96,45 @@ public final class UploadRequest {
             return this;
         }
 
-        /** @see org.sagebionetworks.bridge.sdk.models.UploadRequest#getName */
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadRequest#getName */
         public String getName() {
             return name;
         }
 
-        /** @see org.sagebionetworks.bridge.sdk.models.UploadRequest#getName */
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadRequest#getName */
         public Builder withName(String name) {
             this.name = name;
             return this;
         }
 
-        /** @see org.sagebionetworks.bridge.sdk.models.UploadRequest#getContentLength */
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadRequest#getContentLength */
         public long getContentLength() {
             return contentLength;
         }
 
-        /** @see org.sagebionetworks.bridge.sdk.models.UploadRequest#getContentLength */
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadRequest#getContentLength */
         public Builder withContentLength(long contentLength) {
             this.contentLength = contentLength;
             return this;
         }
 
-        /** @see org.sagebionetworks.bridge.sdk.models.UploadRequest#getContentMd5 */
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadRequest#getContentMd5 */
         public String getContentMd5() {
             return contentMd5;
         }
 
-        /** @see org.sagebionetworks.bridge.sdk.models.UploadRequest#getContentMd5 */
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadRequest#getContentMd5 */
         public Builder withContentMd5(String contentMd5) {
             this.contentMd5 = contentMd5;
             return this;
         }
 
-        /** @see org.sagebionetworks.bridge.sdk.models.UploadRequest#getContentType */
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadRequest#getContentType */
         public String getContentType() {
             return contentType;
         }
 
-        /** @see org.sagebionetworks.bridge.sdk.models.UploadRequest#getContentType */
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadRequest#getContentType */
         public Builder withContentType(String contentType) {
             this.contentType = contentType;
             return this;

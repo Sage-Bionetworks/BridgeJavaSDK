@@ -46,7 +46,8 @@ import org.sagebionetworks.bridge.sdk.exceptions.NotAuthenticatedException;
 import org.sagebionetworks.bridge.sdk.exceptions.PublishedSurveyException;
 import org.sagebionetworks.bridge.sdk.exceptions.UnauthorizedException;
 import org.sagebionetworks.bridge.sdk.exceptions.UnsupportedVersionException;
-import org.sagebionetworks.bridge.sdk.models.UploadRequest;
+import org.sagebionetworks.bridge.sdk.models.upload.UploadRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,6 +67,8 @@ class BaseApiCaller {
     private static final String BRIDGE_SESSION_HEADER = "Bridge-Session";
     private static final String USER_AGENT_HEADER = "User-Agent";
     private static final String CONNECTION_FAILED = "Connection to server failed or aborted.";
+    protected static final String CANNOT_BE_NULL = "%s cannot be null.";
+    protected static final String CANNOT_BE_BLANK = "%s cannot be null, an empty string, or whitespace.";
     
     // Create an SSL context that does no certificate validation whatsoever.
     private static class DefaultTrustManager implements X509TrustManager {

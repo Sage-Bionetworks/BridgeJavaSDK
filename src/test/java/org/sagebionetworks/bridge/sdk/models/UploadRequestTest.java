@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import org.sagebionetworks.bridge.sdk.Utilities;
 import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
+import org.sagebionetworks.bridge.sdk.models.upload.UploadRequest;
 
 public class UploadRequestTest {
     @Test(expected = InvalidEntityException.class)

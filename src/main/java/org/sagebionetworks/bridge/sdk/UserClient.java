@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.joda.time.DateTimeZone;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
-import org.sagebionetworks.bridge.sdk.models.UploadRequest;
-import org.sagebionetworks.bridge.sdk.models.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
@@ -13,6 +11,8 @@ import org.sagebionetworks.bridge.sdk.models.schedules.ScheduledActivity;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
+import org.sagebionetworks.bridge.sdk.models.upload.UploadRequest;
+import org.sagebionetworks.bridge.sdk.models.upload.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadValidationStatus;
 import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
 import org.sagebionetworks.bridge.sdk.models.users.ExternalIdentifier;

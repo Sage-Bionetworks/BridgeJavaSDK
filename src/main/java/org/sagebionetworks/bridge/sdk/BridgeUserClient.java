@@ -21,8 +21,6 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
-import org.sagebionetworks.bridge.sdk.models.UploadRequest;
-import org.sagebionetworks.bridge.sdk.models.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleIdentifierHolder;
@@ -31,6 +29,8 @@ import org.sagebionetworks.bridge.sdk.models.schedules.ScheduledActivity;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
+import org.sagebionetworks.bridge.sdk.models.upload.UploadRequest;
+import org.sagebionetworks.bridge.sdk.models.upload.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadValidationStatus;
 import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
 import org.sagebionetworks.bridge.sdk.models.users.ExternalIdentifier;
@@ -74,7 +74,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     @Override
     public void addExternalUserIdentifier(ExternalIdentifier identifier) {
         session.checkSignedIn();
-        checkNotNull(identifier, Bridge.CANNOT_BE_NULL, "ExternalIdentifier");
+        checkNotNull(identifier, CANNOT_BE_NULL, "ExternalIdentifier");
         
         post(config.getSetExternalIdApi(), identifier);
     }
@@ -86,8 +86,8 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     @Override
     public void consentToResearch(ConsentSignature signature, SharingScope scope) {
         session.checkSignedIn();
-        checkNotNull(signature, Bridge.CANNOT_BE_NULL, "ConsentSignature");
-        checkNotNull(scope, Bridge.CANNOT_BE_NULL, "SharingScope");
+        checkNotNull(signature, CANNOT_BE_NULL, "ConsentSignature");
+        checkNotNull(scope, CANNOT_BE_NULL, "SharingScope");
 
         ConsentSubmission submission = new ConsentSubmission(signature, scope);
         
@@ -112,7 +112,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     @Override
     public void changeSharingScope(SharingScope sharingScope) {
         session.checkSignedIn();
-        checkNotNull(sharingScope, Bridge.CANNOT_BE_NULL, "SharingScope");
+        checkNotNull(sharingScope, CANNOT_BE_NULL, "SharingScope");
         
         ScopeOption option = new ScopeOption(sharingScope);
         post(config.getSetDataSharingApi(), option);
@@ -144,7 +144,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     @Override
     public Survey getSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
-        checkNotNull(keys, Bridge.CANNOT_BE_NULL, "guid/createdOn keys");
+        checkNotNull(keys, CANNOT_BE_NULL, "guid/createdOn keys");
 
         return get(config.getSurveyApi(keys.getGuid(), keys.getCreatedOn()), Survey.class);
     }
@@ -152,7 +152,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     @Override
     public Survey getSurveyMostRecentlyPublished(String guid) {
         session.checkSignedIn();
-        checkNotNull(guid, Bridge.CANNOT_BE_NULL, "guid");
+        checkNotNull(guid, CANNOT_BE_NULL, "guid");
         
         return get(config.getRecentlyPublishedSurveyForUserApi(guid), Survey.class);
     }
@@ -232,7 +232,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     @Override
     public UploadValidationStatus getUploadStatus(String uploadId) {
         session.checkSignedIn();
-        checkArgument(isNotBlank(uploadId), Bridge.CANNOT_BE_BLANK, "uploadId");
+        checkArgument(isNotBlank(uploadId), CANNOT_BE_BLANK, "uploadId");
         return get(config.getUploadStatusApi(uploadId), UploadValidationStatus.class);
     }
 

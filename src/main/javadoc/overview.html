@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Bridge Java SDK</title>
+</head>
+<body>
+
+<p>The Bridge Java SDK is a general purpose Java library for accessing the Bridge REST API. It 
+may be used in any Java program that supports Java 7 or later, including Android applications. 
+However, there is nothing specific to Android in the SDK. </p>
+
+<h2>Installing the SDK (Maven)</h2>
+
+<p>Add the Sage Bionetworks repository and the SDK to your <code>pom.xml</code>: </p>
+
+<pre>
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.sagebionetworks.bridge&lt;/groupId&gt;
+            &lt;artifactId&gt;java-sdk&lt;/artifactId&gt;
+            &lt;version&gt;develop-SNAPSHOT&lt;/version&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+    ...
+    &lt;repositories&gt;
+        &lt;repository&gt;
+            &lt;id&gt;sagebionetworks-releases-local&lt;/id&gt;
+            &lt;url&gt;http://sagebionetworks.artifactoryonline.com/sagebionetworks/libs-snapshots-local&lt;/url&gt;
+        &lt;/repository&gt;
+    &lt;/repositories&gt;
+</pre>
+
+<p>If you don't have an account to start, you can create one (if you do not have a study, you will have to contact 
+Sage Bionetworks to create one):</p>
+
+<blockquote><pre>
+SignUpCredentials signUp = new SignUpCredentials("studyIdentifier", "username", "email", "password");
+ClientProvider.signUp(signUp);
+
+// check your email and verify your email address
+
+// Now you can sign in
+SignInCredentials signIn = new SignInCredentials("studyIdentifier", "username", "password");
+Session session = ClientProvider.signIn(config.getAccountCredentials());
+</pre></blockquote>
+
+<h2>Configuration</h2>
+
+<p>Once you have an account, you can create a <code>bridge-sdk.properties</code> file in your user home directory 
+(<code>~/bridge-sdk.properites</code> on Mac OSX and Linux):</p>
+
+<blockquote><pre>
+study.identifier = yourStudyIdentifier
+account.email = email@address.com
+account.password = yourPassword
+</pre></blockquote>
+
+<p>Now you can use the credentials without embedding them in your program: </p>
+
+<blockquote><pre>
+Config config = ClientProvider.getConfig();
+Session session = ClientProvider.signIn(config.getAccountCredentials());
+</pre></blockquote>
+
+<p>The server can tailor behavior for your app based on its version. But you must send this information to the 
+server in the <code>User-Agent</code> header of requests. It's important to configure this correctly before the 
+first release of your app, because once released the app cannot be changed. You will then lose the ability to 
+tailor content (or even access) to an app based on its version. </p>
+
+<p>In your code during initialization, you configure the user agent using the <code>ClientInfo</code> object: </p>
+
+<blockquote><pre>
+ClientProvider.getClientInfo()
+    .withAppName("My App Name") // same across platforms
+    .withAppVersion(1)
+    .withDevice("HTC Legend");
+</pre></blockquote>
+
+<p>See the <code>ClientInfo</code> object for further details. </p>
+
+<h2>Using the SDK</h2>
+
+<p>Once you have created an account and signed in, you can use the session to get a client tailored to your 
+specific permissions in the API:</p>
+
+<blockquote><pre>
+// Client for normal participant activities like submitting data or retrieving activities
+UserClient client = session.getUserClient();
+
+// Client for developing a study or mobile application
+DeveloperClient client = session.getDeveloperClient();
+
+// Client for researchers who have access to participant information but cannot edit studies
+DeveloperClient client = session.getResearcherClient();
+
+// Client for Bridge administrators 
+AdminClient client = session.getAdminClient();
+</pre></blockquote>
+
+<p>Each of these clients is documented in this API documentation. </p>
+  
+<p>Finally you may wish to sign out when you are done:</p>
+
+<blockquote><pre>
+session.signOut();
+</pre></blockquote>
+
+<p><strong>The clients share configuration state. </strong> You must create separate clients if you 
+wish to have multiple threads accessing the API concurrently, but all threads will depend on shared 
+mutable configuration state. </p>
+
+</body>
+</html>

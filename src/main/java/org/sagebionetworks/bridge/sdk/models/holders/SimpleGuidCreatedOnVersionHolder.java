@@ -7,7 +7,6 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import java.util.Objects;
 
 import org.joda.time.DateTime;
-import org.sagebionetworks.bridge.sdk.Bridge;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -21,8 +20,8 @@ public final class SimpleGuidCreatedOnVersionHolder implements GuidCreatedOnVers
     @JsonCreator
     public SimpleGuidCreatedOnVersionHolder(@JsonProperty("guid") String guid,
             @JsonProperty("createdOn") DateTime createdOn, @JsonProperty("version") Long version) {
-        checkArgument(isNotBlank(guid), Bridge.CANNOT_BE_BLANK, "guid");
-        checkNotNull(createdOn, Bridge.CANNOT_BE_NULL, "createdOn");
+        checkArgument(isNotBlank(guid), "%s cannot be blank", "guid");
+        checkNotNull(createdOn, "%s cannot be null", "createdOn");
         
         this.guid = guid;
         this.createdOn = createdOn;

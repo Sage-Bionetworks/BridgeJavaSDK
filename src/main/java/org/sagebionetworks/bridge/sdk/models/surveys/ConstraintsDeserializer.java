@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.Maps;
 
-public class ConstraintsDeserializer extends JsonDeserializer<Constraints> {
+class ConstraintsDeserializer extends JsonDeserializer<Constraints> {
 
     Map<String,Class<? extends Constraints>> map = Maps.newHashMap();
     
