@@ -70,6 +70,7 @@ public class ScheduledActivityTest {
 
     @After
     public void after() {
+        ClientProvider.getClientInfo().withAppVersion(null);
         try {
             for (SchedulePlan plan : developerClient.getSchedulePlans()) {
                 developerClient.deleteSchedulePlan(plan.getGuid());
@@ -125,8 +126,6 @@ public class ScheduledActivityTest {
         userClient.updateScheduledActivities(scheduledActivities.getItems());
         scheduledActivities = userClient.getScheduledActivities(3, DateTimeZone.getDefault());
         assertEquals(0, scheduledActivities.getTotal()); // no activities == finished
-        
-        ClientProvider.getClientInfo().withAppVersion(null);
     }
     
 }
