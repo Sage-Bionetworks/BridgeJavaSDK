@@ -273,7 +273,7 @@ class BaseApiCaller {
 
 
     private void addApplicationHeaders(Request request) {
-        logger.debug("User-Agent: " + ClientProvider.getClientInfo().toString());
+        logger.info("User-Agent: " + ClientProvider.getClientInfo().toString());
         request.setHeader(USER_AGENT_HEADER, ClientProvider.getClientInfo().toString());
         if (session != null && session.isSignedIn()) {
             request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());

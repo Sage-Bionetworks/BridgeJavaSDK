@@ -58,7 +58,6 @@ public class SchedulePlanTest {
             taskIdentifiers.addAll(TASK_IDENTIFIERS);
             developerClient.updateStudy(study);
         }
-        
         userClient = user.getSession().getUserClient();
     }
 
@@ -129,6 +128,7 @@ public class SchedulePlanTest {
             plan.getStrategy().getClass().getSimpleName());
 
         ResourceList<Schedule> schedules = userClient.getSchedules();
+        System.out.println(schedules);
         assertTrue("Schedules exist", !schedules.getItems().isEmpty());
 
         // Delete
