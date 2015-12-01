@@ -31,19 +31,19 @@ public class ClientInfoTest {
     @Test
     public void deviceAndOs() {
         info.withDevice("Motorola Flip-Phone").withOsName("Android").withOsVersion("14");
-        assertEquals("(Motorola Flip-Phone; Android 14) BridgeJavaSDK", info.toString());
+        assertEquals("(Motorola Flip-Phone; Android/14) BridgeJavaSDK", info.toString());
     }
     
     @Test
     public void deviceOnly() {
         info.withDevice("Motorola Flip");
-        assertEquals("(Motorola Flip) BridgeJavaSDK", info.toString());
+        assertEquals("BridgeJavaSDK", info.toString());
     }
     
     @Test
     public void osOnly() {
         info.withOsName("Mac OSX").withOsVersion("10.5.1");
-        assertEquals("(Mac OSX; 10.5.1) BridgeJavaSDK", info.toString());
+        assertEquals("BridgeJavaSDK", info.toString());
     }
     
     @Test
@@ -55,6 +55,6 @@ public class ClientInfoTest {
         info.withOsVersion("14");
         info.withSdkVersion("10");
         
-        assertEquals("Belgium/2 (Motorola Flip-Phone; Android 14) BridgeJavaSDK/10", info.toString());
+        assertEquals("Belgium/2 (Motorola Flip-Phone; Android/14) BridgeJavaSDK/10", info.toString());
     }
 }
