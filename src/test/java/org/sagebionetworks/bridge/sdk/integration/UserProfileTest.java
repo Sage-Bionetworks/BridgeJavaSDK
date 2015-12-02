@@ -2,11 +2,14 @@ package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Set;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.sagebionetworks.bridge.IntegrationSmokeTest;
+import org.sagebionetworks.bridge.sdk.DeveloperClient;
 import org.sagebionetworks.bridge.sdk.Roles;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
@@ -21,16 +24,20 @@ import com.google.common.collect.Sets;
 @Category(IntegrationSmokeTest.class)
 public class UserProfileTest {
 
+    private static final Set<String> TASK_IDENTIFIERS = Sets.newHashSet("sdk-int-1","sdk-int-2");
     private TestUser developer;
 
     @Before
     public void before() {
         developer = TestUserHelper.createAndSignInUser(UserProfileTest.class, true, Roles.DEVELOPER);
         
-        Study study = developer.getSession().getDeveloperClient().getStudy();
-        study.getDataGroups().add("sdk-int-1");
-        study.getDataGroups().add("sdk-int-2");
-        developer.getSession().getDeveloperClient().updateStudy(study);
+        DeveloperClient devClient = developer.getSession().getDeveloperClient();
+        Study study = devClient.getStudy();
+        Set<String> taskIdentifiers = study.getTaskIdentifiers();
+        if (!taskIdentifiers.containsAll(TASK_IDENTIFIERS)) {
+            taskIdentifiers.addAll(TASK_IDENTIFIERS);
+            devClient.updateStudy(study);
+        }
     }
 
     @After

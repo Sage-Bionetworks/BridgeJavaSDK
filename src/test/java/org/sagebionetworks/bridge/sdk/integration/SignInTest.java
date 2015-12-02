@@ -2,6 +2,8 @@ package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Set;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,8 +35,11 @@ public class SignInTest {
         
         DeveloperClient devClient = developer.getSession().getDeveloperClient();
         Study study = devClient.getStudy();
-        study.getDataGroups().add("sdk-int-1");
-        devClient.updateStudy(study);
+        Set<String> taskIdentifiers = study.getTaskIdentifiers();
+        if (!taskIdentifiers.contains("sdk-int-1")) {
+            taskIdentifiers.add("sdk-int-1");
+            devClient.updateStudy(study);
+        }
     }
     
     @After
