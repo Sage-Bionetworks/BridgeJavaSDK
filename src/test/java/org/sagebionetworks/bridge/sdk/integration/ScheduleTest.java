@@ -9,6 +9,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
+import org.sagebionetworks.bridge.sdk.ClientInfo;
+import org.sagebionetworks.bridge.sdk.ClientProvider;
 import org.sagebionetworks.bridge.sdk.DeveloperClient;
 import org.sagebionetworks.bridge.sdk.Roles;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
@@ -30,6 +32,7 @@ public class ScheduleTest {
     
     @Before
     public void before() {
+        ClientProvider.setClientInfo(new ClientInfo.Builder().withAppName(Tests.APP_NAME).withAppVersion(3).build());
         user = TestUserHelper.createAndSignInUser(ScheduleTest.class, true);
         developer = TestUserHelper.createAndSignInUser(ScheduleTest.class, true, Roles.DEVELOPER);
         
@@ -44,6 +47,7 @@ public class ScheduleTest {
     
     @After
     public void after() {
+        ClientProvider.setClientInfo(Tests.TEST_CLIENT_INFO);
         try {
             DeveloperClient client = developer.getSession().getDeveloperClient();
             client.deleteSchedulePlan(planGuid);

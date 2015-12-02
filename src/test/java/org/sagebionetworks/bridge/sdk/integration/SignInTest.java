@@ -35,9 +35,9 @@ public class SignInTest {
         
         DeveloperClient devClient = developer.getSession().getDeveloperClient();
         Study study = devClient.getStudy();
-        Set<String> taskIdentifiers = study.getTaskIdentifiers();
-        if (!taskIdentifiers.contains("sdk-int-1")) {
-            taskIdentifiers.add("sdk-int-1");
+        Set<String> dataGroups = study.getDataGroups();
+        if (!dataGroups.contains("sdk-int-1")) {
+            dataGroups.add("sdk-int-1");
             devClient.updateStudy(study);
         }
     }

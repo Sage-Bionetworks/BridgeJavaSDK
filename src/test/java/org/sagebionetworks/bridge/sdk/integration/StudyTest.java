@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.AdminClient;
+import org.sagebionetworks.bridge.sdk.ClientInfo;
 import org.sagebionetworks.bridge.sdk.ClientProvider;
 import org.sagebionetworks.bridge.sdk.DeveloperClient;
 import org.sagebionetworks.bridge.sdk.ResearcherClient;
@@ -45,7 +46,7 @@ public class StudyTest {
     
     @After
     public void after() {
-        ClientProvider.getClientInfo().withDevice(null).withOsName(null).withOsVersion(null);
+        ClientProvider.setClientInfo(new ClientInfo.Builder().build());
         if (createdStudy && study != null) {
             admin.getSession().getAdminClient().deleteStudy(study.getIdentifier());
         }
@@ -200,8 +201,8 @@ public class StudyTest {
         try {
             
             // This is a version zero client, it should not be accepted
-            ClientProvider.getClientInfo().withOsName("Android").withDevice("Unknown").withOsVersion("1")
-                    .withAppVersion(0);
+            ClientProvider.setClientInfo(new ClientInfo.Builder().withDevice("Unknown").withOsName("Android")
+                    .withOsVersion("1").withAppName(Tests.APP_NAME).withAppVersion(0).build());
             user.getSession().getUserClient().getScheduledActivities(3, DateTimeZone.UTC);
             fail("Should have thrown exception");
             

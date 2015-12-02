@@ -11,19 +11,23 @@ public class ClientProvider {
 
     private static final Config config = new Config();
     
-    private static final ClientInfo info = new ClientInfo(true);
+    private static ClientInfo info = new ClientInfo.Builder().build();
     
     /**
      * Retrieve the Config object for the system.
      *
      * @return Config
      */
-    public static synchronized Config getConfig() {
+    public static Config getConfig() {
         return config;
     }
     
     public static ClientInfo getClientInfo() {
         return info;
+    }
+    
+    public static synchronized void setClientInfo(ClientInfo clientInfo) {
+        info = checkNotNull(clientInfo); 
     }
 
     /**
