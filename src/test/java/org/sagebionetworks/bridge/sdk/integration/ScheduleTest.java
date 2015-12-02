@@ -32,7 +32,6 @@ public class ScheduleTest {
     
     @Before
     public void before() {
-        ClientProvider.setClientInfo(new ClientInfo.Builder().withAppName(Tests.APP_NAME).withAppVersion(3).build());
         user = TestUserHelper.createAndSignInUser(ScheduleTest.class, true);
         developer = TestUserHelper.createAndSignInUser(ScheduleTest.class, true, Roles.DEVELOPER);
         
@@ -43,6 +42,7 @@ public class ScheduleTest {
             taskIdentifiers.addAll(TASK_IDENTIFIERS);
             developerClient.updateStudy(study);
         }
+        ClientProvider.setClientInfo(new ClientInfo.Builder().withAppName(Tests.APP_NAME).withAppVersion(3).build());
     }
     
     @After
