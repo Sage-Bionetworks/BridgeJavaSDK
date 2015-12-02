@@ -13,6 +13,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.sagebionetworks.bridge.IntegrationSmokeTest;
+import org.sagebionetworks.bridge.Tests;
+import org.sagebionetworks.bridge.sdk.ClientInfo;
 import org.sagebionetworks.bridge.sdk.ClientProvider;
 import org.sagebionetworks.bridge.sdk.DeveloperClient;
 import org.sagebionetworks.bridge.sdk.Roles;
@@ -70,12 +72,11 @@ public class ScheduledActivityTest {
 
     @After
     public void after() {
-        ClientProvider.getClientInfo().withAppVersion(null);
+        ClientProvider.setClientInfo(Tests.TEST_CLIENT_INFO);
         try {
             for (SchedulePlan plan : developerClient.getSchedulePlans()) {
                 developerClient.deleteSchedulePlan(plan.getGuid());
             }
-            assertEquals("Test should have deleted all schedule plans.", developerClient.getSchedulePlans().getTotal(), 0);
         } finally {
             developer.signOutAndDeleteUser();
             user.signOutAndDeleteUser();
@@ -85,24 +86,24 @@ public class ScheduledActivityTest {
     @Test
     public void createSchedulePlanGetScheduledActivities() {
         // At first, we are an application way outside the bounds of the target, nothing should be returned
-        ClientProvider.getClientInfo().withAppVersion(10);
+        ClientProvider.setClientInfo(new ClientInfo.Builder().withAppName(Tests.APP_NAME).withAppVersion(10).build());
         ResourceList<ScheduledActivity> scheduledActivities = userClient.getScheduledActivities(4, DateTimeZone.getDefault());
         assertEquals("no activities returned, app version too high", 0, scheduledActivities.getTotal());
         
         // Two however... that's fine
-        ClientProvider.getClientInfo().withAppVersion(2);
+        ClientProvider.setClientInfo(new ClientInfo.Builder().withAppName(Tests.APP_NAME).withAppVersion(2).build());
         scheduledActivities = userClient.getScheduledActivities(4, DateTimeZone.getDefault());
         assertEquals("one activity returned", 1, scheduledActivities.getTotal());
         
         // Check again... with a higher app version, the activity won't be returned.
         // This verifies that even after an activity is created, we will still filter it
         // when retrieved from the server (not just when creating activities).
-        ClientProvider.getClientInfo().withAppVersion(10);
+        ClientProvider.setClientInfo(new ClientInfo.Builder().withAppName(Tests.APP_NAME).withAppVersion(10).build());
         scheduledActivities = userClient.getScheduledActivities(4, DateTimeZone.getDefault());
         assertEquals("no activities returned, app version too high", 0, scheduledActivities.getTotal());
         
         // Get that activity again for the rest of the test
-        ClientProvider.getClientInfo().withAppVersion(2);
+        ClientProvider.setClientInfo(new ClientInfo.Builder().withAppName(Tests.APP_NAME).withAppVersion(2).build());
         scheduledActivities = userClient.getScheduledActivities(4, DateTimeZone.getDefault());
         
         ScheduledActivity schActivity = scheduledActivities.get(0);

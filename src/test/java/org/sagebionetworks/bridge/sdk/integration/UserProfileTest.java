@@ -24,7 +24,7 @@ import com.google.common.collect.Sets;
 @Category(IntegrationSmokeTest.class)
 public class UserProfileTest {
 
-    private static final Set<String> TASK_IDENTIFIERS = Sets.newHashSet("sdk-int-1","sdk-int-2");
+    private static final Set<String> DATA_GROUPS = Sets.newHashSet("sdk-int-1","sdk-int-2");
     private TestUser developer;
 
     @Before
@@ -33,9 +33,9 @@ public class UserProfileTest {
         
         DeveloperClient devClient = developer.getSession().getDeveloperClient();
         Study study = devClient.getStudy();
-        Set<String> taskIdentifiers = study.getTaskIdentifiers();
-        if (!taskIdentifiers.containsAll(TASK_IDENTIFIERS)) {
-            taskIdentifiers.addAll(TASK_IDENTIFIERS);
+        Set<String> dataGroups = study.getDataGroups();
+        if (!dataGroups.containsAll(DATA_GROUPS)) {
+            dataGroups.addAll(DATA_GROUPS);
             devClient.updateStudy(study);
         }
     }

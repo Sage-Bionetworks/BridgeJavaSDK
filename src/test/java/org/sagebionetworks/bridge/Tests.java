@@ -11,6 +11,8 @@ import java.util.Properties;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.time.Period;
+
+import org.sagebionetworks.bridge.sdk.ClientInfo;
 import org.sagebionetworks.bridge.sdk.models.schedules.ABTestScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.Activity;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
@@ -20,6 +22,10 @@ import org.sagebionetworks.bridge.sdk.models.schedules.TaskReference;
 import org.sagebionetworks.bridge.sdk.models.studies.EmailTemplate;
 
 public class Tests {
+    
+    public static final String APP_NAME = "Integration Tests";
+    
+    public static final ClientInfo TEST_CLIENT_INFO = new ClientInfo.Builder().withAppName(APP_NAME).withAppVersion(0).build();
     
     public static final String TEST_KEY = "api";
     

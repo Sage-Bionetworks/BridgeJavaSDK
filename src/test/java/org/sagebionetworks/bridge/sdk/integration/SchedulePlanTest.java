@@ -13,6 +13,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
+import org.sagebionetworks.bridge.sdk.ClientInfo;
+import org.sagebionetworks.bridge.sdk.ClientProvider;
 import org.sagebionetworks.bridge.sdk.DeveloperClient;
 import org.sagebionetworks.bridge.sdk.Roles;
 import org.sagebionetworks.bridge.sdk.TestSurvey;
@@ -38,8 +40,7 @@ import com.google.common.collect.Sets;
 
 public class SchedulePlanTest {
 
-    private static final Set<String> TASK_IDENTIFIERS = Sets.newHashSet("sdk-int-1", "sdk-int-2");
-    private GuidVersionHolder keys;
+    private static final Set<String> TASK_IDENTIFIERS = Sets.newHashSet("task:AAA", "task:BBB", "task:CCC");
 
     private TestUser user;
     private TestUser developer;
@@ -63,21 +64,9 @@ public class SchedulePlanTest {
 
     @After
     public void after() {
-        try {
-            // Try and clean up if that didn't happen in the test.
-            if (keys != null) {
-                developerClient.deleteSchedulePlan(keys.getGuid());
-            }
-            for (SchedulePlan plan : developerClient.getSchedulePlans()) {
-                developerClient.deleteSchedulePlan(plan.getGuid());
-            }
-            assertEquals("Test should have deleted all schedule plans.", developerClient.getSchedulePlans().getTotal(), 0);
-        } catch(Throwable t){
-            t.printStackTrace();
-        } finally {
-            developer.signOutAndDeleteUser();
-            user.signOutAndDeleteUser();
-        }
+        ClientProvider.setClientInfo(new ClientInfo.Builder().build());
+        developer.signOutAndDeleteUser();
+        user.signOutAndDeleteUser();
     }
 
     @Test
@@ -97,11 +86,14 @@ public class SchedulePlanTest {
 
     @Test
     public void crudSchedulePlan() throws Exception {
+        // We want a version that will return the schedule plan. Zero doesn't do it.
+        ClientProvider.setClientInfo(new ClientInfo.Builder().withAppName(Tests.APP_NAME).withAppVersion(3).build());
+        
         SchedulePlan plan = Tests.getABTestSchedulePlan();
 
         // Create
         assertNull(plan.getVersion());
-        keys = developerClient.createSchedulePlan(plan);
+        GuidVersionHolder keys = developerClient.createSchedulePlan(plan);
         assertEquals(keys.getGuid(), plan.getGuid());
         assertEquals(keys.getVersion(), plan.getVersion());
 
@@ -111,8 +103,8 @@ public class SchedulePlanTest {
         assertNotNull(plan.getModifiedOn());
         assertNotNull(plan.getVersion());
         assertEquals("A/B Test Schedule Plan", plan.getLabel());
-        assertEquals(2, plan.getMinAppVersion().intValue());
-        assertEquals(8, plan.getMaxAppVersion().intValue());
+        assertEquals(new Integer(2), plan.getMinAppVersion());
+        assertEquals(new Integer(8), plan.getMaxAppVersion());
         
         // Update
         SchedulePlan simplePlan = Tests.getSimpleSchedulePlan();
@@ -168,6 +160,7 @@ public class SchedulePlanTest {
     @Test
     public void planCanPointToPublishedSurvey() {
         GuidCreatedOnVersionHolder surveyKeys = null;
+        GuidVersionHolder keys = null;
         try {
             Survey survey = TestSurvey.getSurvey();
             surveyKeys = developerClient.createSurvey(survey);
@@ -182,7 +175,7 @@ public class SchedulePlanTest {
             strategy.getSchedule().getActivities().clear();
             strategy.getSchedule().getActivities().add(activity);
             
-            GuidVersionHolder keys = developerClient.createSchedulePlan(plan);
+            keys = developerClient.createSchedulePlan(plan);
             SchedulePlan newPlan = developerClient.getSchedulePlan(keys.getGuid());
             
             // values that are not updated passed over for simple equality comparison
@@ -192,6 +185,7 @@ public class SchedulePlanTest {
             
             assertEquals(plan, newPlan);
         } finally {
+            developerClient.deleteSchedulePlan(keys.getGuid());
             developerClient.deleteSurvey(surveyKeys);
         }
     }
