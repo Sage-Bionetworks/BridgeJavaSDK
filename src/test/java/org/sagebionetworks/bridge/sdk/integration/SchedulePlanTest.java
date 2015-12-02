@@ -38,7 +38,7 @@ import com.google.common.collect.Sets;
 
 public class SchedulePlanTest {
 
-    private static final Set<String> TASK_IDENTIFIERS = Sets.newHashSet("task:AAA", "task:BBB", "task:CCC");
+    private static final Set<String> TASK_IDENTIFIERS = Sets.newHashSet("sdk-int-1", "sdk-int-2");
     private GuidVersionHolder keys;
 
     private TestUser user;
@@ -128,7 +128,6 @@ public class SchedulePlanTest {
             plan.getStrategy().getClass().getSimpleName());
 
         ResourceList<Schedule> schedules = userClient.getSchedules();
-        System.out.println(schedules);
         assertTrue("Schedules exist", !schedules.getItems().isEmpty());
 
         // Delete
