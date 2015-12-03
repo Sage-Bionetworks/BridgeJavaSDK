@@ -12,7 +12,7 @@ import org.sagebionetworks.bridge.sdk.ResearcherClient;
 import org.sagebionetworks.bridge.sdk.Roles;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
-import org.sagebionetworks.bridge.sdk.exceptions.BridgeServerException;
+import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.studies.StudyConsent;
 
@@ -30,7 +30,7 @@ public class StudyConsentTest {
         researcher.signOutAndDeleteUser();
     }
 
-    @Test(expected=BridgeServerException.class)
+    @Test(expected=BridgeSDKException.class)
     public void mustBeResearcherToAdd() {
         TestUser user = TestUserHelper.createAndSignInUser(StudyConsentTest.class, true);
         try {

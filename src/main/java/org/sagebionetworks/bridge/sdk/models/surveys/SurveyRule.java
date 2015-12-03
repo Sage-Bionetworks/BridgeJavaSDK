@@ -7,13 +7,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class SurveyRule {
 
     public enum Operator {
-        EQ, // equal to
-        NE, // not equal to
-        LT, // less than
-        GT, // greater than
-        LE, // less than or equal to
-        GE, // greater than or equal to
-        DE;  // declined to answer
+        /** Equal to. *;
+        EQ,
+        /** Not equal to. */
+        NE,
+        /** Less than. */
+        LT,
+        /** Greater than. */
+        GT,
+        /** Less than or equal to. */
+        LE,
+        /** Greater than or equal to. */
+        GE,
+        /** Declined to answer. */
+        DE;
     }
 
     private Operator operator;

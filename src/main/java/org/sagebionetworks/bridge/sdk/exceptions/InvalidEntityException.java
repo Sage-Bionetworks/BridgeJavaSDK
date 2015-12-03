@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("serial")
-public class InvalidEntityException extends BridgeServerException {
+public class InvalidEntityException extends BridgeSDKException {
 
     private final Map<String,List<String>> errors;
 

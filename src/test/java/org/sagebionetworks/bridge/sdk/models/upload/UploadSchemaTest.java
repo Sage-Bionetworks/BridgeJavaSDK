@@ -11,8 +11,8 @@ import com.google.common.collect.ImmutableList;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 
-import org.sagebionetworks.bridge.sdk.Utilities;
 import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
+import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 @SuppressWarnings("unchecked")
 public class UploadSchemaTest {

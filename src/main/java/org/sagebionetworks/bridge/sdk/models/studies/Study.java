@@ -1,6 +1,6 @@
 package org.sagebionetworks.bridge.sdk.models.studies;
 
-import static org.sagebionetworks.bridge.sdk.Utilities.TO_STRING_STYLE;
+import static org.sagebionetworks.bridge.sdk.utils.Utilities.TO_STRING_STYLE;
 
 import java.util.EnumMap;
 import java.util.HashSet;

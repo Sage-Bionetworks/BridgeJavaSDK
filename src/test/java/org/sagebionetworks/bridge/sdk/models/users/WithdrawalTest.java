@@ -3,7 +3,8 @@ package org.sagebionetworks.bridge.sdk.models.users;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.sagebionetworks.bridge.sdk.Utilities;
+
+import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 

@@ -116,6 +116,9 @@
                     <links>
                         <link>http://joda-time.sourceforge.net/apidocs/</link>
                     </links>
+                    <excludePackageNames>
+                    	org.sagebionetworks.bridge.sdk.json,org.sagebionetworks.bridge.sdk.utils
+                    </excludePackageNames>
                 </configuration>
             </plugin>
             <plugin>

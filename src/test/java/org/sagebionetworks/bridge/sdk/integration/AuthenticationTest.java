@@ -18,7 +18,7 @@ import org.sagebionetworks.bridge.sdk.Config.Props;
 import org.sagebionetworks.bridge.sdk.Session;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
-import org.sagebionetworks.bridge.sdk.exceptions.BridgeServerException;
+import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.users.EmailCredentials;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
@@ -86,7 +86,7 @@ public class AuthenticationTest {
                 config.set(Props.STUDY_IDENTIFIER, studyId);
                 ClientProvider.signIn(new SignInCredentials(studyId, testUser1.getUsername(), testUser1.getPassword()));
                 fail("Should not have allowed sign in");
-            } catch(BridgeServerException e) {
+            } catch(BridgeSDKException e) {
                 assertEquals(404, e.getStatusCode());
             }
         } finally {

@@ -5,6 +5,8 @@ import nl.jqno.equalsverifier.Warning;
 
 import org.junit.Test;
 
+import org.sagebionetworks.bridge.sdk.models.upload.UploadSession;
+
 public class UploadSessionTest {
     
     @Test

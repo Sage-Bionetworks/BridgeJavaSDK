@@ -48,7 +48,7 @@ public final class SurveyResponse implements IdentifierHolder {
             break;
         default:
             throw new BridgeSDKException(
-                    "Status string is not one of the three defined: unstarted, in_progress, finished");
+                    "Status string is not one of the three defined: unstarted, in_progress, finished", 400);
         }
     }
 
