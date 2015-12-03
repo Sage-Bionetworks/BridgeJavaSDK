@@ -80,7 +80,9 @@ public final class Config {
         V3_SCHEDULEPLANS_GUID, 
         V3_STUDIES, 
         V3_STUDIES_SELF, 
-        V3_STUDIES_IDENTIFIER, 
+        V3_STUDIES_IDENTIFIER,
+        V3_SUBPOPULATION,
+        V3_SUBPOPULATIONS,
         V3_BACKFILL_NAME, 
         V3_BACKFILL_NAME_START, 
         V3_CACHE, 
@@ -429,6 +431,15 @@ public final class Config {
 
     public String getEmailParticipantRosterApi() {
         return val(Props.V3_USERS_EMAILPARTICIPANTROSTER);
+    }
+    
+    public String getSubpopulations() {
+        return val(Props.V3_SUBPOPULATIONS);
+    }
+    
+    public String getSubpopulation(String guid) {
+        checkArgument(isNotBlank(guid));
+        return String.format(val(Props.V3_SUBPOPULATION), guid);
     }
 
     private String val(Props prop) {

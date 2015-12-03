@@ -14,6 +14,7 @@ import org.sagebionetworks.bridge.sdk.models.holders.SimpleVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
+import org.sagebionetworks.bridge.sdk.models.studies.Subpopulation;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadSchema;
 
@@ -23,6 +24,7 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
     
     private final TypeReference<ResourceListImpl<Survey>> sType = new TypeReference<ResourceListImpl<Survey>>() {};
     private final TypeReference<ResourceListImpl<SchedulePlan>> spType = new TypeReference<ResourceListImpl<SchedulePlan>>() {};
+    private final TypeReference<ResourceListImpl<Subpopulation>> subpopType = new TypeReference<ResourceListImpl<Subpopulation>>() {};
     private static final TypeReference<ResourceListImpl<UploadSchema>> TYPE_REF_UPLOAD_SCHEMA_LIST =
             new TypeReference<ResourceListImpl<UploadSchema>>() {};
 
@@ -220,5 +222,35 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
     public ResourceList<UploadSchema> getAllUploadSchemas() {
         session.checkSignedIn();
         return get(config.getUploadSchemasApi(), TYPE_REF_UPLOAD_SCHEMA_LIST);
+    }
+
+    @Override
+    public ResourceList<Subpopulation> getAllSubpopulations() {
+        session.checkSignedIn();
+        return get(config.getSubpopulations(), subpopType);
+    }
+
+    @Override
+    public GuidVersionHolder createSubpopulation(Subpopulation subpopulation) {
+        session.checkSignedIn();
+        return post(config.getSubpopulations(), subpopulation, GuidVersionHolder.class);
+    }
+
+    @Override
+    public Subpopulation getSubpopulation(String guid) {
+        session.checkSignedIn();
+        return get(config.getSubpopulation(guid), Subpopulation.class);
+    }
+
+    @Override
+    public GuidVersionHolder updateSubpopulation(Subpopulation subpopulation) {
+        session.checkSignedIn();
+        return post(config.getSubpopulation(subpopulation.getGuid()), subpopulation, GuidVersionHolder.class);
+    }
+
+    @Override
+    public void deleteSubpopulation(String guid) {
+        session.checkSignedIn();
+        delete(config.getSubpopulation(guid));
     }
 }

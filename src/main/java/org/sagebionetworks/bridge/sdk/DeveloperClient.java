@@ -7,6 +7,7 @@ import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
+import org.sagebionetworks.bridge.sdk.models.studies.Subpopulation;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadSchema;
 
@@ -248,4 +249,39 @@ public interface DeveloperClient {
      * @return a list of upload schemas
      */
     public ResourceList<UploadSchema> getAllUploadSchemas();
+
+    /**
+     * Get all subpopulations defined for this study.
+     * @return
+     */
+    public ResourceList<Subpopulation> getAllSubpopulations();
+    
+    /**
+     * Create a new subpopulation.
+     * @param subpopulation
+     */
+    public GuidVersionHolder createSubpopulation(Subpopulation subpopulation);
+    
+    /**
+     * Get a subpopulation using its GUID.
+     * @param guid
+     * @return
+     */
+    public Subpopulation getSubpopulation(String guid);
+    
+    /**
+     * Update a subpopulation with the given GUID.
+     * @param subpopulation
+     */
+    public GuidVersionHolder updateSubpopulation(Subpopulation subpopulation);
+    
+    /**
+     * Delete a subpopulation. Studies start with a default subpopulation that cannot 
+     * be deleted (although it can be edited). But other subpopulations can be deleted. 
+     * Records of consent for a particular subpopulation are not deleted and historical 
+     * records can be produced of consent to deleted subpopulations.
+     * @param guid
+     */
+    public void deleteSubpopulation(String guid);
+    
 }
