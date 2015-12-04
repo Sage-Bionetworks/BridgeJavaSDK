@@ -20,6 +20,10 @@ import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.schedules.SimpleScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.TaskReference;
 import org.sagebionetworks.bridge.sdk.models.studies.EmailTemplate;
+import org.sagebionetworks.bridge.sdk.models.studies.OperatingSystem;
+import org.sagebionetworks.bridge.sdk.models.studies.Study;
+
+import com.google.common.collect.Sets;
 
 public class Tests {
     
@@ -124,4 +128,29 @@ public class Tests {
     public static Activity getActivityFromSimpleStrategy(SchedulePlan plan) {
         return ((SimpleScheduleStrategy)plan.getStrategy()).getSchedule().getActivities().get(0);    
     }
+    
+    public static Study getStudy(String identifier, Long version) {
+        Study study = new Study();
+        study.setIdentifier(identifier);
+        study.setMinAgeOfConsent(18);
+        study.setMaxNumOfParticipants(100);
+        study.setName("Test Study [SDK]");
+        study.setSponsorName("The Test Study Folks [SDK]");
+        study.setSupportEmail("test@test.com");
+        study.setConsentNotificationEmail("test2@test.com");
+        study.setTechnicalEmail("test3@test.com");
+        study.getUserProfileAttributes().add("new_profile_attribute");
+        study.setTaskIdentifiers(Sets.newHashSet("taskA")); // setting it differently just for the heck of it 
+        study.setDataGroups(Sets.newHashSet("beta_users", "production_users"));
+        study.setResetPasswordTemplate(Tests.TEST_RESET_PASSWORD_TEMPLATE);
+        study.setVerifyEmailTemplate(Tests.TEST_VERIFY_EMAIL_TEMPLATE);
+        study.setHealthCodeExportEnabled(true);
+        study.getMinSupportedAppVersions().put(OperatingSystem.ANDROID, 10);
+        study.getMinSupportedAppVersions().put(OperatingSystem.IOS, 14);
+        if (version != null) {
+            study.setVersion(version);
+        }
+        return study;
+    }
+
 }

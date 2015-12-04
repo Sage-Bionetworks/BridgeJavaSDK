@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import org.sagebionetworks.bridge.sdk.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 import com.google.common.collect.Sets;
 
@@ -25,6 +25,7 @@ public class SubpopulationTest {
         subpop.setName("Name");
         subpop.setDescription("Description");
         subpop.setRequired(true);
+        subpop.setDefaultGroup(true);
         subpop.setMinAppVersion(2);
         subpop.setMaxAppVersion(10);
         subpop.setVersion(2L);
@@ -32,7 +33,6 @@ public class SubpopulationTest {
         subpop.setNoneOfGroups(Sets.newHashSet("group2"));
         
         String json = Utilities.getMapper().writeValueAsString(subpop);
-        System.out.println(json);
         
         Subpopulation subpop2 = Utilities.getMapper().readValue(json, Subpopulation.class);
         assertEquals(subpop, subpop2);

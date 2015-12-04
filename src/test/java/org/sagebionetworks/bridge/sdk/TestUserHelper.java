@@ -74,7 +74,7 @@ public class TestUserHelper {
 
         return new TestUserHelper.TestUser(adminClient, session, "", "", "", Sets.newHashSet(Roles.ADMIN));
     }
-
+    
     public static TestUser createAndSignInUser(Class<?> cls, boolean consent, Roles... roles) {
         checkNotNull(cls);
 

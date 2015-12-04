@@ -1,11 +1,14 @@
 package org.sagebionetworks.bridge.sdk.models.studies;
 
-import static org.sagebionetworks.bridge.sdk.Utilities.TO_STRING_STYLE;
+import static org.sagebionetworks.bridge.sdk.utils.Utilities.TO_STRING_STYLE;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Objects;
 import java.util.Set;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 
 import com.google.common.collect.ImmutableSet;
 
@@ -21,6 +24,18 @@ public final class Subpopulation {
     private Integer maxAppVersion;
     private Set<String> allOfGroups;
     private Set<String> noneOfGroups;
+    
+    public Subpopulation() {
+        // This is different than elsewhere in the SDK...
+        this.allOfGroups = ImmutableSet.of();
+        this.noneOfGroups = ImmutableSet.of();
+    }
+    
+    public void setHolder(GuidVersionHolder holder) {
+        checkNotNull(holder);
+        this.guid = holder.getGuid();
+        this.version = holder.getVersion();
+    }
     
     public String getGuid() {
         return guid;
