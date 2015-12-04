@@ -22,12 +22,12 @@ import org.sagebionetworks.bridge.sdk.Roles;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.exceptions.EntityNotFoundException;
-import org.sagebionetworks.bridge.sdk.models.UploadRequest;
-import org.sagebionetworks.bridge.sdk.models.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadFieldType;
+import org.sagebionetworks.bridge.sdk.models.upload.UploadRequest;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadSchema;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadSchemaType;
+import org.sagebionetworks.bridge.sdk.models.upload.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadStatus;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadValidationStatus;
 

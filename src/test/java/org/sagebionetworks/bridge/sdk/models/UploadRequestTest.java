@@ -9,8 +9,9 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 
 import org.junit.Test;
 
-import org.sagebionetworks.bridge.sdk.Utilities;
 import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
+import org.sagebionetworks.bridge.sdk.models.upload.UploadRequest;
+import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 public class UploadRequestTest {
     @Test(expected = InvalidEntityException.class)

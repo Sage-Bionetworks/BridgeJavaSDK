@@ -9,7 +9,8 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
 import org.junit.Test;
-import org.sagebionetworks.bridge.sdk.Utilities;
+
+import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 import com.google.common.collect.Lists;
 

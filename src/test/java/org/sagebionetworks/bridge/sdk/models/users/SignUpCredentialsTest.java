@@ -9,7 +9,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import org.sagebionetworks.bridge.sdk.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;

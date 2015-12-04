@@ -3,7 +3,7 @@ package org.sagebionetworks.bridge.sdk.models.surveys;
 import java.io.IOException;
 import java.util.Map;
 
-import org.sagebionetworks.bridge.sdk.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.Maps;
 
-public class ConstraintsDeserializer extends JsonDeserializer<Constraints> {
+class ConstraintsDeserializer extends JsonDeserializer<Constraints> {
 
     Map<String,Class<? extends Constraints>> map = Maps.newHashMap();
     

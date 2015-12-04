@@ -16,7 +16,6 @@ import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.ClientProvider;
 import org.sagebionetworks.bridge.sdk.Session;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
-import org.sagebionetworks.bridge.sdk.Utilities;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.exceptions.ConsentRequiredException;
@@ -25,6 +24,7 @@ import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
 import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
+import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

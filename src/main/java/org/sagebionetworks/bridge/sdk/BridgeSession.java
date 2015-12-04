@@ -17,7 +17,7 @@ class BridgeSession implements Session {
     private DataGroups dataGroups;
     
     BridgeSession(UserSession session) {
-        checkNotNull(session, Bridge.CANNOT_BE_NULL, "UserSession");
+        checkNotNull(session, "%s cannot be null", "UserSession");
         
         this.username = session.getUsername();
         this.sessionToken = session.getSessionToken();

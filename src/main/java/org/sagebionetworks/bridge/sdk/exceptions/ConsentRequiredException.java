@@ -3,7 +3,7 @@ package org.sagebionetworks.bridge.sdk.exceptions;
 import org.sagebionetworks.bridge.sdk.Session;
 
 @SuppressWarnings("serial")
-public final class ConsentRequiredException extends BridgeServerException {
+public final class ConsentRequiredException extends BridgeSDKException {
 
     private final Session session;
 

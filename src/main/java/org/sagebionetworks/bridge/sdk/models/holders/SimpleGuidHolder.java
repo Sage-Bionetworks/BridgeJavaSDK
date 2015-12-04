@@ -5,8 +5,6 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.util.Objects;
 
-import org.sagebionetworks.bridge.sdk.Bridge;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -16,7 +14,7 @@ public final class SimpleGuidHolder implements GuidHolder {
     
     @JsonCreator
     public SimpleGuidHolder(@JsonProperty("guid") String guid) {
-        checkNotNull(isNotBlank(guid), Bridge.CANNOT_BE_BLANK, "guid");
+        checkNotNull(isNotBlank(guid), "%s cannot be blank", "guid");
         this.guid = guid;
     }
     

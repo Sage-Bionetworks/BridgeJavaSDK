@@ -7,7 +7,7 @@ import nl.jqno.equalsverifier.Warning;
 
 import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
-import org.sagebionetworks.bridge.sdk.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 public class SchedulePlanTest {
     
