@@ -131,8 +131,8 @@ public final class Subpopulation {
     }
     @Override
     public int hashCode() {
-        return Objects.hash(allOfGroups, description, guid, maxAppVersion, 
-                minAppVersion, name, noneOfGroups, required, defaultGroup, version);
+        return Objects.hash(allOfGroups, description, guid, maxAppVersion, minAppVersion, name, noneOfGroups, required,
+                defaultGroup, version);
     }
     @Override
     public boolean equals(Object obj) {
