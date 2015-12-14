@@ -1,5 +1,8 @@
 package org.sagebionetworks.bridge.sdk;
 
+import java.util.List;
+
+import org.sagebionetworks.bridge.sdk.models.subpopulations.ConsentStatus;
 import org.sagebionetworks.bridge.sdk.models.users.DataGroups;
 import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 
@@ -20,6 +23,8 @@ public interface Session {
     public void signOut();
     
     public DataGroups getDataGroups();
+    
+    public List<ConsentStatus> getConsentStatuses();
     
     public UserClient getUserClient();
     

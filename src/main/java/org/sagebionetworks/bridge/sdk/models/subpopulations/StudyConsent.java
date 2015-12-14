@@ -1,4 +1,4 @@
-package org.sagebionetworks.bridge.sdk.models.studies;
+package org.sagebionetworks.bridge.sdk.models.subpopulations;
 
 import java.util.Objects;
 

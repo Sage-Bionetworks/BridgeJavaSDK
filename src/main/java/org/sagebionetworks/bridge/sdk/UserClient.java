@@ -8,6 +8,7 @@ import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.ScheduledActivity;
+import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
@@ -51,24 +52,29 @@ public interface UserClient {
     /**
      * Consent to research.
      *
+     * @param subpopGuid
+     *          The subpopulation of the study that the user is consenting to participate int.
      * @param signature
      *          Name, birthdate, and optionally signature image, of consenter's signature.
      * @param scope
      *          Scope of sharing for this consent
      */
-    public void consentToResearch(ConsentSignature signature, SharingScope scope);
+    public void consentToResearch(SubpopulationGuid subpopGuid, ConsentSignature signature, SharingScope scope);
 
     /**
      * Returns the user's consent signature, which includes the name, birthdate, and signature image.
      *
+     * @param subpopGuid
      * @return consent signature
      */
-    public ConsentSignature getConsentSignature();
+    public ConsentSignature getConsentSignature(SubpopulationGuid subpopGuid);
     
     /**
      * Email the signed consent agreement to the participant's email address.
+     * 
+     * @param subpopGuid
      */
-    public void emailConsentSignature();
+    public void emailConsentSignature(SubpopulationGuid subpopGuid);
 
     /**
      * Change (stop, resume) the sharing of data for this participant.
@@ -79,9 +85,10 @@ public interface UserClient {
     /**
      * Withdraw user's consent to participate in research. The user will no longer be able to submit 
      * data to the server without receiving an error response from the server (ConsentRequiredException).
+     * @param subpopGuid
      * @param reason
      */
-    public void withdrawConsentToResearch(String reason);
+    public void withdrawConsentToResearch(SubpopulationGuid subpopGuid, String reason);
     
     /**
      * Get all schedules associated with a study.

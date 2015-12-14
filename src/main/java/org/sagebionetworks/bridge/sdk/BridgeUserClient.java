@@ -26,6 +26,8 @@ import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleIdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.ScheduledActivity;
+import org.sagebionetworks.bridge.sdk.models.subpopulations.ConsentStatus;
+import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
@@ -40,6 +42,7 @@ import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
 import org.sagebionetworks.bridge.sdk.models.users.Withdrawal;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.collect.Lists;
 
 class BridgeUserClient extends BaseApiCaller implements UserClient {
 
@@ -85,29 +88,34 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
      */
 
     @Override
-    public void consentToResearch(ConsentSignature signature, SharingScope scope) {
+    public void consentToResearch(SubpopulationGuid subpopGuid, ConsentSignature signature, SharingScope scope) {
         session.checkSignedIn();
+        checkNotNull(subpopGuid, CANNOT_BE_NULL, "subpopGuid");
         checkNotNull(signature, CANNOT_BE_NULL, "ConsentSignature");
         checkNotNull(scope, CANNOT_BE_NULL, "SharingScope");
 
         ConsentSubmission submission = new ConsentSubmission(signature, scope);
         
-        post(config.getConsentSignatureApi(), submission);
-        session.setConsented(true);
+        post(config.getConsentSignatureApi(subpopGuid), submission);
         session.setSharingScope(scope);
+        changeConsent(subpopGuid, true);
     }
 
     @Override
-    public ConsentSignature getConsentSignature() {
+    public ConsentSignature getConsentSignature(SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
-        ConsentSignature sig = get(config.getConsentSignatureApi(), ConsentSignature.class);
+        checkNotNull(subpopGuid, CANNOT_BE_NULL, "subpopGuid");
+        
+        ConsentSignature sig = get(config.getConsentSignatureApi(subpopGuid), ConsentSignature.class);
         return sig;
     }
 
     @Override
-    public void emailConsentSignature() {
+    public void emailConsentSignature(SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
-        post(config.getEmailConsentSignatureApi());
+        checkNotNull(subpopGuid, CANNOT_BE_NULL, "subpopGuid");
+        
+        post(config.getEmailConsentSignatureApi(subpopGuid));
     }
 
     @Override
@@ -121,13 +129,14 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     }
 
     @Override
-    public void withdrawConsentToResearch(String reason) {
+    public void withdrawConsentToResearch(SubpopulationGuid subpopGuid, String reason) {
         session.checkSignedIn();
+        checkNotNull(subpopGuid, CANNOT_BE_NULL, "subpopGuid");
         
         Withdrawal withdrawal = new Withdrawal(reason);
-        post(config.getWithdrawConsentSignatureApi(), withdrawal);
-        session.setSharingScope(SharingScope.NO_SHARING);
-        session.setConsented(false);
+        post(config.getWithdrawConsentSignatureApi(subpopGuid), withdrawal);
+        session.setSharingScope(SharingScope.NO_SHARING); // is this still true?
+        changeConsent(subpopGuid, false);
     }
     
     /*
@@ -271,6 +280,20 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         session.checkSignedIn();
         
         return get(config.getDataGroupsApi(), DataGroups.class);
+    }
+    
+    private void changeConsent(SubpopulationGuid subpopGuid, boolean isConsented) {
+        List<ConsentStatus> newStatuses = Lists.newArrayList();
+        for (ConsentStatus status : session.getConsentStatuses()) {
+            if (status.getSubpopulationGuid().equals(subpopGuid.getGuid())) {
+                newStatuses.add(new ConsentStatus(status.getName(), status.getSubpopulationGuid(), 
+                        status.isRequired(), isConsented, status.isMostRecentConsent()));
+            } else {
+                newStatuses.add(status);
+            }
+        }
+        session.setConsentStatuses(newStatuses);
+        session.setConsented(ConsentStatus.isUserConsented(newStatuses));
     }
     
 }

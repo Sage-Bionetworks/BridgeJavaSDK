@@ -10,6 +10,8 @@ import org.joda.time.LocalDate;
 
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.exceptions.ConsentRequiredException;
+import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
+import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuidImpl;
 import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
 import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
@@ -54,6 +56,9 @@ public class TestUserHelper {
         }
         public Set<Roles> getRoles() {
             return roles;
+        }
+        public SubpopulationGuid getDefaultSubpopulation() {
+            return new SubpopulationGuidImpl(Tests.TEST_KEY);
         }
         public boolean signOutAndDeleteUser() {
             userSession.signOut();
@@ -104,7 +109,8 @@ public class TestUserHelper {
             userSession = e.getSession();
             if (consent) {
                 ConsentSignature signature = new ConsentSignature("Tester", LocalDate.parse("1970-02-02"), null, null);
-                userSession.getUserClient().consentToResearch(signature, SharingScope.NO_SHARING);
+                userSession.getUserClient().consentToResearch(new SubpopulationGuidImpl(Tests.TEST_KEY), signature,
+                        SharingScope.NO_SHARING);
             }
         }
         return new TestUserHelper.TestUser(adminClient, userSession, signUp.getUsername(), signUp.getEmail(),

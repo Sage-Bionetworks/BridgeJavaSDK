@@ -1,0 +1,95 @@
+package org.sagebionetworks.bridge.sdk.models.subpopulations;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import org.sagebionetworks.bridge.sdk.utils.Utilities;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.Lists;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
+
+public class ConsentStatusTest {
+    
+    private static final ConsentStatus REQUIRED_SIGNED_CURRENT = new ConsentStatus("Name1", "foo", true, true, true);
+    private static final ConsentStatus REQUIRED_SIGNED_OBSOLETE = new ConsentStatus("Name1", "foo", true, true, false);
+    private static final ConsentStatus OPTIONAL_SIGNED_CURRENT = new ConsentStatus("Name1", "foo", false, true, true);
+    private static final ConsentStatus REQUIRED_UNSIGNED = new ConsentStatus("Name1", "foo", true, false, false);
+    private static final ConsentStatus OPTIONAL_UNSIGNED = new ConsentStatus("Name1", "foo", false, false, false);
+    
+    private List<ConsentStatus> statuses;
+    
+    @Before
+    public void before() {
+        statuses = Lists.newArrayList();
+    }
+    
+    @Test
+    public void hashCodeEquals() {
+        EqualsVerifier.forClass(ConsentStatus.class).allFieldsShouldBeUsed().verify(); 
+    }
+    
+    // Will be stored as JSON in the the session, via the User object, so it must serialize.
+    @Test
+    public void canSerialize() throws Exception {
+        ConsentStatus status = new ConsentStatus("Name", "GUID", true, true, true);
+
+        String json = Utilities.getMapper().writeValueAsString(status);
+        JsonNode node = Utilities.getMapper().readTree(json);
+        
+        assertEquals("Name", node.get("name").asText());
+        assertEquals("GUID", node.get("subpopulationGuid").asText());
+        assertTrue(node.get("required").asBoolean());
+        assertTrue(node.get("consented").asBoolean());
+        assertTrue(node.get("mostRecentConsent").asBoolean());
+        
+        ConsentStatus status2 = Utilities.getMapper().readValue(json, ConsentStatus.class);
+        assertEquals(status, status2);
+    }
+
+    @Test
+    public void isUserConsented() {
+        assertFalse(ConsentStatus.isUserConsented(statuses));
+        
+        statuses.add(REQUIRED_UNSIGNED);
+        statuses.add(REQUIRED_SIGNED_CURRENT);
+        statuses.add(OPTIONAL_SIGNED_CURRENT);
+        assertFalse(ConsentStatus.isUserConsented(statuses));
+        
+        statuses.clear();
+        statuses.add(REQUIRED_SIGNED_CURRENT);
+        statuses.add(REQUIRED_UNSIGNED);
+        statuses.add(OPTIONAL_UNSIGNED);
+        assertFalse(ConsentStatus.isUserConsented(statuses));
+
+        statuses.clear();
+        statuses.add(REQUIRED_SIGNED_CURRENT);
+        statuses.add(REQUIRED_SIGNED_OBSOLETE);
+        statuses.add(OPTIONAL_UNSIGNED);
+        assertTrue(ConsentStatus.isUserConsented(statuses));
+    }
+
+    @Test
+    public void isConsentCurrent() {
+        assertFalse(ConsentStatus.isConsentCurrent(statuses));
+        
+        statuses.add(REQUIRED_SIGNED_CURRENT);
+        statuses.add(REQUIRED_SIGNED_OBSOLETE);
+        statuses.add(OPTIONAL_UNSIGNED);
+        assertFalse(ConsentStatus.isConsentCurrent(statuses));
+        
+        statuses.clear();
+        statuses.add(REQUIRED_SIGNED_CURRENT);
+        statuses.add(REQUIRED_SIGNED_CURRENT);
+        statuses.add(OPTIONAL_UNSIGNED);
+        assertTrue(ConsentStatus.isConsentCurrent(statuses));
+    }
+
+}

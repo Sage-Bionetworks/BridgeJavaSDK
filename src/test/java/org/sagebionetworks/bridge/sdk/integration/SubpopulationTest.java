@@ -17,7 +17,7 @@ import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.exceptions.BadRequestException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
-import org.sagebionetworks.bridge.sdk.models.studies.Subpopulation;
+import org.sagebionetworks.bridge.sdk.models.subpopulations.Subpopulation;
 
 public class SubpopulationTest {
 

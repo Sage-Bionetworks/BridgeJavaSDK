@@ -1,4 +1,4 @@
-package org.sagebionetworks.bridge.sdk.models.studies;
+package org.sagebionetworks.bridge.sdk.models.subpopulations;
 
 import static org.sagebionetworks.bridge.sdk.utils.Utilities.TO_STRING_STYLE;
 import static com.google.common.base.Preconditions.checkNotNull;

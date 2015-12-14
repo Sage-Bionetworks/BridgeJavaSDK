@@ -14,7 +14,7 @@ import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
-import org.sagebionetworks.bridge.sdk.models.studies.StudyConsent;
+import org.sagebionetworks.bridge.sdk.models.subpopulations.StudyConsent;
 
 public class StudyConsentTest {
 
@@ -37,7 +37,7 @@ public class StudyConsentTest {
             StudyConsent consent = new StudyConsent();
             consent.setDocumentContent("<p>Test content.</p>");
 
-            user.getSession().getResearcherClient().createStudyConsent(consent);
+            user.getSession().getResearcherClient().createStudyConsent(user.getDefaultSubpopulation(), consent);
 
         } finally {
             user.signOutAndDeleteUser();
@@ -55,32 +55,33 @@ public class StudyConsentTest {
 
         StudyConsent consent = new StudyConsent();
         consent.setDocumentContent("<p>Test content</p>");
-        client.createStudyConsent(consent);
+        client.createStudyConsent(researcher.getDefaultSubpopulation(), consent);
 
-        ResourceList<StudyConsent> studyConsents = client.getAllStudyConsents();
+        ResourceList<StudyConsent> studyConsents = client.getAllStudyConsents(researcher.getDefaultSubpopulation());
 
         assertNotNull("studyConsents should not be null.", studyConsents);
         assertTrue("studyConsents should have at least one StudyConsent", studyConsents.getTotal() > 0);
         // And btw these should match
         assertEquals("items.size() == total", studyConsents.getTotal(), studyConsents.getItems().size());
 
-        StudyConsent current = client.getStudyConsent(studyConsents.getItems().get(0).getCreatedOn());
+        StudyConsent current = client.getStudyConsent(researcher.getDefaultSubpopulation(),
+                studyConsents.getItems().get(0).getCreatedOn());
         assertNotNull("studyConsent should not be null.", current);
         
         assertEquals(consent.getDocumentContent(), current.getDocumentContent());
         assertNotNull(current.getCreatedOn());
 
-        client.publishStudyConsent(current.getCreatedOn());
+        client.publishStudyConsent(researcher.getDefaultSubpopulation(), current.getCreatedOn());
 
-        StudyConsent published = client.getPublishedStudyConsent();
+        StudyConsent published = client.getPublishedStudyConsent(researcher.getDefaultSubpopulation());
         assertTrue("Published consent is returned.", published.isActive());
         
-        client.createStudyConsent(current);
+        client.createStudyConsent(researcher.getDefaultSubpopulation(), current);
         
-        StudyConsent newOne = client.getMostRecentStudyConsent();
+        StudyConsent newOne = client.getMostRecentStudyConsent(researcher.getDefaultSubpopulation());
         assertTrue(newOne.getCreatedOn().isAfter(published.getCreatedOn()));
         
-        ResourceList<StudyConsent> studyConsents2 = client.getAllStudyConsents();
+        ResourceList<StudyConsent> studyConsents2 = client.getAllStudyConsents(researcher.getDefaultSubpopulation());
         assertEquals(studyConsents.getTotal()+1, studyConsents2.getTotal());
     }
 

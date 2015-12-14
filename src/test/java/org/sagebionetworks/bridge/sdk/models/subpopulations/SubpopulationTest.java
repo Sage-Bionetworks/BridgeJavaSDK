@@ -1,9 +1,11 @@
-package org.sagebionetworks.bridge.sdk.models.studies;
+package org.sagebionetworks.bridge.sdk.models.subpopulations;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import org.sagebionetworks.bridge.sdk.models.studies.Study;
+import org.sagebionetworks.bridge.sdk.models.subpopulations.Subpopulation;
 import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 import com.google.common.collect.Sets;

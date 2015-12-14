@@ -21,6 +21,7 @@ import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.exceptions.ConsentRequiredException;
 import org.sagebionetworks.bridge.sdk.exceptions.EntityAlreadyExistsException;
 import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
+import org.sagebionetworks.bridge.sdk.models.subpopulations.ConsentStatus;
 import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
 import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
@@ -86,7 +87,8 @@ public class ConsentTest {
                 assertEquals("Exception is a 412 Precondition Failed", 412, e.getStatusCode());
             }
             LocalDate date = new LocalDate(1970, 10, 10);
-            client.consentToResearch(new ConsentSignature(user.getUsername(), date, null, null), SharingScope.SPONSORS_AND_PARTNERS);
+            client.consentToResearch(user.getDefaultSubpopulation(),
+                    new ConsentSignature(user.getUsername(), date, null, null), SharingScope.SPONSORS_AND_PARTNERS);
             assertTrue("User has consented", user.getSession().isConsented());
             client.getSchedules();
         } finally {
@@ -100,7 +102,8 @@ public class ConsentTest {
         try {
             UserClient client = user.getSession().getUserClient();
             LocalDate date = LocalDate.now(); // impossibly young.
-            client.consentToResearch(new ConsentSignature(user.getUsername(), date, null, null), SharingScope.ALL_QUALIFIED_RESEARCHERS);
+            client.consentToResearch(user.getDefaultSubpopulation(), 
+                    new ConsentSignature(user.getUsername(), date, null, null), SharingScope.ALL_QUALIFIED_RESEARCHERS);
         } finally {
             user.signOutAndDeleteUser();
         }
@@ -143,23 +146,25 @@ public class ConsentTest {
         try {
             UserClient client = testUser.getSession().getUserClient();
             assertFalse("User has not consented", testUser.getSession().isConsented());
+            assertFalse(ConsentStatus.isUserConsented(testUser.getSession().getConsentStatuses()));
 
             // get consent should fail if the user hasn't given consent
             try {
-                client.getConsentSignature();
+                client.getConsentSignature(testUser.getDefaultSubpopulation());
                 fail("ConsentRequiredException not thrown");
             } catch (ConsentRequiredException ex) {
                 // expected
             }
 
             // give consent
-            client.consentToResearch(sig, SharingScope.ALL_QUALIFIED_RESEARCHERS);
+            client.consentToResearch(testUser.getDefaultSubpopulation(), sig, SharingScope.ALL_QUALIFIED_RESEARCHERS);
             
-            // The local session should reflect the sharing scope
+            // The local session should reflect consent status & sharing scope
             assertEquals(SharingScope.ALL_QUALIFIED_RESEARCHERS, testUser.getSession().getSharingScope());
+            assertTrue(ConsentStatus.isUserConsented(testUser.getSession().getConsentStatuses()));
             
             // get consent and validate that it's the same consent
-            ConsentSignature sigFromServer = client.getConsentSignature();
+            ConsentSignature sigFromServer = client.getConsentSignature(testUser.getDefaultSubpopulation());
             
             assertEquals("name matches", name, sigFromServer.getName());
             assertEquals("birthdate matches", birthdate, sigFromServer.getBirthdate());
@@ -168,7 +173,8 @@ public class ConsentTest {
             
             // giving consent again will throw
             try {
-                client.consentToResearch(sig, SharingScope.ALL_QUALIFIED_RESEARCHERS);
+                client.consentToResearch(testUser.getDefaultSubpopulation(), sig,
+                        SharingScope.ALL_QUALIFIED_RESEARCHERS);
                 fail("EntityAlreadyExistsException not thrown");
             } catch (EntityAlreadyExistsException ex) {
                 // expected
@@ -178,10 +184,11 @@ public class ConsentTest {
             testUser.getSession().signOut();
             Session session = ClientProvider.signIn(new SignInCredentials("api", testUser.getUsername(), testUser.getPassword()));
             assertEquals(SharingScope.ALL_QUALIFIED_RESEARCHERS, session.getSharingScope());
+            assertTrue(ConsentStatus.isUserConsented(session.getConsentStatuses()));
 
             // withdraw consent
             client = session.getUserClient();
-            client.withdrawConsentToResearch("Withdrawing test user from study.");
+            client.withdrawConsentToResearch(testUser.getDefaultSubpopulation(), "Withdrawing test user from study.");
             // This method should now (immediately) throw a ConsentRequiredException
             try {
                 client.getSchedules();
@@ -199,7 +206,7 @@ public class ConsentTest {
         TestUser testUser = TestUserHelper.createAndSignInUser(ConsentTest.class, true);
         try {
             UserClient client = testUser.getSession().getUserClient();
-            client.emailConsentSignature(); // just verify it throws no errors
+            client.emailConsentSignature(testUser.getDefaultSubpopulation()); // just verify it throws no errors
         } finally {
             testUser.signOutAndDeleteUser();
         }
