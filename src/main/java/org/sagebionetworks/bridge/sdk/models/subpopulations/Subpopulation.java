@@ -12,7 +12,7 @@ import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 
 import com.google.common.collect.ImmutableSet;
 
-public final class Subpopulation {
+public final class Subpopulation implements SubpopulationGuid {
     
     private String name;
     private String description;

@@ -8,6 +8,7 @@ import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.Subpopulation;
+import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadSchema;
 
@@ -264,10 +265,10 @@ public interface DeveloperClient {
     
     /**
      * Get a subpopulation using its GUID.
-     * @param guid
+     * @param subpopGuid
      * @return
      */
-    public Subpopulation getSubpopulation(String guid);
+    public Subpopulation getSubpopulation(SubpopulationGuid subpopGuid);
     
     /**
      * Update a subpopulation with the given GUID.
@@ -280,8 +281,8 @@ public interface DeveloperClient {
      * be deleted (although it can be edited). But other subpopulations can be deleted. 
      * Records of consent for a particular subpopulation are not deleted and historical 
      * records can be produced of consent to deleted subpopulations.
-     * @param guid
+     * @param subpopGuid
      */
-    public void deleteSubpopulation(String guid);
+    public void deleteSubpopulation(SubpopulationGuid subpopGuid);
     
 }

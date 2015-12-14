@@ -15,6 +15,7 @@ import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.Subpopulation;
+import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadSchema;
 
@@ -237,9 +238,9 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
     }
 
     @Override
-    public Subpopulation getSubpopulation(String guid) {
+    public Subpopulation getSubpopulation(SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
-        return get(config.getSubpopulation(guid), Subpopulation.class);
+        return get(config.getSubpopulation(subpopGuid.getGuid()), Subpopulation.class);
     }
 
     @Override
@@ -249,8 +250,8 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
     }
 
     @Override
-    public void deleteSubpopulation(String guid) {
+    public void deleteSubpopulation(SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
-        delete(config.getSubpopulation(guid));
+        delete(config.getSubpopulation(subpopGuid.getGuid()));
     }
 }
