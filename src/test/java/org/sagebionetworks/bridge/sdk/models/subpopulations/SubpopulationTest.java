@@ -23,7 +23,7 @@ public class SubpopulationTest {
     @Test
     public void canSerialize() throws Exception { 
         Subpopulation subpop = new Subpopulation();
-        subpop.setGuid("guid");
+        subpop.setGuidString("guid");
         subpop.setName("Name");
         subpop.setDescription("Description");
         subpop.setRequired(true);

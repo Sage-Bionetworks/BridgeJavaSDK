@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,23 +12,23 @@ import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 
 public class ConsentStatusTest {
     
-    private static final ConsentStatus REQUIRED_SIGNED_CURRENT = new ConsentStatus("Name1", "foo", true, true, true);
-    private static final ConsentStatus REQUIRED_SIGNED_OBSOLETE = new ConsentStatus("Name1", "foo", true, true, false);
-    private static final ConsentStatus OPTIONAL_SIGNED_CURRENT = new ConsentStatus("Name1", "foo", false, true, true);
-    private static final ConsentStatus REQUIRED_UNSIGNED = new ConsentStatus("Name1", "foo", true, false, false);
-    private static final ConsentStatus OPTIONAL_UNSIGNED = new ConsentStatus("Name1", "foo", false, false, false);
+    private static final ConsentStatus REQUIRED_SIGNED_CURRENT = new ConsentStatus("Name1", "foo1", true, true, true);
+    private static final ConsentStatus REQUIRED_SIGNED_OBSOLETE = new ConsentStatus("Name1", "foo2", true, true, false);
+    private static final ConsentStatus OPTIONAL_SIGNED_CURRENT = new ConsentStatus("Name1", "foo3", false, true, true);
+    private static final ConsentStatus REQUIRED_UNSIGNED = new ConsentStatus("Name1", "foo4", true, false, false);
+    private static final ConsentStatus OPTIONAL_UNSIGNED = new ConsentStatus("Name1", "foo5", false, false, false);
     
-    private List<ConsentStatus> statuses;
+    private Map<SubpopulationGuid,ConsentStatus> statuses;
     
     @Before
     public void before() {
-        statuses = Lists.newArrayList();
+        statuses = Maps.newHashMap();
     }
     
     @Test
@@ -58,21 +58,21 @@ public class ConsentStatusTest {
     public void isUserConsented() {
         assertFalse(ConsentStatus.isUserConsented(statuses));
         
-        statuses.add(REQUIRED_UNSIGNED);
-        statuses.add(REQUIRED_SIGNED_CURRENT);
-        statuses.add(OPTIONAL_SIGNED_CURRENT);
+        add(REQUIRED_UNSIGNED);
+        add(REQUIRED_SIGNED_CURRENT);
+        add(OPTIONAL_SIGNED_CURRENT);
         assertFalse(ConsentStatus.isUserConsented(statuses));
         
         statuses.clear();
-        statuses.add(REQUIRED_SIGNED_CURRENT);
-        statuses.add(REQUIRED_UNSIGNED);
-        statuses.add(OPTIONAL_UNSIGNED);
+        add(REQUIRED_SIGNED_CURRENT);
+        add(REQUIRED_UNSIGNED);
+        add(OPTIONAL_UNSIGNED);
         assertFalse(ConsentStatus.isUserConsented(statuses));
 
         statuses.clear();
-        statuses.add(REQUIRED_SIGNED_CURRENT);
-        statuses.add(REQUIRED_SIGNED_OBSOLETE);
-        statuses.add(OPTIONAL_UNSIGNED);
+        add(REQUIRED_SIGNED_CURRENT);
+        add(REQUIRED_SIGNED_OBSOLETE);
+        add(OPTIONAL_UNSIGNED);
         assertTrue(ConsentStatus.isUserConsented(statuses));
     }
 
@@ -80,16 +80,18 @@ public class ConsentStatusTest {
     public void isConsentCurrent() {
         assertFalse(ConsentStatus.isConsentCurrent(statuses));
         
-        statuses.add(REQUIRED_SIGNED_CURRENT);
-        statuses.add(REQUIRED_SIGNED_OBSOLETE);
-        statuses.add(OPTIONAL_UNSIGNED);
+        add(REQUIRED_SIGNED_CURRENT);
+        add(REQUIRED_SIGNED_OBSOLETE);
+        add(OPTIONAL_UNSIGNED);
         assertFalse(ConsentStatus.isConsentCurrent(statuses));
         
         statuses.clear();
-        statuses.add(REQUIRED_SIGNED_CURRENT);
-        statuses.add(REQUIRED_SIGNED_CURRENT);
-        statuses.add(OPTIONAL_UNSIGNED);
+        add(REQUIRED_SIGNED_CURRENT);
+        add(OPTIONAL_UNSIGNED);
         assertTrue(ConsentStatus.isConsentCurrent(statuses));
     }
 
+    private void add(ConsentStatus status) {
+        statuses.put(new SubpopulationGuidImpl(status.getSubpopulationGuid()), status);
+    }
 }

@@ -44,10 +44,7 @@ public class StudyConsentTest {
         }
     }
 
-    // This test creates 2 study consents every time it runs. On sign-in, we call getActiveConsents(), which becomes
-    // more expensive as we have more study consents. This is causing DDB throttling issues. In the short-term, I have
-    // disabled this test. In the long term, we need to add clean-up to this integration test and/or re-think how we do
-    // study consents. See https://sagebionetworks.jira.com/browse/BRIDGE-778
+    // We need to delete these consent versions; there's no clean-up for this test right now.
     @Test
     @Ignore
     public void addAndActivateConsent() {

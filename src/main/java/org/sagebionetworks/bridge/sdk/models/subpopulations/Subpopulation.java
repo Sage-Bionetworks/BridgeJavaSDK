@@ -10,9 +10,11 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableSet;
 
-public final class Subpopulation implements SubpopulationGuid {
+public final class Subpopulation {
     
     private String name;
     private String description;
@@ -37,11 +39,19 @@ public final class Subpopulation implements SubpopulationGuid {
         this.version = holder.getVersion();
     }
     
-    public String getGuid() {
+    @JsonProperty("guid")
+    public String getGuidString() {
         return guid;
     }
-    public void setGuid(String guid) {
+    public void setGuidString(String guid) {
         this.guid = guid;
+    }
+    @JsonIgnore
+    public SubpopulationGuid getGuid() {
+        return new SubpopulationGuidImpl(guid);
+    }
+    public void setGuid(SubpopulationGuid guid) {
+        this.guid = guid.getGuid();
     }
     public String getName() {
         return name;

@@ -50,7 +50,7 @@ public class SubpopulationTest {
         subpop.setHolder(keys);
         
         // Read it back
-        Subpopulation retrieved = client.getSubpopulation(subpop);
+        Subpopulation retrieved = client.getSubpopulation(subpop.getGuid());
         assertEquals(subpop, retrieved);
         
         // Update it
@@ -66,13 +66,13 @@ public class SubpopulationTest {
         assertNotNull(findByName(subpops.getItems(), "Later Consent Group"));
 
         // Delete it
-        client.deleteSubpopulation(retrieved);
+        client.deleteSubpopulation(retrieved.getGuid());
         assertEquals(initialCount, client.getAllSubpopulations().getTotal());
         
         // Cannot delete the default, however:
         try {
             Subpopulation defaultSubpop = findByName(subpops.getItems(), "Default Consent Group");
-            client.deleteSubpopulation(defaultSubpop);
+            client.deleteSubpopulation(defaultSubpop.getGuid());
             fail("Should have thrown an exception.");
         } catch(BadRequestException e) {
             assertEquals("Cannot delete the default subpopulation for a study.", e.getMessage());

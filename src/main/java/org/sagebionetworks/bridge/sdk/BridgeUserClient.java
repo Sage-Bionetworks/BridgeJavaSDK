@@ -11,6 +11,7 @@ import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.ByteArrayEntity;
@@ -42,7 +43,7 @@ import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
 import org.sagebionetworks.bridge.sdk.models.users.Withdrawal;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.google.common.collect.Lists;
+import com.google.common.collect.ImmutableMap;
 
 class BridgeUserClient extends BaseApiCaller implements UserClient {
 
@@ -86,7 +87,6 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     /*
      * Consent API
      */
-
     @Override
     public void consentToResearch(SubpopulationGuid subpopGuid, ConsentSignature signature, SharingScope scope) {
         session.checkSignedIn();
@@ -283,17 +283,18 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     }
     
     private void changeConsent(SubpopulationGuid subpopGuid, boolean isConsented) {
-        List<ConsentStatus> newStatuses = Lists.newArrayList();
-        for (ConsentStatus status : session.getConsentStatuses()) {
+        ImmutableMap.Builder<SubpopulationGuid,ConsentStatus> builder = new ImmutableMap.Builder<>();
+        for (Map.Entry<SubpopulationGuid, ConsentStatus> entry : session.getConsentStatuses().entrySet()) {
+            SubpopulationGuid guid = entry.getKey();
+            ConsentStatus status = entry.getValue();
             if (status.getSubpopulationGuid().equals(subpopGuid.getGuid())) {
-                newStatuses.add(new ConsentStatus(status.getName(), status.getSubpopulationGuid(), 
+                builder.put(guid, new ConsentStatus(status.getName(), status.getSubpopulationGuid(), 
                         status.isRequired(), isConsented, status.isMostRecentConsent()));
             } else {
-                newStatuses.add(status);
+                builder.put(guid, status);
             }
         }
-        session.setConsentStatuses(newStatuses);
-        session.setConsented(ConsentStatus.isUserConsented(newStatuses));
+        session.setConsentStatuses(builder.build());
     }
     
 }

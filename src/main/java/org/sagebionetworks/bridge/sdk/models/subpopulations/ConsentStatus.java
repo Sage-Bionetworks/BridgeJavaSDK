@@ -3,7 +3,7 @@ package org.sagebionetworks.bridge.sdk.models.subpopulations;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.sagebionetworks.bridge.sdk.utils.Utilities.TO_STRING_STYLE;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -13,12 +13,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class ConsentStatus {
 
-    public static boolean isUserConsented(List<ConsentStatus> statuses) {
+    public static boolean isUserConsented(Map<SubpopulationGuid,ConsentStatus> statuses) {
         checkNotNull(statuses);
         if (statuses.isEmpty()) {
             return false;
         }
-        for (ConsentStatus status : statuses) {
+        for (ConsentStatus status : statuses.values()) {
             if (status.isRequired() && !status.isConsented()) {
                 return false;
             }
@@ -30,12 +30,12 @@ public final class ConsentStatus {
      * Are all the required consents up-to-date?
      * @return
      */
-    public static boolean isConsentCurrent(List<ConsentStatus> statuses) {
+    public static boolean isConsentCurrent(Map<SubpopulationGuid,ConsentStatus> statuses) {
         checkNotNull(statuses);
         if (statuses.isEmpty()) {
             return false;
         }
-        for (ConsentStatus status : statuses) {
+        for (ConsentStatus status : statuses.values()) {
             if (status.isRequired() && !status.isMostRecentConsent()) {
                 return false;
             }
