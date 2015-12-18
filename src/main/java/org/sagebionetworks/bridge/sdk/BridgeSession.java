@@ -3,8 +3,14 @@ package org.sagebionetworks.bridge.sdk;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import java.util.Map;
+
+import org.sagebionetworks.bridge.sdk.models.subpopulations.ConsentStatus;
+import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.users.DataGroups;
 import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
+
+import com.google.common.collect.ImmutableMap;
 
 class BridgeSession implements Session {
 
@@ -13,17 +19,17 @@ class BridgeSession implements Session {
     private SharingScope sharingScope;
     private String sessionToken;
     private String username;
-    private boolean consented;
     private DataGroups dataGroups;
+    private Map<SubpopulationGuid,ConsentStatus> consentStatuses; 
     
     BridgeSession(UserSession session) {
         checkNotNull(session, "%s cannot be null", "UserSession");
         
         this.username = session.getUsername();
         this.sessionToken = session.getSessionToken();
-        this.consented = session.isConsented();
         this.sharingScope = session.getSharingScope();
         this.dataGroups = session.getDataGroups();
+        this.consentStatuses = session.getConsentStatuses();
     }
 
     /**
@@ -54,11 +60,7 @@ class BridgeSession implements Session {
     @Override
     public boolean isConsented() {
         checkState(isSignedIn(), NOT_AUTHENTICATED);
-        return consented;
-    }
-
-    void setConsented(boolean consented) {
-        this.consented = consented;
+        return ConsentStatus.isUserConsented(consentStatuses);
     }
     
     @Override
@@ -71,8 +73,19 @@ class BridgeSession implements Session {
         this.sharingScope = sharingScope;
     }
     
+    @Override
     public DataGroups getDataGroups() {
         return dataGroups;
+    }
+    
+    @Override
+    public Map<SubpopulationGuid,ConsentStatus> getConsentStatuses() {
+        return consentStatuses;
+    }
+    
+    void setConsentStatuses(Map<SubpopulationGuid,ConsentStatus> consentStatuses) {
+        this.consentStatuses = (consentStatuses == null) ? ImmutableMap.<SubpopulationGuid,ConsentStatus>of() : 
+            ImmutableMap.copyOf(consentStatuses);
     }
     
     @Override
@@ -114,8 +127,8 @@ class BridgeSession implements Session {
 
     @Override
     public String toString() {
-        return String.format("BridgeSession [sessionToken=%s, username=%s, consented=%s, sharingScope=%s]", 
-                sessionToken, username, consented, sharingScope.name().toLowerCase());
+        return String.format("BridgeSession [sessionToken=%s, username=%s, sharingScope=%s, dataGroups=%s, consentStatuses=%s]", 
+                sessionToken, username, sharingScope.name().toLowerCase(), dataGroups, consentStatuses);
     }
 
 }

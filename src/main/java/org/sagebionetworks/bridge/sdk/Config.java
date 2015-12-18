@@ -13,6 +13,8 @@ import java.util.Properties;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
+
+import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 
 import com.google.common.base.Joiner;
@@ -34,57 +36,59 @@ public final class Config {
         SDK_VERSION, 
         STUDY_IDENTIFIER, 
         V3_ACTIVITIES, 
+        V3_AUTH_REQUESTRESETPASSWORD, 
+        V3_AUTH_RESENDEMAILVERIFICATION, 
+        V3_AUTH_RESETPASSWORD, 
         V3_AUTH_SIGNIN, 
         V3_AUTH_SIGNOUT, 
-        V3_AUTH_REQUESTRESETPASSWORD, 
-        V3_AUTH_RESETPASSWORD, 
         V3_AUTH_SIGNUP, 
         V3_AUTH_VERIFYEMAIL, 
-        V3_AUTH_RESENDEMAILVERIFICATION, 
-        V3_CONSENTS_SIGNATURE, 
-        V3_CONSENTS_SIGNATURE_EMAIL,
-        V3_CONSENTS_SIGNATURE_WITHDRAW, 
-        V3_CONSENTS, 
-        V3_CONSENTS_RECENT, 
-        V3_CONSENTS_PUBLISHED, 
-        V3_CONSENTS_TIMESTAMP, 
-        V3_CONSENTS_TIMESTAMP_PUBLISH, 
-        V3_USERS, 
-        V3_USERS_EMAILPARTICIPANTROSTER, 
-        V3_USERS_SELF,
-        V3_USERS_SELF_DATAGROUPS,
-        V3_USERS_SELF_EXTERNALID, 
-        V3_USERS_SELF_EMAILDATA, 
-        V3_USERS_SELF_UNSUBSCRIBEEMAIL, 
-        V3_USERS_SELF_DATASHARING, 
-        V3_SURVEYS, 
-        V3_SURVEYS_RECENT, 
-        V3_SURVEYS_PUBLISHED, 
-        V3_SURVEYS_SURVEYGUID_REVISIONS, 
-        V3_SURVEYS_SURVEYGUID_REVISIONS_RECENT, 
-        V3_SURVEYS_SURVEYGUID_REVISIONS_PUBLISHED, 
-        V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_VERSION, 
-        V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PUBLISH, 
-        V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON, 
-        V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PHYSICAL_TRUE, 
-        V3_SURVEYRESPONSES, 
-        V3_SURVEYRESPONSES_IDENTIFIER, 
-        V3_UPLOADS, 
-        V3_UPLOADS_UPLOADID_COMPLETE, 
-        V3_UPLOADSTATUSES_UPLOADID, 
-        V3_UPLOADSCHEMAS, 
-        V3_UPLOADSCHEMAS_SCHEMAID, 
-        V3_UPLOADSCHEMAS_SCHEMAID_RECENT, 
-        V3_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REV, 
-        V3_SCHEDULEPLANS, 
-        V3_SCHEDULEPLANS_GUID, 
-        V3_STUDIES, 
-        V3_STUDIES_SELF, 
-        V3_STUDIES_IDENTIFIER, 
         V3_BACKFILL_NAME, 
         V3_BACKFILL_NAME_START, 
         V3_CACHE, 
         V3_CACHE_CACHEKEY,
+        V3_SCHEDULEPLANS, 
+        V3_SCHEDULEPLANS_GUID, 
+        V3_STUDIES, 
+        V3_STUDIES_IDENTIFIER,
+        V3_STUDIES_SELF, 
+        V3_SUBPOPULATION,
+        V3_SUBPOPULATIONS,
+        V3_SUBPOPULATIONS_CONSENTS,
+        V3_SUBPOPULATIONS_CONSENTS_PUBLISHED,
+        V3_SUBPOPULATIONS_CONSENTS_RECENT,
+        V3_SUBPOPULATIONS_CONSENTS_SIGNATURE,
+        V3_SUBPOPULATIONS_CONSENTS_SIGNATURE_EMAIL,
+        V3_SUBPOPULATIONS_CONSENTS_SIGNATURE_WITHDRAW,
+        V3_SUBPOPULATIONS_CONSENTS_TIMESTAMP,
+        V3_SUBPOPULATIONS_CONSENTS_TIMESTAMP_PUBLISH,        
+        V3_SURVEYRESPONSES, 
+        V3_SURVEYRESPONSES_IDENTIFIER, 
+        V3_SURVEYS, 
+        V3_SURVEYS_PUBLISHED, 
+        V3_SURVEYS_RECENT, 
+        V3_SURVEYS_SURVEYGUID_REVISIONS, 
+        V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON, 
+        V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PHYSICAL_TRUE, 
+        V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PUBLISH, 
+        V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_VERSION, 
+        V3_SURVEYS_SURVEYGUID_REVISIONS_PUBLISHED, 
+        V3_SURVEYS_SURVEYGUID_REVISIONS_RECENT, 
+        V3_UPLOADS, 
+        V3_UPLOADSCHEMAS, 
+        V3_UPLOADSCHEMAS_SCHEMAID, 
+        V3_UPLOADSCHEMAS_SCHEMAID_RECENT, 
+        V3_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REV, 
+        V3_UPLOADSTATUSES_UPLOADID, 
+        V3_UPLOADS_UPLOADID_COMPLETE, 
+        V3_USERS, 
+        V3_USERS_EMAILPARTICIPANTROSTER, 
+        V3_USERS_SELF,
+        V3_USERS_SELF_DATAGROUPS,
+        V3_USERS_SELF_DATASHARING, 
+        V3_USERS_SELF_EMAILDATA, 
+        V3_USERS_SELF_EXTERNALID, 
+        V3_USERS_SELF_UNSUBSCRIBEEMAIL, 
         V4_SCHEDULES;
 
         public String getPropertyName() {
@@ -244,44 +248,53 @@ public final class Config {
     public String getSetDataSharingApi() {
         return val(Props.V3_USERS_SELF_DATASHARING);
     }
-
-    public String getConsentsApi() {
-        return val(Props.V3_CONSENTS);
+    
+    public String getConsentsApi(SubpopulationGuid subpopGuid) {
+        checkNotNull(subpopGuid);
+        return String.format(val(Props.V3_SUBPOPULATIONS_CONSENTS), subpopGuid.getGuid());
     }
 
-    public String getConsentApi(DateTime timestamp) {
+    public String getConsentApi(SubpopulationGuid subpopGuid, DateTime timestamp) {
+        checkNotNull(subpopGuid);
         checkNotNull(timestamp);
-        return String.format(val(Props.V3_CONSENTS_TIMESTAMP), timestamp.toString(ISODateTimeFormat.dateTime()));
+        return String.format(val(Props.V3_SUBPOPULATIONS_CONSENTS_TIMESTAMP), subpopGuid.getGuid(),
+                timestamp.toString(ISODateTimeFormat.dateTime()));
     }
 
-    public String getConsentSignatureApi() {
-        return val(Props.V3_CONSENTS_SIGNATURE);
+    public String getConsentSignatureApi(SubpopulationGuid subpopGuid) {
+        checkNotNull(subpopGuid);
+        return String.format(val(Props.V3_SUBPOPULATIONS_CONSENTS_SIGNATURE), subpopGuid.getGuid());
     }
 
-    public String getEmailConsentSignatureApi() {
-        return val(Props.V3_CONSENTS_SIGNATURE_EMAIL);
+    public String getEmailConsentSignatureApi(SubpopulationGuid subpopGuid) {
+        checkNotNull(subpopGuid);
+        return String.format(val(Props.V3_SUBPOPULATIONS_CONSENTS_SIGNATURE_EMAIL), subpopGuid.getGuid());
     }
     
-    public String getWithdrawConsentSignatureApi() {
-        return val(Props.V3_CONSENTS_SIGNATURE_WITHDRAW);
+    public String getWithdrawConsentSignatureApi(SubpopulationGuid subpopGuid) {
+        checkNotNull(subpopGuid);
+        return String.format(val(Props.V3_SUBPOPULATIONS_CONSENTS_SIGNATURE_WITHDRAW), subpopGuid.getGuid());
     }
 
     public String getStudyIdentifier() {
         return val(Props.STUDY_IDENTIFIER);
     }
 
-    public String getPublishedStudyConsentApi() {
-        return val(Props.V3_CONSENTS_PUBLISHED);
+    public String getPublishedStudyConsentApi(SubpopulationGuid subpopGuid) {
+        checkNotNull(subpopGuid);
+        return String.format(val(Props.V3_SUBPOPULATIONS_CONSENTS_PUBLISHED), subpopGuid.getGuid());
     }
 
-    public String getMostRecentStudyConsentApi() {
-        return val(Props.V3_CONSENTS_RECENT);
+    public String getMostRecentStudyConsentApi(SubpopulationGuid subpopGuid) {
+        checkNotNull(subpopGuid);
+        return String.format(val(Props.V3_SUBPOPULATIONS_CONSENTS_RECENT), subpopGuid.getGuid());
     }
 
-    public String getPublishStudyConsentApi(DateTime timestamp) {
+    public String getPublishStudyConsentApi(SubpopulationGuid subpopGuid, DateTime timestamp) {
+        checkNotNull(subpopGuid);
         checkNotNull(timestamp);
-        return String.format(val(Props.V3_CONSENTS_TIMESTAMP_PUBLISH),
-                timestamp.toString(ISODateTimeFormat.dateTime()));
+        return String.format(val(Props.V3_SUBPOPULATIONS_CONSENTS_TIMESTAMP_PUBLISH),
+                subpopGuid.getGuid(), timestamp.toString(ISODateTimeFormat.dateTime()));
     }
 
     public String getUploadsApi() {
@@ -429,6 +442,15 @@ public final class Config {
 
     public String getEmailParticipantRosterApi() {
         return val(Props.V3_USERS_EMAILPARTICIPANTROSTER);
+    }
+    
+    public String getSubpopulations() {
+        return val(Props.V3_SUBPOPULATIONS);
+    }
+    
+    public String getSubpopulation(String guid) {
+        checkArgument(isNotBlank(guid));
+        return String.format(val(Props.V3_SUBPOPULATION), guid);
     }
 
     private String val(Props prop) {

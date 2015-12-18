@@ -11,6 +11,7 @@ import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.ByteArrayEntity;
@@ -26,6 +27,8 @@ import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleIdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.ScheduledActivity;
+import org.sagebionetworks.bridge.sdk.models.subpopulations.ConsentStatus;
+import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
 import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
@@ -40,6 +43,7 @@ import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
 import org.sagebionetworks.bridge.sdk.models.users.Withdrawal;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.collect.ImmutableMap;
 
 class BridgeUserClient extends BaseApiCaller implements UserClient {
 
@@ -83,31 +87,35 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     /*
      * Consent API
      */
-
     @Override
-    public void consentToResearch(ConsentSignature signature, SharingScope scope) {
+    public void consentToResearch(SubpopulationGuid subpopGuid, ConsentSignature signature, SharingScope scope) {
         session.checkSignedIn();
+        checkNotNull(subpopGuid, CANNOT_BE_NULL, "subpopGuid");
         checkNotNull(signature, CANNOT_BE_NULL, "ConsentSignature");
         checkNotNull(scope, CANNOT_BE_NULL, "SharingScope");
 
         ConsentSubmission submission = new ConsentSubmission(signature, scope);
         
-        post(config.getConsentSignatureApi(), submission);
-        session.setConsented(true);
+        post(config.getConsentSignatureApi(subpopGuid), submission);
         session.setSharingScope(scope);
+        changeConsent(subpopGuid, true);
     }
 
     @Override
-    public ConsentSignature getConsentSignature() {
+    public ConsentSignature getConsentSignature(SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
-        ConsentSignature sig = get(config.getConsentSignatureApi(), ConsentSignature.class);
+        checkNotNull(subpopGuid, CANNOT_BE_NULL, "subpopGuid");
+        
+        ConsentSignature sig = get(config.getConsentSignatureApi(subpopGuid), ConsentSignature.class);
         return sig;
     }
 
     @Override
-    public void emailConsentSignature() {
+    public void emailConsentSignature(SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
-        post(config.getEmailConsentSignatureApi());
+        checkNotNull(subpopGuid, CANNOT_BE_NULL, "subpopGuid");
+        
+        post(config.getEmailConsentSignatureApi(subpopGuid));
     }
 
     @Override
@@ -121,13 +129,17 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
     }
 
     @Override
-    public void withdrawConsentToResearch(String reason) {
+    public void withdrawConsentToResearch(SubpopulationGuid subpopGuid, String reason) {
         session.checkSignedIn();
+        checkNotNull(subpopGuid, CANNOT_BE_NULL, "subpopGuid");
         
         Withdrawal withdrawal = new Withdrawal(reason);
-        post(config.getWithdrawConsentSignatureApi(), withdrawal);
-        session.setSharingScope(SharingScope.NO_SHARING);
-        session.setConsented(false);
+        post(config.getWithdrawConsentSignatureApi(subpopGuid), withdrawal);
+        // alxdark (12/18/2015): TODO: implement the same logic as is on the server to determine
+        // when we should do this? Right now this might not be accurate for multiple consents, 
+        // although no studies exist in this configuration at this time.
+        session.setSharingScope(SharingScope.NO_SHARING); 
+        changeConsent(subpopGuid, false);
     }
     
     /*
@@ -271,6 +283,21 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         session.checkSignedIn();
         
         return get(config.getDataGroupsApi(), DataGroups.class);
+    }
+    
+    private void changeConsent(SubpopulationGuid subpopGuid, boolean isConsented) {
+        ImmutableMap.Builder<SubpopulationGuid,ConsentStatus> builder = new ImmutableMap.Builder<>();
+        for (Map.Entry<SubpopulationGuid, ConsentStatus> entry : session.getConsentStatuses().entrySet()) {
+            SubpopulationGuid guid = entry.getKey();
+            ConsentStatus status = entry.getValue();
+            if (status.getSubpopulationGuid().equals(subpopGuid.getGuid())) {
+                builder.put(guid, new ConsentStatus(status.getName(), status.getSubpopulationGuid(), 
+                        status.isRequired(), isConsented, status.isMostRecentConsent()));
+            } else {
+                builder.put(guid, status);
+            }
+        }
+        session.setConsentStatuses(builder.build());
     }
     
 }

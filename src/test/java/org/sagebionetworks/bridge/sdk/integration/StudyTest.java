@@ -29,8 +29,6 @@ import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.OperatingSystem;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 
-import com.google.common.collect.Sets;
-
 public class StudyTest {
     
     private TestUser admin;
@@ -58,7 +56,7 @@ public class StudyTest {
         AdminClient client = admin.getSession().getAdminClient();
         
         String identifier = Tests.randomIdentifier(StudyTest.class);
-        study = getStudyObject(identifier, null);
+        study = Tests.getStudy(identifier, null);
         assertNull(study.getVersion());
         
         VersionHolder holder = client.createStudy(study);
@@ -114,7 +112,7 @@ public class StudyTest {
         TestUser researcher = TestUserHelper.createAndSignInUser(StudyTest.class, false, Roles.RESEARCHER);
         try {
             String identifier = Tests.randomIdentifier(StudyTest.class);
-            study = getStudyObject(identifier, null);
+            study = Tests.getStudy(identifier, null);
 
             AdminClient client = admin.getSession().getAdminClient();
             client.createStudy(study);
@@ -220,30 +218,6 @@ public class StudyTest {
         if (oldVersion != null) {
             assertNotEquals(oldVersion, study.getVersion());
         }
-    }
-
-    private Study getStudyObject(String identifier, Long version) {
-        Study study = new Study();
-        study.setIdentifier(identifier);
-        study.setMinAgeOfConsent(18);
-        study.setMaxNumOfParticipants(100);
-        study.setName("Test Study [SDK]");
-        study.setSponsorName("The Test Study Folks [SDK]");
-        study.setSupportEmail("test@test.com");
-        study.setConsentNotificationEmail("test2@test.com");
-        study.setTechnicalEmail("test3@test.com");
-        study.getUserProfileAttributes().add("new_profile_attribute");
-        study.setTaskIdentifiers(Sets.newHashSet("taskA")); // setting it differently just for the heck of it 
-        study.setDataGroups(Sets.newHashSet("beta_users", "production_users"));
-        study.setResetPasswordTemplate(Tests.TEST_RESET_PASSWORD_TEMPLATE);
-        study.setVerifyEmailTemplate(Tests.TEST_VERIFY_EMAIL_TEMPLATE);
-        study.setHealthCodeExportEnabled(true);
-        study.getMinSupportedAppVersions().put(OperatingSystem.ANDROID, 10);
-        study.getMinSupportedAppVersions().put(OperatingSystem.IOS, 14);
-        if (version != null) {
-            study.setVersion(version);
-        }
-        return study;
     }
     
     private void alterStudy(Study study) {

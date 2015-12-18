@@ -4,7 +4,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
-import org.sagebionetworks.bridge.sdk.models.studies.StudyConsent;
+import org.sagebionetworks.bridge.sdk.models.subpopulations.StudyConsent;
+import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -17,43 +18,49 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     }
 
     @Override
-    public ResourceList<StudyConsent> getAllStudyConsents() {
+    public ResourceList<StudyConsent> getAllStudyConsents(SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
+        checkNotNull(subpopGuid, CANNOT_BE_NULL, "subpopGuid");
 
-        return get(config.getConsentsApi(), scType);
+        return get(config.getConsentsApi(subpopGuid), scType);
     }
     @Override
-    public StudyConsent getPublishedStudyConsent() {
+    public StudyConsent getPublishedStudyConsent(SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
-
-        return get(config.getPublishedStudyConsentApi(), StudyConsent.class);
+        checkNotNull(subpopGuid, CANNOT_BE_NULL, "subpopGuid");
+        
+        return get(config.getPublishedStudyConsentApi(subpopGuid), StudyConsent.class);
     }
     @Override
-    public StudyConsent getMostRecentStudyConsent() {
+    public StudyConsent getMostRecentStudyConsent(SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
-
-        return get(config.getMostRecentStudyConsentApi(), StudyConsent.class);
+        checkNotNull(subpopGuid, CANNOT_BE_NULL, "subpopGuid");
+        
+        return get(config.getMostRecentStudyConsentApi(subpopGuid), StudyConsent.class);
     };
     @Override
-    public StudyConsent getStudyConsent(DateTime createdOn) {
+    public StudyConsent getStudyConsent(SubpopulationGuid subpopGuid, DateTime createdOn) {
         session.checkSignedIn();
+        checkNotNull(subpopGuid, CANNOT_BE_NULL, "subpopGuid");
         checkNotNull(createdOn, CANNOT_BE_NULL, "createdOn");
 
-        return get(config.getConsentApi(createdOn), StudyConsent.class);
+        return get(config.getConsentApi(subpopGuid, createdOn), StudyConsent.class);
     }
     @Override
-    public void createStudyConsent(StudyConsent consent) {
+    public void createStudyConsent(SubpopulationGuid subpopGuid, StudyConsent consent) {
         session.checkSignedIn();
+        checkNotNull(subpopGuid, CANNOT_BE_NULL, "subpopGuid");
         checkNotNull(consent, CANNOT_BE_NULL, "consent");
 
-        post(config.getConsentsApi(), consent, StudyConsent.class);
+        post(config.getConsentsApi(subpopGuid), consent, StudyConsent.class);
     }
     @Override
-    public void publishStudyConsent(DateTime createdOn) {
+    public void publishStudyConsent(SubpopulationGuid subpopGuid, DateTime createdOn) {
         session.checkSignedIn();
+        checkNotNull(subpopGuid, CANNOT_BE_NULL, "subpopGuid");
         checkNotNull(createdOn, CANNOT_BE_NULL, "createdOn");
 
-        post(config.getPublishStudyConsentApi(createdOn));
+        post(config.getPublishStudyConsentApi(subpopGuid, createdOn));
     }
     @Override
     public void sendStudyParticipantsRoster() {

@@ -6,7 +6,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.sagebionetworks.bridge.IntegrationSmokeTest;
@@ -28,7 +27,6 @@ import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
 public class AuthenticationTest {
 
     @Test
-    @Ignore
     public void canResendEmailVerification() {
         String username = TestUserHelper.makeUserName(AuthenticationTest.class);
         String email = username + "@sagebase.org";
@@ -50,13 +48,11 @@ public class AuthenticationTest {
     }
     
     @Test
-    @Ignore
     public void resendingEmailVerificationToUnknownEmailDoesNotThrowException() throws Exception {
         ClientProvider.resendEmailVerification(new EmailCredentials(Tests.TEST_KEY, "fooboo-sagebridge@antwerp.com"));
     }
     
     @Test
-    @Ignore
     public void requestingResetPasswordForUnknownEmailDoesNotThrowException() throws Exception {
         ClientProvider.requestResetPassword(new EmailCredentials(Tests.TEST_KEY, "fooboo-sagebridge@antwerp.com"));
     }
@@ -98,7 +94,6 @@ public class AuthenticationTest {
     
     // BRIDGE-465. We can at least verify that it gets processed as an error.
     @Test
-    @Ignore
     public void emailVerificationThrowsTheCorrectError() throws Exception {
         Config config = ClientProvider.getConfig();
         
@@ -113,7 +108,6 @@ public class AuthenticationTest {
     // Should not be able to tell from the sign up response if an email is enrolled in the study or not.
     // Server change is not yet checked in for this.
     @Test
-    @Ignore
     public void secondTimeSignUpLooksTheSameAsFirstTimeSignUp() {
         TestUser testUser = TestUserHelper.createAndSignInUser(AuthenticationTest.class, true);
         try {
