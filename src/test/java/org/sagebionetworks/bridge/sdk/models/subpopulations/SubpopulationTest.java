@@ -35,7 +35,6 @@ public class SubpopulationTest {
         subpop.setNoneOfGroups(Sets.newHashSet("group2"));
         
         String json = Utilities.getMapper().writeValueAsString(subpop);
-        System.out.println(json);
         Subpopulation subpop2 = Utilities.getMapper().readValue(json, Subpopulation.class);
         assertEquals(subpop, subpop2);
     }
