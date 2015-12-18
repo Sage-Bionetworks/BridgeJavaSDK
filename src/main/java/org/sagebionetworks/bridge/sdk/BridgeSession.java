@@ -10,6 +10,8 @@ import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.users.DataGroups;
 import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 
+import com.google.common.collect.ImmutableMap;
+
 class BridgeSession implements Session {
 
     private static final String NOT_AUTHENTICATED = "This session has been signed out; create a new session to retrieve a valid client.";
@@ -82,7 +84,8 @@ class BridgeSession implements Session {
     }
     
     void setConsentStatuses(Map<SubpopulationGuid,ConsentStatus> consentStatuses) {
-        this.consentStatuses = consentStatuses;
+        this.consentStatuses = (consentStatuses == null) ? ImmutableMap.<SubpopulationGuid,ConsentStatus>of() : 
+            ImmutableMap.copyOf(consentStatuses);
     }
     
     @Override

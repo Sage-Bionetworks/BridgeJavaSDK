@@ -55,21 +55,28 @@ public class ConsentStatusTest {
     }
 
     @Test
-    public void isUserConsented() {
+    public void isUserConsentedEmpy() {
         assertFalse(ConsentStatus.isUserConsented(statuses));
-        
+    }
+    
+    @Test
+    public void isUserConsentedUnsigedRequiredWithSignedOptional() {
         add(REQUIRED_UNSIGNED);
         add(REQUIRED_SIGNED_CURRENT);
         add(OPTIONAL_SIGNED_CURRENT);
         assertFalse(ConsentStatus.isUserConsented(statuses));
-        
-        statuses.clear();
+    }
+    
+    @Test
+    public void isUserConsentedUnsigedRequiredWithUnsignedOptional() {
         add(REQUIRED_SIGNED_CURRENT);
         add(REQUIRED_UNSIGNED);
         add(OPTIONAL_UNSIGNED);
         assertFalse(ConsentStatus.isUserConsented(statuses));
-
-        statuses.clear();
+    }
+    
+    @Test
+    public void isUserConsentedAllSigned() {
         add(REQUIRED_SIGNED_CURRENT);
         add(REQUIRED_SIGNED_OBSOLETE);
         add(OPTIONAL_UNSIGNED);
@@ -77,15 +84,20 @@ public class ConsentStatusTest {
     }
 
     @Test
-    public void isConsentCurrent() {
+    public void isConsentCurrentEmpty() {
         assertFalse(ConsentStatus.isConsentCurrent(statuses));
-        
+    }
+    
+    @Test
+    public void isConsentCurrentOneRequiredObsolete() {
         add(REQUIRED_SIGNED_CURRENT);
         add(REQUIRED_SIGNED_OBSOLETE);
         add(OPTIONAL_UNSIGNED);
         assertFalse(ConsentStatus.isConsentCurrent(statuses));
-        
-        statuses.clear();
+    }
+    
+    @Test
+    public void isConsentCurrentRequiredSigned() {
         add(REQUIRED_SIGNED_CURRENT);
         add(OPTIONAL_UNSIGNED);
         assertTrue(ConsentStatus.isConsentCurrent(statuses));

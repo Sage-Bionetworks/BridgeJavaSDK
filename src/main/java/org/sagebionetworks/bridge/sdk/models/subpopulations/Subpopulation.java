@@ -3,6 +3,7 @@ package org.sagebionetworks.bridge.sdk.models.subpopulations;
 import static org.sagebionetworks.bridge.sdk.utils.Utilities.TO_STRING_STYLE;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -25,14 +26,8 @@ public final class Subpopulation {
     private Long version;
     private Integer minAppVersion;
     private Integer maxAppVersion;
-    private Set<String> allOfGroups;
-    private Set<String> noneOfGroups;
-    
-    public Subpopulation() {
-        // This is different than elsewhere in the SDK...
-        this.allOfGroups = ImmutableSet.of();
-        this.noneOfGroups = ImmutableSet.of();
-    }
+    private Set<String> allOfGroups = new HashSet<>();
+    private Set<String> noneOfGroups = new HashSet<>();
     
     public void setHolder(GuidVersionHolder holder) {
         checkNotNull(holder);

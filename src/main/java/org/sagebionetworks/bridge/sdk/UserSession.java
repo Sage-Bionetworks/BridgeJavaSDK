@@ -33,8 +33,10 @@ final class UserSession {
     private final Map<SubpopulationGuid,ConsentStatus> consentStatuses;
 
     @JsonCreator
-    private UserSession(@JsonProperty("username") String username, @JsonProperty("sessionToken") String sessionToken,
-            @JsonProperty("authenticated") boolean authenticated, @JsonProperty("sharingScope") SharingScope sharingScope,
+    private UserSession(@JsonProperty("username") String username, 
+            @JsonProperty("sessionToken") String sessionToken,
+            @JsonProperty("authenticated") boolean authenticated, 
+            @JsonProperty("sharingScope") SharingScope sharingScope,
             @JsonProperty("dataGroups") DataGroups dataGroups,
             @JsonProperty("consentStatuses") Map<SubpopulationGuid,ConsentStatus> consentStatuses) {
         

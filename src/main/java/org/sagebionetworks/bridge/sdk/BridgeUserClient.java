@@ -135,7 +135,10 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         
         Withdrawal withdrawal = new Withdrawal(reason);
         post(config.getWithdrawConsentSignatureApi(subpopGuid), withdrawal);
-        session.setSharingScope(SharingScope.NO_SHARING); // is this still true?
+        // alxdark (12/18/2015): TODO: implement the same logic as is on the server to determine
+        // when we should do this? Right now this might not be accurate for multiple consents, 
+        // although no studies exist in this configuration at this time.
+        session.setSharingScope(SharingScope.NO_SHARING); 
         changeConsent(subpopGuid, false);
     }
     
