@@ -23,7 +23,7 @@ public class SubpopulationTest {
     @Test
     public void canSerialize() throws Exception { 
         Subpopulation subpop = new Subpopulation();
-        subpop.setGuidString("guid");
+        subpop.setGuid(new SubpopulationGuid("guid"));
         subpop.setName("Name");
         subpop.setDescription("Description");
         subpop.setRequired(true);
@@ -35,7 +35,7 @@ public class SubpopulationTest {
         subpop.setNoneOfGroups(Sets.newHashSet("group2"));
         
         String json = Utilities.getMapper().writeValueAsString(subpop);
-        
+        System.out.println(json);
         Subpopulation subpop2 = Utilities.getMapper().readValue(json, Subpopulation.class);
         assertEquals(subpop, subpop2);
     }

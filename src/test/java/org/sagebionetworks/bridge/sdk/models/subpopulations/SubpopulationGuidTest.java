@@ -6,14 +6,14 @@ import org.junit.Test;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 
-public class SubpopulationGuidImplTest {
+public class SubpopulationGuidTest {
     @Test
     public void equalsHashCode() {
-        EqualsVerifier.forClass(SubpopulationGuidImpl.class).verify();
+        EqualsVerifier.forClass(SubpopulationGuid.class).verify();
     }
     
     @Test
     public void testToString() {
-        assertEquals("ABC", new SubpopulationGuidImpl("ABC").toString());
+        assertEquals("ABC", new SubpopulationGuid("ABC").toString());
     }
 }

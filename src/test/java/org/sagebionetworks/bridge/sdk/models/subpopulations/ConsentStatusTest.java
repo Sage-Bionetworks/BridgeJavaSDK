@@ -92,6 +92,6 @@ public class ConsentStatusTest {
     }
 
     private void add(ConsentStatus status) {
-        statuses.put(new SubpopulationGuidImpl(status.getSubpopulationGuid()), status);
+        statuses.put(new SubpopulationGuid(status.getSubpopulationGuid()), status);
     }
 }

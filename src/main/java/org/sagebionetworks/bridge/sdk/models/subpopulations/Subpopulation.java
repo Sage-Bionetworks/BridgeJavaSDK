@@ -8,17 +8,18 @@ import java.util.Set;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import org.sagebionetworks.bridge.sdk.json.SubpopulationGuidDeserializer;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.collect.ImmutableSet;
 
 public final class Subpopulation {
     
     private String name;
     private String description;
-    private String guid;
+    @JsonDeserialize(using=SubpopulationGuidDeserializer.class)
+    private SubpopulationGuid guid;
     private boolean required;
     private boolean defaultGroup;
     private Long version;
@@ -35,23 +36,14 @@ public final class Subpopulation {
     
     public void setHolder(GuidVersionHolder holder) {
         checkNotNull(holder);
-        this.guid = holder.getGuid();
+        this.guid = new SubpopulationGuid(holder.getGuid());
         this.version = holder.getVersion();
     }
-    
-    @JsonProperty("guid")
-    public String getGuidString() {
+    public SubpopulationGuid getGuid() {
         return guid;
     }
-    public void setGuidString(String guid) {
-        this.guid = guid;
-    }
-    @JsonIgnore
-    public SubpopulationGuid getGuid() {
-        return new SubpopulationGuidImpl(guid);
-    }
     public void setGuid(SubpopulationGuid guid) {
-        this.guid = guid.getGuid();
+        this.guid = guid;
     }
     public String getName() {
         return name;

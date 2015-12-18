@@ -246,7 +246,7 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
     @Override
     public GuidVersionHolder updateSubpopulation(Subpopulation subpopulation) {
         session.checkSignedIn();
-        return post(config.getSubpopulation(subpopulation.getGuidString()), subpopulation, GuidVersionHolder.class);
+        return post(config.getSubpopulation(subpopulation.getGuid().toString()), subpopulation, GuidVersionHolder.class);
     }
 
     @Override
