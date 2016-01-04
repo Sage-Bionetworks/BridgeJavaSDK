@@ -13,6 +13,7 @@ import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
+import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.users.SignUpByAdmin;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -94,4 +95,11 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
         session.checkSignedIn();
         delete(config.getCacheApi(key));
     }
+    
+    @Override
+    public void deleteSubpopulationPermanently(SubpopulationGuid subpopGuid) {
+        session.checkSignedIn();
+        delete(config.getSubpopulation(subpopGuid.getGuid())+"?physical=true");
+    }
+    
 }

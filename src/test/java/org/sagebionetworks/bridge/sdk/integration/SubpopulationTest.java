@@ -21,10 +21,12 @@ import org.sagebionetworks.bridge.sdk.models.subpopulations.Subpopulation;
 
 public class SubpopulationTest {
 
+    private TestUser admin;
     private TestUser developer;
     
     @Before
     public void before() {
+        admin = TestUserHelper.getSignedInAdmin();
         developer = TestUserHelper.createAndSignInUser(SubpopulationTest.class, false, Roles.DEVELOPER);
     }
     
@@ -77,6 +79,7 @@ public class SubpopulationTest {
         } catch(BadRequestException e) {
             assertEquals("Cannot delete the default subpopulation for a study.", e.getMessage());
         }
+        admin.getSession().getAdminClient().deleteSubpopulationPermanently(retrieved.getGuid());
     }
     
     private Subpopulation findByName(List<Subpopulation> subpops, String name) {

@@ -6,6 +6,7 @@ import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
+import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.users.SignUpByAdmin;
 
 public interface AdminClient {
@@ -48,5 +49,13 @@ public interface AdminClient {
     public List<String> getCacheItemKeys();
     
     public void deleteCacheKey(String key);
+    
+    /**
+     * Delete a subpopulation from the database. Only used for integration tests.
+     * 
+     * @see org.sagebionetworks.bridge.sdk.DeveloperClient#deleteSubpopulation
+     * @param subpopGuid the subpopulation to be deleted
+     */
+    public void deleteSubpopulationPermanently(SubpopulationGuid subpopGuid);
 
 }
