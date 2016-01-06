@@ -18,18 +18,25 @@ import org.sagebionetworks.bridge.sdk.exceptions.BadRequestException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.Subpopulation;
+import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 
 public class SubpopulationTest {
 
+    private TestUser admin;
     private TestUser developer;
+    private SubpopulationGuid guid;
     
     @Before
     public void before() {
+        admin = TestUserHelper.getSignedInAdmin();
         developer = TestUserHelper.createAndSignInUser(SubpopulationTest.class, false, Roles.DEVELOPER);
     }
     
     @After
     public void after() {
+        if (guid != null) {
+            admin.getSession().getAdminClient().deleteSubpopulationPermanently(guid);    
+        }
         developer.signOutAndDeleteUser();
     }
     
@@ -48,6 +55,8 @@ public class SubpopulationTest {
         subpop.setMinAppVersion(10);
         GuidVersionHolder keys = client.createSubpopulation(subpop);
         subpop.setHolder(keys);
+        
+        guid = subpop.getGuid();
         
         // Read it back
         Subpopulation retrieved = client.getSubpopulation(subpop.getGuid());
