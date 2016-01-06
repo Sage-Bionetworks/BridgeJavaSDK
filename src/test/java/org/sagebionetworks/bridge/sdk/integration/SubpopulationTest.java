@@ -34,7 +34,9 @@ public class SubpopulationTest {
     
     @After
     public void after() {
-        admin.getSession().getAdminClient().deleteSubpopulationPermanently(guid);
+        if (guid != null) {
+            admin.getSession().getAdminClient().deleteSubpopulationPermanently(guid);    
+        }
         developer.signOutAndDeleteUser();
     }
     
