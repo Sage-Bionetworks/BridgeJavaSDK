@@ -10,7 +10,7 @@ import com.google.common.collect.Lists;
  * matching each against a set of request criteria (the min or max version of the application, 
  * and the user's data group tags), returning the first schedule that matches the criteria. 
  */
-public class CriteriaScheduleStrategy implements ScheduleStrategy {
+public final class CriteriaScheduleStrategy implements ScheduleStrategy {
 
     private final List<ScheduleCriteria> scheduleCriteria = Lists.newArrayList();
 

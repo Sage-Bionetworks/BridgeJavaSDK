@@ -23,8 +23,8 @@ public class ScheduleCriteria {
         this.schedule = schedule;
         this.minAppVersion = minAppVersion;
         this.maxAppVersion = maxAppVersion;
-        this.allOfGroups = allOfGroups;
-        this.noneOfGroups = noneOfGroups;
+        this.allOfGroups = (allOfGroups == null) ? Sets.<String>newHashSet() : allOfGroups;
+        this.noneOfGroups = (noneOfGroups == null) ? Sets.<String>newHashSet() : noneOfGroups;
     }
     public Schedule getSchedule() {
         return schedule;
