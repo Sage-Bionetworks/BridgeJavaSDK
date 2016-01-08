@@ -70,7 +70,6 @@ public class CriteriaScheduleStrategyTest {
         assertEquals(strategy, newStrategy);
     }
     
-    
     private Set<String> arrayToSet(JsonNode array) {
         Set<String> set = Sets.newHashSet();
         for (int i=0; i < array.size(); i++) {

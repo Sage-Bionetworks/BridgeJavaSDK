@@ -139,7 +139,7 @@ public class SchedulePlanTest {
     }
 
     @Test
-    public void scheduleStrategiesArePreservedInPlans() {
+    public void criteriaScheduleStrategyPlanCRUD() {
         // Create plan with a criteria strategy
         Schedule schedule1 = new Schedule();
         schedule1.setLabel("Task 1");
