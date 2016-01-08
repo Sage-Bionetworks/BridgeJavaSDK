@@ -9,6 +9,12 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
 
+/**
+ * A schedule selection strategy for schedule plans that randomly assigns study participants
+ * into one of a set of groups, each apportioned a percentage of the total number of 
+ * participants in the study. Because this assignment is truly random, the percentages may 
+ * vary from the declared targets for smaller numbers of participants. 
+ */
 public final class ABTestScheduleStrategy implements ScheduleStrategy {
 
     List<ABTestGroup> groups = Lists.newArrayList();

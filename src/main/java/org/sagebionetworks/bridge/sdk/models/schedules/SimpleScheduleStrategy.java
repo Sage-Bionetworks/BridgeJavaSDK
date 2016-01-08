@@ -2,6 +2,10 @@ package org.sagebionetworks.bridge.sdk.models.schedules;
 
 import java.util.Objects;
 
+/**
+ * The simplest (and default) schedule selection strategy for a schedule plan: all participants 
+ * get the same schedule.
+ */
 public class SimpleScheduleStrategy implements ScheduleStrategy {
 
     private Schedule schedule;

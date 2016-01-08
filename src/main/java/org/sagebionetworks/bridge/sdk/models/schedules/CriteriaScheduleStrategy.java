@@ -5,6 +5,11 @@ import java.util.Objects;
 
 import com.google.common.collect.Lists;
 
+/**
+ * A schedule selection strategy for schedule plans that iterates through a list of schedules, 
+ * matching each against a set of request criteria (the min or max version of the application, 
+ * and the user's data group tags), returning the first schedule that matches the criteria. 
+ */
 public class CriteriaScheduleStrategy implements ScheduleStrategy {
 
     private final List<ScheduleCriteria> scheduleCriteria = Lists.newArrayList();
