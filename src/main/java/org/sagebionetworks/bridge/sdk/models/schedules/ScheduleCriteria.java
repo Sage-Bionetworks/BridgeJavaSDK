@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Sets;
 
-public class ScheduleCriteria {
+public final class ScheduleCriteria {
     private final Schedule schedule;
     private final Integer minAppVersion;
     private final Integer maxAppVersion;

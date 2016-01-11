@@ -33,17 +33,23 @@ import org.sagebionetworks.bridge.sdk.models.schedules.CriteriaScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.ScheduleCriteria;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
+import org.sagebionetworks.bridge.sdk.models.schedules.ScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.ScheduleType;
 import org.sagebionetworks.bridge.sdk.models.schedules.SimpleScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.SurveyReference;
 import org.sagebionetworks.bridge.sdk.models.schedules.TaskReference;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
+import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.Sets;
 
 public class SchedulePlanTest {
 
+    private static final ObjectMapper MAPPER = Utilities.getMapper();
     private static final Set<String> TASK_IDENTIFIERS = Sets.newHashSet("task:AAA", "task:BBB", "task:CCC");
 
     private TestUser user;
@@ -139,7 +145,7 @@ public class SchedulePlanTest {
     }
 
     @Test
-    public void criteriaScheduleStrategyPlanCRUD() {
+    public void criteriaScheduleStrategyPlanCRUD() throws Exception {
         // Create plan with a criteria strategy
         Schedule schedule1 = new Schedule();
         schedule1.setLabel("Task 1");
@@ -175,15 +181,12 @@ public class SchedulePlanTest {
         
         CriteriaScheduleStrategy retrievedStrategy = (CriteriaScheduleStrategy)retrievedPlan.getStrategy();
         assertEquals(2, retrievedStrategy.getScheduleCriteria().size());
-        assertEquals("task:AAA", getTaskIdentifier(retrievedStrategy, 0));
-        assertEquals("task:BBB", getTaskIdentifier(retrievedStrategy, 1));
+        criteria1 = updateGuid(criteria1, retrievedStrategy, 0);
+        criteria2 = updateGuid(criteria2, retrievedStrategy, 1);
+        assertEquals(criteria1, retrievedStrategy.getScheduleCriteria().get(0));
+        assertEquals(criteria2, retrievedStrategy.getScheduleCriteria().get(1));
     }
     
-    private String getTaskIdentifier(CriteriaScheduleStrategy strategy, int criteriaIndex) {
-        return strategy.getScheduleCriteria().get(criteriaIndex).getSchedule()
-                .getActivities().get(0).getTask().getIdentifier();
-    }
-
     @Test
     public void invalidPlanReturns400Error() {
         try {
@@ -239,5 +242,24 @@ public class SchedulePlanTest {
             developerClient.deleteSchedulePlan(keys.getGuid());
             developerClient.deleteSurvey(surveyKeys);
         }
+    }
+
+    /**
+     * ScheduleCriteria should be equal, *except* that the server has added a GUID to the activities.
+     * Recreate the original with the GUID (working around the builder).
+     * @param original
+     * @param updated
+     * @param index
+     * @return
+     * @throws Exception
+     */
+    private ScheduleCriteria updateGuid(ScheduleCriteria original, CriteriaScheduleStrategy updated, int index)
+            throws Exception {
+        
+        String guid = updated.getScheduleCriteria().get(index).getSchedule().getActivities().get(0).getGuid();
+        JsonNode node = MAPPER.valueToTree(original);
+        ObjectNode actNode = (ObjectNode)node.get("schedule").get("activities").get(0);
+        actNode.put("guid", guid);
+        return MAPPER.readValue(node.toString(), ScheduleCriteria.class);
     }
 }
