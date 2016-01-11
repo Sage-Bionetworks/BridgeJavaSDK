@@ -29,24 +29,34 @@ import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Activity;
 import org.sagebionetworks.bridge.sdk.models.schedules.ActivityType;
+import org.sagebionetworks.bridge.sdk.models.schedules.CriteriaScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
+import org.sagebionetworks.bridge.sdk.models.schedules.ScheduleCriteria;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
+import org.sagebionetworks.bridge.sdk.models.schedules.ScheduleStrategy;
+import org.sagebionetworks.bridge.sdk.models.schedules.ScheduleType;
 import org.sagebionetworks.bridge.sdk.models.schedules.SimpleScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.SurveyReference;
+import org.sagebionetworks.bridge.sdk.models.schedules.TaskReference;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
+import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.Sets;
 
 public class SchedulePlanTest {
 
+    private static final ObjectMapper MAPPER = Utilities.getMapper();
     private static final Set<String> TASK_IDENTIFIERS = Sets.newHashSet("task:AAA", "task:BBB", "task:CCC");
 
     private TestUser user;
     private TestUser developer;
     private DeveloperClient developerClient;
     private UserClient userClient;
-    
+
     @Before
     public void before() {
         developer = TestUserHelper.createAndSignInUser(SchedulePlanTest.class, true, Roles.DEVELOPER);
@@ -88,7 +98,7 @@ public class SchedulePlanTest {
     public void crudSchedulePlan() throws Exception {
         // We want a version that will return the schedule plan. Zero doesn't do it.
         ClientProvider.setClientInfo(new ClientInfo.Builder().withAppName(Tests.APP_NAME).withAppVersion(3).build());
-        
+
         SchedulePlan plan = Tests.getABTestSchedulePlan();
 
         // Create
@@ -105,7 +115,7 @@ public class SchedulePlanTest {
         assertEquals("A/B Test Schedule Plan", plan.getLabel());
         assertEquals(new Integer(2), plan.getMinAppVersion());
         assertEquals(new Integer(8), plan.getMaxAppVersion());
-        
+
         // Update
         SchedulePlan simplePlan = Tests.getSimpleSchedulePlan();
         plan.setStrategy(simplePlan.getStrategy());
@@ -116,8 +126,8 @@ public class SchedulePlanTest {
 
         // Get
         plan = developerClient.getSchedulePlan(keys.getGuid());
-        assertEquals("Strategy type has been changed", "SimpleScheduleStrategy", 
-            plan.getStrategy().getClass().getSimpleName());
+        assertEquals("Strategy type has been changed", "SimpleScheduleStrategy",
+                plan.getStrategy().getClass().getSimpleName());
 
         ResourceList<Schedule> schedules = userClient.getSchedules();
         assertTrue("Schedules exist", !schedules.getItems().isEmpty());
@@ -134,6 +144,49 @@ public class SchedulePlanTest {
         }
     }
 
+    @Test
+    public void criteriaScheduleStrategyPlanCRUD() throws Exception {
+        // Create plan with a criteria strategy
+        Schedule schedule1 = new Schedule();
+        schedule1.setLabel("Task 1");
+        schedule1.setScheduleType(ScheduleType.ONCE);
+        schedule1.addActivity(new Activity("Do task",null,new TaskReference("task:AAA")));
+        
+        Schedule schedule2 = new Schedule();
+        schedule2.setLabel("Task 2");
+        schedule2.setScheduleType(ScheduleType.ONCE);
+        schedule2.addActivity(new Activity("Do task",null,new TaskReference("task:BBB")));
+        
+        ScheduleCriteria criteria1 = new ScheduleCriteria.Builder()
+                .withMinAppVersion(2)
+                .withMaxAppVersion(5)
+                .withSchedule(schedule1).build();
+        ScheduleCriteria criteria2 = new ScheduleCriteria.Builder()
+                .withMinAppVersion(6)
+                .withMaxAppVersion(10)
+                .withSchedule(schedule2).build();
+        
+        CriteriaScheduleStrategy strategy = new CriteriaScheduleStrategy();
+        strategy.addCriteria(criteria1);
+        strategy.addCriteria(criteria2);
+        
+        SchedulePlan plan = new SchedulePlan();
+        plan.setLabel("Criteria schedule plan");
+        plan.setStrategy(strategy);
+        
+        GuidVersionHolder keys = developerClient.createSchedulePlan(plan);
+        SchedulePlan retrievedPlan = developerClient.getSchedulePlan(keys.getGuid());
+        
+        assertTrue(retrievedPlan.getStrategy() instanceof CriteriaScheduleStrategy);
+        
+        CriteriaScheduleStrategy retrievedStrategy = (CriteriaScheduleStrategy)retrievedPlan.getStrategy();
+        assertEquals(2, retrievedStrategy.getScheduleCriteria().size());
+        criteria1 = updateGuid(criteria1, retrievedStrategy, 0);
+        criteria2 = updateGuid(criteria2, retrievedStrategy, 1);
+        assertEquals(criteria1, retrievedStrategy.getScheduleCriteria().get(0));
+        assertEquals(criteria2, retrievedStrategy.getScheduleCriteria().get(1));
+    }
+    
     @Test
     public void invalidPlanReturns400Error() {
         try {
@@ -156,7 +209,7 @@ public class SchedulePlanTest {
             assertEquals("Clear null-pointer message", "SchedulePlan cannot be null.", e.getMessage());
         }
     }
-    
+
     @Test
     public void planCanPointToPublishedSurvey() {
         GuidCreatedOnVersionHolder surveyKeys = null;
@@ -164,29 +217,49 @@ public class SchedulePlanTest {
         try {
             Survey survey = TestSurvey.getSurvey();
             surveyKeys = developerClient.createSurvey(survey);
-            
+
             // Can we point to the most recently published survey, rather than a specific version?
             SchedulePlan plan = Tests.getSimpleSchedulePlan();
-            SimpleScheduleStrategy strategy = (SimpleScheduleStrategy)plan.getStrategy();
-            
-            Activity activity = new Activity("Test", null, new SurveyReference(surveyKeys.getGuid(), surveyKeys.getCreatedOn()));
+            SimpleScheduleStrategy strategy = (SimpleScheduleStrategy) plan.getStrategy();
+
+            Activity activity = new Activity("Test", null,
+                    new SurveyReference(surveyKeys.getGuid(), surveyKeys.getCreatedOn()));
             assertEquals(ActivityType.SURVEY, activity.getActivityType());
 
             strategy.getSchedule().getActivities().clear();
             strategy.getSchedule().getActivities().add(activity);
-            
+
             keys = developerClient.createSchedulePlan(plan);
             SchedulePlan newPlan = developerClient.getSchedulePlan(keys.getGuid());
-            
+
             // values that are not updated passed over for simple equality comparison
             plan.setGuid(newPlan.getGuid());
             plan.setModifiedOn(newPlan.getModifiedOn());
             Tests.getActivitiesFromSimpleStrategy(plan).set(0, Tests.getActivityFromSimpleStrategy(newPlan));
-            
+
             assertEquals(plan, newPlan);
         } finally {
             developerClient.deleteSchedulePlan(keys.getGuid());
             developerClient.deleteSurvey(surveyKeys);
         }
+    }
+
+    /**
+     * ScheduleCriteria should be equal, *except* that the server has added a GUID to the activities.
+     * Recreate the original with the GUID (working around the builder).
+     * @param original
+     * @param updated
+     * @param index
+     * @return
+     * @throws Exception
+     */
+    private ScheduleCriteria updateGuid(ScheduleCriteria original, CriteriaScheduleStrategy updated, int index)
+            throws Exception {
+        
+        String guid = updated.getScheduleCriteria().get(index).getSchedule().getActivities().get(0).getGuid();
+        JsonNode node = MAPPER.valueToTree(original);
+        ObjectNode actNode = (ObjectNode)node.get("schedule").get("activities").get(0);
+        actNode.put("guid", guid);
+        return MAPPER.readValue(node.toString(), ScheduleCriteria.class);
     }
 }
