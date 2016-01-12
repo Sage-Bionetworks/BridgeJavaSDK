@@ -156,22 +156,7 @@ public class StudyTest {
             developer.signOutAndDeleteUser();
         }
     }
-    
-    @Test
-    public void researcherCanRetrieveConsentedParticipants() {
-        TestUser researcher = TestUserHelper.createAndSignInUser(StudyTest.class, false, Roles.RESEARCHER);
-        TestUser user = TestUserHelper.createAndSignInUser(StudyTest.class, true);
-        try {
-            ResearcherClient client = researcher.getSession().getResearcherClient();
-            client.sendStudyParticipantsRoster();
-        } catch(Exception e) {
-            fail("Threw exception");
-        } finally {
-            user.signOutAndDeleteUser();
-            researcher.signOutAndDeleteUser();
-        }
-    }
-    
+
     @Test(expected = UnauthorizedException.class)
     public void adminCannotRetrieveParticipants() {
         ResearcherClient client = admin.getSession().getResearcherClient();
