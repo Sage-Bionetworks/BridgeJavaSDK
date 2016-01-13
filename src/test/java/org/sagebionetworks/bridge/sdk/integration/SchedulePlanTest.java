@@ -33,7 +33,6 @@ import org.sagebionetworks.bridge.sdk.models.schedules.CriteriaScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.ScheduleCriteria;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
-import org.sagebionetworks.bridge.sdk.models.schedules.ScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.ScheduleType;
 import org.sagebionetworks.bridge.sdk.models.schedules.SimpleScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.SurveyReference;
@@ -185,6 +184,8 @@ public class SchedulePlanTest {
         criteria2 = updateGuid(criteria2, retrievedStrategy, 1);
         assertEquals(criteria1, retrievedStrategy.getScheduleCriteria().get(0));
         assertEquals(criteria2, retrievedStrategy.getScheduleCriteria().get(1));
+        
+        developerClient.deleteSchedulePlan(retrievedPlan.getGuid());
     }
     
     @Test
