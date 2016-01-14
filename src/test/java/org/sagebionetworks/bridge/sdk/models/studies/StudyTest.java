@@ -26,6 +26,8 @@ public class StudyTest {
         study.setIdentifier("foo");
         study.setVersion(2L);
         study.setSupportEmail("bridge-testing+support@sagebase.org");
+        study.setSynapseDataAccessTeamId(1337L);
+        study.setSynapseProjectId("test-project");
         study.setTechnicalEmail("bridge-testing+technical@sagebase.org");
         study.setConsentNotificationEmail("bridge-testing+consent@sagebase.org");
         study.getUserProfileAttributes().add("test");
@@ -49,6 +51,8 @@ public class StudyTest {
         assertEquals(0, node.get("minAgeOfConsent").asInt());
         assertEquals(0, node.get("maxNumOfParticipants").asInt());
         assertEquals("bridge-testing+support@sagebase.org", node.get("supportEmail").asText());
+        assertEquals(1337L, node.get("synapseDataAccessTeamId").longValue());
+        assertEquals("test-project", node.get("synapseProjectId").textValue());
         assertEquals("bridge-testing+technical@sagebase.org", node.get("technicalEmail").asText());
         assertEquals("bridge-testing+consent@sagebase.org", node.get("consentNotificationEmail").asText());
         assertEquals("test", node.get("userProfileAttributes").get(0).asText());

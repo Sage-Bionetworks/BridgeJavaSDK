@@ -21,6 +21,8 @@ public final class Study implements VersionHolder {
     private String identifier;
     private Long version;
     private String supportEmail;
+    private Long synapseDataAccessTeamId;
+    private String synapseProjectId;
     private String consentNotificationEmail;
     private String technicalEmail;
     private int minAgeOfConsent;
@@ -80,6 +82,26 @@ public final class Study implements VersionHolder {
 
     public void setSupportEmail(String supportEmail) {
         this.supportEmail = supportEmail;
+    }
+
+    /** Synapse team ID that is granted read access to exported health data records. */
+    public Long getSynapseDataAccessTeamId() {
+        return synapseDataAccessTeamId;
+    }
+
+    /** @see #getSynapseDataAccessTeamId */
+    public void setSynapseDataAccessTeamId(Long synapseDataAccessTeamId) {
+        this.synapseDataAccessTeamId = synapseDataAccessTeamId;
+    }
+
+    /** The Synapse project to export health data records to. */
+    public String getSynapseProjectId() {
+        return synapseProjectId;
+    }
+
+    /** @see #getSynapseProjectId */
+    public void setSynapseProjectId(String synapseProjectId) {
+        this.synapseProjectId = synapseProjectId;
     }
 
     public String getConsentNotificationEmail() {
@@ -188,7 +210,8 @@ public final class Study implements VersionHolder {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, sponsorName, identifier, supportEmail, consentNotificationEmail, version,
+        return Objects.hash(name, sponsorName, identifier, supportEmail, synapseDataAccessTeamId, synapseProjectId,
+                consentNotificationEmail, version,
                 technicalEmail, userProfileAttributes, taskIdentifiers, dataGroups, passwordPolicy, verifyEmailTemplate,
                 resetPasswordTemplate, maxNumOfParticipants, minAgeOfConsent, strictUploadValidationEnabled,
                 healthCodeExportEnabled, minSupportedAppVersions);
@@ -204,7 +227,10 @@ public final class Study implements VersionHolder {
         return (Objects.equals(consentNotificationEmail, other.consentNotificationEmail)
                 && Objects.equals(identifier, other.identifier) && (maxNumOfParticipants == other.maxNumOfParticipants)
                 && (minAgeOfConsent == other.minAgeOfConsent) && Objects.equals(name, other.name)
-                && Objects.equals(supportEmail, other.supportEmail) && Objects.equals(version, other.version)
+                && Objects.equals(supportEmail, other.supportEmail)
+                && Objects.equals(synapseDataAccessTeamId, other.synapseDataAccessTeamId)
+                && Objects.equals(synapseProjectId, other.synapseProjectId)
+                && Objects.equals(version, other.version)
                 && Objects.equals(userProfileAttributes, other.userProfileAttributes)
                 && Objects.equals(taskIdentifiers, other.taskIdentifiers)
                 && Objects.equals(dataGroups, other.dataGroups) && Objects.equals(sponsorName, other.sponsorName)
@@ -221,6 +247,8 @@ public final class Study implements VersionHolder {
     public String toString() {
         return new ToStringBuilder(this, TO_STRING_STYLE).append("name", name).append("sponsorName", sponsorName)
                 .append("identifier", identifier).append("version", version).append("supportEmail", supportEmail)
+                .append("synapseDataAccessTeamId", synapseDataAccessTeamId)
+                .append("synapseProjectId", synapseProjectId)
                 .append("consentNotificationEmail", consentNotificationEmail).append("technicalEmail", technicalEmail)
                 .append("minAgeOfConsent", minAgeOfConsent).append("maxNumOfParticipants", maxNumOfParticipants)
                 .append("userProfileAttributes", userProfileAttributes).append("taskIdentifiers", taskIdentifiers)
