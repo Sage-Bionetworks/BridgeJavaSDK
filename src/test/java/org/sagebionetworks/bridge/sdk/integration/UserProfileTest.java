@@ -2,19 +2,15 @@ package org.sagebionetworks.bridge.sdk.integration;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Set;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.sagebionetworks.bridge.IntegrationSmokeTest;
-import org.sagebionetworks.bridge.sdk.DeveloperClient;
 import org.sagebionetworks.bridge.sdk.Roles;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
-import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.users.DataGroups;
 import org.sagebionetworks.bridge.sdk.models.users.ExternalIdentifier;
 import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
@@ -24,20 +20,11 @@ import com.google.common.collect.Sets;
 @Category(IntegrationSmokeTest.class)
 public class UserProfileTest {
 
-    private static final Set<String> DATA_GROUPS = Sets.newHashSet("sdk-int-1","sdk-int-2");
     private TestUser developer;
 
     @Before
     public void before() {
         developer = TestUserHelper.createAndSignInUser(UserProfileTest.class, true, Roles.DEVELOPER);
-        
-        DeveloperClient devClient = developer.getSession().getDeveloperClient();
-        Study study = devClient.getStudy();
-        Set<String> dataGroups = study.getDataGroups();
-        if (!dataGroups.containsAll(DATA_GROUPS)) {
-            dataGroups.addAll(DATA_GROUPS);
-            devClient.updateStudy(study);
-        }
     }
 
     @After
