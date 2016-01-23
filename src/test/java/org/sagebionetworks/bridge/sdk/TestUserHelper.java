@@ -100,20 +100,25 @@ public class TestUserHelper {
         SignUpByAdmin signUp = new SignUpByAdmin(name, emailAddress, PASSWORD, rolesList, consent);
         adminClient.createUser(signUp);
 
-        Session userSession = null;
         try {
-            SignInCredentials signIn = new SignInCredentials(Tests.TEST_KEY, name, PASSWORD);
-            userSession = ClientProvider.signIn(signIn);
-        } catch(ConsentRequiredException e) {
-            userSession = e.getSession();
-            if (consent) {
-                ConsentSignature signature = new ConsentSignature("Tester", LocalDate.parse("1970-02-02"), null, null);
-                userSession.getUserClient().consentToResearch(new SubpopulationGuid(Tests.TEST_KEY), signature,
-                        SharingScope.NO_SHARING);
+            Session userSession = null;
+            try {
+                SignInCredentials signIn = new SignInCredentials(Tests.TEST_KEY, name, PASSWORD);
+                userSession = ClientProvider.signIn(signIn);
+            } catch (ConsentRequiredException e) {
+                userSession = e.getSession();
+                if (consent) {
+                    // If there's no consent but we're expecting one, that's an error.
+                    throw e;
+                }
             }
+            return new TestUserHelper.TestUser(adminClient, userSession, signUp.getUsername(), signUp.getEmail(),
+                    signUp.getPassword(), rolesList);
+        } catch (RuntimeException ex) {
+            // Clean up the account, so we don't end up with a bunch of leftover accounts.
+            adminClient.deleteUser(emailAddress);
+            throw ex;
         }
-        return new TestUserHelper.TestUser(adminClient, userSession, signUp.getUsername(), signUp.getEmail(),
-                signUp.getPassword(), rolesList);
     }
 
     public static String makeUserName(Class<?> cls) {

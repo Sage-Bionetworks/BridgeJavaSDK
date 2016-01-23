@@ -44,8 +44,12 @@ public class SignInTest {
     
     @After
     public void after() {
-        user.signOutAndDeleteUser();
-        developer.signOutAndDeleteUser();
+        if (user != null) {
+            user.signOutAndDeleteUser();
+        }
+        if (developer != null) {
+            developer.signOutAndDeleteUser();
+        }
     }
 
     @Test
