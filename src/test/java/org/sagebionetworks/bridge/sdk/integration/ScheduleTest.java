@@ -3,7 +3,6 @@ package org.sagebionetworks.bridge.sdk.integration;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
-import java.util.Set;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,13 +17,9 @@ import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.SchedulePlan;
-import org.sagebionetworks.bridge.sdk.models.studies.Study;
-
-import com.google.common.collect.Sets;
 
 public class ScheduleTest {
 
-    private static final Set<String> TASK_IDENTIFIERS = Sets.newHashSet("task:AAA", "task:BBB", "task:CCC", "CCC");
     private String planGuid;
     
     private TestUser user;
@@ -34,14 +29,6 @@ public class ScheduleTest {
     public void before() {
         user = TestUserHelper.createAndSignInUser(ScheduleTest.class, true);
         developer = TestUserHelper.createAndSignInUser(ScheduleTest.class, true, Roles.DEVELOPER);
-        
-        DeveloperClient developerClient = developer.getSession().getDeveloperClient();
-        Study study = developerClient.getStudy();
-        Set<String> taskIdentifiers = study.getTaskIdentifiers();
-        if (!taskIdentifiers.containsAll(TASK_IDENTIFIERS)) {
-            taskIdentifiers.addAll(TASK_IDENTIFIERS);
-            developerClient.updateStudy(study);
-        }
         ClientProvider.setClientInfo(new ClientInfo.Builder().withAppName(Tests.APP_NAME).withAppVersion(3).build());
     }
     

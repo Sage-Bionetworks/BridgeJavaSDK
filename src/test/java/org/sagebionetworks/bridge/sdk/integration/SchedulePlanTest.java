@@ -7,8 +7,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.Set;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,19 +35,16 @@ import org.sagebionetworks.bridge.sdk.models.schedules.ScheduleType;
 import org.sagebionetworks.bridge.sdk.models.schedules.SimpleScheduleStrategy;
 import org.sagebionetworks.bridge.sdk.models.schedules.SurveyReference;
 import org.sagebionetworks.bridge.sdk.models.schedules.TaskReference;
-import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.common.collect.Sets;
 
 public class SchedulePlanTest {
 
     private static final ObjectMapper MAPPER = Utilities.getMapper();
-    private static final Set<String> TASK_IDENTIFIERS = Sets.newHashSet("task:AAA", "task:BBB", "task:CCC");
 
     private TestUser user;
     private TestUser developer;
@@ -62,12 +57,6 @@ public class SchedulePlanTest {
         user = TestUserHelper.createAndSignInUser(SchedulePlanTest.class, true);
 
         developerClient = developer.getSession().getDeveloperClient();
-        Study study = developerClient.getStudy();
-        Set<String> taskIdentifiers = study.getTaskIdentifiers();
-        if (!taskIdentifiers.containsAll(TASK_IDENTIFIERS)) {
-            taskIdentifiers.addAll(TASK_IDENTIFIERS);
-            developerClient.updateStudy(study);
-        }
         userClient = user.getSession().getUserClient();
     }
 
@@ -145,47 +134,52 @@ public class SchedulePlanTest {
 
     @Test
     public void criteriaScheduleStrategyPlanCRUD() throws Exception {
-        // Create plan with a criteria strategy
-        Schedule schedule1 = new Schedule();
-        schedule1.setLabel("Task 1");
-        schedule1.setScheduleType(ScheduleType.ONCE);
-        schedule1.addActivity(new Activity("Do task",null,new TaskReference("task:AAA")));
-        
-        Schedule schedule2 = new Schedule();
-        schedule2.setLabel("Task 2");
-        schedule2.setScheduleType(ScheduleType.ONCE);
-        schedule2.addActivity(new Activity("Do task",null,new TaskReference("task:BBB")));
-        
-        ScheduleCriteria criteria1 = new ScheduleCriteria.Builder()
-                .withMinAppVersion(2)
-                .withMaxAppVersion(5)
-                .withSchedule(schedule1).build();
-        ScheduleCriteria criteria2 = new ScheduleCriteria.Builder()
-                .withMinAppVersion(6)
-                .withMaxAppVersion(10)
-                .withSchedule(schedule2).build();
-        
-        CriteriaScheduleStrategy strategy = new CriteriaScheduleStrategy();
-        strategy.addCriteria(criteria1);
-        strategy.addCriteria(criteria2);
-        
-        SchedulePlan plan = new SchedulePlan();
-        plan.setLabel("Criteria schedule plan");
-        plan.setStrategy(strategy);
-        
-        GuidVersionHolder keys = developerClient.createSchedulePlan(plan);
-        SchedulePlan retrievedPlan = developerClient.getSchedulePlan(keys.getGuid());
-        
-        assertTrue(retrievedPlan.getStrategy() instanceof CriteriaScheduleStrategy);
-        
-        CriteriaScheduleStrategy retrievedStrategy = (CriteriaScheduleStrategy)retrievedPlan.getStrategy();
-        assertEquals(2, retrievedStrategy.getScheduleCriteria().size());
-        criteria1 = updateGuid(criteria1, retrievedStrategy, 0);
-        criteria2 = updateGuid(criteria2, retrievedStrategy, 1);
-        assertEquals(criteria1, retrievedStrategy.getScheduleCriteria().get(0));
-        assertEquals(criteria2, retrievedStrategy.getScheduleCriteria().get(1));
-        
-        developerClient.deleteSchedulePlan(retrievedPlan.getGuid());
+        SchedulePlan retrievedPlan = null;
+        try {
+            // Create plan with a criteria strategy
+            Schedule schedule1 = new Schedule();
+            schedule1.setLabel("Task 1");
+            schedule1.setScheduleType(ScheduleType.ONCE);
+            schedule1.addActivity(new Activity("Do task",null,new TaskReference("task:AAA")));
+            
+            Schedule schedule2 = new Schedule();
+            schedule2.setLabel("Task 2");
+            schedule2.setScheduleType(ScheduleType.ONCE);
+            schedule2.addActivity(new Activity("Do task",null,new TaskReference("task:BBB")));
+            
+            ScheduleCriteria criteria1 = new ScheduleCriteria.Builder()
+                    .withMinAppVersion(2)
+                    .withMaxAppVersion(5)
+                    .withSchedule(schedule1).build();
+            ScheduleCriteria criteria2 = new ScheduleCriteria.Builder()
+                    .withMinAppVersion(6)
+                    .withMaxAppVersion(10)
+                    .withSchedule(schedule2).build();
+            
+            CriteriaScheduleStrategy strategy = new CriteriaScheduleStrategy();
+            strategy.addCriteria(criteria1);
+            strategy.addCriteria(criteria2);
+            
+            SchedulePlan plan = new SchedulePlan();
+            plan.setLabel("Criteria schedule plan");
+            plan.setStrategy(strategy);
+            
+            GuidVersionHolder keys = developerClient.createSchedulePlan(plan);
+            retrievedPlan = developerClient.getSchedulePlan(keys.getGuid());
+            
+            assertTrue(retrievedPlan.getStrategy() instanceof CriteriaScheduleStrategy);
+            
+            CriteriaScheduleStrategy retrievedStrategy = (CriteriaScheduleStrategy)retrievedPlan.getStrategy();
+            assertEquals(2, retrievedStrategy.getScheduleCriteria().size());
+            criteria1 = updateGuid(criteria1, retrievedStrategy, 0);
+            criteria2 = updateGuid(criteria2, retrievedStrategy, 1);
+            assertEquals(criteria1, retrievedStrategy.getScheduleCriteria().get(0));
+            assertEquals(criteria2, retrievedStrategy.getScheduleCriteria().get(1));
+        } finally {
+            if (retrievedPlan != null) {
+                developerClient.deleteSchedulePlan(retrievedPlan.getGuid());    
+            }
+        }
     }
     
     @Test
