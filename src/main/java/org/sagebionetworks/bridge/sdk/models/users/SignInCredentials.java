@@ -34,6 +34,13 @@ public final class SignInCredentials {
     public String getEmail() {
         return this.email;
     }
+    /**
+     * NOTE: for migration support, this will be removed in early 2016.
+     * @deprecated
+     */
+    public String getUsername() {
+        return this.email;
+    }
 
     public String getPassword() {
         return this.password;

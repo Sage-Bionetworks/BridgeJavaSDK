@@ -38,6 +38,14 @@ public final class SignUpCredentials {
     public String getEmail() {
         return this.email;
     }
+    
+    /**
+     * NOTE: for migration support, this will be removed in early 2016.
+     * @deprecated
+     */
+    public String getUsername() {
+        return email;
+    }
 
     public String getPassword() {
         return this.password;

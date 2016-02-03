@@ -26,6 +26,13 @@ public class SignUpByAdmin {
     public String getEmail() {
         return email;
     }
+    /**
+     * NOTE: for migration support, this will be removed in early 2016.
+     * @deprecated
+     */
+    public String getUsername() {
+        return email;
+    }
     public String getPassword() {
         return password;
     }
