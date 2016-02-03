@@ -33,6 +33,7 @@ public class SignUpCredentialsTest {
         JsonNode node = Utilities.getMapper().readTree(json);
         
         assertEquals("email", node.get("email").asText());
+        assertEquals("email", node.get("username").asText());
         assertEquals("password", node.get("password").asText());
         assertEquals("studyIdentifier", node.get("study").asText());
         
