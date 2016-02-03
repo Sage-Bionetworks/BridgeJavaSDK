@@ -19,7 +19,7 @@ public class ClientProviderTest {
         try {
             testUser.getSession().signOut();
             
-            SignInCredentials credentials = new SignInCredentials(Tests.TEST_KEY, testUser.getUsername(), testUser.getPassword());
+            SignInCredentials credentials = new SignInCredentials(Tests.TEST_KEY, testUser.getEmail(), testUser.getPassword());
             Session session = ClientProvider.signIn(credentials);
             assertTrue(session.isSignedIn());
 

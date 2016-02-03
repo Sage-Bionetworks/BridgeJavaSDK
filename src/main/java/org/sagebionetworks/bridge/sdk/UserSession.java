@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableMap;
 
 final class UserSession {
 
-    private final String username;
     private final String sessionToken;
     private final SharingScope sharingScope;
     private final boolean authenticated;
@@ -33,24 +32,18 @@ final class UserSession {
     private final Map<SubpopulationGuid,ConsentStatus> consentStatuses;
 
     @JsonCreator
-    private UserSession(@JsonProperty("username") String username, 
-            @JsonProperty("sessionToken") String sessionToken,
+    private UserSession(@JsonProperty("sessionToken") String sessionToken,
             @JsonProperty("authenticated") boolean authenticated, 
             @JsonProperty("sharingScope") SharingScope sharingScope,
             @JsonProperty("dataGroups") DataGroups dataGroups,
             @JsonProperty("consentStatuses") Map<SubpopulationGuid,ConsentStatus> consentStatuses) {
         
-        this.username = username;
         this.sessionToken = sessionToken;
         this.authenticated = authenticated;
         this.sharingScope = sharingScope;
         this.dataGroups = dataGroups;
         this.consentStatuses = (consentStatuses == null) ? ImmutableMap.<SubpopulationGuid,ConsentStatus>of() : 
             ImmutableMap.copyOf(consentStatuses);
-    }
-
-    public String getUsername() {
-        return this.username;
     }
 
     public String getSessionToken() {
@@ -83,7 +76,7 @@ final class UserSession {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, TO_STRING_STYLE).append("username", username)
+        return new ToStringBuilder(this, TO_STRING_STYLE)
                 .append("sessionToken", sessionToken).append("authenticated", authenticated)
                 .append("consented", isConsented()).append("sharingScope", sharingScope)
                 .append("signedMostRecentConsent", hasSignedMostRecentConsent()).append("dataGroups", dataGroups)

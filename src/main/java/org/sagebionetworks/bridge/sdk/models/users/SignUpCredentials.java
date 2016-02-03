@@ -14,7 +14,6 @@ public final class SignUpCredentials {
 
     private String studyIdentifier;
     private String email;
-    private String username;
     private String password;
     @JsonDeserialize(using=DataGroupsDeserializer.class)
     @JsonSerialize(using=DataGroupsSerializer.class)
@@ -22,13 +21,11 @@ public final class SignUpCredentials {
 
     @JsonCreator
     public SignUpCredentials(@JsonProperty("study") String studyIdentifier, 
-            @JsonProperty("username") String username, 
             @JsonProperty("email") String email, 
             @JsonProperty("password") String password, 
             @JsonProperty("dataGroups") DataGroups dataGroups) {
         this.studyIdentifier = studyIdentifier;
         this.email = email;
-        this.username = username;
         this.password = password;
         this.dataGroups = dataGroups;
     }
@@ -40,10 +37,6 @@ public final class SignUpCredentials {
 
     public String getEmail() {
         return this.email;
-    }
-
-    public String getUsername() {
-        return this.username;
     }
 
     public String getPassword() {
@@ -62,10 +55,6 @@ public final class SignUpCredentials {
         this.email = email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -76,7 +65,7 @@ public final class SignUpCredentials {
 
     @Override
     public int hashCode() {
-        return Objects.hash(studyIdentifier, email, password, username, dataGroups);
+        return Objects.hash(studyIdentifier, email, password, dataGroups);
     }
 
     @Override
@@ -87,13 +76,12 @@ public final class SignUpCredentials {
             return false;
         SignUpCredentials other = (SignUpCredentials) obj;
         return (Objects.equals(studyIdentifier, other.studyIdentifier) && Objects.equals(email, other.email)
-                && Objects.equals(password, other.password) && Objects.equals(username, other.username)
-                && Objects.equals(dataGroups, other.dataGroups));
+                && Objects.equals(password, other.password) && Objects.equals(dataGroups, other.dataGroups));
     }
 
     @Override
     public String toString() {
-        return String.format("SignUpCredentials[studyIdentifier=%s, email=%s, username=%s, password=[REDACTED], dataGroups=%s",
-                studyIdentifier, email, username, dataGroups);
+        return String.format("SignUpCredentials[studyIdentifier=%s, email=%s, password=[REDACTED], dataGroups=%s",
+                studyIdentifier, email, dataGroups);
     }
 }

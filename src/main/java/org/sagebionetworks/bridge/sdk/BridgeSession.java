@@ -18,14 +18,12 @@ class BridgeSession implements Session {
 
     private SharingScope sharingScope;
     private String sessionToken;
-    private String username;
     private DataGroups dataGroups;
     private Map<SubpopulationGuid,ConsentStatus> consentStatuses; 
     
     BridgeSession(UserSession session) {
         checkNotNull(session, "%s cannot be null", "UserSession");
         
-        this.username = session.getUsername();
         this.sessionToken = session.getSessionToken();
         this.sharingScope = session.getSharingScope();
         this.dataGroups = session.getDataGroups();
@@ -41,16 +39,6 @@ class BridgeSession implements Session {
         checkState(isSignedIn(), NOT_AUTHENTICATED);
     }
     
-    @Override
-    public String getUsername() {
-        checkState(isSignedIn(), NOT_AUTHENTICATED);
-        return username;
-    }
-    
-    void setUsername(String username) {
-        this.username = username;
-    }
-
     @Override
     public String getSessionToken() {
         checkState(isSignedIn(), NOT_AUTHENTICATED);
@@ -127,8 +115,8 @@ class BridgeSession implements Session {
 
     @Override
     public String toString() {
-        return String.format("BridgeSession [sessionToken=%s, username=%s, sharingScope=%s, dataGroups=%s, consentStatuses=%s]", 
-                sessionToken, username, sharingScope.name().toLowerCase(), dataGroups, consentStatuses);
+        return String.format("BridgeSession [sessionToken=%s, sharingScope=%s, dataGroups=%s, consentStatuses=%s]", 
+                sessionToken, sharingScope.name().toLowerCase(), dataGroups, consentStatuses);
     }
 
 }

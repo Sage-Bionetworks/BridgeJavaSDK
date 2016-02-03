@@ -29,20 +29,17 @@ public class UserProfileTest {
         profile.setFirstName("first name");
         profile.setLastName("last name");
         profile.setEmail("email@email.com");
-        profile.setUsername("username");
         profile.setAttribute("can_be_recontacted", "true");
         
         JsonNode node = marshalUnmarshal(profile);
         
         assertTrue(node.has("firstName"));
         assertTrue(node.has("lastName"));
-        assertTrue(node.has("username"));
         assertTrue(node.has("email"));
         assertTrue(node.has("can_be_recontacted"));
 
         assertEquals("first name", node.get("firstName").asText());
         assertEquals("last name", node.get("lastName").asText());
-        assertEquals("username", node.get("username").asText());
         assertEquals("email@email.com", node.get("email").asText());
         assertEquals("true", node.get("can_be_recontacted").asText());
     }
@@ -74,11 +71,11 @@ public class UserProfileTest {
         // You can't rewrite a JSON property from the Java fields throught the attributes map
         try {
             UserProfile profile = new UserProfile();
-            profile.setUsername("username1");
-            profile.setAttribute("username", "username2");
+            profile.setEmail("email@email.com");
+            profile.setAttribute("email", "email@email.com");
             fail("Should have thrown exception");
         } catch(IllegalArgumentException e) {
-            assertEquals("Attribute 'username' conflicts with existing Java field name.", e.getMessage());
+            assertEquals("Attribute 'email' conflicts with existing Java field name.", e.getMessage());
         }
     }
 
