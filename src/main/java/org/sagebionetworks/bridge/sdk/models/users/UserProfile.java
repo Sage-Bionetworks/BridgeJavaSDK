@@ -14,11 +14,10 @@ import com.google.common.collect.Sets;
 
 public final class UserProfile {
     
-    private static final Set<String> FIXED_PROPERTIES = Sets.newHashSet("firstName", "lastName", "username", "email");
+    private static final Set<String> FIXED_PROPERTIES = Sets.newHashSet("firstName", "lastName", "email");
     
     private String firstName;
     private String lastName;
-    private String username;
     private String email;
     private Map<String,String> attributes;
 
@@ -37,12 +36,6 @@ public final class UserProfile {
     }
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-    public String getUsername() {
-        return username;
-    }
-    public void setUsername(String username) {
-        this.username = username;
     }
     public String getEmail() {
         return email;
@@ -76,7 +69,6 @@ public final class UserProfile {
         result = prime * result + Objects.hashCode(email);
         result = prime * result + Objects.hashCode(firstName);
         result = prime * result + Objects.hashCode(lastName);
-        result = prime * result + Objects.hashCode(username);
         result = prime * result + Objects.hashCode(attributes);
         return result;
     }
@@ -87,13 +79,14 @@ public final class UserProfile {
         if (obj == null || getClass() != obj.getClass())
             return false;
         UserProfile other = (UserProfile) obj;
-        return (Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName)
-                && Objects.equals(lastName, other.lastName) && Objects.equals(
-                username, other.username) && Objects.equals(attributes, other.attributes));
+        return (Objects.equals(email, other.email) && 
+                Objects.equals(firstName, other.firstName) && 
+                Objects.equals(lastName, other.lastName) && 
+                Objects.equals(attributes, other.attributes));
     }
     @Override
     public String toString() {
-        return String.format("UserProfile [firstName=%s, lastName=%s, username=%s, email=%s, attributes=%s]", 
-                firstName, lastName, username, email, attributes);
+        return String.format("UserProfile [firstName=%s, lastName=%s, email=%s, attributes=%s]", 
+                firstName, lastName, email, attributes);
     }
 }

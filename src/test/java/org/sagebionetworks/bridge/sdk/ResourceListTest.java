@@ -44,9 +44,9 @@ public class ResourceListTest {
         assertFalse(c1.equals(c2));
     }
     
-    private ResourceList<UserProfile> createProfileList(String name) {
+    private ResourceList<UserProfile> createProfileList(String email) {
         UserProfile profile = new UserProfile();
-        profile.setUsername(name);
+        profile.setEmail(email);
         List<UserProfile> list = Lists.newArrayList(profile);
         
         return new ResourceListImpl<UserProfile>(list, list.size());

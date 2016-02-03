@@ -27,13 +27,13 @@ public class SignUpCredentialsTest {
         Set<String> userSets = Sets.newHashSet("sdk-int-1", "sdk-int-2");
         DataGroups dataGroups = new DataGroups();
         dataGroups.setDataGroups(userSets);
-        SignUpCredentials signUp = new SignUpCredentials("studyIdentifier", "username", "email", "password", dataGroups);
+        SignUpCredentials signUp = new SignUpCredentials("studyIdentifier", "email", "password", dataGroups);
         
         String json = Utilities.getMapper().writeValueAsString(signUp);
         JsonNode node = Utilities.getMapper().readTree(json);
         
         assertEquals("email", node.get("email").asText());
-        assertEquals("username", node.get("username").asText());
+        assertEquals("email", node.get("username").asText());
         assertEquals("password", node.get("password").asText());
         assertEquals("studyIdentifier", node.get("study").asText());
         

@@ -31,12 +31,11 @@ public class UserManagementTest {
 
     @Test
     public void canCreateAndDeleteUser() {
-        String username = TestUserHelper.makeUserName(UserManagementTest.class);
-        String email = username + "@sagebase.org";
+        String email = TestUserHelper.makeEmail(UserManagementTest.class);
         String password = "P4ssword";
         boolean consent = true;
 
-        SignUpByAdmin signUp = new SignUpByAdmin(username, email, password, null, consent);
+        SignUpByAdmin signUp = new SignUpByAdmin(email, password, null, consent);
 
         boolean result = admin.createUser(signUp);
         assertTrue(result);

@@ -73,7 +73,6 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         checkNotNull(profile, "Profile cannot be null.");
 
         post(config.getProfileApi(), profile);
-        session.setUsername(profile.getUsername());
     }
     
     @Override

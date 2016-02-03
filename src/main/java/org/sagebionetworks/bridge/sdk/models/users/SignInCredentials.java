@@ -11,18 +11,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class SignInCredentials {
 
     private String studyIdentifier;
-    private String username;
+    private String email;
     private String password;
 
     @JsonCreator
-    public SignInCredentials(@JsonProperty("study") String studyIdentifier, @JsonProperty("username") String username,
+    public SignInCredentials(@JsonProperty("study") String studyIdentifier, @JsonProperty("email") String email,
             @JsonProperty("password") String password) {
         checkArgument(isNotBlank(studyIdentifier), "Study identifier cannot be blank/null");
-        checkArgument(isNotBlank(username), "Username cannot be blank/null");
+        checkArgument(isNotBlank(email), "Email cannot be blank/null");
         checkArgument(isNotBlank(password), "Password cannot be blank/null");
         
         this.studyIdentifier = studyIdentifier;
-        this.username = username;
+        this.email = email;
         this.password = password;
     }
 
@@ -31,8 +31,15 @@ public final class SignInCredentials {
         return studyIdentifier;
     }
     
+    public String getEmail() {
+        return this.email;
+    }
+    /**
+     * NOTE: for migration support, this will be removed in early 2016.
+     * @deprecated
+     */
     public String getUsername() {
-        return this.username;
+        return this.email;
     }
 
     public String getPassword() {
@@ -43,8 +50,8 @@ public final class SignInCredentials {
         this.studyIdentifier = studyIdentifier;
     }
     
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setPassword(String password) {
@@ -57,7 +64,7 @@ public final class SignInCredentials {
         int result = 1;
         result = prime * result + Objects.hashCode(studyIdentifier);
         result = prime * result + Objects.hashCode(password);
-        result = prime * result + Objects.hashCode(username);
+        result = prime * result + Objects.hashCode(email);
         return result;
     }
 
@@ -69,11 +76,11 @@ public final class SignInCredentials {
             return false;
         SignInCredentials other = (SignInCredentials) obj;
         return (Objects.equals(studyIdentifier, other.studyIdentifier) && Objects.equals(password, other.password) && Objects
-                .equals(username, other.username));
+                .equals(email, other.email));
     }
 
     @Override
     public String toString() {
-        return String.format("SignInCredentials[study=%, username=%s, password=[REDACTED]", studyIdentifier, username);
+        return String.format("SignInCredentials[study=%, email=%s, password=[REDACTED]", studyIdentifier, email);
     }
 }

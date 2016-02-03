@@ -28,13 +28,12 @@ public class AuthenticationTest {
 
     @Test
     public void canResendEmailVerification() {
-        String username = TestUserHelper.makeUserName(AuthenticationTest.class);
-        String email = username + "@sagebase.org";
+        String email = TestUserHelper.makeEmail(AuthenticationTest.class);
         String password = "P4ssword";
         
         try {
             
-            SignUpCredentials signUp = new SignUpCredentials(Tests.TEST_KEY, username, email, password, null);
+            SignUpCredentials signUp = new SignUpCredentials(Tests.TEST_KEY, email, password, null);
             ClientProvider.signUp(signUp);
             
             // Beyond an exception being thrown, there's not a lot you can test here.
@@ -80,7 +79,7 @@ public class AuthenticationTest {
             // Can we sign in to secondstudy? No.
             try {
                 config.set(Props.STUDY_IDENTIFIER, studyId);
-                ClientProvider.signIn(new SignInCredentials(studyId, testUser1.getUsername(), testUser1.getPassword()));
+                ClientProvider.signIn(new SignInCredentials(studyId, testUser1.getEmail(), testUser1.getPassword()));
                 fail("Should not have allowed sign in");
             } catch(BridgeSDKException e) {
                 assertEquals(404, e.getStatusCode());
@@ -114,7 +113,7 @@ public class AuthenticationTest {
             testUser.getSession().signOut();
             
             // Now create the same user.
-            SignUpCredentials signup = new SignUpCredentials(Tests.TEST_KEY, testUser.getUsername(), testUser.getEmail(), testUser.getPassword(), null);
+            SignUpCredentials signup = new SignUpCredentials(Tests.TEST_KEY, testUser.getEmail(), testUser.getPassword(), null);
             ClientProvider.signUp(signup);
             // This should not have thrown an error.
             

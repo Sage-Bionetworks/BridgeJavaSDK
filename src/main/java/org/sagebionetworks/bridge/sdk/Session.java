@@ -10,8 +10,6 @@ import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 public interface Session {
 
     public void checkSignedIn();
-    
-    public String getUsername();
 
     public String getSessionToken();
     

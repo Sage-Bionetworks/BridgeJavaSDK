@@ -20,7 +20,6 @@ public class UserSessionTest {
     @Test
     public void canConstructUserSessionFromJson() {
         ObjectNode node = mapper.createObjectNode();
-        node.put("username", "test1");
         node.put("sessionToken", "se55i0n-t0k3n");
         node.put("authenticated", true);
         node.put("consented", false);
@@ -42,7 +41,6 @@ public class UserSessionTest {
         }
         assertNotNull(session);
         assertEquals(session.getSessionToken(), node.get("sessionToken").asText());
-        assertEquals(session.getUsername(), node.get("username").asText());
         assertEquals(session.isAuthenticated(), node.get("authenticated").asBoolean());
         assertEquals(session.isConsented(), node.get("consented").asBoolean());
         assertEquals(session.getSharingScope().name().toLowerCase(), node.get("sharingScope").asText());

@@ -88,7 +88,7 @@ public class ConsentTest {
             }
             LocalDate date = new LocalDate(1970, 10, 10);
             client.consentToResearch(user.getDefaultSubpopulation(),
-                    new ConsentSignature(user.getUsername(), date, null, null), SharingScope.SPONSORS_AND_PARTNERS);
+                    new ConsentSignature(user.getEmail(), date, null, null), SharingScope.SPONSORS_AND_PARTNERS);
             assertTrue("User has consented", user.getSession().isConsented());
             client.getSchedules();
         } finally {
@@ -103,7 +103,7 @@ public class ConsentTest {
             UserClient client = user.getSession().getUserClient();
             LocalDate date = LocalDate.now(); // impossibly young.
             client.consentToResearch(user.getDefaultSubpopulation(), 
-                    new ConsentSignature(user.getUsername(), date, null, null), SharingScope.ALL_QUALIFIED_RESEARCHERS);
+                    new ConsentSignature(user.getEmail(), date, null, null), SharingScope.ALL_QUALIFIED_RESEARCHERS);
         } finally {
             user.signOutAndDeleteUser();
         }
@@ -182,7 +182,7 @@ public class ConsentTest {
             
             // The remote session should also reflect the sharing scope
             testUser.getSession().signOut();
-            Session session = ClientProvider.signIn(new SignInCredentials("api", testUser.getUsername(), testUser.getPassword()));
+            Session session = ClientProvider.signIn(new SignInCredentials("api", testUser.getEmail(), testUser.getPassword()));
             assertEquals(SharingScope.ALL_QUALIFIED_RESEARCHERS, session.getSharingScope());
             assertTrue(ConsentStatus.isUserConsented(session.getConsentStatuses()));
 
