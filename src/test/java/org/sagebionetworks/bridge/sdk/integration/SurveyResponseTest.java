@@ -50,7 +50,7 @@ public class SurveyResponseTest {
         user = TestUserHelper.createAndSignInUser(SurveyResponseTest.class, true);
 
         DeveloperClient client = developer.getSession().getDeveloperClient();
-        Survey testSurvey = TestSurvey.getSurvey();
+        Survey testSurvey = TestSurvey.getSurvey(SurveyResponseTest.class);
         keys = client.createSurvey(testSurvey);
         client.publishSurvey(keys);
 
