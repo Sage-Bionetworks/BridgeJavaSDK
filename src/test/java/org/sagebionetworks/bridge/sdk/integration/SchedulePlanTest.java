@@ -235,8 +235,6 @@ public class SchedulePlanTest {
             Tests.getActivitiesFromSimpleStrategy(plan).set(0, Tests.getActivityFromSimpleStrategy(newPlan));
 
             assertEquals(plan, newPlan);
-        } catch(Exception e) {
-            e.printStackTrace();
         } finally {
             developerClient.deleteSchedulePlan(keys.getGuid());
             admin.getSession().getAdminClient().deleteSurveyPermanently(surveyKeys);
