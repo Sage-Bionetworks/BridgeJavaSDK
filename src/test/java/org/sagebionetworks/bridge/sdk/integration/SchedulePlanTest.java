@@ -46,6 +46,7 @@ public class SchedulePlanTest {
 
     private static final ObjectMapper MAPPER = Utilities.getMapper();
 
+    private TestUser admin;
     private TestUser user;
     private TestUser developer;
     private DeveloperClient developerClient;
@@ -53,6 +54,7 @@ public class SchedulePlanTest {
 
     @Before
     public void before() {
+        admin = TestUserHelper.getSignedInAdmin();
         developer = TestUserHelper.createAndSignInUser(SchedulePlanTest.class, true, Roles.DEVELOPER);
         user = TestUserHelper.createAndSignInUser(SchedulePlanTest.class, true);
 
@@ -210,7 +212,7 @@ public class SchedulePlanTest {
         GuidCreatedOnVersionHolder surveyKeys = null;
         GuidVersionHolder keys = null;
         try {
-            Survey survey = TestSurvey.getSurvey();
+            Survey survey = TestSurvey.getSurvey(SchedulePlanTest.class);
             surveyKeys = developerClient.createSurvey(survey);
 
             // Can we point to the most recently published survey, rather than a specific version?
@@ -235,7 +237,7 @@ public class SchedulePlanTest {
             assertEquals(plan, newPlan);
         } finally {
             developerClient.deleteSchedulePlan(keys.getGuid());
-            developerClient.deleteSurvey(surveyKeys);
+            admin.getSession().getAdminClient().deleteSurveyPermanently(surveyKeys);
         }
     }
 

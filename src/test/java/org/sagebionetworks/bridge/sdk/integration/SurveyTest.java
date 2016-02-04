@@ -115,7 +115,7 @@ public class SurveyTest {
     @Test
     public void saveAndRetrieveSurvey() {
         DeveloperClient client = developer.getSession().getDeveloperClient();
-        GuidCreatedOnVersionHolder key = createSurvey(client, TestSurvey.getSurvey());
+        GuidCreatedOnVersionHolder key = createSurvey(client, TestSurvey.getSurvey(SurveyTest.class));
         Survey survey = client.getSurvey(key);
 
         List<SurveyElement> questions = survey.getElements();
@@ -135,7 +135,7 @@ public class SurveyTest {
     public void createVersionPublish() {
         DeveloperClient client = developer.getSession().getDeveloperClient();
 
-        Survey survey = TestSurvey.getSurvey();
+        Survey survey = TestSurvey.getSurvey(SurveyTest.class);
         assertNull(survey.getGuid());
         assertNull(survey.getVersion());
         assertNull(survey.getCreatedOn());
@@ -159,7 +159,7 @@ public class SurveyTest {
     public void getAllVersionsOfASurvey() {
         DeveloperClient client = developer.getSession().getDeveloperClient();
 
-        GuidCreatedOnVersionHolder key = createSurvey(client, TestSurvey.getSurvey());
+        GuidCreatedOnVersionHolder key = createSurvey(client, TestSurvey.getSurvey(SurveyTest.class));
         key = versionSurvey(client, key);
 
         int count = client.getSurveyAllRevisions(key.getGuid()).getTotal();
@@ -170,15 +170,15 @@ public class SurveyTest {
     public void canGetMostRecentOrRecentlyPublishedSurvey() throws InterruptedException {
         DeveloperClient client = developer.getSession().getDeveloperClient();
 
-        GuidCreatedOnVersionHolder key = createSurvey(client, TestSurvey.getSurvey());
+        GuidCreatedOnVersionHolder key = createSurvey(client, TestSurvey.getSurvey(SurveyTest.class));
         key = versionSurvey(client, key);
         key = versionSurvey(client, key);
 
-        GuidCreatedOnVersionHolder key1 = createSurvey(client, TestSurvey.getSurvey());
+        GuidCreatedOnVersionHolder key1 = createSurvey(client, TestSurvey.getSurvey(SurveyTest.class));
         key1 = versionSurvey(client, key1);
         key1 = versionSurvey(client, key1);
 
-        GuidCreatedOnVersionHolder key2 = createSurvey(client, TestSurvey.getSurvey());
+        GuidCreatedOnVersionHolder key2 = createSurvey(client, TestSurvey.getSurvey(SurveyTest.class));
         key2 = versionSurvey(client, key2);
         key2 = versionSurvey(client, key2);
 
@@ -195,7 +195,7 @@ public class SurveyTest {
     public void canUpdateASurveyAndTypesAreCorrect() {
         DeveloperClient client = developer.getSession().getDeveloperClient();
 
-        GuidCreatedOnVersionHolder key = createSurvey(client, TestSurvey.getSurvey());
+        GuidCreatedOnVersionHolder key = createSurvey(client, TestSurvey.getSurvey(SurveyTest.class));
         Survey survey = client.getSurvey(key.getGuid(), key.getCreatedOn());
         assertEquals("Type is Survey.", survey.getClass(), Survey.class);
 
@@ -228,7 +228,7 @@ public class SurveyTest {
     public void dateBasedConstraintsPersistedCorrectly() {
         DeveloperClient client = developer.getSession().getDeveloperClient();
 
-        GuidCreatedOnVersionHolder key = createSurvey(client, TestSurvey.getSurvey());
+        GuidCreatedOnVersionHolder key = createSurvey(client, TestSurvey.getSurvey(SurveyTest.class));
         Survey survey = client.getSurvey(key);
 
         DateTimeConstraints dateCon = (DateTimeConstraints)getConstraints(survey, DATETIME_ID);
@@ -243,7 +243,7 @@ public class SurveyTest {
     @Test
     public void researcherCannotUpdatePublishedSurvey() {
         DeveloperClient client = developer.getSession().getDeveloperClient();
-        Survey survey = TestSurvey.getSurvey();
+        Survey survey = TestSurvey.getSurvey(SurveyTest.class);
         GuidCreatedOnVersionHolder keys = createSurvey(client, survey);
         keys = client.publishSurvey(keys);
         survey.setGuidCreatedOnVersionHolder(keys);
@@ -260,7 +260,7 @@ public class SurveyTest {
     @Test
     public void canGetMostRecentlyPublishedSurveyWithoutTimestamp() {
         DeveloperClient client = developer.getSession().getDeveloperClient();
-        Survey survey = TestSurvey.getSurvey();
+        Survey survey = TestSurvey.getSurvey(SurveyTest.class);
 
         GuidCreatedOnVersionHolder key = createSurvey(client, survey);
 
@@ -277,7 +277,7 @@ public class SurveyTest {
     @Test
     public void canCallMultiOperationMethodToMakeSurveyUpdate() {
         DeveloperClient client = developer.getSession().getDeveloperClient();
-        Survey survey = TestSurvey.getSurvey();
+        Survey survey = TestSurvey.getSurvey(SurveyTest.class);
 
         GuidCreatedOnVersionHolder keys = createSurvey(client, survey);
 

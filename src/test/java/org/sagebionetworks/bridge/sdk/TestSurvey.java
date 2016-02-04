@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+
+import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.models.surveys.BooleanConstraints;
 import org.sagebionetworks.bridge.sdk.models.surveys.DataType;
 import org.sagebionetworks.bridge.sdk.models.surveys.DateConstraints;
@@ -38,7 +40,7 @@ public class TestSurvey {
     public static final String INTEGER_ID = "BP X DAY";
     public static final String TIME_ID = "deleuterium_x_day";
     
-    public static final Survey getSurvey() {
+    public static final Survey getSurvey(Class<?> cls) {
         Survey survey = new Survey();
         
         SurveyQuestion multiValueQuestion = new SurveyQuestion();
@@ -139,7 +141,7 @@ public class TestSurvey {
         timeQuestion.setUiHint(UiHint.TIMEPICKER);
         
         survey.setName("General Blood Pressure Survey");
-        survey.setIdentifier("bloodpressure");
+        survey.setIdentifier(Tests.randomIdentifier(cls));
         List<SurveyElement> elements = survey.getElements();
         elements.add(booleanQuestion);
         elements.add(dateQuestion);
