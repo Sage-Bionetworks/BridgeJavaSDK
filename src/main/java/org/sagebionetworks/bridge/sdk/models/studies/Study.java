@@ -35,6 +35,7 @@ public final class Study implements VersionHolder {
     private EmailTemplate resetPasswordTemplate;
     private boolean strictUploadValidationEnabled;
     private boolean healthCodeExportEnabled;
+    private boolean emailVerificationEnabled;
     private EnumMap<OperatingSystem,Integer> minSupportedAppVersions;
     
     public Study() {
@@ -176,6 +177,14 @@ public final class Study implements VersionHolder {
         this.healthCodeExportEnabled = enabled;
     }
     
+    public boolean isEmailVerificationEnabled() {
+        return this.emailVerificationEnabled;
+    }
+    
+    public void setEmailVerificationEnabled(boolean emailVerificationEnabled) {
+        this.emailVerificationEnabled = emailVerificationEnabled;
+    }
+    
     public PasswordPolicy getPasswordPolicy() {
         return passwordPolicy;
     }
@@ -211,10 +220,10 @@ public final class Study implements VersionHolder {
     @Override
     public int hashCode() {
         return Objects.hash(name, sponsorName, identifier, supportEmail, synapseDataAccessTeamId, synapseProjectId,
-                consentNotificationEmail, version,
-                technicalEmail, userProfileAttributes, taskIdentifiers, dataGroups, passwordPolicy, verifyEmailTemplate,
-                resetPasswordTemplate, maxNumOfParticipants, minAgeOfConsent, strictUploadValidationEnabled,
-                healthCodeExportEnabled, minSupportedAppVersions);
+                consentNotificationEmail, version, emailVerificationEnabled, technicalEmail, userProfileAttributes,
+                taskIdentifiers, dataGroups, passwordPolicy, verifyEmailTemplate, resetPasswordTemplate,
+                maxNumOfParticipants, minAgeOfConsent, strictUploadValidationEnabled, healthCodeExportEnabled,
+                minSupportedAppVersions);
     }
 
     @Override
@@ -240,6 +249,7 @@ public final class Study implements VersionHolder {
                 && Objects.equals(resetPasswordTemplate, other.resetPasswordTemplate)
                 && Objects.equals(strictUploadValidationEnabled, other.strictUploadValidationEnabled)
                 && Objects.equals(healthCodeExportEnabled, other.healthCodeExportEnabled)
+                && Objects.equals(emailVerificationEnabled, other.emailVerificationEnabled)
                 && Objects.equals(minSupportedAppVersions, other.minSupportedAppVersions));
     }
     
@@ -256,6 +266,7 @@ public final class Study implements VersionHolder {
                 .append("healthCodeExportEnabled", healthCodeExportEnabled).append("passwordPolicy", passwordPolicy)
                 .append("minSupportedAppVersions", minSupportedAppVersions)
                 .append("verifyEmailTemplate", verifyEmailTemplate)
+                .append("emailVerificationEnabled", emailVerificationEnabled)
                 .append("resetPasswordTemplate", resetPasswordTemplate).toString();
     }
 }

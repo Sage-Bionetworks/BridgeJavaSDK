@@ -38,6 +38,7 @@ public class StudyTest {
         study.setResetPasswordTemplate(new EmailTemplate("subject", "<p>body ${url}</p>", MimeType.HTML));
         study.setStrictUploadValidationEnabled(true);
         study.setHealthCodeExportEnabled(true);
+        study.setEmailVerificationEnabled(true);
         study.getMinSupportedAppVersions().put(OperatingSystem.IOS, 12);
         study.getMinSupportedAppVersions().put(OperatingSystem.ANDROID, 14);
         
@@ -60,6 +61,7 @@ public class StudyTest {
         assertEquals("beta_users", node.get("dataGroups").get(0).asText());
         assertEquals(true, node.get("strictUploadValidationEnabled").asBoolean());
         assertEquals(true, node.get("healthCodeExportEnabled").asBoolean());
+        assertEquals(true, node.get("emailVerificationEnabled").asBoolean());
         assertEquals(12, node.get("minSupportedAppVersions").get("iPhone OS").asInt());
         assertEquals(14, node.get("minSupportedAppVersions").get("Android").asInt());
         

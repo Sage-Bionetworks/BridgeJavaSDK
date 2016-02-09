@@ -86,6 +86,8 @@ public class StudyTest {
         assertTrue(newStudy.isStrictUploadValidationEnabled());
         // And this is true because admins can set it to true. 
         assertTrue(newStudy.isHealthCodeExportEnabled());
+        // And this is also true
+        assertTrue(newStudy.isEmailVerificationEnabled());
         
         Long oldVersion = newStudy.getVersion();
         alterStudy(newStudy);
@@ -97,7 +99,7 @@ public class StudyTest {
         assertEquals(50, newerStudy.getMaxNumOfParticipants());
         assertEquals("test3@test.com", newerStudy.getSupportEmail());
         assertEquals("test4@test.com", newerStudy.getConsentNotificationEmail());
-        
+
         client.deleteStudy(identifier);
         try {
             newStudy = client.getStudy(identifier);
@@ -141,17 +143,19 @@ public class StudyTest {
     }
     
     @Test
-    public void developerCannotSetHealthCodeToExport() {
+    public void developerCannotSetHealthCodeToExportOrVerifyEmailWorkflow() {
         TestUser developer = TestUserHelper.createAndSignInUser(StudyTest.class, false, Roles.DEVELOPER);
         try {
             DeveloperClient devClient = developer.getSession().getDeveloperClient();
             
             Study study = devClient.getStudy();
             study.setHealthCodeExportEnabled(true);
+            study.setEmailVerificationEnabled(false);
             devClient.updateStudy(study);
             
             study = devClient.getStudy();
             assertFalse(study.isHealthCodeExportEnabled());
+            assertTrue(study.isEmailVerificationEnabled());
         } finally {
             developer.signOutAndDeleteUser();
         }
