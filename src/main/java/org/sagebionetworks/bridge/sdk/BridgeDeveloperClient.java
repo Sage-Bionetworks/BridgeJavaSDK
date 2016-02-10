@@ -55,7 +55,7 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
         checkNotNull(subpopGuid, CANNOT_BE_NULL, "subpopGuid");
         
         return get(config.getMostRecentStudyConsentApi(subpopGuid), StudyConsent.class);
-    };
+    }
     @Override
     public StudyConsent getStudyConsent(SubpopulationGuid subpopGuid, DateTime createdOn) {
         session.checkSignedIn();
