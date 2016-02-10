@@ -41,7 +41,7 @@ public class StudyConsentTest {
     }
 
     @Test(expected=BridgeSDKException.class)
-    public void mustBeDeveloperToAdd() {
+    public void cannotBeAccessedByRegularUser() {
         TestUser user = TestUserHelper.createAndSignInUser(StudyConsentTest.class, true);
         try {
             StudyConsent consent = new StudyConsent();
@@ -53,6 +53,19 @@ public class StudyConsentTest {
         }
     }
 
+    @Test(expected=BridgeSDKException.class)
+    public void cannotBeAccessedByResearcher() {
+        TestUser researcher = TestUserHelper.createAndSignInUser(StudyConsentTest.class, true, Roles.RESEARCHER);
+        try {
+            StudyConsent consent = new StudyConsent();
+            consent.setDocumentContent("<p>Test content.</p>");
+
+            researcher.getSession().getDeveloperClient().createStudyConsent(researcher.getDefaultSubpopulation(), consent);
+        } finally {
+            researcher.signOutAndDeleteUser();
+        }
+    }
+    
     @Test
     public void addAndActivateConsent() {
         DeveloperClient client = developer.getSession().getDeveloperClient();
