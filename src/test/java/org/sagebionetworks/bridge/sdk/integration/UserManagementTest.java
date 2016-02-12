@@ -40,11 +40,9 @@ public class UserManagementTest {
         boolean result = admin.createUser(signUp);
         assertTrue(result);
 
-        result = admin.signOutUser(email);
-        assertTrue(result);
+        admin.signOutUser(email);
 
-        result = admin.deleteUser(email);
-        assertTrue(result);
+        admin.deleteUser(email);
     }
 
 }
