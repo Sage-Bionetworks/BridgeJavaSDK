@@ -33,6 +33,19 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
     }
 
     @Override
+    public boolean signOutUser(String email) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(email));
+
+        Map<String, String> queryParams = new HashMap<String, String>();
+        queryParams.put("email", email);
+
+        HttpResponse response = post(config.getUsersSignOutApi() + toQueryString(queryParams));
+
+        return response.getStatusLine().getStatusCode() == 200;
+    }
+
+    @Override
     public boolean deleteUser(String email) {
         session.checkSignedIn();
         checkArgument(isNotBlank(email));

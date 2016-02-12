@@ -20,6 +20,8 @@ public interface AdminClient {
      */
     public boolean createUser(SignUpByAdmin signUp);
 
+    public boolean signOutUser(String email);
+
     /**
      * Delete a user.
      *
