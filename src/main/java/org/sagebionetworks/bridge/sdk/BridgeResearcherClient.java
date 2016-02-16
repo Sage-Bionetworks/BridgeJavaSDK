@@ -1,13 +1,17 @@
 package org.sagebionetworks.bridge.sdk;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.base.Strings;
 import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.StudyConsent;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     
@@ -69,4 +73,14 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
         post(config.getEmailParticipantRosterApi());
     }
 
+    @Override
+    public void signOutUser(String email) {
+        session.checkSignedIn();
+        checkArgument(!Strings.isNullOrEmpty(email), CANNOT_BE_BLANK, "email");
+
+        Map<String, String> queryParams = new HashMap<String, String>();
+        queryParams.put("email", email);
+
+        post(config.getUsersSignOutApi() + toQueryString(queryParams));
+    }
 }

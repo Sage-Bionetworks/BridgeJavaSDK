@@ -1,13 +1,13 @@
 package org.sagebionetworks.bridge.sdk;
 
-import java.util.List;
-
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.users.SignUpByAdmin;
+
+import java.util.List;
 
 public interface AdminClient {
 
@@ -19,14 +19,6 @@ public interface AdminClient {
      * @return true if success, false if failure.
      */
     boolean createUser(SignUpByAdmin signUp);
-
-    /**
-     * Sign out a user's session.
-     *
-     * @param email
-     *            Email address identifying the user to sign out.
-     */
-    void signOutUser(String email);
 
     /**
      * Delete a user.

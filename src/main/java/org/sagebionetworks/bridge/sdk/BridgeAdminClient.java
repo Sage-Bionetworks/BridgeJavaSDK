@@ -1,12 +1,6 @@
 package org.sagebionetworks.bridge.sdk;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.http.HttpResponse;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
@@ -16,7 +10,12 @@ import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.users.SignUpByAdmin;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
 
@@ -30,17 +29,6 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
 
         HttpResponse response = post(config.getUsersApi(), signUp);
         return response.getStatusLine().getStatusCode() == 201;
-    }
-
-    @Override
-    public void signOutUser(String email) {
-        session.checkSignedIn();
-        checkArgument(isNotBlank(email));
-
-        Map<String, String> queryParams = new HashMap<String, String>();
-        queryParams.put("email", email);
-
-        post(config.getUsersSignOutApi() + toQueryString(queryParams));
     }
 
     @Override
