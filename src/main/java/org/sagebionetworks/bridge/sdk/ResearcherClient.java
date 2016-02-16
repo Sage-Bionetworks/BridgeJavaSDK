@@ -10,4 +10,12 @@ public interface ResearcherClient {
      */
     public void sendStudyParticipantsRoster();
 
+    /**
+     * Sign out a user's session.
+     *
+     * @param email
+     *            Email address identifying the user to sign out.
+     */
+    public void signOutUser(String email);
+
 }
