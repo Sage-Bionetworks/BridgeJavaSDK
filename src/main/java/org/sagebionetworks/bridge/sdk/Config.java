@@ -81,7 +81,8 @@ public final class Config {
         V3_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REV, 
         V3_UPLOADSTATUSES_UPLOADID, 
         V3_UPLOADS_UPLOADID_COMPLETE, 
-        V3_USERS, 
+        V3_USERS,
+        V3_USERS_SIGNOUT,
         V3_USERS_EMAILPARTICIPANTROSTER, 
         V3_USERS_SELF,
         V3_USERS_SELF_DATAGROUPS,
@@ -311,6 +312,10 @@ public final class Config {
 
     public String getUsersApi() {
         return val(Props.V3_USERS);
+    }
+
+    public String getUsersSignOutApi() {
+        return val(Props.V3_USERS_SIGNOUT);
     }
 
     public String getSchedulesApi() {

@@ -51,9 +51,9 @@ public class TestUserHelper {
         public SubpopulationGuid getDefaultSubpopulation() {
             return new SubpopulationGuid(Tests.TEST_KEY);
         }
-        public boolean signOutAndDeleteUser() {
+        public void signOutAndDeleteUser() {
             userSession.signOut();
-            return adminClient.deleteUser(email);
+            adminClient.deleteUser(email);
         }
         public boolean isSignedIn() {
             return userSession.isSignedIn();

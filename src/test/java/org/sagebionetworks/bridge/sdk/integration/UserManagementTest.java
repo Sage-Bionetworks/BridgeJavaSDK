@@ -30,7 +30,7 @@ public class UserManagementTest {
     }
 
     @Test
-    public void canCreateAndDeleteUser() {
+    public void canCreateAndSignOutAndDeleteUser() {
         String email = TestUserHelper.makeEmail(UserManagementTest.class);
         String password = "P4ssword";
         boolean consent = true;
@@ -40,8 +40,9 @@ public class UserManagementTest {
         boolean result = admin.createUser(signUp);
         assertTrue(result);
 
-        result = admin.deleteUser(email);
-        assertTrue(result);
+        admin.signOutUser(email);
+
+        admin.deleteUser(email);
     }
 
 }
