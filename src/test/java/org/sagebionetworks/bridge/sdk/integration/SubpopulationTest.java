@@ -15,6 +15,7 @@ import org.sagebionetworks.bridge.sdk.Roles;
 import org.sagebionetworks.bridge.sdk.TestUserHelper;
 import org.sagebionetworks.bridge.sdk.TestUserHelper.TestUser;
 import org.sagebionetworks.bridge.sdk.exceptions.BadRequestException;
+import org.sagebionetworks.bridge.sdk.models.Criteria;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.Subpopulation;
@@ -49,10 +50,13 @@ public class SubpopulationTest {
         int initialCount = subpops.getTotal();
         assertNotNull(findByName(subpops.getItems(), "Default Consent Group"));
         
+        Criteria criteria = new Criteria();
+        criteria.setMinAppVersion(10);
+        
         // Create a new one
         Subpopulation subpop = new Subpopulation();
         subpop.setName("Later Consent Group");
-        subpop.setMinAppVersion(10);
+        subpop.setCriteria(criteria);
         GuidVersionHolder keys = client.createSubpopulation(subpop);
         subpop.setHolder(keys);
         
@@ -64,7 +68,7 @@ public class SubpopulationTest {
         
         // Update it
         retrieved.setDescription("Adding a description");
-        retrieved.setMinAppVersion(8);
+        retrieved.getCriteria().setMinAppVersion(8);
         keys = client.updateSubpopulation(retrieved);
         retrieved.setHolder(keys);
         

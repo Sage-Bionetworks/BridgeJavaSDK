@@ -22,6 +22,7 @@ import org.sagebionetworks.bridge.sdk.UserClient;
 import org.sagebionetworks.bridge.sdk.exceptions.EntityNotFoundException;
 import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 import org.sagebionetworks.bridge.sdk.exceptions.UnauthorizedException;
+import org.sagebionetworks.bridge.sdk.models.Criteria;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
@@ -149,18 +150,20 @@ public class SchedulePlanTest {
             schedule2.setScheduleType(ScheduleType.ONCE);
             schedule2.addActivity(new Activity("Do task",null,new TaskReference("task:BBB")));
             
-            ScheduleCriteria criteria1 = new ScheduleCriteria.Builder()
-                    .withMinAppVersion(2)
-                    .withMaxAppVersion(5)
-                    .withSchedule(schedule1).build();
-            ScheduleCriteria criteria2 = new ScheduleCriteria.Builder()
-                    .withMinAppVersion(6)
-                    .withMaxAppVersion(10)
-                    .withSchedule(schedule2).build();
+            Criteria criteria1 = new Criteria();
+            criteria1.setMinAppVersion(2);
+            criteria1.setMaxAppVersion(5);
+            
+            Criteria criteria2 = new Criteria();
+            criteria2.setMinAppVersion(6);
+            criteria2.setMaxAppVersion(10);
+            
+            ScheduleCriteria scheduleCriteria1 = new ScheduleCriteria(schedule1, criteria1);
+            ScheduleCriteria scheduleCriteria2 = new ScheduleCriteria(schedule2, criteria2);
             
             CriteriaScheduleStrategy strategy = new CriteriaScheduleStrategy();
-            strategy.addCriteria(criteria1);
-            strategy.addCriteria(criteria2);
+            strategy.addCriteria(scheduleCriteria1);
+            strategy.addCriteria(scheduleCriteria2);
             
             SchedulePlan plan = new SchedulePlan();
             plan.setLabel("Criteria schedule plan");
@@ -173,10 +176,10 @@ public class SchedulePlanTest {
             
             CriteriaScheduleStrategy retrievedStrategy = (CriteriaScheduleStrategy)retrievedPlan.getStrategy();
             assertEquals(2, retrievedStrategy.getScheduleCriteria().size());
-            criteria1 = updateGuid(criteria1, retrievedStrategy, 0);
-            criteria2 = updateGuid(criteria2, retrievedStrategy, 1);
-            assertEquals(criteria1, retrievedStrategy.getScheduleCriteria().get(0));
-            assertEquals(criteria2, retrievedStrategy.getScheduleCriteria().get(1));
+            scheduleCriteria1 = updateGuid(scheduleCriteria1, retrievedStrategy, 0);
+            scheduleCriteria2 = updateGuid(scheduleCriteria2, retrievedStrategy, 1);
+            assertEquals(scheduleCriteria1, retrievedStrategy.getScheduleCriteria().get(0));
+            assertEquals(scheduleCriteria2, retrievedStrategy.getScheduleCriteria().get(1));
         } finally {
             if (retrievedPlan != null) {
                 developerClient.deleteSchedulePlan(retrievedPlan.getGuid());    

@@ -6,8 +6,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.time.Period;
@@ -23,6 +25,8 @@ import org.sagebionetworks.bridge.sdk.models.studies.EmailTemplate;
 import org.sagebionetworks.bridge.sdk.models.studies.OperatingSystem;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.Sets;
 
 public class Tests {
@@ -153,4 +157,15 @@ public class Tests {
         return study;
     }
 
+    public static Set<String> asStringSet(JsonNode parent, String property) {
+        Set<String> results = new HashSet<>();
+        if (parent != null && parent.hasNonNull(property)) {
+            ArrayNode array = (ArrayNode)parent.get(property);
+            for (int i = 0; i < array.size(); i++) {
+                results.add(array.get(i).asText());
+            }
+        }
+        return results;
+    }
+    
 }
