@@ -1,6 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.util.HashSet;
@@ -24,6 +25,16 @@ public class CriteriaTest {
     public void hashCodeEquals() {
         EqualsVerifier.forClass(Criteria.class).suppress(Warning.NONFINAL_FIELDS)
             .allFieldsShouldBeUsed().verify();
+    }
+    
+    @Test
+    public void setsAreNeverNull() {
+        Criteria criteria = new Criteria();
+        criteria.setAllOfGroups(null);
+        
+        // Whether after construction, or after being set with a null, these are both empty sets.
+        assertNotNull(criteria.getAllOfGroups());
+        assertNotNull(criteria.getNoneOfGroups());
     }
 
     @Test
