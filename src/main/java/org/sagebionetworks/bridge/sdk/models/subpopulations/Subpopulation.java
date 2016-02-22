@@ -69,6 +69,11 @@ public final class Subpopulation {
     void setDefaultGroup(boolean defaultGroup) {
         this.defaultGroup = defaultGroup;
     }
+    /**
+     * If a criteria object is set for this subpopulation, it will only match requests that meet the criteria. 
+     * For users that do not fit the criteria, the subpopulation does not exist, and any requirements it places 
+     * on consent do not apply to that participant. 
+     */
     public Criteria getCriteria() {
         return criteria;
     }
