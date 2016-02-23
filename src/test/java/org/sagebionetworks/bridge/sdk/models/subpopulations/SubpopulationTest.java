@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import org.sagebionetworks.bridge.sdk.models.Criteria;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.Subpopulation;
 import org.sagebionetworks.bridge.sdk.utils.Utilities;
@@ -22,17 +23,19 @@ public class SubpopulationTest {
     
     @Test
     public void canSerialize() throws Exception { 
+        Criteria criteria = new Criteria();
+        criteria.setMinAppVersion(2);
+        criteria.setMaxAppVersion(10);
+        criteria.setNoneOfGroups(Sets.newHashSet("group2"));
+        
         Subpopulation subpop = new Subpopulation();
         subpop.setGuid(new SubpopulationGuid("guid"));
         subpop.setName("Name");
         subpop.setDescription("Description");
         subpop.setRequired(true);
         subpop.setDefaultGroup(true);
-        subpop.setMinAppVersion(2);
-        subpop.setMaxAppVersion(10);
         subpop.setVersion(2L);
-        subpop.setAllOfGroups(Sets.newHashSet("group1"));
-        subpop.setNoneOfGroups(Sets.newHashSet("group2"));
+        subpop.setCriteria(criteria);
         
         String json = Utilities.getMapper().writeValueAsString(subpop);
         Subpopulation subpop2 = Utilities.getMapper().readValue(json, Subpopulation.class);
