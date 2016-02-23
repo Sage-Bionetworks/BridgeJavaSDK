@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class SurveyRule {
 
     public enum Operator {
-        /** Equal to. *;
+        /** Equal to. */
         EQ,
         /** Not equal to. */
         NE,
