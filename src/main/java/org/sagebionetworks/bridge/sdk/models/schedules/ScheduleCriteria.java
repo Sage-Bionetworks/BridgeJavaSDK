@@ -17,6 +17,7 @@ public final class ScheduleCriteria {
     public ScheduleCriteria(@JsonProperty("schedule") Schedule schedule, 
             @JsonProperty("criteria") Criteria criteria) {
         checkNotNull(schedule);
+        checkNotNull(criteria);
         this.schedule = schedule;
         this.criteria = criteria;
     }
