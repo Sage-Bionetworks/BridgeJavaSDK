@@ -160,28 +160,4 @@
             </plugin>
         </plugins>
     </build>
-    
-    <profiles>
-        <profile>
-            <id>integration-smoke-tests</id>
-            <activation>
-                <!-- -DjunitCategory=integrationSmokeTests -->
-                <property>
-                    <name>junitCategory</name>
-                    <value>integrationSmokeTests</value>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>${surefire.version}</version>
-                        <configuration>
-                            <groups>org.sagebionetworks.bridge.IntegrationSmokeTest</groups>
-                        </configuration>
-                    </plugin>            
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>
