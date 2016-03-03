@@ -1,7 +1,9 @@
 sudo: false
 language: java
-jdk:
-- openjdk7
-
-script:
-- mvn clean deploy
+jdk: openjdk7
+script: mvn clean verify
+deploy:
+  provider: script
+  script: mvn deploy
+  on:
+    branch: prod
