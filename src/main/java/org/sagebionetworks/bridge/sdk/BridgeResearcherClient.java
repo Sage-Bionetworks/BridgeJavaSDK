@@ -1,13 +1,20 @@
 package org.sagebionetworks.bridge.sdk;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Strings;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.sagebionetworks.bridge.sdk.models.PagedResourceList;
+import org.sagebionetworks.bridge.sdk.models.accounts.AccountSummary;
+
 import static com.google.common.base.Preconditions.checkArgument;
 
 class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
+
+    private static final TypeReference<PagedResourceList<AccountSummary>> ACCOUNT_SUMMARY_PAGED_RESOURCE_LIST = 
+            new TypeReference<PagedResourceList<AccountSummary>>() {};
 
     BridgeResearcherClient(BridgeSession session) {
         super(session);
@@ -28,5 +35,12 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
         queryParams.put("email", email);
 
         post(config.getUsersSignOutApi() + toQueryString(queryParams));
+    }
+    
+    @Override
+    public PagedResourceList<AccountSummary> getPagedAccountSummaries(int offsetBy, int pageSize) {
+        session.checkSignedIn();
+        
+        return get(config.getParticipantsApi(offsetBy, pageSize), ACCOUNT_SUMMARY_PAGED_RESOURCE_LIST);
     }
 }

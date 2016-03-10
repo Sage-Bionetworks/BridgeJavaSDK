@@ -1,5 +1,8 @@
 package org.sagebionetworks.bridge.sdk;
 
+import org.sagebionetworks.bridge.sdk.models.PagedResourceList;
+import org.sagebionetworks.bridge.sdk.models.accounts.AccountSummary;
+
 public interface ResearcherClient {
 
     /**
@@ -18,4 +21,13 @@ public interface ResearcherClient {
      */
     public void signOutUser(String email);
 
+    /**
+     * Retrieve a page of participant summaries (name and email).
+     * @param offsetBy
+     *      number of records to offset the page of records returned
+     * @param pageSize
+     *      the size of the page (must be from 5-250 records).
+     * @return
+     */
+    PagedResourceList<AccountSummary> getPagedAccountSummaries(int offsetBy, int pageSize);
 }

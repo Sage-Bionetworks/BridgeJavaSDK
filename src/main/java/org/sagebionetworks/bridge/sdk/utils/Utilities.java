@@ -81,4 +81,8 @@ public final class Utilities {
         }
         return urlValidator.isValid(url);
     }
+    
+    public static String unescapeJson(String json) {
+        return json.replaceAll("'", "\"");
+    }
 }
