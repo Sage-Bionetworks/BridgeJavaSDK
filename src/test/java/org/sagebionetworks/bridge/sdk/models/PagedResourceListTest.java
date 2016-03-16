@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.models.accounts.AccountStatus;
 import org.sagebionetworks.bridge.sdk.models.accounts.AccountSummary;
 import org.sagebionetworks.bridge.sdk.utils.Utilities;
@@ -19,7 +20,7 @@ public class PagedResourceListTest {
                 "'offsetBy': 10,'pageSize': 10,'total': 100}";
 
         PagedResourceList<AccountSummary> page = Utilities.getMapper()
-                .readValue(Utilities.unescapeJson(json), new TypeReference<PagedResourceList<AccountSummary>>(){});
+                .readValue(Tests.unescapeJson(json), new TypeReference<PagedResourceList<AccountSummary>>(){});
         assertEquals(10, page.getOffsetBy());
         assertEquals(10, page.getPageSize());
         assertEquals(100, page.getTotal());
