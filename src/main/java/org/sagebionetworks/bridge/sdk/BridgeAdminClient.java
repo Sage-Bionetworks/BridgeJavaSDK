@@ -2,6 +2,7 @@ package org.sagebionetworks.bridge.sdk;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.http.HttpResponse;
+
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleVersionHolder;
@@ -18,7 +19,13 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
-
+    
+    private static final TypeReference<ResourceListImpl<Study>> STUDY_RESOURCE_LIST = 
+            new TypeReference<ResourceListImpl<Study>>() {};
+            
+    private static final TypeReference<List<String>> STRING_LIST = 
+            new TypeReference<List<String>>() {};
+            
     BridgeAdminClient(BridgeSession session) {
         super(session);
     }
@@ -51,7 +58,7 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
     @Override
     public ResourceList<Study> getAllStudies() {
         session.checkSignedIn();
-        return get(config.getStudiesApi(), new TypeReference<ResourceListImpl<Study>>() {});
+        return get(config.getStudiesApi(), STUDY_RESOURCE_LIST);
     }
 
     @Override
@@ -85,7 +92,7 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
     @Override
     public List<String> getCacheItemKeys() {
         session.checkSignedIn();
-        return get(config.getCacheApi(), new TypeReference<List<String>>() {});
+        return get(config.getCacheApi(), STRING_LIST);
     }
 
     @Override

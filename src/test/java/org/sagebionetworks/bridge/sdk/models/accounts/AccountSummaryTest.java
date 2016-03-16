@@ -1,0 +1,32 @@
+package org.sagebionetworks.bridge.sdk.models.accounts;
+
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
+import org.sagebionetworks.bridge.sdk.utils.Utilities;
+
+import com.fasterxml.jackson.databind.JsonNode;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
+
+public class AccountSummaryTest {
+    @Test
+    public void hashCodeEquals() {
+        EqualsVerifier.forClass(AccountSummary.class).allFieldsShouldBeUsed().verify();
+    }
+    
+    @Test
+    public void canSerialize() throws Exception {
+        AccountSummary summary = new AccountSummary("firstName", "lastName", "email@email.com", AccountStatus.UNVERIFIED);
+        
+        JsonNode node = Utilities.getMapper().valueToTree(summary);
+        assertEquals("firstName", node.get("firstName").asText());
+        assertEquals("lastName", node.get("lastName").asText());
+        assertEquals("email@email.com", node.get("email").asText());
+        assertEquals("unverified", node.get("status").asText());
+        
+        AccountSummary newSummary = Utilities.getMapper().treeToValue(node, AccountSummary.class);
+        assertEquals(summary, newSummary);
+    }
+}

@@ -47,6 +47,7 @@ public final class Config {
         V3_BACKFILL_NAME_START, 
         V3_CACHE, 
         V3_CACHE_CACHEKEY,
+        V3_PARTICIPANTS,
         V3_SCHEDULEPLANS, 
         V3_SCHEDULEPLANS_GUID, 
         V3_STUDIES, 
@@ -458,6 +459,13 @@ public final class Config {
         return String.format(val(Props.V3_SUBPOPULATION), guid);
     }
 
+    public String getParticipantsApi(int offsetBy, int pageSize) {
+        checkArgument(offsetBy >= 0);
+        checkArgument(pageSize >= 5);
+
+        return String.format(val(Props.V3_PARTICIPANTS), offsetBy, pageSize);
+    }
+    
     private String val(Props prop) {
         String value = config.getProperty(prop.getPropertyName());
         checkNotNull(value, "The property '" + prop.getPropertyName() + "' has not been set.");
