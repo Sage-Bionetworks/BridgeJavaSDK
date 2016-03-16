@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Properties;
 
@@ -47,6 +49,7 @@ public final class Config {
         V3_BACKFILL_NAME_START, 
         V3_CACHE, 
         V3_CACHE_CACHEKEY,
+        V3_PARTICIPANT,
         V3_PARTICIPANTS,
         V3_SCHEDULEPLANS, 
         V3_SCHEDULEPLANS_GUID, 
@@ -464,6 +467,16 @@ public final class Config {
         checkArgument(pageSize >= 5);
 
         return String.format(val(Props.V3_PARTICIPANTS), offsetBy, pageSize);
+    }
+    
+    public String getParticipant(String email) {
+        checkArgument(isNotBlank(email));
+        try {
+            String encodedEmail = URLEncoder.encode(email, "UTF-8");
+            return String.format(val(Props.V3_PARTICIPANT), encodedEmail);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
     
     private String val(Props prop) {

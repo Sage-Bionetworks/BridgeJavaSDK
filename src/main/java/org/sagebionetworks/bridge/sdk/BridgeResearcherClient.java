@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.sagebionetworks.bridge.sdk.models.PagedResourceList;
 import org.sagebionetworks.bridge.sdk.models.accounts.AccountSummary;
+import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -42,5 +43,12 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
         session.checkSignedIn();
         
         return get(config.getParticipantsApi(offsetBy, pageSize), ACCOUNT_SUMMARY_PAGED_RESOURCE_LIST);
+    }
+    
+    @Override
+    public StudyParticipant getStudyParticipant(String email) {
+        session.checkSignedIn();
+        
+        return get(config.getParticipant(email), StudyParticipant.class);
     }
 }
