@@ -66,4 +66,8 @@ public class Tests {
         }
         return results;
     }
+    
+    public static String unescapeJson(String json) {
+        return json.replaceAll("'", "\"");
+    }
 }
