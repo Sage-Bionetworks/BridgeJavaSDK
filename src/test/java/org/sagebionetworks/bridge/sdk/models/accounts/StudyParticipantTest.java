@@ -9,9 +9,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.junit.Test;
 
 import org.sagebionetworks.bridge.sdk.Roles;
+import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
@@ -19,6 +22,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -38,21 +42,17 @@ public class StudyParticipantTest {
         languages.add("en");
         languages.add("fr");
         
+        UserConsentHistory history = new UserConsentHistory(new SubpopulationGuid("subpopGuid"),
+                DateTime.parse("2010-10-10T10:10:10.000Z"), "Test User", LocalDate.parse("2010-10-12"), "imageData",
+                "image/png", DateTime.parse("2011-10-10T10:10:10.000Z"), DateTime.parse("2012-10-10T10:10:10.000Z"),
+                true);
         Map<String,List<UserConsentHistory>> consentHistories = new HashMap<>();
+        consentHistories.put("subpopGuid", Lists.newArrayList(history));
         
-        StudyParticipant participant = new StudyParticipant(
-                "firstName", 
-                "lastName", 
-                "email@email.com", 
-                "externalId", 
-                SharingScope.ALL_QUALIFIED_RESEARCHERS,
-                true, 
-                DATA_GROUPS, 
-                "healthCode", 
-                new ImmutableMap.Builder<String,String>().put("a","b").build(),
-                consentHistories, 
-                Sets.newHashSet(Roles.DEVELOPER), 
-                languages);
+        StudyParticipant participant = new StudyParticipant("firstName", "lastName", "email@email.com", "externalId",
+                SharingScope.ALL_QUALIFIED_RESEARCHERS, true, DATA_GROUPS, "healthCode",
+                new ImmutableMap.Builder<String, String>().put("a", "b").build(), consentHistories,
+                Sets.newHashSet(Roles.DEVELOPER), languages);
         
         JsonNode node = Utilities.getMapper().valueToTree(participant);
         assertEquals("firstName", node.get("firstName").asText());
@@ -64,8 +64,8 @@ public class StudyParticipantTest {
         assertEquals("email@email.com", node.get("email").asText());
         
         ArrayNode dataGroups = (ArrayNode)node.get("dataGroups");
-        assertEquals("group1", dataGroups.get(0).asText());
-        assertEquals("group2", dataGroups.get(1).asText());
+        assertTrue(DATA_GROUPS.contains(dataGroups.get(0).asText()));
+        assertTrue(DATA_GROUPS.contains(dataGroups.get(1).asText()));
         
         ObjectNode attributes = (ObjectNode)node.get("attributes");
         assertEquals("b", attributes.get("a").asText());
@@ -76,9 +76,22 @@ public class StudyParticipantTest {
         ArrayNode langs = (ArrayNode)node.get("languages");
         assertEquals("en", langs.get(0).asText());
         assertEquals("fr", langs.get(1).asText());
+
+        ObjectNode allConsents = (ObjectNode)node.get("consentHistories");
+        ArrayNode consents = (ArrayNode)allConsents.get("subpopGuid");
+        ObjectNode consent = (ObjectNode)consents.get(0);
         
-        /*
-        private final Map<String,List<UserConsentHistory>> consentHistories;
-         */
+        assertEquals("subpopGuid",consent.get("subpopulationGuid").asText()); 
+        assertEquals("2010-10-10T10:10:10.000Z",consent.get("consentCreatedOn").asText()); 
+        assertEquals("Test User",consent.get("name").asText());
+        assertEquals("2010-10-12",consent.get("birthdate").asText()); 
+        assertEquals("imageData",consent.get("imageData").asText()); 
+        assertEquals("image/png",consent.get("imageMimeType").asText()); 
+        assertEquals("2011-10-10T10:10:10.000Z",consent.get("signedOn").asText()); 
+        assertEquals("2012-10-10T10:10:10.000Z",consent.get("withdrewOn").asText());
+        assertTrue(consent.get("hasSignedActiveConsent").asBoolean());
+        
+        StudyParticipant deserParticipant = Utilities.getMapper().treeToValue(node, StudyParticipant.class);
+        assertEquals(participant, deserParticipant);
     }
 }

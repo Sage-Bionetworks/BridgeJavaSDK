@@ -1,6 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.accounts;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -23,26 +24,27 @@ public class UserConsentHistoryTest {
     
     @Test
     public void canSerialize() throws Exception {
-        UserConsentHistory history = new UserConsentHistory(new SubpopulationGuid("guid"), 123L, "name",
-                LocalDate.parse("2000-01-01"), "imageData", "image/png", 246L, new Long(444), true);        
+        DateTime consentCreatedOn = new DateTime(123L).withZone(DateTimeZone.UTC);
+        
+        DateTime signedOn = new DateTime(246L).withZone(DateTimeZone.UTC);
+        
+        DateTime withdrewOn = new DateTime(444L).withZone(DateTimeZone.UTC);
+        
+        UserConsentHistory history = new UserConsentHistory(new SubpopulationGuid("guid"), consentCreatedOn, "name",
+                LocalDate.parse("2000-01-01"), "imageData", "image/png", signedOn, withdrewOn, true);
         
         JsonNode node = Utilities.getMapper().valueToTree(history);
         assertEquals("guid", node.get("subpopulationGuid").asText());
-        assertEquals(new DateTime(123L).withZone(DateTimeZone.UTC).toString(), 
-                node.get("consentCreatedOn").asText());
+        assertEquals(consentCreatedOn.toString(), node.get("consentCreatedOn").asText());
         assertEquals("name", node.get("name").asText());
         assertEquals("2000-01-01", node.get("birthdate").asText());
         assertEquals("imageData", node.get("imageData").asText());
-        assertEquals("imageMimeType", node.get("imageMimeType").asText());
-        assertEquals(new DateTime(246L).withZone(DateTimeZone.UTC).toString(), 
-                node.get("signedOn").asText());
-        /*
-        private final DateTime signedOn;
-        private final DateTime withdrewOn;
-        private final boolean hasSignedActiveConsent;
-        */
+        assertEquals("image/png", node.get("imageMimeType").asText());
+        assertEquals(signedOn.toString(), node.get("signedOn").asText());
+        assertEquals(withdrewOn.toString(), node.get("withdrewOn").asText());
+        assertTrue(node.get("hasSignedActiveConsent").asBoolean());
         
-        
-        System.out.println(history);
+        UserConsentHistory deserHistory = Utilities.getMapper().treeToValue(node, UserConsentHistory.class);
+        assertEquals(history, deserHistory);
     }
 }

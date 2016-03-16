@@ -31,6 +31,7 @@ public final class StudyParticipant {
     private final Set<Roles> roles;
     private final LinkedHashSet<String> languages;
     
+    // Currently no plan that users will create this object, so using constructor with final fields.
     @JsonCreator
     StudyParticipant(@JsonProperty("firstName") String firstName, 
             @JsonProperty("lastName") String lastName, 

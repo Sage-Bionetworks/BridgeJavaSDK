@@ -25,24 +25,25 @@ public final class UserConsentHistory {
     private final DateTime withdrewOn;
     private final boolean hasSignedActiveConsent;
     
+    // Users will never create this object, so using constructor with final fields.
     @JsonCreator
     UserConsentHistory(@JsonProperty("subpopulationGuid") SubpopulationGuid subpopGuid, 
-            @JsonProperty("consentCreatedOn") long consentCreatedOn, 
+            @JsonProperty("consentCreatedOn") DateTime consentCreatedOn, 
             @JsonProperty("name") String name,
             @JsonProperty("birthdate") LocalDate birthdate, 
             @JsonProperty("imageData") String imageData, 
             @JsonProperty("imageMimeType") String imageMimeType, 
-            @JsonProperty("signedOn") long signedOn, 
-            @JsonProperty("withdrewOn") Long withdrewOn,
+            @JsonProperty("signedOn") DateTime signedOn, 
+            @JsonProperty("withdrewOn") DateTime withdrewOn,
             @JsonProperty("hasSignedActiveConsent") boolean hasSignedActiveConsent) {
         this.subpopulationGuid = subpopGuid;
-        this.consentCreatedOn = new DateTime(consentCreatedOn);
+        this.consentCreatedOn = consentCreatedOn;
         this.name = name;
         this.birthdate = birthdate;
         this.imageData = imageData;
         this.imageMimeType = imageMimeType;
-        this.signedOn = new DateTime(signedOn);
-        this.withdrewOn = (withdrewOn == null) ? null : new DateTime(withdrewOn);
+        this.signedOn = signedOn;
+        this.withdrewOn = withdrewOn;
         this.hasSignedActiveConsent = hasSignedActiveConsent;
     }
 
