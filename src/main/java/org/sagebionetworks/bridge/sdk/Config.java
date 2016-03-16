@@ -472,7 +472,7 @@ public final class Config {
     public String getParticipant(String email) {
         checkArgument(isNotBlank(email));
         try {
-            String encodedEmail = URLEncoder.encode(email, "UTF-8").replaceAll("\\+", "%2B");
+            String encodedEmail = URLEncoder.encode(email, "UTF-8");
             return String.format(val(Props.V3_PARTICIPANT), encodedEmail);
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
