@@ -20,6 +20,8 @@ import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 
 public final class Config {
@@ -465,10 +467,8 @@ public final class Config {
     public String getParticipantsApi(int offsetBy, int pageSize, String emailFilter) {
         checkArgument(offsetBy >= 0);
         checkArgument(pageSize >= 5);
-        if (emailFilter == null) {
-            emailFilter = "";
-        }
-        return String.format(val(Props.V3_PARTICIPANTS), offsetBy, pageSize, emailFilter);
+        
+        return String.format(val(Props.V3_PARTICIPANTS), offsetBy, pageSize, MoreObjects.firstNonNull(emailFilter, ""));
     }
     
     public String getParticipant(String email) {
