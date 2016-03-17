@@ -462,11 +462,13 @@ public final class Config {
         return String.format(val(Props.V3_SUBPOPULATION), guid);
     }
 
-    public String getParticipantsApi(int offsetBy, int pageSize) {
+    public String getParticipantsApi(int offsetBy, int pageSize, String emailFilter) {
         checkArgument(offsetBy >= 0);
         checkArgument(pageSize >= 5);
-
-        return String.format(val(Props.V3_PARTICIPANTS), offsetBy, pageSize);
+        if (emailFilter == null) {
+            emailFilter = "";
+        }
+        return String.format(val(Props.V3_PARTICIPANTS), offsetBy, pageSize, emailFilter);
     }
     
     public String getParticipant(String email) {

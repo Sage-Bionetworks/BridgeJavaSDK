@@ -28,10 +28,14 @@ public interface ResearcherClient {
      *      number of records to offset the page of records returned
      * @param pageSize
      *      the size of the page (must be from 5-250 records).
+     * @param emailFilter
+     *      an optional substring that will be matched (case insensitive) against the email addresses 
+     *      of participant accounts that are returned from this search. Neither null nor an empty 
+     *      string will filter results.
      * @return
      */
-    PagedResourceList<AccountSummary> getPagedAccountSummaries(int offsetBy, int pageSize);
-    
+    PagedResourceList<AccountSummary> getPagedAccountSummaries(int offsetBy, int pageSize, String emailFilter);
+
     /**
      * Get an individual participant account. This can include any user, even ones who have not 
      * enrolled in the study (they have not verified their email address, they have not signed the 

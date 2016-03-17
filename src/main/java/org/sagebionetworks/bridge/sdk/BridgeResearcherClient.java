@@ -39,10 +39,10 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     }
     
     @Override
-    public PagedResourceList<AccountSummary> getPagedAccountSummaries(int offsetBy, int pageSize) {
+    public PagedResourceList<AccountSummary> getPagedAccountSummaries(int offsetBy, int pageSize, String emailFilter) {
         session.checkSignedIn();
         
-        return get(config.getParticipantsApi(offsetBy, pageSize), ACCOUNT_SUMMARY_PAGED_RESOURCE_LIST);
+        return get(config.getParticipantsApi(offsetBy, pageSize, emailFilter), ACCOUNT_SUMMARY_PAGED_RESOURCE_LIST);
     }
     
     @Override
