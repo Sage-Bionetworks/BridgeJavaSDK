@@ -21,7 +21,6 @@ import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 
 public final class Config {
