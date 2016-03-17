@@ -467,7 +467,7 @@ public final class Config {
     public String getParticipantsApi(int offsetBy, int pageSize, String emailFilter) {
         checkArgument(offsetBy >= 0);
         checkArgument(pageSize >= 5);
-        
+
         return String.format(val(Props.V3_PARTICIPANTS), offsetBy, pageSize, MoreObjects.firstNonNull(emailFilter, ""));
     }
     
