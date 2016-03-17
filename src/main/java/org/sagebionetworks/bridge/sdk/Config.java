@@ -466,8 +466,12 @@ public final class Config {
     public String getParticipantsApi(int offsetBy, int pageSize, String emailFilter) {
         checkArgument(offsetBy >= 0);
         checkArgument(pageSize >= 5);
-
-        return String.format(val(Props.V3_PARTICIPANTS), offsetBy, pageSize, MoreObjects.firstNonNull(emailFilter, ""));
+        try {
+            String encodedEmail = URLEncoder.encode(MoreObjects.firstNonNull(emailFilter, ""), "UTF-8");
+            return String.format(val(Props.V3_PARTICIPANTS), offsetBy, pageSize, encodedEmail);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
     
     public String getParticipant(String email) {
