@@ -20,12 +20,6 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     BridgeResearcherClient(BridgeSession session) {
         super(session);
     }
-    @Override
-    public void sendStudyParticipantsRoster() {
-        session.checkSignedIn();
-        
-        post(config.getEmailParticipantRosterApi());
-    }
 
     @Override
     public void signOutUser(String email) {
