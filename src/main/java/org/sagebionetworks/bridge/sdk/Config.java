@@ -20,6 +20,7 @@ import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.Lists;
 
 public final class Config {
@@ -462,11 +463,15 @@ public final class Config {
         return String.format(val(Props.V3_SUBPOPULATION), guid);
     }
 
-    public String getParticipantsApi(int offsetBy, int pageSize) {
+    public String getParticipantsApi(int offsetBy, int pageSize, String emailFilter) {
         checkArgument(offsetBy >= 0);
         checkArgument(pageSize >= 5);
-
-        return String.format(val(Props.V3_PARTICIPANTS), offsetBy, pageSize);
+        try {
+            String encodedEmail = URLEncoder.encode(MoreObjects.firstNonNull(emailFilter, ""), "UTF-8");
+            return String.format(val(Props.V3_PARTICIPANTS), offsetBy, pageSize, encodedEmail);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
     
     public String getParticipant(String email) {
