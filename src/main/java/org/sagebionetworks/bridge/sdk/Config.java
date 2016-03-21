@@ -88,7 +88,6 @@ public final class Config {
         V3_UPLOADS_UPLOADID_COMPLETE, 
         V3_USERS,
         V3_USERS_SIGNOUT,
-        V3_USERS_EMAILPARTICIPANTROSTER, 
         V3_USERS_SELF,
         V3_USERS_SELF_DATAGROUPS,
         V3_USERS_SELF_DATASHARING, 
@@ -450,10 +449,6 @@ public final class Config {
         return val(Props.SDK_VERSION);
     }
 
-    public String getEmailParticipantRosterApi() {
-        return val(Props.V3_USERS_EMAILPARTICIPANTROSTER);
-    }
-    
     public String getSubpopulations() {
         return val(Props.V3_SUBPOPULATIONS);
     }
