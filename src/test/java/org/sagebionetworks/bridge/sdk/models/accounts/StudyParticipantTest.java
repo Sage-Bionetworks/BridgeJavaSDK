@@ -13,6 +13,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 
+import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.Roles;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
@@ -29,7 +30,10 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 
 public class StudyParticipantTest {
     
+    private static final LinkedHashSet<String> LANGUAGES = Tests.newLinkedHashSet("en","fr");
     private static final Set<String> DATA_GROUPS = Sets.newHashSet("group1","group2");
+    private static final Map<String,String> ATTRIBUTES = new ImmutableMap.Builder<String, String>()
+            .put("a", "b").build();
     
     @Test
     public void hashCodeEquals() {
@@ -38,10 +42,6 @@ public class StudyParticipantTest {
     
     @Test
     public void canSerialize() throws Exception {
-        LinkedHashSet<String> languages = new LinkedHashSet<>();
-        languages.add("en");
-        languages.add("fr");
-        
         UserConsentHistory history = new UserConsentHistory(new SubpopulationGuid("subpopGuid"),
                 DateTime.parse("2010-10-10T10:10:10.000Z"), "Test User", LocalDate.parse("2010-10-12"), "imageData",
                 "image/png", DateTime.parse("2011-10-10T10:10:10.000Z"), DateTime.parse("2012-10-10T10:10:10.000Z"),
@@ -50,9 +50,8 @@ public class StudyParticipantTest {
         consentHistories.put("subpopGuid", Lists.newArrayList(history));
         
         StudyParticipant participant = new StudyParticipant("firstName", "lastName", "email@email.com", "externalId",
-                SharingScope.ALL_QUALIFIED_RESEARCHERS, true, DATA_GROUPS, "healthCode",
-                new ImmutableMap.Builder<String, String>().put("a", "b").build(), consentHistories,
-                Sets.newHashSet(Roles.DEVELOPER), languages);
+                SharingScope.ALL_QUALIFIED_RESEARCHERS, true, DATA_GROUPS, "healthCode", ATTRIBUTES, consentHistories,
+                Sets.newHashSet(Roles.DEVELOPER), LANGUAGES);
         
         JsonNode node = Utilities.getMapper().valueToTree(participant);
         assertEquals("firstName", node.get("firstName").asText());
@@ -67,8 +66,10 @@ public class StudyParticipantTest {
         assertTrue(DATA_GROUPS.contains(dataGroups.get(0).asText()));
         assertTrue(DATA_GROUPS.contains(dataGroups.get(1).asText()));
         
-        ObjectNode attributes = (ObjectNode)node.get("attributes");
-        assertEquals("b", attributes.get("a").asText());
+        // Note that the property is not on an attributes object, it was added to the 
+        // root JSON object. This is what the server actually expects for extended 
+        // profile attributes.
+        assertEquals("b", node.get("a").asText());
         
         ArrayNode roles = (ArrayNode)node.get("roles");
         assertEquals("developer", roles.get(0).asText());
@@ -93,5 +94,34 @@ public class StudyParticipantTest {
         
         StudyParticipant deserParticipant = Utilities.getMapper().treeToValue(node, StudyParticipant.class);
         assertEquals(participant, deserParticipant);
+    }
+    
+    @Test
+    public void canBuild() {
+        StudyParticipant.Builder builder = new StudyParticipant.Builder();
+        builder.withFirstName("firstName");
+        builder.withLastName("lastName");
+        builder.withExternalId("externalId");
+        builder.withSharingScope(SharingScope.ALL_QUALIFIED_RESEARCHERS);
+        builder.withNotifyByEmail(true);
+        builder.withDataGroups(DATA_GROUPS);
+        builder.withLanguages(LANGUAGES);
+        builder.withAttributes(ATTRIBUTES);
+        
+        StudyParticipant participant = builder.build();
+
+        assertEquals("firstName", participant.getFirstName());
+        assertEquals("lastName", participant.getLastName());
+        assertEquals("externalId", participant.getExternalId());
+        assertEquals(SharingScope.ALL_QUALIFIED_RESEARCHERS, participant.getSharingScope());
+        assertEquals(true, participant.isNotifyByEmail());
+        assertEquals(DATA_GROUPS, participant.getDataGroups());
+        assertEquals(LANGUAGES, participant.getLanguages());
+        assertEquals(ATTRIBUTES, participant.getAttributes());
+    }
+    
+    @Test
+    public void attributesIsImmutable() {
+        
     }
 }

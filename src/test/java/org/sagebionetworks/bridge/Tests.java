@@ -3,6 +3,7 @@ package org.sagebionetworks.bridge;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.joda.time.Period;
@@ -70,4 +71,17 @@ public class Tests {
     public static String unescapeJson(String json) {
         return json.replaceAll("'", "\"");
     }
+    
+    /**
+     * Guava does not have a version of this method that also lets you add items.
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> LinkedHashSet<T> newLinkedHashSet(T... items) {
+        LinkedHashSet<T> set = new LinkedHashSet<T>();
+        for (T item : items) {
+            set.add(item);    
+        }
+        return set;
+    }
+    
 }
