@@ -119,9 +119,4 @@ public class StudyParticipantTest {
         assertEquals(LANGUAGES, participant.getLanguages());
         assertEquals(ATTRIBUTES, participant.getAttributes());
     }
-    
-    @Test
-    public void attributesIsImmutable() {
-        
-    }
 }
