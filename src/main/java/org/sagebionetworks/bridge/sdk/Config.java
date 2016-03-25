@@ -51,6 +51,7 @@ public final class Config {
         V3_CACHE, 
         V3_CACHE_CACHEKEY,
         V3_PARTICIPANT,
+        V3_PARTICIPANT_SIGNOUT,
         V3_PARTICIPANTS,
         V3_SCHEDULEPLANS, 
         V3_SCHEDULEPLANS_GUID, 
@@ -87,7 +88,6 @@ public final class Config {
         V3_UPLOADSTATUSES_UPLOADID, 
         V3_UPLOADS_UPLOADID_COMPLETE, 
         V3_USERS,
-        V3_USERS_SIGNOUT,
         V3_USERS_SELF,
         V3_USERS_SELF_DATAGROUPS,
         V3_USERS_SELF_DATASHARING, 
@@ -318,8 +318,14 @@ public final class Config {
         return val(Props.V3_USERS);
     }
 
-    public String getUsersSignOutApi() {
-        return val(Props.V3_USERS_SIGNOUT);
+    public String getUsersSignOutApi(String email) {
+        checkArgument(isNotBlank(email));
+        try {
+            String encodedEmail = URLEncoder.encode(MoreObjects.firstNonNull(email, ""), "UTF-8");
+            return String.format(val(Props.V3_PARTICIPANT_SIGNOUT), encodedEmail);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public String getSchedulesApi() {

@@ -24,12 +24,8 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     @Override
     public void signOutUser(String email) {
         session.checkSignedIn();
-        checkArgument(!Strings.isNullOrEmpty(email), CANNOT_BE_BLANK, "email");
 
-        Map<String, String> queryParams = new HashMap<String, String>();
-        queryParams.put("email", email);
-
-        post(config.getUsersSignOutApi() + toQueryString(queryParams));
+        post(config.getUsersSignOutApi(email));
     }
     
     @Override
