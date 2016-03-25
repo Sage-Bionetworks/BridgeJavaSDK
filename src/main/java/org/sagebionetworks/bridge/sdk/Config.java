@@ -53,6 +53,7 @@ public final class Config {
         V3_PARTICIPANT,
         V3_PARTICIPANT_OPTIONS,
         V3_PARTICIPANT_PROFILE,
+        V3_PARTICIPANT_SIGNOUT,
         V3_PARTICIPANTS,
         V3_SCHEDULEPLANS, 
         V3_SCHEDULEPLANS_GUID, 
@@ -89,7 +90,6 @@ public final class Config {
         V3_UPLOADSTATUSES_UPLOADID, 
         V3_UPLOADS_UPLOADID_COMPLETE, 
         V3_USERS,
-        V3_USERS_SIGNOUT,
         V3_USERS_SELF,
         V3_USERS_SELF_DATAGROUPS,
         V3_USERS_SELF_DATASHARING, 
@@ -320,10 +320,6 @@ public final class Config {
         return val(Props.V3_USERS);
     }
 
-    public String getUsersSignOutApi() {
-        return val(Props.V3_USERS_SIGNOUT);
-    }
-
     public String getSchedulesApi() {
         return val(Props.V4_SCHEDULES);
     }
@@ -458,6 +454,12 @@ public final class Config {
     public String getSubpopulation(String guid) {
         checkArgument(isNotBlank(guid));
         return String.format(val(Props.V3_SUBPOPULATION), guid);
+    }
+
+    public String getUsersSignOutApi(String email) {
+        checkArgument(isNotBlank(email));
+        String encodedEmail = urlEncode(email);
+        return String.format(val(Props.V3_PARTICIPANT_SIGNOUT), encodedEmail);
     }
 
     public String getParticipantsApi(int offsetBy, int pageSize, String emailFilter) {

@@ -6,9 +6,6 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.sagebionetworks.bridge.sdk.models.PagedResourceList;
 import org.sagebionetworks.bridge.sdk.models.accounts.AccountSummary;
 import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
@@ -25,12 +22,8 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     @Override
     public void signOutUser(String email) {
         session.checkSignedIn();
-        checkArgument(isNotBlank(email), CANNOT_BE_BLANK, "email");
 
-        Map<String, String> queryParams = new HashMap<String, String>();
-        queryParams.put("email", email);
-
-        post(config.getUsersSignOutApi() + toQueryString(queryParams));
+        post(config.getUsersSignOutApi(email));
     }
     
     @Override
