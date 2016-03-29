@@ -51,6 +51,8 @@ public final class Config {
         V3_CACHE, 
         V3_CACHE_CACHEKEY,
         V3_PARTICIPANT,
+        V3_PARTICIPANT_OPTIONS,
+        V3_PARTICIPANT_PROFILE,
         V3_PARTICIPANT_SIGNOUT,
         V3_PARTICIPANTS,
         V3_SCHEDULEPLANS, 
@@ -318,16 +320,6 @@ public final class Config {
         return val(Props.V3_USERS);
     }
 
-    public String getUsersSignOutApi(String email) {
-        checkArgument(isNotBlank(email));
-        try {
-            String encodedEmail = URLEncoder.encode(MoreObjects.firstNonNull(email, ""), "UTF-8");
-            return String.format(val(Props.V3_PARTICIPANT_SIGNOUT), encodedEmail);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public String getSchedulesApi() {
         return val(Props.V4_SCHEDULES);
     }
@@ -464,22 +456,40 @@ public final class Config {
         return String.format(val(Props.V3_SUBPOPULATION), guid);
     }
 
+    public String getUsersSignOutApi(String email) {
+        checkArgument(isNotBlank(email));
+        String encodedEmail = urlEncode(email);
+        return String.format(val(Props.V3_PARTICIPANT_SIGNOUT), encodedEmail);
+    }
+
     public String getParticipantsApi(int offsetBy, int pageSize, String emailFilter) {
         checkArgument(offsetBy >= 0);
         checkArgument(pageSize >= 5);
-        try {
-            String encodedEmail = URLEncoder.encode(MoreObjects.firstNonNull(emailFilter, ""), "UTF-8");
-            return String.format(val(Props.V3_PARTICIPANTS), offsetBy, pageSize, encodedEmail);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+        String encodedEmail = urlEncode(MoreObjects.firstNonNull(emailFilter, ""));
+        return String.format(val(Props.V3_PARTICIPANTS), offsetBy, pageSize, encodedEmail);
     }
     
-    public String getParticipant(String email) {
+    public String getParticipantApi(String email) {
         checkArgument(isNotBlank(email));
+        String encodedEmail = urlEncode(email);
+        return String.format(val(Props.V3_PARTICIPANT), encodedEmail);
+    }
+    
+    public String getParticipantOptionsApi(String email) {
+        checkArgument(isNotBlank(email));
+        String encodedEmail = urlEncode(email);
+        return String.format(val(Props.V3_PARTICIPANT_OPTIONS), encodedEmail);
+    }
+    
+    public String getParticipantProfileApi(String email) {
+        checkArgument(isNotBlank(email));
+        String encodedEmail = urlEncode(email);
+        return String.format(val(Props.V3_PARTICIPANT_PROFILE), encodedEmail);
+    }
+    
+    private String urlEncode(String value) {
         try {
-            String encodedEmail = URLEncoder.encode(email, "UTF-8");
-            return String.format(val(Props.V3_PARTICIPANT), encodedEmail);
+            return URLEncoder.encode(value.trim(), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
@@ -488,7 +498,7 @@ public final class Config {
     private String val(Props prop) {
         String value = config.getProperty(prop.getPropertyName());
         checkNotNull(value, "The property '" + prop.getPropertyName() + "' has not been set.");
-        return value;
+        return value.trim();
     }
 
     @Override

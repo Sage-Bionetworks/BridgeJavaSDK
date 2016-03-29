@@ -39,4 +39,15 @@ public interface ResearcherClient {
      * @return
      */
     StudyParticipant getStudyParticipant(String email);
+    
+    /**
+     * Update an individual study participant. Not all records in study participant can be changed (some 
+     * are readonly), and this is reflected in the fields that can be set from the StudyParticipant.Builder.
+     * @param email
+     *      The user's email
+     * @param participant
+     *      The participant object. The update will be made based on all the values that can be set through 
+     *      the StudyParticipant.Builder.
+     */
+    void updateStudyParticipant(String email, StudyParticipant participant);
 }

@@ -1,16 +1,14 @@
 package org.sagebionetworks.bridge.sdk;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.google.common.base.Strings;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.sagebionetworks.bridge.sdk.models.PagedResourceList;
 import org.sagebionetworks.bridge.sdk.models.accounts.AccountSummary;
 import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
-
-import static com.google.common.base.Preconditions.checkArgument;
 
 class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
 
@@ -38,7 +36,20 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     @Override
     public StudyParticipant getStudyParticipant(String email) {
         session.checkSignedIn();
+        checkArgument(isNotBlank(email), CANNOT_BE_BLANK, "email");
+
+        return get(config.getParticipantApi(email), StudyParticipant.class);
+    }
+    
+    @Override
+    public void updateStudyParticipant(String email, StudyParticipant participant) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(email), CANNOT_BE_BLANK, "email");
+        checkNotNull(participant);
         
-        return get(config.getParticipant(email), StudyParticipant.class);
+        // It doesn't matter that the participant includes both options and the profile.
+        // Bridge server is lenient about extra properties. It retrieves what it expects.
+        post(config.getParticipantOptionsApi(email), participant);
+        post(config.getParticipantProfileApi(email), participant);
     }
 }
