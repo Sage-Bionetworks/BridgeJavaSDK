@@ -1,6 +1,10 @@
 package org.sagebionetworks.bridge.sdk;
 
+import java.util.List;
+
 import org.joda.time.DateTime;
+
+import org.sagebionetworks.bridge.sdk.models.PagedResourceList;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
@@ -12,6 +16,7 @@ import org.sagebionetworks.bridge.sdk.models.subpopulations.Subpopulation;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadSchema;
+import org.sagebionetworks.bridge.sdk.models.users.ExternalIdentifier;
 
 public interface DeveloperClient {
 
@@ -335,5 +340,37 @@ public interface DeveloperClient {
      * @param subpopGuid
      */
     public void deleteSubpopulation(SubpopulationGuid subpopGuid);
+
+    
+    /**
+     * Get a page of external identifiers added to Bridge. All arguments are optional. 
+     * 
+     * @param offsetKey
+     *      Optional. If provided, records will be returned after this key in the list of identifiers. 
+     *      Similar to an offsetBy index, but not as flexible, this essentially allows you to work page by 
+     *      page through the records. 
+     * @param pageSize
+     *      Number of records to return for this request (1-100 records).
+     * @param idFilter
+     *      Optional string that used to match against the start of an external identifier string
+     * @param assignmentFilter
+     *      Optional boolean filter to return only assigned or unassigned identifiers (if not provided, both 
+     *      are retuend).
+     * @return
+     */
+    public PagedResourceList<ExternalIdentifier> getExternalIds(String offsetKey, Integer pageSize, 
+            String idFilter, Boolean assignmentFilter);
+    
+    /**
+     * Add external identifiers to Bridge. Existing identifiers will be silently ignored.
+     */
+    public void addExternalIds(List<String> externalIdentifiers);
+    
+    /**
+     * Delete external identifiers (only allows if external ID validation is diabled).
+     * 
+     * @param externalIdentifiers
+     */
+    public void deleteExternalIds(List<String> externalIdentifiers);
     
 }

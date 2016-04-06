@@ -14,7 +14,7 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
 
     private static final TypeReference<PagedResourceList<AccountSummary>> ACCOUNT_SUMMARY_PAGED_RESOURCE_LIST = 
             new TypeReference<PagedResourceList<AccountSummary>>() {};
-
+                    
     BridgeResearcherClient(BridgeSession session) {
         super(session);
     }
@@ -42,14 +42,19 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     }
     
     @Override
-    public void updateStudyParticipant(String email, StudyParticipant participant) {
+    public void createStudyParticipant(StudyParticipant participant) {
         session.checkSignedIn();
-        checkArgument(isNotBlank(email), CANNOT_BE_BLANK, "email");
         checkNotNull(participant);
         
-        // It doesn't matter that the participant includes both options and the profile.
-        // Bridge server is lenient about extra properties. It retrieves what it expects.
-        post(config.getParticipantOptionsApi(email), participant);
-        post(config.getParticipantProfileApi(email), participant);
+        post(config.getParticipantsApi(), participant);
+    }
+    
+    @Override
+    public void updateStudyParticipant(StudyParticipant participant) {
+        session.checkSignedIn();
+        checkNotNull(participant);
+        checkArgument(isNotBlank(participant.getEmail()), CANNOT_BE_BLANK, "email");
+        
+        post(config.getParticipantApi(participant.getEmail()), participant);
     }
 }

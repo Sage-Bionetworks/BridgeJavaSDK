@@ -1,45 +1,61 @@
 package org.sagebionetworks.bridge.sdk.models;
 
-import java.util.List;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
+import java.util.List;
+import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 
 public class PagedResourceList<T> {
+    private static final String OFFSET_KEY_FILTER = "offsetKey";
     private final List<T> items;
-    private final int offsetBy;
+    private final Integer offsetBy;
     private final int pageSize;
     private final int total;
-    private final String emailFilter;
+    private final Map<String,String> filters = Maps.newHashMap();
 
     @JsonCreator
-    public PagedResourceList(@JsonProperty("items") List<T> items, @JsonProperty("offsetBy") int offsetBy,
-            @JsonProperty("limitTo") int pageSize, @JsonProperty("total") int total,
-            @JsonProperty("emailFilter") String emailFilter) {
+    PagedResourceList(@JsonProperty("items") List<T> items, @JsonProperty("offsetBy") Integer offsetBy,
+            @JsonProperty("pageSize") int pageSize, @JsonProperty("total") int total) {
         this.items = items;
         this.offsetBy = offsetBy;
         this.pageSize = pageSize;
         this.total = total;
-        this.emailFilter = emailFilter;
     }
     public List<T> getItems() {
         return items;
     }
-    public int getTotal() {
-        return total;
-    }
-    public int getOffsetBy() {
+    public Integer getOffsetBy() {
         return offsetBy;
+    }
+    public String getOffsetKey() {
+        return filters.get(OFFSET_KEY_FILTER);
     }
     public int getPageSize() {
         return pageSize;
     }
-    public String getEmailFilter() {
-        return emailFilter;
+    public int getTotal() {
+        return total;
+    }
+    @JsonAnyGetter
+    public Map<String, String> getFilters() {
+        return ImmutableMap.copyOf(filters);
+    }
+    @JsonAnySetter
+    void setFilter(String key, String value) {
+        if (isNotBlank(key) && isNotBlank(value)) {
+            filters.put(key, value);    
+        }
     }
     @Override
     public String toString() {
         return "PagedResourceList [items=" + items + ", offsetBy=" + offsetBy + ", pageSize=" + pageSize + ", total="
-                + total + ", emailFilter=" + emailFilter + "]";
+                + total + ", filters=" + filters + "]";
     }
 }

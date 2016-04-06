@@ -5,25 +5,40 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public final class ExternalIdentifier {
     
     private final String identifier;
-    
+    private final boolean isAssigned;
+
     public ExternalIdentifier(String identifier) {
         checkArgument(isNotBlank(identifier), "identifier cannot be null, an empty string or whitespace");
         this.identifier = identifier;
+        this.isAssigned = false;
+    }
+    
+    @JsonCreator
+    ExternalIdentifier(@JsonProperty("identifier") String identifier,
+            @JsonProperty("assigned") boolean isAssigned) {
+        checkArgument(isNotBlank(identifier), "identifier cannot be null, an empty string or whitespace");
+
+        this.identifier = identifier;
+        this.isAssigned = isAssigned;
     }
     
     public String getIdentifier() {
         return identifier;
     }
     
+    public boolean isAssigned() {
+        return isAssigned;
+    }
+    
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + Objects.hashCode(identifier);
-        return result;
+        return Objects.hash(identifier, isAssigned);
     }
 
     @Override
@@ -33,7 +48,7 @@ public final class ExternalIdentifier {
         if (obj == null || getClass() != obj.getClass())
             return false;
         ExternalIdentifier other = (ExternalIdentifier) obj;
-        return Objects.equals(identifier, other.identifier);
+        return Objects.equals(identifier, other.identifier) && Objects.equals(isAssigned, other.isAssigned);
     }
 
     @Override

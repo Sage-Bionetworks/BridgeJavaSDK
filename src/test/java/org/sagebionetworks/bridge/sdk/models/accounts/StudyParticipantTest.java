@@ -50,13 +50,14 @@ public class StudyParticipantTest {
         consentHistories.put("subpopGuid", Lists.newArrayList(history));
         
         StudyParticipant participant = new StudyParticipant("firstName", "lastName", "email@email.com", "externalId",
-                SharingScope.ALL_QUALIFIED_RESEARCHERS, true, DATA_GROUPS, "healthCode", ATTRIBUTES, consentHistories,
+                "password", SharingScope.ALL_QUALIFIED_RESEARCHERS, true, DATA_GROUPS, "healthCode", ATTRIBUTES, consentHistories,
                 Sets.newHashSet(Roles.DEVELOPER), LANGUAGES);
         
         JsonNode node = Utilities.getMapper().valueToTree(participant);
         assertEquals("firstName", node.get("firstName").asText());
         assertEquals("lastName", node.get("lastName").asText());
         assertEquals("externalId", node.get("externalId").asText());
+        assertEquals("password", node.get("password").asText());
         assertEquals("healthCode", node.get("healthCode").asText());
         assertEquals(SharingScope.ALL_QUALIFIED_RESEARCHERS, SharingScope.valueOf(node.get("sharingScope").asText().toUpperCase()));
         assertTrue(node.get("notifyByEmail").asBoolean());
@@ -66,10 +67,8 @@ public class StudyParticipantTest {
         assertTrue(DATA_GROUPS.contains(dataGroups.get(0).asText()));
         assertTrue(DATA_GROUPS.contains(dataGroups.get(1).asText()));
         
-        // Note that the property is not on an attributes object, it was added to the 
-        // root JSON object. This is what the server actually expects for extended 
-        // profile attributes.
-        assertEquals("b", node.get("a").asText());
+        JsonNode attrs = node.get("attributes");
+        assertEquals("b", attrs.get("a").asText());
         
         ArrayNode roles = (ArrayNode)node.get("roles");
         assertEquals("developer", roles.get(0).asText());
@@ -102,6 +101,8 @@ public class StudyParticipantTest {
         builder.withFirstName("firstName");
         builder.withLastName("lastName");
         builder.withExternalId("externalId");
+        builder.withEmail("email@email.com");
+        builder.withPassword("password");
         builder.withSharingScope(SharingScope.ALL_QUALIFIED_RESEARCHERS);
         builder.withNotifyByEmail(true);
         builder.withDataGroups(DATA_GROUPS);
@@ -112,7 +113,9 @@ public class StudyParticipantTest {
 
         assertEquals("firstName", participant.getFirstName());
         assertEquals("lastName", participant.getLastName());
+        assertEquals("email@email.com", participant.getEmail());
         assertEquals("externalId", participant.getExternalId());
+        assertEquals("password", participant.getPassword());
         assertEquals(SharingScope.ALL_QUALIFIED_RESEARCHERS, participant.getSharingScope());
         assertEquals(true, participant.isNotifyByEmail());
         assertEquals(DATA_GROUPS, participant.getDataGroups());

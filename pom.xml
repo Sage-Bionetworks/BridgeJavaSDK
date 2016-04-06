@@ -4,7 +4,7 @@
     <groupId>org.sagebionetworks.bridge</groupId>
     <artifactId>java-sdk</artifactId>
     <packaging>jar</packaging>
-    <version>develop-SNAPSHOT</version>
+    <version>0.1.0</version>
     <name>BridgeJavaSDK</name>
     <url>https://api.sagebridge.org</url>
     
