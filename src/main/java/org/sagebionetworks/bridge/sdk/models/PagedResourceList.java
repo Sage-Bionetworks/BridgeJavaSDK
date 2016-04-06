@@ -21,33 +21,12 @@ public class PagedResourceList<T> {
     private final Map<String,String> filters = Maps.newHashMap();
 
     @JsonCreator
-    PagedResourceList(
-            @JsonProperty("items") List<T> items, 
-            @JsonProperty("offsetBy") Integer offsetBy,
-            @JsonProperty("pageSize") int pageSize, 
-            @JsonProperty("total") int total) {
+    PagedResourceList(@JsonProperty("items") List<T> items, @JsonProperty("offsetBy") Integer offsetBy,
+            @JsonProperty("pageSize") int pageSize, @JsonProperty("total") int total) {
         this.items = items;
         this.offsetBy = offsetBy;
         this.pageSize = pageSize;
         this.total = total;
-    }
-
-    /**
-     * A convenience method for adding filters without having to construct an intermediate map of filters.
-     * e.g. PagedResourceList<T> page = new PagedResourceList<T>(....).withFilterValue("a","b");
-     */
-    PagedResourceList<T> withFilter(String key, String value) {
-        if (isNotBlank(key) && isNotBlank(value)) {
-            filters.put(key, value);
-        }
-        return this;
-    }
-    /**
-     * Convenience method for adding the DDB key as a filter. The key must be returned to retrieve 
-     * the next page of DDB records.
-     */
-    PagedResourceList<T> withOffsetKey(String offsetKey) {
-        return withFilter(OFFSET_KEY_FILTER, offsetKey);
     }
     public List<T> getItems() {
         return items;

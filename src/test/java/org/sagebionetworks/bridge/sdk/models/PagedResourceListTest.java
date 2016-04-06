@@ -17,13 +17,14 @@ public class PagedResourceListTest {
         String json = "{'items':["+
                 "{'firstName':'firstName1','lastName':'lastName1','email':'email1@email.com','status':'enabled'},"+
                 "{'firstName':'firstName2','lastName':'lastName2','email':'email2@email.com','status':'disabled'}],"+
-                "'offsetBy': 10,'pageSize': 10,'total': 100,'emailFilter':'foo'}";
+                "'offsetBy': 10,'offsetKey':'aKey','pageSize': 10,'total': 100,'emailFilter':'foo'}";
 
         PagedResourceList<AccountSummary> page = Utilities.getMapper()
                 .readValue(Tests.unescapeJson(json), new TypeReference<PagedResourceList<AccountSummary>>(){});
         assertEquals(new Integer(10), page.getOffsetBy());
         assertEquals(10, page.getPageSize());
         assertEquals(100, page.getTotal());
+        assertEquals("aKey", page.getOffsetKey());
         assertEquals("foo", page.getFilters().get("emailFilter"));
         
         assertEquals(2, page.getItems().size());
