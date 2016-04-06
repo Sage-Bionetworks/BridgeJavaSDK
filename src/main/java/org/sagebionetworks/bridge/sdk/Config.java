@@ -8,13 +8,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
-import java.net.URLEncoder;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 
@@ -23,10 +23,18 @@ import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.MoreObjects;
 import com.google.common.collect.Lists;
 
 public final class Config {
+
+    private static final String ASSIGNMENT_FILTER = "assignmentFilter";
+    private static final String EMAIL = "email";
+    private static final String EMAIL_FILTER = "emailFilter";
+    private static final String EXTERNAL_ID = "externalId";
+    private static final String ID_FILTER = "idFilter";
+    private static final String OFFSET_BY = "offsetBy";
+    private static final String OFFSET_KEY = "offsetKey";
+    private static final String PAGE_SIZE = "pageSize";
 
     private static final String CONFIG_FILE = "/bridge-sdk.properties";
     private static final String USER_CONFIG_FILE = System.getProperty("user.home") + "/bridge-sdk.properties";
@@ -313,10 +321,12 @@ public final class Config {
     }
 
     public String getCompleteUploadApi(String uploadId) {
+        checkNotNull(uploadId);
         return String.format(val(Props.V3_UPLOADS_UPLOADID_COMPLETE), uploadId);
     }
 
     public String getUploadStatusApi(String uploadId) {
+        checkNotNull(uploadId);
         return String.format(val(Props.V3_UPLOADSTATUSES_UPLOADID), uploadId);
     }
 
@@ -341,6 +351,7 @@ public final class Config {
     }
 
     public String getSurveyApi(String guid, DateTime createdOn) {
+        checkArgument(isNotBlank(guid));
         checkNotNull(createdOn);
         return getSurveyApi(guid, createdOn.toString(ISODateTimeFormat.dateTime()));
     }
@@ -462,8 +473,7 @@ public final class Config {
 
     public String getUsersSignOutApi(String email) {
         checkArgument(isNotBlank(email));
-        String encodedEmail = urlEncode(email);
-        return String.format(val(Props.V3_PARTICIPANT_SIGNOUT), encodedEmail);
+        return val(Props.V3_PARTICIPANT_SIGNOUT, new BasicNameValuePair(EMAIL, email));
     }
 
     public String getParticipantsApi() {
@@ -473,26 +483,29 @@ public final class Config {
     public String getParticipantsApi(int offsetBy, int pageSize, String emailFilter) {
         checkArgument(offsetBy >= 0);
         checkArgument(pageSize >= 5);
-        String encodedEmail = urlEncode(MoreObjects.firstNonNull(emailFilter, ""));
-        return String.format(val(Props.V3_PARTICIPANTS), offsetBy, pageSize, encodedEmail);
+        
+        List<NameValuePair> queryParams = Lists.newArrayList();
+        queryParams.add(new BasicNameValuePair(OFFSET_BY, Integer.toString(offsetBy)));
+        queryParams.add(new BasicNameValuePair(PAGE_SIZE, Integer.toString(pageSize)));
+        if (emailFilter != null) {
+            queryParams.add(new BasicNameValuePair(EMAIL_FILTER, emailFilter));
+        }
+        return val(Props.V3_PARTICIPANTS, queryParams);
     }
     
     public String getParticipantApi(String email) {
         checkArgument(isNotBlank(email));
-        String encodedEmail = urlEncode(email);
-        return String.format(val(Props.V3_PARTICIPANT), encodedEmail);
+        return val(Props.V3_PARTICIPANT, new BasicNameValuePair(EMAIL, email));
     }
     
     public String getParticipantOptionsApi(String email) {
         checkArgument(isNotBlank(email));
-        String encodedEmail = urlEncode(email);
-        return String.format(val(Props.V3_PARTICIPANT_OPTIONS), encodedEmail);
+        return val(Props.V3_PARTICIPANT_OPTIONS, new BasicNameValuePair(EMAIL, email));
     }
     
     public String getParticipantProfileApi(String email) {
         checkArgument(isNotBlank(email));
-        String encodedEmail = urlEncode(email);
-        return String.format(val(Props.V3_PARTICIPANT_PROFILE), encodedEmail);
+        return val(Props.V3_PARTICIPANT_PROFILE, new BasicNameValuePair(EMAIL, email));
     }
     
     public String getExternalIdsApi() {
@@ -501,50 +514,49 @@ public final class Config {
     
     public String getExternalIdsApi(List<String> identifiers) {
         checkNotNull(identifiers);
-        try {
-            URIBuilder builder = new URIBuilder(val(Props.V3_EXTERNAL_IDS));
-            for (String id : identifiers) {
-                builder.addParameter("externalId", id);
-            }
-            return builder.build().toString();
-        } catch(URISyntaxException e) {
-            throw new BridgeSDKException(e.getMessage(), 500);
+        
+        List<NameValuePair> queryParams = Lists.newArrayList();
+        for (String id : identifiers) {
+            queryParams.add(new BasicNameValuePair(EXTERNAL_ID, id));
         }
+        return val(Props.V3_EXTERNAL_IDS, queryParams);
     }
     
     public String getExternalIdsApi(String offsetKey, Integer pageSize, String idFilter, Boolean assignmentFilter) {
-        try {
-            URIBuilder builder = new URIBuilder(val(Props.V3_EXTERNAL_IDS));
-            if (offsetKey != null) {
-                builder.addParameter("offsetKey", offsetKey);
-            }
-            if (pageSize != null) {
-                builder.addParameter("pageSize", pageSize.toString());
-            }
-            if (idFilter != null) {
-                builder.addParameter("idFilter", idFilter);
-            }
-            if (assignmentFilter != null) {
-                builder.addParameter("assignmentFilter", assignmentFilter.toString());
-            }
-            return builder.build().toString();
-        } catch(URISyntaxException e) {
-            throw new BridgeSDKException(e.getMessage(), 500);
+        List<NameValuePair> queryParams = Lists.newArrayList();
+        if (offsetKey != null) {
+            queryParams.add(new BasicNameValuePair(OFFSET_KEY, offsetKey));
         }
-    }
-    
-    private String urlEncode(String value) {
-        try {
-            return URLEncoder.encode(value.trim(), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
+        if (pageSize != null) {
+            queryParams.add(new BasicNameValuePair(PAGE_SIZE, pageSize.toString()));
         }
+        if (idFilter != null) {
+            queryParams.add(new BasicNameValuePair(ID_FILTER, idFilter));
+        }
+        if (assignmentFilter != null) {
+            queryParams.add(new BasicNameValuePair(ASSIGNMENT_FILTER, assignmentFilter.toString()));
+        }
+        return val(Props.V3_EXTERNAL_IDS, queryParams);
     }
     
     private String val(Props prop) {
         String value = config.getProperty(prop.getPropertyName());
         checkNotNull(value, "The property '" + prop.getPropertyName() + "' has not been set.");
         return value.trim();
+    }
+    
+    private String val(Props prop, NameValuePair queryParam) {
+        return val(prop, Lists.newArrayList(queryParam));
+    }
+    
+    private String val(Props prop, List<NameValuePair> queryParams) {
+        try {
+            URIBuilder builder = new URIBuilder(val(prop));
+            builder.addParameters(queryParams);
+            return builder.build().toString();
+        } catch(URISyntaxException e) {
+            throw new BridgeSDKException(e.getMessage(), 500);
+        }        
     }
 
     @Override
