@@ -3,12 +3,11 @@ package org.sagebionetworks.bridge.sdk.models;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
+import java.net.URL;
 import java.util.Map;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
-
 import org.junit.Test;
-
 import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadRequest;
 import org.sagebionetworks.bridge.sdk.utils.Utilities;
@@ -94,7 +93,8 @@ public class UploadRequestTest {
 
     @Test
     public void fromFile() throws Exception {
-        File file = new File("src/test/resources/upload-test/production/non-json-encrypted");
+        URL resource = this.getClass().getResource("/upload-test/production/non-json-encrypted");
+        File file = new File(resource.toURI());
         UploadRequest req = new UploadRequest.Builder().withFile(file).withContentType("application/zip").build();
         assertEquals("non-json-encrypted", req.getName());
         assertEquals(1224, req.getContentLength());
