@@ -13,17 +13,17 @@ public class ExternalIdentifierTest {
     
     @Test(expected=IllegalArgumentException.class)
     public void cannotConstructNullIdentifier() {
-        new ExternalIdentifier(null);
+        new ExternalIdentifier(null, false);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void cannotConstructEmptyIdentifier() {
-        new ExternalIdentifier("");
+        new ExternalIdentifier("", false);
     }
     
     @Test(expected=IllegalArgumentException.class)
     public void cannotConstructBlankIdentifier() {
-        new ExternalIdentifier("   ");
+        new ExternalIdentifier("   ", false);
     }
     
 }

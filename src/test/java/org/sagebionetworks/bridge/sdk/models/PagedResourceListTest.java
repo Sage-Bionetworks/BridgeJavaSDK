@@ -21,10 +21,10 @@ public class PagedResourceListTest {
 
         PagedResourceList<AccountSummary> page = Utilities.getMapper()
                 .readValue(Tests.unescapeJson(json), new TypeReference<PagedResourceList<AccountSummary>>(){});
-        assertEquals(10, page.getOffsetBy());
+        assertEquals(new Integer(10), page.getOffsetBy());
         assertEquals(10, page.getPageSize());
         assertEquals(100, page.getTotal());
-        assertEquals("foo", page.getEmailFilter());
+        assertEquals("foo", page.getFilters().get("emailFilter"));
         
         assertEquals(2, page.getItems().size());
         

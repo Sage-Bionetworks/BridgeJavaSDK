@@ -9,13 +9,16 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.http.client.utils.URIBuilder;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 
+import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 
@@ -50,6 +53,7 @@ public final class Config {
         V3_BACKFILL_NAME_START, 
         V3_CACHE, 
         V3_CACHE_CACHEKEY,
+        V3_EXTERNAL_IDS,
         V3_PARTICIPANT,
         V3_PARTICIPANT_OPTIONS,
         V3_PARTICIPANT_PROFILE,
@@ -462,6 +466,10 @@ public final class Config {
         return String.format(val(Props.V3_PARTICIPANT_SIGNOUT), encodedEmail);
     }
 
+    public String getParticipantsApi() {
+        return val(Props.V3_PARTICIPANTS);
+    }
+    
     public String getParticipantsApi(int offsetBy, int pageSize, String emailFilter) {
         checkArgument(offsetBy >= 0);
         checkArgument(pageSize >= 5);
@@ -485,6 +493,44 @@ public final class Config {
         checkArgument(isNotBlank(email));
         String encodedEmail = urlEncode(email);
         return String.format(val(Props.V3_PARTICIPANT_PROFILE), encodedEmail);
+    }
+    
+    public String getExternalIdsApi() {
+        return val(Props.V3_EXTERNAL_IDS);
+    }
+    
+    public String getExternalIdsApi(List<String> identifiers) {
+        checkNotNull(identifiers);
+        try {
+            URIBuilder builder = new URIBuilder(val(Props.V3_EXTERNAL_IDS));
+            for (String id : identifiers) {
+                builder.addParameter("externalId", id);
+            }
+            return builder.build().toString();
+        } catch(URISyntaxException e) {
+            throw new BridgeSDKException(e.getMessage(), 500);
+        }
+    }
+    
+    public String getExternalIdsApi(String offsetKey, Integer pageSize, String idFilter, Boolean assignmentFilter) {
+        try {
+            URIBuilder builder = new URIBuilder(val(Props.V3_EXTERNAL_IDS));
+            if (offsetKey != null) {
+                builder.addParameter("offsetKey", offsetKey);
+            }
+            if (pageSize != null) {
+                builder.addParameter("pageSize", pageSize.toString());
+            }
+            if (idFilter != null) {
+                builder.addParameter("idFilter", idFilter);
+            }
+            if (assignmentFilter != null) {
+                builder.addParameter("assignmentFilter", assignmentFilter.toString());
+            }
+            return builder.build().toString();
+        } catch(URISyntaxException e) {
+            throw new BridgeSDKException(e.getMessage(), 500);
+        }
     }
     
     private String urlEncode(String value) {

@@ -4,7 +4,11 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
+import java.util.List;
+
 import org.joda.time.DateTime;
+
+import org.sagebionetworks.bridge.sdk.models.PagedResourceList;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
@@ -19,6 +23,7 @@ import org.sagebionetworks.bridge.sdk.models.subpopulations.Subpopulation;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadSchema;
+import org.sagebionetworks.bridge.sdk.models.users.ExternalIdentifier;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -30,6 +35,8 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
     private final TypeReference<ResourceListImpl<Subpopulation>> subpopType = new TypeReference<ResourceListImpl<Subpopulation>>() {};
     private static final TypeReference<ResourceListImpl<UploadSchema>> TYPE_REF_UPLOAD_SCHEMA_LIST =
             new TypeReference<ResourceListImpl<UploadSchema>>() {};
+    private static final TypeReference<PagedResourceList<ExternalIdentifier>> EXTERNAL_IDENTIFIER_PAGED_RESOURCE_LIST = 
+            new TypeReference<PagedResourceList<ExternalIdentifier>>() {};
 
     BridgeDeveloperClient(BridgeSession session) {
         super(session);
@@ -300,5 +307,27 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
     public void deleteSubpopulation(SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
         delete(config.getSubpopulation(subpopGuid.getGuid()));
+    }
+    @Override
+    public PagedResourceList<ExternalIdentifier> getExternalIds(
+            String offsetKey, Integer pageSize, String idFilter, Boolean assignmentFilter) {
+        session.checkSignedIn();
+        
+        return get(config.getExternalIdsApi(
+                offsetKey, pageSize, idFilter, assignmentFilter), EXTERNAL_IDENTIFIER_PAGED_RESOURCE_LIST);
+    }
+    @Override
+    public void addExternalIds(List<String> externalIdentifiers) {
+        session.checkSignedIn();
+        checkNotNull(externalIdentifiers);
+
+        post(config.getExternalIdsApi(), externalIdentifiers);
+    }
+    @Override
+    public void deleteExternalIds(List<String> externalIdentifiers) {
+        session.checkSignedIn();
+        checkNotNull(externalIdentifiers);
+        
+        delete(config.getExternalIdsApi(externalIdentifiers));
     }
 }
