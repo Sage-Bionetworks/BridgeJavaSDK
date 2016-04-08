@@ -5,6 +5,7 @@ import static org.sagebionetworks.bridge.sdk.utils.Utilities.TO_STRING_STYLE;
 import java.util.Objects;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,14 +15,17 @@ public final class AccountSummary {
     private final String firstName;
     private final String lastName;
     private final String email;
+    private final DateTime createdOn;
     private final AccountStatus status;
     
     @JsonCreator
     AccountSummary(@JsonProperty("firstName") String firstName, @JsonProperty("lastName") String lastName,
-            @JsonProperty("email") String email, @JsonProperty("status") AccountStatus status) {
+            @JsonProperty("email") String email, @JsonProperty("createdOn") DateTime createdOn,
+            @JsonProperty("status") AccountStatus status) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.createdOn = createdOn;
         this.status = status;
     }
 
@@ -36,6 +40,10 @@ public final class AccountSummary {
     public String getEmail() {
         return email;
     }
+    
+    public DateTime getCreatedOn() {
+        return createdOn;
+    }
 
     public AccountStatus getStatus() {
         return status;
@@ -43,7 +51,7 @@ public final class AccountSummary {
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName, email, status);
+        return Objects.hash(firstName, lastName, email, createdOn, status);
     }
 
     @Override
@@ -54,12 +62,13 @@ public final class AccountSummary {
             return false;
         AccountSummary other = (AccountSummary) obj;
         return Objects.equals(firstName, other.firstName) && Objects.equals(lastName, other.lastName)
-                && Objects.equals(email, other.email) && Objects.equals(status, other.status);
+                && Objects.equals(email, other.email) && Objects.equals(status, other.status)
+                && Objects.equals(createdOn, other.createdOn);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this, TO_STRING_STYLE).append("firstName", firstName).append("lastName", lastName)
-                .append("email", email).append("status", status).toString();
+                .append("email", email).append("createdOn",createdOn).append("status", status).toString();
     }
 }
