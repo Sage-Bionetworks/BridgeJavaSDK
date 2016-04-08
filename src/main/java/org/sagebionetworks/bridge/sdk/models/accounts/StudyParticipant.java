@@ -9,6 +9,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.joda.time.DateTime;
 
 import org.sagebionetworks.bridge.sdk.Roles;
 import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
@@ -32,6 +33,8 @@ public final class StudyParticipant {
     private final Map<String,List<UserConsentHistory>> consentHistories;
     private final Set<Roles> roles;
     private final LinkedHashSet<String> languages;
+    private final DateTime createdOn;
+    private final AccountStatus status;
     // This has to be initialized to a value because the serialization flattens attributes 
     // as part of the object, so they are set via the @JsonAnySetter method
     private final Map<String,String> attributes = Maps.newHashMap();
@@ -49,6 +52,8 @@ public final class StudyParticipant {
             @JsonProperty("attributes") Map<String,String> attributes,
             @JsonProperty("consentHistories") Map<String,List<UserConsentHistory>> consentHistories, 
             @JsonProperty("roles") Set<Roles> roles, 
+            @JsonProperty("createdOn") DateTime createdOn,
+            @JsonProperty("status") AccountStatus status,
             @JsonProperty("languages") LinkedHashSet<String> languages) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -61,6 +66,8 @@ public final class StudyParticipant {
         this.healthCode = healthCode;
         this.consentHistories = consentHistories;
         this.roles = roles;
+        this.createdOn = createdOn;
+        this.status = status;
         this.languages = languages;
         if (attributes != null) {
             this.attributes.putAll(attributes);
@@ -91,6 +98,12 @@ public final class StudyParticipant {
     public Set<String> getDataGroups() {
         return dataGroups;
     }
+    public DateTime getCreatedOn() {
+        return createdOn;
+    }
+    public AccountStatus getStatus() {
+        return status;
+    }
     public String getHealthCode() {
         return healthCode;
     }
@@ -110,7 +123,7 @@ public final class StudyParticipant {
     @Override
     public int hashCode() {
         return Objects.hash(attributes, consentHistories, dataGroups, email, externalId, password, firstName, 
-                lastName, healthCode, languages, notifyByEmail, roles, sharingScope);
+                lastName, healthCode, languages, notifyByEmail, roles, createdOn, status, sharingScope);
     }
 
     @Override
@@ -126,7 +139,8 @@ public final class StudyParticipant {
                 && Objects.equals(firstName, other.firstName) && Objects.equals(healthCode, other.healthCode) 
                 && Objects.equals(languages, other.languages) && Objects.equals(lastName, other.lastName) 
                 && Objects.equals(notifyByEmail, other.notifyByEmail) && Objects.equals(roles, other.roles) 
-                && Objects.equals(sharingScope, other.sharingScope);
+                && Objects.equals(sharingScope, other.sharingScope) && Objects.equals(status, other.status)
+                && Objects.equals(createdOn, other.createdOn);
     }
 
     @Override
@@ -135,7 +149,8 @@ public final class StudyParticipant {
                 .append("externalId", externalId).append("password", "[REDACTED]").append("sharingScope", sharingScope)
                 .append("notifyByEmail", notifyByEmail).append("email", email).append("healthCode", "[REDACTED]")
                 .append("dataGroups", dataGroups).append("attributes", attributes).append("roles", roles)
-                .append("languages", languages).append("consentHistories", consentHistories).toString();
+                .append("status", status).append("createdOn", createdOn).append("languages", languages)
+                .append("consentHistories", consentHistories).toString();
     }
     
     public static class Builder {
@@ -149,6 +164,7 @@ public final class StudyParticipant {
         private Set<String> dataGroups = Sets.newHashSet();
         private Map<String,String> attributes = Maps.newHashMap();
         private LinkedHashSet<String> languages = new LinkedHashSet<>();
+        private AccountStatus status;
         
         public Builder withFirstName(String firstName) {
             this.firstName = firstName;
@@ -196,10 +212,14 @@ public final class StudyParticipant {
             }
             return this;
         }
+        public Builder withStatus(AccountStatus status) {
+            this.status = status;
+            return this;
+        }
 
         public StudyParticipant build() {
-            return new StudyParticipant(firstName, lastName, email, externalId, password, 
-                    sharingScope, notifyByEmail, dataGroups, null, attributes, null, null, languages);
+            return new StudyParticipant(firstName, lastName, email, externalId, password, sharingScope, notifyByEmail,
+                    dataGroups, null, attributes, null, null, null, status, languages);
         }
     }    
 }

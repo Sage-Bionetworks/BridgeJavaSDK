@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 
@@ -30,6 +31,7 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 
 public class StudyParticipantTest {
     
+    private static final DateTime CREATED_ON = DateTime.now().withZone(DateTimeZone.UTC);
     private static final LinkedHashSet<String> LANGUAGES = Tests.newLinkedHashSet("en","fr");
     private static final Set<String> DATA_GROUPS = Sets.newHashSet("group1","group2");
     private static final Map<String,String> ATTRIBUTES = new ImmutableMap.Builder<String, String>()
@@ -51,7 +53,7 @@ public class StudyParticipantTest {
         
         StudyParticipant participant = new StudyParticipant("firstName", "lastName", "email@email.com", "externalId",
                 "password", SharingScope.ALL_QUALIFIED_RESEARCHERS, true, DATA_GROUPS, "healthCode", ATTRIBUTES, consentHistories,
-                Sets.newHashSet(Roles.DEVELOPER), LANGUAGES);
+                Sets.newHashSet(Roles.DEVELOPER), CREATED_ON, AccountStatus.ENABLED, LANGUAGES);
         
         JsonNode node = Utilities.getMapper().valueToTree(participant);
         assertEquals("firstName", node.get("firstName").asText());
@@ -59,6 +61,8 @@ public class StudyParticipantTest {
         assertEquals("externalId", node.get("externalId").asText());
         assertEquals("password", node.get("password").asText());
         assertEquals("healthCode", node.get("healthCode").asText());
+        assertEquals(CREATED_ON.toString(), node.get("createdOn").asText());
+        assertEquals("enabled", node.get("status").asText());
         assertEquals(SharingScope.ALL_QUALIFIED_RESEARCHERS, SharingScope.valueOf(node.get("sharingScope").asText().toUpperCase()));
         assertTrue(node.get("notifyByEmail").asBoolean());
         assertEquals("email@email.com", node.get("email").asText());
@@ -108,6 +112,7 @@ public class StudyParticipantTest {
         builder.withDataGroups(DATA_GROUPS);
         builder.withLanguages(LANGUAGES);
         builder.withAttributes(ATTRIBUTES);
+        builder.withStatus(AccountStatus.DISABLED);
         
         StudyParticipant participant = builder.build();
 
@@ -121,5 +126,6 @@ public class StudyParticipantTest {
         assertEquals(DATA_GROUPS, participant.getDataGroups());
         assertEquals(LANGUAGES, participant.getLanguages());
         assertEquals(ATTRIBUTES, participant.getAttributes());
+        assertEquals(AccountStatus.DISABLED, participant.getStatus());
     }
 }
