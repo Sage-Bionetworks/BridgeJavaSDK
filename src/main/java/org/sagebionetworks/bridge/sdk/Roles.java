@@ -4,5 +4,6 @@ public enum Roles {
     DEVELOPER,
     RESEARCHER,
     ADMIN,
-    TEST_USERS
+    TEST_USERS,
+    WORKER
 }

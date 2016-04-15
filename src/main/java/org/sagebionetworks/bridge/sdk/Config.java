@@ -39,7 +39,7 @@ public final class Config {
     private static final String CONFIG_FILE = "/bridge-sdk.properties";
     private static final String USER_CONFIG_FILE = System.getProperty("user.home") + "/bridge-sdk.properties";
 
-    public static enum Props {
+    public enum Props {
         ACCOUNT_EMAIL, 
         ACCOUNT_PASSWORD, 
         ADMIN_EMAIL, 
@@ -71,7 +71,8 @@ public final class Config {
         V3_SCHEDULEPLANS_GUID, 
         V3_STUDIES, 
         V3_STUDIES_IDENTIFIER,
-        V3_STUDIES_SELF, 
+        V3_STUDIES_SELF,
+        V3_STUDIES_STUDYID_SURVEYS_PUBLISHED,
         V3_SUBPOPULATION,
         V3_SUBPOPULATIONS,
         V3_SUBPOPULATIONS_CONSENTS,
@@ -85,11 +86,11 @@ public final class Config {
         V3_SURVEYRESPONSES, 
         V3_SURVEYRESPONSES_IDENTIFIER, 
         V3_SURVEYS, 
-        V3_SURVEYS_PUBLISHED, 
-        V3_SURVEYS_RECENT, 
+        V3_SURVEYS_PUBLISHED,
+        V3_SURVEYS_RECENT,
         V3_SURVEYS_SURVEYGUID_REVISIONS, 
-        V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON, 
-        V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PHYSICAL_TRUE, 
+        V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON,
+        V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PHYSICAL_TRUE,
         V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PUBLISH, 
         V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_VERSION, 
         V3_SURVEYS_SURVEYGUID_REVISIONS_PUBLISHED, 
@@ -348,6 +349,11 @@ public final class Config {
 
     public String getPublishedSurveysApi() {
         return val(Props.V3_SURVEYS_PUBLISHED);
+    }
+
+    public String getPublishedSurveysForStudyApi(String studyId) {
+        checkArgument(isNotBlank(studyId));
+        return String.format(val(Props.V3_STUDIES_STUDYID_SURVEYS_PUBLISHED), studyId);
     }
 
     public String getSurveyApi(String guid, DateTime createdOn) {
