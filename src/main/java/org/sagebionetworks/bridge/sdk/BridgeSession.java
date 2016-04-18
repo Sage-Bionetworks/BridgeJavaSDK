@@ -99,7 +99,14 @@ class BridgeSession implements Session {
         checkState(isSignedIn(), NOT_AUTHENTICATED);
         return new BridgeAdminClient(this);
     }
-    
+
+    /** {@inheritDoc} */
+    @Override
+    public WorkerClient getWorkerClient() {
+        checkState(isSignedIn(), NOT_AUTHENTICATED);
+        return new BridgeWorkerClient(this);
+    }
+
     @Override
     public boolean isSignedIn() {
         return sessionToken != null;

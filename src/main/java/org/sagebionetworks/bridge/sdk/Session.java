@@ -33,4 +33,6 @@ public interface Session {
     
     public AdminClient getAdminClient();
 
+    /** Gets the client used for worker APIs. */
+    WorkerClient getWorkerClient();
 }
