@@ -22,12 +22,13 @@ public class AccountSummaryTest {
     @Test
     public void canSerialize() throws Exception {
         DateTime createdOn = DateTime.now().withZone(DateTimeZone.UTC);
-        AccountSummary summary = new AccountSummary("firstName", "lastName", "email@email.com", createdOn, AccountStatus.UNVERIFIED);
+        AccountSummary summary = new AccountSummary("firstName", "lastName", "email@email.com", createdOn, "id", AccountStatus.UNVERIFIED);
         
         JsonNode node = Utilities.getMapper().valueToTree(summary);
         assertEquals("firstName", node.get("firstName").asText());
         assertEquals("lastName", node.get("lastName").asText());
         assertEquals("email@email.com", node.get("email").asText());
+        assertEquals("id", node.get("id").asText());
         assertEquals(createdOn.toString(), node.get("createdOn").asText());
         assertEquals("unverified", node.get("status").asText());
         
@@ -37,12 +38,13 @@ public class AccountSummaryTest {
     
     @Test
     public void deserializesCorrectly() throws Exception {
-        String json = Tests.unescapeJson("{'firstName':'firstName','lastName':'lastName','email':'email@email.com','createdOn':'2016-04-07T18:47:00.375Z','status':'unverified'}");
+        String json = Tests.unescapeJson("{'firstName':'firstName','lastName':'lastName','email':'email@email.com','id':'ABC','createdOn':'2016-04-07T18:47:00.375Z','status':'unverified'}");
 
         AccountSummary summary = Utilities.getMapper().readValue(json, AccountSummary.class);
         assertEquals("firstName", summary.getFirstName());
         assertEquals("lastName", summary.getLastName());
         assertEquals("email@email.com", summary.getEmail());
+        assertEquals("ABC", summary.getId());
         assertEquals(DateTime.parse("2016-04-07T18:47:00.375Z"), summary.getCreatedOn());
         assertEquals(AccountStatus.UNVERIFIED, summary.getStatus());
     }

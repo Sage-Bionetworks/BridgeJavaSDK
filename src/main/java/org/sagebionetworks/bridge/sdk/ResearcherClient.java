@@ -35,10 +35,10 @@ public interface ResearcherClient {
      * included in the StudyParticipant, including a full history of consent and withdrawal if it
      * exists.
      * @param email
-     *      the user's email
+     *      the user's id
      * @return
      */
-    StudyParticipant getStudyParticipant(String email);
+    StudyParticipant getStudyParticipant(String id);
     
     /**
      * Update an individual study participant. Not all records in study participant can be changed (some 
