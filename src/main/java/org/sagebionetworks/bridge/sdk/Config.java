@@ -63,8 +63,6 @@ public final class Config {
         V3_CACHE_CACHEKEY,
         V3_EXTERNAL_IDS,
         V3_PARTICIPANT,
-        V3_PARTICIPANT_OPTIONS,
-        V3_PARTICIPANT_PROFILE,
         V3_PARTICIPANT_SIGNOUT,
         V3_PARTICIPANTS,
         V3_SCHEDULEPLANS, 
@@ -499,19 +497,9 @@ public final class Config {
         return val(Props.V3_PARTICIPANTS, queryParams);
     }
     
-    public String getParticipantApi(String email) {
-        checkArgument(isNotBlank(email));
-        return val(Props.V3_PARTICIPANT, new BasicNameValuePair(EMAIL, email));
-    }
-    
-    public String getParticipantOptionsApi(String email) {
-        checkArgument(isNotBlank(email));
-        return val(Props.V3_PARTICIPANT_OPTIONS, new BasicNameValuePair(EMAIL, email));
-    }
-    
-    public String getParticipantProfileApi(String email) {
-        checkArgument(isNotBlank(email));
-        return val(Props.V3_PARTICIPANT_PROFILE, new BasicNameValuePair(EMAIL, email));
+    public String getParticipantApi(String id) {
+        checkArgument(isNotBlank(id));
+        return String.format(val(Props.V3_PARTICIPANT), id);
     }
     
     public String getExternalIdsApi() {

@@ -17,16 +17,18 @@ public final class AccountSummary {
     private final String email;
     private final DateTime createdOn;
     private final AccountStatus status;
+    private final String id;
     
     @JsonCreator
     AccountSummary(@JsonProperty("firstName") String firstName, @JsonProperty("lastName") String lastName,
             @JsonProperty("email") String email, @JsonProperty("createdOn") DateTime createdOn,
-            @JsonProperty("status") AccountStatus status) {
+            @JsonProperty("id") String id, @JsonProperty("status") AccountStatus status) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.createdOn = createdOn;
         this.status = status;
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -48,10 +50,14 @@ public final class AccountSummary {
     public AccountStatus getStatus() {
         return status;
     }
+    
+    public String getId() {
+        return id;
+    }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName, email, createdOn, status);
+        return Objects.hash(firstName, lastName, email, createdOn, status, id);
     }
 
     @Override
@@ -63,12 +69,13 @@ public final class AccountSummary {
         AccountSummary other = (AccountSummary) obj;
         return Objects.equals(firstName, other.firstName) && Objects.equals(lastName, other.lastName)
                 && Objects.equals(email, other.email) && Objects.equals(status, other.status)
-                && Objects.equals(createdOn, other.createdOn);
+                && Objects.equals(createdOn, other.createdOn) && Objects.equals(id, other.id);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this, TO_STRING_STYLE).append("firstName", firstName).append("lastName", lastName)
-                .append("email", email).append("createdOn",createdOn).append("status", status).toString();
+                .append("email", email).append("createdOn",createdOn).append("status", status)
+                .append("id", id).toString();
     }
 }

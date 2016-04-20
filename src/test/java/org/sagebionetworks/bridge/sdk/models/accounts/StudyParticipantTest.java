@@ -36,6 +36,7 @@ public class StudyParticipantTest {
     private static final Set<String> DATA_GROUPS = Sets.newHashSet("group1","group2");
     private static final Map<String,String> ATTRIBUTES = new ImmutableMap.Builder<String, String>()
             .put("a", "b").build();
+    private static final String ID = "ABC";
     
     @Test
     public void hashCodeEquals() {
@@ -53,7 +54,7 @@ public class StudyParticipantTest {
         
         StudyParticipant participant = new StudyParticipant("firstName", "lastName", "email@email.com", "externalId",
                 "password", SharingScope.ALL_QUALIFIED_RESEARCHERS, true, DATA_GROUPS, "healthCode", ATTRIBUTES, consentHistories,
-                Sets.newHashSet(Roles.DEVELOPER), CREATED_ON, AccountStatus.ENABLED, LANGUAGES);
+                Sets.newHashSet(Roles.DEVELOPER), CREATED_ON, AccountStatus.ENABLED, LANGUAGES, ID);
         
         JsonNode node = Utilities.getMapper().valueToTree(participant);
         assertEquals("firstName", node.get("firstName").asText());
@@ -66,6 +67,7 @@ public class StudyParticipantTest {
         assertEquals(SharingScope.ALL_QUALIFIED_RESEARCHERS, SharingScope.valueOf(node.get("sharingScope").asText().toUpperCase()));
         assertTrue(node.get("notifyByEmail").asBoolean());
         assertEquals("email@email.com", node.get("email").asText());
+        assertEquals(ID, node.get("id").asText());
         
         ArrayNode dataGroups = (ArrayNode)node.get("dataGroups");
         assertTrue(DATA_GROUPS.contains(dataGroups.get(0).asText()));
@@ -113,6 +115,7 @@ public class StudyParticipantTest {
         builder.withLanguages(LANGUAGES);
         builder.withAttributes(ATTRIBUTES);
         builder.withStatus(AccountStatus.DISABLED);
+        builder.withId(ID);
         
         StudyParticipant participant = builder.build();
 
@@ -126,6 +129,7 @@ public class StudyParticipantTest {
         assertEquals(DATA_GROUPS, participant.getDataGroups());
         assertEquals(LANGUAGES, participant.getLanguages());
         assertEquals(ATTRIBUTES, participant.getAttributes());
+        assertEquals(ID, participant.getId());
         assertEquals(AccountStatus.DISABLED, participant.getStatus());
     }
 }

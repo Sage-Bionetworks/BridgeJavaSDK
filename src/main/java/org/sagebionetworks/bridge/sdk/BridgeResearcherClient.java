@@ -34,11 +34,11 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     }
     
     @Override
-    public StudyParticipant getStudyParticipant(String email) {
+    public StudyParticipant getStudyParticipant(String id) {
         session.checkSignedIn();
-        checkArgument(isNotBlank(email), CANNOT_BE_BLANK, "email");
+        checkArgument(isNotBlank(id), CANNOT_BE_BLANK, "id");
 
-        return get(config.getParticipantApi(email), StudyParticipant.class);
+        return get(config.getParticipantApi(id), StudyParticipant.class);
     }
     
     @Override
@@ -53,8 +53,8 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     public void updateStudyParticipant(StudyParticipant participant) {
         session.checkSignedIn();
         checkNotNull(participant);
-        checkArgument(isNotBlank(participant.getEmail()), CANNOT_BE_BLANK, "email");
+        checkArgument(isNotBlank(participant.getId()), CANNOT_BE_BLANK, "id");
         
-        post(config.getParticipantApi(participant.getEmail()), participant);
+        post(config.getParticipantApi(participant.getId()), participant);
     }
 }
