@@ -11,9 +11,7 @@ import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.users.SignUpByAdmin;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -39,14 +37,11 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
     }
 
     @Override
-    public void deleteUser(String email) {
+    public void deleteUser(String id) {
         session.checkSignedIn();
-        checkArgument(isNotBlank(email));
+        checkArgument(isNotBlank(id));
 
-        Map<String, String> queryParams = new HashMap<String, String>();
-        queryParams.put("email", email);
-
-        delete(config.getUsersApi() + toQueryString(queryParams));
+        delete(config.getUserApi(id));
     }
 
     @Override

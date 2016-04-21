@@ -28,7 +28,6 @@ import com.google.common.collect.Lists;
 public final class Config {
 
     private static final String ASSIGNMENT_FILTER = "assignmentFilter";
-    private static final String EMAIL = "email";
     private static final String EMAIL_FILTER = "emailFilter";
     private static final String EXTERNAL_ID = "externalId";
     private static final String ID_FILTER = "idFilter";
@@ -100,6 +99,7 @@ public final class Config {
         V3_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REV, 
         V3_UPLOADSTATUSES_UPLOADID, 
         V3_UPLOADS_UPLOADID_COMPLETE, 
+        V3_USER,
         V3_USERS,
         V3_USERS_SELF,
         V3_USERS_SELF_DATAGROUPS,
@@ -328,6 +328,11 @@ public final class Config {
         checkNotNull(uploadId);
         return String.format(val(Props.V3_UPLOADSTATUSES_UPLOADID), uploadId);
     }
+    
+    public String getUserApi(String id) {
+        checkNotNull(id);
+        return String.format(val(Props.V3_USER), id);
+    }
 
     public String getUsersApi() {
         return val(Props.V3_USERS);
@@ -475,9 +480,9 @@ public final class Config {
         return String.format(val(Props.V3_SUBPOPULATION), guid);
     }
 
-    public String getUsersSignOutApi(String email) {
-        checkArgument(isNotBlank(email));
-        return val(Props.V3_PARTICIPANT_SIGNOUT, new BasicNameValuePair(EMAIL, email));
+    public String getUsersSignOutApi(String id) {
+        checkArgument(isNotBlank(id));
+        return String.format(val(Props.V3_PARTICIPANT_SIGNOUT), id);
     }
 
     public String getParticipantsApi() {
@@ -537,10 +542,6 @@ public final class Config {
         String value = config.getProperty(prop.getPropertyName());
         checkNotNull(value, "The property '" + prop.getPropertyName() + "' has not been set.");
         return value.trim();
-    }
-    
-    private String val(Props prop, NameValuePair queryParam) {
-        return val(prop, Lists.newArrayList(queryParam));
     }
     
     private String val(Props prop, List<NameValuePair> queryParams) {
