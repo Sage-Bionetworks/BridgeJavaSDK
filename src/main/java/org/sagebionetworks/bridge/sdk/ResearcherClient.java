@@ -3,6 +3,7 @@ package org.sagebionetworks.bridge.sdk;
 import org.sagebionetworks.bridge.sdk.models.PagedResourceList;
 import org.sagebionetworks.bridge.sdk.models.accounts.AccountSummary;
 import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
+import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 
 public interface ResearcherClient {
 
@@ -54,5 +55,5 @@ public interface ResearcherClient {
      * 
      * @param participant
      */
-    void createStudyParticipant(StudyParticipant participant);
+    IdentifierHolder createStudyParticipant(StudyParticipant participant);
 }
