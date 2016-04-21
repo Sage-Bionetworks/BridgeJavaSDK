@@ -25,6 +25,7 @@ final class UserSession {
     private final String sessionToken;
     private final SharingScope sharingScope;
     private final boolean authenticated;
+    private final String id;
     @JsonDeserialize(using=DataGroupsDeserializer.class)
     @JsonSerialize(using=DataGroupsSerializer.class)
     private final DataGroups dataGroups;
@@ -36,12 +37,14 @@ final class UserSession {
             @JsonProperty("authenticated") boolean authenticated, 
             @JsonProperty("sharingScope") SharingScope sharingScope,
             @JsonProperty("dataGroups") DataGroups dataGroups,
+            @JsonProperty("id") String id,
             @JsonProperty("consentStatuses") Map<SubpopulationGuid,ConsentStatus> consentStatuses) {
         
         this.sessionToken = sessionToken;
         this.authenticated = authenticated;
         this.sharingScope = sharingScope;
         this.dataGroups = dataGroups;
+        this.id = id;
         this.consentStatuses = (consentStatuses == null) ? ImmutableMap.<SubpopulationGuid,ConsentStatus>of() : 
             ImmutableMap.copyOf(consentStatuses);
     }
@@ -70,6 +73,10 @@ final class UserSession {
         return dataGroups;
     }
     
+    public String getId() {
+        return id;
+    }
+    
     public Map<SubpopulationGuid,ConsentStatus> getConsentStatuses() { 
         return consentStatuses;
     }
@@ -80,7 +87,7 @@ final class UserSession {
                 .append("sessionToken", sessionToken).append("authenticated", authenticated)
                 .append("consented", isConsented()).append("sharingScope", sharingScope)
                 .append("signedMostRecentConsent", hasSignedMostRecentConsent()).append("dataGroups", dataGroups)
-                .append("consentStatuses", consentStatuses).toString();
+                .append("id", id).append("consentStatuses", consentStatuses).toString();
     }
 
 }
