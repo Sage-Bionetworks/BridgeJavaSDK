@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.sagebionetworks.bridge.sdk.models.PagedResourceList;
 import org.sagebionetworks.bridge.sdk.models.accounts.AccountSummary;
 import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
+import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 
 class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
 
@@ -42,11 +43,11 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     }
     
     @Override
-    public void createStudyParticipant(StudyParticipant participant) {
+    public IdentifierHolder createStudyParticipant(StudyParticipant participant) {
         session.checkSignedIn();
         checkNotNull(participant);
         
-        post(config.getParticipantsApi(), participant);
+        return post(config.getParticipantsApi(), participant, IdentifierHolder.class);
     }
     
     @Override
