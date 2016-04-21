@@ -19,6 +19,7 @@ class BridgeSession implements Session {
     private SharingScope sharingScope;
     private String sessionToken;
     private DataGroups dataGroups;
+    private String id;
     private Map<SubpopulationGuid,ConsentStatus> consentStatuses; 
     
     BridgeSession(UserSession session) {
@@ -27,6 +28,7 @@ class BridgeSession implements Session {
         this.sessionToken = session.getSessionToken();
         this.sharingScope = session.getSharingScope();
         this.dataGroups = session.getDataGroups();
+        this.id = session.getId();
         this.consentStatuses = session.getConsentStatuses();
     }
 
@@ -59,6 +61,15 @@ class BridgeSession implements Session {
     
     void setSharingScope(SharingScope sharingScope) {
         this.sharingScope = sharingScope;
+    }
+    
+    @Override
+    public String getId() {
+        return id;
+    }
+    
+    void setId(String id) {
+        this.id = id;
     }
     
     @Override

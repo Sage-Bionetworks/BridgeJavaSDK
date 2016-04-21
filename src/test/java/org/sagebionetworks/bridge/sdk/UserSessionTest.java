@@ -24,6 +24,7 @@ public class UserSessionTest {
         node.put("authenticated", true);
         node.put("consented", false);
         node.put("dataSharing", true);
+        node.put("id", "ABC");
         node.put("sharingScope", "no_sharing");
 
         String json = null;
@@ -43,6 +44,7 @@ public class UserSessionTest {
         assertEquals(session.getSessionToken(), node.get("sessionToken").asText());
         assertEquals(session.isAuthenticated(), node.get("authenticated").asBoolean());
         assertEquals(session.isConsented(), node.get("consented").asBoolean());
+        assertEquals(session.getId(), node.get("id").asText());
         assertEquals(session.getSharingScope().name().toLowerCase(), node.get("sharingScope").asText());
         // We don't pick this up. It's not really necessary, it's there for 100% backwards compatability.
         assertEquals(true, node.get("dataSharing").asBoolean());

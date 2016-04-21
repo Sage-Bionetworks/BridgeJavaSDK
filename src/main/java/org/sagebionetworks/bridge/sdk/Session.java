@@ -9,29 +9,31 @@ import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 
 public interface Session {
 
-    public void checkSignedIn();
+    void checkSignedIn();
 
-    public String getSessionToken();
+    String getSessionToken();
     
-    public SharingScope getSharingScope();
+    SharingScope getSharingScope();
+    
+    String getId();
 
-    public boolean isConsented();
+    boolean isConsented();
     
-    public boolean isSignedIn();
+    boolean isSignedIn();
     
-    public void signOut();
+    void signOut();
     
-    public DataGroups getDataGroups();
+    DataGroups getDataGroups();
     
-    public Map<SubpopulationGuid,ConsentStatus> getConsentStatuses();
+    Map<SubpopulationGuid,ConsentStatus> getConsentStatuses();
     
-    public UserClient getUserClient();
+    UserClient getUserClient();
     
-    public DeveloperClient getDeveloperClient();
+    DeveloperClient getDeveloperClient();
     
-    public ResearcherClient getResearcherClient();
+    ResearcherClient getResearcherClient();
     
-    public AdminClient getAdminClient();
+    AdminClient getAdminClient();
 
     /** Gets the client used for worker APIs. */
     WorkerClient getWorkerClient();
