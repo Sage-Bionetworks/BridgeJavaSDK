@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 
 import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 
@@ -23,22 +24,26 @@ public final class UploadSchema {
     private final Integer revision;
     private final String schemaId;
     private final UploadSchemaType schemaType;
+    private final String surveyGuid;
+    private final DateTime surveyCreatedOn;
+    private final Long version;
 
     /** Private constructor. Construction of an UploadSchema should go through the Builder. */
     private UploadSchema(List<UploadFieldDefinition> fieldDefinitions, String name, Integer revision,
-            String schemaId, UploadSchemaType schemaType) {
+            String schemaId, UploadSchemaType schemaType, String surveyGuid, DateTime surveyCreatedOn, Long version) {
         this.fieldDefinitions = fieldDefinitions;
         this.name = name;
         this.revision = revision;
         this.schemaId = schemaId;
         this.schemaType = schemaType;
+        this.surveyGuid = surveyGuid;
+        this.surveyCreatedOn = surveyCreatedOn;
+        this.version = version;
     }
 
     /**
      * A list of fields defined in the schema. This can be changed across different schema revisions. This is always
      * non-null, non-empty, and immutable.
-     * 
-     * @return fieldDefinitions
      */
     public List<UploadFieldDefinition> getFieldDefinitions() {
         return fieldDefinitions;
@@ -47,8 +52,6 @@ public final class UploadSchema {
     /**
      * Human-friendly displayable schema name, such as "Tapping Activity Task". This can be changed across different
      * schema revisions. This is always non-null and non-empty.
-     * 
-     * @return name
      */
     public String getName() {
         return name;
@@ -56,17 +59,12 @@ public final class UploadSchema {
 
     /**
      * <p>
-     * Schema revision number. This is managed by the Bridge back-end. For creating new schemas, this should initially
-     * be unset (or set to the default value of zero). For updating schemas, this should be set to the revision number
-     * of the schema you are updating, to ensure that you aren't updating an older version of the schema. Upon creating
-     * or updating a schema, the Bridge back-end will automatically increment this revision number by 1 (for updating
-     * existing schemas) or from 0 to 1 (for creating new schemas).
+     * Revision number. This is a secondary ID used to partition different Synapse tables based on breaking changes in
+     * a schema.
      * </p>
      * <p>
      * This field is optional, but if set, must be non-negative.
      * </p>
-     * 
-     * @return revision
      */
     public Integer getRevision() {
         return revision;
@@ -76,51 +74,76 @@ public final class UploadSchema {
      * Unique identifier for the schema. This need only be unique to a given study. This should included in the upload
      * data. This can be human readable, such as "tapping-task". This cannot be changed across different schema
      * revisions. This is always non-null and non-empty.
-     * 
-     * @return schemaId
      */
     public String getSchemaId() {
         return schemaId;
     }
 
-    /** 
-     * Schema type, for example survey vs data. 
-     * @return uploadSchemaType
-     */
+    /** Schema type, for example survey vs data. */
     public UploadSchemaType getSchemaType() {
         return schemaType;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + Objects.hashCode(fieldDefinitions);
-        result = prime * result + Objects.hashCode(name);
-        result = prime * result + Objects.hashCode(revision);
-        result = prime * result + Objects.hashCode(schemaId);
-        result = prime * result + Objects.hashCode(schemaType);
-        return result;
+    /** The survey GUID, if this is a survey schema. */
+    public String getSurveyGuid() {
+        return surveyGuid;
     }
 
+    /** The survey createdOn, if this is a survey schema. */
+    public DateTime getSurveyCreatedOn() {
+        return surveyCreatedOn;
+    }
+
+    /**
+     * The version of this schema revision as used to implement optimistic locking. This must be passed back to the
+     * server on an update, unmodified, in order for the update to succeed. If the schema revision has been
+     * concurrently modified, the update will throw an error. Set this to null if you're creating a new schema
+     * revision.
+     */
+    public Long getVersion() {
+        return version;
+    }
+
+    /** {@inheritDoc} */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        if (obj == null || getClass() != obj.getClass()) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        UploadSchema other = (UploadSchema) obj;
-        return Objects.equals(fieldDefinitions, other.fieldDefinitions) && Objects.equals(name, other.name)
-                && Objects.equals(revision, other.revision) && Objects.equals(schemaId, other.schemaId)
-                && Objects.equals(this.schemaType, other.schemaType);
+        UploadSchema that = (UploadSchema) o;
+        return Objects.equals(fieldDefinitions, that.fieldDefinitions) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(revision, that.revision) &&
+                Objects.equals(schemaId, that.schemaId) &&
+                schemaType == that.schemaType &&
+                Objects.equals(surveyGuid, that.surveyGuid) &&
+                Objects.equals(surveyCreatedOn, that.surveyCreatedOn) &&
+                Objects.equals(version, that.version);
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        return Objects.hash(fieldDefinitions, name, revision, schemaId, schemaType, surveyGuid, surveyCreatedOn,
+                version);
+    }
+
+    /** {@inheritDoc} */
     @Override
     public String toString() {
-        return String.format("UploadSchema[name=%s, revision=%s, schemaId=%s, schemaType=%s, fieldDefinitions=[%s]]",
-                name, revision, schemaId, schemaType.name(), Joiner.on(", ").join(fieldDefinitions));
+        return "UploadSchema[" +
+                "name=" + name +
+                ", revision=" + revision +
+                ", schemaId=" + schemaId +
+                ", schemaType=" + schemaType.name() +
+                ", surveyGuid=" + surveyGuid +
+                ", surveyCreatedOn=" + surveyCreatedOn +
+                ", version=" + version +
+                ", fieldDefinitions=" + Joiner.on(", ").join(fieldDefinitions) +
+                "]";
     }
 
     /** Builder for UploadSchema */
@@ -130,13 +153,14 @@ public final class UploadSchema {
         private Integer revision;
         private String schemaId;
         private UploadSchemaType schemaType;
+        private String surveyGuid;
+        private DateTime surveyCreatedOn;
+        private Long version;
 
         /**
          * Sets all builder fields to be a copy of the specified schema. This returns the builder, which can be used to
          * make additional changes to the schema being built. This is commonly used for updating a schema from a
          * pre-existing one.
-         * @param uploadSchema
-         * @return builder
          */
         public Builder copyOf(UploadSchema other) {
             this.fieldDefinitions = other.fieldDefinitions;
@@ -144,108 +168,105 @@ public final class UploadSchema {
             this.revision = other.revision;
             this.schemaId = other.schemaId;
             this.schemaType = other.schemaType;
+            this.surveyGuid = other.surveyGuid;
+            this.surveyCreatedOn = other.surveyCreatedOn;
+            this.version = other.version;
             return this;
         }
 
-        /** 
-         * @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getFieldDefinitions 
-         * @return builder
-         */
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getFieldDefinitions */
         public List<UploadFieldDefinition> getFieldDefinitions() {
             return fieldDefinitions;
         }
 
-        /** 
-         * @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getFieldDefinitions
-         * @param fieldDefinitions 
-         * @return builder
-         */
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getFieldDefinitions */
         @JsonProperty("fieldDefinitions")
         public Builder withFieldDefinitions(List<UploadFieldDefinition> fieldDefinitions) {
             this.fieldDefinitions = fieldDefinitions;
             return this;
         }
 
-        /** 
-         * @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getFieldDefinitions
-         * @param fieldDefinitions
-         * @return builder
-         */
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getFieldDefinitions */
         @JsonIgnore
         public Builder withFieldDefinitions(UploadFieldDefinition... fieldDefinitions) {
             this.fieldDefinitions = ImmutableList.copyOf(fieldDefinitions);
             return this;
         }
 
-        /** 
-         * @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getName
-         * @return builder
-         */
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getName */
         public String getName() {
             return name;
         }
 
-        /** 
-         * @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getName
-         * @param name
-         * @return builder
-         */
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getName */
         public Builder withName(String name) {
             this.name = name;
             return this;
         }
 
-        /** 
-         * @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getRevision
-         * @return builder
-         */
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getRevision */
         public Integer getRevision() {
             return revision;
         }
 
-        /** 
-         * @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getRevision
-         * @param revision
-         * @return builder
-         */
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getRevision */
         public Builder withRevision(Integer revision) {
             this.revision = revision;
             return this;
         }
 
-        /** 
-         * @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSchemaId
-         * @return schemaId
-         */
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSchemaId */
         public String getSchemaId() {
             return schemaId;
         }
 
-        /** 
-         * @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSchemaId
-         * @param schemaId;
-         * @return builder
-         */
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSchemaId */
         public Builder withSchemaId(String schemaId) {
             this.schemaId = schemaId;
             return this;
         }
 
-        /** 
-         * @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSchemaType
-         * @return uploadSchemaType
-         */
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSchemaType */
         public UploadSchemaType getSchemaType() {
             return schemaType;
         }
 
-        /** 
-         * @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSchemaType
-         * @param schemaType
-         * @return builder
-         */
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSchemaType */
         public Builder withSchemaType(UploadSchemaType schemaType) {
             this.schemaType = schemaType;
+            return this;
+        }
+
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSurveyGuid */
+        public String getSurveyGuid() {
+            return surveyGuid;
+        }
+
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSurveyGuid */
+        public Builder withSurveyGuid(String surveyGuid) {
+            this.surveyGuid = surveyGuid;
+            return this;
+        }
+
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSurveyCreatedOn */
+        public DateTime getSurveyCreatedOn() {
+            return surveyCreatedOn;
+        }
+
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSurveyCreatedOn */
+        public Builder withSurveyCreatedOn(DateTime surveyCreatedOn) {
+            this.surveyCreatedOn = surveyCreatedOn;
+            return this;
+        }
+
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getVersion */
+        public Long getVersion() {
+            return version;
+        }
+
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getVersion */
+        public Builder withVersion(Long version) {
+            this.version = version;
             return this;
         }
 
@@ -301,7 +322,8 @@ public final class UploadSchema {
                 throw new InvalidEntityException("schemaType cannot be null");
             }
 
-            return new UploadSchema(ImmutableList.copyOf(fieldDefinitions), name, revision, schemaId, schemaType);
+            return new UploadSchema(ImmutableList.copyOf(fieldDefinitions), name, revision, schemaId, schemaType,
+                    surveyGuid, surveyCreatedOn, version);
         }
     }
 }
