@@ -175,11 +175,6 @@ public final class UploadSchema {
         }
 
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getFieldDefinitions */
-        public List<UploadFieldDefinition> getFieldDefinitions() {
-            return fieldDefinitions;
-        }
-
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getFieldDefinitions */
         @JsonProperty("fieldDefinitions")
         public Builder withFieldDefinitions(List<UploadFieldDefinition> fieldDefinitions) {
             this.fieldDefinitions = fieldDefinitions;
@@ -194,19 +189,9 @@ public final class UploadSchema {
         }
 
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getName */
-        public String getName() {
-            return name;
-        }
-
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getName */
         public Builder withName(String name) {
             this.name = name;
             return this;
-        }
-
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getRevision */
-        public Integer getRevision() {
-            return revision;
         }
 
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getRevision */
@@ -216,19 +201,9 @@ public final class UploadSchema {
         }
 
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSchemaId */
-        public String getSchemaId() {
-            return schemaId;
-        }
-
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSchemaId */
         public Builder withSchemaId(String schemaId) {
             this.schemaId = schemaId;
             return this;
-        }
-
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSchemaType */
-        public UploadSchemaType getSchemaType() {
-            return schemaType;
         }
 
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSchemaType */
@@ -238,30 +213,15 @@ public final class UploadSchema {
         }
 
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSurveyGuid */
-        public String getSurveyGuid() {
-            return surveyGuid;
-        }
-
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSurveyGuid */
         public Builder withSurveyGuid(String surveyGuid) {
             this.surveyGuid = surveyGuid;
             return this;
         }
 
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSurveyCreatedOn */
-        public DateTime getSurveyCreatedOn() {
-            return surveyCreatedOn;
-        }
-
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSurveyCreatedOn */
         public Builder withSurveyCreatedOn(DateTime surveyCreatedOn) {
             this.surveyCreatedOn = surveyCreatedOn;
             return this;
-        }
-
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getVersion */
-        public Long getVersion() {
-            return version;
         }
 
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getVersion */

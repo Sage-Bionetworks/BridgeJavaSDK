@@ -174,19 +174,9 @@ public final class UploadFieldDefinition {
         private UploadFieldType type;
 
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getFileExtension */
-        public String getFileExtension() {
-            return fileExtension;
-        }
-
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getFileExtension */
         public Builder withFileExtension(String fileExtension) {
             this.fileExtension = fileExtension;
             return this;
-        }
-
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getMimeType */
-        public String getMimeType() {
-            return mimeType;
         }
 
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getMimeType */
@@ -196,19 +186,9 @@ public final class UploadFieldDefinition {
         }
 
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getMinAppVersion */
-        public Integer getMinAppVersion() {
-            return minAppVersion;
-        }
-
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getMinAppVersion */
         public Builder withMinAppVersion(Integer minAppVersion) {
             this.minAppVersion = minAppVersion;
             return this;
-        }
-
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getMaxAppVersion */
-        public Integer getMaxAppVersion() {
-            return maxAppVersion;
         }
 
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getMaxAppVersion */
@@ -218,19 +198,9 @@ public final class UploadFieldDefinition {
         }
 
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getMaxLength */
-        public Integer getMaxLength() {
-            return maxLength;
-        }
-
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getMaxLength */
         public Builder withMaxLength(Integer maxLength) {
             this.maxLength = maxLength;
             return this;
-        }
-
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getName */
-        public String getName() {
-            return name;
         }
 
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getName */
@@ -240,19 +210,9 @@ public final class UploadFieldDefinition {
         }
 
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#isRequired */
-        public Boolean getRequired() {
-            return required;
-        }
-
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#isRequired */
         public Builder withRequired(Boolean required) {
             this.required = required;
             return this;
-        }
-
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getType */
-        public UploadFieldType getType() {
-            return type;
         }
 
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getType */
