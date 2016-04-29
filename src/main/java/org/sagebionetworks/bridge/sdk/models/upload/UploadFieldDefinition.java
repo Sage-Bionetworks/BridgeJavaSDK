@@ -13,6 +13,11 @@ import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
  */
 @JsonDeserialize(builder = UploadFieldDefinition.Builder.class)
 public final class UploadFieldDefinition {
+    private final String fileExtension;
+    private final String mimeType;
+    private final Integer minAppVersion;
+    private final Integer maxAppVersion;
+    private final Integer maxLength;
     private final String name;
     private final boolean required;
     private final UploadFieldType type;
@@ -22,7 +27,8 @@ public final class UploadFieldDefinition {
      * should not be made public, since we don't want to potentially end up with dozens of "convenience constructors"
      * if we add more fields to this class.
      */
-    private UploadFieldDefinition(String name, boolean required, UploadFieldType type) throws InvalidEntityException {
+    private UploadFieldDefinition(String fileExtension, String mimeType, Integer minAppVersion, Integer maxAppVersion,
+            Integer maxLength, String name, boolean required, UploadFieldType type) throws InvalidEntityException {
         if (StringUtils.isBlank(name)) {
             throw new InvalidEntityException("name cannot be blank");
         }
@@ -30,6 +36,11 @@ public final class UploadFieldDefinition {
             throw new InvalidEntityException("type cannot be null");
         }
 
+        this.fileExtension = fileExtension;
+        this.mimeType = mimeType;
+        this.minAppVersion = minAppVersion;
+        this.maxAppVersion = maxAppVersion;
+        this.maxLength = maxLength;
         this.name = name;
         this.required = required;
         this.type = type;
@@ -48,7 +59,47 @@ public final class UploadFieldDefinition {
      *         if called with invalid fields
      */
     public UploadFieldDefinition(String name, UploadFieldType type) throws InvalidEntityException {
-        this(name, true, type);
+        this(null, null, null, null, null, name, true, type);
+    }
+
+    /**
+     * Used for ATTACHMENT_V2 types. Used as a hint by BridgeEX to preserve the file extension as a quality-of-life
+     * improvement. Optional, defaults to ".tmp".
+     */
+    public String getFileExtension() {
+        return fileExtension;
+    }
+
+    /**
+     * Used for ATTACHMENT_V2 types. Used as a hint by BridgeEX to mark a Synapse file handle with the correct MIME
+     * type as a quality-of-life improvement. Optional, defaults to "application/octet-stream".
+     */
+    public String getMimeType() {
+        return mimeType;
+    }
+
+    /**
+     * The oldest app version number for which this field is required. App versions before this will treat this field
+     * as optional, as it doesn't exist yet. Does nothing if required is false.
+     */
+    public Integer getMinAppVersion() {
+        return minAppVersion;
+    }
+
+    /**
+     * Similar to minAppVersion. This is used for when required fields are removed from the app, but we want to re-use
+     * the old Synapse table.
+     */
+    public Integer getMaxAppVersion() {
+        return maxAppVersion;
+    }
+
+    /**
+     * Used for STRING, SINGLE_CHOICE, and INLINE_JSON_BLOB types. This is a hint for BridgeEX to create a Synapse
+     * column with the right width.
+     */
+    public Integer getMaxLength() {
+        return maxLength;
     }
 
     /** The field name, always non-null and non-empty. */
@@ -70,43 +121,86 @@ public final class UploadFieldDefinition {
         return type;
     }
 
+    /** {@inheritDoc} */
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + Objects.hashCode(name);
-        result = prime * result + Objects.hashCode(required);
-        result = prime * result + Objects.hashCode(type);
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        if (obj == null || getClass() != obj.getClass()) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        UploadFieldDefinition other = (UploadFieldDefinition) obj;
-        return Objects.equals(name, other.name) && Objects.equals(required, other.required)
-                && Objects.equals(type, other.type);
+        UploadFieldDefinition that = (UploadFieldDefinition) o;
+        return required == that.required &&
+                Objects.equals(fileExtension, that.fileExtension) &&
+                Objects.equals(mimeType, that.mimeType) &&
+                Objects.equals(minAppVersion, that.minAppVersion) &&
+                Objects.equals(maxAppVersion, that.maxAppVersion) &&
+                Objects.equals(maxLength, that.maxLength) &&
+                Objects.equals(name, that.name) &&
+                type == that.type;
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        return Objects.hash(fileExtension, mimeType, minAppVersion, maxAppVersion, maxLength, name, required, type);
+    }
+
+    /** {@inheritDoc} */
     @Override
     public String toString() {
-        return String.format("UploadFieldDefinition[name=%s, required=%b, type=%s]", name, required, type.name());
+        return "UploadFieldDefinition[" +
+                "fileExtension=" + fileExtension +
+                ", mimeType=" + mimeType +
+                ", minAppVersion=" + minAppVersion +
+                ", maxAppVersion=" + maxAppVersion +
+                ", maxLength=" + maxLength +
+                ", name=" + name +
+                ", required=" + required +
+                ", type=" + type.name() +
+                "]";
     }
 
     /** Builder for UploadFieldDefinition */
     public static class Builder {
+        private String fileExtension;
+        private String mimeType;
+        private Integer minAppVersion;
+        private Integer maxAppVersion;
+        private Integer maxLength;
         private String name;
         private Boolean required;
         private UploadFieldType type;
 
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getName */
-        public String getName() {
-            return name;
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getFileExtension */
+        public Builder withFileExtension(String fileExtension) {
+            this.fileExtension = fileExtension;
+            return this;
+        }
+
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getMimeType */
+        public Builder withMimeType(String mimeType) {
+            this.mimeType = mimeType;
+            return this;
+        }
+
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getMinAppVersion */
+        public Builder withMinAppVersion(Integer minAppVersion) {
+            this.minAppVersion = minAppVersion;
+            return this;
+        }
+
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getMaxAppVersion */
+        public Builder withMaxAppVersion(Integer maxAppVersion) {
+            this.maxAppVersion = maxAppVersion;
+            return this;
+        }
+
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getMaxLength */
+        public Builder withMaxLength(Integer maxLength) {
+            this.maxLength = maxLength;
+            return this;
         }
 
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getName */
@@ -116,19 +210,9 @@ public final class UploadFieldDefinition {
         }
 
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#isRequired */
-        public Boolean getRequired() {
-            return required;
-        }
-
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#isRequired */
         public Builder withRequired(Boolean required) {
             this.required = required;
             return this;
-        }
-
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getType */
-        public UploadFieldType getType() {
-            return type;
         }
 
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getType */
@@ -151,7 +235,8 @@ public final class UploadFieldDefinition {
                 required = true;
             }
 
-            return new UploadFieldDefinition(name, required, type);
+            return new UploadFieldDefinition(fileExtension, mimeType, minAppVersion, maxAppVersion, maxLength, name,
+                    required, type);
         }
     }
 }
