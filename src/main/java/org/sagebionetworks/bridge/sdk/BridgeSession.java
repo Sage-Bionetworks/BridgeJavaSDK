@@ -4,10 +4,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.sagebionetworks.bridge.sdk.models.subpopulations.ConsentStatus;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
-import org.sagebionetworks.bridge.sdk.models.users.DataGroups;
 import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 
 import com.google.common.collect.ImmutableMap;
@@ -18,7 +18,7 @@ class BridgeSession implements Session {
 
     private SharingScope sharingScope;
     private String sessionToken;
-    private DataGroups dataGroups;
+    private Set<String> dataGroups;
     private String id;
     private Map<SubpopulationGuid,ConsentStatus> consentStatuses; 
     
@@ -63,6 +63,10 @@ class BridgeSession implements Session {
         this.sharingScope = sharingScope;
     }
     
+    void setDataGroups(Set<String> dataGroups) {
+        this.dataGroups = dataGroups;
+    }
+    
     @Override
     public String getId() {
         return id;
@@ -73,7 +77,7 @@ class BridgeSession implements Session {
     }
     
     @Override
-    public DataGroups getDataGroups() {
+    public Set<String> getDataGroups() {
         return dataGroups;
     }
     

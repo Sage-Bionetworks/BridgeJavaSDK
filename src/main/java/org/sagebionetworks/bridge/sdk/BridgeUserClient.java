@@ -22,6 +22,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
+import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleIdentifierHolder;
@@ -36,10 +37,7 @@ import org.sagebionetworks.bridge.sdk.models.upload.UploadRequest;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadValidationStatus;
 import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
-import org.sagebionetworks.bridge.sdk.models.users.DataGroups;
-import org.sagebionetworks.bridge.sdk.models.users.ExternalIdentifier;
 import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
-import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
 import org.sagebionetworks.bridge.sdk.models.users.Withdrawal;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -57,32 +55,26 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         super(session);
     }
 
-    /*
-     * UserProfile API
-     */
-    @Override
-    public UserProfile getProfile() {
+    public StudyParticipant getStudyParticipant() {
         session.checkSignedIn();
         
-        return get(config.getProfileApi(), UserProfile.class);
-    }
-
-    @Override
-    public void saveProfile(UserProfile profile) {
-        session.checkSignedIn();
-        checkNotNull(profile, "Profile cannot be null.");
-
-        post(config.getProfileApi(), profile);
+        return get(config.getParticipantSelfApi(), StudyParticipant.class);
     }
     
-    @Override
-    public void addExternalUserIdentifier(ExternalIdentifier identifier) {
+    public void saveStudyParticipant(StudyParticipant participant) {
         session.checkSignedIn();
-        checkNotNull(identifier, CANNOT_BE_NULL, "ExternalIdentifier");
-        
-        post(config.getSetExternalIdApi(), identifier);
-    }
+        checkNotNull(participant, "StudyParticipant cannot be null.");
 
+        post(config.getParticipantSelfApi(), participant);
+
+        if (participant.getSharingScope() != null) {
+            session.setSharingScope(participant.getSharingScope());
+        }
+        if (participant.getDataGroups() != null) {
+            session.setDataGroups(participant.getDataGroups());
+        }
+    }
+    
     /*
      * Consent API
      */
@@ -115,16 +107,6 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         checkNotNull(subpopGuid, CANNOT_BE_NULL, "subpopGuid");
         
         post(config.getEmailConsentSignatureApi(subpopGuid));
-    }
-
-    @Override
-    public void changeSharingScope(SharingScope sharingScope) {
-        session.checkSignedIn();
-        checkNotNull(sharingScope, CANNOT_BE_NULL, "SharingScope");
-        
-        ScopeOption option = new ScopeOption(sharingScope);
-        post(config.getSetDataSharingApi(), option);
-        session.setSharingScope(sharingScope);
     }
 
     @Override
@@ -266,22 +248,6 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         checkNotNull(scheduledActivities);
         session.checkSignedIn();
         post(config.getScheduledActivitiesApi(), scheduledActivities);
-    }
-    
-    @Override
-    public void updateDataGroups(DataGroups dataGroups) {
-        checkNotNull(dataGroups);
-        checkNotNull(dataGroups.getDataGroups());
-        session.checkSignedIn();
-        
-        post(config.getDataGroupsApi(), dataGroups);
-    }
-    
-    @Override
-    public DataGroups getDataGroups() {
-        session.checkSignedIn();
-        
-        return get(config.getDataGroupsApi(), DataGroups.class);
     }
     
     private void changeConsent(SubpopulationGuid subpopGuid, boolean isConsented) {

@@ -1,29 +1,27 @@
 package org.sagebionetworks.bridge.sdk.models.users;
 
 import java.util.Objects;
-
-import org.sagebionetworks.bridge.sdk.json.DataGroupsDeserializer;
-import org.sagebionetworks.bridge.sdk.json.DataGroupsSerializer;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+/**
+ * NOTE: This class will be removed once full support for persisting most fields in StudyParticipant 
+ * at sign up is supported on the server.
+ */
 public final class SignUpCredentials {
 
     private String studyIdentifier;
     private String email;
     private String password;
-    @JsonDeserialize(using=DataGroupsDeserializer.class)
-    @JsonSerialize(using=DataGroupsSerializer.class)
-    private DataGroups dataGroups;
+    private Set<String> dataGroups;
 
     @JsonCreator
     public SignUpCredentials(@JsonProperty("study") String studyIdentifier, 
             @JsonProperty("email") String email, 
             @JsonProperty("password") String password, 
-            @JsonProperty("dataGroups") DataGroups dataGroups) {
+            @JsonProperty("dataGroups") Set<String> dataGroups) {
         this.studyIdentifier = studyIdentifier;
         this.email = email;
         this.password = password;
@@ -51,7 +49,7 @@ public final class SignUpCredentials {
         return this.password;
     }
     
-    public DataGroups getDataGroups() {
+    public Set<String> getDataGroups() {
         return this.dataGroups;
     }
 
@@ -67,7 +65,7 @@ public final class SignUpCredentials {
         this.password = password;
     }
     
-    public void setDataGroups(DataGroups dataGroups) {
+    public void setDataGroups(Set<String> dataGroups) {
         this.dataGroups = dataGroups;
     }
 
