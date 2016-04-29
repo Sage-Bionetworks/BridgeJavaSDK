@@ -16,8 +16,8 @@ import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 
 public final class StudyParticipant {
 
@@ -180,13 +180,9 @@ public final class StudyParticipant {
             this.notifyByEmail = participant.notifyByEmail;
             this.status = participant.status;
             this.id = participant.id;
-            this.dataGroups = (participant.dataGroups == null) ? null : Sets.newHashSet(participant.dataGroups);
-            this.attributes = (participant.attributes == null) ? null : Maps.newHashMap(participant.attributes);
-            if (participant.languages != null) {
-                LinkedHashSet<String> langs = new LinkedHashSet<>();
-                langs.addAll(participant.languages);
-                this.languages = langs;    
-            }
+            this.dataGroups = participant.dataGroups;
+            this.attributes = participant.attributes;
+            this.languages = participant.languages;
             return this;
         }
         public Builder withFirstName(String firstName) {
@@ -241,10 +237,16 @@ public final class StudyParticipant {
             this.id = id;
             return this;
         }
-
+        
         public StudyParticipant build() {
+            ImmutableSet<String> finalDataGroups = (dataGroups == null) ? null : ImmutableSet.copyOf(dataGroups);
+            ImmutableSet<Roles> finalRoles = (roles == null) ? null : ImmutableSet.copyOf(roles);
+            ImmutableMap<String,String> finalAttributes = (attributes == null) ? null : ImmutableMap.copyOf(attributes);
+            // This is a concrete implementation so the best we can do is copy it to help prevent modification
+            LinkedHashSet<String> finalLangs = (languages == null) ? null : new LinkedHashSet<>(languages);
+            
             return new StudyParticipant(firstName, lastName, email, externalId, password, sharingScope, notifyByEmail, 
-                    dataGroups, null, attributes, null, roles, null, status, languages, id);
+                    finalDataGroups, null, finalAttributes, null, finalRoles, null, status, finalLangs, id);
         }
     }    
 }

@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -146,6 +147,27 @@ public class StudyParticipantTest {
         participant = new StudyParticipant.Builder().withNotifyByEmail(true).build();
         node = Utilities.getMapper().valueToTree(participant);
         assertTrue(node.get("notifyByEmail").asBoolean());
+    }
+    
+    @Test(expected = UnsupportedOperationException.class)
+    public void dataGroupsAreImmutable() {
+        StudyParticipant participant = new StudyParticipant.Builder().withDataGroups(Sets.newHashSet("group1")).build();
+        participant.getDataGroups().add("group2");
+    }
+    
+    @Test(expected = UnsupportedOperationException.class)
+    public void rolesAreImmutable() {
+        StudyParticipant participant = new StudyParticipant.Builder().withRoles(Sets.newHashSet(Roles.ADMIN)).build();
+        participant.getRoles().remove(Roles.ADMIN);
+    }
+    
+    @Test(expected = UnsupportedOperationException.class)
+    public void attributesAreImmutable() {
+        Map<String,String> attributes = Maps.newHashMap();
+        attributes.put("A", "B");
+        
+        StudyParticipant participant = new StudyParticipant.Builder().withAttributes(attributes).build();
+        participant.getAttributes().put("C","D");
     }
     
     private StudyParticipant makeParticipant() {
