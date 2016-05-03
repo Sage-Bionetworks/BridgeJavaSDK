@@ -292,7 +292,7 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
         checkArgument(isNotBlank(schemaId), CANNOT_BE_BLANK, "schemaId");
         checkArgument(revision > 0, "revision must be positive");
         checkNotNull(schema, CANNOT_BE_NULL, "schema");
-        return post(config.getUploadSchemaApi(schemaId, revision), schema, UploadSchema.class);
+        return post(config.getUploadSchemaV4Api(schemaId, revision), schema, UploadSchema.class);
     }
 
     @Override
