@@ -238,6 +238,13 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
     }
 
     @Override
+    public UploadSchema createSchemaRevisionV4(UploadSchema schema) {
+        session.checkSignedIn();
+        checkNotNull(schema, CANNOT_BE_NULL, "schema");
+        return post(config.getUploadSchemasV4Api(), schema, UploadSchema.class);
+    }
+
+    @Override
     public UploadSchema createOrUpdateUploadSchema(UploadSchema schema) {
         session.checkSignedIn();
         checkNotNull(schema, CANNOT_BE_NULL, "schema");
@@ -277,6 +284,15 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
     public ResourceList<UploadSchema> getAllUploadSchemas() {
         session.checkSignedIn();
         return get(config.getUploadSchemasApi(), TYPE_REF_UPLOAD_SCHEMA_LIST);
+    }
+
+    @Override
+    public UploadSchema updateSchemaRevisionV4(String schemaId, int revision, UploadSchema schema) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(schemaId), CANNOT_BE_BLANK, "schemaId");
+        checkArgument(revision > 0, "revision must be positive");
+        checkNotNull(schema, CANNOT_BE_NULL, "schema");
+        return post(config.getUploadSchemaApi(schemaId, revision), schema, UploadSchema.class);
     }
 
     @Override
