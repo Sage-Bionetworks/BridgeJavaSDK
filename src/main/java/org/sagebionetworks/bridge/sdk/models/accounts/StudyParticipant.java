@@ -55,6 +55,11 @@ public final class StudyParticipant {
             @JsonProperty("status") AccountStatus status,
             @JsonProperty("languages") LinkedHashSet<String> languages,
             @JsonProperty("id") String id) {
+        ImmutableSet<String> finalDataGroups = (dataGroups == null) ? null : ImmutableSet.copyOf(dataGroups);
+        ImmutableSet<Roles> finalRoles = (roles == null) ? null : ImmutableSet.copyOf(roles);
+        ImmutableMap<String,String> finalAttributes = (attributes == null) ? null : ImmutableMap.copyOf(attributes);
+        // This is a concrete implementation so the best we can do is copy it to help prevent modification
+        LinkedHashSet<String> finalLangs = (languages == null) ? null : new LinkedHashSet<>(languages);
         this.firstName = firstName;
         this.lastName = lastName;
         this.externalId = externalId;
@@ -62,15 +67,15 @@ public final class StudyParticipant {
         this.sharingScope = sharingScope;
         this.notifyByEmail = notifyByEmail;
         this.email = email;
-        this.dataGroups = dataGroups;
+        this.dataGroups = finalDataGroups;
         this.healthCode = healthCode;
         this.consentHistories = consentHistories;
-        this.roles = roles;
+        this.roles = finalRoles;
         this.createdOn = createdOn;
         this.status = status;
         this.id = id;
-        this.languages = languages;
-        this.attributes = attributes;
+        this.languages = finalLangs;
+        this.attributes = finalAttributes;
     }
     
     public String getFirstName() {
@@ -239,14 +244,8 @@ public final class StudyParticipant {
         }
         
         public StudyParticipant build() {
-            ImmutableSet<String> finalDataGroups = (dataGroups == null) ? null : ImmutableSet.copyOf(dataGroups);
-            ImmutableSet<Roles> finalRoles = (roles == null) ? null : ImmutableSet.copyOf(roles);
-            ImmutableMap<String,String> finalAttributes = (attributes == null) ? null : ImmutableMap.copyOf(attributes);
-            // This is a concrete implementation so the best we can do is copy it to help prevent modification
-            LinkedHashSet<String> finalLangs = (languages == null) ? null : new LinkedHashSet<>(languages);
-            
             return new StudyParticipant(firstName, lastName, email, externalId, password, sharingScope, notifyByEmail, 
-                    finalDataGroups, null, finalAttributes, null, finalRoles, null, status, finalLangs, id);
+                    dataGroups, null, attributes, null, roles, null, status, languages, id);
         }
     }    
 }
