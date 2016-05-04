@@ -93,12 +93,14 @@ public final class Config {
         V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_VERSION, 
         V3_SURVEYS_SURVEYGUID_REVISIONS_PUBLISHED, 
         V3_SURVEYS_SURVEYGUID_REVISIONS_RECENT, 
-        V3_UPLOADS, 
-        V3_UPLOADSCHEMAS, 
-        V3_UPLOADSCHEMAS_SCHEMAID, 
-        V3_UPLOADSCHEMAS_SCHEMAID_RECENT, 
-        V3_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REV, 
-        V3_UPLOADSTATUSES_UPLOADID, 
+        V3_UPLOADS,
+        V3_UPLOADSCHEMAS,
+        V4_UPLOADSCHEMAS,
+        V3_UPLOADSCHEMAS_SCHEMAID,
+        V3_UPLOADSCHEMAS_SCHEMAID_RECENT,
+        V3_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REV,
+        V4_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REV,
+        V3_UPLOADSTATUSES_UPLOADID,
         V3_UPLOADS_UPLOADID_COMPLETE, 
         V3_USER,
         V3_USERS,
@@ -419,6 +421,10 @@ public final class Config {
         return val(Props.V3_UPLOADSCHEMAS);
     }
 
+    public String getUploadSchemasV4Api() {
+        return val(Props.V4_UPLOADSCHEMAS);
+    }
+
     public String getUploadSchemaAllRevisionsApi(String schemaId) {
         checkArgument(isNotBlank(schemaId));
         return String.format(val(Props.V3_UPLOADSCHEMAS_SCHEMAID), schemaId);
@@ -431,8 +437,14 @@ public final class Config {
 
     public String getUploadSchemaApi(String schemaId, int revision) {
         checkArgument(isNotBlank(schemaId));
-        checkArgument(revision != 0);
+        checkArgument(revision > 0);
         return String.format(val(Props.V3_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REV), schemaId, revision);
+    }
+
+    public String getUploadSchemaV4Api(String schemaId, int revision) {
+        checkArgument(isNotBlank(schemaId));
+        checkArgument(revision > 0);
+        return String.format(val(Props.V4_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REV), schemaId, revision);
     }
 
     public String getCurrentStudyApi() {

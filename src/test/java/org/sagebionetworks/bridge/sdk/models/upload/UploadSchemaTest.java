@@ -9,6 +9,7 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
 import nl.jqno.equalsverifier.EqualsVerifier;
+import org.joda.time.DateTime;
 import org.junit.Test;
 
 import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
@@ -16,6 +17,10 @@ import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 @SuppressWarnings("unchecked")
 public class UploadSchemaTest {
+    // Something in our JSON parsing flattens this to UTC, so we need both the timestamp and the epoch millis.
+    private static final DateTime SURVEY_CREATED_ON = DateTime.parse("2016-04-28T16:45:00.001-0700");
+    private static final long SURVEY_CREATED_ON_MILLIS = SURVEY_CREATED_ON.getMillis();
+
     @Test(expected = InvalidEntityException.class)
     public void nullFieldDefList() {
         new UploadSchema.Builder().withName("Test Schema").withSchemaId("test-schema")
@@ -157,10 +162,25 @@ public class UploadSchemaTest {
     }
 
     @Test
+    public void optionalFields() {
+        UploadSchema testSchema = new UploadSchema.Builder().withFieldDefinitions(mutableFieldDefList())
+                .withName("Optional Fields").withSchemaId("optional-fields")
+                .withSchemaType(UploadSchemaType.IOS_SURVEY).withSurveyGuid("test-survey")
+                .withSurveyCreatedOn(SURVEY_CREATED_ON).withVersion(3L).build();
+        assertEquals("Optional Fields", testSchema.getName());
+        assertEquals("optional-fields", testSchema.getSchemaId());
+        assertEquals(UploadSchemaType.IOS_SURVEY, testSchema.getSchemaType());
+        assertEquals("test-survey", testSchema.getSurveyGuid());
+        assertEquals(SURVEY_CREATED_ON, testSchema.getSurveyCreatedOn());
+        assertEquals(3, testSchema.getVersion().longValue());
+    }
+
+    @Test
     public void builderCopyOf() {
         UploadSchema originalSchema = new UploadSchema.Builder().withFieldDefinitions(mutableFieldDefList())
                 .withName("Copied Schema").withRevision(1).withSchemaId("copied-schema")
-                .withSchemaType(UploadSchemaType.IOS_SURVEY).build();
+                .withSchemaType(UploadSchemaType.IOS_SURVEY).withSurveyGuid("copied-survey")
+                .withSurveyCreatedOn(SURVEY_CREATED_ON).withVersion(5L).build();
         UploadSchema copiedSchema = new UploadSchema.Builder().copyOf(originalSchema).build();
         assertEquals(originalSchema, copiedSchema);
     }
@@ -173,6 +193,9 @@ public class UploadSchemaTest {
                 "   \"revision\":3,\n" +
                 "   \"schemaId\":\"test-schema\",\n" +
                 "   \"schemaType\":\"ios_data\",\n" +
+                "   \"surveyGuid\":\"survey-guid\",\n" +
+                "   \"surveyCreatedOn\":\"" + SURVEY_CREATED_ON + "\",\n" +
+                "   \"version\":6,\n" +
                 "   \"fieldDefinitions\":[\n" +
                 "       {\n" +
                 "           \"name\":\"foo\",\n" +
@@ -187,6 +210,9 @@ public class UploadSchemaTest {
         assertEquals(3, uploadSchema.getRevision().intValue());
         assertEquals("test-schema", uploadSchema.getSchemaId());
         assertEquals(UploadSchemaType.IOS_DATA, uploadSchema.getSchemaType());
+        assertEquals("survey-guid", uploadSchema.getSurveyGuid());
+        assertEquals(SURVEY_CREATED_ON_MILLIS, uploadSchema.getSurveyCreatedOn().getMillis());
+        assertEquals(6, uploadSchema.getVersion().longValue());
 
         // only check the field name, since everything else is tested by UploadFieldDefinitionTest
         List<UploadFieldDefinition> fieldDefList = uploadSchema.getFieldDefinitions();
@@ -198,11 +224,15 @@ public class UploadSchemaTest {
 
         // then convert to a map so we can validate the raw JSON
         Map<String, Object> jsonMap = Utilities.getMapper().readValue(convertedJson, Utilities.TYPE_REF_RAW_MAP);
-        assertEquals(5, jsonMap.size());
+        assertEquals(8, jsonMap.size());
         assertEquals("Test Schema", jsonMap.get("name"));
         assertEquals(3, jsonMap.get("revision"));
         assertEquals("test-schema", jsonMap.get("schemaId"));
         assertEquals("ios_data", jsonMap.get("schemaType"));
+        assertEquals("survey-guid", jsonMap.get("surveyGuid"));
+        assertEquals(SURVEY_CREATED_ON.getMillis(),
+                DateTime.parse((String) jsonMap.get("surveyCreatedOn")).getMillis());
+        assertEquals(6, jsonMap.get("version"));
 
         // only check the field name, since everything else is tested by UploadFieldDefinitionTest
         List<Map<String, Object>> fieldDefJsonList = (List<Map<String, Object>>) jsonMap.get("fieldDefinitions");

@@ -251,6 +251,17 @@ public interface DeveloperClient {
     // UPLOAD SCHEMAS
 
     /**
+     * Creates a schema revision using the new V4 semantics. The schema ID and revision will be taken from the
+     * UploadSchema object. If the revision isn't specified, we'll get the latest schema rev for the schema ID and use
+     * that rev + 1.
+     *
+     * @param schema
+     *         schema to create, must be non-null
+     * @return the created schema, will be non-null
+     */
+    UploadSchema createSchemaRevisionV4(UploadSchema schema);
+
+    /**
      * This method creates an upload schema in the current study, using the schema ID of the specified schema, or
      * updates an existing schema if it already exists. This method returns the created schema, which has its revision
      * number properly updated.
@@ -306,6 +317,23 @@ public interface DeveloperClient {
      * @return a list of upload schemas
      */
     public ResourceList<UploadSchema> getAllUploadSchemas();
+
+    /**
+     * Updates a schema revision using V4 semantics. This updates the schema revision in place, keeping the same ID and
+     * revision. A schema update cannot delete any fields or modified fields, except for adding the maxAppVersion
+     * attribute to a field.
+     *
+     * @param schemaId
+     *         schema ID to update, must be non-null and non-empty
+     * @param revision
+     *         schema revision to update, must be positive
+     * @param schema
+     *         schema that contains the updates to submit to the server, must be non-null
+     * @return updated schema, will be non-null
+     */
+    UploadSchema updateSchemaRevisionV4(String schemaId, int revision, UploadSchema schema);
+
+    // SUBPOPULATIONS
 
     /**
      * Get all subpopulations defined for this study.
