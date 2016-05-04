@@ -1,7 +1,6 @@
 package org.sagebionetworks.bridge.sdk;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.apache.http.HttpResponse;
 
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
@@ -29,11 +28,12 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
     }
 
     @Override
-    public boolean createUser(SignUpByAdmin signUp) {
+    public String createUser(SignUpByAdmin signUp) {
         session.checkSignedIn();
 
-        HttpResponse response = post(config.getUsersApi(), signUp);
-        return response.getStatusLine().getStatusCode() == 201;
+        UserSession session = post(config.getUsersApi(), signUp, UserSession.class);
+        
+        return session.getId();
     }
 
     @Override

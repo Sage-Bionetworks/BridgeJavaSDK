@@ -1,52 +1,45 @@
 package org.sagebionetworks.bridge.sdk;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
+import java.util.HashSet;
 
 import org.junit.Test;
 
+import org.sagebionetworks.bridge.Tests;
+import org.sagebionetworks.bridge.sdk.models.subpopulations.ConsentStatus;
+import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
+import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.collect.Sets;
 
 public class UserSessionTest {
 
+    private static final String SESSION_TOKEN = "sessionToken";
+    private static final String ID = "ABC";
+    private static final HashSet<String> DATA_GROUPS = Sets.newHashSet("group1", "group2");
+    private static final SubpopulationGuid SUBPOP_GUID = new SubpopulationGuid("study");
+    private static final ConsentStatus CONSENT_STATUS = new ConsentStatus("Consent Name", "study", true, true, true);
+    
     private static ObjectMapper mapper = Utilities.getMapper();
 
     @Test
-    public void canConstructUserSessionFromJson() {
-        ObjectNode node = mapper.createObjectNode();
-        node.put("sessionToken", "se55i0n-t0k3n");
-        node.put("authenticated", true);
-        node.put("consented", false);
-        node.put("dataSharing", true);
-        node.put("id", "ABC");
-        node.put("sharingScope", "no_sharing");
-
-        String json = null;
-        try {
-            json = mapper.writeValueAsString(node);
-        } catch (IOException e) {
-            fail("Something went wrong with converting JSON node into a string.");
-        }
-
-        UserSession session = null;
-        try {
-            session = mapper.readValue(json, UserSession.class);
-        } catch (IOException e) {
-            fail("Something went wrong with converting the JSON string into a UserSession.");
-        }
-        assertNotNull(session);
-        assertEquals(session.getSessionToken(), node.get("sessionToken").asText());
-        assertEquals(session.isAuthenticated(), node.get("authenticated").asBoolean());
-        assertEquals(session.isConsented(), node.get("consented").asBoolean());
-        assertEquals(session.getId(), node.get("id").asText());
-        assertEquals(session.getSharingScope().name().toLowerCase(), node.get("sharingScope").asText());
-        // We don't pick this up. It's not really necessary, it's there for 100% backwards compatability.
-        assertEquals(true, node.get("dataSharing").asBoolean());
+    public void canConstructUserSessionFromJson() throws Exception {
+        String json = Tests.unescapeJson("{'sessionToken':'sessionToken','authenticated':true,"+
+                "'sharingScope':'no_sharing','dataGroups':['group1','group2'],'id':'ABC',"+
+                "'consentStatuses':{'study':{'name':'Consent Name','subpopulationGuid':'study',"+
+                "'required':true,'consented':true,'mostRecentConsent':true}},'consented':true}");
+        
+        UserSession session = mapper.readValue(json, UserSession.class);
+        assertEquals(SESSION_TOKEN, session.getSessionToken());
+        assertTrue(session.isAuthenticated());
+        assertEquals(ID, session.getId());
+        assertEquals(DATA_GROUPS, session.getDataGroups());
+        assertEquals(SharingScope.NO_SHARING, session.getSharingScope());
+        assertTrue(session.isConsented());
+        assertEquals(CONSENT_STATUS, session.getConsentStatuses().get(SUBPOP_GUID));
     }
 }
