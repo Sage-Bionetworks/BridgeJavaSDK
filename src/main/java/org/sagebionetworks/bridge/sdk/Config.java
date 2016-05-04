@@ -64,6 +64,7 @@ public final class Config {
         V3_PARTICIPANT,
         V3_PARTICIPANT_SIGNOUT,
         V3_PARTICIPANTS,
+        V3_PARTICIPANTS_SELF,
         V3_SCHEDULEPLANS, 
         V3_SCHEDULEPLANS_GUID, 
         V3_STUDIES, 
@@ -103,11 +104,7 @@ public final class Config {
         V3_UPLOADS_UPLOADID_COMPLETE, 
         V3_USER,
         V3_USERS,
-        V3_USERS_SELF,
-        V3_USERS_SELF_DATAGROUPS,
-        V3_USERS_SELF_DATASHARING, 
         V3_USERS_SELF_EMAILDATA, 
-        V3_USERS_SELF_EXTERNALID, 
         V3_USERS_SELF_UNSUBSCRIBEEMAIL, 
         V4_SCHEDULES;
 
@@ -187,7 +184,7 @@ public final class Config {
     public SignInCredentials getAdminCredentials() {
         return new SignInCredentials(getStudyIdentifier(), getAdminEmail(), getAdminPassword());
     }
-
+    
     public String getAccountEmail() {
         return val(Props.ACCOUNT_EMAIL);
     }
@@ -253,22 +250,6 @@ public final class Config {
         return val(Props.V3_AUTH_RESETPASSWORD);
     }
 
-    public String getSetExternalIdApi() {
-        return val(Props.V3_USERS_SELF_EXTERNALID);
-    }
-
-    public String getProfileApi() {
-        return val(Props.V3_USERS_SELF);
-    }
-
-    public String getDataGroupsApi() {
-        return val(Props.V3_USERS_SELF_DATAGROUPS);
-    }
-    
-    public String getSetDataSharingApi() {
-        return val(Props.V3_USERS_SELF_DATASHARING);
-    }
-    
     public String getConsentsApi(SubpopulationGuid subpopGuid) {
         checkNotNull(subpopGuid);
         return String.format(val(Props.V3_SUBPOPULATIONS_CONSENTS), subpopGuid.getGuid());
@@ -517,6 +498,10 @@ public final class Config {
     public String getParticipantApi(String id) {
         checkArgument(isNotBlank(id));
         return String.format(val(Props.V3_PARTICIPANT), id);
+    }
+    
+    public String getParticipantSelfApi() {
+        return val(Props.V3_PARTICIPANTS_SELF);
     }
     
     public String getExternalIdsApi() {

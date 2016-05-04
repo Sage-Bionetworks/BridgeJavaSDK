@@ -16,9 +16,9 @@ public interface AdminClient {
      *
      * @param signUp
      *            Credentials used to sign up the user into Bridge.
-     * @return true if success, false if failure.
+     * @return the ID of this newly created user
      */
-    boolean createUser(SignUpByAdmin signUp);
+    String createUser(SignUpByAdmin signUp);
 
     /**
      * Delete a user.

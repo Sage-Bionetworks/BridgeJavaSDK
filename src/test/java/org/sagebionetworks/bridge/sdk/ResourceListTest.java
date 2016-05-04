@@ -13,7 +13,7 @@ import nl.jqno.equalsverifier.Warning;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
-import org.sagebionetworks.bridge.sdk.models.users.UserProfile;
+import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
 
 import com.google.common.collect.Lists;
 
@@ -27,8 +27,8 @@ public class ResourceListTest {
     
     @Test
     public void hashCodeEquals() {
-        ResourceList<UserProfile> c1 = createProfileList("test");
-        ResourceList<UserProfile> c2 = createProfileList("test");
+        ResourceList<StudyParticipant> c1 = createParticipantList("test");
+        ResourceList<StudyParticipant> c2 = createParticipantList("test");
         
         assertEquals(c1.hashCode(), c2.hashCode());
         assertTrue(c1.equals(c2));
@@ -36,20 +36,18 @@ public class ResourceListTest {
     
     @Test
     public void hashCodeEqualsUnequal() {
-        ResourceList<UserProfile> c1 = createProfileList("test");
-        ResourceList<UserProfile> c2 = createProfileList("test2");
+        ResourceList<StudyParticipant> c1 = createParticipantList("test");
+        ResourceList<StudyParticipant> c2 = createParticipantList("test2");
         
         
         assertNotEquals(c1.hashCode(), c2.hashCode());
         assertFalse(c1.equals(c2));
     }
     
-    private ResourceList<UserProfile> createProfileList(String email) {
-        UserProfile profile = new UserProfile();
-        profile.setEmail(email);
-        List<UserProfile> list = Lists.newArrayList(profile);
-        
-        return new ResourceListImpl<UserProfile>(list, list.size());
+    private ResourceList<StudyParticipant> createParticipantList(String email) {
+        StudyParticipant participant = new StudyParticipant.Builder().withEmail(email).build();
+        List<StudyParticipant> list = Lists.newArrayList(participant);
+        return new ResourceListImpl<StudyParticipant>(list, list.size());
     }
 
 }

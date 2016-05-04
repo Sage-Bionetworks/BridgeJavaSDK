@@ -3,21 +3,18 @@ package org.sagebionetworks.bridge.sdk;
 import static org.sagebionetworks.bridge.sdk.utils.Utilities.TO_STRING_STYLE;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import org.sagebionetworks.bridge.sdk.json.DataGroupsDeserializer;
-import org.sagebionetworks.bridge.sdk.json.DataGroupsSerializer;
 import org.sagebionetworks.bridge.sdk.json.SubpopulationGuidKeyDeserializer;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.ConsentStatus;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
-import org.sagebionetworks.bridge.sdk.models.users.DataGroups;
 import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.ImmutableMap;
 
 final class UserSession {
@@ -26,17 +23,15 @@ final class UserSession {
     private final SharingScope sharingScope;
     private final boolean authenticated;
     private final String id;
-    @JsonDeserialize(using=DataGroupsDeserializer.class)
-    @JsonSerialize(using=DataGroupsSerializer.class)
-    private final DataGroups dataGroups;
+    private final Set<String> dataGroups;
     @JsonDeserialize(keyUsing = SubpopulationGuidKeyDeserializer.class)
     private final Map<SubpopulationGuid,ConsentStatus> consentStatuses;
 
     @JsonCreator
-    private UserSession(@JsonProperty("sessionToken") String sessionToken,
+    UserSession(@JsonProperty("sessionToken") String sessionToken,
             @JsonProperty("authenticated") boolean authenticated, 
             @JsonProperty("sharingScope") SharingScope sharingScope,
-            @JsonProperty("dataGroups") DataGroups dataGroups,
+            @JsonProperty("dataGroups") Set<String> dataGroups,
             @JsonProperty("id") String id,
             @JsonProperty("consentStatuses") Map<SubpopulationGuid,ConsentStatus> consentStatuses) {
         
@@ -69,7 +64,7 @@ final class UserSession {
         return ConsentStatus.isConsentCurrent(consentStatuses);
     }
     
-    public DataGroups getDataGroups() {
+    public Set<String> getDataGroups() {
         return dataGroups;
     }
     

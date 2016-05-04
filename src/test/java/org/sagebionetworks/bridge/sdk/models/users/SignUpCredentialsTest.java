@@ -24,9 +24,7 @@ public class SignUpCredentialsTest {
     
     @Test
     public void canSerialize() throws Exception {
-        Set<String> userSets = Sets.newHashSet("sdk-int-1", "sdk-int-2");
-        DataGroups dataGroups = new DataGroups();
-        dataGroups.setDataGroups(userSets);
+        Set<String> dataGroups = Sets.newHashSet("sdk-int-1", "sdk-int-2");
         SignUpCredentials signUp = new SignUpCredentials("studyIdentifier", "email", "password", dataGroups);
         
         String json = Utilities.getMapper().writeValueAsString(signUp);
@@ -40,7 +38,7 @@ public class SignUpCredentialsTest {
         ArrayNode array = (ArrayNode)node.get("dataGroups");
         assertEquals(2, array.size());
         Set<String> sets = Sets.newHashSet(array.get(0).asText(), array.get(1).asText());
-        assertEquals(userSets, sets);
+        assertEquals(dataGroups, sets);
         
         SignUpCredentials signUp2 = Utilities.getMapper().readValue(json, SignUpCredentials.class);
         assertEquals(signUp, signUp2);

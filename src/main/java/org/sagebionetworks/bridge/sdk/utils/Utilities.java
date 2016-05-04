@@ -52,7 +52,7 @@ public final class Utilities {
     static {
         MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         MAPPER.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        MAPPER.configure(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS, false);
+        MAPPER.configure(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS, true);
         MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         
         SimpleModule mod = new SimpleModule();

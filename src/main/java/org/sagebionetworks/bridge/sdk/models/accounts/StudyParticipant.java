@@ -16,8 +16,8 @@ import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 
 public final class StudyParticipant {
 
@@ -26,7 +26,7 @@ public final class StudyParticipant {
     private final String externalId;
     private final String password;
     private final SharingScope sharingScope;
-    private final boolean notifyByEmail;
+    private final Boolean notifyByEmail;
     private final String email;
     private final Set<String> dataGroups;
     private final String healthCode;
@@ -36,9 +36,7 @@ public final class StudyParticipant {
     private final DateTime createdOn;
     private final AccountStatus status;
     private final String id;
-    // This has to be initialized to a value because the serialization flattens attributes 
-    // as part of the object, so they are set via the @JsonAnySetter method
-    private final Map<String,String> attributes = Maps.newHashMap();
+    private final Map<String,String> attributes;
     
     @JsonCreator
     StudyParticipant(@JsonProperty("firstName") String firstName, 
@@ -47,7 +45,7 @@ public final class StudyParticipant {
             @JsonProperty("externalId") String externalId,
             @JsonProperty("password") String password,
             @JsonProperty("sharingScope") SharingScope sharingScope,
-            @JsonProperty("notifyByEmail") boolean notifyByEmail, 
+            @JsonProperty("notifyByEmail") Boolean notifyByEmail, 
             @JsonProperty("dataGroups") Set<String> dataGroups, 
             @JsonProperty("healthCode") String healthCode, 
             @JsonProperty("attributes") Map<String,String> attributes,
@@ -57,6 +55,11 @@ public final class StudyParticipant {
             @JsonProperty("status") AccountStatus status,
             @JsonProperty("languages") LinkedHashSet<String> languages,
             @JsonProperty("id") String id) {
+        ImmutableSet<String> finalDataGroups = (dataGroups == null) ? null : ImmutableSet.copyOf(dataGroups);
+        ImmutableSet<Roles> finalRoles = (roles == null) ? null : ImmutableSet.copyOf(roles);
+        ImmutableMap<String,String> finalAttributes = (attributes == null) ? null : ImmutableMap.copyOf(attributes);
+        // This is a concrete implementation so the best we can do is copy it to help prevent modification
+        LinkedHashSet<String> finalLangs = (languages == null) ? null : new LinkedHashSet<>(languages);
         this.firstName = firstName;
         this.lastName = lastName;
         this.externalId = externalId;
@@ -64,17 +67,15 @@ public final class StudyParticipant {
         this.sharingScope = sharingScope;
         this.notifyByEmail = notifyByEmail;
         this.email = email;
-        this.dataGroups = dataGroups;
+        this.dataGroups = finalDataGroups;
         this.healthCode = healthCode;
         this.consentHistories = consentHistories;
-        this.roles = roles;
+        this.roles = finalRoles;
         this.createdOn = createdOn;
         this.status = status;
         this.id = id;
-        this.languages = languages;
-        if (attributes != null) {
-            this.attributes.putAll(attributes);
-        }
+        this.languages = finalLangs;
+        this.attributes = finalAttributes;
     }
     
     public String getFirstName() {
@@ -95,7 +96,7 @@ public final class StudyParticipant {
     public SharingScope getSharingScope() {
         return sharingScope;
     }
-    public boolean isNotifyByEmail() {
+    public Boolean isNotifyByEmail() {
         return notifyByEmail;
     }
     public Set<String> getDataGroups() {
@@ -166,13 +167,29 @@ public final class StudyParticipant {
         private String externalId;
         private String password;
         private SharingScope sharingScope;
-        private boolean notifyByEmail;
-        private Set<String> dataGroups = Sets.newHashSet();
-        private Map<String,String> attributes = Maps.newHashMap();
-        private LinkedHashSet<String> languages = new LinkedHashSet<>();
+        private Boolean notifyByEmail;
+        private Set<String> dataGroups;
+        private Set<Roles> roles;
+        private Map<String,String> attributes;
+        private LinkedHashSet<String> languages;
         private AccountStatus status;
         private String id;
         
+        public Builder copyOf(StudyParticipant participant) {
+            this.firstName = participant.firstName;
+            this.lastName = participant.lastName;
+            this.email = participant.email;
+            this.externalId = participant.externalId;
+            this.password = participant.password;
+            this.sharingScope = participant.sharingScope;
+            this.notifyByEmail = participant.notifyByEmail;
+            this.status = participant.status;
+            this.id = participant.id;
+            this.dataGroups = participant.dataGroups;
+            this.attributes = participant.attributes;
+            this.languages = participant.languages;
+            return this;
+        }
         public Builder withFirstName(String firstName) {
             this.firstName = firstName;
             return this;
@@ -198,25 +215,23 @@ public final class StudyParticipant {
             return this;
         }
         public Builder withNotifyByEmail(boolean notifyByEmail) {
-            this.notifyByEmail = notifyByEmail;
+            this.notifyByEmail = Boolean.valueOf(notifyByEmail);
             return this;
         }
         public Builder withDataGroups(Set<String> dataGroups) {
-            if (dataGroups != null) {
-                this.dataGroups = dataGroups;
-            }
+            this.dataGroups = dataGroups;
             return this;
         }
         public Builder withLanguages(LinkedHashSet<String> languages) {
-            if (languages != null) {
-                this.languages = languages;
-            }
+            this.languages = languages;
             return this;
         }
         public Builder withAttributes(Map<String,String> attributes) {
-            if (attributes != null) {
-                this.attributes = attributes;
-            }
+            this.attributes = attributes;
+            return this;
+        }
+        public Builder withRoles(Set<Roles> roles) {
+            this.roles = roles;
             return this;
         }
         public Builder withStatus(AccountStatus status) {
@@ -227,10 +242,10 @@ public final class StudyParticipant {
             this.id = id;
             return this;
         }
-
+        
         public StudyParticipant build() {
-            return new StudyParticipant(firstName, lastName, email, externalId, password, sharingScope, notifyByEmail,
-                    dataGroups, null, attributes, null, null, null, status, languages, id);
+            return new StudyParticipant(firstName, lastName, email, externalId, password, sharingScope, notifyByEmail, 
+                    dataGroups, null, attributes, null, roles, null, status, languages, id);
         }
     }    
 }

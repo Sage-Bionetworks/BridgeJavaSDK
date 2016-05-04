@@ -1,6 +1,9 @@
 package org.sagebionetworks.bridge.sdk.models.accounts;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
@@ -25,6 +28,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -57,6 +61,7 @@ public class StudyParticipantTest {
                 Sets.newHashSet(Roles.DEVELOPER), CREATED_ON, AccountStatus.ENABLED, LANGUAGES, ID);
         
         JsonNode node = Utilities.getMapper().valueToTree(participant);
+        
         assertEquals("firstName", node.get("firstName").asText());
         assertEquals("lastName", node.get("lastName").asText());
         assertEquals("externalId", node.get("externalId").asText());
@@ -103,6 +108,69 @@ public class StudyParticipantTest {
     
     @Test
     public void canBuild() {
+        StudyParticipant participant = makeParticipant();
+
+        verifyParticipant(participant);
+    }
+    
+    @Test
+    public void copyOf() {
+        StudyParticipant participant = makeParticipant();
+        StudyParticipant copy = new StudyParticipant.Builder().copyOf(participant).build();
+        
+        verifyParticipant(copy);
+    }
+    
+    @Test
+    public void doNotSendEmptyCollectionsUnlessSpecificallySet() {
+        StudyParticipant participant = new StudyParticipant.Builder()
+                .withDataGroups(DATA_GROUPS)
+                .withLanguages(Tests.<String>newLinkedHashSet())
+                .build();
+        
+        JsonNode node = Utilities.getMapper().valueToTree(participant);
+        assertEquals(0, ((ArrayNode)node.get("languages")).size());
+        assertNotNull(node.get("dataGroups"));
+    }
+
+    @Test
+    public void doNotSendBooleanUnlessSpecificallySet() {
+        StudyParticipant participant = new StudyParticipant.Builder().build();
+        
+        JsonNode node = Utilities.getMapper().valueToTree(participant);
+        assertNull(node.get("notifyByEmail"));
+        
+        participant = new StudyParticipant.Builder().withNotifyByEmail(false).build();
+        node = Utilities.getMapper().valueToTree(participant);
+        assertFalse(node.get("notifyByEmail").asBoolean());
+        
+        participant = new StudyParticipant.Builder().withNotifyByEmail(true).build();
+        node = Utilities.getMapper().valueToTree(participant);
+        assertTrue(node.get("notifyByEmail").asBoolean());
+    }
+    
+    @Test(expected = UnsupportedOperationException.class)
+    public void dataGroupsAreImmutable() {
+        StudyParticipant participant = new StudyParticipant.Builder().withDataGroups(Sets.newHashSet("group1")).build();
+        participant.getDataGroups().add("group2");
+    }
+    
+    @Test(expected = UnsupportedOperationException.class)
+    public void rolesAreImmutable() {
+        StudyParticipant participant = new StudyParticipant.Builder().withRoles(Sets.newHashSet(Roles.ADMIN)).build();
+        participant.getRoles().remove(Roles.ADMIN);
+    }
+    
+    @Test(expected = UnsupportedOperationException.class)
+    public void attributesAreImmutable() {
+        Map<String,String> attributes = Maps.newHashMap();
+        attributes.put("A", "B");
+        
+        StudyParticipant participant = new StudyParticipant.Builder().withAttributes(attributes).build();
+        participant.getAttributes().put("C","D");
+    }
+    
+    private StudyParticipant makeParticipant() {
         StudyParticipant.Builder builder = new StudyParticipant.Builder();
         builder.withFirstName("firstName");
         builder.withLastName("lastName");
@@ -116,9 +184,11 @@ public class StudyParticipantTest {
         builder.withAttributes(ATTRIBUTES);
         builder.withStatus(AccountStatus.DISABLED);
         builder.withId(ID);
-        
         StudyParticipant participant = builder.build();
+        return participant;
+    }
 
+    private void verifyParticipant(StudyParticipant participant) {
         assertEquals("firstName", participant.getFirstName());
         assertEquals("lastName", participant.getLastName());
         assertEquals("email@email.com", participant.getEmail());
