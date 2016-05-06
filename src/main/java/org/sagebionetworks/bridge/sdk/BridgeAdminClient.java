@@ -1,14 +1,16 @@
 package org.sagebionetworks.bridge.sdk;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
+import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
-import org.sagebionetworks.bridge.sdk.models.users.SignUpByAdmin;
+import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 import java.util.List;
 
@@ -28,10 +30,12 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
     }
 
     @Override
-    public String createUser(SignUpByAdmin signUp) {
+    public String createUser(StudyParticipant participant, boolean consentUser) {
         session.checkSignedIn();
 
-        UserSession session = post(config.getUsersApi(), signUp, UserSession.class);
+        ObjectNode node = (ObjectNode)Utilities.getMapper().valueToTree(participant);
+        node.put("consent", Boolean.toString(consentUser));
+        UserSession session = post(config.getUsersApi(), node, UserSession.class);
         
         return session.getId();
     }

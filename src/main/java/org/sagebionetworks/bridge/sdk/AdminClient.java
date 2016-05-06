@@ -1,11 +1,11 @@
 package org.sagebionetworks.bridge.sdk;
 
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
+import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
-import org.sagebionetworks.bridge.sdk.models.users.SignUpByAdmin;
 
 import java.util.List;
 
@@ -14,11 +14,13 @@ public interface AdminClient {
     /**
      * Create a user.
      *
-     * @param signUp
-     *            Credentials used to sign up the user into Bridge.
+     * @param user
+     *          Study participant or administrator to create for this study.
+     * @param consentUser
+     *          Should this user be consented to all consents (useful for testing).
      * @return the ID of this newly created user
      */
-    String createUser(SignUpByAdmin signUp);
+    String createUser(StudyParticipant user, boolean consentUser);
 
     /**
      * Delete a user.
