@@ -5,9 +5,26 @@ import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
+import org.sagebionetworks.bridge.sdk.models.upload.UploadSchema;
 
 /** Client for worker APIs, used by Bridge-EX and other worker processes. */
 public interface WorkerClient {
+    // SCHEMAS
+
+    /**
+     * Gets an upload schema by ID and revision.
+     *
+     * @param schemaId
+     *         schema to fetch
+     * @param revision
+     *         revision to fetch
+     * @return the specified schema
+     */
+    UploadSchema getSchema(String schemaId, int revision);
+
+
+    // SURVEYS
+
     /**
      * Gets the most recently published version of all surveys for a given study.
      *

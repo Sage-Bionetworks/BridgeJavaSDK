@@ -10,6 +10,7 @@ import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
+import org.sagebionetworks.bridge.sdk.models.upload.UploadSchema;
 
 /** Bridge implementation of the worker client. */
 class BridgeWorkerClient extends BaseApiCaller implements WorkerClient {
@@ -21,6 +22,15 @@ class BridgeWorkerClient extends BaseApiCaller implements WorkerClient {
      */
     BridgeWorkerClient(BridgeSession session) {
         super(session);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public UploadSchema getSchema(String schemaId, int revision) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(schemaId), CANNOT_BE_BLANK, "schemaId");
+        checkArgument(revision > 0, "revision must be positive");
+        return get(config.getUploadSchemaApi(schemaId, revision), UploadSchema.class);
     }
 
     /** {@inheritDoc} */
