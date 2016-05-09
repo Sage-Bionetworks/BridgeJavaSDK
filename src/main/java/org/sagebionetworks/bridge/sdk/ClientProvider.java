@@ -1,11 +1,16 @@
 package org.sagebionetworks.bridge.sdk;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.sagebionetworks.bridge.sdk.exceptions.ConsentRequiredException;
+import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
 import org.sagebionetworks.bridge.sdk.models.users.EmailCredentials;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
-import org.sagebionetworks.bridge.sdk.models.users.SignUpCredentials;
+import org.sagebionetworks.bridge.sdk.utils.Utilities;
+
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class ClientProvider {
 
@@ -47,13 +52,19 @@ public class ClientProvider {
     /**
      * Sign Up an account with Bridge using the given credentials.
      *
+     * @param studyI
+     *      The identifier of the study the participant is signing up with
      * @param signUp
-     *            The credentials to create an account with.
+     *      The credentials to create an account with
      */
-    public static void signUp(SignUpCredentials signUp) {
-        checkNotNull(signUp, "SignUpCredentials required.");
+    public static void signUp(String studyId, StudyParticipant participant) {
+        checkArgument(isNotBlank(studyId), "Study ID required.");
+        checkNotNull(participant, "StudyParticipant required.");
 
-        new BaseApiCaller(null).post(config.getSignUpApi(), signUp);
+        ObjectNode node = (ObjectNode)Utilities.getMapper().valueToTree(participant);
+        node.put("study", studyId);
+
+        new BaseApiCaller(null).post(config.getSignUpApi(), node);
     }
     
     /**

@@ -39,6 +39,7 @@ public class StudyTest {
         study.setStrictUploadValidationEnabled(true);
         study.setHealthCodeExportEnabled(true);
         study.setEmailVerificationEnabled(true);
+        study.setExternalIdValidationEnabled(true);
         study.getMinSupportedAppVersions().put(OperatingSystem.IOS, 12);
         study.getMinSupportedAppVersions().put(OperatingSystem.ANDROID, 14);
         
@@ -62,6 +63,7 @@ public class StudyTest {
         assertEquals(true, node.get("strictUploadValidationEnabled").asBoolean());
         assertEquals(true, node.get("healthCodeExportEnabled").asBoolean());
         assertEquals(true, node.get("emailVerificationEnabled").asBoolean());
+        assertEquals(true, node.get("externalIdValidationEnabled").asBoolean());
         assertEquals(12, node.get("minSupportedAppVersions").get("iPhone OS").asInt());
         assertEquals(14, node.get("minSupportedAppVersions").get("Android").asInt());
         

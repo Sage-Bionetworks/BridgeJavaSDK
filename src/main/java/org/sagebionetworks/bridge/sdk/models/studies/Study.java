@@ -36,6 +36,7 @@ public final class Study implements VersionHolder {
     private boolean strictUploadValidationEnabled;
     private boolean healthCodeExportEnabled;
     private boolean emailVerificationEnabled;
+    private boolean externalIdValidationEnabled;
     private EnumMap<OperatingSystem,Integer> minSupportedAppVersions;
     
     public Study() {
@@ -217,13 +218,21 @@ public final class Study implements VersionHolder {
         this.minSupportedAppVersions = minSupportedAppVersions;
     }
 
+    public boolean isExternalIdValidationEnabled() {
+        return externalIdValidationEnabled;
+    }
+    
+    public void setExternalIdValidationEnabled(boolean externalIdValidationEnabled) {
+        this.externalIdValidationEnabled = externalIdValidationEnabled;
+    }
+    
     @Override
     public int hashCode() {
         return Objects.hash(name, sponsorName, identifier, supportEmail, synapseDataAccessTeamId, synapseProjectId,
                 consentNotificationEmail, version, emailVerificationEnabled, technicalEmail, userProfileAttributes,
                 taskIdentifiers, dataGroups, passwordPolicy, verifyEmailTemplate, resetPasswordTemplate,
                 maxNumOfParticipants, minAgeOfConsent, strictUploadValidationEnabled, healthCodeExportEnabled,
-                minSupportedAppVersions);
+                minSupportedAppVersions, externalIdValidationEnabled);
     }
 
     @Override
@@ -250,7 +259,8 @@ public final class Study implements VersionHolder {
                 && Objects.equals(strictUploadValidationEnabled, other.strictUploadValidationEnabled)
                 && Objects.equals(healthCodeExportEnabled, other.healthCodeExportEnabled)
                 && Objects.equals(emailVerificationEnabled, other.emailVerificationEnabled)
-                && Objects.equals(minSupportedAppVersions, other.minSupportedAppVersions));
+                && Objects.equals(minSupportedAppVersions, other.minSupportedAppVersions)
+                && Objects.equals(externalIdValidationEnabled, other.externalIdValidationEnabled));
     }
     
     @Override
@@ -267,6 +277,7 @@ public final class Study implements VersionHolder {
                 .append("minSupportedAppVersions", minSupportedAppVersions)
                 .append("verifyEmailTemplate", verifyEmailTemplate)
                 .append("emailVerificationEnabled", emailVerificationEnabled)
-                .append("resetPasswordTemplate", resetPasswordTemplate).toString();
+                .append("resetPasswordTemplate", resetPasswordTemplate)
+                .append("externalIdValidationEnabled", externalIdValidationEnabled).toString();
     }
 }
