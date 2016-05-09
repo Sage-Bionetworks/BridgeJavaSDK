@@ -58,12 +58,12 @@ public class ClientProvider {
      *      The credentials to create an account with
      */
     public static void signUp(String studyId, StudyParticipant participant) {
-        checkArgument(isNotBlank(studyId));
+        checkArgument(isNotBlank(studyId), "Study ID required.");
         checkNotNull(participant, "StudyParticipant required.");
 
         ObjectNode node = (ObjectNode)Utilities.getMapper().valueToTree(participant);
         node.put("study", studyId);
-        
+
         new BaseApiCaller(null).post(config.getSignUpApi(), node);
     }
     
