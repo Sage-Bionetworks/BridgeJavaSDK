@@ -1,6 +1,8 @@
 package org.sagebionetworks.bridge.sdk.models.studies;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 
@@ -29,6 +31,7 @@ public class StudyTest {
         study.setSynapseDataAccessTeamId(1337L);
         study.setSynapseProjectId("test-project");
         study.setTechnicalEmail("bridge-testing+technical@sagebase.org");
+        study.setUsesCustomExportSchedule(true);
         study.setConsentNotificationEmail("bridge-testing+consent@sagebase.org");
         study.getUserProfileAttributes().add("test");
         study.getTaskIdentifiers().add("taskA");
@@ -56,6 +59,7 @@ public class StudyTest {
         assertEquals(1337L, node.get("synapseDataAccessTeamId").longValue());
         assertEquals("test-project", node.get("synapseProjectId").textValue());
         assertEquals("bridge-testing+technical@sagebase.org", node.get("technicalEmail").asText());
+        assertTrue(node.get("usesCustomExportSchedule").asBoolean());
         assertEquals("bridge-testing+consent@sagebase.org", node.get("consentNotificationEmail").asText());
         assertEquals("test", node.get("userProfileAttributes").get(0).asText());
         assertEquals("taskA", node.get("taskIdentifiers").get(0).asText());

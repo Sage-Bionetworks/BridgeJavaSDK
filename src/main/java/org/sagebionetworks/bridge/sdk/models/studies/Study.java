@@ -25,6 +25,7 @@ public final class Study implements VersionHolder {
     private String synapseProjectId;
     private String consentNotificationEmail;
     private String technicalEmail;
+    private boolean usesCustomExportSchedule;
     private int minAgeOfConsent;
     private int maxNumOfParticipants;
     private Set<String> userProfileAttributes;
@@ -120,6 +121,20 @@ public final class Study implements VersionHolder {
     
     public void setTechnicalEmail(String technicalEmail) {
         this.technicalEmail = technicalEmail;
+    }
+
+    /**
+     * By default, all studies are exported using the default nightly schedule. Some studies may need custom schedules
+     * for hourly or on-demand exports. To prevent this study from being exported twice (once by the custom schedule,
+     * once by the default schedule), you should set this attribute to true.
+     */
+    public boolean getUsesCustomExportSchedule() {
+        return usesCustomExportSchedule;
+    }
+
+    /** @see #getUsesCustomExportSchedule */
+    public void setUsesCustomExportSchedule(boolean usesCustomExportSchedule) {
+        this.usesCustomExportSchedule = usesCustomExportSchedule;
     }
 
     public int getMinAgeOfConsent() {
@@ -232,7 +247,7 @@ public final class Study implements VersionHolder {
                 consentNotificationEmail, version, emailVerificationEnabled, technicalEmail, userProfileAttributes,
                 taskIdentifiers, dataGroups, passwordPolicy, verifyEmailTemplate, resetPasswordTemplate,
                 maxNumOfParticipants, minAgeOfConsent, strictUploadValidationEnabled, healthCodeExportEnabled,
-                minSupportedAppVersions, externalIdValidationEnabled);
+                minSupportedAppVersions, externalIdValidationEnabled, usesCustomExportSchedule);
     }
 
     @Override
@@ -253,6 +268,7 @@ public final class Study implements VersionHolder {
                 && Objects.equals(taskIdentifiers, other.taskIdentifiers)
                 && Objects.equals(dataGroups, other.dataGroups) && Objects.equals(sponsorName, other.sponsorName)
                 && Objects.equals(technicalEmail, other.technicalEmail)
+                && Objects.equals(usesCustomExportSchedule, other.usesCustomExportSchedule)
                 && Objects.equals(verifyEmailTemplate, other.verifyEmailTemplate)
                 && Objects.equals(passwordPolicy, other.passwordPolicy)
                 && Objects.equals(resetPasswordTemplate, other.resetPasswordTemplate)
@@ -270,6 +286,7 @@ public final class Study implements VersionHolder {
                 .append("synapseDataAccessTeamId", synapseDataAccessTeamId)
                 .append("synapseProjectId", synapseProjectId)
                 .append("consentNotificationEmail", consentNotificationEmail).append("technicalEmail", technicalEmail)
+                .append("usesCustomExportSchedule", usesCustomExportSchedule)
                 .append("minAgeOfConsent", minAgeOfConsent).append("maxNumOfParticipants", maxNumOfParticipants)
                 .append("userProfileAttributes", userProfileAttributes).append("taskIdentifiers", taskIdentifiers)
                 .append("dataGroups", dataGroups).append("strictUploadValidationEnabled", strictUploadValidationEnabled)
