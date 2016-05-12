@@ -31,7 +31,7 @@ class BridgeSession implements Session {
         this.id = session.getId();
         this.consentStatuses = session.getConsentStatuses();
     }
-
+    
     /**
      * Check that the client is currently authenticated, throwing an exception 
      * if it is not.
@@ -59,21 +59,9 @@ class BridgeSession implements Session {
         return sharingScope;
     }
     
-    void setSharingScope(SharingScope sharingScope) {
-        this.sharingScope = sharingScope;
-    }
-    
-    void setDataGroups(Set<String> dataGroups) {
-        this.dataGroups = dataGroups;
-    }
-    
     @Override
     public String getId() {
         return id;
-    }
-    
-    void setId(String id) {
-        this.id = id;
     }
     
     @Override
@@ -84,11 +72,6 @@ class BridgeSession implements Session {
     @Override
     public Map<SubpopulationGuid,ConsentStatus> getConsentStatuses() {
         return consentStatuses;
-    }
-    
-    void setConsentStatuses(Map<SubpopulationGuid,ConsentStatus> consentStatuses) {
-        this.consentStatuses = (consentStatuses == null) ? ImmutableMap.<SubpopulationGuid,ConsentStatus>of() : 
-            ImmutableMap.copyOf(consentStatuses);
     }
     
     @Override
@@ -134,7 +117,24 @@ class BridgeSession implements Session {
             sessionToken = null;
         }
     }
-
+    
+    void setUserSession(UserSession session) {
+        this.sessionToken = session.getSessionToken();
+        this.sharingScope = session.getSharingScope();
+        this.dataGroups = session.getDataGroups();
+        this.id = session.getId();
+        this.consentStatuses = session.getConsentStatuses();
+    }
+    
+    void setSharingScope(SharingScope sharingScope) {
+        this.sharingScope = sharingScope;
+    }
+    
+    void setConsentStatuses(Map<SubpopulationGuid,ConsentStatus> consentStatuses) {
+        this.consentStatuses = (consentStatuses == null) ? ImmutableMap.<SubpopulationGuid,ConsentStatus>of() : 
+            ImmutableMap.copyOf(consentStatuses);
+    }    
+    
     @Override
     public String toString() {
         return String.format("BridgeSession [sessionToken=%s, sharingScope=%s, dataGroups=%s, consentStatuses=%s]", 
