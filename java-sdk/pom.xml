@@ -1,36 +1,39 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.sagebionetworks.bridge</groupId>
+
+    <parent>
+        <groupId>org.sagebionetworks.bridge</groupId>
+        <artifactId>sdk-group</artifactId>
+        <version>0.7-SNAPSHOT</version>
+    </parent>
+
     <artifactId>java-sdk</artifactId>
     <packaging>jar</packaging>
-    <version>0.6.1</version>
     <name>BridgeJavaSDK</name>
     <url>https://api.sagebridge.org</url>
-    
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <surefire.version>2.18.1</surefire.version>
-    </properties> 
-    
+    </properties>
+
     <pluginRepositories>
         <pluginRepository>
             <id>jcenter-repository</id>
             <url>http://jcenter.bintray.com</url>
         </pluginRepository>
     </pluginRepositories>
-     
+
     <organization>
         <name>Sage Bionetworks</name>
         <url>https://www.sagebionetworks.org</url>
-    </organization>   
-    
+    </organization>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -61,17 +64,17 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.1</version>
-        </dependency>        
+        </dependency>
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
             <version>2.4</version>
         </dependency>
         <dependency>
-          <groupId>com.fasterxml.jackson.datatype</groupId>
-          <artifactId>jackson-datatype-joda</artifactId>
-          <version>2.6.2</version>
-        </dependency> 
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-joda</artifactId>
+            <version>2.6.2</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-resources-plugin</artifactId>
@@ -103,9 +106,9 @@
             <artifactId>equalsverifier</artifactId>
             <version>1.6</version>
             <scope>test</scope>
-        </dependency>        
+        </dependency>
     </dependencies>
-         
+
     <build>
         <plugins>
             <plugin>
@@ -117,17 +120,8 @@
                         <link>http://joda-time.sourceforge.net/apidocs/</link>
                     </links>
                     <excludePackageNames>
-                    	org.sagebionetworks.bridge.sdk.json,org.sagebionetworks.bridge.sdk.utils
+                        org.sagebionetworks.bridge.sdk.json,org.sagebionetworks.bridge.sdk.utils
                     </excludePackageNames>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -146,7 +140,7 @@
                                 <groupId>${project.groupId}</groupId>
                                 <artifactId>${project.artifactId}</artifactId>
                                 <version>${project.version}</version>
-                            </deployProperties>                            
+                            </deployProperties>
                             <publisher>
                                 <contextUrl>http://sagebionetworks.artifactoryonline.com/sagebionetworks</contextUrl>
                                 <username>${env.ARTIFACTORY_USERNAME}</username>
