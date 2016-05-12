@@ -5,9 +5,11 @@
     <parent>
         <groupId>org.sagebionetworks.bridge</groupId>
         <artifactId>sdk-group</artifactId>
-        <version>0.7-SNAPSHOT</version>
+        <!-- Please use the maven versions plugin to manage this, e.g.`mvn versions:set -DnewVersion=0.8.1`-->
+        <version>0.7.0</version>
     </parent>
 
+    <!-- groupId and version are inherited from parent pom -->
     <artifactId>java-sdk</artifactId>
     <packaging>jar</packaging>
     <name>BridgeJavaSDK</name>
