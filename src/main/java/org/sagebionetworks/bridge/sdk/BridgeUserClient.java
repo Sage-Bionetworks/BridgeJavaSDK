@@ -66,9 +66,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         checkNotNull(participant, "StudyParticipant cannot be null.");
 
         UserSession newSession = post(config.getParticipantSelfApi(), participant, UserSession.class);
-        session.setSharingScope(newSession.getSharingScope());
-        session.setDataGroups(newSession.getDataGroups());
-        session.setConsentStatuses(newSession.getConsentStatuses());
+        session.setUserSession(newSession);
     }
     
     /*
