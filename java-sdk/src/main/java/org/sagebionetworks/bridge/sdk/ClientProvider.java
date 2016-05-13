@@ -46,7 +46,7 @@ public class ClientProvider {
     public static Session signIn(SignInCredentials signIn) throws ConsentRequiredException {
         checkNotNull(signIn, "SignInCredentials required.");
 
-        JsonNode sessionNode = new BaseApiCaller(null).postForJSON(config.getSignInApi(), signIn);
+        JsonNode sessionNode = new BaseApiCaller(null).post(config.getSignInApi(), signIn, JsonNode.class);
         return new BridgeSession(UserSession.fromJSON(sessionNode));
     }
 

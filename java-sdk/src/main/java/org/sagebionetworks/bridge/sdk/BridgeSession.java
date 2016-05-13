@@ -23,9 +23,7 @@ class BridgeSession implements Session {
     BridgeSession(UserSession session) {
         checkNotNull(session, "%s cannot be null", "UserSession");
         
-        this.sessionToken = session.getSessionToken();
-        this.participant = session.getStudyParticipant();
-        this.consentStatuses = session.getConsentStatuses();
+        setUserSession(session);
     }
     
     /**

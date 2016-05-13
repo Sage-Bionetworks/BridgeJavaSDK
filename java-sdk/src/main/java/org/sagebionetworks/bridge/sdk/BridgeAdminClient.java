@@ -36,7 +36,7 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
 
         ObjectNode node = (ObjectNode)Utilities.getMapper().valueToTree(participant);
         node.put("consent", Boolean.toString(consentUser));
-        JsonNode sessionNode = postForJSON(config.getUsersApi(), node);
+        JsonNode sessionNode = post(config.getUsersApi(), node, JsonNode.class);
         
         return sessionNode.get("id").asText();
     }

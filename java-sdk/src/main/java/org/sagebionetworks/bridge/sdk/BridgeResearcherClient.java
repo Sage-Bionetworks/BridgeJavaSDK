@@ -4,6 +4,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.sagebionetworks.bridge.sdk.models.PagedResourceList;
@@ -13,6 +16,8 @@ import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 
 class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
 
+    private static final Logger logger = LoggerFactory.getLogger(BridgeResearcherClient.class);
+    
     private static final TypeReference<PagedResourceList<AccountSummary>> ACCOUNT_SUMMARY_PAGED_RESOURCE_LIST = 
             new TypeReference<PagedResourceList<AccountSummary>>() {};
                     

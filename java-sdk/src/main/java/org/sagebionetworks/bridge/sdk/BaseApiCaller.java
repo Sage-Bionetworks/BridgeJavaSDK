@@ -61,7 +61,7 @@ import com.google.common.collect.Lists;
 
 class BaseApiCaller {
 
-    protected static final Logger logger = LoggerFactory.getLogger(BaseApiCaller.class);
+    private static final Logger logger = LoggerFactory.getLogger(BaseApiCaller.class);
 
     private static final String BRIDGE_API_STATUS_HEADER = "Bridge-Api-Status";
     private static final String BRIDGE_SESSION_HEADER = "Bridge-Session";
@@ -211,16 +211,6 @@ class BaseApiCaller {
         } catch (JsonProcessingException e) {
             String message = String.format("Could not process %s: %s", object.getClass().getSimpleName(), object.toString());
             throw new BridgeSDKException(message, e);
-        }
-    }
-
-    protected JsonNode postForJSON(String url, Object object) {
-        HttpResponse response = post(url, object);
-        String responseBody = getResponseBody(response);
-        try {
-            return mapper.readTree(responseBody);
-        } catch(IOException e) {
-            throw new BridgeSDKException(e.getMessage(), e);
         }
     }
     

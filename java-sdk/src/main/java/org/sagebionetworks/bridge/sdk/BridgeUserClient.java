@@ -66,7 +66,7 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         session.checkSignedIn();
         checkNotNull(participant, "StudyParticipant cannot be null.");
 
-        JsonNode node = postForJSON(config.getParticipantSelfApi(), participant);
+        JsonNode node = post(config.getParticipantSelfApi(), participant, JsonNode.class);
         session.setUserSession(UserSession.fromJSON(node));
     }
     
