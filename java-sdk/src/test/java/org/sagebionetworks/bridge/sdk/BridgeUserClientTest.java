@@ -48,21 +48,21 @@ public class BridgeUserClientTest {
                     "'mostRecentConsent':true}},"+
                 "'consented':true}");
         
-        JsonNode node = Utilities.getMapper().readTree(json);
+        UserSession session = Utilities.getMapper().readValue(json, UserSession.class);
         
-        doReturn(makeParticipant("DEF")).when(session).getStudyParticipant();
-        doReturn(true).when(session).isSignedIn();
+        //doReturn(makeParticipant("DEF")).when(session).getStudyParticipant();
         
-        BridgeUserClient client = new BridgeUserClient(session);
+        BridgeSession bridgeSession = spy(new BridgeSession(session));
+        BridgeUserClient client = new BridgeUserClient(bridgeSession);
         client = spy(client);
-        doReturn(node).when(client).post(anyString(), any(StudyParticipant.class), eq(JsonNode.class));
+        doReturn(session).when(client).post(anyString(), any(StudyParticipant.class), eq(UserSession.class));
         
-        StudyParticipant participant = makeParticipant("ABC");
+        StudyParticipant participant = makeParticipant("DEF"); // id is ignored
         client.saveStudyParticipant(participant);
         
-        verify(session).setUserSession(sessionCaptor.capture());
-        UserSession session = sessionCaptor.getValue();
-        assertEquals("ABC", session.getStudyParticipant().getId());
+        verify(bridgeSession).setUserSession(sessionCaptor.capture());
+        UserSession updatedSession = sessionCaptor.getValue();
+        assertEquals("ABC", updatedSession.getStudyParticipant().getId());
     }
     
     private StudyParticipant makeParticipant(String id) {
