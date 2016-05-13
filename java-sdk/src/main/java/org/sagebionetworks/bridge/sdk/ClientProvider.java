@@ -10,6 +10,7 @@ import org.sagebionetworks.bridge.sdk.models.users.EmailCredentials;
 import org.sagebionetworks.bridge.sdk.models.users.SignInCredentials;
 import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class ClientProvider {
@@ -45,8 +46,8 @@ public class ClientProvider {
     public static Session signIn(SignInCredentials signIn) throws ConsentRequiredException {
         checkNotNull(signIn, "SignInCredentials required.");
 
-        UserSession session = new BaseApiCaller(null).post(config.getSignInApi(), signIn, UserSession.class);
-        return new BridgeSession(session);
+        JsonNode sessionNode = new BaseApiCaller(null).postForJSON(config.getSignInApi(), signIn);
+        return new BridgeSession(UserSession.fromJSON(sessionNode));
     }
 
     /**

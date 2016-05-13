@@ -41,6 +41,7 @@ import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 import org.sagebionetworks.bridge.sdk.models.users.Withdrawal;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
 
 class BridgeUserClient extends BaseApiCaller implements UserClient {
@@ -65,8 +66,8 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         session.checkSignedIn();
         checkNotNull(participant, "StudyParticipant cannot be null.");
 
-        UserSession newSession = post(config.getParticipantSelfApi(), participant, UserSession.class);
-        session.setUserSession(newSession);
+        JsonNode node = postForJSON(config.getParticipantSelfApi(), participant);
+        session.setUserSession(UserSession.fromJSON(node));
     }
     
     /*

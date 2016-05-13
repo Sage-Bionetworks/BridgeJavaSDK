@@ -61,7 +61,7 @@ import com.google.common.collect.Lists;
 
 class BaseApiCaller {
 
-    private static final Logger logger = LoggerFactory.getLogger(BaseApiCaller.class);
+    protected static final Logger logger = LoggerFactory.getLogger(BaseApiCaller.class);
 
     private static final String BRIDGE_API_STATUS_HEADER = "Bridge-Api-Status";
     private static final String BRIDGE_SESSION_HEADER = "Bridge-Session";
@@ -214,6 +214,16 @@ class BaseApiCaller {
         }
     }
 
+    protected JsonNode postForJSON(String url, Object object) {
+        HttpResponse response = post(url, object);
+        String responseBody = getResponseBody(response);
+        try {
+            return mapper.readTree(responseBody);
+        } catch(IOException e) {
+            throw new BridgeSDKException(e.getMessage(), e);
+        }
+    }
+    
     protected <T> T post(String url, Object object, Class<T> clazz) {
         try {
 
@@ -273,7 +283,6 @@ class BaseApiCaller {
             throw new BridgeSDKException(CONNECTION_FAILED, e);
         }
     }
-
 
     private void addApplicationHeaders(Request request) {
         logger.info("User-Agent: " + ClientProvider.getClientInfo().toString());
@@ -351,7 +360,8 @@ class BaseApiCaller {
                 } else if (statusCode == 410) {
                     e = new UnsupportedVersionException(message, url);
                 } else if (statusCode == 412) {
-                    UserSession userSession = getResponseBodyAsType(response, UserSession.class);
+                    JsonNode sessionNode = getJsonNode(response);
+                    UserSession userSession = UserSession.fromJSON(sessionNode);
                     e = new ConsentRequiredException("Consent required.", url, new BridgeSession(userSession));
                 } else if (statusCode == 409 && message.contains("already exists")) {
                     e = new EntityAlreadyExistsException(message, url);

@@ -57,5 +57,11 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
         checkArgument(isNotBlank(participant.getId()), CANNOT_BE_BLANK, "id");
         
         post(config.getParticipantApi(participant.getId()), participant);
+
+        // User is signed out if they edit their own StudyParticipant through this API.
+        if (session.getStudyParticipant().getId().equals(participant.getId())) {
+            logger.warn("Client edited self through researcher participant API, session has been signed out. Sign back in to update your session.");
+            session.removeSession();
+        }
     }
 }

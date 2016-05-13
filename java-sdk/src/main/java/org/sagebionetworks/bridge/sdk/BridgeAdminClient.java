@@ -1,6 +1,7 @@
 package org.sagebionetworks.bridge.sdk;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
@@ -35,9 +36,9 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
 
         ObjectNode node = (ObjectNode)Utilities.getMapper().valueToTree(participant);
         node.put("consent", Boolean.toString(consentUser));
-        UserSession session = post(config.getUsersApi(), node, UserSession.class);
+        JsonNode sessionNode = postForJSON(config.getUsersApi(), node);
         
-        return session.getId();
+        return sessionNode.get("id").asText();
     }
 
     @Override

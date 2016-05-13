@@ -1,11 +1,10 @@
 package org.sagebionetworks.bridge.sdk;
 
 import java.util.Map;
-import java.util.Set;
 
+import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.ConsentStatus;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
-import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 
 public interface Session {
 
@@ -13,17 +12,13 @@ public interface Session {
 
     String getSessionToken();
     
-    SharingScope getSharingScope();
-    
-    String getId();
+    StudyParticipant getStudyParticipant();
 
     boolean isConsented();
     
     boolean isSignedIn();
     
     void signOut();
-    
-    Set<String> getDataGroups();
     
     Map<SubpopulationGuid,ConsentStatus> getConsentStatuses();
     

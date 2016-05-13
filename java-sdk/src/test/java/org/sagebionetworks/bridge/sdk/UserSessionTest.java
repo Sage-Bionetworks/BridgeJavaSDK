@@ -4,16 +4,19 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
+import java.util.List;
 
 import org.junit.Test;
 
 import org.sagebionetworks.bridge.Tests;
+import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.ConsentStatus;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 public class UserSessionTest {
@@ -28,18 +31,36 @@ public class UserSessionTest {
 
     @Test
     public void canConstructUserSessionFromJson() throws Exception {
-        String json = Tests.unescapeJson("{'sessionToken':'sessionToken','authenticated':true,"+
-                "'sharingScope':'no_sharing','dataGroups':['group1','group2'],'id':'ABC',"+
-                "'consentStatuses':{'study':{'name':'Consent Name','subpopulationGuid':'study',"+
-                "'required':true,'consented':true,'mostRecentConsent':true}},'consented':true}");
+        String json = Tests.unescapeJson("{'sessionToken':'sessionToken',"+
+                "'authenticated':true,"+
+                "'languages':['en','fr'],"+
+                "'sharingScope':'no_sharing',"+
+                "'firstName': 'FirstName'," +
+                "'lastName': 'LastName'," +
+                "'email': 'email@email.com'," +
+                "'dataGroups':['group1','group2'],"+
+                "'id':'ABC',"+
+                "'consentStatuses':{'study':{'name':'Consent Name',"+
+                    "'subpopulationGuid':'study',"+
+                    "'required':true,"+
+                    "'consented':true,"+
+                    "'mostRecentConsent':true}},"+
+                "'consented':true}");
         
-        UserSession session = mapper.readValue(json, UserSession.class);
+        UserSession session = UserSession.fromJSON(mapper.readTree(json));
         assertEquals(SESSION_TOKEN, session.getSessionToken());
         assertTrue(session.isAuthenticated());
-        assertEquals(ID, session.getId());
-        assertEquals(DATA_GROUPS, session.getDataGroups());
-        assertEquals(SharingScope.NO_SHARING, session.getSharingScope());
         assertTrue(session.isConsented());
         assertEquals(CONSENT_STATUS, session.getConsentStatuses().get(SUBPOP_GUID));
+        StudyParticipant participant = session.getStudyParticipant();
+        assertEquals(ID, participant.getId());
+        assertEquals(DATA_GROUPS, participant.getDataGroups());
+        assertEquals(SharingScope.NO_SHARING, participant.getSharingScope());
+        assertEquals("FirstName", participant.getFirstName());
+        assertEquals("LastName", participant.getLastName());
+        assertEquals("email@email.com", participant.getEmail());
+        List<String> langs = Lists.newArrayList(participant.getLanguages());
+        assertEquals("en", langs.get(0));
+        assertEquals("fr", langs.get(1));
     }
 }
