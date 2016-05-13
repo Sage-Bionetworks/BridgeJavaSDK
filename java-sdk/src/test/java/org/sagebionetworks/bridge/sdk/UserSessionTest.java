@@ -47,7 +47,7 @@ public class UserSessionTest {
                     "'mostRecentConsent':true}},"+
                 "'consented':true}");
         
-        UserSession session = UserSession.fromJSON(mapper.readTree(json));
+        UserSession session = mapper.readValue(json, UserSession.class);
         assertEquals(SESSION_TOKEN, session.getSessionToken());
         assertTrue(session.isAuthenticated());
         assertTrue(session.isConsented());

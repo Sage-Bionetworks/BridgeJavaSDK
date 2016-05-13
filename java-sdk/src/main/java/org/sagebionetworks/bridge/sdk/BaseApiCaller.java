@@ -350,9 +350,8 @@ class BaseApiCaller {
                 } else if (statusCode == 410) {
                     e = new UnsupportedVersionException(message, url);
                 } else if (statusCode == 412) {
-                    JsonNode sessionNode = getJsonNode(response);
-                    UserSession userSession = UserSession.fromJSON(sessionNode);
-                    e = new ConsentRequiredException("Consent required.", url, new BridgeSession(userSession));
+                    UserSession session = getResponseBodyAsType(response, UserSession.class);
+                    e = new ConsentRequiredException("Consent required.", url, new BridgeSession(session));
                 } else if (statusCode == 409 && message.contains("already exists")) {
                     e = new EntityAlreadyExistsException(message, url);
                 } else if (statusCode == 409 && message.contains("has the wrong version number")) {

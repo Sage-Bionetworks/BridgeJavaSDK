@@ -13,6 +13,7 @@ import org.sagebionetworks.bridge.sdk.models.subpopulations.ConsentStatus;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -25,6 +26,7 @@ final class UserSession {
     private static final TypeReference<Map<SubpopulationGuid, ConsentStatus>> CONSENT_STATUS_MAP = new TypeReference<Map<SubpopulationGuid, ConsentStatus>>() {};
     private static final ObjectMapper MAPPER = Utilities.getMapper();
     
+    @JsonCreator
     public static final UserSession fromJSON(JsonNode node) {
         try {
             String sessionToken = node.get("sessionToken").asText();
