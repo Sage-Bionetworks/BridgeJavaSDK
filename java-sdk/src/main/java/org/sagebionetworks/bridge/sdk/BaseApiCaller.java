@@ -213,7 +213,7 @@ class BaseApiCaller {
             throw new BridgeSDKException(message, e);
         }
     }
-
+    
     protected <T> T post(String url, Object object, Class<T> clazz) {
         try {
 
@@ -273,7 +273,6 @@ class BaseApiCaller {
             throw new BridgeSDKException(CONNECTION_FAILED, e);
         }
     }
-
 
     private void addApplicationHeaders(Request request) {
         logger.info("User-Agent: " + ClientProvider.getClientInfo().toString());
@@ -351,8 +350,8 @@ class BaseApiCaller {
                 } else if (statusCode == 410) {
                     e = new UnsupportedVersionException(message, url);
                 } else if (statusCode == 412) {
-                    UserSession userSession = getResponseBodyAsType(response, UserSession.class);
-                    e = new ConsentRequiredException("Consent required.", url, new BridgeSession(userSession));
+                    UserSession session = getResponseBodyAsType(response, UserSession.class);
+                    e = new ConsentRequiredException("Consent required.", url, new BridgeSession(session));
                 } else if (statusCode == 409 && message.contains("already exists")) {
                     e = new EntityAlreadyExistsException(message, url);
                 } else if (statusCode == 409 && message.contains("has the wrong version number")) {

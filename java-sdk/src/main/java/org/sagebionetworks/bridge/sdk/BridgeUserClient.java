@@ -65,8 +65,8 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
         session.checkSignedIn();
         checkNotNull(participant, "StudyParticipant cannot be null.");
 
-        UserSession newSession = post(config.getParticipantSelfApi(), participant, UserSession.class);
-        session.setUserSession(newSession);
+        UserSession userSession = post(config.getParticipantSelfApi(), participant, UserSession.class);
+        session.setUserSession(userSession);
     }
     
     /*

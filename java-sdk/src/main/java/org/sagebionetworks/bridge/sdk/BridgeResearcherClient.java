@@ -4,6 +4,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.sagebionetworks.bridge.sdk.models.PagedResourceList;
@@ -13,6 +16,8 @@ import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 
 class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
 
+    private static final Logger logger = LoggerFactory.getLogger(BridgeResearcherClient.class);
+    
     private static final TypeReference<PagedResourceList<AccountSummary>> ACCOUNT_SUMMARY_PAGED_RESOURCE_LIST = 
             new TypeReference<PagedResourceList<AccountSummary>>() {};
                     
@@ -57,5 +62,11 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
         checkArgument(isNotBlank(participant.getId()), CANNOT_BE_BLANK, "id");
         
         post(config.getParticipantApi(participant.getId()), participant);
+
+        // User is signed out if they edit their own StudyParticipant through this API.
+        if (session.getStudyParticipant().getId().equals(participant.getId())) {
+            logger.warn("Client edited self through researcher participant API, session has been signed out. Sign back in to update your session.");
+            session.removeSession();
+        }
     }
 }
