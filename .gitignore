@@ -1,4 +1,5 @@
 # List of files ignored by git.
+*.versionsBackup
 .classpath
 .DS_Store
 .idea
