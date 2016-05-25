@@ -162,27 +162,27 @@ public class UploadSchemaTest {
     }
 
     @Test
-    public void optionalFields() {
-        UploadSchema testSchema = new UploadSchema.Builder().withFieldDefinitions(mutableFieldDefList())
-                .withName("Optional Fields").withSchemaId("optional-fields")
-                .withSchemaType(UploadSchemaType.IOS_SURVEY).withSurveyGuid("test-survey")
+    public void optionalFieldsAndCopyConstructor() {
+        List<UploadFieldDefinition> fieldDefList = mutableFieldDefList();
+
+        // make schema with all fields
+        UploadSchema testSchema = new UploadSchema.Builder().withFieldDefinitions(fieldDefList)
+                .withName("Optional Fields").withRevision(1).withSchemaId("optional-fields")
+                .withSchemaType(UploadSchemaType.IOS_SURVEY).withStudyId("test-study").withSurveyGuid("test-survey")
                 .withSurveyCreatedOn(SURVEY_CREATED_ON).withVersion(3L).build();
+        assertEquals(fieldDefList, testSchema.getFieldDefinitions());
         assertEquals("Optional Fields", testSchema.getName());
+        assertEquals(1, testSchema.getRevision().intValue());
         assertEquals("optional-fields", testSchema.getSchemaId());
         assertEquals(UploadSchemaType.IOS_SURVEY, testSchema.getSchemaType());
+        assertEquals("test-study", testSchema.getStudyId());
         assertEquals("test-survey", testSchema.getSurveyGuid());
         assertEquals(SURVEY_CREATED_ON, testSchema.getSurveyCreatedOn());
         assertEquals(3, testSchema.getVersion().longValue());
-    }
 
-    @Test
-    public void builderCopyOf() {
-        UploadSchema originalSchema = new UploadSchema.Builder().withFieldDefinitions(mutableFieldDefList())
-                .withName("Copied Schema").withRevision(1).withSchemaId("copied-schema")
-                .withSchemaType(UploadSchemaType.IOS_SURVEY).withSurveyGuid("copied-survey")
-                .withSurveyCreatedOn(SURVEY_CREATED_ON).withVersion(5L).build();
-        UploadSchema copiedSchema = new UploadSchema.Builder().copyOf(originalSchema).build();
-        assertEquals(originalSchema, copiedSchema);
+        // copy schema
+        UploadSchema copiedSchema = new UploadSchema.Builder().copyOf(testSchema).build();
+        assertEquals(testSchema, copiedSchema);
     }
 
     @Test
@@ -193,6 +193,7 @@ public class UploadSchemaTest {
                 "   \"revision\":3,\n" +
                 "   \"schemaId\":\"test-schema\",\n" +
                 "   \"schemaType\":\"ios_data\",\n" +
+                "   \"studyId\":\"test-study\",\n" +
                 "   \"surveyGuid\":\"survey-guid\",\n" +
                 "   \"surveyCreatedOn\":\"" + SURVEY_CREATED_ON + "\",\n" +
                 "   \"version\":6,\n" +
@@ -210,6 +211,7 @@ public class UploadSchemaTest {
         assertEquals(3, uploadSchema.getRevision().intValue());
         assertEquals("test-schema", uploadSchema.getSchemaId());
         assertEquals(UploadSchemaType.IOS_DATA, uploadSchema.getSchemaType());
+        assertEquals("test-study", uploadSchema.getStudyId());
         assertEquals("survey-guid", uploadSchema.getSurveyGuid());
         assertEquals(SURVEY_CREATED_ON_MILLIS, uploadSchema.getSurveyCreatedOn().getMillis());
         assertEquals(6, uploadSchema.getVersion().longValue());
@@ -224,11 +226,12 @@ public class UploadSchemaTest {
 
         // then convert to a map so we can validate the raw JSON
         Map<String, Object> jsonMap = Utilities.getMapper().readValue(convertedJson, Utilities.TYPE_REF_RAW_MAP);
-        assertEquals(8, jsonMap.size());
+        assertEquals(9, jsonMap.size());
         assertEquals("Test Schema", jsonMap.get("name"));
         assertEquals(3, jsonMap.get("revision"));
         assertEquals("test-schema", jsonMap.get("schemaId"));
         assertEquals("ios_data", jsonMap.get("schemaType"));
+        assertEquals("test-study", jsonMap.get("studyId"));
         assertEquals("survey-guid", jsonMap.get("surveyGuid"));
         assertEquals(SURVEY_CREATED_ON.getMillis(),
                 DateTime.parse((String) jsonMap.get("surveyCreatedOn")).getMillis());

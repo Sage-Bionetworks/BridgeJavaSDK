@@ -24,18 +24,21 @@ public final class UploadSchema {
     private final Integer revision;
     private final String schemaId;
     private final UploadSchemaType schemaType;
+    private final String studyId;
     private final String surveyGuid;
     private final DateTime surveyCreatedOn;
     private final Long version;
 
     /** Private constructor. Construction of an UploadSchema should go through the Builder. */
     private UploadSchema(List<UploadFieldDefinition> fieldDefinitions, String name, Integer revision,
-            String schemaId, UploadSchemaType schemaType, String surveyGuid, DateTime surveyCreatedOn, Long version) {
+            String schemaId, UploadSchemaType schemaType, String studyId, String surveyGuid, DateTime surveyCreatedOn,
+            Long version) {
         this.fieldDefinitions = fieldDefinitions;
         this.name = name;
         this.revision = revision;
         this.schemaId = schemaId;
         this.schemaType = schemaType;
+        this.studyId = studyId;
         this.surveyGuid = surveyGuid;
         this.surveyCreatedOn = surveyCreatedOn;
         this.version = version;
@@ -84,6 +87,11 @@ public final class UploadSchema {
         return schemaType;
     }
 
+    /** Study the schema lives in. This is available only through the worker API. */
+    public String getStudyId() {
+        return studyId;
+    }
+
     /** The survey GUID, if this is a survey schema. */
     public String getSurveyGuid() {
         return surveyGuid;
@@ -119,6 +127,7 @@ public final class UploadSchema {
                 Objects.equals(revision, that.revision) &&
                 Objects.equals(schemaId, that.schemaId) &&
                 schemaType == that.schemaType &&
+                Objects.equals(studyId, that.studyId) &&
                 Objects.equals(surveyGuid, that.surveyGuid) &&
                 Objects.equals(surveyCreatedOn, that.surveyCreatedOn) &&
                 Objects.equals(version, that.version);
@@ -127,8 +136,8 @@ public final class UploadSchema {
     /** {@inheritDoc} */
     @Override
     public int hashCode() {
-        return Objects.hash(fieldDefinitions, name, revision, schemaId, schemaType, surveyGuid, surveyCreatedOn,
-                version);
+        return Objects.hash(fieldDefinitions, name, revision, schemaId, schemaType, studyId, surveyGuid,
+                surveyCreatedOn, version);
     }
 
     /** {@inheritDoc} */
@@ -139,6 +148,7 @@ public final class UploadSchema {
                 ", revision=" + revision +
                 ", schemaId=" + schemaId +
                 ", schemaType=" + schemaType.name() +
+                ", studyId='" + studyId + '\'' +
                 ", surveyGuid=" + surveyGuid +
                 ", surveyCreatedOn=" + surveyCreatedOn +
                 ", version=" + version +
@@ -153,6 +163,7 @@ public final class UploadSchema {
         private Integer revision;
         private String schemaId;
         private UploadSchemaType schemaType;
+        private String studyId;
         private String surveyGuid;
         private DateTime surveyCreatedOn;
         private Long version;
@@ -168,6 +179,7 @@ public final class UploadSchema {
             this.revision = other.revision;
             this.schemaId = other.schemaId;
             this.schemaType = other.schemaType;
+            this.studyId = other.studyId;
             this.surveyGuid = other.surveyGuid;
             this.surveyCreatedOn = other.surveyCreatedOn;
             this.version = other.version;
@@ -209,6 +221,12 @@ public final class UploadSchema {
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getSchemaType */
         public Builder withSchemaType(UploadSchemaType schemaType) {
             this.schemaType = schemaType;
+            return this;
+        }
+
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadSchema#getStudyId */
+        public Builder withStudyId(String studyId) {
+            this.studyId = studyId;
             return this;
         }
 
@@ -283,7 +301,7 @@ public final class UploadSchema {
             }
 
             return new UploadSchema(ImmutableList.copyOf(fieldDefinitions), name, revision, schemaId, schemaType,
-                    surveyGuid, surveyCreatedOn, version);
+                    studyId, surveyGuid, surveyCreatedOn, version);
         }
     }
 }
