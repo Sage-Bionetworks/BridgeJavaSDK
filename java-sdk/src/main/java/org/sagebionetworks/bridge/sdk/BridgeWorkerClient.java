@@ -26,11 +26,12 @@ class BridgeWorkerClient extends BaseApiCaller implements WorkerClient {
 
     /** {@inheritDoc} */
     @Override
-    public UploadSchema getSchema(String schemaId, int revision) {
+    public UploadSchema getSchema(String studyId, String schemaId, int revision) {
         session.checkSignedIn();
+        checkArgument(isNotBlank(studyId), CANNOT_BE_BLANK, "studyId");
         checkArgument(isNotBlank(schemaId), CANNOT_BE_BLANK, "schemaId");
         checkArgument(revision > 0, "revision must be positive");
-        return get(config.getUploadSchemaApi(schemaId, revision), UploadSchema.class);
+        return get(config.getUploadSchemaApi(studyId, schemaId, revision), UploadSchema.class);
     }
 
     /** {@inheritDoc} */

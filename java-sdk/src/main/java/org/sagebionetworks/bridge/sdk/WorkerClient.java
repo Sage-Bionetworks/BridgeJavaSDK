@@ -12,16 +12,17 @@ public interface WorkerClient {
     // SCHEMAS
 
     /**
-     * Gets an upload schema by ID and revision.
+     * Gets an upload schema by study ID, schema ID, and revision.
      *
+     * @param studyId
+     *         study the schema lives in
      * @param schemaId
      *         schema to fetch
      * @param revision
      *         revision to fetch
      * @return the specified schema
      */
-    UploadSchema getSchema(String schemaId, int revision);
-
+    UploadSchema getSchema(String studyId, String schemaId, int revision);
 
     // SURVEYS
 

@@ -71,6 +71,7 @@ public final class Config {
         V3_STUDIES_IDENTIFIER,
         V3_STUDIES_SELF,
         V3_STUDIES_STUDYID_SURVEYS_PUBLISHED,
+        V3_STUDIES_STUDYID_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REVISION,
         V3_SUBPOPULATION,
         V3_SUBPOPULATIONS,
         V3_SUBPOPULATIONS_CONSENTS,
@@ -340,6 +341,14 @@ public final class Config {
     public String getPublishedSurveysForStudyApi(String studyId) {
         checkArgument(isNotBlank(studyId));
         return String.format(val(Props.V3_STUDIES_STUDYID_SURVEYS_PUBLISHED), studyId);
+    }
+
+    public String getUploadSchemaApi(String studyId, String schemaId, int revision) {
+        checkArgument(isNotBlank(studyId));
+        checkArgument(isNotBlank(schemaId));
+        checkArgument(revision > 0);
+        return String.format(val(Props.V3_STUDIES_STUDYID_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REVISION), studyId,
+                schemaId, revision);
     }
 
     public String getSurveyApi(String guid, DateTime createdOn) {
