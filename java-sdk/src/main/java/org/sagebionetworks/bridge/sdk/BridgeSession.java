@@ -10,7 +10,6 @@ import org.sagebionetworks.bridge.sdk.models.subpopulations.ConsentStatus;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.google.common.collect.ImmutableMap;
 
 class BridgeSession implements Session {
