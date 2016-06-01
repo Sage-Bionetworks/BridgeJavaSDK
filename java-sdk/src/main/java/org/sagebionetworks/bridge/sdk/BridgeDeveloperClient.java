@@ -6,6 +6,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.util.List;
 
+import com.google.common.net.UrlEscapers;
 import org.joda.time.DateTime;
 
 import org.sagebionetworks.bridge.sdk.models.PagedResourceList;
@@ -255,7 +256,9 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
     public void deleteUploadSchemaAllRevisions(String schemaId) {
         session.checkSignedIn();
         checkArgument(isNotBlank(schemaId), CANNOT_BE_BLANK, "schemaId");
-        delete(config.getUploadSchemaAllRevisionsApi(schemaId));
+
+        String encodedSchemaId = UrlEscapers.urlPathSegmentEscaper().escape(schemaId);
+        delete(config.getUploadSchemaAllRevisionsApi(encodedSchemaId));
     }
 
     @Override
@@ -263,21 +266,27 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
         session.checkSignedIn();
         checkArgument(isNotBlank(schemaId), CANNOT_BE_BLANK, "schemaId");
         checkArgument(revision > 0, "revision must be positive");
-        delete(config.getUploadSchemaApi(schemaId, revision));
+
+        String encodedSchemaId = UrlEscapers.urlPathSegmentEscaper().escape(schemaId);
+        delete(config.getUploadSchemaApi(encodedSchemaId, revision));
     }
 
     @Override
     public ResourceList<UploadSchema> getUploadSchema(String schemaId) {
         session.checkSignedIn();
         checkArgument(isNotBlank(schemaId), CANNOT_BE_BLANK, "schemaId");
-        return get(config.getUploadSchemaAllRevisionsApi(schemaId), TYPE_REF_UPLOAD_SCHEMA_LIST);
+
+        String encodedSchemaId = UrlEscapers.urlPathSegmentEscaper().escape(schemaId);
+        return get(config.getUploadSchemaAllRevisionsApi(encodedSchemaId), TYPE_REF_UPLOAD_SCHEMA_LIST);
     }
     
     @Override
     public UploadSchema getMostRecentUploadSchemaRevision(String schemaId) {
         session.checkSignedIn();
         checkArgument(isNotBlank(schemaId), CANNOT_BE_BLANK, "schemaId");
-        return get(config.getMostRecentUploadSchemaApi(schemaId), UploadSchema.class);
+
+        String encodedSchemaId = UrlEscapers.urlPathSegmentEscaper().escape(schemaId);
+        return get(config.getMostRecentUploadSchemaApi(encodedSchemaId), UploadSchema.class);
     }
 
     @Override
@@ -292,7 +301,9 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
         checkArgument(isNotBlank(schemaId), CANNOT_BE_BLANK, "schemaId");
         checkArgument(revision > 0, "revision must be positive");
         checkNotNull(schema, CANNOT_BE_NULL, "schema");
-        return post(config.getUploadSchemaV4Api(schemaId, revision), schema, UploadSchema.class);
+
+        String encodedSchemaId = UrlEscapers.urlPathSegmentEscaper().escape(schemaId);
+        return post(config.getUploadSchemaV4Api(encodedSchemaId, revision), schema, UploadSchema.class);
     }
 
     @Override
