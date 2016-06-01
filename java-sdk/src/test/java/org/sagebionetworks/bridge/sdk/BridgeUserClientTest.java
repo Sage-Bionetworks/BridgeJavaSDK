@@ -19,8 +19,6 @@ import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
 import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 @RunWith(MockitoJUnitRunner.class)
 public class BridgeUserClientTest {
 
