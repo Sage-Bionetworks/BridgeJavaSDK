@@ -5,8 +5,8 @@ import org.sagebionetworks.bridge.sdk.models.accounts.AccountSummary;
 import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 
-public interface ResearcherClient {
-
+public interface ResearcherClient extends StudyStaffClient {
+    
     /**
      * Sign out a user's session.
      *

@@ -6,7 +6,7 @@
         <groupId>org.sagebionetworks.bridge</groupId>
         <artifactId>sdk-group</artifactId>
         <!-- Please use the maven versions plugin to manage this, e.g.`mvn versions:set -DnewVersion=0.8.1`-->
-        <version>0.8.5</version>
+        <version>0.8.6</version>
     </parent>
 
     <!-- groupId and version are inherited from parent pom -->
@@ -120,6 +120,7 @@
                     <links>
                         <link>http://joda-time.sourceforge.net/apidocs/</link>
                     </links>
+                    <show>public</show>
                     <excludePackageNames>
                         org.sagebionetworks.bridge.sdk.json,org.sagebionetworks.bridge.sdk.utils
                     </excludePackageNames>

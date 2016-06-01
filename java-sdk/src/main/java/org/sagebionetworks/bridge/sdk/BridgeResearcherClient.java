@@ -14,7 +14,7 @@ import org.sagebionetworks.bridge.sdk.models.accounts.AccountSummary;
 import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 
-class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
+class BridgeResearcherClient extends BridgeStudyStaffClient implements ResearcherClient {
 
     private static final Logger logger = LoggerFactory.getLogger(BridgeResearcherClient.class);
     
@@ -24,7 +24,7 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
     BridgeResearcherClient(BridgeSession session) {
         super(session);
     }
-
+    
     @Override
     public void signOutUser(String email) {
         session.checkSignedIn();

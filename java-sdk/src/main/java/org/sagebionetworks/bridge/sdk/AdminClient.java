@@ -9,7 +9,7 @@ import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 
 import java.util.List;
 
-public interface AdminClient {
+public interface AdminClient extends StudyStaffClient {
 
     /**
      * Create a user.
