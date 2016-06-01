@@ -13,9 +13,8 @@ import org.sagebionetworks.bridge.sdk.models.PagedResourceList;
 import org.sagebionetworks.bridge.sdk.models.accounts.AccountSummary;
 import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
-import org.sagebionetworks.bridge.sdk.models.studies.Study;
 
-class BridgeResearcherClient extends BridgeAdministrativeClient implements ResearcherClient {
+class BridgeResearcherClient extends BridgeStudyStaffClient implements ResearcherClient {
 
     private static final Logger logger = LoggerFactory.getLogger(BridgeResearcherClient.class);
     

@@ -28,7 +28,7 @@ import org.sagebionetworks.bridge.sdk.models.users.ExternalIdentifier;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
-class BridgeDeveloperClient extends BridgeAdministrativeClient implements DeveloperClient {
+class BridgeDeveloperClient extends BridgeStudyStaffClient implements DeveloperClient {
     
     private final TypeReference<ResourceListImpl<StudyConsent>> scType = new TypeReference<ResourceListImpl<StudyConsent>>() {};
     private final TypeReference<ResourceListImpl<Survey>> sType = new TypeReference<ResourceListImpl<Survey>>() {};

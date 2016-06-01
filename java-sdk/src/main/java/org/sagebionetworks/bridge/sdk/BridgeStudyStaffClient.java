@@ -2,9 +2,9 @@ package org.sagebionetworks.bridge.sdk;
 
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 
-public class BridgeAdministrativeClient extends BaseApiCaller implements AdministrativeClient {
+public class BridgeStudyStaffClient extends BaseApiCaller implements StudyStaffClient {
     
-    BridgeAdministrativeClient(BridgeSession session) {
+    BridgeStudyStaffClient(BridgeSession session) {
         super(session);
     }
     

@@ -18,7 +18,7 @@ import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadSchema;
 import org.sagebionetworks.bridge.sdk.models.users.ExternalIdentifier;
 
-public interface DeveloperClient extends AdministrativeClient {
+public interface DeveloperClient extends StudyStaffClient {
 
     // STUDY CONSENTS
     /**
