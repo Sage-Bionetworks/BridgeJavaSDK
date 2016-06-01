@@ -234,7 +234,7 @@ public interface DeveloperClient {
     public void deleteSchedulePlan(String guid);
 
     /**
-     * Get the study this researcher is associated to. Researchers can edit studies.
+     * Get the study this developer is associated to. Developers can edit studies.
      * 
      * @return study
      */

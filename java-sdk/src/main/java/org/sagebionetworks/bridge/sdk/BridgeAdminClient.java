@@ -30,6 +30,12 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
     }
 
     @Override
+    public Study getStudy() {
+        session.checkSignedIn();
+        return get(config.getCurrentStudyApi(), Study.class);
+    }
+    
+    @Override
     public String createUser(StudyParticipant participant, boolean consentUser) {
         session.checkSignedIn();
 

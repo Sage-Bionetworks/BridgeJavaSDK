@@ -12,6 +12,13 @@ import java.util.List;
 public interface AdminClient {
 
     /**
+     * Get the study this admin is associated to.
+     * 
+     * @return study
+     */
+    public Study getStudy();
+    
+    /**
      * Create a user.
      *
      * @param user
