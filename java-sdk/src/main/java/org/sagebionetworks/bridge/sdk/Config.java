@@ -62,6 +62,7 @@ public final class Config {
         V3_CACHE_CACHEKEY,
         V3_EXTERNAL_IDS,
         V3_PARTICIPANT,
+        V3_PARTICIPANT_REQUEST_RESET_PASSWORD,
         V3_PARTICIPANT_SIGNOUT,
         V3_PARTICIPANTS,
         V3_PARTICIPANTS_SELF,
@@ -507,6 +508,11 @@ public final class Config {
     public String getParticipantApi(String id) {
         checkArgument(isNotBlank(id));
         return String.format(val(Props.V3_PARTICIPANT), id);
+    }
+    
+    public String getParticipantRequestResetPasswordApi(String id) {
+        checkArgument(isNotBlank(id));
+        return String.format(val(Props.V3_PARTICIPANT_REQUEST_RESET_PASSWORD), id);
     }
     
     public String getParticipantSelfApi() {

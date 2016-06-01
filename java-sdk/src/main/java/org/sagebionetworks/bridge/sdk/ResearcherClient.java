@@ -65,4 +65,12 @@ public interface ResearcherClient {
      * @param participant
      */
     IdentifierHolder createStudyParticipant(StudyParticipant participant);
+    
+    /**
+     * Trigger an email to the user with the given ID, that includes instructions on how they can reset their 
+     * password. 
+     * 
+     * @param id
+     */
+    void requestResetPassword(String id);
 }

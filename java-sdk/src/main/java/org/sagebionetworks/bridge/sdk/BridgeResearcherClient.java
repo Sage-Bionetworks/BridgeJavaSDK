@@ -76,4 +76,12 @@ class BridgeResearcherClient extends BaseApiCaller implements ResearcherClient {
             session.removeSession();
         }
     }
+    
+    @Override
+    public void requestResetPassword(String id) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(id), CANNOT_BE_BLANK, "id");
+
+        post(config.getParticipantRequestResetPasswordApi(id));
+    }
 }
