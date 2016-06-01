@@ -28,7 +28,7 @@ import org.sagebionetworks.bridge.sdk.models.users.ExternalIdentifier;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
-class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
+class BridgeDeveloperClient extends BridgeAdministrativeClient implements DeveloperClient {
     
     private final TypeReference<ResourceListImpl<StudyConsent>> scType = new TypeReference<ResourceListImpl<StudyConsent>>() {};
     private final TypeReference<ResourceListImpl<Survey>> sType = new TypeReference<ResourceListImpl<Survey>>() {};
@@ -221,11 +221,6 @@ class BridgeDeveloperClient extends BaseApiCaller implements DeveloperClient {
         session.checkSignedIn();
         checkArgument(isNotBlank(guid), CANNOT_BE_BLANK, "guid");
         delete(config.getSchedulePlanApi(guid));
-    }
-    @Override
-    public Study getStudy() {
-        session.checkSignedIn();
-        return get(config.getCurrentStudyApi(), Study.class);
     }
     @Override
     public VersionHolder updateStudy(Study study) {

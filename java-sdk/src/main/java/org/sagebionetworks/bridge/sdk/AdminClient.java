@@ -9,15 +9,8 @@ import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 
 import java.util.List;
 
-public interface AdminClient {
+public interface AdminClient extends AdministrativeClient {
 
-    /**
-     * Get the study this admin is associated to.
-     * 
-     * @return study
-     */
-    public Study getStudy();
-    
     /**
      * Create a user.
      *

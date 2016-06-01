@@ -18,7 +18,7 @@ import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadSchema;
 import org.sagebionetworks.bridge.sdk.models.users.ExternalIdentifier;
 
-public interface DeveloperClient {
+public interface DeveloperClient extends AdministrativeClient {
 
     // STUDY CONSENTS
     /**
@@ -232,13 +232,6 @@ public interface DeveloperClient {
      *            GUID identifying the schedule plan to delete.
      */
     public void deleteSchedulePlan(String guid);
-
-    /**
-     * Get the study this developer is associated to. Developers can edit studies.
-     * 
-     * @return study
-     */
-    public Study getStudy();
 
     /**
      * Update information about this study.

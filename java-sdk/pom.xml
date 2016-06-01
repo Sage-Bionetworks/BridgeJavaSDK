@@ -120,6 +120,7 @@
                     <links>
                         <link>http://joda-time.sourceforge.net/apidocs/</link>
                     </links>
+                    <show>public</show>
                     <excludePackageNames>
                         org.sagebionetworks.bridge.sdk.json,org.sagebionetworks.bridge.sdk.utils
                     </excludePackageNames>

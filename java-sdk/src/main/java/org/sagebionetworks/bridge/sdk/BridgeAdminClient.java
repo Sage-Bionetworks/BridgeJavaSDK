@@ -17,7 +17,7 @@ import java.util.List;
 import static com.google.common.base.Preconditions.checkArgument;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
+final class BridgeAdminClient extends BridgeAdministrativeClient implements AdminClient {
     
     private static final TypeReference<ResourceListImpl<Study>> STUDY_RESOURCE_LIST = 
             new TypeReference<ResourceListImpl<Study>>() {};
@@ -27,12 +27,6 @@ final class BridgeAdminClient extends BaseApiCaller implements AdminClient {
             
     BridgeAdminClient(BridgeSession session) {
         super(session);
-    }
-
-    @Override
-    public Study getStudy() {
-        session.checkSignedIn();
-        return get(config.getCurrentStudyApi(), Study.class);
     }
     
     @Override

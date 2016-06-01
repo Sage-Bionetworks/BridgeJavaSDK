@@ -4,17 +4,8 @@ import org.sagebionetworks.bridge.sdk.models.PagedResourceList;
 import org.sagebionetworks.bridge.sdk.models.accounts.AccountSummary;
 import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
-import org.sagebionetworks.bridge.sdk.models.studies.Study;
 
-public interface ResearcherClient {
-
-    /**
-     * Get the study this researcher is associated to. Researchers can view a study but 
-     * cannot edit it.
-     * 
-     * @return study
-     */
-    public Study getStudy();
+public interface ResearcherClient extends AdministrativeClient {
     
     /**
      * Sign out a user's session.
