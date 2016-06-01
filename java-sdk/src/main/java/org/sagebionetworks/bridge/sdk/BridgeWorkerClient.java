@@ -5,6 +5,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.net.UrlEscapers;
 import org.joda.time.DateTime;
 
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
@@ -31,7 +32,9 @@ class BridgeWorkerClient extends BaseApiCaller implements WorkerClient {
         checkArgument(isNotBlank(studyId), CANNOT_BE_BLANK, "studyId");
         checkArgument(isNotBlank(schemaId), CANNOT_BE_BLANK, "schemaId");
         checkArgument(revision > 0, "revision must be positive");
-        return get(config.getUploadSchemaApi(studyId, schemaId, revision), UploadSchema.class);
+
+        String encodedSchemaId = UrlEscapers.urlPathSegmentEscaper().escape(schemaId);
+        return get(config.getUploadSchemaApi(studyId, encodedSchemaId, revision), UploadSchema.class);
     }
 
     /** {@inheritDoc} */
