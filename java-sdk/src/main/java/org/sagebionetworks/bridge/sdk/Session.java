@@ -22,14 +22,29 @@ public interface Session {
     
     Map<SubpopulationGuid,ConsentStatus> getConsentStatuses();
     
+    DeveloperClient getDeveloperClient();
+
+    ResearcherClient getResearcherClient();
+
+    WorkerClient getWorkerClient();
+    
     UserClient getUserClient();
     
-    DeveloperClient getDeveloperClient();
-    
-    ResearcherClient getResearcherClient();
-    
     AdminClient getAdminClient();
-
-    /** Gets the client used for worker APIs. */
-    WorkerClient getWorkerClient();
+    
+    ExternalIdentifiersClient getExternalIdentifiersClient();
+    
+    ParticipantClient getParticipantClient();
+    
+    SchedulePlanClient getSchedulePlanClient();
+    
+    StudyClient getStudyClient();
+    
+    StudyConsentClient getStudyConsentClient();
+    
+    SubpopulationClient getSubpopulationClient();
+    
+    SurveyClient getSurveyClient();
+    
+    UploadSchemaClient getUploadSchemaClient();
 }
