@@ -12,6 +12,7 @@ import nl.jqno.equalsverifier.Warning;
 
 import org.junit.Ignore;
 import org.junit.Test;
+
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
 
@@ -47,7 +48,7 @@ public class ResourceListTest {
     private ResourceList<StudyParticipant> createParticipantList(String email) {
         StudyParticipant participant = new StudyParticipant.Builder().withEmail(email).build();
         List<StudyParticipant> list = Lists.newArrayList(participant);
-        return new ResourceListImpl<StudyParticipant>(list, list.size());
+        return new ResourceList<StudyParticipant>(list, list.size());
     }
 
 }

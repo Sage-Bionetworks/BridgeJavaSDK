@@ -11,6 +11,7 @@ import org.joda.time.DateTime;
 
 import org.sagebionetworks.bridge.sdk.models.PagedResourceList;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
+import org.sagebionetworks.bridge.sdk.models.accounts.ExternalIdentifier;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleGuidCreatedOnVersionHolder;
@@ -24,18 +25,17 @@ import org.sagebionetworks.bridge.sdk.models.subpopulations.Subpopulation;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadSchema;
-import org.sagebionetworks.bridge.sdk.models.users.ExternalIdentifier;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
 class BridgeDeveloperClient extends BridgeStudyStaffClient implements DeveloperClient {
     
-    private final TypeReference<ResourceListImpl<StudyConsent>> scType = new TypeReference<ResourceListImpl<StudyConsent>>() {};
-    private final TypeReference<ResourceListImpl<Survey>> sType = new TypeReference<ResourceListImpl<Survey>>() {};
-    private final TypeReference<ResourceListImpl<SchedulePlan>> spType = new TypeReference<ResourceListImpl<SchedulePlan>>() {};
-    private final TypeReference<ResourceListImpl<Subpopulation>> subpopType = new TypeReference<ResourceListImpl<Subpopulation>>() {};
-    private static final TypeReference<ResourceListImpl<UploadSchema>> TYPE_REF_UPLOAD_SCHEMA_LIST =
-            new TypeReference<ResourceListImpl<UploadSchema>>() {};
+    private final TypeReference<ResourceList<StudyConsent>> scType = new TypeReference<ResourceList<StudyConsent>>() {};
+    private final TypeReference<ResourceList<Survey>> sType = new TypeReference<ResourceList<Survey>>() {};
+    private final TypeReference<ResourceList<SchedulePlan>> spType = new TypeReference<ResourceList<SchedulePlan>>() {};
+    private final TypeReference<ResourceList<Subpopulation>> subpopType = new TypeReference<ResourceList<Subpopulation>>() {};
+    private static final TypeReference<ResourceList<UploadSchema>> TYPE_REF_UPLOAD_SCHEMA_LIST =
+            new TypeReference<ResourceList<UploadSchema>>() {};
     private static final TypeReference<PagedResourceList<ExternalIdentifier>> EXTERNAL_IDENTIFIER_PAGED_RESOURCE_LIST = 
             new TypeReference<PagedResourceList<ExternalIdentifier>>() {};
 

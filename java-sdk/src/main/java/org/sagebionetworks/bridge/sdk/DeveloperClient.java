@@ -6,6 +6,7 @@ import org.joda.time.DateTime;
 
 import org.sagebionetworks.bridge.sdk.models.PagedResourceList;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
+import org.sagebionetworks.bridge.sdk.models.accounts.ExternalIdentifier;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
@@ -16,7 +17,6 @@ import org.sagebionetworks.bridge.sdk.models.subpopulations.Subpopulation;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadSchema;
-import org.sagebionetworks.bridge.sdk.models.users.ExternalIdentifier;
 
 public interface DeveloperClient extends StudyStaffClient {
 

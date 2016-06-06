@@ -1,4 +1,4 @@
-package org.sagebionetworks.bridge.sdk.models.users;
+package org.sagebionetworks.bridge.sdk.models.accounts;
 
 import java.util.Objects;
 

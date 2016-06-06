@@ -12,7 +12,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.joda.time.DateTime;
 
 import org.sagebionetworks.bridge.sdk.Roles;
-import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

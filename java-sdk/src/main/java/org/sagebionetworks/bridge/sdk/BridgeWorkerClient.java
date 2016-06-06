@@ -42,7 +42,7 @@ class BridgeWorkerClient extends BaseApiCaller implements WorkerClient {
     public ResourceList<Survey> getAllSurveysMostRecentlyPublished(String studyId) {
         session.checkSignedIn();
         checkArgument(isNotBlank(studyId), "studyId");
-        return get(config.getPublishedSurveysForStudyApi(studyId), new TypeReference<ResourceListImpl<Survey>>(){});
+        return get(config.getPublishedSurveysForStudyApi(studyId), new TypeReference<ResourceList<Survey>>(){});
     }
 
     /** {@inheritDoc} */

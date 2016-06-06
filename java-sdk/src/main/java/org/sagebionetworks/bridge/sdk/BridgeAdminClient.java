@@ -19,8 +19,8 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 final class BridgeAdminClient extends BridgeStudyStaffClient implements AdminClient {
     
-    private static final TypeReference<ResourceListImpl<Study>> STUDY_RESOURCE_LIST = 
-            new TypeReference<ResourceListImpl<Study>>() {};
+    private static final TypeReference<ResourceList<Study>> STUDY_RESOURCE_LIST = 
+            new TypeReference<ResourceList<Study>>() {};
             
     private static final TypeReference<List<String>> STRING_LIST = 
             new TypeReference<List<String>>() {};

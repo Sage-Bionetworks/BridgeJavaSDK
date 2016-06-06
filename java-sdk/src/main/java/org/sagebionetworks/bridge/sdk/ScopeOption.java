@@ -2,7 +2,7 @@ package org.sagebionetworks.bridge.sdk;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
+import org.sagebionetworks.bridge.sdk.models.accounts.SharingScope;
 
 class ScopeOption {
 
