@@ -1,11 +1,29 @@
 package org.sagebionetworks.bridge.sdk;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+
 import org.sagebionetworks.bridge.sdk.models.PagedResourceList;
 import org.sagebionetworks.bridge.sdk.models.accounts.AccountSummary;
 import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 
-public interface ResearcherClient extends StudyStaffClient {
+public class ResearcherClient extends StudyStaffClient {
+
+    private static final Logger logger = LoggerFactory.getLogger(ResearcherClient.class);
+    
+    private static final TypeReference<PagedResourceList<AccountSummary>> ACCOUNT_SUMMARY_PAGED_RESOURCE_LIST = 
+            new TypeReference<PagedResourceList<AccountSummary>>() {};
+                    
+    ResearcherClient(BridgeSession session) {
+        super(session);
+    }
     
     /**
      * Sign out a user's session.
@@ -13,8 +31,12 @@ public interface ResearcherClient extends StudyStaffClient {
      * @param email
      *            Email address identifying the user to sign out.
      */
-    public void signOutUser(String email);
+    public void signOutUser(String email) {
+        session.checkSignedIn();
 
+        post(config.getUsersSignOutApi(email));
+    }
+    
     /**
      * Retrieve a page of participant summaries (name and email).
      * @param offsetBy
@@ -27,8 +49,12 @@ public interface ResearcherClient extends StudyStaffClient {
      *      string will filter results.
      * @return
      */
-    PagedResourceList<AccountSummary> getPagedAccountSummaries(int offsetBy, int pageSize, String emailFilter);
-
+    public PagedResourceList<AccountSummary> getPagedAccountSummaries(int offsetBy, int pageSize, String emailFilter) {
+        session.checkSignedIn();
+        
+        return get(config.getParticipantsApi(offsetBy, pageSize, emailFilter), ACCOUNT_SUMMARY_PAGED_RESOURCE_LIST);
+    }
+    
     /**
      * Get an individual participant account. This can include any user, even ones who have not 
      * enrolled in the study (they have not verified their email address, they have not signed the 
@@ -39,7 +65,24 @@ public interface ResearcherClient extends StudyStaffClient {
      *      the user's id
      * @return
      */
-    StudyParticipant getStudyParticipant(String id);
+    public StudyParticipant getStudyParticipant(String id) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(id), CANNOT_BE_BLANK, "id");
+
+        return get(config.getParticipantApi(id), StudyParticipant.class);
+    }
+    
+    /**
+     * Create a study participant.
+     * 
+     * @param participant
+     */
+    public IdentifierHolder createStudyParticipant(StudyParticipant participant) {
+        session.checkSignedIn();
+        checkNotNull(participant);
+        
+        return post(config.getParticipantsApi(), participant, IdentifierHolder.class);
+    }
     
     /**
      * Update an individual study participant. Not all records in study participant can be changed (some 
@@ -48,14 +91,19 @@ public interface ResearcherClient extends StudyStaffClient {
      *      The participant object. The update will be made based on all the values that can be set through 
      *      the StudyParticipant.Builder.
      */
-    void updateStudyParticipant(StudyParticipant participant);
-    
-    /**
-     * Create a study participant.
-     * 
-     * @param participant
-     */
-    IdentifierHolder createStudyParticipant(StudyParticipant participant);
+    public void updateStudyParticipant(StudyParticipant participant) {
+        session.checkSignedIn();
+        checkNotNull(participant);
+        checkArgument(isNotBlank(participant.getId()), CANNOT_BE_BLANK, "id");
+        
+        post(config.getParticipantApi(participant.getId()), participant);
+
+        // User is signed out if they edit their own StudyParticipant through this API.
+        if (session.getStudyParticipant().getId().equals(participant.getId())) {
+            logger.warn("Client edited self through researcher participant API, session has been signed out. Sign back in to update your session.");
+            session.removeSession();
+        }
+    }
     
     /**
      * Trigger an email to the user with the given ID, that includes instructions on how they can reset their 
@@ -63,5 +111,10 @@ public interface ResearcherClient extends StudyStaffClient {
      * 
      * @param id
      */
-    void requestResetPassword(String id);
+    public void requestResetPassword(String id) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(id), CANNOT_BE_BLANK, "id");
+
+        post(config.getParticipantRequestResetPasswordApi(id));
+    }
 }

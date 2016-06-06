@@ -25,7 +25,7 @@ public class BridgeResearcherClientTest {
         doReturn(makeParticipant("DEF")).when(session).getStudyParticipant();
         doReturn(true).when(session).isSignedIn();
         
-        BridgeResearcherClient client = new BridgeResearcherClient(session);
+        ResearcherClient client = new ResearcherClient(session);
         client = spy(client);
         doReturn(null).when(client).post(anyString(), any(StudyParticipant.class));
         
@@ -40,7 +40,7 @@ public class BridgeResearcherClientTest {
         doReturn(makeParticipant("DEF")).when(session).getStudyParticipant();
         doReturn(true).when(session).isSignedIn();
         
-        BridgeResearcherClient client = new BridgeResearcherClient(session);
+        ResearcherClient client = new ResearcherClient(session);
         client = spy(client);
         doReturn(null).when(client).post(anyString(), any(StudyParticipant.class));
         

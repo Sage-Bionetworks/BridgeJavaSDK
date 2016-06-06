@@ -51,7 +51,7 @@ public class BridgeUserClientTest {
         //doReturn(makeParticipant("DEF")).when(session).getStudyParticipant();
         
         BridgeSession bridgeSession = spy(new BridgeSession(session));
-        BridgeUserClient client = new BridgeUserClient(bridgeSession);
+        UserClient client = new UserClient(bridgeSession);
         client = spy(client);
         doReturn(session).when(client).post(anyString(), any(StudyParticipant.class), eq(UserSession.class));
         

@@ -8,7 +8,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public final class ResourceList<T> {
+public final class ResourceList<T> implements Iterable<T> {
 
     private final List<T> items;
     private final int total;
@@ -32,6 +32,7 @@ public final class ResourceList<T> {
         return items.get(index);
     }
     
+    @Override
     public Iterator<T> iterator() {
         return items.iterator();
     }
