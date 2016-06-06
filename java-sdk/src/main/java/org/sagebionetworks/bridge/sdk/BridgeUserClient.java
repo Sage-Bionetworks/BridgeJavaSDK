@@ -22,7 +22,10 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
+import org.sagebionetworks.bridge.sdk.models.accounts.ConsentSignature;
+import org.sagebionetworks.bridge.sdk.models.accounts.SharingScope;
 import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
+import org.sagebionetworks.bridge.sdk.models.accounts.Withdrawal;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleIdentifierHolder;
@@ -36,9 +39,6 @@ import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadRequest;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadValidationStatus;
-import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
-import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
-import org.sagebionetworks.bridge.sdk.models.users.Withdrawal;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.collect.ImmutableMap;
@@ -47,9 +47,9 @@ class BridgeUserClient extends BaseApiCaller implements UserClient {
 
     private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormat.forPattern("ZZ");
     
-    private final TypeReference<ResourceListImpl<Schedule>> sType = new TypeReference<ResourceListImpl<Schedule>>() {};
+    private final TypeReference<ResourceList<Schedule>> sType = new TypeReference<ResourceList<Schedule>>() {};
     
-    private final TypeReference<ResourceListImpl<ScheduledActivity>> saType = new TypeReference<ResourceListImpl<ScheduledActivity>>() {};
+    private final TypeReference<ResourceList<ScheduledActivity>> saType = new TypeReference<ResourceList<ScheduledActivity>>() {};
 
     BridgeUserClient(BridgeSession session) {
         super(session);

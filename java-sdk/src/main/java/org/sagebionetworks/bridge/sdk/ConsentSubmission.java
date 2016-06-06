@@ -4,8 +4,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.joda.time.LocalDate;
 import org.sagebionetworks.bridge.sdk.json.DateOnlySerializer;
-import org.sagebionetworks.bridge.sdk.models.users.ConsentSignature;
-import org.sagebionetworks.bridge.sdk.models.users.SharingScope;
+import org.sagebionetworks.bridge.sdk.models.accounts.ConsentSignature;
+import org.sagebionetworks.bridge.sdk.models.accounts.SharingScope;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
