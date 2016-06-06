@@ -1,5 +1,11 @@
 package org.sagebionetworks.bridge.sdk;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.net.UrlEscapers;
 import org.joda.time.DateTime;
 
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
@@ -7,9 +13,17 @@ import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadSchema;
 
-/** Client for worker APIs, used by Bridge-EX and other worker processes. */
-public interface WorkerClient {
-    // SCHEMAS
+/** Bridge implementation of the worker client. */
+public class WorkerClient extends BaseApiCaller {
+    /**
+     * Client constructor. Package-scoped because this should only be created through the BridgeSession.
+     *
+     * @param session
+     *         Bridge session backing the client
+     */
+    WorkerClient(BridgeSession session) {
+        super(session);
+    }
 
     /**
      * Gets an upload schema by study ID, schema ID, and revision.
@@ -22,9 +36,15 @@ public interface WorkerClient {
      *         revision to fetch
      * @return the specified schema
      */
-    UploadSchema getSchema(String studyId, String schemaId, int revision);
+    public UploadSchema getSchema(String studyId, String schemaId, int revision) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(studyId), CANNOT_BE_BLANK, "studyId");
+        checkArgument(isNotBlank(schemaId), CANNOT_BE_BLANK, "schemaId");
+        checkArgument(revision > 0, "revision must be positive");
 
-    // SURVEYS
+        String encodedSchemaId = UrlEscapers.urlPathSegmentEscaper().escape(schemaId);
+        return get(config.getUploadSchemaApi(studyId, encodedSchemaId, revision), UploadSchema.class);
+    }
 
     /**
      * Gets the most recently published version of all surveys for a given study.
@@ -33,7 +53,11 @@ public interface WorkerClient {
      *         study to get surveys for
      * @return list of surveys
      */
-    ResourceList<Survey> getAllSurveysMostRecentlyPublished(String studyId);
+    public ResourceList<Survey> getAllSurveysMostRecentlyPublished(String studyId) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(studyId), "studyId");
+        return get(config.getPublishedSurveysForStudyApi(studyId), new TypeReference<ResourceList<Survey>>(){});
+    }
 
     /**
      * Gets the specified survey by guid and createdOn
@@ -44,7 +68,12 @@ public interface WorkerClient {
      *         created-on timestamp for the survey
      * @return the specified survey
      */
-    Survey getSurvey(String guid, DateTime createdOn);
+    public Survey getSurvey(String guid, DateTime createdOn) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(guid), CANNOT_BE_BLANK, "guid");
+        checkNotNull(createdOn, CANNOT_BE_NULL, "createdOn");
+        return get(config.getSurveyApi(guid, createdOn), Survey.class);
+    }
 
     /**
      * Gets the specified survey by key holder.
@@ -53,5 +82,11 @@ public interface WorkerClient {
      *         key holder containing the survey guid and createdOn
      * @return the specified survey
      */
-    Survey getSurvey(GuidCreatedOnVersionHolder keys);
+    public Survey getSurvey(GuidCreatedOnVersionHolder keys) {
+        session.checkSignedIn();
+        checkNotNull(keys, CANNOT_BE_NULL, "key holder");
+        checkArgument(isNotBlank(keys.getGuid()), CANNOT_BE_BLANK, "guid");
+        checkNotNull(keys.getCreatedOn(), CANNOT_BE_NULL, "createdOn");
+        return get(config.getSurveyApi(keys.getGuid(), keys.getCreatedOn()), Survey.class);
+    }
 }

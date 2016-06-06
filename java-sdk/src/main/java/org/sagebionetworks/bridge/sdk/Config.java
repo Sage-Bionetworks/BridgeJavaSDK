@@ -39,77 +39,86 @@ public final class Config {
     private static final String USER_CONFIG_FILE = System.getProperty("user.home") + "/bridge-sdk.properties";
 
     public enum Props {
-        ACCOUNT_EMAIL, 
-        ACCOUNT_PASSWORD, 
-        ADMIN_EMAIL, 
-        ADMIN_PASSWORD, 
-        DEV_NAME, 
-        ENV, 
-        LOG_LEVEL, 
-        SDK_VERSION, 
-        STUDY_IDENTIFIER, 
-        V3_ACTIVITIES, 
-        V3_AUTH_REQUESTRESETPASSWORD, 
-        V3_AUTH_RESENDEMAILVERIFICATION, 
-        V3_AUTH_RESETPASSWORD, 
-        V3_AUTH_SIGNIN, 
-        V3_AUTH_SIGNOUT, 
-        V3_AUTH_SIGNUP, 
-        V3_AUTH_VERIFYEMAIL, 
-        V3_BACKFILL_NAME, 
-        V3_BACKFILL_NAME_START, 
-        V3_CACHE, 
-        V3_CACHE_CACHEKEY,
-        V3_EXTERNAL_IDS,
-        V3_PARTICIPANT,
-        V3_PARTICIPANT_REQUEST_RESET_PASSWORD,
-        V3_PARTICIPANT_SIGNOUT,
-        V3_PARTICIPANTS,
-        V3_PARTICIPANTS_SELF,
-        V3_SCHEDULEPLANS, 
-        V3_SCHEDULEPLANS_GUID, 
-        V3_STUDIES, 
-        V3_STUDIES_IDENTIFIER,
-        V3_STUDIES_SELF,
-        V3_STUDIES_STUDYID_SURVEYS_PUBLISHED,
-        V3_STUDIES_STUDYID_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REVISION,
-        V3_SUBPOPULATION,
-        V3_SUBPOPULATIONS,
-        V3_SUBPOPULATIONS_CONSENTS,
-        V3_SUBPOPULATIONS_CONSENTS_PUBLISHED,
-        V3_SUBPOPULATIONS_CONSENTS_RECENT,
-        V3_SUBPOPULATIONS_CONSENTS_SIGNATURE,
-        V3_SUBPOPULATIONS_CONSENTS_SIGNATURE_EMAIL,
-        V3_SUBPOPULATIONS_CONSENTS_SIGNATURE_WITHDRAW,
-        V3_SUBPOPULATIONS_CONSENTS_TIMESTAMP,
-        V3_SUBPOPULATIONS_CONSENTS_TIMESTAMP_PUBLISH,        
-        V3_SURVEYRESPONSES, 
-        V3_SURVEYRESPONSES_IDENTIFIER, 
-        V3_SURVEYS, 
-        V3_SURVEYS_PUBLISHED,
-        V3_SURVEYS_RECENT,
-        V3_SURVEYS_SURVEYGUID_REVISIONS, 
-        V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON,
-        V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PHYSICAL_TRUE,
-        V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PUBLISH, 
-        V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_VERSION, 
-        V3_SURVEYS_SURVEYGUID_REVISIONS_PUBLISHED, 
-        V3_SURVEYS_SURVEYGUID_REVISIONS_RECENT, 
-        V3_UPLOADS,
-        V3_UPLOADSCHEMAS,
-        V4_UPLOADSCHEMAS,
-        V3_UPLOADSCHEMAS_SCHEMAID,
-        V3_UPLOADSCHEMAS_SCHEMAID_RECENT,
-        V3_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REV,
-        V4_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REV,
-        V3_UPLOADSTATUSES_UPLOADID,
-        V3_UPLOADS_UPLOADID_COMPLETE, 
-        V3_USER,
-        V3_USERS,
-        V3_USERS_SELF_EMAILDATA, 
-        V3_USERS_SELF_UNSUBSCRIBEEMAIL, 
-        V4_SCHEDULES;
-
+        // These all require and entry in bridge-sdk.properties (accounts are optional).
+        ACCOUNT_EMAIL(null), 
+        ACCOUNT_PASSWORD(null), 
+        ADMIN_EMAIL(null), 
+        ADMIN_PASSWORD(null), 
+        DEV_NAME(null), 
+        ENV(null), 
+        LOG_LEVEL(null), 
+        SDK_VERSION(null), 
+        STUDY_IDENTIFIER(null), 
+        
+        V3_ACTIVITIES("/v3/activities"), 
+        V3_AUTH_REQUESTRESETPASSWORD("/v3/auth/requestResetPassword"), 
+        V3_AUTH_RESENDEMAILVERIFICATION("/v3/auth/resendEmailVerification"), 
+        V3_AUTH_RESETPASSWORD("/v3/auth/resetPassword"), 
+        V3_AUTH_SIGNIN("/v3/auth/signIn"), 
+        V3_AUTH_SIGNOUT("/v3/auth/signOut"), 
+        V3_AUTH_SIGNUP("/v3/auth/signUp"), 
+        V3_AUTH_VERIFYEMAIL("/v3/auth/verifyEmail"), 
+        V3_BACKFILL_NAME("/v3/backfill/%s"), 
+        V3_BACKFILL_NAME_START("/v3/backfill/%s/start"), 
+        V3_CACHE("/v3/cache"), 
+        V3_CACHE_CACHEKEY("/v3/cache/%s"),
+        V3_EXTERNAL_IDS("/v3/externalIds"),
+        V3_PARTICIPANT("/v3/participants/%s"),
+        V3_PARTICIPANT_REQUEST_RESET_PASSWORD("/v3/participants/%s/requestResetPassword"),
+        V3_PARTICIPANT_SIGNOUT("/v3/participants/%s/signOut"),
+        V3_PARTICIPANTS("/v3/participants"),
+        V3_PARTICIPANTS_SELF("/v3/participants/self"),
+        V3_SCHEDULEPLANS("/v3/scheduleplans"), 
+        V3_SCHEDULEPLANS_GUID("/v3/scheduleplans/%s"),
+        V3_STUDIES("/v3/studies"), 
+        V3_STUDIES_IDENTIFIER("/v3/studies/%s"),
+        V3_STUDIES_SELF("/v3/studies/self"),
+        V3_STUDIES_STUDYID_SURVEYS_PUBLISHED("/v3/studies/%s/surveys/published"),
+        V3_STUDIES_STUDYID_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REVISION("/v3/studies/%s/uploadschemas/%s/revisions/%d"),
+        V3_SUBPOPULATION("/v3/subpopulations/%s"),
+        V3_SUBPOPULATIONS("/v3/subpopulations"),
+        V3_SUBPOPULATIONS_CONSENTS("/v3/subpopulations/%s/consents"),
+        V3_SUBPOPULATIONS_CONSENTS_PUBLISHED("/v3/subpopulations/%s/consents/published"),
+        V3_SUBPOPULATIONS_CONSENTS_RECENT("/v3/subpopulations/%s/consents/recent"),
+        V3_SUBPOPULATIONS_CONSENTS_SIGNATURE("/v3/subpopulations/%s/consents/signature"),
+        V3_SUBPOPULATIONS_CONSENTS_SIGNATURE_EMAIL("/v3/subpopulations/%s/consents/signature/email"),
+        V3_SUBPOPULATIONS_CONSENTS_SIGNATURE_WITHDRAW("/v3/subpopulations/%s/consents/signature/withdraw"),
+        V3_SUBPOPULATIONS_CONSENTS_TIMESTAMP("/v3/subpopulations/%s/consents/%s"),
+        V3_SUBPOPULATIONS_CONSENTS_TIMESTAMP_PUBLISH("/v3/subpopulations/%s/consents/%s/publish"),
+        V3_SURVEYRESPONSES("/v3/surveyresponses"), 
+        V3_SURVEYRESPONSES_IDENTIFIER("/v3/surveyresponses/%s"), 
+        V3_SURVEYS("/v3/surveys"), 
+        V3_SURVEYS_PUBLISHED("/v3/surveys/published"),
+        V3_SURVEYS_RECENT("/v3/surveys/recent"),
+        V3_SURVEYS_SURVEYGUID_REVISIONS("/v3/surveys/%s/revisions"), 
+        V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON("/v3/surveys/%s/revisions/%s"),
+        V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PHYSICAL_TRUE("/v3/surveys/%s/revisions/%s?physical=true"),
+        V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PUBLISH("/v3/surveys/%s/revisions/%s/publish"), 
+        V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_VERSION("/v3/surveys/%s/revisions/%s/version"), 
+        V3_SURVEYS_SURVEYGUID_REVISIONS_PUBLISHED("/v3/surveys/%s/revisions/published"), 
+        V3_SURVEYS_SURVEYGUID_REVISIONS_RECENT("/v3/surveys/%s/revisions/recent"), 
+        V3_UPLOADS("/v3/uploads"),
+        V3_UPLOADSCHEMAS("/v3/uploadschemas"),
+        V4_UPLOADSCHEMAS("/v4/uploadschemas"),
+        V3_UPLOADSCHEMAS_SCHEMAID("/v3/uploadschemas/%s"),
+        V3_UPLOADSCHEMAS_SCHEMAID_RECENT("/v3/uploadschemas/%s/recent"),
+        V3_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REV("/v3/uploadschemas/%s/revisions/%s"),
+        V4_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REV("/v4/uploadschemas/%s/revisions/%d"),
+        V3_UPLOADSTATUSES_UPLOADID("/v3/uploadstatuses/%s"),
+        V3_UPLOADS_UPLOADID_COMPLETE("/v3/uploads/%s/complete"), 
+        V3_USER("/v3/users/%s"),
+        V3_USERS("/v3/users"),
+        V3_USERS_SELF_EMAILDATA("/v3/users/self/emailData"), 
+        V3_USERS_SELF_UNSUBSCRIBEEMAIL("/v3/users/self/unsubscribeEmail"), 
+        V4_SCHEDULES("/v4/schedules");
+                
+        private String endpoint;
+        private Props(String endpoint) {
+            this.endpoint = endpoint;
+        }
+        public String getEndpoint() {
+            return endpoint;
+        }
         public String getPropertyName() {
             return this.name().replace("_", ".").toLowerCase();
         }
@@ -188,32 +197,32 @@ public final class Config {
     }
     
     public String getAccountEmail() {
-        return val(Props.ACCOUNT_EMAIL);
+        return fromProperty(Props.ACCOUNT_EMAIL);
     }
 
     public String getAccountPassword() {
-        return val(Props.ACCOUNT_PASSWORD);
+        return fromProperty(Props.ACCOUNT_PASSWORD);
     }
 
     public String getAdminEmail() {
-        return val(Props.ADMIN_EMAIL);
+        return fromProperty(Props.ADMIN_EMAIL);
     }
 
     public String getAdminPassword() {
-        return val(Props.ADMIN_PASSWORD);
+        return fromProperty(Props.ADMIN_PASSWORD);
     }
 
     public String getCacheApi() {
-        return val(Props.V3_CACHE);
+        return Props.V3_CACHE.getEndpoint();
     }
 
     public String getCacheApi(String key) {
         checkNotNull(key);
-        return String.format(val(Props.V3_CACHE_CACHEKEY), key);
+        return String.format(Props.V3_CACHE_CACHEKEY.getEndpoint(), key);
     }
 
     public String getDevName() {
-        return val(Props.DEV_NAME);
+        return fromProperty(Props.DEV_NAME);
     }
 
     public Environment getEnvironment() {
@@ -221,134 +230,134 @@ public final class Config {
     }
 
     public String getLogLevel() {
-        return val(Props.LOG_LEVEL);
+        return fromProperty(Props.LOG_LEVEL);
     }
 
     public String getResendEmailVerificationApi() {
-        return val(Props.V3_AUTH_RESENDEMAILVERIFICATION);
+        return Props.V3_AUTH_RESENDEMAILVERIFICATION.getEndpoint();
     }
 
     public String getSignUpApi() {
-        return val(Props.V3_AUTH_SIGNUP);
+        return Props.V3_AUTH_SIGNUP.getEndpoint();
     }
 
     public String getSignInApi() {
-        return val(Props.V3_AUTH_SIGNIN);
+        return Props.V3_AUTH_SIGNIN.getEndpoint();
     }
 
     public String getSignOutApi() {
-        return val(Props.V3_AUTH_SIGNOUT);
+        return Props.V3_AUTH_SIGNOUT.getEndpoint();
     }
 
     public String getVerifyEmailApi() {
-        return val(Props.V3_AUTH_VERIFYEMAIL);
+        return Props.V3_AUTH_VERIFYEMAIL.getEndpoint();
     }
 
     public String getRequestResetPasswordApi() {
-        return val(Props.V3_AUTH_REQUESTRESETPASSWORD);
+        return Props.V3_AUTH_REQUESTRESETPASSWORD.getEndpoint();
     }
 
     public String getResetPasswordApi() {
-        return val(Props.V3_AUTH_RESETPASSWORD);
+        return Props.V3_AUTH_RESETPASSWORD.getEndpoint();
     }
 
     public String getConsentsApi(SubpopulationGuid subpopGuid) {
         checkNotNull(subpopGuid);
-        return String.format(val(Props.V3_SUBPOPULATIONS_CONSENTS), subpopGuid.getGuid());
+        return String.format(Props.V3_SUBPOPULATIONS_CONSENTS.getEndpoint(), subpopGuid.getGuid());
     }
 
     public String getConsentApi(SubpopulationGuid subpopGuid, DateTime timestamp) {
         checkNotNull(subpopGuid);
         checkNotNull(timestamp);
-        return String.format(val(Props.V3_SUBPOPULATIONS_CONSENTS_TIMESTAMP), subpopGuid.getGuid(),
+        return String.format(Props.V3_SUBPOPULATIONS_CONSENTS_TIMESTAMP.getEndpoint(), subpopGuid.getGuid(),
                 timestamp.toString(ISODateTimeFormat.dateTime()));
     }
 
     public String getConsentSignatureApi(SubpopulationGuid subpopGuid) {
         checkNotNull(subpopGuid);
-        return String.format(val(Props.V3_SUBPOPULATIONS_CONSENTS_SIGNATURE), subpopGuid.getGuid());
+        return String.format(Props.V3_SUBPOPULATIONS_CONSENTS_SIGNATURE.getEndpoint(), subpopGuid.getGuid());
     }
 
     public String getEmailConsentSignatureApi(SubpopulationGuid subpopGuid) {
         checkNotNull(subpopGuid);
-        return String.format(val(Props.V3_SUBPOPULATIONS_CONSENTS_SIGNATURE_EMAIL), subpopGuid.getGuid());
+        return String.format(Props.V3_SUBPOPULATIONS_CONSENTS_SIGNATURE_EMAIL.getEndpoint(), subpopGuid.getGuid());
     }
     
     public String getWithdrawConsentSignatureApi(SubpopulationGuid subpopGuid) {
         checkNotNull(subpopGuid);
-        return String.format(val(Props.V3_SUBPOPULATIONS_CONSENTS_SIGNATURE_WITHDRAW), subpopGuid.getGuid());
+        return String.format(Props.V3_SUBPOPULATIONS_CONSENTS_SIGNATURE_WITHDRAW.getEndpoint(), subpopGuid.getGuid());
     }
 
     public String getStudyIdentifier() {
-        return val(Props.STUDY_IDENTIFIER);
+        return fromProperty(Props.STUDY_IDENTIFIER);
     }
 
     public String getPublishedStudyConsentApi(SubpopulationGuid subpopGuid) {
         checkNotNull(subpopGuid);
-        return String.format(val(Props.V3_SUBPOPULATIONS_CONSENTS_PUBLISHED), subpopGuid.getGuid());
+        return String.format(Props.V3_SUBPOPULATIONS_CONSENTS_PUBLISHED.getEndpoint(), subpopGuid.getGuid());
     }
 
     public String getMostRecentStudyConsentApi(SubpopulationGuid subpopGuid) {
         checkNotNull(subpopGuid);
-        return String.format(val(Props.V3_SUBPOPULATIONS_CONSENTS_RECENT), subpopGuid.getGuid());
+        return String.format(Props.V3_SUBPOPULATIONS_CONSENTS_RECENT.getEndpoint(), subpopGuid.getGuid());
     }
 
     public String getPublishStudyConsentApi(SubpopulationGuid subpopGuid, DateTime timestamp) {
         checkNotNull(subpopGuid);
         checkNotNull(timestamp);
-        return String.format(val(Props.V3_SUBPOPULATIONS_CONSENTS_TIMESTAMP_PUBLISH),
+        return String.format(Props.V3_SUBPOPULATIONS_CONSENTS_TIMESTAMP_PUBLISH.getEndpoint(),
                 subpopGuid.getGuid(), timestamp.toString(ISODateTimeFormat.dateTime()));
     }
 
     public String getUploadsApi() {
-        return val(Props.V3_UPLOADS);
+        return Props.V3_UPLOADS.getEndpoint();
     }
 
     public String getCompleteUploadApi(String uploadId) {
         checkNotNull(uploadId);
-        return String.format(val(Props.V3_UPLOADS_UPLOADID_COMPLETE), uploadId);
+        return String.format(Props.V3_UPLOADS_UPLOADID_COMPLETE.getEndpoint(), uploadId);
     }
 
     public String getUploadStatusApi(String uploadId) {
         checkNotNull(uploadId);
-        return String.format(val(Props.V3_UPLOADSTATUSES_UPLOADID), uploadId);
+        return String.format(Props.V3_UPLOADSTATUSES_UPLOADID.getEndpoint(), uploadId);
     }
     
     public String getUserApi(String id) {
         checkNotNull(id);
-        return String.format(val(Props.V3_USER), id);
+        return String.format(Props.V3_USER.getEndpoint(), id);
     }
 
     public String getUsersApi() {
-        return val(Props.V3_USERS);
+        return Props.V3_USERS.getEndpoint();
     }
 
     public String getSchedulesApi() {
-        return val(Props.V4_SCHEDULES);
+        return Props.V4_SCHEDULES.getEndpoint();
     }
 
     public String getSurveysApi() {
-        return val(Props.V3_SURVEYS);
+        return Props.V3_SURVEYS.getEndpoint();
     }
 
     public String getRecentSurveysApi() {
-        return val(Props.V3_SURVEYS_RECENT);
+        return Props.V3_SURVEYS_RECENT.getEndpoint();
     }
 
     public String getPublishedSurveysApi() {
-        return val(Props.V3_SURVEYS_PUBLISHED);
+        return Props.V3_SURVEYS_PUBLISHED.getEndpoint();
     }
 
     public String getPublishedSurveysForStudyApi(String studyId) {
         checkArgument(isNotBlank(studyId));
-        return String.format(val(Props.V3_STUDIES_STUDYID_SURVEYS_PUBLISHED), studyId);
+        return String.format(Props.V3_STUDIES_STUDYID_SURVEYS_PUBLISHED.getEndpoint(), studyId);
     }
 
     public String getUploadSchemaApi(String studyId, String schemaId, int revision) {
         checkArgument(isNotBlank(studyId));
         checkArgument(isNotBlank(schemaId));
         checkArgument(revision > 0);
-        return String.format(val(Props.V3_STUDIES_STUDYID_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REVISION), studyId,
+        return String.format(Props.V3_STUDIES_STUDYID_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REVISION.getEndpoint(), studyId,
                 schemaId, revision);
     }
 
@@ -361,135 +370,135 @@ public final class Config {
     public String getSurveyApi(String guid, String createdOn) {
         checkArgument(isNotBlank(guid));
         checkNotNull(createdOn);
-        return String.format(val(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON), guid, createdOn);
+        return String.format(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON.getEndpoint(), guid, createdOn);
     }
 
     public String getDeleteSurveyPermanentlyApi(String guid, DateTime createdOn) {
         checkArgument(isNotBlank(guid));
         checkNotNull(createdOn);
-        return String.format(val(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PHYSICAL_TRUE), guid,
+        return String.format(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PHYSICAL_TRUE.getEndpoint(), guid,
                 createdOn.toString(ISODateTimeFormat.dateTime()));
     }
 
     public String getMostRecentlyPublishedSurveyRevisionApi(String guid) {
         checkArgument(isNotBlank(guid));
-        return String.format(val(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_PUBLISHED), guid);
+        return String.format(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_PUBLISHED.getEndpoint(), guid);
     }
 
     public String getMostRecentSurveyRevisionApi(String guid) {
         checkArgument(isNotBlank(guid));
-        return String.format(val(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_RECENT), guid);
+        return String.format(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_RECENT.getEndpoint(), guid);
     }
 
     public String getSurveyAllRevisionsApi(String guid) {
         checkArgument(isNotBlank(guid));
-        return String.format(val(Props.V3_SURVEYS_SURVEYGUID_REVISIONS), guid);
+        return String.format(Props.V3_SURVEYS_SURVEYGUID_REVISIONS.getEndpoint(), guid);
     }
 
     public String getVersionSurveyApi(String guid, DateTime createdOn) {
         checkArgument(isNotBlank(guid));
         checkNotNull(createdOn);
-        return String.format(val(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_VERSION), guid,
+        return String.format(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_VERSION.getEndpoint(), guid,
                 createdOn.toString(ISODateTimeFormat.dateTime()));
     }
 
     public String getPublishSurveyApi(String guid, DateTime createdOn) {
         checkArgument(isNotBlank(guid));
         checkNotNull(createdOn);
-        return String.format(val(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PUBLISH), guid,
+        return String.format(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PUBLISH.getEndpoint(), guid,
                 createdOn.toString(ISODateTimeFormat.dateTime()));
     }
 
     public String getRecentlyPublishedSurveyForUserApi(String guid) {
         checkArgument(isNotBlank(guid));
-        return String.format(val(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_PUBLISHED), guid);
+        return String.format(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_PUBLISHED.getEndpoint(), guid);
     }
 
     public String getSurveyResponsesApi() {
-        return val(Props.V3_SURVEYRESPONSES);
+        return Props.V3_SURVEYRESPONSES.getEndpoint();
     }
 
     public String getSurveyResponseApi(String identifier) {
         checkArgument(isNotBlank(identifier));
-        return String.format(val(Props.V3_SURVEYRESPONSES_IDENTIFIER), identifier);
+        return String.format(Props.V3_SURVEYRESPONSES_IDENTIFIER.getEndpoint(), identifier);
     }
 
     public String getSchedulePlansApi() {
-        return val(Props.V3_SCHEDULEPLANS);
+        return Props.V3_SCHEDULEPLANS.getEndpoint();
     }
 
     public String getSchedulePlanApi(String guid) {
         checkArgument(isNotBlank(guid));
-        return String.format(val(Props.V3_SCHEDULEPLANS_GUID), guid);
+        return String.format(Props.V3_SCHEDULEPLANS_GUID.getEndpoint(), guid);
     }
 
     public String getScheduledActivitiesApi() {
-        return val(Props.V3_ACTIVITIES);
+        return Props.V3_ACTIVITIES.getEndpoint();
     }
 
     public String getUploadSchemasApi() {
-        return val(Props.V3_UPLOADSCHEMAS);
+        return Props.V3_UPLOADSCHEMAS.getEndpoint();
     }
 
     public String getUploadSchemasV4Api() {
-        return val(Props.V4_UPLOADSCHEMAS);
+        return Props.V4_UPLOADSCHEMAS.getEndpoint();
     }
 
     public String getUploadSchemaAllRevisionsApi(String schemaId) {
         checkArgument(isNotBlank(schemaId));
-        return String.format(val(Props.V3_UPLOADSCHEMAS_SCHEMAID), schemaId);
+        return String.format(Props.V3_UPLOADSCHEMAS_SCHEMAID.getEndpoint(), schemaId);
     }
 
     public String getMostRecentUploadSchemaApi(String schemaId) {
         checkArgument(isNotBlank(schemaId));
-        return String.format(val(Props.V3_UPLOADSCHEMAS_SCHEMAID_RECENT), schemaId);
+        return String.format(Props.V3_UPLOADSCHEMAS_SCHEMAID_RECENT.getEndpoint(), schemaId);
     }
 
     public String getUploadSchemaApi(String schemaId, int revision) {
         checkArgument(isNotBlank(schemaId));
         checkArgument(revision > 0);
-        return String.format(val(Props.V3_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REV), schemaId, revision);
+        return String.format(Props.V3_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REV.getEndpoint(), schemaId, revision);
     }
 
     public String getUploadSchemaV4Api(String schemaId, int revision) {
         checkArgument(isNotBlank(schemaId));
         checkArgument(revision > 0);
-        return String.format(val(Props.V4_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REV), schemaId, revision);
+        return String.format(Props.V4_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REV.getEndpoint(), schemaId, revision);
     }
 
     public String getCurrentStudyApi() {
-        return val(Props.V3_STUDIES_SELF);
+        return Props.V3_STUDIES_SELF.getEndpoint();
     }
 
     public String getStudiesApi() {
-        return val(Props.V3_STUDIES);
+        return Props.V3_STUDIES.getEndpoint();
     }
 
     public String getStudyApi(String identifier) {
         checkArgument(isNotBlank(identifier));
-        return String.format(val(Props.V3_STUDIES_IDENTIFIER), identifier);
+        return String.format(Props.V3_STUDIES_IDENTIFIER.getEndpoint(), identifier);
     }
 
     public String getSdkVersion() {
-        return val(Props.SDK_VERSION);
+        return fromProperty(Props.SDK_VERSION);
     }
 
     public String getSubpopulations() {
-        return val(Props.V3_SUBPOPULATIONS);
+        return Props.V3_SUBPOPULATIONS.getEndpoint();
     }
     
     public String getSubpopulation(String guid) {
         checkArgument(isNotBlank(guid));
-        return String.format(val(Props.V3_SUBPOPULATION), guid);
+        return String.format(Props.V3_SUBPOPULATION.getEndpoint(), guid);
     }
 
     public String getUsersSignOutApi(String id) {
         checkArgument(isNotBlank(id));
-        return String.format(val(Props.V3_PARTICIPANT_SIGNOUT), id);
+        return String.format(Props.V3_PARTICIPANT_SIGNOUT.getEndpoint(), id);
     }
 
     public String getParticipantsApi() {
-        return val(Props.V3_PARTICIPANTS);
+        return Props.V3_PARTICIPANTS.getEndpoint();
     }
     
     public String getParticipantsApi(int offsetBy, int pageSize, String emailFilter) {
@@ -502,25 +511,25 @@ public final class Config {
         if (emailFilter != null) {
             queryParams.add(new BasicNameValuePair(EMAIL_FILTER, emailFilter));
         }
-        return val(Props.V3_PARTICIPANTS, queryParams);
+        return withQueryParams(Props.V3_PARTICIPANTS, queryParams);
     }
     
     public String getParticipantApi(String id) {
         checkArgument(isNotBlank(id));
-        return String.format(val(Props.V3_PARTICIPANT), id);
+        return String.format(Props.V3_PARTICIPANT.getEndpoint(), id);
     }
     
     public String getParticipantRequestResetPasswordApi(String id) {
         checkArgument(isNotBlank(id));
-        return String.format(val(Props.V3_PARTICIPANT_REQUEST_RESET_PASSWORD), id);
+        return String.format(Props.V3_PARTICIPANT_REQUEST_RESET_PASSWORD.getEndpoint(), id);
     }
     
     public String getParticipantSelfApi() {
-        return val(Props.V3_PARTICIPANTS_SELF);
+        return Props.V3_PARTICIPANTS_SELF.getEndpoint();
     }
     
     public String getExternalIdsApi() {
-        return val(Props.V3_EXTERNAL_IDS);
+        return Props.V3_EXTERNAL_IDS.getEndpoint();
     }
     
     public String getExternalIdsApi(List<String> identifiers) {
@@ -530,7 +539,7 @@ public final class Config {
         for (String id : identifiers) {
             queryParams.add(new BasicNameValuePair(EXTERNAL_ID, id));
         }
-        return val(Props.V3_EXTERNAL_IDS, queryParams);
+        return withQueryParams(Props.V3_EXTERNAL_IDS, queryParams);
     }
     
     public String getExternalIdsApi(String offsetKey, Integer pageSize, String idFilter, Boolean assignmentFilter) {
@@ -547,18 +556,18 @@ public final class Config {
         if (assignmentFilter != null) {
             queryParams.add(new BasicNameValuePair(ASSIGNMENT_FILTER, assignmentFilter.toString()));
         }
-        return val(Props.V3_EXTERNAL_IDS, queryParams);
+        return withQueryParams(Props.V3_EXTERNAL_IDS, queryParams);
     }
     
-    private String val(Props prop) {
+    private String fromProperty(Props prop) {
         String value = config.getProperty(prop.getPropertyName());
         checkNotNull(value, "The property '" + prop.getPropertyName() + "' has not been set.");
         return value.trim();
     }
     
-    private String val(Props prop, List<NameValuePair> queryParams) {
+    private String withQueryParams(Props prop, List<NameValuePair> queryParams) {
         try {
-            URIBuilder builder = new URIBuilder(val(prop));
+            URIBuilder builder = new URIBuilder(prop.getEndpoint());
             builder.addParameters(queryParams);
             return builder.build().toString();
         } catch(URISyntaxException e) {
