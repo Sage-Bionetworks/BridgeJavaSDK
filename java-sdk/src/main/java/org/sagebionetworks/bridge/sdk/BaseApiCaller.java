@@ -66,9 +66,11 @@ class BaseApiCaller {
     private static final String BRIDGE_API_STATUS_HEADER = "Bridge-Api-Status";
     private static final String BRIDGE_SESSION_HEADER = "Bridge-Session";
     private static final String USER_AGENT_HEADER = "User-Agent";
+    private static final String ACCEPT_LANGUAGE_HEADER = "Accept-Language";
     private static final String CONNECTION_FAILED = "Connection to server failed or aborted.";
     protected static final String CANNOT_BE_NULL = "%s cannot be null.";
     protected static final String CANNOT_BE_BLANK = "%s cannot be null, an empty string, or whitespace.";
+    private static final Joiner JOINER = Joiner.on(", ");
     
     // Create an SSL context that does no certificate validation whatsoever.
     private static class DefaultTrustManager implements X509TrustManager {
@@ -277,6 +279,9 @@ class BaseApiCaller {
     private void addApplicationHeaders(Request request) {
         logger.info("User-Agent: " + ClientProvider.getClientInfo().toString());
         request.setHeader(USER_AGENT_HEADER, ClientProvider.getClientInfo().toString());
+        if (!ClientProvider.getLanguages().isEmpty()) {
+            request.setHeader(ACCEPT_LANGUAGE_HEADER, JOINER.join(ClientProvider.getLanguages()));
+        }
         if (session != null && session.isSignedIn()) {
             request.setHeader(BRIDGE_SESSION_HEADER, session.getSessionToken());
         }

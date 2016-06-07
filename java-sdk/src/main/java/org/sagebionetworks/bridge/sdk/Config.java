@@ -16,6 +16,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.joda.time.format.ISODateTimeFormat;
 
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
@@ -34,6 +35,8 @@ public final class Config {
     private static final String OFFSET_BY = "offsetBy";
     private static final String OFFSET_KEY = "offsetKey";
     private static final String PAGE_SIZE = "pageSize";
+    private static final String END_DATE = "endDate";
+    private static final String START_DATE = "startDate";
 
     private static final String CONFIG_FILE = "/bridge-sdk.properties";
     private static final String USER_CONFIG_FILE = System.getProperty("user.home") + "/bridge-sdk.properties";
@@ -58,59 +61,63 @@ public final class Config {
         V3_AUTH_SIGNOUT("/v3/auth/signOut"), 
         V3_AUTH_SIGNUP("/v3/auth/signUp"), 
         V3_AUTH_VERIFYEMAIL("/v3/auth/verifyEmail"), 
-        V3_BACKFILL_NAME("/v3/backfill/%s"), 
         V3_BACKFILL_NAME_START("/v3/backfill/%s/start"), 
-        V3_CACHE("/v3/cache"), 
+        V3_BACKFILL_NAME("/v3/backfill/%s"), 
         V3_CACHE_CACHEKEY("/v3/cache/%s"),
+        V3_CACHE("/v3/cache"), 
         V3_EXTERNAL_IDS("/v3/externalIds"),
-        V3_PARTICIPANT("/v3/participants/%s"),
         V3_PARTICIPANT_REQUEST_RESET_PASSWORD("/v3/participants/%s/requestResetPassword"),
         V3_PARTICIPANT_SIGNOUT("/v3/participants/%s/signOut"),
-        V3_PARTICIPANTS("/v3/participants"),
+        V3_PARTICIPANT("/v3/participants/%s"),
         V3_PARTICIPANTS_SELF("/v3/participants/self"),
-        V3_SCHEDULEPLANS("/v3/scheduleplans"), 
+        V3_PARTICIPANTS("/v3/participants"),
+        V3_REPORTS_IDENTIFIER_USERS_USERID("/v3/reports/%s/users/%s"),
+        V3_REPORTS_IDENTIFIER_USERS("/v3/reports/%s/users"),
+        V3_REPORTS_IDENTIFIER("/v3/reports/%s"),
         V3_SCHEDULEPLANS_GUID("/v3/scheduleplans/%s"),
-        V3_STUDIES("/v3/studies"), 
+        V3_SCHEDULEPLANS("/v3/scheduleplans"), 
         V3_STUDIES_IDENTIFIER("/v3/studies/%s"),
         V3_STUDIES_SELF("/v3/studies/self"),
         V3_STUDIES_STUDYID_SURVEYS_PUBLISHED("/v3/studies/%s/surveys/published"),
         V3_STUDIES_STUDYID_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REVISION("/v3/studies/%s/uploadschemas/%s/revisions/%d"),
+        V3_STUDIES("/v3/studies"), 
         V3_SUBPOPULATION("/v3/subpopulations/%s"),
-        V3_SUBPOPULATIONS("/v3/subpopulations"),
-        V3_SUBPOPULATIONS_CONSENTS("/v3/subpopulations/%s/consents"),
         V3_SUBPOPULATIONS_CONSENTS_PUBLISHED("/v3/subpopulations/%s/consents/published"),
         V3_SUBPOPULATIONS_CONSENTS_RECENT("/v3/subpopulations/%s/consents/recent"),
-        V3_SUBPOPULATIONS_CONSENTS_SIGNATURE("/v3/subpopulations/%s/consents/signature"),
         V3_SUBPOPULATIONS_CONSENTS_SIGNATURE_EMAIL("/v3/subpopulations/%s/consents/signature/email"),
         V3_SUBPOPULATIONS_CONSENTS_SIGNATURE_WITHDRAW("/v3/subpopulations/%s/consents/signature/withdraw"),
-        V3_SUBPOPULATIONS_CONSENTS_TIMESTAMP("/v3/subpopulations/%s/consents/%s"),
+        V3_SUBPOPULATIONS_CONSENTS_SIGNATURE("/v3/subpopulations/%s/consents/signature"),
         V3_SUBPOPULATIONS_CONSENTS_TIMESTAMP_PUBLISH("/v3/subpopulations/%s/consents/%s/publish"),
-        V3_SURVEYRESPONSES("/v3/surveyresponses"), 
+        V3_SUBPOPULATIONS_CONSENTS_TIMESTAMP("/v3/subpopulations/%s/consents/%s"),
+        V3_SUBPOPULATIONS_CONSENTS("/v3/subpopulations/%s/consents"),
+        V3_SUBPOPULATIONS("/v3/subpopulations"),
         V3_SURVEYRESPONSES_IDENTIFIER("/v3/surveyresponses/%s"), 
-        V3_SURVEYS("/v3/surveys"), 
+        V3_SURVEYRESPONSES("/v3/surveyresponses"), 
         V3_SURVEYS_PUBLISHED("/v3/surveys/published"),
         V3_SURVEYS_RECENT("/v3/surveys/recent"),
-        V3_SURVEYS_SURVEYGUID_REVISIONS("/v3/surveys/%s/revisions"), 
-        V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON("/v3/surveys/%s/revisions/%s"),
         V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PHYSICAL_TRUE("/v3/surveys/%s/revisions/%s?physical=true"),
         V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PUBLISH("/v3/surveys/%s/revisions/%s/publish"), 
         V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_VERSION("/v3/surveys/%s/revisions/%s/version"), 
+        V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON("/v3/surveys/%s/revisions/%s"),
         V3_SURVEYS_SURVEYGUID_REVISIONS_PUBLISHED("/v3/surveys/%s/revisions/published"), 
         V3_SURVEYS_SURVEYGUID_REVISIONS_RECENT("/v3/surveys/%s/revisions/recent"), 
+        V3_SURVEYS_SURVEYGUID_REVISIONS("/v3/surveys/%s/revisions"), 
+        V3_SURVEYS("/v3/surveys"), 
+        V3_UPLOADS_UPLOADID_COMPLETE("/v3/uploads/%s/complete"), 
         V3_UPLOADS("/v3/uploads"),
-        V3_UPLOADSCHEMAS("/v3/uploadschemas"),
-        V4_UPLOADSCHEMAS("/v4/uploadschemas"),
-        V3_UPLOADSCHEMAS_SCHEMAID("/v3/uploadschemas/%s"),
         V3_UPLOADSCHEMAS_SCHEMAID_RECENT("/v3/uploadschemas/%s/recent"),
         V3_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REV("/v3/uploadschemas/%s/revisions/%s"),
-        V4_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REV("/v4/uploadschemas/%s/revisions/%d"),
+        V3_UPLOADSCHEMAS_SCHEMAID("/v3/uploadschemas/%s"),
+        V3_UPLOADSCHEMAS("/v3/uploadschemas"),
         V3_UPLOADSTATUSES_UPLOADID("/v3/uploadstatuses/%s"),
-        V3_UPLOADS_UPLOADID_COMPLETE("/v3/uploads/%s/complete"), 
         V3_USER("/v3/users/%s"),
-        V3_USERS("/v3/users"),
         V3_USERS_SELF_EMAILDATA("/v3/users/self/emailData"), 
+        V3_USERS_SELF_REPORTS_IDENTIFIER("/v3/users/self/reports/%s"),
         V3_USERS_SELF_UNSUBSCRIBEEMAIL("/v3/users/self/unsubscribeEmail"), 
-        V4_SCHEDULES("/v4/schedules");
+        V3_USERS("/v3/users"),
+        V4_SCHEDULES("/v4/schedules"),
+        V4_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REV("/v4/uploadschemas/%s/revisions/%d"),
+        V4_UPLOADSCHEMAS("/v4/uploadschemas");
                 
         private String endpoint;
         private Props(String endpoint) {
@@ -511,7 +518,7 @@ public final class Config {
         if (emailFilter != null) {
             queryParams.add(new BasicNameValuePair(EMAIL_FILTER, emailFilter));
         }
-        return withQueryParams(Props.V3_PARTICIPANTS, queryParams);
+        return withQueryParams(Props.V3_PARTICIPANTS.getEndpoint(), queryParams);
     }
     
     public String getParticipantApi(String id) {
@@ -539,7 +546,7 @@ public final class Config {
         for (String id : identifiers) {
             queryParams.add(new BasicNameValuePair(EXTERNAL_ID, id));
         }
-        return withQueryParams(Props.V3_EXTERNAL_IDS, queryParams);
+        return withQueryParams(Props.V3_EXTERNAL_IDS.getEndpoint(), queryParams);
     }
     
     public String getExternalIdsApi(String offsetKey, Integer pageSize, String idFilter, Boolean assignmentFilter) {
@@ -556,7 +563,50 @@ public final class Config {
         if (assignmentFilter != null) {
             queryParams.add(new BasicNameValuePair(ASSIGNMENT_FILTER, assignmentFilter.toString()));
         }
-        return withQueryParams(Props.V3_EXTERNAL_IDS, queryParams);
+        return withQueryParams(Props.V3_EXTERNAL_IDS.getEndpoint(), queryParams);
+    }
+    
+    public String getUsersSelfReportsIdentifierApi(String reportId, LocalDate startDate, LocalDate endDate) {
+        checkArgument(isNotBlank(reportId));
+        
+        List<NameValuePair> queryParams = Lists.newArrayList();
+        if (startDate != null) {
+            queryParams.add(new BasicNameValuePair(START_DATE, startDate.toString()));
+        }
+        if (endDate != null) {
+            queryParams.add(new BasicNameValuePair(END_DATE, endDate.toString()));
+        }
+        String url = String.format(Props.V3_USERS_SELF_REPORTS_IDENTIFIER.getEndpoint(), reportId);
+        return withQueryParams(url, queryParams);
+    }
+    
+    public String getReportsIdentifierApi(String reportId) {
+        checkArgument(isNotBlank(reportId));
+        return String.format(Props.V3_REPORTS_IDENTIFIER.getEndpoint(), reportId);
+    }
+    
+    public String getReportsIdentifierApi(String reportId, LocalDate startDate, LocalDate endDate) {
+        checkArgument(isNotBlank(reportId));
+        List<NameValuePair> queryParams = Lists.newArrayList();
+        if (startDate != null) {
+            queryParams.add(new BasicNameValuePair(START_DATE, startDate.toString()));
+        }
+        if (endDate != null) {
+            queryParams.add(new BasicNameValuePair(END_DATE, endDate.toString()));
+        }
+        String url = String.format(Props.V3_REPORTS_IDENTIFIER.getEndpoint(), reportId);
+        return withQueryParams(url, queryParams);
+    }
+    
+    public String getReportsIdentifierUsersUserIdApi(String reportId, String userId) {
+        checkArgument(isNotBlank(reportId));
+        checkArgument(isNotBlank(userId));
+        return String.format(Props.V3_REPORTS_IDENTIFIER_USERS_USERID.getEndpoint(), reportId, userId);
+    }
+    
+    public String getReportsIdentifierUsersApi(String reportId) {
+        checkArgument(isNotBlank(reportId));
+        return String.format(Props.V3_REPORTS_IDENTIFIER_USERS.getEndpoint(), reportId);
     }
     
     private String fromProperty(Props prop) {
@@ -565,9 +615,9 @@ public final class Config {
         return value.trim();
     }
     
-    private String withQueryParams(Props prop, List<NameValuePair> queryParams) {
+    private String withQueryParams(String endpoint, List<NameValuePair> queryParams) {
         try {
-            URIBuilder builder = new URIBuilder(prop.getEndpoint());
+            URIBuilder builder = new URIBuilder(endpoint);
             builder.addParameters(queryParams);
             return builder.build().toString();
         } catch(URISyntaxException e) {
