@@ -90,6 +90,54 @@ class BridgeSession implements Session {
     }
 
     @Override
+    public ExternalIdentifiersClient getExternalIdentifiersClient() {
+        checkState(isSignedIn(), NOT_AUTHENTICATED);
+        return new ExternalIdentifiersClient(this);
+    }
+    
+    @Override
+    public ParticipantClient getParticipantClient() {
+        checkState(isSignedIn(), NOT_AUTHENTICATED);
+        return new ParticipantClient(this);
+    }
+    
+    @Override
+    public SchedulePlanClient getSchedulePlanClient() {
+        checkState(isSignedIn(), NOT_AUTHENTICATED);
+        return new SchedulePlanClient(this);
+    }
+    
+    @Override
+    public StudyClient getStudyClient() {
+        checkState(isSignedIn(), NOT_AUTHENTICATED);
+        return new StudyClient(this);
+    }
+    
+    @Override
+    public StudyConsentClient getStudyConsentClient() {
+        checkState(isSignedIn(), NOT_AUTHENTICATED);
+        return new StudyConsentClient(this);
+    }
+    
+    @Override
+    public SubpopulationClient getSubpopulationClient() {
+        checkState(isSignedIn(), NOT_AUTHENTICATED);
+        return new SubpopulationClient(this);
+    }
+    
+    @Override
+    public SurveyClient getSurveyClient() {
+        checkState(isSignedIn(), NOT_AUTHENTICATED);
+        return new SurveyClient(this);
+    }
+    
+    @Override
+    public UploadSchemaClient getUploadSchemaClient() {
+        checkState(isSignedIn(), NOT_AUTHENTICATED);
+        return new UploadSchemaClient(this);
+    }    
+
+    @Override
     public boolean isSignedIn() {
         return sessionToken != null;
     }
