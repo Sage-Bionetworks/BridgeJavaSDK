@@ -135,7 +135,13 @@ class BridgeSession implements Session {
     public UploadSchemaClient getUploadSchemaClient() {
         checkState(isSignedIn(), NOT_AUTHENTICATED);
         return new UploadSchemaClient(this);
-    }    
+    }
+    
+    @Override
+    public ReportClient getReportClient() {
+        checkState(isSignedIn(), NOT_AUTHENTICATED);
+        return new ReportClient(this);
+    }
 
     @Override
     public boolean isSignedIn() {

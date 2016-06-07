@@ -3,6 +3,7 @@ package org.sagebionetworks.bridge.sdk.utils;
 import static org.apache.commons.validator.routines.UrlValidator.ALLOW_LOCAL_URLS;
 import static org.apache.commons.validator.routines.UrlValidator.NO_FRAGMENTS;
 
+import java.util.LinkedHashSet;
 import java.util.Map;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -80,5 +81,12 @@ public final class Utilities {
             throw new IllegalArgumentException("URL cannot be null.");
         }
         return urlValidator.isValid(url);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public static <T> LinkedHashSet<T> newLinkedHashSet(LinkedHashSet<T> set) {
+        LinkedHashSet<T> copy = new LinkedHashSet<T>();
+        copy.addAll(set);
+        return copy;
     }
 }

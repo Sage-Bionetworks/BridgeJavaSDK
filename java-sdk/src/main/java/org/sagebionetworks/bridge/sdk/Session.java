@@ -47,4 +47,6 @@ public interface Session {
     SurveyClient getSurveyClient();
     
     UploadSchemaClient getUploadSchemaClient();
+    
+    ReportClient getReportClient();
 }
