@@ -568,16 +568,7 @@ public final class Config {
     
     public String getUsersSelfReportsIdentifierApi(String reportId, LocalDate startDate, LocalDate endDate) {
         checkArgument(isNotBlank(reportId));
-        
-        List<NameValuePair> queryParams = Lists.newArrayList();
-        if (startDate != null) {
-            queryParams.add(new BasicNameValuePair(START_DATE, startDate.toString()));
-        }
-        if (endDate != null) {
-            queryParams.add(new BasicNameValuePair(END_DATE, endDate.toString()));
-        }
-        String url = String.format(Props.V3_USERS_SELF_REPORTS_IDENTIFIER.getEndpoint(), reportId);
-        return withQueryParams(url, queryParams);
+        return startEndDateURL(Props.V3_USERS_SELF_REPORTS_IDENTIFIER, reportId, startDate, endDate);
     }
     
     public String getReportsIdentifierApi(String reportId) {
@@ -587,15 +578,7 @@ public final class Config {
     
     public String getReportsIdentifierApi(String reportId, LocalDate startDate, LocalDate endDate) {
         checkArgument(isNotBlank(reportId));
-        List<NameValuePair> queryParams = Lists.newArrayList();
-        if (startDate != null) {
-            queryParams.add(new BasicNameValuePair(START_DATE, startDate.toString()));
-        }
-        if (endDate != null) {
-            queryParams.add(new BasicNameValuePair(END_DATE, endDate.toString()));
-        }
-        String url = String.format(Props.V3_REPORTS_IDENTIFIER.getEndpoint(), reportId);
-        return withQueryParams(url, queryParams);
+        return startEndDateURL(Props.V3_REPORTS_IDENTIFIER, reportId, startDate, endDate);
     }
     
     public String getReportsIdentifierUsersUserIdApi(String reportId, String userId) {
@@ -607,6 +590,18 @@ public final class Config {
     public String getReportsIdentifierUsersApi(String reportId) {
         checkArgument(isNotBlank(reportId));
         return String.format(Props.V3_REPORTS_IDENTIFIER_USERS.getEndpoint(), reportId);
+    }
+    
+    private String startEndDateURL(Props prop, String reportId, LocalDate startDate, LocalDate endDate) {
+        List<NameValuePair> queryParams = Lists.newArrayList();
+        if (startDate != null) {
+            queryParams.add(new BasicNameValuePair(START_DATE, startDate.toString()));
+        }
+        if (endDate != null) {
+            queryParams.add(new BasicNameValuePair(END_DATE, endDate.toString()));
+        }
+        String url = String.format(prop.getEndpoint(), reportId);
+        return withQueryParams(url, queryParams);
     }
     
     private String fromProperty(Props prop) {
