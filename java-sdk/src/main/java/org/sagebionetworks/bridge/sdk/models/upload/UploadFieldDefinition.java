@@ -1,8 +1,12 @@
 package org.sagebionetworks.bridge.sdk.models.upload;
 
+import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.StringUtils;
 
 import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
@@ -18,6 +22,7 @@ public final class UploadFieldDefinition {
     private final Integer minAppVersion;
     private final Integer maxAppVersion;
     private final Integer maxLength;
+    private final List<String> multiChoiceAnswerList;
     private final String name;
     private final boolean required;
     private final UploadFieldType type;
@@ -28,7 +33,8 @@ public final class UploadFieldDefinition {
      * if we add more fields to this class.
      */
     private UploadFieldDefinition(String fileExtension, String mimeType, Integer minAppVersion, Integer maxAppVersion,
-            Integer maxLength, String name, boolean required, UploadFieldType type) throws InvalidEntityException {
+            Integer maxLength, List<String> multiChoiceAnswerList, String name, boolean required, UploadFieldType type)
+            throws InvalidEntityException {
         if (StringUtils.isBlank(name)) {
             throw new InvalidEntityException("name cannot be blank");
         }
@@ -41,6 +47,7 @@ public final class UploadFieldDefinition {
         this.minAppVersion = minAppVersion;
         this.maxAppVersion = maxAppVersion;
         this.maxLength = maxLength;
+        this.multiChoiceAnswerList = multiChoiceAnswerList;
         this.name = name;
         this.required = required;
         this.type = type;
@@ -59,7 +66,7 @@ public final class UploadFieldDefinition {
      *         if called with invalid fields
      */
     public UploadFieldDefinition(String name, UploadFieldType type) throws InvalidEntityException {
-        this(null, null, null, null, null, name, true, type);
+        this(null, null, null, null, null, null, name, true, type);
     }
 
     /**
@@ -102,6 +109,15 @@ public final class UploadFieldDefinition {
         return maxLength;
     }
 
+    /**
+     * Used for MULTI_CHOICE types. This lists all valid answers for this field. It is used by BridgeEX to create the
+     * Synapse table columns for MULTI_CHOICE fields. This is a list because order matters, in terms of Synapse
+     * column order. Must be specified if the field type is a MULTI_CHOICE.
+     */
+    public List<String> getMultiChoiceAnswerList() {
+        return multiChoiceAnswerList;
+    }
+
     /** The field name, always non-null and non-empty. */
     public String getName() {
         return name;
@@ -137,6 +153,7 @@ public final class UploadFieldDefinition {
                 Objects.equals(minAppVersion, that.minAppVersion) &&
                 Objects.equals(maxAppVersion, that.maxAppVersion) &&
                 Objects.equals(maxLength, that.maxLength) &&
+                Objects.equals(multiChoiceAnswerList, that.multiChoiceAnswerList) &&
                 Objects.equals(name, that.name) &&
                 type == that.type;
     }
@@ -144,7 +161,8 @@ public final class UploadFieldDefinition {
     /** {@inheritDoc} */
     @Override
     public int hashCode() {
-        return Objects.hash(fileExtension, mimeType, minAppVersion, maxAppVersion, maxLength, name, required, type);
+        return Objects.hash(fileExtension, mimeType, minAppVersion, maxAppVersion, maxLength, multiChoiceAnswerList,
+                name, required, type);
     }
 
     /** {@inheritDoc} */
@@ -156,6 +174,7 @@ public final class UploadFieldDefinition {
                 ", minAppVersion=" + minAppVersion +
                 ", maxAppVersion=" + maxAppVersion +
                 ", maxLength=" + maxLength +
+                ", maxLength=" + Joiner.on(", ").join(multiChoiceAnswerList) +
                 ", name=" + name +
                 ", required=" + required +
                 ", type=" + type.name() +
@@ -169,6 +188,7 @@ public final class UploadFieldDefinition {
         private Integer minAppVersion;
         private Integer maxAppVersion;
         private Integer maxLength;
+        private List<String> multiChoiceAnswerList;
         private String name;
         private Boolean required;
         private UploadFieldType type;
@@ -200,6 +220,19 @@ public final class UploadFieldDefinition {
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getMaxLength */
         public Builder withMaxLength(Integer maxLength) {
             this.maxLength = maxLength;
+            return this;
+        }
+
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getMultiChoiceAnswerList */
+        @JsonSetter
+        public Builder withMultiChoiceAnswerList(List<String> multiChoiceAnswerList) {
+            this.multiChoiceAnswerList = multiChoiceAnswerList;
+            return this;
+        }
+
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getMultiChoiceAnswerList */
+        public Builder withMultiChoiceAnswerList(String... multiChoiceAnswerList) {
+            this.multiChoiceAnswerList = ImmutableList.copyOf(multiChoiceAnswerList);
             return this;
         }
 
@@ -235,8 +268,14 @@ public final class UploadFieldDefinition {
                 required = true;
             }
 
-            return new UploadFieldDefinition(fileExtension, mimeType, minAppVersion, maxAppVersion, maxLength, name,
-                    required, type);
+            // If the answer list was specified, make an immutable copy.
+            List<String> multiChoiceAnswerListCopy = null;
+            if (multiChoiceAnswerList != null) {
+                multiChoiceAnswerListCopy = ImmutableList.copyOf(multiChoiceAnswerList);
+            }
+
+            return new UploadFieldDefinition(fileExtension, mimeType, minAppVersion, maxAppVersion, maxLength,
+                    multiChoiceAnswerListCopy, name, required, type);
         }
     }
 }
