@@ -110,9 +110,15 @@ public final class UploadFieldDefinition {
     }
 
     /**
+     * <p>
      * Used for MULTI_CHOICE types. This lists all valid answers for this field. It is used by BridgeEX to create the
      * Synapse table columns for MULTI_CHOICE fields. This is a list because order matters, in terms of Synapse
      * column order. Must be specified if the field type is a MULTI_CHOICE.
+     * </p>
+     * <p>
+     * For schemas generated from surveys, this list will be the "value" in the survey question option, or the "label"
+     * if value is not specified.
+     * </p>
      */
     public List<String> getMultiChoiceAnswerList() {
         return multiChoiceAnswerList;
