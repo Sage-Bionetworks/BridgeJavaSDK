@@ -180,7 +180,8 @@ public final class UploadFieldDefinition {
                 ", minAppVersion=" + minAppVersion +
                 ", maxAppVersion=" + maxAppVersion +
                 ", maxLength=" + maxLength +
-                ", maxLength=" + Joiner.on(", ").join(multiChoiceAnswerList) +
+                ", maxLength=" + (multiChoiceAnswerList == null ? "null" :
+                    Joiner.on(", ").useForNull("null").join(multiChoiceAnswerList)) +
                 ", name=" + name +
                 ", required=" + required +
                 ", type=" + type.name() +
