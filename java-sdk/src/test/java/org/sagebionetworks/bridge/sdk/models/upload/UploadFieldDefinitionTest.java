@@ -43,6 +43,9 @@ public class UploadFieldDefinitionTest {
         assertEquals("happy-case", fieldDef.getName());
         assertTrue(fieldDef.isRequired());
         assertEquals(UploadFieldType.INLINE_JSON_BLOB, fieldDef.getType());
+
+        // test that toString doesn't crash and contains something reasonable
+        assertTrue(fieldDef.toString().contains("happy-case"));
     }
 
     @Test
@@ -104,6 +107,9 @@ public class UploadFieldDefinitionTest {
         assertEquals(multiChoiceAnswerList, fieldDef.getMultiChoiceAnswerList());
         assertEquals("optional-stuff", fieldDef.getName());
         assertEquals(UploadFieldType.STRING, fieldDef.getType());
+
+        // test that toString doesn't crash and contains something reasonable
+        assertTrue(fieldDef.toString().contains("optional-stuff"));
     }
 
     @Test(expected = InvalidEntityException.class)
