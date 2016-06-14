@@ -7,26 +7,38 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import org.joda.time.LocalDate;
 
 import org.sagebionetworks.bridge.sdk.models.DateRangeResourceList;
+import org.sagebionetworks.bridge.sdk.models.ReportTypeResourceList;
 import org.sagebionetworks.bridge.sdk.models.reports.ReportData;
+import org.sagebionetworks.bridge.sdk.models.reports.ReportIndex;
+import org.sagebionetworks.bridge.sdk.models.reports.ReportType;
 import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
- * Client for working with the report API, an API for saving and retrieving JSON-based data for 
- * reports, either for a study or for individual participants in a study. Reports are organized by ID, and 
- * IDs can be added "at will" (you do not need to specify the ID before you start adding data for that 
- * report). However, report IDs can only contain upper- and lower-case letters, numbers, a dash or 
- * an underscore.
+ * Client for working with the report API, an API for saving and retrieving JSON-based data for reports, either for a
+ * study or for individual participants in a study. Reports are organized by ID, and IDs can be added "at will" (you do
+ * not need to specify the ID before you start adding data for that report). However, report IDs can only contain upper-
+ * and lower-case letters, numbers, a dash or an underscore.
  */
 public class ReportClient extends BaseApiCaller {
 
     private static final TypeReference<DateRangeResourceList<ReportData>> REPORT_DATA_LIST_TYPE = 
             new TypeReference<DateRangeResourceList<ReportData>>() {};
 
+    private static final TypeReference<ReportTypeResourceList<ReportIndex>> REPORT_INDEX_LIST_TYPE = 
+            new TypeReference<ReportTypeResourceList<ReportIndex>>() {};
+                    
     ReportClient(BridgeSession session) {
         super(session);
+    }
+    
+    public ReportTypeResourceList<ReportIndex> getReportIndices(ReportType type) {
+        session.checkSignedIn();
+        checkNotNull(type);
+        
+        return get(config.getReportIndicesApi(type), REPORT_INDEX_LIST_TYPE);
     }
 
     /**
@@ -51,58 +63,77 @@ public class ReportClient extends BaseApiCaller {
     /**
      * Save a single day of report data for a participant, using the participant's ID.
      * 
-     * @param reportId
-     *      the ID of the report in the study
      * @param userId
      *      the ID of the participant
+     * @param reportId
+     *      the ID of the report in the study
      * @param reportData
      *      the data for a single day of the report.
      */
-    public void saveParticipantReportByUserId(String reportId, String userId, ReportData reportData) {
+    public void saveParticipantReportByUserId(String userId, String reportId, ReportData reportData) {
         session.checkSignedIn();
-        checkArgument(isNotBlank(reportId), CANNOT_BE_BLANK, "reportId");
         checkArgument(isNotBlank(userId), CANNOT_BE_BLANK, "userId");
+        checkArgument(isNotBlank(reportId), CANNOT_BE_BLANK, "reportId");
         checkNotNull(reportData, CANNOT_BE_NULL, "reportData");
         
-        post(config.getReportsIdentifierUsersUserIdApi(reportId, userId), reportData);
+        post(config.getParticipantsUserIdReportsIdentifierApi(userId, reportId), reportData);
     }
     
     /**
      * Save a single day of report data for a participant, using the participant's anonymous health code (necessary 
      * for reports based on the anonymized data set). Available to accounts with the worker role only.
      * 
-     * @param reportId
-     *      the ID of the report in the study
      * @param healthCode
      *      the anonymous health code of a participant
+     * @param reportId
+     *      the ID of the report in the study
      * @param reportData
      *      the data for a single day of the report.
      */
-    public void saveParticipantReportByHealthCode(String reportId, String healthCode, ReportData reportData) {
+    public void saveParticipantReportByHealthCode(String healthCode, String reportId, ReportData reportData) {
         session.checkSignedIn();
-        checkArgument(isNotBlank(reportId), CANNOT_BE_BLANK, "reportId");
         checkArgument(isNotBlank(healthCode), CANNOT_BE_BLANK, "healthCode");
+        checkArgument(isNotBlank(reportId), CANNOT_BE_BLANK, "reportId");
         checkNotNull(reportData, CANNOT_BE_NULL, "reportData");
         
         ObjectNode node = (ObjectNode)Utilities.getMapper().valueToTree(reportData);
         node.put("healthCode", healthCode);
-        post(config.getReportsIdentifierUsersApi(reportId), node);
+        post(config.getParticipantsReportsIdentifierApi(reportId), node);
     }
     
     /**
      * Delete all records for all days of a report for a single participant.
      * 
-     * @param reportId
-     *      the ID of the report in the study
      * @param userId
      *      the ID of the participant
+     * @param reportId
+     *      the ID of the report in the study
      */
-    public void deleteParticipantReport(String reportId, String userId) {
+    public void deleteParticipantReport(String userId, String reportId) {
         session.checkSignedIn();
-        checkArgument(isNotBlank(reportId), CANNOT_BE_BLANK, "reportId");
         checkArgument(isNotBlank(userId), CANNOT_BE_BLANK, "healthCode");
+        checkArgument(isNotBlank(reportId), CANNOT_BE_BLANK, "reportId");
         
-        delete(config.getReportsIdentifierUsersUserIdApi(reportId, userId));
+        delete(config.getParticipantsUserIdReportsIdentifierApi(userId, reportId));
+    }
+    
+    /**
+     * Delete a single participant report record.
+     * 
+     * @param userId
+     *      the ID of the participant
+     * @param reportId
+     *      the ID of the report in the study
+     * @param date
+     *      the date of the single report record to delete
+     */
+    public void deleteParticipantReportRecord(String userId, String reportId, LocalDate date) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(userId), CANNOT_BE_BLANK, "healthCode");
+        checkArgument(isNotBlank(reportId), CANNOT_BE_BLANK, "reportId");
+        checkNotNull(date, CANNOT_BE_NULL, "date");
+        
+        delete(config.getParticipantsUserIdReportsIdentifierDateApi(userId, reportId, date));
     }
     
     /**
@@ -149,5 +180,21 @@ public class ReportClient extends BaseApiCaller {
         checkArgument(isNotBlank(reportId), CANNOT_BE_BLANK, "reportId");
 
         delete(config.getReportsIdentifierApi(reportId));
-    }    
+    }
+    
+    /**
+     * Delete one report record by its date.
+     * 
+     * @param reportId
+     *      the ID of the study report to delete
+     * @param date
+     *      the date of the single record to delete
+     */
+    public void deleteStudyReportRecord(String reportId, LocalDate date) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(reportId), CANNOT_BE_BLANK, "reportId");
+        checkNotNull(date, CANNOT_BE_NULL, "date");
+        
+        delete(config.getReportsIdentifierDateApi(reportId, date));
+    }
 }
