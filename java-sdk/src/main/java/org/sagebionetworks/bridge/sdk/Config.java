@@ -21,6 +21,7 @@ import org.joda.time.format.ISODateTimeFormat;
 
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.accounts.SignInCredentials;
+import org.sagebionetworks.bridge.sdk.models.reports.ReportType;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 
 import com.google.common.base.Joiner;
@@ -37,6 +38,7 @@ public final class Config {
     private static final String PAGE_SIZE = "pageSize";
     private static final String END_DATE = "endDate";
     private static final String START_DATE = "startDate";
+    private static final String TYPE = "type";
 
     private static final String CONFIG_FILE = "/bridge-sdk.properties";
     private static final String USER_CONFIG_FILE = System.getProperty("user.home") + "/bridge-sdk.properties";
@@ -69,11 +71,14 @@ public final class Config {
         V3_PARTICIPANT_REQUEST_RESET_PASSWORD("/v3/participants/%s/requestResetPassword"),
         V3_PARTICIPANT_SIGNOUT("/v3/participants/%s/signOut"),
         V3_PARTICIPANT("/v3/participants/%s"),
+        V3_PARTICIPANTS_REPORTS_IDENTIFIER("/v3/participants/reports/%s"),
         V3_PARTICIPANTS_SELF("/v3/participants/self"),
+        V3_PARTICIPANTS_USERID_REPORTS_IDENTIFIER_DATE("/v3/participants/%s/reports/%s/%s"),
+        V3_PARTICIPANTS_USERID_REPORTS_IDENTIFIER("/v3/participants/%s/reports/%s"),
         V3_PARTICIPANTS("/v3/participants"),
-        V3_REPORTS_IDENTIFIER_USERS_USERID("/v3/reports/%s/users/%s"),
-        V3_REPORTS_IDENTIFIER_USERS("/v3/reports/%s/users"),
+        V3_REPORTS_IDENTIFIER_DATE("/v3/reports/%s/%s"),
         V3_REPORTS_IDENTIFIER("/v3/reports/%s"),
+        V3_REPORTS("/v3/reports"),
         V3_SCHEDULEPLANS_GUID("/v3/scheduleplans/%s"),
         V3_SCHEDULEPLANS("/v3/scheduleplans"), 
         V3_STUDIES_IDENTIFIER("/v3/studies/%s"),
@@ -571,6 +576,15 @@ public final class Config {
         return startEndDateURL(Props.V3_USERS_SELF_REPORTS_IDENTIFIER, reportId, startDate, endDate);
     }
     
+    public String getReportIndicesApi(ReportType reportType) {
+        checkNotNull(reportType);
+        
+        List<NameValuePair> queryParams = Lists.newArrayList();
+        queryParams.add(new BasicNameValuePair(TYPE, reportType.name().toLowerCase()));
+        
+        return withQueryParams(Props.V3_REPORTS.getEndpoint(), queryParams);
+    }
+    
     public String getReportsIdentifierApi(String reportId) {
         checkArgument(isNotBlank(reportId));
         return String.format(Props.V3_REPORTS_IDENTIFIER.getEndpoint(), reportId);
@@ -581,15 +595,32 @@ public final class Config {
         return startEndDateURL(Props.V3_REPORTS_IDENTIFIER, reportId, startDate, endDate);
     }
     
-    public String getReportsIdentifierUsersUserIdApi(String reportId, String userId) {
+    public String getReportsIdentifierDateApi(String reportId, LocalDate date) {
         checkArgument(isNotBlank(reportId));
-        checkArgument(isNotBlank(userId));
-        return String.format(Props.V3_REPORTS_IDENTIFIER_USERS_USERID.getEndpoint(), reportId, userId);
+        checkNotNull(date);
+        
+        return String.format(Props.V3_REPORTS_IDENTIFIER_DATE.getEndpoint(), reportId,
+                date.toString(ISODateTimeFormat.date()));
     }
     
-    public String getReportsIdentifierUsersApi(String reportId) {
+    public String getParticipantsUserIdReportsIdentifierApi(String userId, String reportId) {
         checkArgument(isNotBlank(reportId));
-        return String.format(Props.V3_REPORTS_IDENTIFIER_USERS.getEndpoint(), reportId);
+        checkArgument(isNotBlank(userId));
+        return String.format(Props.V3_PARTICIPANTS_USERID_REPORTS_IDENTIFIER.getEndpoint(), userId, reportId);
+    }
+    
+    public String getParticipantsUserIdReportsIdentifierDateApi(String userId, String reportId, LocalDate date) {
+        checkArgument(isNotBlank(reportId));
+        checkArgument(isNotBlank(userId));
+        checkNotNull(date);
+        
+        return String.format(Props.V3_PARTICIPANTS_USERID_REPORTS_IDENTIFIER_DATE.getEndpoint(), userId, reportId,
+                date.toString(ISODateTimeFormat.date()));
+    }
+    
+    public String getParticipantsReportsIdentifierApi(String reportId) {
+        checkArgument(isNotBlank(reportId));
+        return String.format(Props.V3_PARTICIPANTS_REPORTS_IDENTIFIER.getEndpoint(), reportId);
     }
     
     private String startEndDateURL(Props prop, String reportId, LocalDate startDate, LocalDate endDate) {
