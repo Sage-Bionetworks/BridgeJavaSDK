@@ -197,4 +197,17 @@ public class ReportClient extends BaseApiCaller {
         
         delete(config.getReportsIdentifierDateApi(reportId, date));
     }
+    
+    /** A method for an admin user to force the deletion of a participant report index. 
+     * These cannot normally be removed because of the expense of determining whether or 
+     * not they are still in use for any participant. 
+     * 
+     * @param reportId
+     */
+    public void forceDeleteOfParticipantReportIndex(String reportId) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(reportId), CANNOT_BE_BLANK, "reportId");
+        
+        delete(config.getParticipantsReportsIdentifierApi(reportId));
+    }
 }
