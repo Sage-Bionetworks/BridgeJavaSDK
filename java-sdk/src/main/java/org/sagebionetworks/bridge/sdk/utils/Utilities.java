@@ -6,8 +6,10 @@ import static org.apache.commons.validator.routines.UrlValidator.NO_FRAGMENTS;
 import java.util.LinkedHashSet;
 import java.util.Map;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.commons.validator.routines.UrlValidator;
@@ -18,13 +20,6 @@ import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleGuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleGuidHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleGuidVersionHolder;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
 
 public final class Utilities {
 
