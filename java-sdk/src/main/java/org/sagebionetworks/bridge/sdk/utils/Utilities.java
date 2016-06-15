@@ -3,14 +3,22 @@ package org.sagebionetworks.bridge.sdk.utils;
 import static org.apache.commons.validator.routines.UrlValidator.ALLOW_LOCAL_URLS;
 import static org.apache.commons.validator.routines.UrlValidator.NO_FRAGMENTS;
 
+import java.io.IOException;
 import java.util.LinkedHashSet;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.commons.validator.routines.UrlValidator;
+import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.json.LowercaseEnumModule;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
@@ -19,15 +27,7 @@ import org.sagebionetworks.bridge.sdk.models.holders.SimpleGuidCreatedOnVersionH
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleGuidHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleGuidVersionHolder;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
-
 public final class Utilities {
-
     private static final String[] schemes = { "http", "https" };
     private static final UrlValidator urlValidator = new UrlValidator(schemes, NO_FRAGMENTS + ALLOW_LOCAL_URLS);
     private static final EmailValidator emailValidator = EmailValidator.getInstance();
@@ -88,5 +88,24 @@ public final class Utilities {
         LinkedHashSet<T> copy = new LinkedHashSet<T>();
         copy.addAll(set);
         return copy;
+    }
+
+    public static String getObjectAsJson(Object object) {
+        try {
+            return MAPPER.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            String message = String.format("Could not process %s: %s into JSON", object.getClass().getSimpleName(), object.toString());
+            throw new BridgeSDKException(message, e);
+        }
+    }
+
+    public static <T> T getJsonAsType(String json, Class<T> c) {
+        try {
+            return MAPPER.readValue(json, c);
+        } catch (IOException e) {
+            throw new BridgeSDKException("Error message: " + e.getMessage()
+                    + "\nSomething went wrong while converting JSON into " + c.getSimpleName()
+                    + ": json=" + json, e);
+        }
     }
 }
