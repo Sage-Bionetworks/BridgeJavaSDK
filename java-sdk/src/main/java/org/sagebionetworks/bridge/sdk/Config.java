@@ -69,6 +69,8 @@ public final class Config {
         V3_CACHE("/v3/cache"), 
         V3_EXTERNAL_IDS("/v3/externalIds"),
         V3_PARTICIPANT_REQUEST_RESET_PASSWORD("/v3/participants/%s/requestResetPassword"),
+        V3_PARTICIPANT_RESENDEMAILVERIFICATION("/v3/participants/%s/resendEmailVerification"),
+        V3_PARTICIPANT_SUBPOPULATION_RESENDCONSENT("/v3/participants/%s/subpopulations/%s/resendConsent"),
         V3_PARTICIPANT_SIGNOUT("/v3/participants/%s/signOut"),
         V3_PARTICIPANT("/v3/participants/%s"),
         V3_PARTICIPANTS_REPORTS_IDENTIFIER("/v3/participants/reports/%s"),
@@ -527,6 +529,19 @@ public final class Config {
     
     public String getParticipantSelfApi() {
         return Props.V3_PARTICIPANTS_SELF.getEndpoint();
+    }
+    
+    public String getParticipantResendEmailVerificationApi(String id) {
+        checkArgument(isNotBlank(id));
+        
+        return String.format(Props.V3_PARTICIPANT_RESENDEMAILVERIFICATION.getEndpoint(), id);
+    }
+    
+    public String getParticipantResendConsentApi(String id, SubpopulationGuid guid) {
+        checkArgument(isNotBlank(id));
+        checkNotNull(guid);
+        
+        return String.format(Props.V3_PARTICIPANT_SUBPOPULATION_RESENDCONSENT.getEndpoint(), id, guid.getGuid());
     }
     
     public String getExternalIdsApi() {
