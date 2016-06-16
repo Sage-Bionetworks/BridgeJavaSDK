@@ -96,8 +96,6 @@ public final class Config {
         V3_SUBPOPULATIONS_CONSENTS_TIMESTAMP("/v3/subpopulations/%s/consents/%s"),
         V3_SUBPOPULATIONS_CONSENTS("/v3/subpopulations/%s/consents"),
         V3_SUBPOPULATIONS("/v3/subpopulations"),
-        V3_SURVEYRESPONSES_IDENTIFIER("/v3/surveyresponses/%s"), 
-        V3_SURVEYRESPONSES("/v3/surveyresponses"), 
         V3_SURVEYS_PUBLISHED("/v3/surveys/published"),
         V3_SURVEYS_RECENT("/v3/surveys/recent"),
         V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PHYSICAL_TRUE("/v3/surveys/%s/revisions/%s?physical=true"),
@@ -424,15 +422,6 @@ public final class Config {
     public String getRecentlyPublishedSurveyForUserApi(String guid) {
         checkArgument(isNotBlank(guid));
         return String.format(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_PUBLISHED.getEndpoint(), guid);
-    }
-
-    public String getSurveyResponsesApi() {
-        return Props.V3_SURVEYRESPONSES.getEndpoint();
-    }
-
-    public String getSurveyResponseApi(String identifier) {
-        checkArgument(isNotBlank(identifier));
-        return String.format(Props.V3_SURVEYRESPONSES_IDENTIFIER.getEndpoint(), identifier);
     }
 
     public String getSchedulePlansApi() {
