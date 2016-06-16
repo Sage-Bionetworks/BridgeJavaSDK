@@ -26,6 +26,7 @@ public final class UploadFieldDefinition {
     private final String name;
     private final boolean required;
     private final UploadFieldType type;
+    private final Boolean unboundedText;
 
     /**
      * Private constructor. Construction of an UploadFieldDefinition should go through the Builder. This constructor
@@ -33,7 +34,8 @@ public final class UploadFieldDefinition {
      * if we add more fields to this class.
      */
     private UploadFieldDefinition(String fileExtension, String mimeType, Integer minAppVersion, Integer maxAppVersion,
-            Integer maxLength, List<String> multiChoiceAnswerList, String name, boolean required, UploadFieldType type)
+            Integer maxLength, List<String> multiChoiceAnswerList, String name, boolean required, UploadFieldType type,
+            Boolean unboundedText)
             throws InvalidEntityException {
         if (StringUtils.isBlank(name)) {
             throw new InvalidEntityException("name cannot be blank");
@@ -51,6 +53,7 @@ public final class UploadFieldDefinition {
         this.name = name;
         this.required = required;
         this.type = type;
+        this.unboundedText = unboundedText;
     }
 
     /**
@@ -66,7 +69,7 @@ public final class UploadFieldDefinition {
      *         if called with invalid fields
      */
     public UploadFieldDefinition(String name, UploadFieldType type) throws InvalidEntityException {
-        this(null, null, null, null, null, null, name, true, type);
+        this(null, null, null, null, null, null, name, true, type, null);
     }
 
     /**
@@ -102,8 +105,13 @@ public final class UploadFieldDefinition {
     }
 
     /**
+     * <p>
      * Used for STRING, SINGLE_CHOICE, and INLINE_JSON_BLOB types. This is a hint for BridgeEX to create a Synapse
      * column with the right width.
+     * </p>
+     * <p>
+     * If not specified, Bridge will use the default max length of 100 (if applicable).
+     * </p>
      */
     public Integer getMaxLength() {
         return maxLength;
@@ -143,6 +151,20 @@ public final class UploadFieldDefinition {
         return type;
     }
 
+    /**
+     * <p>
+     * True if this field is a text-field with unbounded length. (Only applies to fields that are serialized as text,
+     * such as INLINE_JSON_BLOB, SINGLE_CHOICE, or STRING. Can be null, so that the number of field parameters doesn't
+     * explode.
+     * </p>
+     * <p>
+     * This flag takes precedence over the maxLength value.
+     * </p>
+     */
+    public Boolean isUnboundedText() {
+        return unboundedText;
+    }
+
     /** {@inheritDoc} */
     @Override
     public boolean equals(Object o) {
@@ -161,14 +183,15 @@ public final class UploadFieldDefinition {
                 Objects.equals(maxLength, that.maxLength) &&
                 Objects.equals(multiChoiceAnswerList, that.multiChoiceAnswerList) &&
                 Objects.equals(name, that.name) &&
-                type == that.type;
+                type == that.type &&
+                Objects.equals(unboundedText, that.unboundedText);
     }
 
     /** {@inheritDoc} */
     @Override
     public int hashCode() {
         return Objects.hash(fileExtension, mimeType, minAppVersion, maxAppVersion, maxLength, multiChoiceAnswerList,
-                name, required, type);
+                name, required, type, unboundedText);
     }
 
     /** {@inheritDoc} */
@@ -185,6 +208,7 @@ public final class UploadFieldDefinition {
                 ", name=" + name +
                 ", required=" + required +
                 ", type=" + type.name() +
+                ", unboundedText=" + String.valueOf(unboundedText) +
                 "]";
     }
 
@@ -199,6 +223,7 @@ public final class UploadFieldDefinition {
         private String name;
         private Boolean required;
         private UploadFieldType type;
+        private Boolean unboundedText;
 
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getFileExtension */
         public Builder withFileExtension(String fileExtension) {
@@ -261,6 +286,12 @@ public final class UploadFieldDefinition {
             return this;
         }
 
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#isUnboundedText */
+        public Builder withUnboundedText(Boolean unboundedText) {
+            this.unboundedText = unboundedText;
+            return this;
+        }
+
         /**
          * Builds and validates an UploadFieldDefinition. name must be non-null and non-empty. type must be
          * non-null. required may be null and defaults to true. If this is called with invalid fields, it will throw an
@@ -282,7 +313,7 @@ public final class UploadFieldDefinition {
             }
 
             return new UploadFieldDefinition(fileExtension, mimeType, minAppVersion, maxAppVersion, maxLength,
-                    multiChoiceAnswerListCopy, name, required, type);
+                    multiChoiceAnswerListCopy, name, required, type, unboundedText);
         }
     }
 }

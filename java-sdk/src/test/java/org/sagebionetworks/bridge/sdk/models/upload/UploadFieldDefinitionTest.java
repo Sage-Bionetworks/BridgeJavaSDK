@@ -98,7 +98,7 @@ public class UploadFieldDefinitionTest {
         UploadFieldDefinition fieldDef = new UploadFieldDefinition.Builder().withFileExtension(".test")
                 .withMimeType("text/plain").withMinAppVersion(10).withMaxAppVersion(13).withMaxLength(128)
                 .withMultiChoiceAnswerList(multiChoiceAnswerList).withName("optional-stuff")
-                .withType(UploadFieldType.STRING).build();
+                .withType(UploadFieldType.STRING).withUnboundedText(true).build();
         assertEquals(".test", fieldDef.getFileExtension());
         assertEquals("text/plain", fieldDef.getMimeType());
         assertEquals(10, fieldDef.getMinAppVersion().intValue());
@@ -107,6 +107,7 @@ public class UploadFieldDefinitionTest {
         assertEquals(multiChoiceAnswerList, fieldDef.getMultiChoiceAnswerList());
         assertEquals("optional-stuff", fieldDef.getName());
         assertEquals(UploadFieldType.STRING, fieldDef.getType());
+        assertTrue(fieldDef.isUnboundedText());
 
         // test that toString doesn't crash and contains something reasonable
         assertTrue(fieldDef.toString().contains("optional-stuff"));
@@ -152,7 +153,8 @@ public class UploadFieldDefinitionTest {
                 "   \"multiChoiceAnswerList\":[\"asdf\", \"jkl;\"],\n" +
                 "   \"name\":\"test-field\",\n" +
                 "   \"required\":false,\n" +
-                "   \"type\":\"boolean\"\n" +
+                "   \"type\":\"boolean\",\n" +
+                "   \"unboundedText\":true\n" +
                 "}";
 
         // convert to POJO
@@ -167,13 +169,14 @@ public class UploadFieldDefinitionTest {
         assertEquals("test-field", fieldDef.getName());
         assertFalse(fieldDef.isRequired());
         assertEquals(UploadFieldType.BOOLEAN, fieldDef.getType());
+        assertTrue(fieldDef.isUnboundedText());
 
         // convert back to JSON
         String convertedJson = Utilities.getMapper().writeValueAsString(fieldDef);
 
         // then convert to a map so we can validate the raw JSON
         Map<String, Object> jsonMap = Utilities.getMapper().readValue(convertedJson, Utilities.TYPE_REF_RAW_MAP);
-        assertEquals(9, jsonMap.size());
+        assertEquals(10, jsonMap.size());
         assertEquals(".json", jsonMap.get("fileExtension"));
         assertEquals("text/json", jsonMap.get("mimeType"));
         assertEquals(2, jsonMap.get("minAppVersion"));
@@ -183,6 +186,7 @@ public class UploadFieldDefinitionTest {
         assertEquals("test-field", jsonMap.get("name"));
         assertFalse((boolean) jsonMap.get("required"));
         assertEquals("boolean", jsonMap.get("type"));
+        assertTrue((boolean) jsonMap.get("unboundedText"));
     }
 
     @Test
