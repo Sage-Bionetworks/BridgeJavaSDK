@@ -43,6 +43,7 @@ import org.sagebionetworks.bridge.sdk.exceptions.UnauthorizedException;
 import org.sagebionetworks.bridge.sdk.exceptions.UnsupportedVersionException;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadRequest;
 import org.sagebionetworks.bridge.sdk.utils.Utilities;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -107,29 +108,55 @@ class BaseApiCaller {
 
     protected HttpResponse publicGet(String url) {
         url = getFullUrl(url);
+        try {
 
-        logger.debug("GET {}", url);
-        Request request = Request.Get(url);
-        return executeRequest(request, url);
+            logger.debug("GET {}", url);
+            Request request = Request.Get(url);
+            HttpResponse response = exec.execute(request).returnResponse();
+            throwExceptionOnErrorStatus(response, url);
+            return response;
+
+        } catch (ClientProtocolException e) {
+            throw new BridgeSDKException(CONNECTION_FAILED, e, url);
+        } catch (IOException e) {
+            throw new BridgeSDKException(CONNECTION_FAILED, e, url);
+        }
     }
 
     protected HttpResponse s3Put(String url, HttpEntity entity, UploadRequest uploadRequest) {
-        logger.debug("PUT {}\n    <BINARY DATA>", url);
-        Request request = Request.Put(url).body(entity);
-        request.addHeader("Content-Type", uploadRequest.getContentType());
-        request.addHeader("Content-MD5", uploadRequest.getContentMd5());
+        try {
 
-        return executeRequest(request, url);
+            logger.debug("PUT {}\n    <BINARY DATA>", url);
+            Request request = Request.Put(url).body(entity);
+            request.addHeader("Content-Type", uploadRequest.getContentType());
+            request.addHeader("Content-MD5", uploadRequest.getContentMd5());
+            HttpResponse response = request.execute().returnResponse();
+            throwExceptionOnErrorStatus(response, url);
+            return response;
+
+        } catch (ClientProtocolException e) {
+            throw new BridgeSDKException(CONNECTION_FAILED, e, url);
+        } catch (IOException e) {
+            throw new BridgeSDKException(CONNECTION_FAILED, e, url);
+        }
     }
 
     protected HttpResponse get(String url) {
         url = getFullUrl(url);
+        try {
 
-        Request request = Request.Get(url);
-        addApplicationHeaders(request);
-        logger.debug("GET {}", url);
+            Request request = Request.Get(url);
+            addApplicationHeaders(request);
+            logger.debug("GET {}", url);
+            HttpResponse response = exec.execute(request).returnResponse();
+            throwExceptionOnErrorStatus(response, url);
+            return response;
 
-        return executeRequest(request, url);
+        } catch (ClientProtocolException e) {
+            throw new BridgeSDKException(CONNECTION_FAILED, e, url);
+        } catch (IOException e) {
+            throw new BridgeSDKException(CONNECTION_FAILED, e, url);
+        }
     }
 
     protected <T> T get(String url, TypeReference<T> type) {
@@ -144,12 +171,20 @@ class BaseApiCaller {
 
     protected HttpResponse post(String url) {
         url = getFullUrl(url);
+        try {
 
-        Request request = Request.Post(url);
-        addApplicationHeaders(request);
-        logger.debug("POST {}\n    <EMPTY>", url);
+            Request request = Request.Post(url);
+            addApplicationHeaders(request);
+            logger.debug("POST {}\n    <EMPTY>", url);
+            HttpResponse response = exec.execute(request).returnResponse();
+            throwExceptionOnErrorStatus(response, url);
+            return response;
 
-        return executeRequest(request, url);
+        } catch (ClientProtocolException e) {
+            throw new BridgeSDKException(CONNECTION_FAILED, e, url);
+        } catch (IOException e) {
+            throw new BridgeSDKException(CONNECTION_FAILED, e, url);
+        }
     }
 
     protected HttpResponse post(String url, Object object) {
@@ -163,50 +198,63 @@ class BaseApiCaller {
     }
 
     protected <T> T post(String url, Object object, TypeReference<T> type) {
-        String json = Utilities.getObjectAsJson(object);
-        HttpResponse response = postJSON(url, json);
-        return getResponseBodyAsType(response, type);
+        try {
+
+            String json = mapper.writeValueAsString(object);
+            HttpResponse response = postJSON(url, json);
+            return getResponseBodyAsType(response, type);
+
+        } catch (JsonProcessingException e) {
+            String message = String.format("Could not process %s: %s", object.getClass().getSimpleName(), object.toString());
+            throw new BridgeSDKException(message, e);
+        }
     }
     
     protected <T> T post(String url, Object object, Class<T> clazz) {
-        String json = (object != null) ? Utilities.getObjectAsJson(object) : null;
+        try {
 
-        HttpResponse response = postJSON(url, json);
-        return getResponseBodyAsType(response, clazz);
+            String json = (object != null) ? mapper.writeValueAsString(object) : null;
+            HttpResponse response = postJSON(url, json);
+            return (clazz != null) ? getResponseBodyAsType(response, clazz) : null;
+
+        } catch (JsonProcessingException e) {
+            String message = String.format("Could not process %s: %s", object.getClass().getSimpleName(), object.toString());
+            throw new BridgeSDKException(message, e);
+        }
     }
 
     private HttpResponse postJSON(String url, String json) {
         url = getFullUrl(url);
+        try {
 
-        Request request = Request.Post(url);
-        addApplicationHeaders(request);
-        if (json != null) {
-            request.bodyString(json, ContentType.APPLICATION_JSON);
-            logger.debug("POST {} \n     {}", url, maskPassword(json));
-        } else {
-            logger.debug("POST {}", url);
+            Request request = Request.Post(url);
+            addApplicationHeaders(request);
+            if (json != null) {
+                request.bodyString(json, ContentType.APPLICATION_JSON);
+                logger.debug("POST {} \n     {}", url, maskPassword(json));
+            } else {
+                logger.debug("POST {}", url);
+            }
+            HttpResponse response = exec.execute(request).returnResponse();
+            throwExceptionOnErrorStatus(response, url);
+            return response;
+
+        } catch (IOException e) {
+            throw new BridgeSDKException(CONNECTION_FAILED, e, url);
         }
-
-        return executeRequest(request, url);
     }
 
     protected HttpResponse delete(String url) {
         url = getFullUrl(url);
 
-        Request request = Request.Delete(url);
-        addApplicationHeaders(request);
-        logger.debug("DELETE {}", url);
-
-        return executeRequest(request, url);
-    }
-
-    private HttpResponse executeRequest(Request request, String url) {
         try {
+            Request request = Request.Delete(url);
+            addApplicationHeaders(request);
+            logger.debug("DELETE {}", url);
             HttpResponse response = exec.execute(request).returnResponse();
             throwExceptionOnErrorStatus(response, url);
             return response;
-        } catch (ClientProtocolException e) {
-            throw new BridgeSDKException(CONNECTION_FAILED, e, url);
+
         } catch (IOException e) {
             throw new BridgeSDKException(CONNECTION_FAILED, e, url);
         }
@@ -235,11 +283,24 @@ class BaseApiCaller {
 
     private <T> T getResponseBodyAsType(HttpResponse response, Class<T> c) {
         String responseBody = getResponseBody(response);
-        return Utilities.getJsonAsType(responseBody, c);
+        try {
+            return mapper.readValue(responseBody, c);
+        } catch (IOException e) {
+            throw new BridgeSDKException("Error message: " + e.getMessage()
+                    + "\nSomething went wrong while converting Response Body JSON into " + c.getSimpleName()
+                    + ": responseBody=" + responseBody, e);
+        }
     }
 
     private <T> T getResponseBodyAsType(HttpResponse response, TypeReference<T> type) {
-        return getResponseBodyAsType(response, (Class<T>) type.getClass());
+        String responseBody = getResponseBody(response);
+        try {
+            return mapper.readValue(responseBody, type);
+        } catch (IOException e) {
+            throw new BridgeSDKException("Error message: " + e.getMessage()
+                    + "\nSomething went wrong while converting Response Body JSON into " + type.getType().getClass().getSimpleName()
+                    + ": responseBody=" + responseBody, e);
+        }
     }
 
     private JsonNode getJsonNode(HttpResponse response) {
