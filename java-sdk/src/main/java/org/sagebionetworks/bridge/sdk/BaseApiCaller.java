@@ -240,7 +240,7 @@ class BaseApiCaller {
 
     private <T> T getResponseBodyAsType(HttpResponse response, TypeReference<T> type) {
         String responseBody = getResponseBody(response);
-        try {
+        return Utilities.getJsonAsType(responseBody, type);
     }
 
     private JsonNode getJsonNode(HttpResponse response) {
