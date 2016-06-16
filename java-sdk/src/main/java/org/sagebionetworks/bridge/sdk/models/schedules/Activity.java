@@ -20,14 +20,12 @@ public final class Activity {
     private final String guid;
     private final TaskReference task;
     private final SurveyReference survey;
-    private final SurveyResponseReference response;
     private final ActivityType activityType;
     
     @JsonCreator
     private Activity(@JsonProperty("label") String label, @JsonProperty("labelDetail") String labelDetail, 
         @JsonProperty("guid") String guid, @JsonProperty("task") TaskReference task, 
-        @JsonProperty("survey") SurveyReference survey, 
-        @JsonProperty("surveyResponse") SurveyResponseReference response) {
+        @JsonProperty("survey") SurveyReference survey) {
         checkArgument(isNotBlank(label));
         checkArgument(task != null || survey != null);
         
@@ -36,16 +34,15 @@ public final class Activity {
         this.guid = guid;
         this.survey = survey;
         this.task = task;
-        this.response = response;
         this.activityType = (task != null) ? ActivityType.TASK : ActivityType.SURVEY;
     }
     
     public Activity(String label, String labelDetail, TaskReference task) {
-        this(label, labelDetail, null, task, null, null);
+        this(label, labelDetail, null, task, null);
     }
     
     public Activity(String label, String labelDetail, SurveyReference survey) {
-        this(label, labelDetail, null, null, survey, null);
+        this(label, labelDetail, null, null, survey);
     }
     
     /**
@@ -86,13 +83,6 @@ public final class Activity {
     public TaskReference getTask() {
         return task;
     }
-    /**
-     * For survey activities, the key object for the survey response referenced by the activity. This can be used
-     * through the SDK to submit survey answers and retrieve saved answers.
-     */
-    public SurveyResponseReference getSurveyResponse() {
-        return response;
-    }
     public boolean isPersistentlyRescheduledBy(Schedule schedule) {
         return schedule.schedulesImmediatelyAfterEvent() && getActivityFinishedEventId(schedule);
     }
@@ -115,7 +105,6 @@ public final class Activity {
         result = prime * result + Objects.hashCode(label);
         result = prime * result + Objects.hashCode(labelDetail);
         result = prime * result + Objects.hashCode(guid);
-        result = prime * result + Objects.hashCode(response);
         result = prime * result + Objects.hashCode(survey);
         result = prime * result + Objects.hashCode(task);
         return result;
@@ -130,14 +119,13 @@ public final class Activity {
         Activity other = (Activity) obj;
         return (Objects.equals(activityType, other.activityType) && 
             Objects.equals(label, other.label) && Objects.equals(labelDetail, other.labelDetail) &&
-            Objects.equals(response, other.response) && Objects.equals(survey, other.survey) &&
-            Objects.equals(guid, other.guid) && Objects.equals(task, other.task));
-                        
+            Objects.equals(survey, other.survey) && Objects.equals(guid, other.guid) && 
+            Objects.equals(task, other.task));
     }
 
     @Override
     public String toString() {
-        return String.format("Activity [label=%s, labelDetail=%s, guid=%s,task=%s, survey=%s, response=%s, activityType=%s]",
-            label, labelDetail, guid, task, survey, response, activityType);
+        return String.format("Activity [label=%s, labelDetail=%s, guid=%s,task=%s, survey=%s, activityType=%s]",
+            label, labelDetail, guid, task, survey, activityType);
     }
 }

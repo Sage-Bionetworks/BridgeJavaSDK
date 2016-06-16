@@ -27,15 +27,11 @@ import org.sagebionetworks.bridge.sdk.models.accounts.SharingScope;
 import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
 import org.sagebionetworks.bridge.sdk.models.accounts.Withdrawal;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
-import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
-import org.sagebionetworks.bridge.sdk.models.holders.SimpleIdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
 import org.sagebionetworks.bridge.sdk.models.schedules.ScheduledActivity;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.ConsentStatus;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
-import org.sagebionetworks.bridge.sdk.models.surveys.SurveyAnswer;
-import org.sagebionetworks.bridge.sdk.models.surveys.SurveyResponse;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadRequest;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadValidationStatus;
@@ -188,80 +184,6 @@ public class UserClient extends BaseApiCaller {
         checkNotNull(guid, CANNOT_BE_NULL, "guid");
         
         return get(config.getRecentlyPublishedSurveyForUserApi(guid), Survey.class);
-    }
-
-    /**
-     * Submit a list of SurveyAnswers to a particular survey. An identifier for the survey response will be 
-     * auto-generated and returned by the server.
-     *
-     * @param keys
-     *            The survey that the answers will be added to.
-     * @param answers
-     *            The answers to add to the survey.
-     * @return GuidHolder A holder storing the GUID of the survey.
-     */
-    public IdentifierHolder submitAnswersToSurvey(GuidCreatedOnVersionHolder keys, List<SurveyAnswer> answers) {
-        session.checkSignedIn();
-        checkNotNull(keys, "Survey keys cannot be null.");
-        checkNotNull(answers, "Answers cannot be null.");
-
-        SurveyResponseSubmit response = new SurveyResponseSubmit(keys, null, answers);
-        return post(config.getSurveyResponsesApi(), response, SimpleIdentifierHolder.class);
-    }
-
-    /**
-     * Submit a list of SurveyAnswers to a particular survey, using a specified identifier
-     * for the survey response (the value should be a unique string, like a GUID, that 
-     * has not been used for any prior submissions).
-     *
-     * @param keys
-     *            The survey that the answers will be added to.
-     * @param identifier
-     *            A unique string to identify this set of survey answers as originating
-     *            from the same run of a survey
-     * @param answers
-     *            The answers to add to the survey.
-     * @return IdentifierHolder A holder storing the GUID of the survey.
-     */
-    public IdentifierHolder submitAnswersToSurvey(GuidCreatedOnVersionHolder keys, String identifier, List<SurveyAnswer> answers) {
-        session.checkSignedIn();
-        checkNotNull(keys, "GuidCreatedOnVersionHolder cannot be null.");
-        checkNotNull(identifier, "identifier cannot be null.");
-        checkNotNull(answers, "Answers cannot be null.");
-
-        SurveyResponseSubmit response = new SurveyResponseSubmit(keys, identifier, answers);
-        return post(config.getSurveyResponsesApi(), response, SimpleIdentifierHolder.class);
-    }
-    
-    /**
-     * Get the survey response associated with the identifier string.
-     *
-     * @param identifier
-     *            The identifier for this SurveyResponse
-     * @return SurveyResponse
-     */
-    public SurveyResponse getSurveyResponse(String identifier) {
-        session.checkSignedIn();
-        checkArgument(isNotBlank(identifier), "Survey response identifier cannot be null or empty.");
-
-        return get(config.getSurveyResponseApi(identifier), SurveyResponse.class);
-    }
-
-    /**
-     * Add a list of SurveyAnswers to a SurveyResponse.
-     *
-     * @param identifier
-     *            The identifier for the response that answers will be added (the response must already exist).
-     * @param answers
-     *            The answers that will be added to the response.
-     */
-    public void addAnswersToResponse(String identifier, List<SurveyAnswer> answers) {
-        session.checkSignedIn();
-        checkArgument(isNotBlank(identifier), "Identifier cannot be null or empty.");
-        checkNotNull(answers, "Answers cannot be null.");
-        
-        SurveyResponseSubmit res = new SurveyResponseSubmit(null, identifier, answers);
-        post(config.getSurveyResponseApi(identifier), res);
     }
 
     /**
