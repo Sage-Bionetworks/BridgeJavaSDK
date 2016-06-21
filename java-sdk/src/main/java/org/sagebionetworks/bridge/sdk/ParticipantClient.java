@@ -166,6 +166,7 @@ public class ParticipantClient extends BaseApiCaller {
      */
     public PagedResourceList<ScheduledActivity> getActivityHistory(String id, String offsetKey, Integer pageSize) {
         session.checkSignedIn();
+        checkArgument(isNotBlank(id), CANNOT_BE_BLANK, "id");
         
         return get(config.getParticipantActivityHistorApi(id, offsetKey, pageSize), SCHEDULED_ACTIVITY_PAGED_RESOURCE_LIST);
     }
@@ -182,6 +183,7 @@ public class ParticipantClient extends BaseApiCaller {
      */
     public void deleteParticipantActivities(String id) {
         session.checkSignedIn();
+        checkArgument(isNotBlank(id), CANNOT_BE_BLANK, "id");
         
         delete(config.getParticipantActivityHistorApi(id, null, null));
     }
