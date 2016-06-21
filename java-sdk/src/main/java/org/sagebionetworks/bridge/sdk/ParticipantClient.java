@@ -11,6 +11,7 @@ import org.sagebionetworks.bridge.sdk.models.PagedResourceList;
 import org.sagebionetworks.bridge.sdk.models.accounts.AccountSummary;
 import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
+import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -116,5 +117,32 @@ public class ParticipantClient extends BaseApiCaller {
         checkArgument(isNotBlank(id), CANNOT_BE_BLANK, "id");
 
         post(config.getParticipantRequestResetPasswordApi(id));
-    }    
+    }
+    
+    /**
+     * Resend and email verification request to an account that is unverified.
+     *  
+     * @param id
+     */
+    public void resendEmailVerification(String id) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(id), CANNOT_BE_BLANK, "id");
+
+        post(config.getParticipantResendEmailVerificationApi(id));
+    }
+    
+    /**
+     * Resend the signed consent agreement via email to a study participant. The subpopulation (consent group) of the
+     * consent must be specified since a participant may have signed more than one consent.
+     * 
+     * @param id
+     * @param subpopGuid
+     */
+    public void resendConsentAgreement(String id, SubpopulationGuid subpopGuid) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(id), CANNOT_BE_BLANK, "id");
+        checkNotNull(subpopGuid, CANNOT_BE_NULL, "subpopGuid");
+        
+        post(config.getParticipantResendConsentApi(id, subpopGuid));
+    }
 }
