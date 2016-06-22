@@ -17,6 +17,7 @@ import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
  */
 @JsonDeserialize(builder = UploadFieldDefinition.Builder.class)
 public final class UploadFieldDefinition {
+    private final Boolean allowOtherChoices;
     private final String fileExtension;
     private final String mimeType;
     private final Integer minAppVersion;
@@ -33,9 +34,9 @@ public final class UploadFieldDefinition {
      * should not be made public, since we don't want to potentially end up with dozens of "convenience constructors"
      * if we add more fields to this class.
      */
-    private UploadFieldDefinition(String fileExtension, String mimeType, Integer minAppVersion, Integer maxAppVersion,
-            Integer maxLength, List<String> multiChoiceAnswerList, String name, boolean required, UploadFieldType type,
-            Boolean unboundedText)
+    private UploadFieldDefinition(Boolean allowOtherChoices, String fileExtension, String mimeType,
+            Integer minAppVersion, Integer maxAppVersion, Integer maxLength, List<String> multiChoiceAnswerList,
+            String name, boolean required, UploadFieldType type, Boolean unboundedText)
             throws InvalidEntityException {
         if (StringUtils.isBlank(name)) {
             throw new InvalidEntityException("name cannot be blank");
@@ -44,6 +45,7 @@ public final class UploadFieldDefinition {
             throw new InvalidEntityException("type cannot be null");
         }
 
+        this.allowOtherChoices = allowOtherChoices;
         this.fileExtension = fileExtension;
         this.mimeType = mimeType;
         this.minAppVersion = minAppVersion;
@@ -69,7 +71,16 @@ public final class UploadFieldDefinition {
      *         if called with invalid fields
      */
     public UploadFieldDefinition(String name, UploadFieldType type) throws InvalidEntityException {
-        this(null, null, null, null, null, null, name, true, type, null);
+        this(null, null, null, null, null, null, null, name, true, type, null);
+    }
+
+    /**
+     * Used for MULTI_CHOICE. True if the multi-choice field allows an "other" answer with user freeform text. This
+     * tells BridgeEX to reserve an "other" column for this field. Can be null, so that the number of field parameters
+     * doesn't explode.
+     */
+    public Boolean getAllowOtherChoices() {
+        return allowOtherChoices;
     }
 
     /**
@@ -176,6 +187,7 @@ public final class UploadFieldDefinition {
         }
         UploadFieldDefinition that = (UploadFieldDefinition) o;
         return required == that.required &&
+                Objects.equals(allowOtherChoices, that.allowOtherChoices) &&
                 Objects.equals(fileExtension, that.fileExtension) &&
                 Objects.equals(mimeType, that.mimeType) &&
                 Objects.equals(minAppVersion, that.minAppVersion) &&
@@ -190,15 +202,16 @@ public final class UploadFieldDefinition {
     /** {@inheritDoc} */
     @Override
     public int hashCode() {
-        return Objects.hash(fileExtension, mimeType, minAppVersion, maxAppVersion, maxLength, multiChoiceAnswerList,
-                name, required, type, unboundedText);
+        return Objects.hash(allowOtherChoices, fileExtension, mimeType, minAppVersion, maxAppVersion, maxLength,
+                multiChoiceAnswerList, name, required, type, unboundedText);
     }
 
     /** {@inheritDoc} */
     @Override
     public String toString() {
         return "UploadFieldDefinition[" +
-                "fileExtension=" + fileExtension +
+                ", allowOtherChoices=" + String.valueOf(allowOtherChoices) +
+                ", fileExtension=" + fileExtension +
                 ", mimeType=" + mimeType +
                 ", minAppVersion=" + minAppVersion +
                 ", maxAppVersion=" + maxAppVersion +
@@ -214,6 +227,7 @@ public final class UploadFieldDefinition {
 
     /** Builder for UploadFieldDefinition */
     public static class Builder {
+        private Boolean allowOtherChoices;
         private String fileExtension;
         private String mimeType;
         private Integer minAppVersion;
@@ -224,6 +238,12 @@ public final class UploadFieldDefinition {
         private Boolean required;
         private UploadFieldType type;
         private Boolean unboundedText;
+
+        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getAllowOtherChoices */
+        public Builder withAllowOtherChoices(Boolean allowOtherChoices) {
+            this.allowOtherChoices = allowOtherChoices;
+            return this;
+        }
 
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getFileExtension */
         public Builder withFileExtension(String fileExtension) {
@@ -312,7 +332,7 @@ public final class UploadFieldDefinition {
                 multiChoiceAnswerListCopy = ImmutableList.copyOf(multiChoiceAnswerList);
             }
 
-            return new UploadFieldDefinition(fileExtension, mimeType, minAppVersion, maxAppVersion, maxLength,
+            return new UploadFieldDefinition(allowOtherChoices, fileExtension, mimeType, minAppVersion, maxAppVersion, maxLength,
                     multiChoiceAnswerListCopy, name, required, type, unboundedText);
         }
     }
