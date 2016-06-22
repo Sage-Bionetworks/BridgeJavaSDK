@@ -73,6 +73,7 @@ public final class Config {
         V3_PARTICIPANT_SUBPOPULATION_RESENDCONSENT("/v3/participants/%s/subpopulations/%s/resendConsent"),
         V3_PARTICIPANT_SIGNOUT("/v3/participants/%s/signOut"),
         V3_PARTICIPANT("/v3/participants/%s"),
+        V3_PARTICIPANTS_ACTIVITY_HISTORY("/v3/participants/%s/activities"),
         V3_PARTICIPANTS_REPORTS_IDENTIFIER("/v3/participants/reports/%s"),
         V3_PARTICIPANTS_SELF("/v3/participants/self"),
         V3_PARTICIPANTS_USERID_REPORTS_IDENTIFIER_DATE("/v3/participants/%s/reports/%s/%s"),
@@ -625,6 +626,20 @@ public final class Config {
     public String getParticipantsReportsIdentifierApi(String reportId) {
         checkArgument(isNotBlank(reportId));
         return String.format(Props.V3_PARTICIPANTS_REPORTS_IDENTIFIER.getEndpoint(), reportId);
+    }
+    
+    public String getParticipantActivityHistorApi(String userId, String offsetKey, Integer pageSize) {
+        checkArgument(isNotBlank(userId));
+        
+        List<NameValuePair> queryParams = Lists.newArrayList();
+        if (offsetKey != null) {
+            queryParams.add(new BasicNameValuePair(OFFSET_KEY, offsetKey));
+        }
+        if (pageSize != null) {
+            queryParams.add(new BasicNameValuePair(PAGE_SIZE, pageSize.toString()));
+        }
+        return withQueryParams(String.format(Props.V3_PARTICIPANTS_ACTIVITY_HISTORY.getEndpoint(), userId),
+                queryParams);
     }
     
     private String startEndDateURL(Props prop, String reportId, LocalDate startDate, LocalDate endDate) {

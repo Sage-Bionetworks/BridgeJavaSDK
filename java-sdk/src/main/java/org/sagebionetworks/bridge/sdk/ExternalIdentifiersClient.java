@@ -26,7 +26,7 @@ public class ExternalIdentifiersClient extends BaseApiCaller {
      *      Similar to an offsetBy index, but not as flexible, this essentially allows you to work page by 
      *      page through the records. 
      * @param pageSize
-     *      Number of records to return for this request (1-100 records).
+     *      Number of records to return for this request
      * @param idFilter
      *      Optional string that used to match against the start of an external identifier string
      * @param assignmentFilter
