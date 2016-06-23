@@ -12,6 +12,7 @@ import org.sagebionetworks.bridge.sdk.models.accounts.AccountSummary;
 import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
 import org.sagebionetworks.bridge.sdk.models.accounts.Withdrawal;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
+import org.sagebionetworks.bridge.sdk.models.schedules.ScheduledActivity;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -22,6 +23,9 @@ public class ParticipantClient extends BaseApiCaller {
     
     private static final TypeReference<PagedResourceList<AccountSummary>> ACCOUNT_SUMMARY_PAGED_RESOURCE_LIST = 
             new TypeReference<PagedResourceList<AccountSummary>>() {};
+            
+    private static final TypeReference<PagedResourceList<ScheduledActivity>> SCHEDULED_ACTIVITY_PAGED_RESOURCE_LIST = 
+            new TypeReference<PagedResourceList<ScheduledActivity>>() {};
 
     ParticipantClient(BridgeSession session) {
         super(session);
@@ -168,4 +172,43 @@ public class ParticipantClient extends BaseApiCaller {
         Withdrawal withdrawal = new Withdrawal(reason);
         post(config.getParticipantConsentsWithdrawApi(userId), withdrawal);
     }
+    
+    /**
+     * Retrieve all the persisted activities for this user (the activities that are created and saved every time the 
+     * user requests them from the server). This call is paged, and will return deleted and finished activities back to 
+     * the time the user joined the study.  
+     * @param id
+     *      The id of the user whose activities you wish to retrieve
+     * @param offsetKey
+     *      Optional. If provided, records will be returned after this key in the list of activities. 
+     *      Similar to an offsetBy index, but not as flexible, this essentially allows you to work page by 
+     *      page through the records. 
+     * @param pageSize
+     *      Number of records to return for this request
+     * @return
+     */
+    public PagedResourceList<ScheduledActivity> getActivityHistory(String id, String offsetKey, Integer pageSize) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(id), CANNOT_BE_BLANK, "id");
+        
+        return get(config.getParticipantActivityHistorApi(id, offsetKey, pageSize), SCHEDULED_ACTIVITY_PAGED_RESOURCE_LIST);
+    }
+    
+    /**
+     * Delete all activities for this user. This should normally only be done during testing and development. Note that 
+     * this deletes the history of completed tasks, so if a user contacts the server again, these will be recreated and 
+     * resent to the user as unstarted (within the constraints of scheduling--expired tasks aren't returned whether completed 
+     * or not). The most useful thing to do with this call is to remove activities after changing schedules during app 
+     * development.
+     * 
+     * @param id
+     *      The id of the user whose scheduled activities you wish to delete.
+     */
+    public void deleteParticipantActivities(String id) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(id), CANNOT_BE_BLANK, "id");
+        
+        delete(config.getParticipantActivityHistorApi(id, null, null));
+    }
+    
 }
