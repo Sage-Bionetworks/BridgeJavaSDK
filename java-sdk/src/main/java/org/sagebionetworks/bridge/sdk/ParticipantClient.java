@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.sagebionetworks.bridge.sdk.models.PagedResourceList;
 import org.sagebionetworks.bridge.sdk.models.accounts.AccountSummary;
 import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
+import org.sagebionetworks.bridge.sdk.models.accounts.Withdrawal;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.ScheduledActivity;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
@@ -54,15 +55,15 @@ public class ParticipantClient extends BaseApiCaller {
      * required consents, etc.). However, all the information about participation in a study is 
      * included in the StudyParticipant, including a full history of consent and withdrawal if it
      * exists.
-     * @param email
+     * @param userId
      *      the user's id
      * @return
      */
-    public StudyParticipant getStudyParticipant(String id) {
+    public StudyParticipant getStudyParticipant(String userId) {
         session.checkSignedIn();
-        checkArgument(isNotBlank(id), CANNOT_BE_BLANK, "id");
+        checkArgument(isNotBlank(userId), CANNOT_BE_BLANK, "userId");
 
-        return get(config.getParticipantApi(id), StudyParticipant.class);
+        return get(config.getParticipantApi(userId), StudyParticipant.class);
     }
     
     /**
@@ -114,40 +115,62 @@ public class ParticipantClient extends BaseApiCaller {
      * Trigger an email to the user with the given ID, that includes instructions on how they can reset their 
      * password. 
      * 
-     * @param id
+     * @param userId
+     *      the user's id
      */
-    public void requestResetPassword(String id) {
+    public void requestResetPassword(String userId) {
         session.checkSignedIn();
-        checkArgument(isNotBlank(id), CANNOT_BE_BLANK, "id");
+        checkArgument(isNotBlank(userId), CANNOT_BE_BLANK, "userId");
 
-        post(config.getParticipantRequestResetPasswordApi(id));
+        post(config.getParticipantRequestResetPasswordApi(userId));
     }
     
     /**
      * Resend and email verification request to an account that is unverified.
      *  
-     * @param id
+     * @param userId
+     *      the user's id
      */
-    public void resendEmailVerification(String id) {
+    public void resendEmailVerification(String userId) {
         session.checkSignedIn();
-        checkArgument(isNotBlank(id), CANNOT_BE_BLANK, "id");
+        checkArgument(isNotBlank(userId), CANNOT_BE_BLANK, "userId");
 
-        post(config.getParticipantResendEmailVerificationApi(id));
+        post(config.getParticipantResendEmailVerificationApi(userId));
     }
     
     /**
      * Resend the signed consent agreement via email to a study participant. The subpopulation (consent group) of the
      * consent must be specified since a participant may have signed more than one consent.
      * 
-     * @param id
+     * @param userId
+     *      the user's id
      * @param subpopGuid
      */
-    public void resendConsentAgreement(String id, SubpopulationGuid subpopGuid) {
+    public void resendConsentAgreement(String userId, SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
-        checkArgument(isNotBlank(id), CANNOT_BE_BLANK, "id");
+        checkArgument(isNotBlank(userId), CANNOT_BE_BLANK, "userId");
         checkNotNull(subpopGuid, CANNOT_BE_NULL, "subpopGuid");
         
-        post(config.getParticipantResendConsentApi(id, subpopGuid));
+        post(config.getParticipantResendConsentApi(userId, subpopGuid));
+    }
+    
+    /**
+     * Withdraw the participant from any consents that they have signed, even from historical subpopulations 
+     * that may no longer be applicable to the user given their current application version, language, data 
+     * group tags, etc. This is method is guaranteed to withdraw the user from the study even if the user 
+     * can no longer access every subpopulation to which they have consented.
+     *  
+     * @param userId
+     *      the user's id
+     * @param reason
+     *      The reason for withdrawing (will be emailed to a study administrator). Optional
+     */
+    public void withdrawAllConsentsToResearch(String userId, String reason) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(userId), CANNOT_BE_BLANK, "userId");
+        
+        Withdrawal withdrawal = new Withdrawal(reason);
+        post(config.getParticipantConsentsWithdrawApi(userId), withdrawal);
     }
     
     /**

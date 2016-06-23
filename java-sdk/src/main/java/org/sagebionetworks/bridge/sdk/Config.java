@@ -67,10 +67,12 @@ public final class Config {
         V3_BACKFILL_NAME("/v3/backfill/%s"), 
         V3_CACHE_CACHEKEY("/v3/cache/%s"),
         V3_CACHE("/v3/cache"), 
+        V3_CONSENTS_WITHDRAW("/v3/consents/withdraw"),
         V3_EXTERNAL_IDS("/v3/externalIds"),
         V3_PARTICIPANT_REQUEST_RESET_PASSWORD("/v3/participants/%s/requestResetPassword"),
         V3_PARTICIPANT_RESENDEMAILVERIFICATION("/v3/participants/%s/resendEmailVerification"),
-        V3_PARTICIPANT_SUBPOPULATION_RESENDCONSENT("/v3/participants/%s/subpopulations/%s/resendConsent"),
+        V3_PARTICIPANT_CONSENTS_WITHDRAW("/v3/participants/%s/consents/withdraw"),
+        V3_PARTICIPANT_CONSENT_RESENDCONSENT("/v3/participants/%s/consents/%s/resendConsent"),
         V3_PARTICIPANT_SIGNOUT("/v3/participants/%s/signOut"),
         V3_PARTICIPANT("/v3/participants/%s"),
         V3_PARTICIPANTS_ACTIVITY_HISTORY("/v3/participants/%s/activities"),
@@ -542,7 +544,7 @@ public final class Config {
         checkArgument(isNotBlank(id));
         checkNotNull(guid);
         
-        return String.format(Props.V3_PARTICIPANT_SUBPOPULATION_RESENDCONSENT.getEndpoint(), id, guid.getGuid());
+        return String.format(Props.V3_PARTICIPANT_CONSENT_RESENDCONSENT.getEndpoint(), id, guid.getGuid());
     }
     
     public String getExternalIdsApi() {
@@ -628,6 +630,15 @@ public final class Config {
         return String.format(Props.V3_PARTICIPANTS_REPORTS_IDENTIFIER.getEndpoint(), reportId);
     }
     
+    public String getConsentsWithdrawApi() {
+        return Props.V3_CONSENTS_WITHDRAW.getEndpoint();
+    }
+    
+    public String getParticipantConsentsWithdrawApi(String userId) {
+        checkArgument(isNotBlank(userId));
+        return String.format(Props.V3_PARTICIPANT_CONSENTS_WITHDRAW.getEndpoint(), userId);
+    }
+
     public String getParticipantActivityHistorApi(String userId, String offsetKey, Integer pageSize) {
         checkArgument(isNotBlank(userId));
         
