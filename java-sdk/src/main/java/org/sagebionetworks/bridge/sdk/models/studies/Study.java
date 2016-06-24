@@ -27,7 +27,6 @@ public final class Study implements VersionHolder {
     private String technicalEmail;
     private boolean usesCustomExportSchedule;
     private int minAgeOfConsent;
-    private int maxNumOfParticipants;
     private Set<String> userProfileAttributes;
     private Set<String> taskIdentifiers;
     private Set<String> dataGroups;
@@ -145,14 +144,6 @@ public final class Study implements VersionHolder {
         this.minAgeOfConsent = minAgeOfConsent;
     }
 
-    public int getMaxNumOfParticipants() {
-        return maxNumOfParticipants;
-    }
-
-    public void setMaxNumOfParticipants(int maxParticipants) {
-        this.maxNumOfParticipants = maxParticipants;
-    }
-
     public Set<String> getUserProfileAttributes() {
         return userProfileAttributes;
     }
@@ -246,8 +237,8 @@ public final class Study implements VersionHolder {
         return Objects.hash(name, sponsorName, identifier, supportEmail, synapseDataAccessTeamId, synapseProjectId,
                 consentNotificationEmail, version, emailVerificationEnabled, technicalEmail, userProfileAttributes,
                 taskIdentifiers, dataGroups, passwordPolicy, verifyEmailTemplate, resetPasswordTemplate,
-                maxNumOfParticipants, minAgeOfConsent, strictUploadValidationEnabled, healthCodeExportEnabled,
-                minSupportedAppVersions, externalIdValidationEnabled, usesCustomExportSchedule);
+                minAgeOfConsent, strictUploadValidationEnabled, healthCodeExportEnabled, minSupportedAppVersions, 
+                externalIdValidationEnabled, usesCustomExportSchedule);
     }
 
     @Override
@@ -258,9 +249,8 @@ public final class Study implements VersionHolder {
             return false;
         Study other = (Study) obj;
         return (Objects.equals(consentNotificationEmail, other.consentNotificationEmail)
-                && Objects.equals(identifier, other.identifier) && (maxNumOfParticipants == other.maxNumOfParticipants)
-                && (minAgeOfConsent == other.minAgeOfConsent) && Objects.equals(name, other.name)
-                && Objects.equals(supportEmail, other.supportEmail)
+                && Objects.equals(identifier, other.identifier) && Objects.equals(minAgeOfConsent, other.minAgeOfConsent) 
+                && Objects.equals(name, other.name) && Objects.equals(supportEmail, other.supportEmail)
                 && Objects.equals(synapseDataAccessTeamId, other.synapseDataAccessTeamId)
                 && Objects.equals(synapseProjectId, other.synapseProjectId)
                 && Objects.equals(version, other.version)
@@ -287,12 +277,11 @@ public final class Study implements VersionHolder {
                 .append("synapseProjectId", synapseProjectId)
                 .append("consentNotificationEmail", consentNotificationEmail).append("technicalEmail", technicalEmail)
                 .append("usesCustomExportSchedule", usesCustomExportSchedule)
-                .append("minAgeOfConsent", minAgeOfConsent).append("maxNumOfParticipants", maxNumOfParticipants)
-                .append("userProfileAttributes", userProfileAttributes).append("taskIdentifiers", taskIdentifiers)
-                .append("dataGroups", dataGroups).append("strictUploadValidationEnabled", strictUploadValidationEnabled)
+                .append("minAgeOfConsent", minAgeOfConsent).append("userProfileAttributes", userProfileAttributes)
+                .append("taskIdentifiers", taskIdentifiers).append("dataGroups", dataGroups)
+                .append("strictUploadValidationEnabled", strictUploadValidationEnabled)
                 .append("healthCodeExportEnabled", healthCodeExportEnabled).append("passwordPolicy", passwordPolicy)
-                .append("minSupportedAppVersions", minSupportedAppVersions)
-                .append("verifyEmailTemplate", verifyEmailTemplate)
+                .append("minSupportedAppVersions", minSupportedAppVersions).append("verifyEmailTemplate", verifyEmailTemplate)
                 .append("emailVerificationEnabled", emailVerificationEnabled)
                 .append("resetPasswordTemplate", resetPasswordTemplate)
                 .append("externalIdValidationEnabled", externalIdValidationEnabled).toString();
