@@ -4,9 +4,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
+import org.joda.time.DateTime;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.net.UrlEscapers;
-import org.joda.time.DateTime;
 
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
@@ -88,5 +89,15 @@ public class WorkerClient extends BaseApiCaller {
         checkArgument(isNotBlank(keys.getGuid()), CANNOT_BE_BLANK, "guid");
         checkNotNull(keys.getCreatedOn(), CANNOT_BE_NULL, "createdOn");
         return get(config.getSurveyApi(keys.getGuid(), keys.getCreatedOn()), Survey.class);
+    }
+
+    /**
+     * Marks a file upload session as completed.
+     *
+     * @param uploadId upload session id
+     */
+    public void completeUpload(String uploadId) {
+        session.checkSignedIn();
+        post(config.getCompleteUploadApi(uploadId));
     }
 }
