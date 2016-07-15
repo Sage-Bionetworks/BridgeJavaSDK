@@ -6,6 +6,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.Objects;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.joda.time.DateTime;
 
 import org.sagebionetworks.bridge.sdk.json.SubpopulationGuidDeserializer;
 import org.sagebionetworks.bridge.sdk.models.Criteria;
@@ -21,6 +22,7 @@ public final class Subpopulation {
     private SubpopulationGuid guid;
     private boolean required;
     private boolean defaultGroup;
+    private DateTime publishedConsentCreatedOn;
     private Long version;
     private Criteria criteria;
     
@@ -70,6 +72,15 @@ public final class Subpopulation {
         this.defaultGroup = defaultGroup;
     }
     /**
+     * The timestamp of the consent document that should be published and available to study participants. 
+     * Use <code>StudyConsentClient.publishStudyConsent(...)</code> to update this timestamp to a 
+     * different version of the consent document.
+     * @return
+     */
+    public DateTime getPublishedConsentCreatedOn() {
+        return publishedConsentCreatedOn;
+    }
+    /**
      * If a criteria object is set for this subpopulation, it will only match requests that meet the criteria. 
      * For users that do not fit the criteria, the subpopulation does not exist, and any requirements it places 
      * on consent do not apply to that participant. 
@@ -88,7 +99,7 @@ public final class Subpopulation {
     }
     @Override
     public int hashCode() {
-        return Objects.hash(criteria, description, guid, name, required, defaultGroup, version);
+        return Objects.hash(criteria, description, guid, name, required, defaultGroup, publishedConsentCreatedOn, version);
     }
     @Override
     public boolean equals(Object obj) {
@@ -101,13 +112,16 @@ public final class Subpopulation {
                 && Objects.equals(criteria, other.criteria)
                 && Objects.equals(guid, other.guid)
                 && Objects.equals(name, other.name)
-                && Objects.equals(required, other.required) && Objects.equals(defaultGroup, other.defaultGroup) 
+                && Objects.equals(required, other.required) 
+                && Objects.equals(defaultGroup, other.defaultGroup)
+                && Objects.equals(publishedConsentCreatedOn, other.publishedConsentCreatedOn)
                 && Objects.equals(version, other.version);
     }
     @Override
     public String toString() {
         return new ToStringBuilder(this, TO_STRING_STYLE).append("name", name).append("description", description)
                 .append("guid", guid).append("required", required).append("defaultGroup", defaultGroup)
-                .append("version", version).append("criteria", criteria).build();
+                .append("version", version).append("criteria", criteria)
+                .append("publishedConsentCreatedOn", publishedConsentCreatedOn).build();
     }
 }
