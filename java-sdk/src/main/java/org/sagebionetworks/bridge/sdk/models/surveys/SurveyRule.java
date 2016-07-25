@@ -8,7 +8,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+@JsonDeserialize(builder=SurveyRule.Builder.class)
 public final class SurveyRule {
 
     public enum Operator {
@@ -40,12 +42,6 @@ public final class SurveyRule {
         this.value = value;
         this.skipToTarget = skipToTarget;
         this.endSurvey = Boolean.TRUE.equals(endSurvey) ? Boolean.TRUE : null;
-    }
-    public SurveyRule(Operator operator, Object value, String skipToTarget) {
-        this(operator, value, skipToTarget, null);
-    }
-    public SurveyRule(Operator operator, Object value) {
-        this(operator, value, null, Boolean.TRUE);
     }
     
     public Operator getOperator() {
@@ -86,4 +82,34 @@ public final class SurveyRule {
                 .append("value", value).append("skipTo", skipToTarget)
                 .append("endSurvey", endSurvey).toString();
     }
+    
+    public static class Builder {
+        private Operator operator;
+        private Object value;
+        private String skipToTarget;
+        private Boolean endSurvey;
+        
+        public Builder withOperator(SurveyRule.Operator operator) {
+            this.operator = operator;
+            return this;
+        }
+        public Builder withValue(Object value) {
+            this.value = value;
+            return this;
+        }
+        @JsonProperty("skipTo")
+        public Builder withSkipToTarget(String skipTo) {
+            this.skipToTarget = skipTo;
+            return this;
+        }
+        public Builder withEndSurvey(Boolean endSurvey) {
+            if (Boolean.TRUE.equals(endSurvey)) {
+                this.endSurvey = endSurvey;    
+            }
+            return this;
+        }
+        public SurveyRule build() {
+            return new SurveyRule(operator, value, skipToTarget, endSurvey);
+        }
+    }    
 }
