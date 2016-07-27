@@ -37,8 +37,6 @@ public final class Config {
     private static final String OFFSET_KEY = "offsetKey";
     private static final String PAGE_SIZE = "pageSize";
     private static final String END_DATE = "endDate";
-    private static final String START_TIME = "startTime";
-    private static final String END_TIME = "endTime";
     private static final String START_DATE = "startDate";
     private static final String START_TIME = "startTime";
     private static final String END_TIME = "endTime";    

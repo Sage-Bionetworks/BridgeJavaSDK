@@ -78,7 +78,7 @@ public class StudyClient extends BaseApiCaller {
     }
     
     /**
-     * Get the uploads for this participant (for up to two days, at any point in time). This upload object is immutable 
+     * Get the uploads for this study (for up to two days, at any point in time). This upload object is immutable 
      * information about the status of the upload, from the initial request to whether or not it is successfully uploaded 
      * and validated.
      * @param startTime
