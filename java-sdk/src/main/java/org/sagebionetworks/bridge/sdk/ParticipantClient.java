@@ -4,9 +4,11 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.sagebionetworks.bridge.sdk.models.DateTimeRangeResourceList;
 import org.sagebionetworks.bridge.sdk.models.PagedResourceList;
 import org.sagebionetworks.bridge.sdk.models.accounts.AccountSummary;
 import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
@@ -14,6 +16,7 @@ import org.sagebionetworks.bridge.sdk.models.accounts.Withdrawal;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.ScheduledActivity;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
+import org.sagebionetworks.bridge.sdk.models.upload.Upload;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -26,7 +29,10 @@ public class ParticipantClient extends BaseApiCaller {
             
     private static final TypeReference<PagedResourceList<ScheduledActivity>> SCHEDULED_ACTIVITY_PAGED_RESOURCE_LIST = 
             new TypeReference<PagedResourceList<ScheduledActivity>>() {};
-
+            
+    private static final TypeReference<DateTimeRangeResourceList<Upload>> UPLOAD_PAGED_RESOURCE_LIST =
+            new TypeReference<DateTimeRangeResourceList<Upload>>() {};
+            
     ParticipantClient(BridgeSession session) {
         super(session);
     }
@@ -192,6 +198,25 @@ public class ParticipantClient extends BaseApiCaller {
         checkArgument(isNotBlank(id), CANNOT_BE_BLANK, "id");
         
         return get(config.getParticipantActivityHistorApi(id, offsetKey, pageSize), SCHEDULED_ACTIVITY_PAGED_RESOURCE_LIST);
+    }
+    
+    /**
+     * Get the uploads for this participant (for up to two days, at any point in time). This upload object is immutable 
+     * information about the status of the upload, from the initial request to whether or not it is successfully uploaded 
+     * and validated.
+     * @param id
+     *      The id of the user whose uploads you wish to retrieve
+     * @param startTime
+     *      An optional start time for the search query (if null, defaults to a day before the end time) 
+     * @param endTime
+     *      An optional end time for the search query (if null, defaults to the time of the request)
+     * @return
+     */
+    public DateTimeRangeResourceList<Upload> getUploads(String id, DateTime startTime, DateTime endTime) {
+        session.checkSignedIn();
+        checkArgument(isNotBlank(id), CANNOT_BE_BLANK, "id");
+
+        return get(config.getParticipantUploadsApi(id, startTime, endTime), UPLOAD_PAGED_RESOURCE_LIST);
     }
     
     /**

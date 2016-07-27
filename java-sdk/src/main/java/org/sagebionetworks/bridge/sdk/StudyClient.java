@@ -5,10 +5,12 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.joda.time.DateTime;
 
+import org.sagebionetworks.bridge.sdk.models.DateTimeRangeResourceList;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
+import org.sagebionetworks.bridge.sdk.models.upload.Upload;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -18,7 +20,8 @@ public class StudyClient extends BaseApiCaller {
             new TypeReference<ResourceList<Study>>() {};
             
     private static final TypeReference<DateTimeRangeResourceList<Upload>> UPLOAD_PAGED_RESOURCE_LIST =
-            new TypeReference<DateTimeRangeResourceList<Upload>>() {};    
+            new TypeReference<DateTimeRangeResourceList<Upload>>() {};
+            
     StudyClient(BridgeSession session) {
         super(session);
     }
@@ -74,10 +77,6 @@ public class StudyClient extends BaseApiCaller {
         delete(config.getStudyApi(identifier));
     }
     
-    public void getCurrentStudyUploads() {
-        getCurrentStudyUploadsApi()
-    }
-    
     /**
      * Get the uploads for this participant (for up to two days, at any point in time). This upload object is immutable 
      * information about the status of the upload, from the initial request to whether or not it is successfully uploaded 
@@ -93,5 +92,4 @@ public class StudyClient extends BaseApiCaller {
 
         return get(config.getCurrentStudyUploadsApi(startTime, endTime), UPLOAD_PAGED_RESOURCE_LIST);
     }    
-    
 }
