@@ -37,6 +37,8 @@ public final class Config {
     private static final String OFFSET_KEY = "offsetKey";
     private static final String PAGE_SIZE = "pageSize";
     private static final String END_DATE = "endDate";
+    private static final String START_TIME = "startTime";
+    private static final String END_TIME = "endTime";
     private static final String START_DATE = "startDate";
     private static final String TYPE = "type";
 
@@ -80,6 +82,7 @@ public final class Config {
         V3_PARTICIPANTS_SELF("/v3/participants/self"),
         V3_PARTICIPANTS_USERID_REPORTS_IDENTIFIER_DATE("/v3/participants/%s/reports/%s/%s"),
         V3_PARTICIPANTS_USERID_REPORTS_IDENTIFIER("/v3/participants/%s/reports/%s"),
+        V3_PARTICIPANTS_USERID_UPLOADS("/v3/participants/%s/uploads"),
         V3_PARTICIPANTS("/v3/participants"),
         V3_REPORTS_IDENTIFIER_DATE("/v3/reports/%s/%s"),
         V3_REPORTS_IDENTIFIER("/v3/reports/%s"),
@@ -650,6 +653,20 @@ public final class Config {
             queryParams.add(new BasicNameValuePair(PAGE_SIZE, pageSize.toString()));
         }
         return withQueryParams(String.format(Props.V3_PARTICIPANTS_ACTIVITY_HISTORY.getEndpoint(), userId),
+                queryParams);
+    }
+    
+    public String getParticipantUploadsApi(String userId, DateTime startTime, DateTime endTime) {
+        checkArgument(isNotBlank(userId));
+        
+        List<NameValuePair> queryParams = Lists.newArrayList();
+        if (startTime != null) {
+            queryParams.add(new BasicNameValuePair(START_TIME, startTime.toString()));
+        }
+        if (endTime != null) {
+            queryParams.add(new BasicNameValuePair(END_TIME, endTime.toString()));
+        }
+        return withQueryParams(String.format(Props.V3_PARTICIPANTS_USERID_UPLOADS.getEndpoint(), userId),
                 queryParams);
     }
     
