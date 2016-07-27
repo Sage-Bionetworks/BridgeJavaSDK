@@ -38,6 +38,8 @@ public final class Config {
     private static final String PAGE_SIZE = "pageSize";
     private static final String END_DATE = "endDate";
     private static final String START_DATE = "startDate";
+    private static final String START_TIME = "startTime";
+    private static final String END_TIME = "endTime";    
     private static final String TYPE = "type";
 
     private static final String CONFIG_FILE = "/bridge-sdk.properties";
@@ -88,6 +90,7 @@ public final class Config {
         V3_SCHEDULEPLANS("/v3/scheduleplans"), 
         V3_STUDIES_IDENTIFIER("/v3/studies/%s"),
         V3_STUDIES_SELF("/v3/studies/self"),
+        V3_STUDIES_UPLOADS("/v3/studies/uploads"),
         V3_STUDIES_STUDYID_SURVEYS_PUBLISHED("/v3/studies/%s/surveys/published"),
         V3_STUDIES_STUDYID_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REVISION("/v3/studies/%s/uploadschemas/%s/revisions/%d"),
         V3_STUDIES("/v3/studies"), 
@@ -476,6 +479,17 @@ public final class Config {
         return Props.V3_STUDIES_SELF.getEndpoint();
     }
 
+    public String getCurrentStudyUploadsApi(DateTime startTime, DateTime endTime) {
+        List<NameValuePair> queryParams = Lists.newArrayList();
+        if (startTime != null) {
+            queryParams.add(new BasicNameValuePair(START_TIME, startTime.toString()));
+        }
+        if (endTime != null) {
+            queryParams.add(new BasicNameValuePair(END_TIME, endTime.toString()));
+        }
+        return withQueryParams(String.format(Props.V3_STUDIES_UPLOADS.getEndpoint()), queryParams);
+    }    
+    
     public String getStudiesApi() {
         return Props.V3_STUDIES.getEndpoint();
     }
