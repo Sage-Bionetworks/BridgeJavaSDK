@@ -43,27 +43,56 @@ public final class Upload {
         this.validationMessageList = validationMessageList;
     }
 
+    /**
+     * The length of the content being uploaded. This is sent by the client. 
+     */
     public long getContentLength() {
         return contentLength;
     }
+    /**
+     * The status of the upload. 
+     */
     public UploadStatus getStatus() {
         return status;
     }
+    /**
+     * The timestamp of the initial request for an URL to upload data to the server. This timestamp will 
+     * always be present, even if the upload never completes or fails validation.
+     */
     public DateTime getRequestedOn() {
         return requestedOn;
     }
+    /**
+     * The timestamp when the upload is successfully uploaded and validated. Can be null.
+     */
     public DateTime getCompletedOn() {
         return completedOn;
     }
+    /**
+     * The process or client that completed the upload. This can be done from the client but there is 
+     * also now a process that responds when a file is successfully uploaded given the URL that is 
+     * handed out by the Bridge API.
+     */
     public UploadCompletionClient getCompletedBy() {
         return completedBy;
     }
+    /**
+     * The day on which the upload succeeded. Currently most study data is exported to Synapse on a daily 
+     * schedule; this is the day this data will be exported to Synapse.
+     */
     public LocalDate getUploadDate() {
         return uploadDate;
     }
+    /**
+     * The ID of the upload.
+     */
     public String getUploadId() {
         return uploadId;
     }
+    /**
+     * If there upload was successful but the upload file failed validation, validation messages can be 
+     * found in this list.
+     */
     public List<String> getValidationMessageList() {
         return validationMessageList;
     }
