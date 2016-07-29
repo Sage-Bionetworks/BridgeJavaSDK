@@ -91,7 +91,7 @@ public final class Config {
         V3_SCHEDULEPLANS("/v3/scheduleplans"), 
         V3_STUDIES_IDENTIFIER("/v3/studies/%s"),
         V3_STUDIES_SELF("/v3/studies/self"),
-        V3_STUDIES_UPLOADS("/v3/studies/uploads"),
+        V3_STUDIES_SELF_UPLOADS("/v3/studies/self/uploads"),
         V3_STUDIES_STUDYID_SURVEYS_PUBLISHED("/v3/studies/%s/surveys/published"),
         V3_STUDIES_STUDYID_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REVISION("/v3/studies/%s/uploadschemas/%s/revisions/%d"),
         V3_STUDIES("/v3/studies"), 
@@ -488,7 +488,7 @@ public final class Config {
         if (endTime != null) {
             queryParams.add(new BasicNameValuePair(END_TIME, endTime.toString()));
         }
-        return withQueryParams(String.format(Props.V3_STUDIES_UPLOADS.getEndpoint()), queryParams);
+        return withQueryParams(String.format(Props.V3_STUDIES_SELF_UPLOADS.getEndpoint()), queryParams);
     }    
     
     public String getStudiesApi() {
