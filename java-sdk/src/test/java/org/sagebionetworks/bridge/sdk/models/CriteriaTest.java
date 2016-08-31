@@ -5,13 +5,16 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.util.HashSet;
+import java.util.Map;
 
 import org.junit.Test;
 
 import org.sagebionetworks.bridge.Tests;
+import org.sagebionetworks.bridge.sdk.models.studies.OperatingSystem;
 import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -39,26 +42,47 @@ public class CriteriaTest {
 
     @Test
     public void canSerialize() throws Exception {
+        Map<OperatingSystem,Integer> minMap = Maps.newHashMap();
+        minMap.put(OperatingSystem.IOS, 2);
+        minMap.put(OperatingSystem.ANDROID, 10);
+        
+        Map<OperatingSystem,Integer> maxMap = Maps.newHashMap();
+        maxMap.put(OperatingSystem.IOS, 8);
+        
         Criteria criteria = new Criteria();
-        criteria.setMinAppVersion(2);
-        criteria.setMaxAppVersion(8);
+        criteria.setMinAppVersions(minMap);
+        criteria.setMaxAppVersions(maxMap);
         criteria.setAllOfGroups(SET_A);
         criteria.setNoneOfGroups(SET_B);
         
         JsonNode node = Utilities.getMapper().valueToTree(criteria);
-        assertEquals(2, node.get("minAppVersion").asInt());
-        assertEquals(8, node.get("maxAppVersion").asInt());
+        assertEquals(2, node.get("minAppVersions").get("iPhone OS").asInt());
+        assertEquals(8, node.get("maxAppVersions").get("iPhone OS").asInt());
+        assertEquals(10, node.get("minAppVersions").get("Android").asInt());
+        assertNull(node.get("maxAppVersions").get("Android"));
         assertEquals(SET_A, Tests.asStringSet(node, "allOfGroups"));
         assertEquals(SET_B, Tests.asStringSet(node, "noneOfGroups"));
         assertNull(node.get("key"));
         
-        String json = makeJson("{'minAppVersion':2,'maxAppVersion':8,'allOfGroups':['a','b'],'noneOfGroups':['c','d']}");
+        String json = makeJson("{'minAppVersions':{'iPhone OS':2,'Android':10},'maxAppVersions':{'iPhone OS':8},'allOfGroups':['a','b'],'noneOfGroups':['c','d']}");
         
         Criteria crit = Utilities.getMapper().readValue(json, Criteria.class);
-        assertEquals(new Integer(2), crit.getMinAppVersion());
-        assertEquals(new Integer(8), crit.getMaxAppVersion());
+        assertEquals(new Integer(2), crit.getMinAppVersions().get(OperatingSystem.IOS));
+        assertEquals(new Integer(8), crit.getMaxAppVersions().get(OperatingSystem.IOS));
+        assertEquals(new Integer(10), crit.getMinAppVersions().get(OperatingSystem.ANDROID));
+        assertNull(crit.getMaxAppVersions().get(OperatingSystem.ANDROID));
         assertEquals(SET_A, crit.getAllOfGroups());
         assertEquals(SET_B, crit.getNoneOfGroups());
+    }
+    
+    @Test
+    public void cannotNullifyPlatformVersionMaps() { 
+        Criteria criteria = new Criteria();
+        criteria.setMinAppVersions(null);
+        criteria.setMaxAppVersions(null);
+        
+        assertNotNull(criteria.getMinAppVersions());
+        assertNotNull(criteria.getMaxAppVersions());
     }
     
     private String makeJson(String string) {
