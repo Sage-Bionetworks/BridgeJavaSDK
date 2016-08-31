@@ -58,8 +58,8 @@ public class CriteriaScheduleStrategyTest {
         ArrayNode array = (ArrayNode)node.get("scheduleCriteria");
         JsonNode child1 = array.get(0);
         JsonNode crit1 = child1.get("criteria");
-        assertEquals(4, crit1.get("minAppVersion").asInt());
-        assertEquals(12, crit1.get("maxAppVersion").asInt());
+        assertEquals(4, crit1.get("minAppVersions").get("iPhone OS").asInt());
+        assertEquals(12, crit1.get("maxAppVersions").get("iPhone OS").asInt());
         assertNotNull(child1.get("schedule"));
         
         JsonNode child2 = array.get(1);
