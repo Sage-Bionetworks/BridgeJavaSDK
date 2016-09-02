@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.models.Criteria;
+import org.sagebionetworks.bridge.sdk.models.studies.OperatingSystem;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.Subpopulation;
 import org.sagebionetworks.bridge.sdk.utils.Utilities;
@@ -30,8 +31,8 @@ public class SubpopulationTest {
     @Test
     public void canSerialize() throws Exception { 
         Criteria criteria = new Criteria();
-        criteria.setMinAppVersion(2);
-        criteria.setMaxAppVersion(10);
+        criteria.getMinAppVersions().put(OperatingSystem.IOS, 2);
+        criteria.getMaxAppVersions().put(OperatingSystem.IOS, 10);
         criteria.setNoneOfGroups(Sets.newHashSet("group2"));
         
         Subpopulation subpop = new Subpopulation();
