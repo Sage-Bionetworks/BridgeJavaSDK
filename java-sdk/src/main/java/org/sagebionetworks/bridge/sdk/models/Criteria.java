@@ -1,38 +1,43 @@
 package org.sagebionetworks.bridge.sdk.models;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import org.sagebionetworks.bridge.sdk.models.studies.OperatingSystem;
+
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 public final class Criteria {
     
-    private Integer minAppVersion;
-    private Integer maxAppVersion;
     private Set<String> allOfGroups = Sets.newHashSet();
     private Set<String> noneOfGroups = Sets.newHashSet();
+    private Map<OperatingSystem, Integer> minAppVersions = Maps.newHashMap();
+    private Map<OperatingSystem, Integer> maxAppVersions = Maps.newHashMap();
 
     /**
      * The object associated with these criteria should be returned to participants only if the application 
-     * version supplied by the client is equal to or greater than the minAppVersion. If null, there is no 
-     * minimum required version.
+     * version supplied by the client is equal to or greater than the minAppVersion, for a given platform. 
+     * If there is no value for the current application's platform, there is no minimum required version. 
      */
-    public Integer getMinAppVersion(){
-        return minAppVersion;
+    public Map<OperatingSystem,Integer> getMinAppVersions() {
+        return minAppVersions;
     }
-    public void setMinAppVersion(Integer minAppVersion) {
-        this.minAppVersion = minAppVersion;
+    public void setMinAppVersions(Map<OperatingSystem,Integer> minAppVersions) {
+        this.minAppVersions = (minAppVersions != null) ? minAppVersions : new HashMap<OperatingSystem,Integer>();
     }
     /**
      * The object associated with these criteria should be returned to participants only if the application 
-     * version supplied by the client is less that or equal to the maxAppVersion. If null, there is no 
-     * maximum required version.
+     * version supplied by the client is equal to or less than the maxAppVersion, for a given platform. 
+     * If there is no value for the current application's platform, there is no maximum allowed version. 
      */
-    public Integer getMaxAppVersion(){
-        return maxAppVersion;
+    public Map<OperatingSystem,Integer> getMaxAppVersions(){
+        return maxAppVersions;
     }
-    public void setMaxAppVersion(Integer maxAppVersion) {
-        this.maxAppVersion = maxAppVersion;
+    public void setMaxAppVersions(Map<OperatingSystem,Integer> maxAppVersions) {
+        this.maxAppVersions = (maxAppVersions != null) ? maxAppVersions : new HashMap<OperatingSystem,Integer>();
     }
     /**
      * The object associated with these criteria should be returned to participants only if the user has 
@@ -61,7 +66,7 @@ public final class Criteria {
     
     @Override
     public int hashCode() {
-        return Objects.hash(minAppVersion, maxAppVersion, allOfGroups, noneOfGroups);
+        return Objects.hash(minAppVersions, maxAppVersions, allOfGroups, noneOfGroups);
     }
     @Override
     public boolean equals(Object obj) {
@@ -72,13 +77,13 @@ public final class Criteria {
         Criteria other = (Criteria) obj;
         return Objects.equals(noneOfGroups, other.noneOfGroups) && 
                 Objects.equals(allOfGroups, other.allOfGroups) && 
-                Objects.equals(minAppVersion, other.minAppVersion) && 
-                Objects.equals(maxAppVersion, other.maxAppVersion);
+                Objects.equals(minAppVersions, other.minAppVersions) && 
+                Objects.equals(maxAppVersions, other.maxAppVersions);
     }
     @Override
     public String toString() {
         return "Criteria [allOfGroups=" + allOfGroups + ", noneOfGroups=" + noneOfGroups
-                + ", minAppVersion=" + minAppVersion + ", maxAppVersion=" + maxAppVersion + "]";
+                + ", minAppVersions=" + minAppVersions + ", maxAppVersions=" + maxAppVersions + "]";
     }
 
 }

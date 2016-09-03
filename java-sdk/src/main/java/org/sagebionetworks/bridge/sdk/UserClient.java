@@ -134,7 +134,9 @@ public class UserClient extends BaseApiCaller {
      * Withdraw user's consent to participate in research. The user will no longer be able to submit 
      * data to the server without receiving an error response from the server (ConsentRequiredException).
      * @param subpopGuid
+     *      The subpopulation (consent group) from which to withdraw.
      * @param reason
+     *      The reason for withdrawing (will be emailed to a study administrator). Optional
      */
     public void withdrawConsentToResearch(SubpopulationGuid subpopGuid, String reason) {
         session.checkSignedIn();
@@ -147,6 +149,24 @@ public class UserClient extends BaseApiCaller {
         // although no studies exist in this configuration at this time.
         session.setSharingScope(SharingScope.NO_SHARING); 
         changeConsent(subpopGuid, false);
+    }
+    
+    /**
+     * Withdraw from all signed consents, even from subpopulations that may no longer be visible to 
+     * the user given their current application version, language, data group tags, etc. This is 
+     * method is guaranteed to withdraw the user from the study even if the user can no longer 
+     * access every subpopulation to which they have consented. 
+     *  
+     * @param reason
+     *      The reason for withdrawing (will be emailed to a study administrator). Optional
+     */
+    public void withdrawAllConsentsToResearch(String reason) {
+        session.checkSignedIn();
+        
+        Withdrawal withdrawal = new Withdrawal(reason);
+        post(config.getConsentsWithdrawApi(), withdrawal);
+        session.setSharingScope(SharingScope.NO_SHARING); 
+        changeAllConsents(false);
     }
     
     /**
@@ -284,6 +304,17 @@ public class UserClient extends BaseApiCaller {
             } else {
                 builder.put(guid, status);
             }
+        }
+        session.setConsentStatuses(builder.build());
+    }
+    
+    private void changeAllConsents(boolean isConsented) {
+        ImmutableMap.Builder<SubpopulationGuid,ConsentStatus> builder = new ImmutableMap.Builder<>();
+        for (Map.Entry<SubpopulationGuid, ConsentStatus> entry : session.getConsentStatuses().entrySet()) {
+            SubpopulationGuid guid = entry.getKey();
+            ConsentStatus status = entry.getValue();
+            builder.put(guid, new ConsentStatus(status.getName(), status.getSubpopulationGuid(), 
+                    status.isRequired(), isConsented, status.isMostRecentConsent()));
         }
         session.setConsentStatuses(builder.build());
     }

@@ -38,6 +38,8 @@ public final class Config {
     private static final String PAGE_SIZE = "pageSize";
     private static final String END_DATE = "endDate";
     private static final String START_DATE = "startDate";
+    private static final String START_TIME = "startTime";
+    private static final String END_TIME = "endTime";    
     private static final String TYPE = "type";
 
     private static final String CONFIG_FILE = "/bridge-sdk.properties";
@@ -67,14 +69,20 @@ public final class Config {
         V3_BACKFILL_NAME("/v3/backfill/%s"), 
         V3_CACHE_CACHEKEY("/v3/cache/%s"),
         V3_CACHE("/v3/cache"), 
+        V3_CONSENTS_WITHDRAW("/v3/consents/withdraw"),
         V3_EXTERNAL_IDS("/v3/externalIds"),
         V3_PARTICIPANT_REQUEST_RESET_PASSWORD("/v3/participants/%s/requestResetPassword"),
+        V3_PARTICIPANT_RESENDEMAILVERIFICATION("/v3/participants/%s/resendEmailVerification"),
+        V3_PARTICIPANT_CONSENTS_WITHDRAW("/v3/participants/%s/consents/withdraw"),
+        V3_PARTICIPANT_CONSENT_RESENDCONSENT("/v3/participants/%s/consents/%s/resendConsent"),
         V3_PARTICIPANT_SIGNOUT("/v3/participants/%s/signOut"),
         V3_PARTICIPANT("/v3/participants/%s"),
+        V3_PARTICIPANTS_ACTIVITY_HISTORY("/v3/participants/%s/activities"),
         V3_PARTICIPANTS_REPORTS_IDENTIFIER("/v3/participants/reports/%s"),
         V3_PARTICIPANTS_SELF("/v3/participants/self"),
         V3_PARTICIPANTS_USERID_REPORTS_IDENTIFIER_DATE("/v3/participants/%s/reports/%s/%s"),
         V3_PARTICIPANTS_USERID_REPORTS_IDENTIFIER("/v3/participants/%s/reports/%s"),
+        V3_PARTICIPANTS_USERID_UPLOADS("/v3/participants/%s/uploads"),
         V3_PARTICIPANTS("/v3/participants"),
         V3_REPORTS_IDENTIFIER_DATE("/v3/reports/%s/%s"),
         V3_REPORTS_IDENTIFIER("/v3/reports/%s"),
@@ -83,6 +91,7 @@ public final class Config {
         V3_SCHEDULEPLANS("/v3/scheduleplans"), 
         V3_STUDIES_IDENTIFIER("/v3/studies/%s"),
         V3_STUDIES_SELF("/v3/studies/self"),
+        V3_STUDIES_SELF_UPLOADS("/v3/studies/self/uploads"),
         V3_STUDIES_STUDYID_SURVEYS_PUBLISHED("/v3/studies/%s/surveys/published"),
         V3_STUDIES_STUDYID_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REVISION("/v3/studies/%s/uploadschemas/%s/revisions/%d"),
         V3_STUDIES("/v3/studies"), 
@@ -471,6 +480,17 @@ public final class Config {
         return Props.V3_STUDIES_SELF.getEndpoint();
     }
 
+    public String getCurrentStudyUploadsApi(DateTime startTime, DateTime endTime) {
+        List<NameValuePair> queryParams = Lists.newArrayList();
+        if (startTime != null) {
+            queryParams.add(new BasicNameValuePair(START_TIME, startTime.toString()));
+        }
+        if (endTime != null) {
+            queryParams.add(new BasicNameValuePair(END_TIME, endTime.toString()));
+        }
+        return withQueryParams(String.format(Props.V3_STUDIES_SELF_UPLOADS.getEndpoint()), queryParams);
+    }    
+    
     public String getStudiesApi() {
         return Props.V3_STUDIES.getEndpoint();
     }
@@ -527,6 +547,19 @@ public final class Config {
     
     public String getParticipantSelfApi() {
         return Props.V3_PARTICIPANTS_SELF.getEndpoint();
+    }
+    
+    public String getParticipantResendEmailVerificationApi(String id) {
+        checkArgument(isNotBlank(id));
+        
+        return String.format(Props.V3_PARTICIPANT_RESENDEMAILVERIFICATION.getEndpoint(), id);
+    }
+    
+    public String getParticipantResendConsentApi(String id, SubpopulationGuid guid) {
+        checkArgument(isNotBlank(id));
+        checkNotNull(guid);
+        
+        return String.format(Props.V3_PARTICIPANT_CONSENT_RESENDCONSENT.getEndpoint(), id, guid.getGuid());
     }
     
     public String getExternalIdsApi() {
@@ -610,6 +643,43 @@ public final class Config {
     public String getParticipantsReportsIdentifierApi(String reportId) {
         checkArgument(isNotBlank(reportId));
         return String.format(Props.V3_PARTICIPANTS_REPORTS_IDENTIFIER.getEndpoint(), reportId);
+    }
+    
+    public String getConsentsWithdrawApi() {
+        return Props.V3_CONSENTS_WITHDRAW.getEndpoint();
+    }
+    
+    public String getParticipantConsentsWithdrawApi(String userId) {
+        checkArgument(isNotBlank(userId));
+        return String.format(Props.V3_PARTICIPANT_CONSENTS_WITHDRAW.getEndpoint(), userId);
+    }
+
+    public String getParticipantActivityHistorApi(String userId, String offsetKey, Integer pageSize) {
+        checkArgument(isNotBlank(userId));
+        
+        List<NameValuePair> queryParams = Lists.newArrayList();
+        if (offsetKey != null) {
+            queryParams.add(new BasicNameValuePair(OFFSET_KEY, offsetKey));
+        }
+        if (pageSize != null) {
+            queryParams.add(new BasicNameValuePair(PAGE_SIZE, pageSize.toString()));
+        }
+        return withQueryParams(String.format(Props.V3_PARTICIPANTS_ACTIVITY_HISTORY.getEndpoint(), userId),
+                queryParams);
+    }
+    
+    public String getParticipantUploadsApi(String userId, DateTime startTime, DateTime endTime) {
+        checkArgument(isNotBlank(userId));
+        
+        List<NameValuePair> queryParams = Lists.newArrayList();
+        if (startTime != null) {
+            queryParams.add(new BasicNameValuePair(START_TIME, startTime.toString()));
+        }
+        if (endTime != null) {
+            queryParams.add(new BasicNameValuePair(END_TIME, endTime.toString()));
+        }
+        return withQueryParams(String.format(Props.V3_PARTICIPANTS_USERID_UPLOADS.getEndpoint(), userId),
+                queryParams);
     }
     
     private String startEndDateURL(Props prop, String reportId, LocalDate startDate, LocalDate endDate) {

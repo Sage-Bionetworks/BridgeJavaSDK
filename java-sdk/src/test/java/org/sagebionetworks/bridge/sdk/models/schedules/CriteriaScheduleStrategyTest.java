@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.models.Criteria;
+import org.sagebionetworks.bridge.sdk.models.studies.OperatingSystem;
 import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -37,8 +38,8 @@ public class CriteriaScheduleStrategyTest {
         schedule.addActivity(new Activity("Label", null, new TaskReference("task:CCC")));
         
         Criteria criteria1 = new Criteria();
-        criteria1.setMinAppVersion(4);
-        criteria1.setMaxAppVersion(12);
+        criteria1.getMinAppVersions().put(OperatingSystem.IOS, 4);
+        criteria1.getMaxAppVersions().put(OperatingSystem.IOS, 12);
         
         Criteria criteria2 = new Criteria();
         criteria2.setAllOfGroups(Sets.newHashSet("req1", "req2"));
@@ -57,8 +58,8 @@ public class CriteriaScheduleStrategyTest {
         ArrayNode array = (ArrayNode)node.get("scheduleCriteria");
         JsonNode child1 = array.get(0);
         JsonNode crit1 = child1.get("criteria");
-        assertEquals(4, crit1.get("minAppVersion").asInt());
-        assertEquals(12, crit1.get("maxAppVersion").asInt());
+        assertEquals(4, crit1.get("minAppVersions").get("iPhone OS").asInt());
+        assertEquals(12, crit1.get("maxAppVersions").get("iPhone OS").asInt());
         assertNotNull(child1.get("schedule"));
         
         JsonNode child2 = array.get(1);

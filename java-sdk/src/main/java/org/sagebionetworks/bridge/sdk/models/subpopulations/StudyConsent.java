@@ -11,14 +11,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class StudyConsent {
 
     private DateTime createdOn;
-    private boolean active;
     private String documentContent;
 
     @JsonCreator
-    private StudyConsent(@JsonProperty("timestamp") String createdOn, @JsonProperty("active") boolean active,
-        @JsonProperty("documentContent") String documentContent) {
+    private StudyConsent(@JsonProperty("timestamp") String createdOn, @JsonProperty("documentContent") String documentContent) {
         this.createdOn = createdOn == null ? null : DateTime.parse(createdOn, ISODateTimeFormat.dateTime());
-        this.active = active;
         this.documentContent = documentContent;
     }
     
@@ -27,10 +24,6 @@ public final class StudyConsent {
 
     public DateTime getCreatedOn() {
         return createdOn;
-    }
-
-    public boolean isActive() {
-        return active;
     }
     
     public String getDocumentContent() {
@@ -46,7 +39,6 @@ public final class StudyConsent {
         final int prime = 31;
         int result = 1;
         result = prime * result + Objects.hash(createdOn);
-        result = prime * result + Objects.hash(active);
         result = prime * result + Objects.hash(documentContent);
         return result;
     }
@@ -59,13 +51,12 @@ public final class StudyConsent {
             return false;
         StudyConsent other = (StudyConsent) obj;
         return (Objects.equals(createdOn, other.createdOn) && 
-                Objects.equals(documentContent, other.documentContent) && 
-                Objects.equals(active, other.active));
+                Objects.equals(documentContent, other.documentContent));
     }
 
     @Override
     public String toString() {
-        return String.format("StudyConsent[createdOn=%s, active=%s, documentContent=%s]", 
-                (createdOn == null) ? null : createdOn.toString(ISODateTimeFormat.dateTime()), active, documentContent);
+        return String.format("StudyConsent[createdOn=%s, documentContent=%s]", 
+                (createdOn == null) ? null : createdOn.toString(ISODateTimeFormat.dateTime()), documentContent);
     }
 }

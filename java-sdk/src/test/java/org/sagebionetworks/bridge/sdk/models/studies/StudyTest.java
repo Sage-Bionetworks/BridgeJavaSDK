@@ -54,7 +54,6 @@ public class StudyTest {
         assertEquals("foo", node.get("identifier").asText());
         assertEquals(2L, node.get("version").asLong());
         assertEquals(0, node.get("minAgeOfConsent").asInt());
-        assertEquals(0, node.get("maxNumOfParticipants").asInt());
         assertEquals("bridge-testing+support@sagebase.org", node.get("supportEmail").asText());
         assertEquals(1337L, node.get("synapseDataAccessTeamId").longValue());
         assertEquals("test-project", node.get("synapseProjectId").textValue());

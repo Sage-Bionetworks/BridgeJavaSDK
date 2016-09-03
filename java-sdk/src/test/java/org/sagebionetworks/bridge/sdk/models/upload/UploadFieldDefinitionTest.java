@@ -95,10 +95,11 @@ public class UploadFieldDefinitionTest {
     public void testOptionalFields() {
         List<String> multiChoiceAnswerList = ImmutableList.of("foo", "bar", "baz");
 
-        UploadFieldDefinition fieldDef = new UploadFieldDefinition.Builder().withFileExtension(".test")
-                .withMimeType("text/plain").withMinAppVersion(10).withMaxAppVersion(13).withMaxLength(128)
-                .withMultiChoiceAnswerList(multiChoiceAnswerList).withName("optional-stuff")
+        UploadFieldDefinition fieldDef = new UploadFieldDefinition.Builder().withAllowOtherChoices(true)
+                .withFileExtension(".test").withMimeType("text/plain").withMinAppVersion(10).withMaxAppVersion(13)
+                .withMaxLength(128).withMultiChoiceAnswerList(multiChoiceAnswerList).withName("optional-stuff")
                 .withType(UploadFieldType.STRING).withUnboundedText(true).build();
+        assertTrue(fieldDef.getAllowOtherChoices());
         assertEquals(".test", fieldDef.getFileExtension());
         assertEquals("text/plain", fieldDef.getMimeType());
         assertEquals(10, fieldDef.getMinAppVersion().intValue());
@@ -145,6 +146,7 @@ public class UploadFieldDefinitionTest {
     public void jsonSerialization() throws Exception {
         // start with JSON
         String jsonText = "{\n" +
+                "   \"allowOtherChoices\":true,\n" +
                 "   \"fileExtension\":\".json\",\n" +
                 "   \"mimeType\":\"text/json\",\n" +
                 "   \"minAppVersion\":2,\n" +
@@ -160,6 +162,7 @@ public class UploadFieldDefinitionTest {
         // convert to POJO
         List<String> expectedAnswerList = ImmutableList.of("asdf", "jkl;");
         UploadFieldDefinition fieldDef = Utilities.getMapper().readValue(jsonText, UploadFieldDefinition.class);
+        assertTrue(fieldDef.getAllowOtherChoices());
         assertEquals(".json", fieldDef.getFileExtension());
         assertEquals("text/json", fieldDef.getMimeType());
         assertEquals(2, fieldDef.getMinAppVersion().intValue());
@@ -176,7 +179,8 @@ public class UploadFieldDefinitionTest {
 
         // then convert to a map so we can validate the raw JSON
         Map<String, Object> jsonMap = Utilities.getMapper().readValue(convertedJson, Utilities.TYPE_REF_RAW_MAP);
-        assertEquals(10, jsonMap.size());
+        assertEquals(11, jsonMap.size());
+        assertTrue((boolean) jsonMap.get("allowOtherChoices"));
         assertEquals(".json", jsonMap.get("fileExtension"));
         assertEquals("text/json", jsonMap.get("mimeType"));
         assertEquals(2, jsonMap.get("minAppVersion"));
