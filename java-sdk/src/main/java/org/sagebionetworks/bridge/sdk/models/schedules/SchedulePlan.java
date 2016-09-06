@@ -15,8 +15,6 @@ public final class SchedulePlan implements GuidVersionHolder {
     private DateTime modifiedOn;
     private Long version;
     private ScheduleStrategy strategy;
-    private Integer minAppVersion;
-    private Integer maxAppVersion;
 
     @Override
     public String getGuid() {
@@ -50,18 +48,6 @@ public final class SchedulePlan implements GuidVersionHolder {
     public void setStrategy(ScheduleStrategy strategy) {
         this.strategy = strategy;
     }
-    public Integer getMinAppVersion() {
-        return minAppVersion;
-    }
-    public void setMinAppVersion(Integer minAppVersion) {
-        this.minAppVersion = minAppVersion;
-    }
-    public Integer getMaxAppVersion() {
-        return maxAppVersion;
-    }
-    public void setMaxAppVersion(Integer maxAppVersion) {
-        this.maxAppVersion = maxAppVersion;
-    }
     /**
      * Set a schedule directly for a plan: all users in the study will get the same activities
      * on the same schedule. Equivalent to creating a SimpleScheduleStrategy with the same 
@@ -82,8 +68,6 @@ public final class SchedulePlan implements GuidVersionHolder {
         result = prime * result + Objects.hashCode(modifiedOn);
         result = prime * result + Objects.hashCode(strategy);
         result = prime * result + Objects.hashCode(version);
-        result = prime * result + Objects.hashCode(minAppVersion);
-        result = prime * result + Objects.hashCode(maxAppVersion);
         return result;
     }
 
@@ -96,14 +80,13 @@ public final class SchedulePlan implements GuidVersionHolder {
         SchedulePlan other = (SchedulePlan) obj;
         return (Objects.equals(guid, other.guid) && Objects.equals(label, other.label) 
                 && Objects.equals(modifiedOn, other.modifiedOn) && Objects.equals(strategy, other.strategy) 
-                && Objects.equals(version, other.version) && Objects.equals(minAppVersion, other.minAppVersion)
-                && Objects.equals(maxAppVersion, other.maxAppVersion));
+                && Objects.equals(version, other.version));
     }
 
     @Override
     public String toString() {
-        return String.format("SchedulePlan [label=%s, guid=%s, modifiedOn=%s, version=%s, minAppVersion=%s, maxAppVersion=%s, strategy=%s]", 
-                label, guid, modifiedOn, version, minAppVersion, maxAppVersion, strategy);
+        return String.format("SchedulePlan [label=%s, guid=%s, modifiedOn=%s, version=%s, strategy=%s]", 
+                label, guid, modifiedOn, version, strategy);
     }
 
 }
