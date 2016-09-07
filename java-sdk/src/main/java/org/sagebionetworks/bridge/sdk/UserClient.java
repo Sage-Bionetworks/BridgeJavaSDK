@@ -6,8 +6,6 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -18,8 +16,6 @@ import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.ContentType;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.accounts.ConsentSignature;
@@ -40,8 +36,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.collect.ImmutableMap;
 
 public class UserClient extends BaseApiCaller {
-
-    private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormat.forPattern("ZZ");
     
     private final TypeReference<ResourceList<Schedule>> sType = new TypeReference<ResourceList<Schedule>>() {};
     
@@ -268,18 +262,15 @@ public class UserClient extends BaseApiCaller {
      *      return activities from now until the number of days ahead from now (maximum of 4 days)
      * @param timeZone
      *      the timezone the activities should use when returning scheduledOn and expiresOn dates
+     * @param minimumPerSchedule
+     *      Optional. If set, API will return either N days of tasks, or N task per schedule, whichever is highest. 
+     *      Current maximum for this value is 5.
      * @return
      */
-    public ResourceList<ScheduledActivity> getScheduledActivities(int daysAhead, DateTimeZone timeZone) {
+    public ResourceList<ScheduledActivity> getScheduledActivities(int daysAhead, DateTimeZone timeZone, Integer minimumPerSchedule) {
         session.checkSignedIn();
-        try {
-            String offsetString = DATETIME_FORMATTER.withZone(timeZone).print(0);
-            String queryString = "?daysAhead=" + Integer.toString(daysAhead) + "&offset="
-                            + URLEncoder.encode(offsetString, "UTF-8");
-            return get(config.getScheduledActivitiesApi() + queryString, saType);
-        } catch(UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+
+        return get(config.getScheduledActivitiesApi(daysAhead, timeZone, minimumPerSchedule), saType);
     }
     
     /**

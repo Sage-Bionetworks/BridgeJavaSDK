@@ -16,7 +16,10 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
@@ -28,6 +31,8 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
 public final class Config {
+
+    private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormat.forPattern("ZZ");
 
     private static final String ASSIGNMENT_FILTER = "assignmentFilter";
     private static final String EMAIL_FILTER = "emailFilter";
@@ -41,6 +46,9 @@ public final class Config {
     private static final String START_TIME = "startTime";
     private static final String END_TIME = "endTime";    
     private static final String TYPE = "type";
+    private static final String DAYS_AHEAD = "daysAhead";
+    private static final String OFFSET = "offset";
+    private static final String MINIMUM_PER_SCHEDULE = "minimumPerSchedule";
 
     private static final String CONFIG_FILE = "/bridge-sdk.properties";
     private static final String USER_CONFIG_FILE = System.getProperty("user.home") + "/bridge-sdk.properties";
@@ -443,7 +451,20 @@ public final class Config {
     }
 
     public String getScheduledActivitiesApi() {
-        return Props.V3_ACTIVITIES.getEndpoint();
+        return Props.V3_ACTIVITIES.getEndpoint();   
+    }
+    
+    public String getScheduledActivitiesApi(int daysAhead, DateTimeZone timeZone, Integer minimumPerSchedule) {
+        checkNotNull(timeZone);
+        
+        List<NameValuePair> queryParams = Lists.newArrayList();
+        String offsetString = DATETIME_FORMATTER.withZone(timeZone).print(0);
+        queryParams.add(new BasicNameValuePair(DAYS_AHEAD, Integer.toString(daysAhead)));
+        queryParams.add(new BasicNameValuePair(OFFSET, offsetString));
+        if (minimumPerSchedule != null && minimumPerSchedule != 0) {
+            queryParams.add(new BasicNameValuePair(MINIMUM_PER_SCHEDULE, minimumPerSchedule.toString()));
+        }
+        return withQueryParams(Props.V3_ACTIVITIES.getEndpoint(), queryParams);
     }
 
     public String getUploadSchemasApi() {
