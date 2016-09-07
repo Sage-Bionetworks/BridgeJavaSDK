@@ -20,8 +20,6 @@ public final class UploadFieldDefinition {
     private final Boolean allowOtherChoices;
     private final String fileExtension;
     private final String mimeType;
-    private final Integer minAppVersion;
-    private final Integer maxAppVersion;
     private final Integer maxLength;
     private final List<String> multiChoiceAnswerList;
     private final String name;
@@ -35,7 +33,7 @@ public final class UploadFieldDefinition {
      * if we add more fields to this class.
      */
     private UploadFieldDefinition(Boolean allowOtherChoices, String fileExtension, String mimeType,
-            Integer minAppVersion, Integer maxAppVersion, Integer maxLength, List<String> multiChoiceAnswerList,
+            Integer maxLength, List<String> multiChoiceAnswerList,
             String name, boolean required, UploadFieldType type, Boolean unboundedText)
             throws InvalidEntityException {
         if (StringUtils.isBlank(name)) {
@@ -48,8 +46,6 @@ public final class UploadFieldDefinition {
         this.allowOtherChoices = allowOtherChoices;
         this.fileExtension = fileExtension;
         this.mimeType = mimeType;
-        this.minAppVersion = minAppVersion;
-        this.maxAppVersion = maxAppVersion;
         this.maxLength = maxLength;
         this.multiChoiceAnswerList = multiChoiceAnswerList;
         this.name = name;
@@ -71,7 +67,7 @@ public final class UploadFieldDefinition {
      *         if called with invalid fields
      */
     public UploadFieldDefinition(String name, UploadFieldType type) throws InvalidEntityException {
-        this(null, null, null, null, null, null, null, name, true, type, null);
+        this(null, null, null, null, null, name, true, type, null);
     }
 
     /**
@@ -97,22 +93,6 @@ public final class UploadFieldDefinition {
      */
     public String getMimeType() {
         return mimeType;
-    }
-
-    /**
-     * The oldest app version number for which this field is required. App versions before this will treat this field
-     * as optional, as it doesn't exist yet. Does nothing if required is false.
-     */
-    public Integer getMinAppVersion() {
-        return minAppVersion;
-    }
-
-    /**
-     * Similar to minAppVersion. This is used for when required fields are removed from the app, but we want to re-use
-     * the old Synapse table.
-     */
-    public Integer getMaxAppVersion() {
-        return maxAppVersion;
     }
 
     /**
@@ -190,8 +170,6 @@ public final class UploadFieldDefinition {
                 Objects.equals(allowOtherChoices, that.allowOtherChoices) &&
                 Objects.equals(fileExtension, that.fileExtension) &&
                 Objects.equals(mimeType, that.mimeType) &&
-                Objects.equals(minAppVersion, that.minAppVersion) &&
-                Objects.equals(maxAppVersion, that.maxAppVersion) &&
                 Objects.equals(maxLength, that.maxLength) &&
                 Objects.equals(multiChoiceAnswerList, that.multiChoiceAnswerList) &&
                 Objects.equals(name, that.name) &&
@@ -202,7 +180,7 @@ public final class UploadFieldDefinition {
     /** {@inheritDoc} */
     @Override
     public int hashCode() {
-        return Objects.hash(allowOtherChoices, fileExtension, mimeType, minAppVersion, maxAppVersion, maxLength,
+        return Objects.hash(allowOtherChoices, fileExtension, mimeType, maxLength,
                 multiChoiceAnswerList, name, required, type, unboundedText);
     }
 
@@ -213,8 +191,6 @@ public final class UploadFieldDefinition {
                 ", allowOtherChoices=" + String.valueOf(allowOtherChoices) +
                 ", fileExtension=" + fileExtension +
                 ", mimeType=" + mimeType +
-                ", minAppVersion=" + minAppVersion +
-                ", maxAppVersion=" + maxAppVersion +
                 ", maxLength=" + maxLength +
                 ", maxLength=" + (multiChoiceAnswerList == null ? "null" :
                     Joiner.on(", ").useForNull("null").join(multiChoiceAnswerList)) +
@@ -230,8 +206,6 @@ public final class UploadFieldDefinition {
         private Boolean allowOtherChoices;
         private String fileExtension;
         private String mimeType;
-        private Integer minAppVersion;
-        private Integer maxAppVersion;
         private Integer maxLength;
         private List<String> multiChoiceAnswerList;
         private String name;
@@ -254,18 +228,6 @@ public final class UploadFieldDefinition {
         /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getMimeType */
         public Builder withMimeType(String mimeType) {
             this.mimeType = mimeType;
-            return this;
-        }
-
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getMinAppVersion */
-        public Builder withMinAppVersion(Integer minAppVersion) {
-            this.minAppVersion = minAppVersion;
-            return this;
-        }
-
-        /** @see org.sagebionetworks.bridge.sdk.models.upload.UploadFieldDefinition#getMaxAppVersion */
-        public Builder withMaxAppVersion(Integer maxAppVersion) {
-            this.maxAppVersion = maxAppVersion;
             return this;
         }
 
@@ -332,7 +294,7 @@ public final class UploadFieldDefinition {
                 multiChoiceAnswerListCopy = ImmutableList.copyOf(multiChoiceAnswerList);
             }
 
-            return new UploadFieldDefinition(allowOtherChoices, fileExtension, mimeType, minAppVersion, maxAppVersion, maxLength,
+            return new UploadFieldDefinition(allowOtherChoices, fileExtension, mimeType, maxLength,
                     multiChoiceAnswerListCopy, name, required, type, unboundedText);
         }
     }
