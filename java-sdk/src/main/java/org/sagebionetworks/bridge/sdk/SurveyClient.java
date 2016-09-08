@@ -173,19 +173,36 @@ public class SurveyClient extends BaseApiCaller {
     }
     
     /**
-     * Publish a survey. A published survey is one consented users can see and respond to.
+     * Publish a survey. A published survey is one consented users can see and respond to. Provides the option to cut a
+     * new schema revision or retain the existing schema revision. Note that in some cases, retaining the existing
+     * schema revision is simply not possible. If this happens, a new schema revision will be created transparently.
      *
      * @param keys
-     *            holder object containing a GUID string identifying the survey and DateTime of survey's version.
+     *         holder object containing a GUID string identifying the survey and DateTime of survey's version.
+     * @param newSchemaRevision
+     *         true if you want to cut a new schema revision, false if you want to retain the existing schema
+     * @return updated survey keys
      */
-    public GuidCreatedOnVersionHolder publishSurvey(GuidCreatedOnVersionHolder keys) {
+    public GuidCreatedOnVersionHolder publishSurvey(GuidCreatedOnVersionHolder keys, boolean newSchemaRevision) {
         session.checkSignedIn();
         checkNotNull(keys, CANNOT_BE_NULL, "guid/createdOn keys");
 
-        return post(config.getPublishSurveyApi(keys.getGuid(), keys.getCreatedOn()), null, 
+        return post(config.getPublishSurveyApi(keys.getGuid(), keys.getCreatedOn(), newSchemaRevision), null,
                 SimpleGuidCreatedOnVersionHolder.class);
     }
-    
+
+    /**
+     * Publish a survey. A published survey is one consented users can see and respond to.
+     *
+     * @param keys
+     *         holder object containing a GUID string identifying the survey and DateTime of survey's version.
+     * @return updated survey keys
+     */
+    // This exists for backwards compatibility, but points to the publishSurvey(keys, newSchemaRevision)
+    public GuidCreatedOnVersionHolder publishSurvey(GuidCreatedOnVersionHolder keys) {
+        return publishSurvey(keys, false);
+    }
+
     /**
      * Take the supplied instance of a survey, make it the most recent version of the survey, save it, and then
      * immediately publish it if indicated. This combines several operations for the common case of making trivial fixes

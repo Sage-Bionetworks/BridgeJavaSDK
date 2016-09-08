@@ -12,6 +12,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Properties;
 
+import com.google.common.collect.ImmutableList;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicNameValuePair;
@@ -429,11 +430,17 @@ public final class Config {
                 createdOn.toString(ISODateTimeFormat.dateTime()));
     }
 
-    public String getPublishSurveyApi(String guid, DateTime createdOn) {
+    public String getPublishSurveyApi(String guid, DateTime createdOn, boolean newSchemaRev) {
         checkArgument(isNotBlank(guid));
         checkNotNull(createdOn);
-        return String.format(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PUBLISH.getEndpoint(), guid,
+
+        String baseUrl = String.format(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PUBLISH.getEndpoint(), guid,
                 createdOn.toString(ISODateTimeFormat.dateTime()));
+
+        List<NameValuePair> queryParams = ImmutableList.<NameValuePair>of(new BasicNameValuePair("newSchemaRev",
+                String.valueOf(newSchemaRev)));
+
+        return withQueryParams(baseUrl, queryParams);
     }
 
     public String getRecentlyPublishedSurveyForUserApi(String guid) {
@@ -624,7 +631,7 @@ public final class Config {
         
         List<NameValuePair> queryParams = Lists.newArrayList();
         queryParams.add(new BasicNameValuePair(TYPE, reportType.name().toLowerCase()));
-        
+
         return withQueryParams(Props.V3_REPORTS.getEndpoint(), queryParams);
     }
     
