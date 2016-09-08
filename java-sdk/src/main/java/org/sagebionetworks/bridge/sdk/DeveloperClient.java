@@ -273,7 +273,7 @@ public class DeveloperClient extends StudyStaffClient {
         session.checkSignedIn();
         checkNotNull(keys, CANNOT_BE_NULL, "guid/createdOn keys");
 
-        return post(config.getPublishSurveyApi(keys.getGuid(), keys.getCreatedOn()), null, 
+        return post(config.getPublishSurveyApi(keys.getGuid(), keys.getCreatedOn(), false), null,
                 SimpleGuidCreatedOnVersionHolder.class);
     }
     
