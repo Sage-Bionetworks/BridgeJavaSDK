@@ -1,4 +1,7 @@
 sudo: false
 language: java
 jdk: openjdk7
-script: mvn clean deploy
+script: 
+ - mvn clean deploy
+ - cd java-sdk/
+ - mvn site site:deploy
