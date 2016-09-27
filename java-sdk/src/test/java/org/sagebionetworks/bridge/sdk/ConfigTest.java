@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.joda.time.DateTimeZone;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.Config;
@@ -32,5 +33,16 @@ public class ConfigTest {
         Config conf = new Config();
         
         assertTrue(Environment.STAGING == conf.getEnvironment());
+    }
+    
+    @Test
+    public void queryParamsForGetScheduledActivities() {
+        Config config = new Config();
+        
+        String url = config.getScheduledActivitiesApi(3, DateTimeZone.forOffsetHours(-3), 2);
+        assertTrue(url.contains("?daysAhead=3&offset=-03%3A00&minimumPerSchedule=2"));
+        
+        url = config.getScheduledActivitiesApi(3, DateTimeZone.forOffsetHours(-3), null);
+        assertTrue(url.contains("?daysAhead=3&offset=-03%3A00"));
     }
 }

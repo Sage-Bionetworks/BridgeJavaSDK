@@ -6,8 +6,6 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -18,8 +16,6 @@ import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.ContentType;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.accounts.ConsentSignature;
@@ -40,8 +36,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.collect.ImmutableMap;
 
 public class UserClient extends BaseApiCaller {
-
-    private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormat.forPattern("ZZ");
     
     private final TypeReference<ResourceList<Schedule>> sType = new TypeReference<ResourceList<Schedule>>() {};
     
@@ -108,7 +102,9 @@ public class UserClient extends BaseApiCaller {
      * Returns the user's consent signature, which includes the name, birthdate, and signature image.
      *
      * @param subpopGuid
+     *      the GUID object of the subpopulation which the user consented to participate in  
      * @return consent signature
+     *      
      */
     public ConsentSignature getConsentSignature(SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
@@ -122,6 +118,7 @@ public class UserClient extends BaseApiCaller {
      * Email the signed consent agreement to the participant's email address.
      * 
      * @param subpopGuid
+     *      email the consent to the user for the GUID object of the subpopulation the user consented to 
      */
     public void emailConsentSignature(SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
@@ -172,7 +169,8 @@ public class UserClient extends BaseApiCaller {
     /**
      * Get all schedules associated with a study.
      *
-     * @return List<Schedule>
+     * @return
+     *      a list of all schedules associated with the current study
      */
     public ResourceList<Schedule> getSchedules() {
         session.checkSignedIn();
@@ -183,8 +181,9 @@ public class UserClient extends BaseApiCaller {
      * Get a survey version with a GUID and a createdOn timestamp.
      *
      * @param keys
-     *
-     * @return Survey
+     *      the survey key object (GUID and createdOn timestamp) for the survey to retrieve
+     * @return
+     *      the survey with the given GUID and createdOn timestamp
      */
     public Survey getSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
@@ -196,8 +195,9 @@ public class UserClient extends BaseApiCaller {
     /**
      * Get the most recently published survey available for the provided survey GUID.
      * @param guid
-     * 
-     * @return Survey
+     *      the GUID of the survey
+     * @return
+     *      the most recently published version of the survey with the given GUID
      */
     public Survey getSurveyMostRecentlyPublished(String guid) {
         session.checkSignedIn();
@@ -210,8 +210,9 @@ public class UserClient extends BaseApiCaller {
      * Request an upload session from the user.
      *
      * @param request
-     *            the request object Bridge uses to create the Upload Session.
-     * @return UploadSession
+     *      the request object Bridge uses to create the Upload Session.
+     * @return
+     *      an upload session for this upload
      */
     public UploadSession requestUploadSession(UploadRequest request) {
         session.checkSignedIn();
@@ -224,9 +225,11 @@ public class UserClient extends BaseApiCaller {
      * Upload a file using the requested UploadSession. Closes the upload after it's done.
      *
      * @param session
-     *            The session used to upload.
+     *      The session used to upload.
+     * @param request
+     *      the upload request
      * @param fileName
-     *            File to upload.
+     *      file to upload
      */
     public void upload(UploadSession session, UploadRequest request, String fileName) {
         this.session.checkSignedIn();
@@ -268,24 +271,23 @@ public class UserClient extends BaseApiCaller {
      *      return activities from now until the number of days ahead from now (maximum of 4 days)
      * @param timeZone
      *      the timezone the activities should use when returning scheduledOn and expiresOn dates
+     * @param minimumPerSchedule
+     *      Optional. If set, API will return either N days of tasks, or N task per schedule, whichever is highest. 
+     *      Current maximum for this value is 5.
      * @return
+     *      a list of scheduled activities that meet the query criteria
      */
-    public ResourceList<ScheduledActivity> getScheduledActivities(int daysAhead, DateTimeZone timeZone) {
+    public ResourceList<ScheduledActivity> getScheduledActivities(int daysAhead, DateTimeZone timeZone, Integer minimumPerSchedule) {
         session.checkSignedIn();
-        try {
-            String offsetString = DATETIME_FORMATTER.withZone(timeZone).print(0);
-            String queryString = "?daysAhead=" + Integer.toString(daysAhead) + "&offset="
-                            + URLEncoder.encode(offsetString, "UTF-8");
-            return get(config.getScheduledActivitiesApi() + queryString, saType);
-        } catch(UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+
+        return get(config.getScheduledActivitiesApi(daysAhead, timeZone, minimumPerSchedule), saType);
     }
     
     /**
      * Update these activities (by setting either the startedOn or finishedOn values of each activity). 
      * The only other required value that must be set for the activity is its GUID.
      * @param scheduledActivities
+     *      a list of the scheduled activities to update (new startedOn or finishedOn timestamps)
      */
     public void updateScheduledActivities(List<ScheduledActivity> scheduledActivities) {
         checkNotNull(scheduledActivities);

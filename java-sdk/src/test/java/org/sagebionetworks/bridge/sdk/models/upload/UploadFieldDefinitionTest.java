@@ -96,14 +96,12 @@ public class UploadFieldDefinitionTest {
         List<String> multiChoiceAnswerList = ImmutableList.of("foo", "bar", "baz");
 
         UploadFieldDefinition fieldDef = new UploadFieldDefinition.Builder().withAllowOtherChoices(true)
-                .withFileExtension(".test").withMimeType("text/plain").withMinAppVersion(10).withMaxAppVersion(13)
+                .withFileExtension(".test").withMimeType("text/plain")
                 .withMaxLength(128).withMultiChoiceAnswerList(multiChoiceAnswerList).withName("optional-stuff")
                 .withType(UploadFieldType.STRING).withUnboundedText(true).build();
         assertTrue(fieldDef.getAllowOtherChoices());
         assertEquals(".test", fieldDef.getFileExtension());
         assertEquals("text/plain", fieldDef.getMimeType());
-        assertEquals(10, fieldDef.getMinAppVersion().intValue());
-        assertEquals(13, fieldDef.getMaxAppVersion().intValue());
         assertEquals(128, fieldDef.getMaxLength().intValue());
         assertEquals(multiChoiceAnswerList, fieldDef.getMultiChoiceAnswerList());
         assertEquals("optional-stuff", fieldDef.getName());
@@ -149,8 +147,6 @@ public class UploadFieldDefinitionTest {
                 "   \"allowOtherChoices\":true,\n" +
                 "   \"fileExtension\":\".json\",\n" +
                 "   \"mimeType\":\"text/json\",\n" +
-                "   \"minAppVersion\":2,\n" +
-                "   \"maxAppVersion\":7,\n" +
                 "   \"maxLength\":24,\n" +
                 "   \"multiChoiceAnswerList\":[\"asdf\", \"jkl;\"],\n" +
                 "   \"name\":\"test-field\",\n" +
@@ -165,8 +161,6 @@ public class UploadFieldDefinitionTest {
         assertTrue(fieldDef.getAllowOtherChoices());
         assertEquals(".json", fieldDef.getFileExtension());
         assertEquals("text/json", fieldDef.getMimeType());
-        assertEquals(2, fieldDef.getMinAppVersion().intValue());
-        assertEquals(7, fieldDef.getMaxAppVersion().intValue());
         assertEquals(24, fieldDef.getMaxLength().intValue());
         assertEquals(expectedAnswerList, fieldDef.getMultiChoiceAnswerList());
         assertEquals("test-field", fieldDef.getName());
@@ -179,12 +173,10 @@ public class UploadFieldDefinitionTest {
 
         // then convert to a map so we can validate the raw JSON
         Map<String, Object> jsonMap = Utilities.getMapper().readValue(convertedJson, Utilities.TYPE_REF_RAW_MAP);
-        assertEquals(11, jsonMap.size());
+        assertEquals(9, jsonMap.size());
         assertTrue((boolean) jsonMap.get("allowOtherChoices"));
         assertEquals(".json", jsonMap.get("fileExtension"));
         assertEquals("text/json", jsonMap.get("mimeType"));
-        assertEquals(2, jsonMap.get("minAppVersion"));
-        assertEquals(7, jsonMap.get("maxAppVersion"));
         assertEquals(24, jsonMap.get("maxLength"));
         assertEquals(expectedAnswerList, jsonMap.get("multiChoiceAnswerList"));
         assertEquals("test-field", jsonMap.get("name"));

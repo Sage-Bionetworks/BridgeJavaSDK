@@ -21,7 +21,9 @@ public class StudyConsentClient extends BaseApiCaller {
     /**
      * Get all revisions of the consent document for the study of the current researcher.
      * @param subpopGuid
-     * @return List<StudyConsent>
+     *      The GUID key object of the subpopulation 
+     * @return
+     *      A list of all revisions of the consent document for this subpopulation
      */
     public ResourceList<StudyConsent> getAllStudyConsents(SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
@@ -35,7 +37,9 @@ public class StudyConsentClient extends BaseApiCaller {
      * version of the consent that has been approved by your IRB. Only one revision of your consent is published 
      * at any given time.
      * @param subpopGuid
-     * @return StudyConsent
+     *      The GUID key object of the subpopulation
+     * @return
+     *      The published version of the consent for this subpopulation
      */
     public StudyConsent getPublishedStudyConsent(SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
@@ -47,7 +51,9 @@ public class StudyConsentClient extends BaseApiCaller {
     /**
      * Get the most recent revision of the consent document.
      * @param subpopGuid
-     * @return StudyConsent
+     *      The GUID key object of the subpopulation
+     * @return
+     *      The most recent version of the consent for this subpopulation
      */
     public StudyConsent getMostRecentStudyConsent(SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
@@ -60,9 +66,11 @@ public class StudyConsentClient extends BaseApiCaller {
      * Get a consent document that was created at a DateTime.
      *
      * @param subpopGuid
+     *      The GUID key object of the subpopulation
      * @param createdOn
-     *            The DateTime the consent document was created on (this DateTime identifies the consent document).
-     * @return StudyConsent
+     *      The DateTime the consent document was created on (this DateTime identifies the consent document).
+     * @return
+     *      the study consent created on a specific revision date
      */
     public StudyConsent getStudyConsent(SubpopulationGuid subpopGuid, DateTime createdOn) {
         session.checkSignedIn();
@@ -75,8 +83,9 @@ public class StudyConsentClient extends BaseApiCaller {
     /**
      * Create a consent document revision.
      * @param subpopGuid
+     *      The GUID key object of the subpopulation
      * @param consent
-     *            The consent document to add.
+     *      The consent document to add.
      */
     public void createStudyConsent(SubpopulationGuid subpopGuid, StudyConsent consent) {
         session.checkSignedIn();
@@ -89,8 +98,9 @@ public class StudyConsentClient extends BaseApiCaller {
     /**
      * Publish a consent document created at a DateTime. The prior published revision will no longer be published.
      * @param subpopGuid
+     *      The GUID key object of the subpopulation
      * @param createdOn
-     *            DateTime consent document was created. This acts as an identifier for the consent document.
+     *      DateTime consent document was created. This acts as an identifier for the consent document.
      */
     public void publishStudyConsent(SubpopulationGuid subpopGuid, DateTime createdOn) {
         session.checkSignedIn();

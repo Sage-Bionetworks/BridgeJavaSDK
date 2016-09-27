@@ -48,6 +48,7 @@ public class ParticipantClient extends BaseApiCaller {
      *      of participant accounts that are returned from this search. Neither null nor an empty 
      *      string will filter results.
      * @return
+     *      A list of accounts that meet the query criteria
      */
     public PagedResourceList<AccountSummary> getPagedAccountSummaries(int offsetBy, int pageSize, String emailFilter) {
         session.checkSignedIn();
@@ -64,6 +65,7 @@ public class ParticipantClient extends BaseApiCaller {
      * @param userId
      *      the user's id
      * @return
+     *      The study participant
      */
     public StudyParticipant getStudyParticipant(String userId) {
         session.checkSignedIn();
@@ -76,6 +78,9 @@ public class ParticipantClient extends BaseApiCaller {
      * Create a study participant.
      * 
      * @param participant
+     *      Information about the participant to create
+     * @return
+     *      The user ID assigned to this participant when created
      */
     public IdentifierHolder createStudyParticipant(StudyParticipant participant) {
         session.checkSignedIn();
@@ -145,12 +150,15 @@ public class ParticipantClient extends BaseApiCaller {
     }
     
     /**
-     * Resend the signed consent agreement via email to a study participant. The subpopulation (consent group) of the
-     * consent must be specified since a participant may have signed more than one consent.
+     * Re-send the signed consent agreement via email to a study participant. The subpopulation 
+     * (consent group) of the consent must be specified since a participant may have signed more 
+     * than one consent.
      * 
      * @param userId
      *      the user's id
      * @param subpopGuid
+     *      the GUID of the subpopulation representing the terms of participation the user is 
+     *      consenting to
      */
     public void resendConsentAgreement(String userId, SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
@@ -192,6 +200,7 @@ public class ParticipantClient extends BaseApiCaller {
      * @param pageSize
      *      Number of records to return for this request
      * @return
+     *      A list of the activities for this participant that meets the given criteria
      */
     public PagedResourceList<ScheduledActivity> getActivityHistory(String id, String offsetKey, Integer pageSize) {
         session.checkSignedIn();
@@ -211,6 +220,7 @@ public class ParticipantClient extends BaseApiCaller {
      * @param endTime
      *      An optional end time for the search query (if null, defaults to the time of the request)
      * @return
+     *      The upload records for this participant that meet the given query
      */
     public DateTimeRangeResourceList<Upload> getUploads(String id, DateTime startTime, DateTime endTime) {
         session.checkSignedIn();

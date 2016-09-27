@@ -22,7 +22,8 @@ public class SchedulePlanClient extends BaseApiCaller {
     /**
      * Get all schedule plans.
      *
-     * @return List<SchedulePlan>
+     * @return
+     *      a list of all schedule plans in the study
      */
     public ResourceList<SchedulePlan> getSchedulePlans() {
         session.checkSignedIn();
@@ -33,8 +34,9 @@ public class SchedulePlanClient extends BaseApiCaller {
      * Create a schedule plan.
      *
      * @param plan
-     *            The plan object Bridge will use to create a SchedulePlan.
-     * @return GuidVersionHolder A holder containing the the guid and version of the created SchedulePlan.
+     *      The plan object Bridge will use to create a SchedulePlan.
+     * @return
+     *      a holder containing the the guid and version of the created SchedulePlan.
      */
     public GuidVersionHolder createSchedulePlan(SchedulePlan plan) {
         session.checkSignedIn();
@@ -50,8 +52,9 @@ public class SchedulePlanClient extends BaseApiCaller {
      * Get a schedule plan.
      *
      * @param guid
-     *            GUID identifying the schedule plan to retrieve.
-     * @return SchedulePlan
+     *      GUID identifying the schedule plan to retrieve.
+     * @return
+     *      The schedule plan with the given GUID
      */
     public SchedulePlan getSchedulePlan(String guid) {
         session.checkSignedIn();
@@ -63,8 +66,9 @@ public class SchedulePlanClient extends BaseApiCaller {
      * Update a schedule plan.
      *
      * @param plan
-     *            The plan object Bridge will use to update it's Schedule Plan.
-     * @return GuidVersionHolder Holder containing the guid and version of the updated SchedulePlan.
+     *      The plan object Bridge will use to update it's Schedule Plan.
+     * @return
+     *      holder object containing the GUID and version of the updated schedule plan
      */
     public GuidVersionHolder updateSchedulePlan(SchedulePlan plan) {
         session.checkSignedIn();
@@ -78,7 +82,7 @@ public class SchedulePlanClient extends BaseApiCaller {
      * Delete a schedule plan.
      *
      * @param guid
-     *            GUID identifying the schedule plan to delete.
+     *      GUID identifying the schedule plan to delete.
      */
     public void deleteSchedulePlan(String guid) {
         session.checkSignedIn();

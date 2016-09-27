@@ -26,22 +26,25 @@ public final class SignInCredentials {
         this.password = password;
     }
 
+    /** @return the study the participant is signing in to */
     @JsonProperty("study")
     public String getStudyIdentifier() {
         return studyIdentifier;
     }
     
+    /** @return the email of the participant */
     public String getEmail() {
         return this.email;
     }
     /**
      * NOTE: for migration support, this will be removed in early 2016.
      * @deprecated
+     * @return the email of the participant 
      */
     public String getUsername() {
         return this.email;
     }
-
+    /** @return the passwod of the participant */
     public String getPassword() {
         return this.password;
     }

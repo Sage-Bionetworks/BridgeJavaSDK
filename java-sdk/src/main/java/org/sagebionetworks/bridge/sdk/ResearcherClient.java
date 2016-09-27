@@ -48,6 +48,7 @@ public class ResearcherClient extends StudyStaffClient {
      *      of participant accounts that are returned from this search. Neither null nor an empty 
      *      string will filter results.
      * @return
+     *      The list of accounts that meet the query criteria
      */
     public PagedResourceList<AccountSummary> getPagedAccountSummaries(int offsetBy, int pageSize, String emailFilter) {
         session.checkSignedIn();
@@ -61,9 +62,10 @@ public class ResearcherClient extends StudyStaffClient {
      * required consents, etc.). However, all the information about participation in a study is 
      * included in the StudyParticipant, including a full history of consent and withdrawal if it
      * exists.
-     * @param email
+     * @param id
      *      the user's id
      * @return
+     *      the study participant record
      */
     public StudyParticipant getStudyParticipant(String id) {
         session.checkSignedIn();
@@ -76,6 +78,9 @@ public class ResearcherClient extends StudyStaffClient {
      * Create a study participant.
      * 
      * @param participant
+     *      A study participant to create
+     * @return
+     *      The identifier assigned to the newly created participant
      */
     public IdentifierHolder createStudyParticipant(StudyParticipant participant) {
         session.checkSignedIn();
@@ -110,6 +115,7 @@ public class ResearcherClient extends StudyStaffClient {
      * password. 
      * 
      * @param id
+     *      Send a reset password email to the user with the given ID
      */
     public void requestResetPassword(String id) {
         session.checkSignedIn();

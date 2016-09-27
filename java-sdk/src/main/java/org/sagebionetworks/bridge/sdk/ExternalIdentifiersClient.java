@@ -31,8 +31,9 @@ public class ExternalIdentifiersClient extends BaseApiCaller {
      *      Optional string that used to match against the start of an external identifier string
      * @param assignmentFilter
      *      Optional boolean filter to return only assigned or unassigned identifiers (if not provided, both 
-     *      are retuend).
+     *      are returned).
      * @return
+     *      A list of the external identifiers that meet the query criteria
      */
     public PagedResourceList<ExternalIdentifier> getExternalIds(
             String offsetKey, Integer pageSize, String idFilter, Boolean assignmentFilter) {
@@ -44,6 +45,9 @@ public class ExternalIdentifiersClient extends BaseApiCaller {
     
     /**
      * Add external identifiers to Bridge. Existing identifiers will be silently ignored.
+     * 
+     * @param externalIdentifiers
+     *      Add the list of external identifiers
      */
     public void addExternalIds(List<String> externalIdentifiers) {
         session.checkSignedIn();
@@ -56,6 +60,7 @@ public class ExternalIdentifiersClient extends BaseApiCaller {
      * Delete external identifiers (only allows if external ID validation is diabled).
      * 
      * @param externalIdentifiers
+     *      Delete the list of external identifiers
      */
     public void deleteExternalIds(List<String> externalIdentifiers) {
         session.checkSignedIn();

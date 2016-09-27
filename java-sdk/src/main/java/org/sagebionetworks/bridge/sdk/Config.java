@@ -12,11 +12,15 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Properties;
 
+import com.google.common.collect.ImmutableList;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
@@ -28,6 +32,8 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
 public final class Config {
+
+    private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormat.forPattern("ZZ");
 
     private static final String ASSIGNMENT_FILTER = "assignmentFilter";
     private static final String EMAIL_FILTER = "emailFilter";
@@ -41,6 +47,9 @@ public final class Config {
     private static final String START_TIME = "startTime";
     private static final String END_TIME = "endTime";    
     private static final String TYPE = "type";
+    private static final String DAYS_AHEAD = "daysAhead";
+    private static final String OFFSET = "offset";
+    private static final String MINIMUM_PER_SCHEDULE = "minimumPerSchedule";
 
     private static final String CONFIG_FILE = "/bridge-sdk.properties";
     private static final String USER_CONFIG_FILE = System.getProperty("user.home") + "/bridge-sdk.properties";
@@ -190,7 +199,9 @@ public final class Config {
      * Method to reset any of the default values that are defined in the bridge-sdk.properties configuration file.
      * 
      * @param property
+     *      The property you are setting
      * @param value
+     *      The value to set for the property
      */
     public void set(Props property, String value) {
         checkNotNull(property, "Must specify a property");
@@ -202,6 +213,8 @@ public final class Config {
      * Method to set the environment of the SDK.
      * 
      * @param env
+     *      One of the environments supported by the Bridge server. If you are not an internal Sage
+     *      developer, you should never have to set this value to anything but Environment.PRODUCTION.
      */
     public void set(Environment env) {
         this.environment = env;
@@ -421,11 +434,17 @@ public final class Config {
                 createdOn.toString(ISODateTimeFormat.dateTime()));
     }
 
-    public String getPublishSurveyApi(String guid, DateTime createdOn) {
+    public String getPublishSurveyApi(String guid, DateTime createdOn, boolean newSchemaRev) {
         checkArgument(isNotBlank(guid));
         checkNotNull(createdOn);
-        return String.format(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PUBLISH.getEndpoint(), guid,
+
+        String baseUrl = String.format(Props.V3_SURVEYS_SURVEYGUID_REVISIONS_CREATEDON_PUBLISH.getEndpoint(), guid,
                 createdOn.toString(ISODateTimeFormat.dateTime()));
+
+        List<NameValuePair> queryParams = ImmutableList.<NameValuePair>of(new BasicNameValuePair("newSchemaRev",
+                String.valueOf(newSchemaRev)));
+
+        return withQueryParams(baseUrl, queryParams);
     }
 
     public String getRecentlyPublishedSurveyForUserApi(String guid) {
@@ -443,7 +462,20 @@ public final class Config {
     }
 
     public String getScheduledActivitiesApi() {
-        return Props.V3_ACTIVITIES.getEndpoint();
+        return Props.V3_ACTIVITIES.getEndpoint();   
+    }
+    
+    public String getScheduledActivitiesApi(int daysAhead, DateTimeZone timeZone, Integer minimumPerSchedule) {
+        checkNotNull(timeZone);
+        
+        List<NameValuePair> queryParams = Lists.newArrayList();
+        String offsetString = DATETIME_FORMATTER.withZone(timeZone).print(0);
+        queryParams.add(new BasicNameValuePair(DAYS_AHEAD, Integer.toString(daysAhead)));
+        queryParams.add(new BasicNameValuePair(OFFSET, offsetString));
+        if (minimumPerSchedule != null && minimumPerSchedule != 0) {
+            queryParams.add(new BasicNameValuePair(MINIMUM_PER_SCHEDULE, minimumPerSchedule.toString()));
+        }
+        return withQueryParams(Props.V3_ACTIVITIES.getEndpoint(), queryParams);
     }
 
     public String getUploadSchemasApi() {
@@ -603,7 +635,7 @@ public final class Config {
         
         List<NameValuePair> queryParams = Lists.newArrayList();
         queryParams.add(new BasicNameValuePair(TYPE, reportType.name().toLowerCase()));
-        
+
         return withQueryParams(Props.V3_REPORTS.getEndpoint(), queryParams);
     }
     

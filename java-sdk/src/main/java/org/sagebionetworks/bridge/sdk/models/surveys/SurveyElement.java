@@ -11,9 +11,9 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 })
 public interface SurveyElement {
     
-    public String getGuid();
-    public void setGuid(String guid);
-    public String getIdentifier();
-    public void setIdentifier(String identifier);
+    String getGuid();
+    void setGuid(String guid);
+    String getIdentifier();
+    void setIdentifier(String identifier);
     
 }

@@ -4,5 +4,5 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonDeserialize(as=SimpleIdentifierHolder.class)
 public interface IdentifierHolder {
-    public String getIdentifier();
+    String getIdentifier();
 }

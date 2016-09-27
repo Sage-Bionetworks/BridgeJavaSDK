@@ -46,43 +46,54 @@ public final class Activity {
     }
     
     /**
-     * A label to show a participant in order to identify this activity in a user interface.  
+     * @return a label to show a participant in order to identify this activity in a user interface.  
      */
     public String getLabel() {
         return label;
     }
     /**
-     * A label detail to show a participant in order to identify this activity in a user interface.  
+     * @return a label detail to show a participant in order to identify this activity in a user interface.  
      */
     public String getLabelDetail() {
         return labelDetail;
     }
     /**
-     * The GUID for this activity.
-     * @return
+     * @return the GUID for this activity.
      */
     public String getGuid() {
         return guid;
     }
     /**
-     * The type of this activity.
+     * @return the type of this activity.
      */
     public ActivityType getActivityType() {
         return activityType;
     }
     /**
      * For survey activities, the key object for the survey referenced by the activity. This can be used 
-     * through the SDK to retrieve the survey. 
+     * through the SDK to retrieve the survey.
+     * @return
+     *      information about the survey referenced by the activity 
      */
     public SurveyReference getSurvey() {
         return survey;
     }
     /**
      * For task activities, the key object indicating the task to be performed.
+     * @return
+     *      information about the task referenced by the activity
      */
     public TaskReference getTask() {
         return task;
     }
+    /**
+     * @param schedule
+     *      A schedule
+     * @return
+     *      true if an activity is persistently rescheduled by a given schedule
+     * @deprecated
+     *      Use the ScheduleType.PERSISTENT schedule type instead
+     */
     public boolean isPersistentlyRescheduledBy(Schedule schedule) {
         return schedule.schedulesImmediatelyAfterEvent() && getActivityFinishedEventId(schedule);
     }

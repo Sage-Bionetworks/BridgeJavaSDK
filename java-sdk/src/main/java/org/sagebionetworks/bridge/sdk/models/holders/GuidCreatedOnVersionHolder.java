@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonDeserialize(as=SimpleGuidCreatedOnVersionHolder.class)
 public interface GuidCreatedOnVersionHolder {
-    public String getGuid();
-    public DateTime getCreatedOn();
-    public Long getVersion();
+    String getGuid();
+    DateTime getCreatedOn();
+    Long getVersion();
 }

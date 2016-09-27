@@ -51,6 +51,8 @@ public class ReportClient extends BaseApiCaller {
      *      the start date of the records to return (optional, defaults to yesterday)
      * @param endDate
      *      the end date of the records to return (optional, default to yesterday)
+     * @return
+     *      A list of report data objects that fall within the date range
      */
     public DateRangeResourceList<ReportData> getParticipantReport(String reportId, LocalDate startDate,
             LocalDate endDate) {
@@ -144,6 +146,8 @@ public class ReportClient extends BaseApiCaller {
      *      the start date of the records to return (optional, defaults to yesterday)
      * @param endDate
      *      the end date of the records to return (optional, default to yesterday)
+     * @return
+     *      The list of study report data that falls within the given date range
      */
     public DateRangeResourceList<ReportData> getStudyReport(String reportId, LocalDate startDate, LocalDate endDate) {
         session.checkSignedIn();
@@ -198,11 +202,13 @@ public class ReportClient extends BaseApiCaller {
         delete(config.getReportsIdentifierDateApi(reportId, date));
     }
     
-    /** A method for an admin user to force the deletion of a participant report index. 
+    /** 
+     * A method for an admin user to force the deletion of a participant report index. 
      * These cannot normally be removed because of the expense of determining whether or 
      * not they are still in use for any participant. 
      * 
      * @param reportId
+     *      The report to delete 
      */
     public void forceDeleteOfParticipantReportIndex(String reportId) {
         session.checkSignedIn();
