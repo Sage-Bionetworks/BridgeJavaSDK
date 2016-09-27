@@ -199,7 +199,9 @@ public final class Config {
      * Method to reset any of the default values that are defined in the bridge-sdk.properties configuration file.
      * 
      * @param property
+     *      The property you are setting
      * @param value
+     *      The value to set for the property
      */
     public void set(Props property, String value) {
         checkNotNull(property, "Must specify a property");
@@ -211,6 +213,8 @@ public final class Config {
      * Method to set the environment of the SDK.
      * 
      * @param env
+     *      One of the environments supported by the Bridge server. If you are not an internal Sage
+     *      developer, you should never have to set this value to anything but Environment.PRODUCTION.
      */
     public void set(Environment env) {
         this.environment = env;

@@ -49,24 +49,24 @@ public final class ConsentSignature {
         this.imageMimeType = imageMimeType;
     }
 
-    /** Name of the user giving consent. */
+    /** @return name of the user giving consent. */
     public String getName() {
         return name;
     }
 
-    /** User's birth date. */
+    /** @return user's birth date. */
     // We use a custom serializer, because the standard LocalDateSerializer serializes into a very unusual format.
     @JsonSerialize(using=DateOnlySerializer.class)
     public LocalDate getBirthdate() {
         return birthdate;
     }
 
-    /** Signature image data as a Base64 encoded string. */
+    /** @return signature image data as a Base64 encoded string. */
     public String getImageData() {
         return imageData;
     }
 
-    /** Signature image MIME type (ex: image/png). */
+    /** @return signature image MIME type (ex: image/png). */
     public String getImageMimeType() {
         return imageMimeType;
     }

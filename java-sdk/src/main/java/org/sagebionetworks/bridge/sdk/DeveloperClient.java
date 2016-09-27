@@ -46,7 +46,9 @@ public class DeveloperClient extends StudyStaffClient {
     /**
      * Get all revisions of the consent document for the study of the current researcher.
      * @param subpopGuid
-     * @return List<StudyConsent>
+     *      The subpopulation GUID
+     * @return
+     *      A list of the study consents (published or not) for this subpopulation
      */
     public ResourceList<StudyConsent> getAllStudyConsents(SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
@@ -59,8 +61,11 @@ public class DeveloperClient extends StudyStaffClient {
      * Get the published consent document revision. This is the revision that is sent to users, and should be a
      * version of the consent that has been approved by your IRB. Only one revision of your consent is published 
      * at any given time.
+     * 
      * @param subpopGuid
+     *      The subpopulation GUID
      * @return StudyConsent
+     *      The published study consent for this subpopulation
      */
     public StudyConsent getPublishedStudyConsent(SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
@@ -71,8 +76,11 @@ public class DeveloperClient extends StudyStaffClient {
     
     /**
      * Get the most recent revision of the consent document.
+     * 
      * @param subpopGuid
+     *      The subpopulation GUID
      * @return StudyConsent
+     *      The most recently revised study consent version for this subpopulation
      */
     public StudyConsent getMostRecentStudyConsent(SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
@@ -85,8 +93,10 @@ public class DeveloperClient extends StudyStaffClient {
      * Get a consent document that was created at a DateTime.
      *
      * @param subpopGuid
+     *      The subpopulation GUID
      * @param createdOn
-     *            The DateTime the consent document was created on (this DateTime identifies the consent document).
+     *      The DateTime the consent document was created on (this DateTime identifies the 
+     *      the version of the consent document, or the revision of the document).
      * @return StudyConsent
      */
     public StudyConsent getStudyConsent(SubpopulationGuid subpopGuid, DateTime createdOn) {
@@ -99,9 +109,11 @@ public class DeveloperClient extends StudyStaffClient {
     
     /**
      * Create a consent document revision.
+     * 
      * @param subpopGuid
+     *      The subpopulation GUID
      * @param consent
-     *            The consent document to add.
+     *      The consent document to add.
      */
     public void createStudyConsent(SubpopulationGuid subpopGuid, StudyConsent consent) {
         session.checkSignedIn();
@@ -114,8 +126,9 @@ public class DeveloperClient extends StudyStaffClient {
     /**
      * Publish a consent document created at a DateTime. The prior published revision will no longer be published.
      * @param subpopGuid
+     *      The subpopulation GUID
      * @param createdOn
-     *            DateTime consent document was created. This acts as an identifier for the consent document.
+     *      DateTime of when the consent document was created. This acts as an identifier for the consent document.
      */
     public void publishStudyConsent(SubpopulationGuid subpopGuid, DateTime createdOn) {
         session.checkSignedIn();
@@ -129,9 +142,9 @@ public class DeveloperClient extends StudyStaffClient {
      * Get the survey by its GUID for a particular DateTime revision.
      *
      * @param guid
-     *            GUID identifying the survey.
-     * @param revision
-     *            The DateTime the survey was versioned on.
+     *      GUID identifying the survey.
+     * @param createdOn
+     *      The DateTime the survey was versioned on.
      * @return Survey
      */
     public Survey getSurvey(String guid, DateTime createdOn) {
@@ -145,7 +158,10 @@ public class DeveloperClient extends StudyStaffClient {
      * Get a specific survey instance as identified by the GUID and createdOn keys.
      * 
      * @param keys
+     *      A parameter object with the GUID and createdOn values of the specific revision
+     *      of a survey to retrieve.
      * @return
+     *      The specific survey revision
      */
     public Survey getSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
@@ -157,7 +173,9 @@ public class DeveloperClient extends StudyStaffClient {
      * Get all versions of a survey (the entire history of edits to that survey), most recent edit first in the list.
      * 
      * @param guid
+     *      The GUID of the survey 
      * @return
+     *      A list of all revisions for this survey
      */
     public ResourceList<Survey> getSurveyAllRevisions(String guid) {
         session.checkSignedIn();
@@ -172,8 +190,10 @@ public class DeveloperClient extends StudyStaffClient {
      * returned by this method unless a later version is switched to the published state.
      * 
      * @param guid
-     *            The guid of the survey
+     *      The GUID of the survey
      * @return
+     *      The most recently published revision of the survey (this is the version that is currently being 
+     *      returned to participants when they are asked to take a survey).
      */
     public Survey getSurveyMostRecentlyPublished(String guid) {
         session.checkSignedIn();
@@ -185,7 +205,9 @@ public class DeveloperClient extends StudyStaffClient {
      * Get the most recent version of a survey (the version with the latest createdOn timestamp).
      * 
      * @param guid
+     *      The guid of the survey
      * @return
+     *      The most recent revision of the survey 
      */
     public Survey getSurveyMostRecent(String guid) {
         session.checkSignedIn();
@@ -197,6 +219,7 @@ public class DeveloperClient extends StudyStaffClient {
      * Get the most recent and published version of every survey in a study (each survey with a unique GUID).
      * 
      * @return
+     *      A list of all the most recently published surveys in the caller's current study
      */
     public ResourceList<Survey> getAllSurveysMostRecentlyPublished() {
         session.checkSignedIn();
@@ -207,6 +230,7 @@ public class DeveloperClient extends StudyStaffClient {
      * Get the most recent version of every survey in a study (each survey with a unique GUID).
      * 
      * @return
+     *      A list of all the most recent revisions of each survey in the caller's current study
      */
     public ResourceList<Survey> getAllSurveysMostRecent() {
         session.checkSignedIn();
@@ -217,9 +241,9 @@ public class DeveloperClient extends StudyStaffClient {
      * Create a survey. Consented study participants cannot see or respond to the survey until it is published.
      *
      * @param survey
-     *            The survey object Bridge will use to create a survey.
-     * @return GuidVersionedOnHolder A holder containing the GUID identifying the survey and the DateTime on which it
-     *         was versioned.
+     *      The survey object Bridge will use to create a survey.
+     * @return GuidVersionedOnHolder 
+     *      A holder containing the GUID identifying the survey and the DateTime on which it was versioned.
      */
     public GuidCreatedOnVersionHolder createSurvey(Survey survey) {
         session.checkSignedIn();
@@ -234,8 +258,9 @@ public class DeveloperClient extends StudyStaffClient {
      * Create a new version for the survey identified by a guid string and the DateTime it was versioned on.
      *
      * @param keys
-     *            holder object containing a GUID string and DateTime of survey's version.
+     *      holder object containing a GUID string and DateTime of survey's version.
      * @return
+     *      A version object containing the new version number of the new survey version 
      */
     public GuidCreatedOnVersionHolder versionSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
@@ -248,9 +273,10 @@ public class DeveloperClient extends StudyStaffClient {
      * Update a survey on Bridge.
      *
      * @param survey
-     *            The survey object used to update the Survey on Bridge.
-     * @return GuidVersionedOnHolder A holder containing the GUID identifying the updated survey and the DateTime the
-     *         updated survey was versioned.
+     *      The survey object used to update the Survey on Bridge.
+     * @return GuidVersionedOnHolder 
+     *      A holder containing the GUID identifying the updated survey and the DateTime the
+     *      updated survey was versioned.
      */
     public GuidCreatedOnVersionHolder updateSurvey(Survey survey) {
         session.checkSignedIn();
@@ -267,7 +293,9 @@ public class DeveloperClient extends StudyStaffClient {
      * Publish a survey. A published survey is one consented users can see and respond to.
      *
      * @param keys
-     *            holder object containing a GUID string identifying the survey and DateTime of survey's version.
+     *      holder object containing a GUID string identifying the survey and DateTime of survey's version.
+     * @return
+     *      The survey keys (however, these do not change on a publication)  
      */
     public GuidCreatedOnVersionHolder publishSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
@@ -283,10 +311,11 @@ public class DeveloperClient extends StudyStaffClient {
      * to a survey,
      * 
      * @param survey
-     *            survey to update (cannot be the initial creation of a survey)
+     *      survey to update (cannot be the initial creation of a survey)
      * @param publish
-     *            should this new version be published immediately after being saved?
+     *      should this new version be published immediately after being saved?
      * @return
+     *      The survey keys, with the new version of the survey that was updated and published.
      */
     public GuidCreatedOnVersionHolder versionUpdateAndPublishSurvey(Survey survey, boolean publish) {
         session.checkSignedIn();
@@ -308,7 +337,7 @@ public class DeveloperClient extends StudyStaffClient {
      * Delete a survey.
      *
      * @param keys
-     *            holder object containing a GUID string identifying the survey and DateTime of survey's version.
+     *      holder object containing a GUID string identifying the survey and DateTime of survey's version.
      */
     public void deleteSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
@@ -320,7 +349,8 @@ public class DeveloperClient extends StudyStaffClient {
     /**
      * Get all schedule plans.
      *
-     * @return List<SchedulePlan>
+     * @return
+     *      The list of schedule plans in the study
      */
     public ResourceList<SchedulePlan> getSchedulePlans() {
         session.checkSignedIn();
@@ -331,8 +361,9 @@ public class DeveloperClient extends StudyStaffClient {
      * Create a schedule plan.
      *
      * @param plan
-     *            The plan object Bridge will use to create a SchedulePlan.
-     * @return GuidVersionHolder A holder containing the the guid and version of the created SchedulePlan.
+     *      The plan object Bridge will use to create a SchedulePlan.
+     * @return GuidVersionHolder 
+     *      A holder containing the the guid and version of the created SchedulePlan.
      */
     public GuidVersionHolder createSchedulePlan(SchedulePlan plan) {
         session.checkSignedIn();
@@ -348,8 +379,9 @@ public class DeveloperClient extends StudyStaffClient {
      * Get a schedule plan.
      *
      * @param guid
-     *            GUID identifying the schedule plan to retrieve.
+     *      GUID identifying the schedule plan to retrieve.
      * @return SchedulePlan
+     *      The schedule plan with the given GUID
      */
     public SchedulePlan getSchedulePlan(String guid) {
         session.checkSignedIn();
@@ -361,8 +393,9 @@ public class DeveloperClient extends StudyStaffClient {
      * Update a schedule plan.
      *
      * @param plan
-     *            The plan object Bridge will use to update it's Schedule Plan.
-     * @return GuidVersionHolder Holder containing the guid and version of the updated SchedulePlan.
+     *      The plan object Bridge will use to update it's Schedule Plan.
+     * @return GuidVersionHolder
+     *      holder containing the guid and version of the updated SchedulePlan.
      */
     public GuidVersionHolder updateSchedulePlan(SchedulePlan plan) {
         session.checkSignedIn();
@@ -376,7 +409,7 @@ public class DeveloperClient extends StudyStaffClient {
      * Delete a schedule plan.
      *
      * @param guid
-     *            GUID identifying the schedule plan to delete.
+     *     GUID identifying the schedule plan to delete.
      */
     public void deleteSchedulePlan(String guid) {
         session.checkSignedIn();
@@ -388,7 +421,9 @@ public class DeveloperClient extends StudyStaffClient {
      * Update information about this study.
      * 
      * @param study
+     *      The study to update
      * @return
+     *      A version holder with the new version of the updated study
      */
     public VersionHolder updateStudy(Study study) {
         session.checkSignedIn();
@@ -406,8 +441,9 @@ public class DeveloperClient extends StudyStaffClient {
      * that rev + 1.
      *
      * @param schema
-     *         schema to create, must be non-null
-     * @return the created schema, will be non-null
+     *      schema to create, must be non-null
+     * @return UploadSchema
+     *      the created schema, will be non-null
      */
     public UploadSchema createSchemaRevisionV4(UploadSchema schema) {
         session.checkSignedIn();
@@ -420,9 +456,10 @@ public class DeveloperClient extends StudyStaffClient {
      * updates an existing schema if it already exists. This method returns the created schema, which has its revision
      * number properly updated.
      *
-     * @param uploadSchema
-     *            schema to create or update, must be non-null
-     * @return the created or updated schema, will be non-null
+     * @param schema
+     *      schema to create or update, must be non-null
+     * @return
+     *      the created or updated schema, will be non-null
      */
     public UploadSchema createOrUpdateUploadSchema(UploadSchema schema) {
         session.checkSignedIn();
@@ -435,7 +472,7 @@ public class DeveloperClient extends StudyStaffClient {
      * this schema ID, this method throws an EntityNotFoundException.
      *
      * @param schemaId
-     *            schema ID of the upload schemas to delete, must be non-null and non-empty
+     *      schema ID of the upload schemas to delete, must be non-null and non-empty
      */
     public void deleteUploadSchemaAllRevisions(String schemaId) {
         session.checkSignedIn();
@@ -450,9 +487,9 @@ public class DeveloperClient extends StudyStaffClient {
      * method throws an EntityNotFoundException.
      *
      * @param schemaId
-     *            schema ID of the upload schema to delete
+     *      schema ID of the upload schema to delete
      * @param revision
-     *            revision number of the upload schema to delete, must be positive
+     *      revision number of the upload schema to delete, must be positive
      */
     public void deleteUploadSchema(String schemaId, int revision) {
         session.checkSignedIn();
@@ -468,8 +505,9 @@ public class DeveloperClient extends StudyStaffClient {
      * the schema doesn't exist, this method throws an EntityNotFoundException.
      *
      * @param schemaId
-     *            ID of the schema to fetch, must be non-null and non-empty
-     * @return the fetched schema, will be non-null
+     *      ID of the schema to fetch, must be non-null and non-empty
+     * @return 
+     *      A list of all revisions of the fetched schema, will be non-null
      */
     public ResourceList<UploadSchema> getUploadSchema(String schemaId) {
         session.checkSignedIn();
@@ -483,8 +521,11 @@ public class DeveloperClient extends StudyStaffClient {
      * This method fetches the most recent revision of an upload schema from the current study with the specified 
      * schema ID (the version with the highest revision number). If the schema doesn't exist, this method throws an 
      * EntityNotFoundException.
+     * 
      * @param schemaId
+     *      The schema ID
      * @return
+     *      The most recent revision of the schema with the given ID
      */
     public UploadSchema getMostRecentUploadSchemaRevision(String schemaId) {
         session.checkSignedIn();
@@ -497,7 +538,8 @@ public class DeveloperClient extends StudyStaffClient {
     /**
      * Fetches the most recent revision of all upload schemas in the current study.
      *
-     * @return a list of upload schemas
+     * @return 
+     *      a list of the most recent revisions of all upload schemas
      */
     public ResourceList<UploadSchema> getAllUploadSchemas() {
         session.checkSignedIn();
@@ -510,12 +552,13 @@ public class DeveloperClient extends StudyStaffClient {
      * attribute to a field.
      *
      * @param schemaId
-     *         schema ID to update, must be non-null and non-empty
+     *      schema ID to update, must be non-null and non-empty
      * @param revision
-     *         schema revision to update, must be positive
+     *      schema revision to update, must be positive
      * @param schema
-     *         schema that contains the updates to submit to the server, must be non-null
-     * @return updated schema, will be non-null
+     *      schema that contains the updates to submit to the server, must be non-null
+     * @return 
+     *      updated schema, will be non-null
      */
     public UploadSchema updateSchemaRevisionV4(String schemaId, int revision, UploadSchema schema) {
         session.checkSignedIn();
@@ -529,7 +572,9 @@ public class DeveloperClient extends StudyStaffClient {
     
     /**
      * Get all subpopulations defined for this study.
+     * 
      * @return
+     *      A list of all subpopulations in the study
      */
     public ResourceList<Subpopulation> getAllSubpopulations() {
         session.checkSignedIn();
@@ -538,7 +583,11 @@ public class DeveloperClient extends StudyStaffClient {
     
     /**
      * Create a new subpopulation.
+     * 
      * @param subpopulation
+     *      The subpopulation to create
+     * @return
+     *      A holder with the GUID and version of the created subpopulation
      */
     public GuidVersionHolder createSubpopulation(Subpopulation subpopulation) {
         session.checkSignedIn();
@@ -547,8 +596,11 @@ public class DeveloperClient extends StudyStaffClient {
     
     /**
      * Get a subpopulation using its GUID.
+     * 
      * @param subpopGuid
+     *      The GUID object of the subpopulation to retrieve
      * @return
+     *      The subpopulation with the given GUID
      */
     public Subpopulation getSubpopulation(SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
@@ -558,6 +610,9 @@ public class DeveloperClient extends StudyStaffClient {
     /**
      * Update a subpopulation with the given GUID.
      * @param subpopulation
+     *      A subpopulation to update
+     * @return
+     *      A holder with the new version of the updated subpopulation
      */
     public GuidVersionHolder updateSubpopulation(Subpopulation subpopulation) {
         session.checkSignedIn();
@@ -569,7 +624,9 @@ public class DeveloperClient extends StudyStaffClient {
      * be deleted (although it can be edited). But other subpopulations can be deleted. 
      * Records of consent for a particular subpopulation are not deleted and historical 
      * records can be produced of consent to deleted subpopulations.
+     * 
      * @param subpopGuid
+     *      A subpopulation to delete logically
      */
     public void deleteSubpopulation(SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
@@ -589,8 +646,9 @@ public class DeveloperClient extends StudyStaffClient {
      *      Optional string that used to match against the start of an external identifier string
      * @param assignmentFilter
      *      Optional boolean filter to return only assigned or unassigned identifiers (if not provided, both 
-     *      are retuend).
+     *      are returend).
      * @return
+     *      A list of the created external identifiers
      */
     public PagedResourceList<ExternalIdentifier> getExternalIds(
             String offsetKey, Integer pageSize, String idFilter, Boolean assignmentFilter) {
@@ -601,7 +659,10 @@ public class DeveloperClient extends StudyStaffClient {
     }
     
     /**
-     * Add external identifiers to Bridge. Existing identifiers will be silently ignored.
+     * Add external identifiers to Bridge.
+     * 
+     * @param externalIdentifiers
+     *      A list of Strings to add to this study as allowed external identifiers.
      */
     public void addExternalIds(List<String> externalIdentifiers) {
         session.checkSignedIn();
@@ -611,9 +672,10 @@ public class DeveloperClient extends StudyStaffClient {
     }
     
     /**
-     * Delete external identifiers (only allows if external ID validation is diabled).
+     * Delete external identifiers (only allows if external ID validation is disabled).
      * 
      * @param externalIdentifiers
+     *      A list of external identifiers that should be deleted
      */
     public void deleteExternalIds(List<String> externalIdentifiers) {
         session.checkSignedIn();

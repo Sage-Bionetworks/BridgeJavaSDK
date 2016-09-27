@@ -60,8 +60,8 @@ public class UploadSchemaClient extends BaseApiCaller {
      * updates an existing schema if it already exists. This method returns the created schema, which has its revision
      * number properly updated.
      *
-     * @param uploadSchema
-     *            schema to create or update, must be non-null
+     * @param schema
+     *      schema to create or update, must be non-null
      * @return the created or updated schema, will be non-null
      */
     public UploadSchema createOrUpdateUploadSchema(UploadSchema schema) {
@@ -124,7 +124,9 @@ public class UploadSchemaClient extends BaseApiCaller {
      * schema ID (the version with the highest revision number). If the schema doesn't exist, this method throws an 
      * EntityNotFoundException.
      * @param schemaId
+     *      The ID of the schema to retrieve
      * @return
+     *      The most recent revision of the schema with the given ID
      */
     public UploadSchema getMostRecentUploadSchemaRevision(String schemaId) {
         session.checkSignedIn();

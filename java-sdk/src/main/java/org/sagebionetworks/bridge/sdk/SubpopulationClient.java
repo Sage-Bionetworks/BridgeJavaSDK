@@ -18,6 +18,7 @@ public class SubpopulationClient extends BaseApiCaller {
     /**
      * Get all subpopulations defined for this study.
      * @return
+     *      a list of all subpopulations
      */
     public ResourceList<Subpopulation> getAllSubpopulations() {
         session.checkSignedIn();
@@ -27,6 +28,9 @@ public class SubpopulationClient extends BaseApiCaller {
     /**
      * Create a new subpopulation.
      * @param subpopulation
+     *      the subpopulation to create
+     * @return
+     *      a holder object with the GUID and version of the newly created subpopulation
      */
     public GuidVersionHolder createSubpopulation(Subpopulation subpopulation) {
         session.checkSignedIn();
@@ -36,7 +40,9 @@ public class SubpopulationClient extends BaseApiCaller {
     /**
      * Get a subpopulation using its GUID.
      * @param subpopGuid
+     *      the GUID object of the subpopulation to retrieve
      * @return
+     *      the subpopulation with the given GUID
      */
     public Subpopulation getSubpopulation(SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
@@ -46,6 +52,9 @@ public class SubpopulationClient extends BaseApiCaller {
     /**
      * Update a subpopulation with the given GUID.
      * @param subpopulation
+     *      the subpopulation to update
+     * @return
+     *      the subpopulation with the given GUID
      */
     public GuidVersionHolder updateSubpopulation(Subpopulation subpopulation) {
         session.checkSignedIn();
@@ -57,7 +66,9 @@ public class SubpopulationClient extends BaseApiCaller {
      * be deleted (although it can be edited). But other subpopulations can be deleted. 
      * Records of consent for a particular subpopulation are not deleted and historical 
      * records can be produced of consent to deleted subpopulations.
+     * 
      * @param subpopGuid
+     *      the GUID key of the subpopulation to delete
      */
     public void deleteSubpopulation(SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
@@ -68,7 +79,9 @@ public class SubpopulationClient extends BaseApiCaller {
      * Delete a subpopulation from the database. Only used for integration tests.
      * 
      * @see org.sagebionetworks.bridge.sdk.SubpopulationClient#deleteSubpopulation
-     * @param subpopGuid the subpopulation to be deleted
+     * 
+     * @param subpopGuid
+     *      the GUID key of the subpopulation to physically delete from the server
      */
     public void deleteSubpopulationPermanently(SubpopulationGuid subpopGuid) {
         session.checkSignedIn();

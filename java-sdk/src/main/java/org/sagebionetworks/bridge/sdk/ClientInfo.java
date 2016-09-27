@@ -41,7 +41,9 @@ public final class ClientInfo {
         /**
          * The name of the application that is using this SDK to contact the Bridge server.
          * @param appName
+         *      The name of the application
          * @return
+         *      The ClientInfo builder
          */
         public Builder withAppName(String appName) {
             this.appName = appName;
@@ -50,7 +52,11 @@ public final class ClientInfo {
         /**
          * The application version of the application using this SDK. This must be a number.
          * @param appVersion
+         *      The version of the application (this should be a monotonically increasing integer 
+         *      value, not a semantic version, so "3" and not "3.0.0"; typically thought of as a 
+         *      build number for the application).
          * @return
+         *      The ClientInfo builder
          */
         public Builder withAppVersion(Integer appVersion) {
             this.appVersion = appVersion;
@@ -60,7 +66,10 @@ public final class ClientInfo {
          * Information about the device on which this application is running (particularly interesting 
          * for mobile clients).
          * @param device
+         *      A string description of the device running the application (can combine the name of the 
+         *      device and version information).
          * @return
+         *      The ClientInfo builder
          */
         public Builder withDevice(String device) {
             this.device = device;
@@ -70,7 +79,11 @@ public final class ClientInfo {
          * The name of the operating system on which the application is running. By default, this is the 
          * value retrieved by <code>System.getProperty("os.name")</code>.
          * @param osName
+         *      The name of the operating system. Two names are particularly important because they are recognized
+         *      by servers-side resource filtering: "iPhone OS" for iOS applications, and "Android" for Android 
+         *      applications.
          * @return
+         *      The ClientInfo builder
          */
         public Builder withOsName(String osName) {
             this.osName = osName;
@@ -80,7 +93,10 @@ public final class ClientInfo {
          * The version of the operating system on which the application is running. By default, this is the 
          * value retrieved by <code>System.getProperty("os.version")</code>.
          * @param osVersion
+         *      The version of the operating system (as a string this can be any value, including a semantic 
+         *      version number like "12.3.2").
          * @return
+         *      The ClientInfo builder
          */
         public Builder withOsVersion(String osVersion) {
             this.osVersion = osVersion;

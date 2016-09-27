@@ -102,7 +102,9 @@ public class UserClient extends BaseApiCaller {
      * Returns the user's consent signature, which includes the name, birthdate, and signature image.
      *
      * @param subpopGuid
+     *      the GUID object of the subpopulation which the user consented to participate in  
      * @return consent signature
+     *      
      */
     public ConsentSignature getConsentSignature(SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
@@ -116,6 +118,7 @@ public class UserClient extends BaseApiCaller {
      * Email the signed consent agreement to the participant's email address.
      * 
      * @param subpopGuid
+     *      email the consent to the user for the GUID object of the subpopulation the user consented to 
      */
     public void emailConsentSignature(SubpopulationGuid subpopGuid) {
         session.checkSignedIn();
@@ -166,7 +169,8 @@ public class UserClient extends BaseApiCaller {
     /**
      * Get all schedules associated with a study.
      *
-     * @return List<Schedule>
+     * @return
+     *      a list of all schedules associated with the current study
      */
     public ResourceList<Schedule> getSchedules() {
         session.checkSignedIn();
@@ -177,8 +181,9 @@ public class UserClient extends BaseApiCaller {
      * Get a survey version with a GUID and a createdOn timestamp.
      *
      * @param keys
-     *
-     * @return Survey
+     *      the survey key object (GUID and createdOn timestamp) for the survey to retrieve
+     * @return
+     *      the survey with the given GUID and createdOn timestamp
      */
     public Survey getSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
@@ -190,8 +195,9 @@ public class UserClient extends BaseApiCaller {
     /**
      * Get the most recently published survey available for the provided survey GUID.
      * @param guid
-     * 
-     * @return Survey
+     *      the GUID of the survey
+     * @return
+     *      the most recently published version of the survey with the given GUID
      */
     public Survey getSurveyMostRecentlyPublished(String guid) {
         session.checkSignedIn();
@@ -204,8 +210,9 @@ public class UserClient extends BaseApiCaller {
      * Request an upload session from the user.
      *
      * @param request
-     *            the request object Bridge uses to create the Upload Session.
-     * @return UploadSession
+     *      the request object Bridge uses to create the Upload Session.
+     * @return
+     *      an upload session for this upload
      */
     public UploadSession requestUploadSession(UploadRequest request) {
         session.checkSignedIn();
@@ -218,9 +225,11 @@ public class UserClient extends BaseApiCaller {
      * Upload a file using the requested UploadSession. Closes the upload after it's done.
      *
      * @param session
-     *            The session used to upload.
+     *      The session used to upload.
+     * @param request
+     *      the upload request
      * @param fileName
-     *            File to upload.
+     *      file to upload
      */
     public void upload(UploadSession session, UploadRequest request, String fileName) {
         this.session.checkSignedIn();
@@ -266,6 +275,7 @@ public class UserClient extends BaseApiCaller {
      *      Optional. If set, API will return either N days of tasks, or N task per schedule, whichever is highest. 
      *      Current maximum for this value is 5.
      * @return
+     *      a list of scheduled activities that meet the query criteria
      */
     public ResourceList<ScheduledActivity> getScheduledActivities(int daysAhead, DateTimeZone timeZone, Integer minimumPerSchedule) {
         session.checkSignedIn();
@@ -277,6 +287,7 @@ public class UserClient extends BaseApiCaller {
      * Update these activities (by setting either the startedOn or finishedOn values of each activity). 
      * The only other required value that must be set for the activity is its GUID.
      * @param scheduledActivities
+     *      a list of the scheduled activities to update (new startedOn or finishedOn timestamps)
      */
     public void updateScheduledActivities(List<ScheduledActivity> scheduledActivities) {
         checkNotNull(scheduledActivities);
