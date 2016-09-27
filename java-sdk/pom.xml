@@ -18,7 +18,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <surefire.version>2.18.1</surefire.version>
-        <javadoc.version>2.10.4</javadoc.version>
         <maven-s3-wagon.version>1.2.1</maven-s3-wagon.version>
     </properties>
 
@@ -146,23 +145,5 @@
                 <version>${maven-s3-wagon.version}</version>
             </extension>            
         </extensions>
-        <!-- 
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${javadoc.version}</version>
-                <configuration>
-                    <links>
-                        <link>http://joda-time.sourceforge.net/apidocs/</link>
-                    </links>
-                    <show>public</show>
-                    <excludePackageNames>
-                        org.sagebionetworks.bridge.sdk.json,org.sagebionetworks.bridge.sdk.utils
-                    </excludePackageNames>
-                </configuration>
-            </plugin>
-        </plugins>
-         -->
     </build>
 </project>
