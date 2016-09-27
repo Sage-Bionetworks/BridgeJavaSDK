@@ -28,6 +28,9 @@ public class StudyClient extends BaseApiCaller {
     
     /**
      * Get the study of the current user.
+     * 
+     * @return
+     *      The current study
      */
     public Study getCurrentStudy() {
         session.checkSignedIn();
@@ -35,7 +38,12 @@ public class StudyClient extends BaseApiCaller {
     }
     
     /**
-     * Update information about the study of the current user. 
+     * Update information about the study of the current user.
+     * 
+     * @param study
+     *      the current study
+     * @return 
+     *      a holder object containing the version of the updated study 
      */
     public VersionHolder updateCurrentStudy(Study study) {
         session.checkSignedIn();
@@ -47,17 +55,36 @@ public class StudyClient extends BaseApiCaller {
         return holder;
     }
     
-
+    /**
+     * Get a study 
+     * @param identifier
+     *      the identifier of the study to retrieve
+     * @return
+     *      the study with the given identifier
+     */
     public Study getStudy(String identifier) {
         session.checkSignedIn();
         return get(config.getStudyApi(identifier), Study.class);
     }
 
+    /**
+     * Get all studies in Bridge
+     * @return
+     *      a list of all studies known to the Bridge server. This list contains 
+     *      objects that only have the names and identifiers of the studies.
+     */
     public ResourceList<Study> getAllStudies() {
         session.checkSignedIn();
         return get(config.getStudiesApi(), STUDY_RESOURCE_LIST);
     }
 
+    /**
+     * Create a new study
+     * @param study
+     *      The new study (must have a unique identifier)
+     * @return
+     *      A version holder with the version of the newly created study
+     */
     public VersionHolder createStudy(Study study) {
         session.checkSignedIn();
         VersionHolder holder = post(config.getStudiesApi(), study, SimpleVersionHolder.class);
@@ -65,6 +92,13 @@ public class StudyClient extends BaseApiCaller {
         return holder;
     }
 
+    /**
+     * Update the study
+     * @param study
+     *      The study to update
+     * @return
+     *      A version holder with the version of the newly updated study
+     */
     public VersionHolder updateStudy(Study study) {
         session.checkSignedIn();
         VersionHolder holder = post(config.getStudyApi(study.getIdentifier()), study, SimpleVersionHolder.class);
@@ -72,6 +106,11 @@ public class StudyClient extends BaseApiCaller {
         return holder;
     }
 
+    /**
+     * Delete a study
+     * @param identifier
+     *      the identifier of the study to delete
+     */
     public void deleteStudy(String identifier) {
         session.checkSignedIn();
         delete(config.getStudyApi(identifier));
@@ -86,6 +125,7 @@ public class StudyClient extends BaseApiCaller {
      * @param endTime
      *      An optional end time for the search query (if null, defaults to the time of the request)
      * @return
+     *      a list of uploads for the study, in the given date range
      */
     public DateTimeRangeResourceList<Upload> getUploads(DateTime startTime, DateTime endTime) {
         session.checkSignedIn();

@@ -73,10 +73,12 @@ public class ClientProvider {
     /**
      * Sign Up an account with Bridge using the given credentials.
      *
-     * @param studyI
+     * @param studyId
      *      The identifier of the study the participant is signing up with
-     * @param signUp
-     *      The credentials to create an account with
+     * @param participant
+     *      Participant information for the account (email and password are the minimal information
+     *      required, but any portion of the information you wish to save for a participant may 
+     *      be saved at sign up).
      */
     public static void signUp(String studyId, StudyParticipant participant) {
         checkArgument(isNotBlank(studyId), "Study ID required.");

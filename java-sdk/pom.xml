@@ -18,6 +18,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <surefire.version>2.18.1</surefire.version>
+        <javadoc.version>2.10.4</javadoc.version>
     </properties>
 
     <organization>
@@ -110,27 +111,46 @@
         </dependency>
     </dependencies>
 
-	<distributionManagement>
-		<site>
-			<id>s3.site</id>
-			<url>s3://developer.sagebridge.org/javadocs/${project.artifactId}/${project.version}</url>
-		</site>	
-	</distributionManagement>
+    <distributionManagement>
+        <site>
+            <id>s3.site</id>
+            <url>s3://developer.sagebridge.org/${project.artifactId}/${project.version}</url>
+        </site>    
+    </distributionManagement>
 
-    <build>
-    	<extensions>
-			<extension>
-				<groupId>org.kuali.maven.wagons</groupId>
-				<artifactId>maven-s3-wagon</artifactId>
-				<version>1.2.1</version>
-			</extension>    		
-    	</extensions>
-    	
-  		<plugins>
+    <reporting>
+        <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
+                <version>${javadoc.version}</version>
+                <configuration>
+                    <links>
+                        <link>http://joda-time.sourceforge.net/apidocs/</link>
+                    </links>
+                    <show>public</show>
+                    <excludePackageNames>
+                        org.sagebionetworks.bridge.sdk.json,org.sagebionetworks.bridge.sdk.utils
+                    </excludePackageNames>                
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+
+    <build>
+        <extensions>
+            <extension>
+                <groupId>org.kuali.maven.wagons</groupId>
+                <artifactId>maven-s3-wagon</artifactId>
+                <version>1.2.1</version>
+            </extension>            
+        </extensions>
+        
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${javadoc.version}</version>
                 <configuration>
                     <links>
                         <link>http://joda-time.sourceforge.net/apidocs/</link>

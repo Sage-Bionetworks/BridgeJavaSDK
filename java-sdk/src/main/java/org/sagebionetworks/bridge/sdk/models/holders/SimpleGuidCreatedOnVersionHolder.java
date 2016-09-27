@@ -29,21 +29,29 @@ public final class SimpleGuidCreatedOnVersionHolder implements GuidCreatedOnVers
     }
 
     /**
-     * Copy constructor. This is used to get an immutable simple version holder from a survey or an unknown concrete
-     * version holder type.
+     * Copy constructor. This is used to get an immutable simple version holder from a survey or 
+     * an unknown concrete version holder type.
+     * @param other
+     *      the holder object to copy
      */
     public SimpleGuidCreatedOnVersionHolder(GuidCreatedOnVersionHolder other) {
         this(other.getGuid(), other.getCreatedOn(), other.getVersion());
     }
     
+    /** @return the GUID of the model object */
     public String getGuid() {
         return guid;
     }
 
+    /** @return the createdOn timestamp of the revision of the model object */
     public DateTime getCreatedOn() {
         return createdOn;
     }
     
+    /** @return the version of the model object. This is an optimistic locking version and although 
+     * it is needed for update operations, it is not necessary to supply it for retrieving or 
+     * creating model objects.      
+     */
     public Long getVersion() {
         return version;
     }

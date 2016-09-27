@@ -25,10 +25,11 @@ public class SurveyClient extends BaseApiCaller {
      * Get the survey by its GUID for a particular DateTime revision.
      *
      * @param guid
-     *            GUID identifying the survey.
-     * @param revision
-     *            The DateTime the survey was versioned on.
-     * @return Survey
+     *      GUID identifying the survey.
+     * @param createdOn
+     *      the DateTime the survey was versioned on.
+     * @return
+     *      the survey revision with the given GUID
      */
     public Survey getSurvey(String guid, DateTime createdOn) {
         session.checkSignedIn();
@@ -41,7 +42,9 @@ public class SurveyClient extends BaseApiCaller {
      * Get a specific survey instance as identified by the GUID and createdOn keys.
      * 
      * @param keys
+     *      they key object of the survey (with a GUID and createdOn timestamp).
      * @return
+     *      the survey revision with the given GUID
      */
     public Survey getSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
@@ -53,7 +56,9 @@ public class SurveyClient extends BaseApiCaller {
      * Get all versions of a survey (the entire history of edits to that survey), most recent edit first in the list.
      * 
      * @param guid
+     *      the GUID of the survey
      * @return
+     *      a list of all revisions of a given survey
      */
     public ResourceList<Survey> getSurveyAllRevisions(String guid) {
         session.checkSignedIn();
@@ -68,8 +73,9 @@ public class SurveyClient extends BaseApiCaller {
      * returned by this method unless a later version is switched to the published state.
      * 
      * @param guid
-     *            The guid of the survey
+     *      the GUID of the survey
      * @return
+     *      get the most recently published version of a survey with the given GUID
      */
     public Survey getSurveyMostRecentlyPublished(String guid) {
         session.checkSignedIn();
@@ -81,7 +87,9 @@ public class SurveyClient extends BaseApiCaller {
      * Get the most recent version of a survey (the version with the latest createdOn timestamp).
      * 
      * @param guid
+     *      the GUID of the survey
      * @return
+     *      get the most recent version (published or not) of a survey with the given GUID
      */
     public Survey getSurveyMostRecent(String guid) {
         session.checkSignedIn();
@@ -93,6 +101,8 @@ public class SurveyClient extends BaseApiCaller {
      * Get the most recent and published version of every survey in a study (each survey with a unique GUID).
      * 
      * @return
+     *      a list of all the surveys in a study, returning the most recently published version of 
+     *      each list
      */
     public ResourceList<Survey> getAllSurveysMostRecentlyPublished() {
         session.checkSignedIn();
@@ -103,8 +113,9 @@ public class SurveyClient extends BaseApiCaller {
      * Gets the most recently published version of all surveys for a given study.
      *
      * @param studyId
-     *         study to get surveys for
-     * @return list of surveys
+     *      study to get surveys for
+     * @return
+     *      list of the most recently published version of all surveys in the given study
      */
     public ResourceList<Survey> getAllSurveysMostRecentlyPublished(String studyId) {
         session.checkSignedIn();
@@ -116,6 +127,7 @@ public class SurveyClient extends BaseApiCaller {
      * Get the most recent version of every survey in a study (each survey with a unique GUID).
      * 
      * @return
+     *      list of the most recent revisions of all surveys in the current study
      */
     public ResourceList<Survey> getAllSurveysMostRecent() {
         session.checkSignedIn();
@@ -126,9 +138,9 @@ public class SurveyClient extends BaseApiCaller {
      * Create a survey. Consented study participants cannot see or respond to the survey until it is published.
      *
      * @param survey
-     *            The survey object Bridge will use to create a survey.
-     * @return GuidVersionedOnHolder A holder containing the GUID identifying the survey and the DateTime on which it
-     *         was versioned.
+     *      the survey object Bridge will use to create a survey.
+     * @return
+     *      a holder containing the GUID identifying the survey and the DateTime on which it was versioned.
      */
     public GuidCreatedOnVersionHolder createSurvey(Survey survey) {
         session.checkSignedIn();
@@ -143,8 +155,9 @@ public class SurveyClient extends BaseApiCaller {
      * Create a new version for the survey identified by a guid string and the DateTime it was versioned on.
      *
      * @param keys
-     *            holder object containing a GUID string and DateTime of survey's version.
+     *      holder object containing a GUID string and DateTime of survey's version.
      * @return
+     *      a holder object containing the new createdOn timestamp and version number of the new survey version 
      */
     public GuidCreatedOnVersionHolder versionSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
@@ -157,9 +170,10 @@ public class SurveyClient extends BaseApiCaller {
      * Update a survey on Bridge.
      *
      * @param survey
-     *            The survey object used to update the Survey on Bridge.
-     * @return GuidVersionedOnHolder A holder containing the GUID identifying the updated survey and the DateTime the
-     *         updated survey was versioned.
+     *      The survey object used to update the Survey on Bridge.
+     * @return
+     *     A holder containing the GUID identifying the updated survey and the DateTime the
+     *      updated survey was versioned.
      */
     public GuidCreatedOnVersionHolder updateSurvey(Survey survey) {
         session.checkSignedIn();
@@ -209,10 +223,11 @@ public class SurveyClient extends BaseApiCaller {
      * to a survey,
      * 
      * @param survey
-     *            survey to update (cannot be the initial creation of a survey)
+     *      survey to update (cannot be the initial creation of a survey)
      * @param publish
-     *            should this new version be published immediately after being saved?
+     *      should this new version be published immediately after being saved?
      * @return
+     *      a holder object with the new createdOn timestamp and version number of the new survey 
      */
     public GuidCreatedOnVersionHolder versionUpdateAndPublishSurvey(Survey survey, boolean publish) {
         session.checkSignedIn();
@@ -234,7 +249,7 @@ public class SurveyClient extends BaseApiCaller {
      * Delete a survey.
      *
      * @param keys
-     *            holder object containing a GUID string identifying the survey and DateTime of survey's version.
+     *      holder object containing a GUID string identifying the survey and DateTime of survey's version.
      */
     public void deleteSurvey(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
@@ -246,7 +261,9 @@ public class SurveyClient extends BaseApiCaller {
     /**
      * Delete a survey permanently. This delete will occur whether or not the survey version is in use 
      * or not; developers should use the deleteSurvey() method.
+     * 
      * @param keys
+     *      The keys object (with a GUID and createdOn timestamp) of the survey to permanently delete
      */
     public void deleteSurveyPermanently(GuidCreatedOnVersionHolder keys) {
         session.checkSignedIn();
