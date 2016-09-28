@@ -1,0 +1,20 @@
+post:
+    tags: ["Authentication"]
+    description: |
+        This API will not normally be called directly by a client. A user will receive an email 
+        triggered by the /signUp call, with an URL to open up a page that verifies the email was 
+        received at the provided email address. This page is on the Bridge server. That page submits 
+        a one-time session token ("sptoken") to this endpoint, in order to change the password. The 
+        template for this verification email can be configured as part of a Study through the management 
+        APIs.
+    parameters:
+        - name: EmailVerification
+          in: body
+          description: Email verification token 
+          required: true
+          schema:
+                $ref: ../../definitions/email_verification.yml
+    responses:
+        200:
+            schema:
+                $ref: ../../definitions/message.yml

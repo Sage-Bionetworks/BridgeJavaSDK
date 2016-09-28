@@ -1,0 +1,41 @@
+post:
+    tags: ["Authentication"]
+    description: |
+        Send user credentials to authenticate with the Bridge server. Whether the server returns 
+        200 (user successfully authenticated) or 412 (user has authenticated but has not yet 
+        consented to participate in research), the response will contain a user session. 
+        
+        The session contains the "sessionToken" property with the token that must be used to interact 
+        with other endpoints of the service. That value should be sent via the request header 
+        "Bridge-Session" to any endpoint requiring authentication. The Bridge session token is 
+        currently valid for 12 hours. However, your client application should be prepared to 
+        re-authenticate on any call if it returns 401 ("Not authenticated"), as the session may 
+        expire before this period for unforeseen reasons, like a server failure.
+
+        If the user has not yet consented, the session also contains detailed information about the 
+        consent (or consents) the user must submit a signature for, before they will be allowed to 
+        make further calls to Bridge. You can also implement logic to re-consent to updated consents, 
+        if desired.
+    parameters:
+        - name: SignIn
+          in: body
+          description: Sign in information 
+          required: true
+          schema:
+                $ref: ../../definitions/sign_in.yml
+    responses:
+        200:
+            schema:
+                $ref: ../../definitions/user_session_info.yml
+        404:
+            description: Credentials incorrect or the user does not exist
+            schema:
+                $ref: ../../definitions/message.yml
+        412:
+            description: User has not yet consented to participate in research
+            schema:
+                $ref: ../../definitions/user_session_info.yml
+        423:
+            description: Account has been disabled
+            schema:
+                $ref: ../../definitions/message.yml

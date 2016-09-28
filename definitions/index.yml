@@ -1,0 +1,20 @@
+AbstractStudyParticipant:
+    $ref: ./abstract_study_participant.yml
+Email:
+    $ref: ./email.yml
+EmailVerification:
+    $ref: ./email_verification.yml
+Empty:
+    $ref: ./empty.yml
+Message:
+    $ref: ./message.yml
+PasswordReset:
+    $ref: ./password_reset.yml
+SignIn:
+    $ref: ./sign_in.yml
+SignUp:
+    $ref: ./sign_up.yml
+UserSessionInfo:
+    $ref: ./user_session_info.yml
+InvalidEntityException:
+    $ref: ./exceptions/invalid_entity_exception.yml

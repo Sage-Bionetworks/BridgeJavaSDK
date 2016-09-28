@@ -1,0 +1,51 @@
+# The "base class" of signUp, userSessionInfo and studyParticipant, varies only by a few
+# fields between these objects
+title: AbstractStudyParticipant
+type: object
+properties:
+    email:
+        type: string
+    firstName:
+        type: string
+    lastName:
+        type: string
+    externalId:
+        type: string
+    id:
+        type: string
+    sessionToken:
+        type: string
+    dataSharing:
+        type: string
+    notifyByEmail:
+        type: boolean
+    attributes:
+        type: object
+    sharingScope:
+        type: string
+    createdOn:
+        type: dateTime
+    environment:
+        type: string
+    status:
+        type: string
+    consented:
+        type: boolean
+    authenticated:
+        type: boolean
+    signedMostRecentConsent:
+        type: boolean
+    roles:
+        type: array
+        items:
+            type: string
+    dataGroups:
+        type: array
+        items:
+            type: string
+    languages:
+        type: array
+        items:
+            type: string
+    consentStatuses:
+        type: object

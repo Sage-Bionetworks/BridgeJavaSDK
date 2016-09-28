@@ -1,0 +1,14 @@
+/v3/auth/signIn:
+    $ref: ./auth/v3_auth_signIn.yml
+/v3/auth/signOut:
+    $ref: ./auth/v3_auth_signOut.yml
+/v3/auth/requestResetPassword:
+    $ref: ./auth/v3_auth_requestResetPassword.yml
+/v3/auth/resetPassword:
+    $ref: ./auth/v3_auth_resetPassword.yml
+/v3/auth/signUp:
+    $ref: ./auth/v3_auth_signUp.yml
+/v3/auth/verifyEmail:
+    $ref: ./auth/v3_auth_verifyEmail.yml
+/v3/auth/resendEmailVerification:
+    $ref: ./auth/v3_auth_resendEmailVerification.yml

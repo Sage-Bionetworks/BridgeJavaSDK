@@ -1,0 +1,16 @@
+post:
+    tags: ["Authentication"]
+    description: |
+        Delete the user's session on the server.
+    parameters:
+        - $ref: ../../params/bridge_session.yml
+        - name: Empty
+          in: body
+          description: Empty JSON body 
+          required: true
+          schema:
+                $ref: ../../definitions/empty.yml
+    responses:
+        200:
+            schema:
+                $ref: ../../definitions/message.yml

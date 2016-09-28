@@ -1,0 +1,16 @@
+title: Sign In
+type: object
+required:
+    - study
+    - email
+    - password
+properties:
+    study:
+        type: string
+        description: Study identifier of the participant's study
+    email:
+        type: string
+        description: User's email address
+    password:
+        type: string
+        description: User's password

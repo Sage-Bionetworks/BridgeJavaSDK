@@ -1,0 +1,10 @@
+title: Email
+type: object
+required:
+    - name  
+    - studyIdentifier
+properties:
+    email:
+        type: string
+    studyIdentifier:
+        type: string  

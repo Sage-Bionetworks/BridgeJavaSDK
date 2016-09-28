@@ -1,0 +1,13 @@
+title: Sign Up
+allOf:
+    - $ref: './abstract_study_participant.yml'
+    - type: object
+    - required:
+        - study
+        - email
+        - password
+    - properties:
+        study:
+            type: string
+        password:
+            type: string

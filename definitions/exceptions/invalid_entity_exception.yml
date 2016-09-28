@@ -1,0 +1,16 @@
+# InvalidEntityException
+type: object
+required:
+    - statusCode
+    - errors
+    - entityClass
+    - entity
+properties:
+    statusCode:
+        type: integer
+    errors:
+        type: string
+    entityClass:
+        type: string
+    entity:
+        type: object

@@ -1,0 +1,7 @@
+title: Email Verification
+type: object
+required:
+    - sptoken  
+properties:
+    sptoken:
+        type: string
