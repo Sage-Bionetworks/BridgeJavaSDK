@@ -25,6 +25,7 @@ post:
                 $ref: ../../definitions/sign_in.yml
     responses:
         200:
+            description: Successful sign in
             schema:
                 $ref: ../../definitions/user_session_info.yml
         404:
@@ -32,7 +33,7 @@ post:
             schema:
                 $ref: ../../definitions/message.yml
         412:
-            description: User has not yet consented to participate in research
+            description: User has signed in, but is not consented
             schema:
                 $ref: ../../definitions/user_session_info.yml
         423:

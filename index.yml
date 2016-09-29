@@ -4,6 +4,15 @@ info:
     title: Bridge Server API
 host: webservices.sagebridge.org
 basePath: /
+securityDefinitions:
+    BridgeSecurity:
+        type: apiKey
+        in: header
+        name: Bridge-Session
+    TestDef:
+        type: apiKey
+        in: header
+        name: Bridge-Session
 schemes:
     - https
 consumes:

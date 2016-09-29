@@ -17,5 +17,6 @@ post:
                 $ref: ../../definitions/sign_up.yml
     responses:
         201:
+            description: Signed up.
             schema:
                 $ref: ../../definitions/message.yml

@@ -22,3 +22,18 @@ allOf:
         - dataGroups
         - languages
         - consentStatuses
+    - properties:
+        authenticated:
+            type: boolean
+        sessionToken:
+            type: string
+        environment:
+            type: string
+        dataSharing:
+            type: string
+        signedMostRecentConsent:
+            type: boolean
+        consented:
+            type: boolean
+        consentStatuses:
+            type: object

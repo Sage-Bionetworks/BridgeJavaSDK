@@ -1,9 +1,11 @@
 post:
     tags: ["Authentication"]
+    security:
+        - BridgeSecurity
+        - TestDef
     description: |
         Delete the user's session on the server.
     parameters:
-        - $ref: ../../params/bridge_session.yml
         - name: Empty
           in: body
           description: Empty JSON body 
@@ -12,5 +14,6 @@ post:
                 $ref: ../../definitions/empty.yml
     responses:
         200:
+            description: OK
             schema:
                 $ref: ../../definitions/message.yml

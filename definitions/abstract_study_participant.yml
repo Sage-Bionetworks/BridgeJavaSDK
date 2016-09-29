@@ -13,32 +13,34 @@ properties:
         type: string
     id:
         type: string
-    sessionToken:
-        type: string
-    dataSharing:
-        type: string
     notifyByEmail:
         type: boolean
     attributes:
         type: object
     sharingScope:
         type: string
+        enum:
+            - no_sharing
+            - sponsors_and_partners
+            - all_qualified_researchers
     createdOn:
-        type: dateTime
-    environment:
         type: string
+        format: date-time
     status:
         type: string
-    consented:
-        type: boolean
-    authenticated:
-        type: boolean
-    signedMostRecentConsent:
-        type: boolean
+        enum:
+            - disabled
+            - enabled
+            - unverified
     roles:
         type: array
         items:
             type: string
+            enum:
+                - developer
+                - researcher
+                - admin
+                - worker
     dataGroups:
         type: array
         items:
@@ -47,5 +49,3 @@ properties:
         type: array
         items:
             type: string
-    consentStatuses:
-        type: object
