@@ -9,10 +9,6 @@ securityDefinitions:
         type: apiKey
         in: header
         name: Bridge-Session
-    TestDef:
-        type: apiKey
-        in: header
-        name: Bridge-Session
 schemes:
     - https
 consumes:

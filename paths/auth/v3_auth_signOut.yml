@@ -1,8 +1,8 @@
 post:
-    tags: ["Authentication"]
+    tags: 
+        - "Authentication"
     security:
-        - BridgeSecurity
-        - TestDef
+        - BridgeSecurity: []
     description: |
         Delete the user's session on the server.
     parameters:
