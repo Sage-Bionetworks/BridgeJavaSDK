@@ -1,0 +1,44 @@
+title: Scheduled Activity
+description: |
+    Description of an activity (such as a task or survey) the study would like the participant to perform.
+type: object
+required:
+    - guid
+    - schedulePlanGuid
+    - activity
+    - persistent
+    - status
+    - type
+properties:
+    guid:
+        type: string
+    schedulePlanGuid:
+        type: string
+    startedOn:
+        type: string
+        format: date-time
+    finishedOn:
+        type: string
+        format: date-time
+    activity:
+        type: string 
+    persistent:
+        type: boolean
+    status:
+        type: string
+        description: |
+            The activities returned from this endpoint will be scheduled (will happen in the future); 
+            available (user can do the activity now); or started (the client has updated the activity to 
+            indicate it has been started). Deleted and finished activities are not returned from this 
+            endpoint.
+        enum:
+            - deleted
+            - finished
+            - started
+            - expired
+            - scheduled
+            - available
+    type:
+        type: string
+        enum: 
+            - ScheduledActivity

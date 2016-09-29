@@ -12,3 +12,6 @@
     $ref: ./auth/v3_auth_verifyEmail.yml
 /v3/auth/resendEmailVerification:
     $ref: ./auth/v3_auth_resendEmailVerification.yml
+
+/v3/activities:
+    $ref: ./activities/s3_activities.yml

@@ -1,0 +1,72 @@
+get:
+    tags: 
+        - Activities
+        - Consented Users
+    security:
+        -   BridgeSecurity: []
+    description: |
+        Gets all available, started, or scheduled activities for a user. Once an activity is 
+        finished, or expires (the time has passed for it to be started), it will be removed 
+        from the list of activities returned to the user.
+    parameters:
+        - name: offset
+          in: query
+          description: |
+                The user's time zone offset (e.g. +07:00). Scheduled activities will be 
+                returned in the timezone submitted at the time of the request. 
+          required: true
+          type: string
+        - name: daysAhead
+          in: query
+          required: true
+          description: |
+                Retrieve activities that are scheduled in the future for the indicated number 
+                of days past today.
+          type: integer
+          minimum: 0
+          maximum: 5
+        - name: minimumPerSchedule
+          in: query
+          description: |
+                 Force a look-ahead on repeating activities until at least the indicated number 
+                 of activities are scheduled (this is applied to the each schedule in the system 
+                 that applies to this user). The system will then return either the activities 
+                 for N days, or the minimum number of activities, whichever is the greatest in 
+                 number. This setting can help to expose infrequent tasks (weekly, monthly, 
+                 etc.) to users.
+          type: integer
+          minimum: 0
+          maximum: 5
+    responses:
+        200:
+            description: OK
+            schema:
+                type: array
+                items:
+                    $ref: ../../definitions/scheduled_activity.yml
+        412:
+            description: User has signed in, but is not consented
+            schema:
+                $ref: ../../definitions/user_session_info.yml
+post:
+    tags: 
+        - Activities
+        - Consented Users
+    security:
+        -   BridgeSecurity: []
+    description: |
+        Submit one or more scheduled activities with updated startedOn or finishedOn timestamps. The 
+        only values needed in the JSON for each activity are the guid, startedOn and finishedOn fields.
+    parameters:
+        - name: ScheduledActivity
+          in: body
+          required: true
+          schema:
+              type: array
+              items:
+                  $ref: ../../definitions/scheduled_activity.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml

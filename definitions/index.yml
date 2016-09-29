@@ -10,6 +10,8 @@ Message:
     $ref: ./message.yml
 PasswordReset:
     $ref: ./password_reset.yml
+ScheduledActivity:
+    $ref: ./scheduled_activity.yml
 SignIn:
     $ref: ./sign_in.yml
 SignUp:
