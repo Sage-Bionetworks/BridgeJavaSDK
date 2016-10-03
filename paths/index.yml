@@ -32,8 +32,8 @@
     $ref: ./participants/v3_participants_userId_signOut.yml
 /v3/participants/{userId}/requestResetPassword:
     $ref: ./participants/v3_participants_userId_requestResetPassword.yml
-/v3/participants/{userId}/resendEmailVerification:
-    $ref: ./participants/v3_participants_userId_resendEmailVerification.yml
+#/v3/participants/{userId}/resendEmailVerification:
+#    $ref: ./participants/v3_participants_userId_resendEmailVerification.yml
     # $ref: ./participants/v3_participants_userId_consents_withdraw.yml
     # $ref: ./participants/v3_participants_userId_consents_guid_resendConsent.yml
     
