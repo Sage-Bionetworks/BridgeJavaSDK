@@ -15,3 +15,25 @@
 
 /v3/activities:
     $ref: ./activities/s3_activities.yml
+
+/v3/participants:
+    $ref: ./participants/v3_participants.yml
+/v3/participants/self:
+    $ref: ./participants/v3_participants_self.yml
+/v3/participants/{userId}:
+    $ref: ./participants/v3_participants_userId.yml
+/v3/participants/{userId}/uploads:
+    $ref: ./participants/v3_participants_userId_uploads.yml
+/v3/participants/{userId}/requestInfo:
+    $ref: ./participants/v3_participants_userId_requestInfo.yml
+/v3/participants/{userId}/activities:
+    $ref: ./participants/v3_participants_userId_activities.yml
+/v3/participants/{userId}/signOut:    
+    $ref: ./participants/v3_participants_userId_signOut.yml
+/v3/participants/{userId}/requestResetPassword:
+    $ref: ./participants/v3_participants_userId_requestResetPassword.yml
+/v3/participants/{userId}/resendEmailVerification:
+    $ref: ./participants/v3_participants_userId_resendEmailVerification.yml
+    # $ref: ./participants/v3_participants_userId_consents_withdraw.yml
+    # $ref: ./participants/v3_participants_userId_consents_guid_resendConsent.yml
+    

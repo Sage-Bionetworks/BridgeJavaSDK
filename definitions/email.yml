@@ -8,3 +8,6 @@ properties:
         type: string
     studyIdentifier:
         type: string  
+    type:
+        type: string
+        enum: [Email]

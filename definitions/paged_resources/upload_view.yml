@@ -1,0 +1,66 @@
+title: PagedResourceList<AccountSummary>
+type: object
+required:
+    - items
+    - startTime
+    - endTime
+    - total
+    - type
+properties:
+    items:
+        type: array
+        items:
+            type: object
+            required:
+                - schemaId
+                - schemaRevision
+                - status
+                - requestedOn
+                - type
+            properties:
+                schemaId:
+                    type: string
+                schemaRevision:
+                    type: integer
+                contentLength:
+                    type: integer
+                status:
+                    type: string
+                    enum:
+                        - unknown
+                        - requested
+                        - validation_in_progress
+                        - validation_failed
+                        - duplicate
+                        - succeeded
+                requestedOn:
+                    type: string
+                    format: date-time
+                completedOn:
+                    type: string
+                    format: date-time
+                completedBy:
+                    type: string
+                    enum: [app, s3_worker]
+                validationMessageList:
+                    type: array
+                    items:
+                        type: string
+                type:
+                    type: string
+                    enum: [Upload]
+    startTime:
+        type: string
+        format: date-time
+        description: The startTime value submitted to the server
+    endTime:
+        type: string
+        format: date-time
+        description: The endTime value submitted to the server
+    total:
+        type: integer
+        description: The total number of records that match the criteria (may exceed page size)
+    type:
+        type: string
+        enum: [PagedResourceList]
+        

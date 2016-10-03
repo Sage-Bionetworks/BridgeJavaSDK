@@ -5,3 +5,6 @@ required:
 properties:
     sptoken:
         type: string
+    type:
+        type: string
+        enum: [EmailVerification]

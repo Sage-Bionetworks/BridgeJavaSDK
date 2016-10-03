@@ -16,6 +16,8 @@ SignIn:
     $ref: ./sign_in.yml
 SignUp:
     $ref: ./sign_up.yml
+StudyParticipant:
+    $ref: ./study_participant.yml
 UserSessionInfo:
     $ref: ./user_session_info.yml
 InvalidEntityException:

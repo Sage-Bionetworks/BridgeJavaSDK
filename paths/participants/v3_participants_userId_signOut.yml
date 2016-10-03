@@ -1,0 +1,24 @@
+post:
+    summary: Sign the user out and delete their server session
+    tags:
+        - Participants
+        - _For Researchers    
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - name: userId
+          description: User ID
+          required: true
+          in: path
+          type: string
+        - name: body
+          description: Empty JSON object
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/empty.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml

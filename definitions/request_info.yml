@@ -1,0 +1,34 @@
+title: RequestInfo
+type: object
+required:
+    - userId
+    - type
+properties:
+    userId:
+        type: string
+    clientInfo:
+        $ref: ./client_info.yml
+    userAgent:
+        type: string
+    languages:
+        type: array
+        items:
+            type: string
+    userDataGroups:
+        type: array
+        items:
+            type: string
+    activitiesAccessedOn:
+        type: string
+        format: date-time
+    signedInOn:
+        type: string
+        format: date-time
+    timeZone:
+        type: string
+    studyIdentifier:
+        $ref: ./study_identifier.yml
+    type:
+        type: string
+        enum: [ClientInfo]
+    

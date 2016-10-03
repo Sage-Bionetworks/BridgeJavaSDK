@@ -1,0 +1,11 @@
+title: StudyIdentifier
+type: object
+required:
+    - identifier
+    - type
+properties:
+    identifier:
+        type: string
+    type:
+        type: string
+        enum: [StudyIdentifier]

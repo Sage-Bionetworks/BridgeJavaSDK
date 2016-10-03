@@ -1,0 +1,46 @@
+title: User consent history
+description: | 
+    A record of a complete consent (including both the dates of consent and withdrawal, if applicable);
+type: object
+required:
+    - subpopulationGuid
+    - consentCreatedOn
+    - name
+    - birthdate
+    - signedOn
+properties:
+    subpopulationGuid:
+        type: string
+        readOnly: true
+    consentCreatedOn:
+        type: string
+        format: date-time
+        readOnly: true
+    name:
+        type: string
+        readOnly: true
+    birthdate:
+        type: string
+        format: date
+        readOnly: true
+    imageData:
+        type: string
+        format: byte
+        readOnly: true
+    imageMimeType:
+        type: string
+        readOnly: true
+    signedOn:
+        type: string
+        format: date-time
+        readOnly: true
+    withdrewOn:
+        type: string
+        format: date-time
+        readOnly: true
+    hasSignedActiveConsent:
+        type: boolean
+        readOnly: true
+    type:
+        type: string
+        enum: [UserConsentHistory]

@@ -1,0 +1,24 @@
+title: Study participant
+allOf:
+    - $ref: './abstract_study_participant.yml'
+    - description: |
+        Full record about a study participant
+    - type: object
+    - required:
+        - consentHistories
+    - properties:
+        email:
+            type: string
+            readOnly: true
+        healthCode:
+            type: string
+            readOnly: true
+            description: only included in studies that have been configured to return the health code, and only through researcher APIs
+        consentHistories:
+            type: object
+            readOnly: true
+            additionalProperties:
+                $ref: ../definitions/user_consent_history.yml
+        type:
+            type: string
+            enum: [StudyParticipant]

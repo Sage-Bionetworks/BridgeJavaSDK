@@ -9,5 +9,10 @@ allOf:
     - properties:
         study:
             type: string
+        email:
+            type: string
         password:
             type: string
+        type:
+            type: string
+            enum: [SignUp]

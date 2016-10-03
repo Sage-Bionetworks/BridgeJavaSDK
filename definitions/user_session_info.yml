@@ -30,10 +30,17 @@ allOf:
         environment:
             type: string
         dataSharing:
-            type: string
+            type: boolean
+            description: true if the sharing scope is anything other than "no_sharing".
         signedMostRecentConsent:
             type: boolean
         consented:
             type: boolean
+            description: true if all required consents have been signed
         consentStatuses:
             type: object
+            additionalProperties:
+                $ref: ../definitions/consent_status.yml
+        type:
+            type: string
+            enum: [UserSessionInfo]

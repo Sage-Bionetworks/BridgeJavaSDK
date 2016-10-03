@@ -1,0 +1,13 @@
+title: TaskReference
+type: object
+description: A pointer to a task identifier defined for this study, and associated with a task to 
+    be performed as part of the mobile application health study (e.g. a walking test).
+required:
+    - identifier
+    - type
+properties:
+    identifier:
+        type: string
+    type:
+        type: string
+        enum: [TaskReference]

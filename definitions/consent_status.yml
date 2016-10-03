@@ -1,0 +1,22 @@
+title: Consent status
+type: object
+required:
+    - name
+    - subpopulationGuid
+    - required
+    - consented
+    - signedMostRecentConsent
+properties:
+    name:
+        type: string
+    subpopulationGuid:
+        type: string
+    required:
+        type: boolean
+    consented:
+        type: boolean
+    signedMostRecentConsent:
+        type: boolean
+    type:
+        type: string
+        enum: [ConsentStatus]

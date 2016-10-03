@@ -1,0 +1,33 @@
+get:
+    summary: Get user's participant record
+    description: This endpoint only operates on the session's user account. 
+    tags: 
+        - Participants
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/study_participant.yml
+post:
+    summary: Update user's participant record
+    description: This endpoint only operates on the session's user account. 
+    tags:
+        - Participants
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - name: StudyParticipant
+          in: body
+          description: Study participant 
+          required: true
+          schema:
+                $ref: ../../definitions/study_participant.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml

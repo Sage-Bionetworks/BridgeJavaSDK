@@ -1,0 +1,20 @@
+title: ClientInfo
+type: object
+properties:
+    appName:
+        type: string
+    appVersion:
+        type: integer
+    deviceName:
+        type: string
+    osName:
+        type: string
+    osVersion:
+        type: string
+    sdkName:
+        type: string
+    sdkVersion:
+        type: integer
+    type:
+        type: string
+        enum: [ClientInfo]

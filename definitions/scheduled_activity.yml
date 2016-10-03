@@ -1,11 +1,15 @@
 title: Scheduled Activity
 description: |
-    Description of an activity (such as a task or survey) the study would like the participant to perform.
+    Description of an activity (such as a task or survey) the study would like the participant to perform. 
+    A scheduled activity will contain a reference to a task or survey, but not both, and the activityType 
+    will reflect which property exists on the activity (e.g. if a task is defined, the activityType will be 
+    "task"). 
 type: object
 required:
     - guid
     - schedulePlanGuid
     - activity
+    - scheduledOn
     - persistent
     - status
     - type
@@ -20,8 +24,14 @@ properties:
     finishedOn:
         type: string
         format: date-time
+    scheduledOn:
+        type: string
+        format: date-time
+    expiresOn:
+        type: string
+        format: date-time
     activity:
-        type: string 
+        $ref: ./activity.yml 
     persistent:
         type: boolean
     status:
@@ -40,5 +50,4 @@ properties:
             - available
     type:
         type: string
-        enum: 
-            - ScheduledActivity
+        enum: [ScheduledActivity]

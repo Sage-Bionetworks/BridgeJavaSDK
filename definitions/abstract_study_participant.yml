@@ -3,8 +3,6 @@
 title: AbstractStudyParticipant
 type: object
 properties:
-    email:
-        type: string
     firstName:
         type: string
     lastName:
@@ -13,6 +11,7 @@ properties:
         type: string
     id:
         type: string
+        readOnly: true
     notifyByEmail:
         type: boolean
     attributes:
@@ -26,6 +25,7 @@ properties:
     createdOn:
         type: string
         format: date-time
+        readOnly: true
     status:
         type: string
         enum:

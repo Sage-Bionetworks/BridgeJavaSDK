@@ -1,0 +1,26 @@
+title: Activity
+type: object
+required:
+    - label
+    - guid
+    - activityType
+    - type
+properties:
+    label:
+        type: string
+    labelDetail:
+        type: string
+    guid:
+        type: string
+    task:
+        $ref: ./task_reference.yml
+    survey:
+        $ref: ./survey_reference.yml
+    activityType:
+        type: string
+        enum:
+            - survey
+            - task
+    type:
+        type: string
+        enum: [Activity]
