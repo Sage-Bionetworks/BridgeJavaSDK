@@ -99,24 +99,24 @@
     $ref: ./reports/v3_participants_reports_identifier.yml
 
 # Surveys
-/v3/surveys:
-    $ref: ./surveys/v3_surveys.yml
-/v3/surveys/recent:
-    $ref: ./surveys/v3_surveys_recent.yml
-/v3/surveys/published:
-    $ref: ./surveys/v3_surveys_published.yml
-/v3/surveys/{surveyGuid}/revisions:
-    $ref: ./surveys/v3_surveys_revisions.yml
-/v3/surveys/{surveyGuid}/revisions/recent:
-    $ref: ./surveys/v3_surveys_revisions_recent.yml
-/v3/surveys/{surveyGuid}/revisions/published:
-    $ref: ./surveys/v3_surveys_revisions_published.yml
-/v3/surveys/{surveyGuid}/revisions/{createdOn}:
-    $ref: ./surveys/v3_surveys_revisions_createdOn.yml
-/v3/surveys/{surveyGuid}/revisions/{createdOn}/version:
-    $ref: ./surveys/v3_surveys_revisions_createdOn_version.yml
-/v3/surveys/{surveyGuid}/revisions/{createdOn}/publish:
-    $ref: ./surveys/v3_surveys_revisions_createdOn_publish.yml
+# /v3/surveys:
+#     $ref: ./surveys/v3_surveys.yml
+# /v3/surveys/recent:
+#     $ref: ./surveys/v3_surveys_recent.yml
+# /v3/surveys/published:
+#     $ref: ./surveys/v3_surveys_published.yml
+# /v3/surveys/{surveyGuid}/revisions:
+#     $ref: ./surveys/v3_surveys_revisions.yml
+# /v3/surveys/{surveyGuid}/revisions/recent:
+#     $ref: ./surveys/v3_surveys_revisions_recent.yml
+# /v3/surveys/{surveyGuid}/revisions/published:
+#     $ref: ./surveys/v3_surveys_revisions_published.yml
+# /v3/surveys/{surveyGuid}/revisions/{createdOn}:
+#     $ref: ./surveys/v3_surveys_revisions_createdOn.yml
+# /v3/surveys/{surveyGuid}/revisions/{createdOn}/version:
+#     $ref: ./surveys/v3_surveys_revisions_createdOn_version.yml
+# /v3/surveys/{surveyGuid}/revisions/{createdOn}/publish:
+#     $ref: ./surveys/v3_surveys_revisions_createdOn_publish.yml
 
 # GET    /v3/surveys                                           getAllSurveysMostRecentVersion
 # POST   /v3/surveys                                           createSurvey
