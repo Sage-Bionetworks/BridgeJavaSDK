@@ -1,0 +1,16 @@
+title: DateRange
+type: object
+required:
+    - startDate
+    - endDate
+    - type
+properties:
+    startDate:
+        type: string
+        format: date
+    endDate:
+        type: string
+        format: date
+    type:
+        type: string
+        enum: [DateRange]

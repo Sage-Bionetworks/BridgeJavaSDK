@@ -43,6 +43,4 @@ post:
                 $ref: ../../definitions/study_participant.yml
     responses:
         200:
-            description: OK
-            schema:
-                $ref: ../../definitions/message.yml
+            $ref: ../../responses/200_message.yml

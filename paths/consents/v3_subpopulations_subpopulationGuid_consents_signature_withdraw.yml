@@ -1,0 +1,15 @@
+post:
+    summary: Withdraw participant from this subpopulation consent group 
+    description: |
+        This withdraws the user from only one subpopulation.
+    tags:
+        - Consents
+        - _For Consented Users    
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/subpopulationGuid
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        

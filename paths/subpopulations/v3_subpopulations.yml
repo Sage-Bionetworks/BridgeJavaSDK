@@ -1,0 +1,31 @@
+get:
+    summary: Get all subpopulations in this study
+    tags:
+        - Subpopulations
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    responses:
+        200:
+            description: A list of subpopulations
+            schema:
+                type: array
+                items:
+                    $ref: ../../definitions/subpopulation.yml
+post:
+    summary: Create a new subpopulation
+    tags:
+        - Subpopulations
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - name: Subpopulation
+          in: body
+          description: New subpopulation 
+          required: true
+          schema:
+            $ref: ../../definitions/subpopulation.yml
+    responses:
+        201:
+            $ref: ../../responses/201_message.yml

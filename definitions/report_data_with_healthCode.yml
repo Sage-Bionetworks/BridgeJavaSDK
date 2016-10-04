@@ -1,0 +1,18 @@
+title: Report data
+type: object
+required:
+    - date
+    - data
+    - healthCode
+    - type
+properties:
+    date:
+        type: string
+        format: date
+    data:
+        type: object
+    healthCode:
+        type: string
+    type:
+        type: string
+        enum: [ReportData]

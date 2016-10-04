@@ -12,11 +12,7 @@ get:
     security:
         - BridgeSecurity: []
     parameters:
-        - name: userId
-          description: User ID
-          required: true
-          in: path
-          type: string
+        - $ref: ../../index.yml#/parameters/userId
         - name: offsetKey
           in: query
           type: string
@@ -43,14 +39,8 @@ delete:
     security:
         - BridgeSecurity: []
     parameters:
-        - name: userId
-          description: User ID
-          required: true
-          in: path
-          type: string
+        - $ref: ../../index.yml#/parameters/userId
     responses:
         200:
-            description: OK
-            schema:
-                $ref: ../../definitions/message.yml
+            $ref: ../../responses/200_message.yml
         

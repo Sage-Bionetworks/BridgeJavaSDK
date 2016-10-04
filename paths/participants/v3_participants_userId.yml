@@ -6,11 +6,7 @@ get:
     security:
         - BridgeSecurity: []
     parameters:
-        - name: userId
-          description: User ID
-          required: true
-          in: path
-          type: string
+        - $ref: ../../index.yml#/parameters/userId
     responses:
         200:
             description: OK
@@ -24,11 +20,7 @@ post:
     security:
         - BridgeSecurity: []
     parameters:
-        - name: userId
-          in: path
-          description: User ID
-          required: true
-          type: string
+        - $ref: ../../index.yml#/parameters/userId
         - name: StudyParticipant
           in: body
           description: Study participant 
@@ -37,6 +29,4 @@ post:
                 $ref: ../../definitions/study_participant.yml
     responses:
         200:
-            description: OK
-            schema:
-                $ref: ../../definitions/message.yml
+            $ref: ../../responses/200_message.yml

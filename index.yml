@@ -15,6 +15,46 @@ consumes:
     - application/json
 produces:
     - application/json
+parameters:
+    subpopulationGuid:
+        name: subpopulationGuid
+        description: Subpopulation GUID
+        required: true
+        in: path
+        type: string
+    userId:
+        name: userId
+        description: User ID
+        required: true
+        in: path
+        type: string
+    identifier:
+        name: identifier
+        description: identifier
+        required: true
+        in: path
+        type: string
+    startDate:
+        name: startDate
+        in: query
+        description: The first day to include in reports that are returned
+        type: string
+        format: date 
+        required: true
+    endDate:
+        name: endDate
+        in: query
+        description: The last day to include in reports that are returned
+        type: string 
+        format: date
+        required: true
+    empty:
+        name: body
+        description: Bridge currently requires an empty JSON object for POSTs without body content
+        required: true
+        in: body
+        schema:
+          $ref: ./definitions/empty.yml
 paths:
     $ref: ./paths/index.yml
 definitions:

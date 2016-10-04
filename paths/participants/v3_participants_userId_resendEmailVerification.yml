@@ -1,0 +1,16 @@
+post:
+    summary: Resend an email verification email to this user
+    description: |
+        When called, resends the email to the user's email account, which contains a link they must 
+        click on to verify they control that email address. Account is not activated until this is 
+        done.
+    tags:
+        - Participants
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml

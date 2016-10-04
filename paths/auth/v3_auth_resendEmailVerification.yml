@@ -13,6 +13,4 @@ post:
                 $ref: '../../definitions/email.yml'
     responses:
         200:
-            description: If registered with the study, we'll email you instructions on how to verify your account.
-            schema:
-                $ref: ../../definitions/message.yml
+            $ref: ../../responses/200_message.yml

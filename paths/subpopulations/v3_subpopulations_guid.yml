@@ -1,0 +1,46 @@
+get:
+    summary: Get a subpopulation
+    tags:
+        - Subpopulations
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/subpopulationGuid
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/subpopulation.yml     
+post:
+    summary: Update an existing subpopulation
+    tags:
+        - Subpopulations
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/subpopulationGuid
+        - name: Subpopulation
+          description: A subpopulation
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/subpopulation.yml
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+delete:
+    summary: Delete a subpopulation
+    description: |
+        Delete a subpopulation unless it is a default subpopulation, which cannot be deleted.
+    tags:
+        - Subpopulations
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/subpopulationGuid
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml

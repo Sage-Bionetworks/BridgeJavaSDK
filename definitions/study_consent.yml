@@ -1,0 +1,22 @@
+title: StudyConsent
+type: object
+description: |
+    For historical reasons, a revision of a consent document is known as a "study consent", it would 
+    more accurately be named a "subpopulation consent" at this point. It is a revision of a consent 
+    document that is associated with a specific study subpopulation.
+required:
+    - subpopulationGuid
+    - createdOn
+    - documentContent
+    - type
+properties:
+    subpopulationGuid:
+        type: string
+    createdOn:
+        type: string
+        format: date-time
+    documentContent:
+        type: string
+    type:
+        type: string
+        enum: [StudyConsent]

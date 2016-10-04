@@ -1,0 +1,15 @@
+title: Report data
+type: object
+required:
+    - date
+    - data
+    - type
+properties:
+    date:
+        type: string
+        format: date
+    data:
+        type: object
+    type:
+        type: string
+        enum: [ReportData]

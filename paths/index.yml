@@ -1,3 +1,4 @@
+# Authentication
 /v3/auth/signIn:
     $ref: ./auth/v3_auth_signIn.yml
 /v3/auth/signOut:
@@ -13,9 +14,11 @@
 /v3/auth/resendEmailVerification:
     $ref: ./auth/v3_auth_resendEmailVerification.yml
 
+# Scheduled Activities
 /v3/activities:
     $ref: ./activities/s3_activities.yml
 
+# Participants
 /v3/participants:
     $ref: ./participants/v3_participants.yml
 /v3/participants/self:
@@ -32,8 +35,98 @@
     $ref: ./participants/v3_participants_userId_signOut.yml
 /v3/participants/{userId}/requestResetPassword:
     $ref: ./participants/v3_participants_userId_requestResetPassword.yml
-#/v3/participants/{userId}/resendEmailVerification:
-#    $ref: ./participants/v3_participants_userId_resendEmailVerification.yml
-    # $ref: ./participants/v3_participants_userId_consents_withdraw.yml
-    # $ref: ./participants/v3_participants_userId_consents_guid_resendConsent.yml
+/v3/participants/{userId}/resendEmailVerification:
+    $ref: ./participants/v3_participants_userId_resendEmailVerification.yml
+/v3/participants/{userId}/consents/withdraw:
+    $ref: ./participants/v3_participants_userId_consents_withdraw.yml
+/v3/participants/{userId}/consents/{subpopulationGuid}/resendConsent:
+    $ref: ./participants/v3_participants_userId_consents_guid_resendConsent.yml
     
+# subpopulations
+/v3/subpopulations:
+    $ref: ./subpopulations/v3_subpopulations.yml                             
+/v3/subpopulations/{subpopulationGuid}:
+    $ref: ./subpopulations/v3_subpopulations_guid.yml                             
+
+# consents
+/v3/subpopulations/{subpopulationGuid}/consents/signature:
+    $ref: ./consents/v3_subpopulations_subpopulationGuid_consents_signature.yml
+/v3/subpopulations/{subpopulationGuid}/consents/signature/withdraw:
+    $ref: ./consents/v3_subpopulations_subpopulationGuid_consents_signature_withdraw.yml
+/v3/subpopulations/{subpopulationGuid}/consents/signature/email:
+    $ref: ./consents/v3_subpopulations_subpopulationGuid_consents_signature_email.yml
+
+# study consents
+/v3/subpopulations/{subpopulationGuid}/consents:
+    $ref: ./study_consents/v3_subpopulations_subpopulationGuid_consents.yml
+/v3/subpopulations/{subpopulationGuid}/consents/recent:
+    $ref: ./study_consents/v3_subpopulations_subpopulationGuid_consents_recent.yml
+/v3/subpopulations/{subpopulationGuid}/consents/published:
+    $ref: ./study_consents/v3_subpopulations_subpopulationGuid_consents_published.yml
+/v3/subpopulations/{subpopulationGuid}/consents/{timestamp}:
+    $ref: ./study_consents/v3_subpopulations_subpopulationGuid_consents_timestamp.yml
+/v3/subpopulations/{subpopulationGuid}/consents/{timestamp}/publish:
+    $ref: ./study_consents/v3_subpopulations_subpopulationGuid_consents_timestamp_publish.yml
+
+# users
+/v3/users:
+    $ref: ./users/v3_users.yml
+/v3/users/{userId}:
+    $ref: ./users/v3_users_userId.yml
+/v3/users/self:
+    $ref: ./users/v3_users_self.yml
+/v3/users/self/externalId:
+    $ref: ./users/v3_users_self_externalId.yml
+/v3/users/self/emailData:
+    $ref: ./users/v3_users_self_emailData.yml
+/v3/users/self/dataSharing:
+    $ref: ./users/v3_users_self_dataSharing.yml
+/v3/users/self/dataGroups:
+    $ref: ./users/v3_users_self_dataGroups.yml
+/v3/users/self/reports/{identifier}:
+    $ref: ./users/v3_users_self_reports_identifier.yml
+/v3/reports:
+    $ref: ./reports/v3_reports.yml
+/v3/reports/{identifier}:
+    $ref: ./reports/v3_reports_identifier.yml
+/v3/reports/{identifier}/{date}:
+    $ref: ./reports/v3_reports_identifier_date.yml
+/v3/participants/{userId}/reports/{identifier}:
+    $ref: ./reports/v3_participants_userId_reports_identifier.yml
+/v3/participants/{userId}/reports/{identifier}/{date}:
+    $ref: ./reports/v3_participants_userId_reports_identifier_date.yml
+/v3/participants/reports/{identifier}:
+    $ref: ./reports/v3_participants_reports_identifier.yml
+
+# Surveys
+/v3/surveys:
+    $ref: ./surveys/v3_surveys.yml
+/v3/surveys/recent:
+    $ref: ./surveys/v3_surveys_recent.yml
+/v3/surveys/published:
+    $ref: ./surveys/v3_surveys_published.yml
+/v3/surveys/{surveyGuid}/revisions:
+    $ref: ./surveys/v3_surveys_revisions.yml
+/v3/surveys/{surveyGuid}/revisions/recent:
+    $ref: ./surveys/v3_surveys_revisions_recent.yml
+/v3/surveys/{surveyGuid}/revisions/published:
+    $ref: ./surveys/v3_surveys_revisions_published.yml
+/v3/surveys/{surveyGuid}/revisions/{createdOn}:
+    $ref: ./surveys/v3_surveys_revisions_createdOn.yml
+/v3/surveys/{surveyGuid}/revisions/{createdOn}/version:
+    $ref: ./surveys/v3_surveys_revisions_createdOn_version.yml
+/v3/surveys/{surveyGuid}/revisions/{createdOn}/publish:
+    $ref: ./surveys/v3_surveys_revisions_createdOn_publish.yml
+
+# GET    /v3/surveys                                           getAllSurveysMostRecentVersion
+# POST   /v3/surveys                                           createSurvey
+# GET    /v3/surveys/recent                                    getAllSurveysMostRecentVersion
+# GET    /v3/surveys/published                                 getAllSurveysMostRecentlyPublishedVersion
+# GET    /v3/surveys/:surveyGuid/revisions                     getSurveyAllVersions(surveyGuid: String)
+# GET    /v3/surveys/:surveyGuid/revisions/recent              getSurveyMostRecentVersion(surveyGuid: String)
+# GET    /v3/surveys/:surveyGuid/revisions/published           getSurveyMostRecentlyPublishedVersion(surveyGuid: String)
+# POST   /v3/surveys/:surveyGuid/revisions/:createdOn/version  versionSurvey(surveyGuid: String, createdOn: String)
+# POST   /v3/surveys/:surveyGuid/revisions/:createdOn/publish  publishSurvey(surveyGuid: String, createdOn: String, newSchemaRev: String ?= null)
+# GET    /v3/surveys/:surveyGuid/revisions/:createdOn          getSurvey(surveyGuid: String, createdOn: String)
+# POST   /v3/surveys/:surveyGuid/revisions/:createdOn          updateSurvey(surveyGuid: String, createdOn: String)
+# DELETE /v3/surveys/:surveyGuid/revisions/:createdOn          deleteSurvey(surveyGuid: String, createdOn: String, physical: String ?= "false")

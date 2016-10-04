@@ -1,0 +1,17 @@
+get:
+    summary: Get the published consent revision
+    description: |
+        Get the published revision of this subpopulation consent. This is not necessarily the 
+        most recent version of the consent.
+    tags:
+        - Study Consents
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/subpopulationGuid
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/study_consent.yml

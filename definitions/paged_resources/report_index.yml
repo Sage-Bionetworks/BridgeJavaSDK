@@ -1,0 +1,20 @@
+title: ReportTypeResourceList<ReportIndex>
+type: object
+required:
+    - items
+    - total
+    - reportType
+    - type
+properties:
+    items:
+        type: array
+        items:
+            $ref: ../report_index.yml
+    reportType:
+        type: string
+        enum: [study,participant]
+    total:
+        type: integer
+    type:
+        type: string
+        enum: [ReportTypeResourceList]

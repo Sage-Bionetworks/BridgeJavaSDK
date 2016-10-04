@@ -1,0 +1,21 @@
+title: UserProfile
+type: object
+description: An early user information object that has been superceded by the study participant 
+    object, along with a new set of API endpoints (`/v3/participants/self`).
+required:
+    - email
+    - username
+    - type
+properties:
+    firstName:
+        type: string
+    lastName:
+        type: string
+    email:
+        type: string
+    username:
+        type: string
+        description: Now always the same value as the user's email address
+    type:
+        type: string
+        enum: [UserProfile]

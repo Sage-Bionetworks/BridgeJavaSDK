@@ -1,13 +1,14 @@
 post:
-    summary: Sign the user out and delete their server session
+    summary: Email the consent agreement to the participant's email address
     tags:
-        - Participants
-        - _For Researchers    
+        - Consents
+        - _For Consented Users
     security:
         - BridgeSecurity: []
     parameters:
-        - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/subpopulationGuid
         - $ref: ../../index.yml#/parameters/empty
     responses:
         200:
             $ref: ../../responses/200_message.yml
+            

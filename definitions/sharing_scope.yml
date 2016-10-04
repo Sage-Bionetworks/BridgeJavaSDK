@@ -1,0 +1,15 @@
+title: Sharing scope
+type: object
+required:
+    - scope
+    - type
+properties:
+    scope:
+        type: string
+        enum:
+            - no_sharing
+            - sponsors_and_partners
+            - all_qualified_researchers
+    type:
+        type: string
+        enum: [ScheduledActivity]

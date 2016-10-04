@@ -14,11 +14,7 @@ get:
     security:
         - BridgeSecurity: []
     parameters:
-        - name: userId
-          description: User ID
-          required: true
-          in: path
-          type: string
+        - $ref: ../../index.yml#/parameters/userId
         - name: startTime
           in: query
           type: string

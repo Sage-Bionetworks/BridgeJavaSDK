@@ -1,0 +1,44 @@
+get:
+    summary: Get participant report records
+    tags:
+        - Reports
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/identifier
+        - $ref: ../../index.yml#/parameters/startDate
+        - $ref: ../../index.yml#/parameters/endDate
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/report_data.yml
+post:
+    summary: Add a participant report record
+    tags:
+        - Reports
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/identifier
+    responses:
+        201:
+            $ref: ../../responses/201_message.yml
+delete:
+    summary: Delete a participant report (all records)
+    tags:
+        - Reports
+        - _For Developers
+        - _For Workers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/identifier
+    responses:
+        201:
+            $ref: ../../responses/200_message.yml

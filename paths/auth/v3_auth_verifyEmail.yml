@@ -16,6 +16,4 @@ post:
                 $ref: ../../definitions/email_verification.yml
     responses:
         200:
-            description: Email address verified.
-            schema:
-                $ref: ../../definitions/message.yml
+            $ref: ../../responses/200_message.yml

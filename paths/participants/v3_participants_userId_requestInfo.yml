@@ -10,11 +10,7 @@ get:
     security:
         - BridgeSecurity: []
     parameters:
-        - name: userId
-          description: User ID
-          required: true
-          in: path
-          type: string
+        - $ref: ../../index.yml#/parameters/userId
     responses:
         200:
             description: OK

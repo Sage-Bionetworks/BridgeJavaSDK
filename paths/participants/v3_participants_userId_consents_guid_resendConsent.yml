@@ -1,7 +1,7 @@
 post:
-    summary: Trigger a request to reset password for this user
+    summary: Re-send the consent agreement for this subpopulation
     description: |
-        When called, a reset password email will be set to the email address for this account.
+        When called, re-sends a signed consent agreement document to the participant's email address.
     tags:
         - Participants
         - _For Researchers
@@ -9,6 +9,7 @@ post:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/subpopulationGuid
     responses:
         200:
             $ref: ../../responses/200_message.yml

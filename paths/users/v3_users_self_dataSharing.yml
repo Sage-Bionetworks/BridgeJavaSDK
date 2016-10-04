@@ -1,0 +1,22 @@
+post:
+    deprecated: true
+    summary: Change user's data sharing
+    description: |
+        Change the user's data sharing option to one of the allowable values. Note that this value can 
+        be changed through the `/v3/participants/self` API, using the same JSON payload defined here.
+    tags:
+        - Users
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - name: SharingScope
+          in: body
+          description: Sharing scope 
+          required: true
+          schema:
+            $ref: ../../definitions/sharing_scope.yml
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+    

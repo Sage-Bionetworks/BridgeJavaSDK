@@ -1,0 +1,28 @@
+title: Criteria
+type: object
+required:
+    - allOfGroups
+    - noneOfGroups
+    - type
+properties:
+    language:
+        type: string
+    allOfGroups:
+        type: array
+        items:
+            type: string
+    noneOfGroups:
+        type: array
+        items:
+            type: string
+    minAppVersion:
+        type: object
+        additionalProperties:
+            type: integer
+    maxAppVersion:
+        type: object
+        additionalProperties:
+            type: integer
+    type:
+        type: string
+        enum: [Criteria]

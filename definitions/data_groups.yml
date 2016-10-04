@@ -1,0 +1,13 @@
+title: DataGroups
+type: object
+required:
+    - dataGroups
+    - type
+properties:
+    dataGroups:
+        type: array
+        items:
+            type: string
+    type:
+        type: string
+        enum: [DataGroups]

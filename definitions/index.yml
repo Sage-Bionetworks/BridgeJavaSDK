@@ -1,5 +1,15 @@
 AbstractStudyParticipant:
     $ref: ./abstract_study_participant.yml
+Activity:
+    $ref: ./activity.yml
+ClientInfo:
+    $ref: ./client_info.yml
+ConsentSignature:
+    $ref: ./consent_signature.yml
+ConsentStatus:
+    $ref: ./consent_status.yml
+Criteria:
+    $ref: ./criteria.yml
 Email:
     $ref: ./email.yml
 EmailVerification:
@@ -10,14 +20,30 @@ Message:
     $ref: ./message.yml
 PasswordReset:
     $ref: ./password_reset.yml
+RequestInfo:
+    $ref: ./request_info.yml
 ScheduledActivity:
     $ref: ./scheduled_activity.yml
 SignIn:
     $ref: ./sign_in.yml
 SignUp:
     $ref: ./sign_up.yml
+StudyConsent:
+    $ref: ./study_consent.yml
+StudyIdentifier:
+    $ref: ./study_identifier.yml
 StudyParticipant:
     $ref: ./study_participant.yml
+Subpopulation:
+    $ref: ./subpopulation.yml
+SurveyReference:
+    $ref: ./survey_reference.yml
+TaskReference:
+    $ref: ./task_reference.yml
+UserConsentHistory:
+    $ref: ./user_consent_history.yml
+UserProfile:
+    $ref: ./user_profile.yml
 UserSessionInfo:
     $ref: ./user_session_info.yml
 InvalidEntityException:

@@ -1,0 +1,39 @@
+get:
+    deprecated: true
+    summary: Get a user's data groups. 
+    description: |
+        Get the user's data groups. Note that data groups are also part of the study participant 
+        record, and can be retrieved through the `/v3/participants/self` API.
+    tags:
+        - Users
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/data_groups.yml
+post:
+    deprecated: true
+    summary: Change user's data groups
+    description: |
+        Change the user's data groups. Valid values must have been defined first by the study. 
+        Note that this value can be changed through the `/v3/participants/self` API, using 
+        the same JSON payload defined here.
+    tags:
+        - Users
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - name: DataGroups
+          in: body
+          description: Data groups 
+          required: true
+          schema:
+            $ref: ../../definitions/data_groups.yml
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+    

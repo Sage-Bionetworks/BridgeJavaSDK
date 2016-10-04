@@ -25,7 +25,7 @@ post:
                 $ref: ../../definitions/sign_in.yml
     responses:
         200:
-            description: Successful sign in
+            description: OK
             schema:
                 $ref: ../../definitions/user_session_info.yml
         404:

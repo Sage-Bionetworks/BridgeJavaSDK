@@ -1,0 +1,41 @@
+get:
+    deprecated: true
+    summary: Retrieve the user profile for this account.
+    description: |
+        Returns a user profile object that is a subset of the study participant record (which has superceded 
+        the profile along with a new set of APIs, see `/v3/participants/self`). Updating the profile will 
+        update the participant record, and vice versa. The user does *not* have to be consented to the study 
+        to retrieve or update the study profile (just as a user may submit updates to the study participant at sign up).
+    tags:
+        - Users
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/user_profile.yml
+post:
+    deprecated: true
+    summary: Update the user profile
+    description: |
+        Updates a user profile object that is a subset of the study participant record (which has superceded 
+        the profile along with a new set of APIs, see `/v3/participants/self`). Updating the profile will 
+        update the participant record, and vice versa. The user does *not* have to be consented to the study 
+        to retrieve or update the study profile (just as a user may submit updates to the study participant at sign up).
+    tags:
+        - Users
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - name: UserProfile
+          in: body
+          description: Updated profile 
+          required: true
+          schema:
+            $ref: ../../definitions/user_profile.yml
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml

@@ -1,0 +1,11 @@
+title: External identifier
+type: object
+required:
+    - identifier
+    - type
+properties:
+    identifier:
+        type: string
+    type:
+        type: string
+        enum: [ExternalIdentifier]

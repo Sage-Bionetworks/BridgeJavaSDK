@@ -1,0 +1,32 @@
+title: Consent signature
+type: object
+required:
+    - name
+    - birthdate
+    - consentCreatedOn
+    - signedOn
+properties:
+    name:
+        type: string
+    birthdate:
+        type: string
+        format: date
+    imageData:
+        type: string
+        format: binary
+    imageMimeType:
+        type: string
+        description: mime type of this image (e.g. "image/png")
+    consentCreatedOn:
+        type: string
+        format: date-time
+    signedOn:
+        type: string
+        format: date-time
+    withdrewOn:
+        type: string
+        format: date-time
+    type:
+        type: string
+        enum: [ConsentSignature]
+    

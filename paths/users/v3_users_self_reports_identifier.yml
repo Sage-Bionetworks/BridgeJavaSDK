@@ -1,0 +1,21 @@
+get:
+    summary: Get a participant report
+    description: |
+        Get the records for a specific participant report. Participants can get reports for their own 
+        account.
+    tags:
+        - Users
+        - Reports
+        - _For Researchers
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: '../../index.yml#/parameters/identifier'
+        - $ref: '../../index.yml#/parameters/startDate'
+        - $ref: '../../index.yml#/parameters/endDate'
+    responses:
+        200:
+            description: Report records for the participant
+            schema:
+                $ref: ../../definitions/paged_resources/report_data.yml

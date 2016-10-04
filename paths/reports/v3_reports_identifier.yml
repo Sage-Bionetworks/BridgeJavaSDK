@@ -1,0 +1,48 @@
+get:
+    summary: Get study report records
+    tags:
+        - Reports
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/identifier
+        - $ref: ../../index.yml#/parameters/startDate
+        - $ref: ../../index.yml#/parameters/endDate
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/report_data.yml
+post:
+    summary: Add a record to a study report
+    tags:
+        - Reports
+        - _For Developers
+        - _For Workers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/identifier
+        - name: body
+          description: Report data
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/report_data.yml
+    responses:
+        201:
+            $ref: ../../responses/201_message.yml
+delete:
+    summary: Delete a study report (all records)
+    tags:
+        - Reports
+        - _For Developers
+        - _For Workers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/identifier
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml

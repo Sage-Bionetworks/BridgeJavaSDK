@@ -1,0 +1,42 @@
+title: Subpopulation
+type: object
+description: |
+    A subpopulation (usually a consent group). 
+required:
+    - guid
+    - name
+    - criteria
+    - required
+    - defaultGroup
+    - version
+    - type
+properties:
+    guid:
+        type: string
+    name:
+        type: string
+    description:
+        type: string
+    criteria:
+        $ref: ./criteria.yml
+    required:
+        type: boolean
+        description: is the user required to sign the consent agreement for this subpopulation?
+    defaultGroup:
+        type: boolean
+        description: is this the default subpopulation for the study (there must alwasy be at least one, though it does not need to be required)
+    publishedConsentCreatedOn:
+        type: string
+        format: date-time
+        description: the createdOn timestamp of the currently published consent for this subpopulation
+    version:
+        type: integer
+    consentHTML:
+        type: string
+        description: The URL to the location of the published consent HTML document for this subpopulation
+    consentPDF:
+        type: string
+        description: The URL to the location of the published consent PDF document for this subpopulation
+    type:
+        type: string
+        enum: [Subpopulation]

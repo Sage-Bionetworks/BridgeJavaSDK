@@ -1,0 +1,17 @@
+post:
+    summary: Create a new user
+    tags:
+        - Users
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - name: StudyParticipant
+          in: body
+          description: New user 
+          required: true
+          schema:
+            $ref: ../../definitions/study_participant.yml
+    responses:
+        201:
+            $ref: ../../responses/201_message.yml

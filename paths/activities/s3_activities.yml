@@ -2,7 +2,7 @@ get:
     summary: Get a list of the participant's scheduled activities
     tags: 
         - Activities
-        - Consented Users
+        - _For Consented Users
     security:
         -   BridgeSecurity: []
     description: |
@@ -53,7 +53,7 @@ post:
     summary: Update the status of one or more scheduled activities.
     tags: 
         - Activities
-        - Consented Users
+        - _For Consented Users
     security:
         -   BridgeSecurity: []
     description: |
@@ -69,6 +69,4 @@ post:
                   $ref: ../../definitions/scheduled_activity.yml
     responses:
         200:
-            description: OK
-            schema:
-                $ref: ../../definitions/message.yml
+            $ref: ../../responses/200_message.yml
