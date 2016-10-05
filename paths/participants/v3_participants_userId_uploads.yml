@@ -29,4 +29,4 @@ get:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/paged_resources/upload_view.yml
+                $ref: ../../definitions/paged_resources/upload.yml

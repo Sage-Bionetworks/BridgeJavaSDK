@@ -1,4 +1,4 @@
-title: PagedResourceList<AccountSummary>
+title: PagedResourceList<Upload>
 type: object
 required:
     - items

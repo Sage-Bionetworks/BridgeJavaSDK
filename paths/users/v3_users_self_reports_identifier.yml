@@ -11,9 +11,9 @@ get:
     security:
         - BridgeSecurity: []
     parameters:
-        - $ref: '../../index.yml#/parameters/identifier'
-        - $ref: '../../index.yml#/parameters/startDate'
-        - $ref: '../../index.yml#/parameters/endDate'
+        - $ref: ../../index.yml#/parameters/identifier
+        - $ref: ../../index.yml#/parameters/startDate
+        - $ref: ../../index.yml#/parameters/endDate
     responses:
         200:
             description: Report records for the participant

@@ -1,0 +1,3 @@
+title: BooleanConstraints
+allOf:
+    - $ref: ./constraints.yml

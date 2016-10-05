@@ -41,6 +41,12 @@
     $ref: ./participants/v3_participants_userId_consents_withdraw.yml
 /v3/participants/{userId}/consents/{subpopulationGuid}/resendConsent:
     $ref: ./participants/v3_participants_userId_consents_guid_resendConsent.yml
+/v3/participants/{userId}/reports/{identifier}:
+    $ref: ./participants/v3_participants_userId_reports_identifier.yml
+/v3/participants/{userId}/reports/{identifier}/{date}:
+    $ref: ./participants/v3_participants_userId_reports_identifier_date.yml
+/v3/participants/reports/{identifier}:
+    $ref: ./participants/v3_participants_reports_identifier.yml
     
 # subpopulations
 /v3/subpopulations:
@@ -91,16 +97,10 @@
     $ref: ./reports/v3_reports_identifier.yml
 /v3/reports/{identifier}/{date}:
     $ref: ./reports/v3_reports_identifier_date.yml
-/v3/participants/{userId}/reports/{identifier}:
-    $ref: ./reports/v3_participants_userId_reports_identifier.yml
-/v3/participants/{userId}/reports/{identifier}/{date}:
-    $ref: ./reports/v3_participants_userId_reports_identifier_date.yml
-/v3/participants/reports/{identifier}:
-    $ref: ./reports/v3_participants_reports_identifier.yml
 
 # Surveys
-# /v3/surveys:
-#     $ref: ./surveys/v3_surveys.yml
+/v3/surveys:
+    $ref: ./surveys/v3_surveys.yml
 # /v3/surveys/recent:
 #     $ref: ./surveys/v3_surveys_recent.yml
 # /v3/surveys/published:
@@ -118,8 +118,6 @@
 # /v3/surveys/{surveyGuid}/revisions/{createdOn}/publish:
 #     $ref: ./surveys/v3_surveys_revisions_createdOn_publish.yml
 
-# GET    /v3/surveys                                           getAllSurveysMostRecentVersion
-# POST   /v3/surveys                                           createSurvey
 # GET    /v3/surveys/recent                                    getAllSurveysMostRecentVersion
 # GET    /v3/surveys/published                                 getAllSurveysMostRecentlyPublishedVersion
 # GET    /v3/surveys/:surveyGuid/revisions                     getSurveyAllVersions(surveyGuid: String)

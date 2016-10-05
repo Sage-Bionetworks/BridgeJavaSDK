@@ -1,0 +1,30 @@
+get:
+    summary: Get most recent version of all surveys in a study
+    tags:
+        - Surveys
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/survey.yml                
+post:
+    summary: Create a new survey
+    tags:
+        - Surveys
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - name: survey
+          in: body
+          required: true
+          schema:
+            $ref: ../../definitions/survey.yml
+    responses:
+        201:
+            $ref: ../../responses/201_message.yml
+# GET    /v3/surveys getAllSurveysMostRecentVersion
+# POST   /v3/surveys createSurvey

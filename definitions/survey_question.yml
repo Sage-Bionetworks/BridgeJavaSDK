@@ -1,0 +1,36 @@
+title: SurveyQuestion
+allOf:
+    - $ref: ./survey_element.yml
+    - required:
+        - title
+        - constraints
+        - fireEvent
+        - uiHint
+        - type
+    - properties:
+        title:
+            type: string
+        prompt:
+            type: string
+        promptDetail:
+            type: string
+        fireEvent:
+            type: boolean
+        uiHint:
+            type: string
+            enum:
+                - checkbox
+                - combobox
+                - datepicker
+                - datetimepicker
+                - list
+                - multilinetext
+                - numberfield
+                - radiobutton
+                - select
+                - slider
+                - textfield
+                - timepicker
+                - toggle
+        constraints:
+            $ref: ./constraints/constraints.yml

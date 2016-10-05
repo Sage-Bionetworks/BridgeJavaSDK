@@ -1,0 +1,39 @@
+title: Survey
+type: object
+description: A survey 
+required:
+    - guid
+    - name
+    - identifier
+    - published
+    - createdOn
+    - version
+    - elements
+    - type
+properties:
+    guid:
+        type: string
+    name:
+        type: string
+    identifier:
+        type: string
+    published:
+        type: boolean
+    schemaRevision:
+        type: integer
+    createdOn:
+        type: string
+        format: date-time
+    modifiedOn:
+        type: string
+        format: date-time
+    version:
+        type: integer
+    elements:
+        type: array
+        items:
+            discriminator: type
+            $ref: ./survey_element.yml
+    type:
+        type: string
+        enum: [Survey]

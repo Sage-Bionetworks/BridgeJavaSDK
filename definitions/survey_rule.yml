@@ -1,0 +1,26 @@
+title: SurveyRule
+type: object
+required:
+    - operator
+    - value
+    - type
+properties:
+    operator:
+        type: string
+        enum:
+            - eq
+            - ne
+            - lt
+            - gt
+            - le
+            - ge
+            - de
+    value:
+        type: string
+    skipToTarget:
+        type: string
+    endSurvey:
+        type: boolean
+    type:
+        type: string
+        enum: [SurveyRule]

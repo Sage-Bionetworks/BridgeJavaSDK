@@ -1,0 +1,12 @@
+title: MultiValueConstraints
+allOf:
+    - $ref: ./constraints.yml
+    - properties:
+        allowOther:
+            type: boolean
+        allowMultiple:
+            type: boolean
+        enumeration:
+            type: array
+            items:
+                $ref: ../survey_question_option.yml

@@ -1,0 +1,16 @@
+title: SurveyInfoScreen
+type: object
+allOf:
+    - $ref: ./survey_element.yml
+    - required:
+        - title
+        - type
+    - properties:
+        title:
+            type: string
+        prompt:
+            type: string
+        promptDetail:
+            type: string
+        image:
+            $ref: ./image.yml

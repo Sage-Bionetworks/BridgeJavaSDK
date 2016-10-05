@@ -1,0 +1,36 @@
+title: Constraints
+type: object
+discriminator: type
+required:
+    - dataType
+    - rules
+    - type
+properties:
+    dataType:
+        type: string
+        enum:
+            - multivalue
+            - boolean
+            - integer
+            - decimal
+            - string
+            - datetime
+            - date
+            - time
+            - duration
+    rules:
+        type: array
+        items:
+            $ref: ../survey_rule.yml
+    type:
+        type: string
+        enum:
+            - BooleanConstraints
+            - DateConstraints
+            - DateTimeConstraints
+            - DecimalConstraints
+            - DurationConstraints
+            - IntegerConstraints
+            - MultiValueConstraints
+            - StringConstraints
+            - TimeConstraints

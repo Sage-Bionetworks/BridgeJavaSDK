@@ -10,18 +10,34 @@ ConsentStatus:
     $ref: ./consent_status.yml
 Criteria:
     $ref: ./criteria.yml
+DataGroups:
+    $ref: ./data_groups.yml
+DateRange:
+    $ref: ./date_range.yml
 Email:
     $ref: ./email.yml
 EmailVerification:
     $ref: ./email_verification.yml
 Empty:
     $ref: ./empty.yml
+ExternalIdentifier:
+    $ref: ./external_identifier.yml
+Image:
+    $ref: ./image.yml
 Message:
     $ref: ./message.yml
 PasswordReset:
     $ref: ./password_reset.yml
+ReportData:
+    $ref: ./report_data.yml
+ReportDataWithHealthCode:
+    $ref: ./report_data_with_healthCode.yml
+ReportIndex:
+    $ref: ./report_index.yml
 RequestInfo:
     $ref: ./request_info.yml
+SharingScope:
+    $ref: ./sharing_scope.yml
 ScheduledActivity:
     $ref: ./scheduled_activity.yml
 SignIn:
@@ -36,6 +52,18 @@ StudyParticipant:
     $ref: ./study_participant.yml
 Subpopulation:
     $ref: ./subpopulation.yml
+Survey:
+    $ref: ./survey.yml
+SurveyElement:
+    $ref: ./survey_element.yml
+SurveyInfoScreen:
+    $ref: ./survey_info_screen.yml
+SurveyRule:
+    $ref: ./survey_rule.yml
+SurveyQuestion:
+    $ref: ./survey_question.yml
+SurveyQuestionOptiona:
+    $ref: ./survey_question_option.yml
 SurveyReference:
     $ref: ./survey_reference.yml
 TaskReference:
@@ -48,3 +76,37 @@ UserSessionInfo:
     $ref: ./user_session_info.yml
 InvalidEntityException:
     $ref: ./exceptions/invalid_entity_exception.yml
+
+# Paged resources
+PagedResourceList_AccountSummary:
+    $ref: ./paged_resources/account_summary.yml
+PagedResourceList_Activity:
+    $ref: ./paged_resources/activity.yml
+DateRangeResourceList_ReportData:
+    $ref: ./paged_resources/report_data.yml
+ReportTypeResourceList_ReportIndex:
+    $ref: ./paged_resources/report_index.yml
+PagedResourceList_Upload:
+    $ref: ./paged_resources/upload.yml
+
+# Constraints
+Constraints:
+    $ref: ./constraints/constraints.yml
+MultiValueConstraints:
+    $ref: ./constraints/multivalue_constraints.yml
+BooleanConstraints:
+    $ref: ./constraints/boolean_constraints.yml
+IntegerConstraints:
+    $ref: ./constraints/integer_constraints.yml
+DecimalConstraints:
+    $ref: ./constraints/decimal_constraints.yml
+StringConstraints:
+    $ref: ./constraints/string_constraints.yml
+DateTimeConstraints:
+    $ref: ./constraints/datetime_constraints.yml
+DateConstraints:
+    $ref: ./constraints/date_constraints.yml
+TimeConstraints:
+    $ref: ./constraints/time_constraints.yml
+DurationConstraints:
+    $ref: ./constraints/duration_constraints.yml

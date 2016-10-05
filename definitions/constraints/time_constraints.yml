@@ -1,0 +1,3 @@
+title: TimeConstraints
+allOf:
+    - $ref: ./constraints.yml

@@ -1,0 +1,15 @@
+title: Image
+type: object
+required:
+    - source
+    - type
+properties:
+    source:
+        type: string
+    width:
+        type: integer
+    height:
+        type: integer
+    type:
+        type: string
+        enum: [Image]

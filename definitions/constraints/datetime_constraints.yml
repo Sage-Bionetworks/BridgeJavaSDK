@@ -1,0 +1,10 @@
+title: DateTimeConstraints
+allOf:
+    - $ref: ./constraints.yml
+    - properties:
+        earliestValue:
+            type: string
+            format: date-time
+        latestValue:
+            type: string
+            format: date-time

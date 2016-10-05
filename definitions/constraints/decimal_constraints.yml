@@ -1,0 +1,38 @@
+title: DecimalConstraints
+allOf:
+    - $ref: ./constraints.yml
+    - properties:
+        unit:
+            type: string
+            enum:
+                - seconds
+                - minutes
+                - hours
+                - days
+                - weeks
+                - months
+                - years
+                - inches
+                - feet
+                - yards
+                - miles
+                - ounces
+                - pounds
+                - pints
+                - quarts
+                - gallons
+                - centimeters
+                - meters
+                - kilometers
+                - grams
+                - kilograms
+                - milliliters
+                - cubic_centimeters
+                - liters
+                - cubic_meters
+        minValue:
+            type: number
+        maxValue:
+            type: number
+        step:
+            type: number

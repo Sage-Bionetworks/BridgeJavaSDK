@@ -1,0 +1,16 @@
+title: SurveyQuestionOption
+type: object
+required:
+    - label
+properties:
+    label:
+        type: string
+    detail:
+        type: string
+    value:
+        type: string
+    image:
+        $ref: ./image.yml
+    type:
+        type: string
+        enum: [SurveyQuestionOption]
