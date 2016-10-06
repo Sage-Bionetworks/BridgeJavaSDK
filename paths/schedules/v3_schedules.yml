@@ -1,0 +1,17 @@
+get:
+    summary: Get schedules for user
+    description: |
+        This endpoint is the same as `/v4/schedules` except that any schedule with a cron trigger 
+        is marked as being persistent. This is for legacy reasons and the v4 endpoint should be 
+        used.
+    deprecated: true
+    tags: 
+        - Schedules
+        - _For Consented Users
+    security:
+        -   BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/schedule.yml

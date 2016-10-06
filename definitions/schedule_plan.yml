@@ -1,0 +1,24 @@
+title: SchedulePlan
+type: object
+required:
+    - guid
+    - label
+    - strategy
+    - type
+properties:
+    guid:
+        type: string
+    label:
+        type: string
+    modifiedOn:
+        type: string
+        format: date-time
+    strategy:
+        $ref: ./schedule_strategy.yml
+    version:
+        type: integer
+    type:
+        type: string
+        enum: [SchedulePlan]
+
+    

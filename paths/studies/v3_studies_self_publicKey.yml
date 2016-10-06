@@ -1,0 +1,12 @@
+get:
+    summary: Get the public key CMS block for this study
+    tags: 
+        - Studies
+        - _For Developers
+    security:
+        -   BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/cms_public_key.yml

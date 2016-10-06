@@ -29,6 +29,12 @@ allOf:
             type: string
         environment:
             type: string
+            description: This value should always be set to production.
+            enum:
+                - local
+                - develop
+                - staging
+                - production
         dataSharing:
             type: boolean
             description: true if the sharing scope is anything other than "no_sharing".

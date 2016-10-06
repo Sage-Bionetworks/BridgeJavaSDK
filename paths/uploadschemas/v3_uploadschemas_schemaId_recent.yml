@@ -1,0 +1,14 @@
+get:
+    summary: Get the most recent revision of an upload schema
+    tags: 
+        - Upload Schemas
+        - _For Developers
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/schemaId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/upload_schema.yml

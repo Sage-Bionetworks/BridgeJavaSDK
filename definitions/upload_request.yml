@@ -1,0 +1,16 @@
+title: UploadRequest
+type: object
+required:
+    - name
+    - contentLength
+    - contentMd5
+    - contentType
+properties:
+    name:
+        type: string
+    contentLength:
+        type: integer
+    contentMd5:
+        type: string
+    contentType:
+        type: string

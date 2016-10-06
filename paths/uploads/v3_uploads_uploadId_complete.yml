@@ -1,0 +1,16 @@
+post:
+    summary: Notify Bridge an upload is complete
+    tags:
+        - Uploads
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/uploadId
+        - $ref: ../../index.yml#/parameters/empty
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/upload_session.yml
+    

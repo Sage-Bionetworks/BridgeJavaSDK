@@ -1,31 +1,49 @@
+ABTestGroup:
+    $ref: ./ab_test_group.yml
+ABTestScheduleStrategy:
+    $ref: ./ab_test_schedule_strategy.yml
 AbstractStudyParticipant:
     $ref: ./abstract_study_participant.yml
 Activity:
     $ref: ./activity.yml
 ClientInfo:
     $ref: ./client_info.yml
+CmsPublicKey:
+    $ref: ./cms_public_key.yml
 ConsentSignature:
     $ref: ./consent_signature.yml
 ConsentStatus:
     $ref: ./consent_status.yml
 Criteria:
     $ref: ./criteria.yml
+CriteriaScheduleStrategy:
+    $ref: ./criteria_schedule_strategy.yml
 DataGroups:
     $ref: ./data_groups.yml
 DateRange:
     $ref: ./date_range.yml
 Email:
     $ref: ./email.yml
+EmailTemplate:
+    $ref: ./email_template.yml
 EmailVerification:
     $ref: ./email_verification.yml
+EmailVerificationStatus:
+    $ref: ./email_verification_status.yml
 Empty:
     $ref: ./empty.yml
 ExternalIdentifier:
     $ref: ./external_identifier.yml
+GuidCreatedOnVersionHolder:
+    $ref: ./guid_createdOn_version_holder.yml
+HealthDataRecord:
+    $ref: ./health_data_record.yml
 Image:
     $ref: ./image.yml
 Message:
     $ref: ./message.yml
+PasswordPolicy:
+    $ref: ./password_policy.yml
 PasswordReset:
     $ref: ./password_reset.yml
 ReportData:
@@ -36,14 +54,26 @@ ReportIndex:
     $ref: ./report_index.yml
 RequestInfo:
     $ref: ./request_info.yml
-SharingScope:
-    $ref: ./sharing_scope.yml
+Schedule:
+    $ref: ./schedule.yml
+ScheduleCriteria:
+    $ref: ./schedule_criteria.yml
+SchedulePlan:
+    $ref: ./schedule_plan.yml
+ScheduleStrategy:
+    $ref: ./schedule_strategy.yml
 ScheduledActivity:
     $ref: ./scheduled_activity.yml
+SharingScope:
+    $ref: ./sharing_scope.yml
 SignIn:
     $ref: ./sign_in.yml
 SignUp:
     $ref: ./sign_up.yml
+SimpleScheduleStrategy:
+    $ref: ./simple_schedule_strategy.yml
+Study:
+    $ref: ./study.yml
 StudyConsent:
     $ref: ./study_consent.yml
 StudyIdentifier:
@@ -58,16 +88,28 @@ SurveyElement:
     $ref: ./survey_element.yml
 SurveyInfoScreen:
     $ref: ./survey_info_screen.yml
-SurveyRule:
-    $ref: ./survey_rule.yml
 SurveyQuestion:
     $ref: ./survey_question.yml
-SurveyQuestionOptiona:
+SurveyQuestionOption:
     $ref: ./survey_question_option.yml
 SurveyReference:
     $ref: ./survey_reference.yml
+SurveyRule:
+    $ref: ./survey_rule.yml
 TaskReference:
     $ref: ./task_reference.yml
+Upload:
+    $ref: ./upload.yml
+UploadFieldDefinition:
+    $ref: ./upload_field_definition.yml
+UploadRequest:
+    $ref: ./upload_request.yml
+UploadSchema:
+    $ref: ./upload_schema.yml
+UploadSession:
+    $ref: ./upload_session.yml
+UploadValidationStatus:
+    $ref: ./upload_validation_status.yml
 UserConsentHistory:
     $ref: ./user_consent_history.yml
 UserProfile:
@@ -78,16 +120,32 @@ InvalidEntityException:
     $ref: ./exceptions/invalid_entity_exception.yml
 
 # Paged resources
-PagedResourceList_AccountSummary:
+ResourceList_AccountSummary:
     $ref: ./paged_resources/account_summary.yml
-PagedResourceList_Activity:
+ResourceList_Activity:
     $ref: ./paged_resources/activity.yml
-DateRangeResourceList_ReportData:
+ResourceList_ExternalIdentifier:
+    $ref: ./paged_resources/external_identifier.yml
+ResourceList_ReportData:
     $ref: ./paged_resources/report_data.yml
-ReportTypeResourceList_ReportIndex:
+ResourceList_ReportIndex:
     $ref: ./paged_resources/report_index.yml
-PagedResourceList_Upload:
+ResourceList_Schedule:
+    $ref: ./paged_resources/schedule.yml
+ResourceList_SchedulePlan:
+    $ref: ./paged_resources/schedule_plan.yml
+ResourceList_Study:
+    $ref: ./paged_resources/study.yml
+ResourceList_StudyConsent:
+    $ref: ./paged_resources/study_consent.yml
+ResourceList_Subpopulation:
+    $ref: ./paged_resources/subpopulation.yml
+ResourceList_Survey:
+    $ref: ./paged_resources/survey.yml
+ResourceList_Upload:
     $ref: ./paged_resources/upload.yml
+ResourceList_UploadSchema:
+    $ref: ./paged_resources/upload_schema.yml
 
 # Constraints
 Constraints:

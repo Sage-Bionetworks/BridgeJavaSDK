@@ -1,0 +1,40 @@
+get:
+    summary: Get all studies
+    tags: 
+        - Studies
+        - _For Developers
+        - _For Researchers
+        - _For Admins
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - name: format
+          required: false
+          in: query
+          type: string
+          enum:
+            - summary
+          description: |
+            If true, anyone can call this endpoint and return a list of truncated study objects
+            (name and study identifier only).
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/study.yml
+post:
+    summary: Create a new study
+    tags:
+        - Studies
+        - _For Admins
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - name: body
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/study.yml
+    responses:
+        201:
+            $ref: ../../responses/201_message.yml

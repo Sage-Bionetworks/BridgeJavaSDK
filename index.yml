@@ -16,15 +16,63 @@ consumes:
 produces:
     - application/json
 parameters:
+    cacheKey:
+        name: cacheKey
+        description: Cache key
+        required: true
+        in: path
+        type: string
+    schemaId:
+        name: schemaId
+        description: Upload schema ID
+        required: true
+        in: path
+        type: string
+    revision:
+        name: revision
+        description: Revision number
+        required: true
+        in: path
+        type: integer
+    schedulePlanGuid:
+        name: schedulePlanGuid
+        description: Schedule plan GUID
+        required: true
+        in: path
+        type: string
     subpopulationGuid:
         name: subpopulationGuid
         description: Subpopulation GUID
         required: true
         in: path
         type: string
+    studyId:
+        name: studyId
+        description: Study ID
+        required: true
+        in: path
+        type: string
+    uploadId:
+        name: uploadId
+        description: Upload ID
+        required: true
+        in: path
+        type: string
     userId:
         name: userId
         description: User ID
+        required: true
+        in: path
+        type: string
+    surveyGuid:
+        name: surveyGuid
+        description: Survey GUID
+        required: true
+        in: path
+        type: string
+    createdOn:
+        name: createdOn
+        description: Created on timestamp (ISO 8601)
         required: true
         in: path
         type: string
@@ -47,6 +95,18 @@ parameters:
         description: The last day to include in reports that are returned
         type: string 
         format: date
+        required: true
+    startTime:
+        name: startTime
+        in: query
+        type: string
+        format: date-time
+        required: true
+    endTime:
+        name: endTime
+        in: query
+        type: string
+        format: date-time
         required: true
     empty:
         name: body

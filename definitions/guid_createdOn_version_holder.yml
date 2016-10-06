@@ -1,0 +1,17 @@
+title: GuidCreatedOnVersionHolder
+type: object
+required:
+    - guid
+    - createdOn
+    - version
+properties:
+    guid:
+        type: string
+    createdOn:
+        type: string
+        format: date-time
+    version:
+        type: integer
+    type:
+        type: string
+        enum: [GuidCreatedOnVersionHolder]

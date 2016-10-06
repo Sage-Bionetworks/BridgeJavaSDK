@@ -1,0 +1,64 @@
+title: Study
+type: object
+properties:
+    name:
+        type: string
+    sponsorName:
+        type: string
+    supportEmail:
+        type: string
+    technicalEmail:
+        type: string
+    consentNotificationEmail:
+        type: string
+    identifier:
+        type: string
+    version:
+        type: integer
+    minAgeOfConsent:
+        type: integer
+    synapseDataAccessTeamId:
+        type: integer
+    synapseProjectId:
+        type: integer
+    usesCustomExportSchedule:
+        type: boolean
+    userProfileAttributes:
+        type: array
+        items:
+            type: string
+    taskIdentifiers:
+        type: array
+        items:
+            type: string
+    dataGroups:
+        type: array
+        items:
+            type: string
+    passwordPolicy:
+        $ref: ./password_policy.yml
+    verifyEmailTemplate:
+        $ref: ./email_template.yml
+    resetPasswordTemplate:
+        $ref: ./email_template.yml
+    active:
+        type: boolean
+    strictUploadValidationEnabled:
+        type: boolean
+    healthCodeExportEnabled:
+        type: boolean
+    emailVerificationEnabled:
+        type: boolean
+    externalIdValidationEnabled:
+        type: boolean
+    minSupportedAppVersions:
+        type: object
+        description: |
+            Minimum supported app versions (older versions will be blocked), keyed by the 
+            name of the operating system (we expect either "Android" or "iPhone OS" in the 
+            User-Agent header of all requests sent to the server)
+        additionalProperties:
+            type: integer
+    type:
+        type: string
+        enum: [Study]

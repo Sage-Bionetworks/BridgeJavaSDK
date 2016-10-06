@@ -1,0 +1,43 @@
+title: UploadFieldDefinition
+type: object
+properties:
+    name:
+        type: string
+    required:
+        type: boolean
+    type:
+        type: string
+        enum:
+            - attachment_blob
+            - attachment_csv
+            - attachment_json_blob
+            - attachment_json_table
+            - attachment_v2
+            - boolean
+            - calendar_date
+            - duration_v2
+            - float
+            - inline_json_blob
+            - int
+            - multi_choice
+            - single_choice
+            - string
+            - time_v2
+            - timestamp
+    allowOtherChoices:
+        type: boolean
+    fileExtension:
+        type: string
+    mimeType:
+        type: string
+    maxLength:
+        type: integer
+    multiChoiceAnswerList:
+        type: array
+        items:
+            type: string
+    unboundedText:
+        type: boolean
+    # type:
+    #     type: string
+    #     enum: [UploadFieldDefinition]

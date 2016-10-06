@@ -1,0 +1,12 @@
+title: CmsPublicKey
+type: object
+required:
+    - publicKey
+    - type
+properties:
+    publicKey:
+        type: string
+    type:
+        type: string
+        enum: [CmsPublicKey]
+

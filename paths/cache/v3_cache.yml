@@ -1,0 +1,13 @@
+get:
+    summary: Get all the non-session Redis keys
+    tags:
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                type: array
+                items:
+                    type: string

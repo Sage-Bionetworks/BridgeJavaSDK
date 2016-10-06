@@ -1,0 +1,15 @@
+title: EmailVerificationStatus
+type: object
+required:
+    - status
+    - type
+properties:
+    status:
+        type: string
+        enum:
+            - unverified
+            - pending
+            - verified
+    type:
+        type: string
+        enum: [EmailVerificationStatus]

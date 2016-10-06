@@ -1,0 +1,43 @@
+get:
+    summary: Get a schedule plan
+    tags: 
+        - Schedules
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/schedulePlanGuid
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/schedule_plan.yml
+post:
+    summary: Update a schedule plan
+    tags: 
+        - Schedules
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/schedulePlanGuid
+        - name: body
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/schedule_plan.yml
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+delete:
+    summary: Get a schedule plan
+    tags: 
+        - Schedules
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/schedulePlanGuid
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml

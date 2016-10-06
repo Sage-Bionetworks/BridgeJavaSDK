@@ -1,0 +1,40 @@
+title: Upload
+type: object
+required:
+    - schemaId
+    - schemaRevision
+    - status
+    - requestedOn
+    - type
+properties:
+    schemaId:
+        type: string
+    schemaRevision:
+        type: integer
+    contentLength:
+        type: integer
+    status:
+        type: string
+        enum:
+            - unknown
+            - requested
+            - validation_in_progress
+            - validation_failed
+            - duplicate
+            - succeeded
+    requestedOn:
+        type: string
+        format: date-time
+    completedOn:
+        type: string
+        format: date-time
+    completedBy:
+        type: string
+        enum: [app, s3_worker]
+    validationMessageList:
+        type: array
+        items:
+            type: string
+    type:
+        type: string
+        enum: [Upload]

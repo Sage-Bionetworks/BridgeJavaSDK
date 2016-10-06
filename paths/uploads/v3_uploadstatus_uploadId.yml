@@ -1,0 +1,15 @@
+get:
+    summary: Get status of a single upload attempt
+    tags:
+        - Uploads
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/uploadId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/upload_validation_status.yml
+        

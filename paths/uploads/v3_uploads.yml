@@ -1,0 +1,20 @@
+post:
+    summary: Request an upload session
+    tags:
+        - Uploads
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - name: UploadRequest
+          in: body
+          description: An upload request  
+          required: true
+          schema:
+            $ref: ../../definitions/upload_request.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/upload_session.yml
+    

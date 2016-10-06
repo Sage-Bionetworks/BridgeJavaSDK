@@ -7,8 +7,11 @@ properties:
         type: string
     lastName:
         type: string
+    email:
+        type: string
     externalId:
         type: string
+        description: An optional value assigned by study managers to re-identify a participant's data set
     id:
         type: string
         readOnly: true
@@ -16,6 +19,10 @@ properties:
         type: boolean
     attributes:
         type: object
+        description: |
+            A map of user profile attributes that have been set for this user (the attributes themselves 
+            must be specified in the study's configuration, and the values are stored encrypted in case they 
+            are personally-identifying information).
     sharingScope:
         type: string
         enum:

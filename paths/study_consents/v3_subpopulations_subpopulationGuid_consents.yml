@@ -11,9 +11,7 @@ get:
         200:
             description: OK
             schema:
-                type: array
-                items:
-                    $ref: ../../definitions/study_consent.yml
+                $ref: ../../definitions/paged_resources/study_consent.yml  
 post:
     summary: Add a new study consent version to this subpopulation
     tags:

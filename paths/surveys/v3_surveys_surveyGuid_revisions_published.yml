@@ -1,0 +1,14 @@
+get:
+    summary: Get most recently published revision of a survey
+    tags:
+        - Surveys
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/surveyGuid
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/survey.yml                

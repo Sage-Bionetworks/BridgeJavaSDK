@@ -1,0 +1,54 @@
+get:
+    summary: Get a survey revision
+    tags:
+        - Surveys
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/surveyGuid
+        - $ref: ../../index.yml#/parameters/createdOn
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/survey.yml                
+post:
+    summary: Update a non-published survey revision
+    tags:
+        - Surveys
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/surveyGuid
+        - $ref: ../../index.yml#/parameters/createdOn
+        - name: Survey
+          in: body
+          description: Updated survey 
+          required: true
+          schema:
+            $ref: ../../definitions/survey.yml
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+delete:
+    summary: Delete a survey version
+    tags:
+        - Surveys
+        - _For Developers
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/surveyGuid
+        - $ref: ../../index.yml#/parameters/createdOn
+        - name: physical
+          description: Physically delete the survey (admins only)
+          default: false
+          required: false
+          in: query
+          type: boolean
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml

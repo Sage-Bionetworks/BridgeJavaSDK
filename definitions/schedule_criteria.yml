@@ -1,0 +1,14 @@
+title: ScheduleCriteria
+type: object
+required:
+    - criteria
+    - schedule
+    - type
+properties:
+    criteria:
+        $ref: ./criteria.yml
+    schedule:
+        $ref: ./schedule.yml
+    type:
+        type: string
+        enum: [ScheduleCriteria]

@@ -1,0 +1,18 @@
+title: UploadSession
+type: object
+required:
+    - id
+    - url
+    - expires
+    - type
+properties:
+    id:
+        type: string
+    url:
+        type: string
+    expires:
+        type: string
+        format: date-time
+    type:
+        type: string
+        enum: [UploadSession]

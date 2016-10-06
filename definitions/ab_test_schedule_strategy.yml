@@ -1,0 +1,13 @@
+title: ABTestScheduleStrategy
+allOf:
+    - $ref: ./schedule_strategy.yml
+    - type: object
+    - required:
+        - scheduleGroups
+        - type
+    - properties:
+        scheduleGroups:
+            type: array
+            items:
+                $ref: ./ab_test_group.yml
+    

@@ -7,11 +7,9 @@ get:
         - BridgeSecurity: []
     responses:
         200:
-            description: A list of subpopulations
+            description: OK
             schema:
-                type: array
-                items:
-                    $ref: ../../definitions/subpopulation.yml
+                $ref: ../../definitions/paged_resources/subpopulation.yml
 post:
     summary: Create a new subpopulation
     tags:

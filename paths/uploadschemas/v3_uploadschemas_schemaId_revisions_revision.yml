@@ -1,0 +1,28 @@
+get:
+    summary: Get the specific revision of an upload schema
+    tags: 
+        - Upload Schemas
+        - _For Developers
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/schemaId
+        - $ref: ../../index.yml#/parameters/revision
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/upload_schema.yml
+delete:
+    summary: Delete a revision of an upload schema
+    tags: 
+        - Upload Schemas
+        - _For Developers
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/schemaId
+        - $ref: ../../index.yml#/parameters/revision
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml

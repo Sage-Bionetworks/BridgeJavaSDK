@@ -1,0 +1,21 @@
+title: UploadValidationStatus
+type: object
+properties:
+    id:
+        type: string
+        description: the upload GUID
+    messageList:
+        type: array
+        items:
+            type: string
+    status:
+        type: string
+        enum:
+            - unknown
+            - requested
+            - validation_in_progress
+            - validation_failed
+            - duplicate
+            - succeeded
+    record:
+        $ref: ./health_data_record.yml            

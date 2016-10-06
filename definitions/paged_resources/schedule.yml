@@ -1,4 +1,4 @@
-title: ResourceList<Survey>
+title: ResourceList<Schedule>
 type: object
 required:
     - items
@@ -8,7 +8,7 @@ properties:
     items:
         type: array
         items:
-            $ref: ../survey.yml
+            $ref: ../schedule.yml
     total:
         type: integer
         description: The total number of records in the items list

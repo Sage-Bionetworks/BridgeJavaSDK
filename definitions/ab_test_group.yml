@@ -1,0 +1,10 @@
+title: ABTestGroup
+type: object
+properties:
+    percentage:
+        type: integer
+    schedule:
+        $ref: ./schedule.yml
+    type:
+        type: string
+        enum: [ABTestGroup]

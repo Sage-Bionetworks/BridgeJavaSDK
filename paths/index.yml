@@ -16,7 +16,9 @@
 
 # Scheduled Activities
 /v3/activities:
-    $ref: ./activities/s3_activities.yml
+    $ref: ./activities/v3_activities.yml
+/v3/tasks:
+    $ref: ./activities/v3_activities.yml
 
 # Participants
 /v3/participants:
@@ -101,30 +103,85 @@
 # Surveys
 /v3/surveys:
     $ref: ./surveys/v3_surveys.yml
-# /v3/surveys/recent:
-#     $ref: ./surveys/v3_surveys_recent.yml
-# /v3/surveys/published:
-#     $ref: ./surveys/v3_surveys_published.yml
-# /v3/surveys/{surveyGuid}/revisions:
-#     $ref: ./surveys/v3_surveys_revisions.yml
-# /v3/surveys/{surveyGuid}/revisions/recent:
-#     $ref: ./surveys/v3_surveys_revisions_recent.yml
-# /v3/surveys/{surveyGuid}/revisions/published:
-#     $ref: ./surveys/v3_surveys_revisions_published.yml
-# /v3/surveys/{surveyGuid}/revisions/{createdOn}:
-#     $ref: ./surveys/v3_surveys_revisions_createdOn.yml
-# /v3/surveys/{surveyGuid}/revisions/{createdOn}/version:
-#     $ref: ./surveys/v3_surveys_revisions_createdOn_version.yml
-# /v3/surveys/{surveyGuid}/revisions/{createdOn}/publish:
-#     $ref: ./surveys/v3_surveys_revisions_createdOn_publish.yml
+/v3/surveys/recent:
+    $ref: ./surveys/v3_surveys.yml
+/v3/surveys/published:
+    $ref: ./surveys/v3_surveys_published.yml
+/v3/surveys/{surveyGuid}/revisions:
+    $ref: ./surveys/v3_surveys_surveyGuid_revisions.yml
+/v3/surveys/{surveyGuid}/revisions/recent:
+    $ref: ./surveys/v3_surveys_surveyGuid_revisions_recent.yml
+/v3/surveys/{surveyGuid}/revisions/published:
+    $ref: ./surveys/v3_surveys_surveyGuid_revisions_published.yml
+/v3/surveys/{surveyGuid}/revisions/{createdOn}:
+    $ref: ./surveys/v3_surveys_surveyGuid_revisions_createdOn.yml
+/v3/surveys/{surveyGuid}/revisions/{createdOn}/version:
+    $ref: ./surveys/v3_surveys_surveyGuid_revisions_createdOn_version.yml
+/v3/surveys/{surveyGuid}/revisions/{createdOn}/publish:
+    $ref: ./surveys/v3_surveys_surveyGuid_revisions_createdOn_publish.yml
 
-# GET    /v3/surveys/recent                                    getAllSurveysMostRecentVersion
-# GET    /v3/surveys/published                                 getAllSurveysMostRecentlyPublishedVersion
-# GET    /v3/surveys/:surveyGuid/revisions                     getSurveyAllVersions(surveyGuid: String)
-# GET    /v3/surveys/:surveyGuid/revisions/recent              getSurveyMostRecentVersion(surveyGuid: String)
-# GET    /v3/surveys/:surveyGuid/revisions/published           getSurveyMostRecentlyPublishedVersion(surveyGuid: String)
-# POST   /v3/surveys/:surveyGuid/revisions/:createdOn/version  versionSurvey(surveyGuid: String, createdOn: String)
-# POST   /v3/surveys/:surveyGuid/revisions/:createdOn/publish  publishSurvey(surveyGuid: String, createdOn: String, newSchemaRev: String ?= null)
-# GET    /v3/surveys/:surveyGuid/revisions/:createdOn          getSurvey(surveyGuid: String, createdOn: String)
-# POST   /v3/surveys/:surveyGuid/revisions/:createdOn          updateSurvey(surveyGuid: String, createdOn: String)
-# DELETE /v3/surveys/:surveyGuid/revisions/:createdOn          deleteSurvey(surveyGuid: String, createdOn: String, physical: String ?= "false")
+# Schedules
+/v3/schedules:
+    $ref: ./schedules/v3_schedules.yml
+/v4/schedules:
+    $ref: ./schedules/v4_schedules.yml
+
+# Uploads
+/v3/uploads:
+    $ref: ./uploads/v3_uploads.yml
+/v3/uploads/{uploadId}/complete:
+    $ref: ./uploads/v3_uploads_uploadId_complete.yml
+/v3/uploadstatus/{uploadId}:
+    $ref: ./uploads/v3_uploadstatus_uploadId.yml
+
+# Upload schemas
+/v3/uploadschemas:
+    $ref: ./uploadschemas/v3_uploadschemas.yml
+/v4/uploadschemas:
+    $ref: ./uploadschemas/v4_uploadschemas.yml
+/v4/uploadschemas/{schemaId}/revisions/{revision}:
+    $ref: ./uploadschemas/v4_uploadschemas_schemaId_revisions_revision.yml
+/v3/uploadschemas/{schemaId}:
+    $ref: ./uploadschemas/v3_uploadschemas_schemaId.yml
+/v3/uploadschemas/{schemaId}/recent:
+    $ref: ./uploadschemas/v3_uploadschemas_schemaId_recent.yml
+/v3/uploadschemas/{schemaId}/revisions/{revision}:
+    $ref: ./uploadschemas/v3_uploadschemas_schemaId_revisions_revision.yml
+
+# Schedule plans
+/v3/scheduleplans:
+    $ref: ./scheduleplans/v3_scheduleplans.yml
+/v3/scheduleplans/{schedulePlanGuid}:
+    $ref: ./scheduleplans/v3_scheduleplans_schedulePlanGuid.yml
+
+# Studies
+/v3/studies:
+    $ref: ./studies/v3_studies.yml
+/v3/studies/self:
+    $ref: ./studies/v3_studies_self.yml
+/v3/studies/{studyId}:
+    $ref: ./studies/v3_studies_studyId.yml
+/v3/studies/self/publicKey:
+    $ref: ./studies/v3_studies_self_publicKey.yml
+/v3/studies/self/emailStatus:
+    $ref: ./studies/v3_studies_self_emailStatus.yml
+/v3/studies/self/verifyEmail:
+    $ref: ./studies/v3_studies_self_verifyEmail.yml
+/v3/studies/self/uploads:
+    $ref: ./studies/v3_studies_self_uploads.yml
+
+# External IDs
+/v3/externalIds:
+    $ref: ./externalIds/v3_externalIds.yml
+
+# APIs for getting entities across studies
+/v3/studies/{studyId}/surveys/published:
+    $ref: ./studies/v3_studies_studyId_surveys_published.yml
+/v3/studies/{studyId}/uploadschemas/{schemaId}/revisions/{revision}:
+    $ref: ./studies/v3_studies_studyId_uploadschemas_schemaId_revisions_revision.yml
+
+# Cache Management
+/v3/cache:
+    $ref: ./cache/v3_cache.yml
+/v3/cache/{cacheKey}:
+    $ref: ./cache/v3_cache_cacheKey.yml

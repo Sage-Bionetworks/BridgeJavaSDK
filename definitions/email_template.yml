@@ -1,0 +1,17 @@
+title: EmailTemplate
+type: object
+required:
+    - subject
+    - mimeType
+    - body
+properties:
+    subject:
+        type: string
+    mimeType:
+        type: string
+        enum:
+            - text/plain
+            - text/html
+    body:
+        type: string
+    

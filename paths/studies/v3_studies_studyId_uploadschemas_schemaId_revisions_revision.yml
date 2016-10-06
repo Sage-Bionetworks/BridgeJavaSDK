@@ -1,0 +1,17 @@
+get:
+    summary: Get a schema revision from a study
+    tags: 
+        - Studies
+        - Surveys
+        - _For Workers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/schemaId
+        - $ref: ../../index.yml#/parameters/revision
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/upload_schema.yml

@@ -1,0 +1,16 @@
+post:
+    summary: Publish a survey
+    tags:
+        - Surveys
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/surveyGuid
+        - $ref: ../../index.yml#/parameters/createdOn
+        - $ref: ../../index.yml#/parameters/empty
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/guid_createdOn_version_holder.yml

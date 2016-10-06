@@ -7,13 +7,12 @@ allOf:
     - required:
         - consentHistories
     - properties:
-        email:
-            type: string
-            readOnly: true
         healthCode:
             type: string
             readOnly: true
-            description: only included in studies that have been configured to return the health code, and only through researcher APIs
+            description: |
+                Only included in studies that have been configured to return the health code, and only to researchers
+                through the researcher APIs.
         consentHistories:
             type: object
             readOnly: true

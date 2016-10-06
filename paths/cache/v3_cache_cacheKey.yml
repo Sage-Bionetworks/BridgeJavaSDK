@@ -1,0 +1,11 @@
+delete:
+    summary: Get all the non-session Redis keys
+    tags:
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/cacheKey
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml

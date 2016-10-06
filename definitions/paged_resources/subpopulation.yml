@@ -1,4 +1,4 @@
-title: ResourceList<Survey>
+title: ResourceList<Subpopulation>
 type: object
 required:
     - items
@@ -8,10 +8,10 @@ properties:
     items:
         type: array
         items:
-            $ref: ../survey.yml
+            $ref: ../subpopulation.yml
     total:
         type: integer
-        description: The total number of records in the items list
+        description: The total number of records in the items list.
     type:
         type: string
         enum: [ResourceList]

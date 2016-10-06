@@ -1,0 +1,10 @@
+title: SimpleScheduleStrategy
+allOf:
+    - $ref: ./schedule_strategy.yml
+    - type: object
+    - required:
+        - schedule
+        - type
+    - properties:
+        schedule:
+            $ref: ./schedule.yml

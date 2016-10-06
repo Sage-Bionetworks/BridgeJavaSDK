@@ -1,0 +1,45 @@
+title: Schedule
+type: object
+required:
+    - label
+    - times
+    - activities
+properties:
+    label:
+        type: string
+    scheduleType:
+        type: string
+        enum:
+            - once
+            - recurring
+            - persistent
+    eventId:
+        type: string
+    delay:
+        type: string
+        description: IOS 8601 duration format
+    interval:
+        type: string
+        description: IOS 8601 duration format
+    expires:
+        type: string
+        description: IOS 8601 duration format
+    cronTrigger:
+        type: string
+        description: cron schedule string
+    startsOn:
+        type: string
+        format: date-time
+    endsOn:
+        type: string
+        format: date-time
+    times:
+        type: array
+        items:
+            type: string
+            description: time value without a time zone
+    activities:
+        type: array
+        items:
+            $ref: ./activity.yml
+    

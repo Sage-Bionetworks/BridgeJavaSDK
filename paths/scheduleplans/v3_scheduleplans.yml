@@ -1,0 +1,28 @@
+get:
+    summary: Get schedule plans
+    tags: 
+        - Schedules
+        - _For Developers
+    security:
+        -   BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/schedule_plan.yml
+post:
+    summary: Create a schedule plan
+    tags: 
+        - Schedules
+        - _For Developers
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - name: body
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/schedule_plan.yml
+    responses:
+        201:
+            $ref: ../../responses/201_message.yml

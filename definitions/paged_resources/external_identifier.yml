@@ -1,0 +1,28 @@
+title: PagedResourceList<ExternalIdentifier>
+type: object
+required:
+    - items
+    - pageSize
+    - offsetKey
+    - idFilter
+    - offsetFilter
+    - total
+    - type
+properties:
+    items:
+        type: array
+        items:
+            $ref: ../external_identifier.yml
+    pageSize:
+        type: integer
+    offsetKey:
+        type: string
+    idFilter:
+        type: string
+    offsetFilter:
+        type: string
+    total:
+        type: integer
+    type:
+        type: string
+        enum: [DateRangeResourceList]

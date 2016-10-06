@@ -1,0 +1,35 @@
+title: UploadSchema
+type: object
+required:
+    - name
+    - revision
+    - schemaId
+    - version
+    - fieldDefinitions
+    - type
+properties:
+    name:
+        type: string
+    revision:
+        type: integer
+    schemaId:
+        type: string
+    surveyGuid:
+        type: string
+    surveyCreatedOn:
+        type: string
+        format: date-time
+    schemaType:
+        type: string
+        enum:
+            - ios_data
+            - ios_survey
+    version:
+        type: integer
+    fieldDefinitions:
+        type: array
+        items:
+            $ref: ./upload_field_definition.yml
+    type:
+        type: string
+        enum: [UploadSchema]

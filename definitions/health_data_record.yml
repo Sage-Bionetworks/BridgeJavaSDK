@@ -1,0 +1,41 @@
+title: HealthDataRecord
+type: object
+properties:
+    createdOn:
+        type: string
+        format: date-time
+    data:
+        type: object
+    id:
+        type: string
+    metadata:
+        type: object
+    schemaId:
+        type: string
+    schemaRevision:
+        type: integer
+    studyId:
+        type: string
+    uploadDate:
+        type: string
+        format: date
+    uploadId:
+        type: string
+        description: the upload GUID
+    uploadedOn:
+        type: string
+        format: date-time
+    userSharingScope:
+        type: string
+        enum:
+            - no_sharing
+            - sponsors_and_partners
+            - all_qualified_researchers
+    userExternalId:
+        type: string
+    userDataGroups:
+        type: array
+        items:
+            type: string
+    version:
+        type: integer
