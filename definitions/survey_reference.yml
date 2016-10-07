@@ -12,14 +12,19 @@ required:
 properties:
     identifier:
         type: string
+        description: The survey identifier. This value is required [TODO verify this is still true.]
     guid:
         type: string
+        description: The survey guid
     createdOn:
         type: string
         format: date-time
+        description: |
+            The createdOn timestamp of the version of the survey. This can be null, which 
+            indicates the most recently published version of the study should be used.
     href:
         type: string
-        description: An URL to retrieve the appropriate survey version from the Bridge server.
+        description: An URL to retrieve the appropriate survey version.
     type:
         type: string
         enum: [SurveyReference]

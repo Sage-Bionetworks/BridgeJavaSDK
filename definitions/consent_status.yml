@@ -9,14 +9,21 @@ required:
 properties:
     name:
         type: string
+        description: The name of the subpopulation
     subpopulationGuid:
         type: string
+        description: The GUID for the subpopulation of this consent
     required:
         type: boolean
+        description: |
+            Is this consent required? If required, the user must consent to it before being given 
+            access to the server (until signed, a 412 response is returned from the server).
     consented:
         type: boolean
+        description: Has the participant consented to this consent agreement?
     signedMostRecentConsent:
         type: boolean
+        description: Was the consent to participate made against the most recently published version of this consent?
     type:
         type: string
         enum: [ConsentStatus]

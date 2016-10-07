@@ -3,18 +3,28 @@ type: object
 properties:
     appName:
         type: string
+        description: The name of the application
     appVersion:
         type: integer
+        description: |
+            The version of the application (must be a number, and should increase with every 
+            new release of the application)
     deviceName:
         type: string
+        description: Information about the device
     osName:
         type: string
+        description: |
+            The name of the operating system (conventional names are "Android" and "iPhone OS").
     osVersion:
         type: string
+        description: The version of the operating system (can be a semantic version such as X.Y.Z)
     sdkName:
         type: string
+        description: The name of the SDK being used
     sdkVersion:
         type: integer
+        description: The version of the SDK being used
     type:
         type: string
         enum: [ClientInfo]

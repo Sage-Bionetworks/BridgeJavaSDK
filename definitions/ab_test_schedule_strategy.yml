@@ -1,4 +1,9 @@
 title: ABTestScheduleStrategy
+description: |
+    A strategy that divides users into groups according to a percentage scheme, assigning each 
+    group a different Schedule. The combined set of schedule groups should have percentages that 
+    add up to 100%. After the initial assignment, new users joining the study will be randomly 
+    assigned to one of the groups in proportion to their percentage representation in the study.
 allOf:
     - $ref: ./schedule_strategy.yml
     - type: object

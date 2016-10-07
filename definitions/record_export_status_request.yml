@@ -1,0 +1,19 @@
+title: RecordExportStatusRequest
+type: object
+required:
+    - recordIds
+    - synapseExporterStatus
+    - type
+properties:
+    recordIds:
+        type: array
+        items:
+            type: string
+    synapseExporterStatus:
+        type: string
+        enum:
+            - not_exported
+            - succeeded
+    type:
+        type: string
+        enum: [RecordExportStatusRequest]

@@ -6,6 +6,9 @@ required:
 properties:
     publicKey:
         type: string
+        description: |
+            Base 64 encoded version of the public key for CMS encryption of data that is uploaded 
+            to the Bridge server. Each study has a different CMS public key.
     type:
         type: string
         enum: [CmsPublicKey]

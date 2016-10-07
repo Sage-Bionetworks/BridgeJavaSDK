@@ -1,5 +1,9 @@
 title: Criteria
 type: object
+description: |
+    Some objects, like Subpopulations and the schedules in a CriteriaScheduleStrategy, are 
+    matched against user criteria in order to return the correct object. The criteria 
+    against which user information will be matched are described in the Criteria object. 
 required:
     - allOfGroups
     - noneOfGroups
@@ -7,20 +11,31 @@ required:
 properties:
     language:
         type: string
+        description: |
+            A two-letter language code. User must declare this a language they can
+            use to match this object.
     allOfGroups:
         type: array
+        description: One or more data groups; user must have all these data groups to match
         items:
             type: string
     noneOfGroups:
         type: array
+        description: One or more data groups; user must have none of these data groups to match
         items:
             type: string
     minAppVersion:
         type: object
+        description: |
+            A map of operating system names to a minimum app version. User must send a version 
+            equal to or greater than this to match this object.
         additionalProperties:
             type: integer
     maxAppVersion:
         type: object
+        description: |
+            A map of operating system names to a maximum app version. User must send a version 
+            equal to or less than this to match this object.
         additionalProperties:
             type: integer
     type:

@@ -1,12 +1,22 @@
 title: EmailTemplate
 type: object
+description: |
+    A template for one of the system emails that are sent. In the templates, variable strings can 
+    be used to interpolate values from the study or the individual to which the email is being sent. 
+    The body of the email template must have a ${url} variable, this is where the link back to the 
+    Bridge server will be inserted in order to complete the email verification/password reset.
+    |Template Variable|What it will be replaced with|
+    |---|---|
+    |${url}|Where the link back to the Bridge server will be inserted in order to complete the email verification/password reset|
 required:
     - subject
     - mimeType
     - body
+    - type
 properties:
     subject:
         type: string
+        description: The subject line of the email message (no markup allowed)
     mimeType:
         type: string
         enum:
@@ -14,4 +24,8 @@ properties:
             - text/html
     body:
         type: string
+        description: The body text of the email message (can be text or HTML, but the mimeType must be set appropriately)
+    type:
+        type: string
+        enum: [EmailTemplate]
     

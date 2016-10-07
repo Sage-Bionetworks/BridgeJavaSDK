@@ -8,6 +8,9 @@ required:
 properties:
     identifier:
         type: string
+        description: |
+            The identifier that defines a task on the client. Note that this value is conventional; 
+            it needs to be defined for a study but has no further meaning on the server. 
     type:
         type: string
         enum: [TaskReference]

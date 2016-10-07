@@ -8,24 +8,46 @@ required:
 properties:
     name:
         type: string
+        description: The participant's name
     birthdate:
         type: string
         format: date
+        description: The participant's date of birth
     imageData:
         type: string
         format: binary
+        description: Base 64 encoded image of the participant's signature
     imageMimeType:
         type: string
         description: mime type of this image (e.g. "image/png")
     consentCreatedOn:
         type: string
+        description: |
+            The timestamp of the version of the subpopulation consent that was 
+            presented to the participant for agreement. 
         format: date-time
     signedOn:
         type: string
+        description: |
+            The date and time of agreement to this consent
         format: date-time
     withdrewOn:
         type: string
+        description: |
+            If this consent is later revoked, this is the date of revocation.
         format: date-time
+    scope:
+        type: string
+        description: |
+            How the participant wishes to share the information collected: not at all; 
+            share data in data sets that are available to the study researchers and 
+            their researcher partners only; and finally share data with researchers 
+            who qualify under the specific governance qualifications to access the 
+            study's data set.
+        enum:
+            - no_sharing
+            - sponsors_and_partners
+            - all_qualified_researchers
     type:
         type: string
         enum: [ConsentSignature]

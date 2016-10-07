@@ -1,10 +1,14 @@
 title: ABTestGroup
 type: object
+description: |
+    A list of these groups define the way schedules are allocated in an ABTestScheduleStrategy.
 properties:
     percentage:
         type: integer
+        description: The percentage of users to assign to this schedule
     schedule:
+        description: the schedule to assign to these users
         $ref: ./schedule.yml
     type:
         type: string
-        enum: [ABTestGroup]
+        enum: [ScheduleGroup]

@@ -38,6 +38,3 @@ properties:
             type: string
     unboundedText:
         type: boolean
-    # type:
-    #     type: string
-    #     enum: [UploadFieldDefinition]

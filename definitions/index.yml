@@ -46,6 +46,8 @@ PasswordPolicy:
     $ref: ./password_policy.yml
 PasswordReset:
     $ref: ./password_reset.yml
+RecordExportStatusRequest:
+    $ref: ./record_export_status_request.yml
 ReportData:
     $ref: ./report_data.yml
 ReportDataWithHealthCode:

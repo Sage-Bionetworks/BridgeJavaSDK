@@ -8,8 +8,12 @@ required:
 properties:
     label:
         type: string
+        description: A label to show the user for this activity.
     labelDetail:
         type: string
+        description: |
+            Detail information for the activity (common uses have included indicating the number of 
+            questions, or the average time it takes to complete the activity).
     guid:
         type: string
     task:

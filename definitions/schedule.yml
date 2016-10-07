@@ -2,11 +2,15 @@ title: Schedule
 type: object
 required:
     - label
+    - scheduleType
     - times
     - activities
+    - persistent
+    - type
 properties:
     label:
         type: string
+        description: A label to describe this schedule. Optional.
     scheduleType:
         type: string
         enum:
@@ -15,31 +19,72 @@ properties:
             - persistent
     eventId:
         type: string
+        description: |
+            A string indicating the event against which a schedule will be schedules. By default if no eventId is 
+            provided, schedules are done against the date and time of the user's enrollment in the study. 
+            A comma-delimited list of events may be provided, and if so, the system will look for each event in 
+            turn until an event is found. If any event is provided, the user's enrollment date will not be used 
+            as a fallback, so this may need to be specified explicitly for some scheduling scenarios.
     delay:
         type: string
-        description: IOS 8601 duration format
+        description: |
+            ISO 8601 duration string. An amount of time to wait before scheduling the first task. If the delay is 
+            zero or not included, and you are using an interval to schedule, then the first task will happen at the 
+            same time as the reference event.
     interval:
         type: string
-        description: IOS 8601 duration format
+        description: |
+            An ISO 8601 duration, describing the period in days between tasks (it can be days, weeks, months or 
+            even years, but should not be smaller than a day). If this is used, cronTrigger should not be used.
     expires:
         type: string
-        description: IOS 8601 duration format
+        description: |
+            ISO 8601 duration string. The period of time after which an unstarted, scheduled activity should be 
+            removed from the application (if it has not been started, no data will have been saved on the server). 
+            This is useful for recurring schedules where the user should not be prompted for a task or schedule 
+            until the next occurrence of the schedule.
     cronTrigger:
         type: string
-        description: cron schedule string
+        description: |
+            A cron expression will schedule recurring tasks according to this standard syntax for describing event 
+            schedules from the Unix operating system. The format of the cron expression is the seven field format 
+            as described in the documentation for the Java Quartz Scheduler (note that there are other formats 
+            that take up to eleven fields, this online cron expression generator creates expressions in the right 
+            format). If this is used, the interval and times are ignored
     startsOn:
         type: string
+        description: An ISO 8601 date time string. The scheduler will not create a task before this date and time.
         format: date-time
     endsOn:
         type: string
+        description: |
+            An ISO 8601 date time string. The scheduler will not create a task after this date and time. **Note that 
+            this takes precedence over the minimumPerSchedule setting that can be provided via the API. Tasks will 
+            not be "topped up" to this minimum if they extend outside of this time window.**
         format: date-time
     times:
         type: array
+        description: |
+            Required if an interval is specified (ignored if a cron expression is specified). An array of one or 
+            more ISO 8601 time values. This is a time of the day (without reference to a specific date and time), 
+            e.g. "14:00" for 2pm in local time. If times are provided, one task will be created for each time on the 
+            day determined by the application of the interval, for each activity in the schedule. If the schedule 
+            occurs once, only the first time will be used to schedule the task (and if no time is provided, the 
+            original time of the triggering event will be used; it's clearest to set a time).
         items:
             type: string
             description: time value without a time zone
+    persistent:
+        type: boolean
+        description: True if schedule type is true.
     activities:
         type: array
+        description: |
+            One or more activities that should be done by a participant on this schedule. 
+            Each activity will generate a separate task. See Activity.
         items:
             $ref: ./activity.yml
+    type:
+        type: string
+        enum: [Schedule]
     

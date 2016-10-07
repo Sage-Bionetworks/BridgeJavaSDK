@@ -1,4 +1,8 @@
 title: CriteriaScheduleStrategy
+description: |
+    Select the first schedule in a list of schedules that matches the criteria being submitted
+    by the participant. Criteria includes factors like the user's app platform and version, their 
+    language, and data groups that are assigned to the user.  
 allOf:
     - $ref: ./schedule_strategy.yml
     - type: object
