@@ -5,11 +5,12 @@
     <groupId>org.sagebionetworks.bridge</groupId>
     <artifactId>sdk-group</artifactId>
     <!-- Please use the maven versions plugin to manage this, e.g.`mvn versions:set -DnewVersion=0.8.1`-->
-    <version>0.10.4</version>
+    <version>0.11.0</version>
     <packaging>pom</packaging>
     <url>https://api.sagebridge.org</url>
  
     <modules>
+        <module>api-codegen</module>
         <module>java-sdk</module>
         <module>rest-client</module>
     </modules>
@@ -21,7 +22,11 @@
         <guava.version>19.0</guava.version>
         <mockito.version>1.10.19</mockito.version>
         <junit.version>4.11</junit.version>
+        <equalsverifier.version>1.6</equalsverifier.version>
+        <commons-verifier.version>1.4.0</commons-verifier.version>
+        <commons-long.version>3.1</commons-long.version>
     </properties>
+
 
     <pluginRepositories>
         <pluginRepository>
@@ -30,8 +35,19 @@
         </pluginRepository>
     </pluginRepositories>
 
+
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-long.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-validator</groupId>
+                <artifactId>commons-validator</artifactId>
+                <version>${commons-verifier.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.squareup.retrofit2</groupId>
                 <artifactId>retrofit</artifactId>
@@ -44,7 +60,12 @@
             </dependency>
             <dependency>
                 <groupId>com.squareup.retrofit2</groupId>
-                <artifactId>converter-jackson</artifactId>
+                <artifactId>converter-gson</artifactId>
+                <version>${retrofit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.retrofit2</groupId>
+                <artifactId>adapter-rxjava</artifactId>
                 <version>${retrofit.version}</version>
             </dependency>
             <dependency>
@@ -90,9 +111,14 @@
                 <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>nl.jqno.equalsverifier</groupId>
+                <artifactId>equalsverifier</artifactId>
+                <version>${equalsverifier.version}</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
-
     <build>
         <plugins>
             <plugin>
