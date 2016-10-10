@@ -25,6 +25,7 @@ import org.joda.time.format.ISODateTimeFormat;
 
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.accounts.SignInCredentials;
+import org.sagebionetworks.bridge.sdk.models.healthData.RecordExportStatusRequest;
 import org.sagebionetworks.bridge.sdk.models.reports.ReportType;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 
@@ -53,6 +54,8 @@ public final class Config {
 
     private static final String CONFIG_FILE = "/bridge-sdk.properties";
     private static final String USER_CONFIG_FILE = System.getProperty("user.home") + "/bridge-sdk.properties";
+
+    public enum ExporterStatus { NOT_EXPORTED, SUCCEEDED }
 
     public enum Props {
         // These all require and entry in bridge-sdk.properties (accounts are optional).
@@ -138,8 +141,9 @@ public final class Config {
         V3_USERS("/v3/users"),
         V4_SCHEDULES("/v4/schedules"),
         V4_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REV("/v4/uploadschemas/%s/revisions/%d"),
-        V4_UPLOADSCHEMAS("/v4/uploadschemas");
-                
+        V4_UPLOADSCHEMAS("/v4/uploadschemas"),
+        V3_UPDATERECORDEXPORTSTATUSES("/v3/recordExportStatuses");
+
         private String endpoint;
         private Props(String endpoint) {
             this.endpoint = endpoint;
@@ -712,6 +716,10 @@ public final class Config {
         }
         return withQueryParams(String.format(Props.V3_PARTICIPANTS_USERID_UPLOADS.getEndpoint(), userId),
                 queryParams);
+    }
+
+    public String getUpdateRecordExportStatusesApi() {
+            return Props.V3_UPDATERECORDEXPORTSTATUSES.getEndpoint();
     }
     
     private String startEndDateURL(Props prop, String reportId, LocalDate startDate, LocalDate endDate) {
