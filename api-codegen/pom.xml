@@ -5,7 +5,7 @@
         <groupId>org.sagebionetworks.bridge</groupId>
         <artifactId>sdk-group</artifactId>
         <!-- Please use the maven versions plugin to manage this, e.g.`mvn versions:set -DnewVersion=0.8.1`-->
-        <version>0.10.3</version>
+        <version>0.10.4</version>
     </parent>
 
     <artifactId>rest-api-codegen</artifactId>
@@ -36,9 +36,7 @@
                             
                             <apiPackage>${package-directory}.api</apiPackage>
                             <modelPackage>${package-directory}.model</modelPackage>
-                            <invokerPackage>${package-directory}.invoker</invokerPackage>
-                            
-
+                            <invokerPackage>${package-directory}.utils</invokerPackage>
 
                             <configOptions>
 
@@ -47,6 +45,8 @@
                             <environmentVariables>
                                 <models></models>
                                 <apis></apis>
+                                <!-- We don't need any supporting files, but currently, the generated *Api classes
+                                always try to import CollectionFormats.*, so we need these two -->
                                 <supportingFiles>CollectionFormats.java,StringUtil.java</supportingFiles>
                                 <apiTests>false</apiTests>
                                 <!-- <useRxJava>true</useRxJava> -->
