@@ -1,4 +1,3 @@
-title: Sign In
 type: object
 required:
     - study

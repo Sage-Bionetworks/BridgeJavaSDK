@@ -1,4 +1,3 @@
-title: CmsPublicKey
 type: object
 required:
     - publicKey

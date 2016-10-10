@@ -1,4 +1,3 @@
-title: Study participant
 allOf:
     - $ref: './abstract_study_participant.yml'
     - description: |

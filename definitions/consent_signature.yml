@@ -1,4 +1,3 @@
-title: Consent signature
 type: object
 required:
     - name

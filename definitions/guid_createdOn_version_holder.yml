@@ -1,4 +1,3 @@
-title: GuidCreatedOnVersionHolder
 type: object
 required:
     - guid

@@ -1,4 +1,3 @@
-title: UploadValidationStatus
 type: object
 properties:
     id:

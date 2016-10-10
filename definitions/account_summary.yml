@@ -1,0 +1,39 @@
+type: object
+required:
+    - firstName
+    - lastName
+    - email
+    - id
+    - createdOn
+    - status
+    - studyIdentifier
+    - type
+properties:
+    firstName:
+        type: string
+        readOnly: true
+    lastName:
+        type: string
+        readOnly: true
+    email:
+        type: string
+        readOnly: true
+    id: 
+        type: string
+        readOnly: true
+    creatdOn: 
+        type: string
+        format: date-time
+        readOnly: true
+    status:
+        type: string
+        readOnly: true
+        enum:
+            - enabled
+            - disabled
+            - unverified
+    studyIdentifier:
+        $ref: ./study_identifier.yml
+    type:
+        type: string
+        enum: [AccountSummary]

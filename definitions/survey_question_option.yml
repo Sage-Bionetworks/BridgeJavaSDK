@@ -1,7 +1,7 @@
-title: SurveyQuestionOption
 type: object
 required:
     - label
+    - type
 properties:
     label:
         type: string

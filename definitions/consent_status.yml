@@ -1,4 +1,3 @@
-title: Consent status
 type: object
 required:
     - name

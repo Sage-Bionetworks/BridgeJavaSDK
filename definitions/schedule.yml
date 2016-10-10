@@ -1,4 +1,3 @@
-title: Schedule
 type: object
 required:
     - label
@@ -53,12 +52,12 @@ properties:
             format). If this is used, the interval and times are ignored
     startsOn:
         type: string
-        description: An ISO 8601 date time string. The scheduler will not create a task before this date and time.
+        description: The scheduler will not create a task before this date and time.
         format: date-time
     endsOn:
         type: string
         description: |
-            An ISO 8601 date time string. The scheduler will not create a task after this date and time. **Note that 
+            The scheduler will not create a task after this date and time. **Note that 
             this takes precedence over the minimumPerSchedule setting that can be provided via the API. Tasks will 
             not be "topped up" to this minimum if they extend outside of this time window.**
         format: date-time
@@ -73,7 +72,9 @@ properties:
             original time of the triggering event will be used; it's clearest to set a time).
         items:
             type: string
-            description: time value without a time zone
+            description: |
+                24hr time value(s) without a time zone (e.g. "14:30"). **Each time value will create a 
+                separate task, one for each activity in the schedule.**
     persistent:
         type: boolean
         description: True if schedule type is true.

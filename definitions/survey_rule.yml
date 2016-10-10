@@ -1,4 +1,3 @@
-title: SurveyRule
 type: object
 required:
     - operator

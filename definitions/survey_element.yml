@@ -1,4 +1,3 @@
-title: SurveyElement
 type: object
 description: A survey element (info screen or question)
 discriminator: type 
@@ -11,8 +10,8 @@ properties:
         type: string
     identifier:
         type: string
-    type:
-        type: string
-        enum:
-            - SurveyQuestion
-            - SurveyInfoScreen
+    # type:
+    #     type: string
+    #     enum:
+    #         - SurveyQuestion
+    #         - SurveyInfoScreen

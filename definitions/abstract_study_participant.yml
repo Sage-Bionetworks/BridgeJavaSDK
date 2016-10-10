@@ -1,6 +1,3 @@
-# The "base class" of signUp, userSessionInfo and studyParticipant, varies only by a few
-# fields between these objects
-title: AbstractStudyParticipant
 type: object
 properties:
     firstName:

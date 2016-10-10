@@ -1,4 +1,3 @@
-title: DateTimeRangeResourceList<Upload>
 type: object
 required:
     - items

@@ -1,4 +1,3 @@
-title: ResourceList<Subpopulation>
 type: object
 required:
     - items

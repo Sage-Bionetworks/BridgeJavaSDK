@@ -1,4 +1,3 @@
-title: DecimalConstraints
 allOf:
     - $ref: ./constraints.yml
     - properties:
@@ -36,3 +35,9 @@ allOf:
             type: number
         step:
             type: number
+        dataType:
+            type: string
+            enum: [decimal]
+        type:
+            type: string
+            enum: [DecimalConstraints]

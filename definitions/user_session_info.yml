@@ -1,4 +1,3 @@
-title: User Session Info
 allOf:
     - $ref: './abstract_study_participant.yml'
     - description: |
@@ -45,6 +44,9 @@ allOf:
             description: true if all required consents have been signed
         consentStatuses:
             type: object
+            description: |
+                A mapping from a subpopulation GUID to information about the participant's consent status 
+                in that subpopulation (whether consented or not).
             additionalProperties:
                 $ref: ../definitions/consent_status.yml
         type:

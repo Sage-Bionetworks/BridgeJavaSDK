@@ -1,4 +1,3 @@
-title: SchedulePlan
 type: object
 required:
     - guid

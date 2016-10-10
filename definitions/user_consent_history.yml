@@ -1,4 +1,3 @@
-title: User consent history
 description: | 
     A record of a complete consent (including both the dates of consent and withdrawal, if applicable);
 type: object

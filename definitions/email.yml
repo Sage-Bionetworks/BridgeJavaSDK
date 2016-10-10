@@ -1,4 +1,3 @@
-title: Email
 type: object
 required:
     - name  

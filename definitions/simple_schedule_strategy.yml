@@ -1,4 +1,6 @@
-title: SimpleScheduleStrategy
+description: |
+    The SimpleScheduleStrategy uses the same schedule for every participant. It is the easiest way to 
+    schedule activities and is a good place to start when building a schedule.
 allOf:
     - $ref: ./schedule_strategy.yml
     - type: object
@@ -8,3 +10,6 @@ allOf:
     - properties:
         schedule:
             $ref: ./schedule.yml
+        type:
+            type: string
+            enum: [SimpleScheduleStrategy]

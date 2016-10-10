@@ -1,4 +1,3 @@
-title: UploadSchema
 type: object
 required:
     - name

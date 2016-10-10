@@ -1,10 +1,11 @@
-title: Email Verification
 type: object
 required:
-    - sptoken  
+    - sptoken
+    - type
 properties:
     sptoken:
         type: string
+        description: The token sent via email to the user that is needed to verify the email address is accessible to that user
     type:
         type: string
         enum: [EmailVerification]

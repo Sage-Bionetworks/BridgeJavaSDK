@@ -1,4 +1,3 @@
-title: ClientInfo
 type: object
 properties:
     appName:

@@ -1,4 +1,3 @@
-title: ResourceList<Survey>
 type: object
 required:
     - items

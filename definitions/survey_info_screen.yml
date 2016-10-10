@@ -1,4 +1,3 @@
-title: SurveyInfoScreen
 type: object
 allOf:
     - $ref: ./survey_element.yml
@@ -14,3 +13,6 @@ allOf:
             type: string
         image:
             $ref: ./image.yml
+        type:
+            type: string
+            enum: [SurveyInfoScreen]

@@ -1,4 +1,3 @@
-title: PagedResourceList<ExternalIdentifier>
 type: object
 required:
     - items

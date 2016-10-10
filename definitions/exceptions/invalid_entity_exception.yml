@@ -1,4 +1,3 @@
-# InvalidEntityException
 type: object
 required:
     - statusCode

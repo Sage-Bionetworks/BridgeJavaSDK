@@ -1,4 +1,3 @@
-title: Criteria
 type: object
 description: |
     Some objects, like Subpopulations and the schedules in a CriteriaScheduleStrategy, are 

@@ -1,4 +1,3 @@
-title: ABTestScheduleStrategy
 description: |
     A strategy that divides users into groups according to a percentage scheme, assigning each 
     group a different Schedule. The combined set of schedule groups should have percentages that 
@@ -15,4 +14,6 @@ allOf:
             type: array
             items:
                 $ref: ./ab_test_group.yml
-    
+        type:
+            type: string
+            enum: [ABTestScheduleStrategy]

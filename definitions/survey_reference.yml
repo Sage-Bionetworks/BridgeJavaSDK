@@ -1,4 +1,3 @@
-title: SurveyReference
 type: object
 description: A pointer to a survey defined for this study, and associated with a survey to 
     be taken as part of the mobile application health study. If the createdOn value is null, 

@@ -1,4 +1,3 @@
-title: UploadSession
 type: object
 required:
     - id

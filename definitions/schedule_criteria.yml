@@ -1,4 +1,3 @@
-title: ScheduleCriteria
 type: object
 required:
     - criteria

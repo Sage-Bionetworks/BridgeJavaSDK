@@ -1,4 +1,3 @@
-title: DateConstraints
 allOf:
     - $ref: ./constraints.yml
     - properties:
@@ -8,3 +7,9 @@ allOf:
         latestValue:
             type: string
             format: date
+        dataType:
+            type: string
+            enum: [date]
+        type:
+            type: string
+            enum: [DateConstraints]

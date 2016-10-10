@@ -1,4 +1,26 @@
-title: UploadFieldDefinition
+description: |
+    Note: For legacy reasons, this is the only model object returned from the API that does not have 
+    a type property reflecting the implementation structure of the JSON.
+
+    |UploadFieldDefinitionType|Description|
+    |---|---|
+    |attachment_v2|Attachment. When selected, `fileExtension` and `mimeType` can refine the field definition|
+    |boolean|Boolean|
+    |calendar_date|Date (no time of day)|
+    |timestamp|Date & Time (a timestamp)|
+    |float|Decimal|
+    |int|Integer|
+    |string|String. When selected, `maxLength` and `unboundedText` can refine the field definition|
+    |time_v2|Time of Day (no date or timezone)|
+    |attachment_blob|Deprecated|
+    |attachment_csv|Deprecated|
+    |attachment_json_blob|Deprecated|
+    |attachment_json_table|Deprecated|
+    |duration_v2|Deprecated|
+    |inline_json_blob|Deprecated|
+    |multi_choice|Deprecated|
+    |single_choice|Deprecated|
+
 type: object
 properties:
     name:

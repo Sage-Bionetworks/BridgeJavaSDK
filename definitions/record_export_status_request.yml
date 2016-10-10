@@ -1,4 +1,3 @@
-title: RecordExportStatusRequest
 type: object
 required:
     - recordIds

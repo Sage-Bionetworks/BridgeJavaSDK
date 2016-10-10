@@ -4,6 +4,8 @@ ABTestScheduleStrategy:
     $ref: ./ab_test_schedule_strategy.yml
 AbstractStudyParticipant:
     $ref: ./abstract_study_participant.yml
+AccountSummary:
+    $ref: ./account_summary.yml
 Activity:
     $ref: ./activity.yml
 ClientInfo:

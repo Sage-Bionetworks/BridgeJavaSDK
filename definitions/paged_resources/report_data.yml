@@ -1,4 +1,3 @@
-title: DateRangeResourceList<ReportData>
 type: object
 required:
     - items

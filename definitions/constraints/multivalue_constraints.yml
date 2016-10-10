@@ -1,4 +1,3 @@
-title: MultiValueConstraints
 allOf:
     - $ref: ./constraints.yml
     - properties:
@@ -10,3 +9,9 @@ allOf:
             type: array
             items:
                 $ref: ../survey_question_option.yml
+        dataType:
+            type: string
+            enum: [multivalue]
+        type:
+            type: string
+            enum: [MultiValueConstraints]

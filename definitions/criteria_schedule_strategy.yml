@@ -1,4 +1,3 @@
-title: CriteriaScheduleStrategy
 description: |
     Select the first schedule in a list of schedules that matches the criteria being submitted
     by the participant. Criteria includes factors like the user's app platform and version, their 
@@ -14,3 +13,6 @@ allOf:
             type: array
             items:
                 $ref: ./schedule_criteria.yml
+        type:
+            type: string
+            enum: [CriteriaScheduleStrategy]

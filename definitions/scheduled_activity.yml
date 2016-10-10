@@ -1,4 +1,3 @@
-title: Scheduled Activity
 description: |
     Description of an activity (such as a task or survey) the study would like the participant to perform. 
     A scheduled activity will contain a reference to a task or survey, but not both, and the activityType 
@@ -37,10 +36,10 @@ properties:
     status:
         type: string
         description: |
-            The activities returned from this endpoint will be scheduled (will happen in the future); 
-            available (user can do the activity now); or started (the client has updated the activity to 
-            indicate it has been started). Deleted and finished activities are not returned from this 
-            endpoint.
+            The activities returned from this endpoint will be `scheduled` (will happen in the future); 
+            `available` (user can do the activity now); or `started` (the client has updated the activity to 
+            indicate it has been started). Activities are not returned from the API if they are `deleted` 
+            or `finished`.
         enum:
             - deleted
             - finished

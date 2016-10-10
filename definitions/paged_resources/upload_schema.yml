@@ -1,4 +1,3 @@
-title: ResourceList<UploadSchema>
 type: object
 required:
     - items

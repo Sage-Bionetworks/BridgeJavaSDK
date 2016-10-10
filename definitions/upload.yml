@@ -1,4 +1,3 @@
-title: Upload
 type: object
 required:
     - schemaId

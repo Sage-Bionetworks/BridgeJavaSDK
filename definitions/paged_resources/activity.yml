@@ -1,4 +1,3 @@
-title: PagedResourceList<ScheduledActivity>
 type: object
 required:
     - items

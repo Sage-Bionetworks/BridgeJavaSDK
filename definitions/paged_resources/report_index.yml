@@ -1,4 +1,3 @@
-title: ReportTypeResourceList<ReportIndex>
 type: object
 required:
     - items

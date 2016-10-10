@@ -1,4 +1,3 @@
-title: External identifier
 type: object
 required:
     - identifier

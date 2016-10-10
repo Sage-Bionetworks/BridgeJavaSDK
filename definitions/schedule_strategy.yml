@@ -1,11 +1,10 @@
-title: ScheduleStrategy
 type: object
 discriminator: type
 description: This is an interface for several implementations
-properties:
-    type:
-        type: string
-        enum:
-            - SimpleScheduleStrategy
-            - ABTestScheduleStrategy
-            - CriteriaScheduleStrategy
+#properties:
+    # type:
+    #     type: string
+    #     enum:
+    #         - SimpleScheduleStrategy
+    #         - ABTestScheduleStrategy
+    #         - CriteriaScheduleStrategy

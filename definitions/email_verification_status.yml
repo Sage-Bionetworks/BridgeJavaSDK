@@ -1,4 +1,3 @@
-title: EmailVerificationStatus
 type: object
 required:
     - status
@@ -6,6 +5,7 @@ required:
 properties:
     status:
         type: string
+        description: Status of verifying support email address. 
         enum:
             - unverified
             - pending

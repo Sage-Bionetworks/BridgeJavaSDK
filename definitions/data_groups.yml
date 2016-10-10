@@ -1,4 +1,3 @@
-title: DataGroups
 type: object
 description: A payload that contains a string array of data groups. 
 required:

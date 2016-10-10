@@ -1,4 +1,3 @@
-title: HealthDataRecord
 type: object
 properties:
     createdOn:
