@@ -10,8 +10,3 @@ properties:
         type: string
     identifier:
         type: string
-    # type:
-    #     type: string
-    #     enum:
-    #         - SurveyQuestion
-    #         - SurveyInfoScreen

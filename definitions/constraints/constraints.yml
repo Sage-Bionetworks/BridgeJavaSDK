@@ -1,37 +1,9 @@
 type: object
 discriminator: type
 required:
-    - dataType
     - rules
 properties:
-    # dataType:
-    #     type: string
-    #     description: |
-    #         The dataType will match 1:1 with the type of the Constraints implementation (e.g. 
-    #         the "boolean" dataType for the BooleanConstraints type). 
-    #     enum:
-    #         - multivalue
-    #         - boolean
-    #         - integer
-    #         - decimal
-    #         - string
-    #         - datetime
-    #         - date
-    #         - time
-    #         - duration
     rules:
         type: array
         items:
             $ref: ../survey_rule.yml
-    # type:
-    #     type: string
-    #     enum:
-    #         - BooleanConstraints
-    #         - DateConstraints
-    #         - DateTimeConstraints
-    #         - DecimalConstraints
-    #         - DurationConstraints
-    #         - IntegerConstraints
-    #         - MultiValueConstraints
-    #         - StringConstraints
-    #         - TimeConstraints
