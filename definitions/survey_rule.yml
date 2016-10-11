@@ -1,3 +1,10 @@
+description: |
+    A constraint may have one or more rules in an array:
+    * Rules should be evaluated after a user answers a question, against the answer provided by the user;
+    * they should be evaluated until one matches (then further evaluation should be aborted);
+    * if a rule matches, the action for that rule should be followed (e.g. showing a different question than the next question in the list, or end the survey);
+    * if a question allows multiple answers to be submitted, it matches the rule if any of the submitted answers match the rule;
+    * if there are no rules or no rule matches, proceed to the next question in the list.
 type: object
 required:
     - operator
@@ -6,6 +13,16 @@ required:
 properties:
     operator:
         type: string
+        description: |
+            |Value|Operator meaning|
+            |---|---|
+            |eq|equal to|
+            |ne|not equal to|
+            |lt|less than|
+            |gt|greater than|
+            |le|less than or equal to|
+            |ge|greater than or equal to|
+            |de|user declines to answer this question (it is being skipped)|
         enum:
             - eq
             - ne
@@ -16,10 +33,18 @@ properties:
             - de
     value:
         type: string
+        description: The value submitted by the user (as a string).
     skipToTarget:
         type: string
+        description: |
+            The property will reference an identifier for a question in the survey. The user's next question should be that question, and progress through the survey should proceed from that question in the list. It is guaranteed that the referenced question will be after the current question in the survey.
     endSurvey:
         type: boolean
+        description: |
+            If present, this property must be true and no skipTo value should be provided. 
+            If the rule matches, immediately end the survey. (An alternative is to have the 
+            final screen of your survey be an info screen with a thank you note, and you can 
+            skipTo that).
     type:
         type: string
         enum: [SurveyRule]

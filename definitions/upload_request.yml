@@ -1,3 +1,5 @@
+description: |
+    **Important: Headers of the same values must be used when doing the upload against the pre-signed URL.**
 type: object
 required:
     - name
@@ -8,12 +10,20 @@ required:
 properties:
     name:
         type: string
+        description: File name
     contentLength:
         type: integer
+        description: |
+            The size of the object in bytes. A standard HTTP header. For more information, 
+            go to [http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13)
     contentMd5:
         type: string
-    contentType:
+        description: The base64-encoded, 128-bit MD5 digest of the object body.
+    contentType: 
         type: string
+        description: |
+            A standard MIME type. 
+            For more information, go to [http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17)
     type:
         type: string
         enum: [UploadRequest]

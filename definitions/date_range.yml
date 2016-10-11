@@ -7,9 +7,11 @@ properties:
     startDate:
         type: string
         format: date
+        description: start date of the date range
     endDate:
         type: string
         format: date
+        description: end date of the date range
     type:
         type: string
         enum: [DateRange]

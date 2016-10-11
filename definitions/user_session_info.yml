@@ -24,8 +24,10 @@ allOf:
     - properties:
         authenticated:
             type: boolean
+            description: Is the user currently authenticated?
         sessionToken:
             type: string
+            description: The session token that must be returned to the server to access services requiring authentication.
         environment:
             type: string
             description: This value should always be set to production.

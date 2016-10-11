@@ -2,13 +2,25 @@ type: object
 properties:
     id:
         type: string
-        description: the upload GUID
+        description: The identifier for this upload
     messageList:
         type: array
+        description: |
+            An array of error messages if failures occurred during validation
         items:
             type: string
     status:
         type: string
+        description: |
+            An enumeration of possible upload outcomes:
+
+            |Type|Description|
+            |---|---|
+            |unknown|Upload status is unknown (used for older formats and not likely to occur).|
+            |requested|Upload has been requested. The client has received an URL to post the data to, and the server is waiting for the client to call the upload complete endpoint when that upload has been finished.|
+            |validation_in_progress|Client has called upload complete and validation is in progress.|
+            |validation_failed|Validation failed. See messageList for errors during validation.|
+            |succeeded|Validation succeeded; upload has been accepted by the server.|
         enum:
             - unknown
             - requested

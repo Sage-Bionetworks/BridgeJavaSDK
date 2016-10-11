@@ -1,40 +1,68 @@
+description: |
+     See [Bridge Upload Data Format](/articles/study_design/upload_data_format.html) for details abot this model object.
 type: object
+required:
+    - type
 properties:
     createdOn:
         type: string
         format: date-time
+        description: ISO timestamp of when the data record was created, as reported by the submitting app
     data:
         type: object
+        description: JSON map with key value pairs representing the record's data.
     id:
         type: string
+        description: A unique GUID for this record.
     metadata:
         type: object
+        description: |
+            Arbitrary JSON blob of record metadata, as submitted by the app. For 
+            ResearchKit-based apps, this is info.json verbatim.
     schemaId:
         type: string
+        description: Schema ID for the record.
     schemaRevision:
         type: integer
+        description: Schema revision for the record.
     studyId:
         type: string
+        description: Study that this record lives in.
     uploadDate:
         type: string
         format: date
+        description: |
+            Calendar date in YYYY-MM-DD format representing when the server received the upload, 
+            using the server's local time zone (US Pacific timezone).
     uploadId:
         type: string
-        description: the upload GUID
+        description: The upload GUID of the upload this record is processed from.
     uploadedOn:
         type: string
         format: date-time
+        description: The date and time of the upload.
     userSharingScope:
         type: string
+        description: The user's sharing scope at the time of this upload's submission.
         enum:
             - no_sharing
             - sponsors_and_partners
             - all_qualified_researchers
     userExternalId:
         type: string
+        description: The user's external ID at the time of this upload's submission.
     userDataGroups:
         type: array
+        description: The user's data groups at the time of this upload's submission.
         items:
             type: string
     version:
         type: integer
+        description: |
+            A version number issued for optimistic locking of record updates. Should not be 
+            set when creating a new health data record. When updating a record retrieved from 
+            the API, the object will have the version attribute and this must match the last 
+            value issued by the service or an update will fail.
+    type:
+        type: string
+        enum: [HealthDataRecord]

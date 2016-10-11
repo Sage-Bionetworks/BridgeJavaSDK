@@ -5,8 +5,10 @@ required:
 properties:
     email:
         type: string
+        description: Participant's email.
     studyIdentifier:
         type: string  
+        description: String identifier if the participant's study.
     type:
         type: string
         enum: [Email]

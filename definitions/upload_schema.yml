@@ -9,15 +9,27 @@ required:
 properties:
     name:
         type: string
+        description: User-friendly schema name.
     revision:
         type: integer
+        description: |
+            Revision number of the schema, used to distinguish versions of the same data format. 
+            When using this to create or update schemas, to protect against concurrent modification 
+            errors, new schemas should not pass in the revision parameter, and updates to existing 
+            schemas should pass in a revision number equal to the latest revision number.
     schemaId:
         type: string
+        description: Unique identifier for the schema.
     surveyGuid:
         type: string
+        description: |
+            If this schema is created from a survey, this is the GUID of the survey it represents.
     surveyCreatedOn:
         type: string
         format: date-time
+        description: |
+            If this schema is created from a survey, this is the createdOn timestamp 
+            (in ISO 8601 format) of the survey it represents.
     schemaType:
         type: string
         enum:

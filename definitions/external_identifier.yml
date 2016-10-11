@@ -1,10 +1,15 @@
 type: object
 required:
     - identifier
+    - assigned
     - type
 properties:
     identifier:
         type: string
+        description: The external identifier.
+    assigned:
+        type: boolean
+        description: If true, the identifier has been assigned to an account, otherwise false.
     type:
         type: string
         enum: [ExternalIdentifier]

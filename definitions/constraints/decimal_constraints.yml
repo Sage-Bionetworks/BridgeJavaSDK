@@ -1,3 +1,5 @@
+description: |
+    **UI hints:** numberfield, slider.
 allOf:
     - $ref: ./constraints.yml
     - properties:
@@ -31,10 +33,15 @@ allOf:
                 - cubic_meters
         minValue:
             type: number
+            description: Minimum valid value.
         maxValue:
             type: number
+            description: Maximum valid value.
         step:
             type: number
+            description: |
+                In increase or decrease in valid values, e.g. a step of 0.1 for a question that records
+                water drunk in tenths of a liter.
         dataType:
             type: string
             enum: [decimal]

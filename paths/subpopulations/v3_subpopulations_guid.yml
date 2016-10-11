@@ -29,7 +29,9 @@ post:
             $ref: ../../definitions/subpopulation.yml
     responses:
         200:
-            $ref: ../../responses/200_message.yml
+            description: OK
+            schema:
+                $ref: ../../definitions/guid_version_holder.yml
 delete:
     summary: Delete a subpopulation
     description: |

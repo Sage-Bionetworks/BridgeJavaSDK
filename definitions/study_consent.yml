@@ -1,8 +1,6 @@
 type: object
 description: |
-    For historical reasons, a revision of a consent document is known as a "study consent", it would 
-    more accurately be named a "subpopulation consent" at this point. It is a revision of a consent 
-    document that is associated with a specific study subpopulation.
+    For historical reasons, a revision of a consent document is known as a "study consent" (it would more accurately be named a "subpopulation consent" at this point). It is a revision of a consent document that is associated with a specific study subpopulation.
 required:
     - subpopulationGuid
     - createdOn
@@ -11,11 +9,27 @@ required:
 properties:
     subpopulationGuid:
         type: string
+        description: The guid of the subpopulation to which this consent belongs.
     createdOn:
         type: string
         format: date-time
+        description: |
+            The time the document was created on the server, represented in ISO 8601 
+            format (e.g. 2011-12-03T22:11:34.554Z). Each update of the consent document 
+            creates a new revision at a new `createdOn` timestamp.
     documentContent:
         type: string
+        description: |
+            A valid XHTML document describing the consent. In this document, the following tokens can be inserted and they will be substituted with the user's consent information when the consent is requested for that user:
+
+            |Template variable|Substituted with|
+            |---|---|
+            |${studyName}|The name of the study|
+            |${supportEmail}|The support email address for the study|
+            |${technicalEmail}|The technical contact/support email address for the study|
+            |${sponsorName}|The name of the sponsor for this study (the institution or research team name)|
+
+            **Note:** calls that return lists of these study consents do not populate this field. You must retrieve an individual study consent to get the content of the consent.
     type:
         type: string
         enum: [StudyConsent]

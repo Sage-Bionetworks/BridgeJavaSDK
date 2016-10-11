@@ -1,3 +1,5 @@
+description: |
+    **UI hints:** checkbox, toggle.
 allOf:
     - $ref: ./constraints.yml
     - properties:

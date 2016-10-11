@@ -1,12 +1,17 @@
+description: |
+    A question in the survey.
 allOf:
     - $ref: ./survey_element.yml
     - required:
         - title
+        - identifier
+        - prompt
         - constraints
-        - fireEvent
         - uiHint
         - type
     - properties:
+        identifier:
+            type: string
         title:
             type: string
         prompt:
@@ -17,6 +22,24 @@ allOf:
             type: boolean
         uiHint:
             type: string
+            description: |
+                A string "hint" to the user interface about the kind of user interface component that should be used to render the question (see values, above). The survey designer provides this hint, but the client application may ignore it or map it to a different set of controls, as desired. For a given data type, there is a defined subset of valid UI hints, which are detailed in the constraints model object documentation.
+
+                |Hint|Description|Conditions|
+                |---|---|---|
+                |checkbox|A checkbox that can be used for a boolean value, or for selecting zero or more multiple values from an enumerated list.|Question will always include an enumeration of answers to display.|
+                |combobox|An input that allows a user to enter free form text, or select from an enumerated list of answers. An alternative representation would be a set of radio buttons, with the last button selecting an "other" option with an associated text input control.|Question will always include an enumeration of answers to display.|
+                |datepicker|A control that allows a user to select a date (with no time of day component).||
+                |datetimepicker|A control that allows a user to select a time of day on a specific date. It should default to the current day and allow easy selection of a time of day today.||
+                |list|A control that shows a list, and allows for selection of zero or more elements. On some platforms, this is the same as a list of checkboxes (and in HTML can be rendered with a multiple select control).|Question will always include an enumeration of answers to display.|
+                |multilinetext|A control for entering longer texts, at least showing multiple lines for input and possibly also providing additional controls (such as a simple WYSIWYG editor with cut-and-paste support or spell checking).||
+                |numberfield|An input for entering numbers that includes "spinner" controls to increment or decrement a numeric value. The minimum and maximum values, as well as the amount the value is changed by these controls, should be defined by the minValue, maxValue, and step constraints of integer and decimal questions.||
+                |radiobutton|Two or more controls that allow for exclusive selection of one item from a list of choices.This can be achieved as well through a list where only one item may be selected.|Question will always include an enumeration of answers to display.|
+                |select|A select or picker control for selection of one option from a list of options.|Question will always include an enumeration of answers to display.|
+                |slider|A slider control for selection of a continuous value, like a decimal number, or a scale control for selection either of a discrete value such as an integer or a set of string values (where such values are ordered and make sense in this presentation, e.g. "no pain" to "extremely painful"). If used for an integer or decimal question, the minimum and maximum value constraints, as well as the step constraint, should be used to define the behavior of the slider. If used for an enumerated set of values, each discrete setting of the control (it should not slide continuously) should select a value from the list.|Question **must** include an enumeration of answers to display if the data type is not integer or decimal.|
+                |textfield|A single line text field. Note that if there are set values for this textfield, but the user can essentially enter an "other" value as well, then the combobox hint with a set of enumerated values should be used.||
+                |timepicker|An input for entering a time with no reference to the date of the time.||
+                |toggle|A switch or toggle control to select a boolean state||
             enum:
                 - checkbox
                 - combobox

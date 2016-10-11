@@ -1,12 +1,22 @@
+description: |
+    A string response. UI Hints for this type should match the intended length of the string 
+    and any constraints placed upon the length. 
+
+    **UI hints:** texfield, multilinetext.
 allOf:
     - $ref: ./constraints.yml
     - properties:
         minLength:
             type: integer
+            description: The minimum number of characters that should be allowed.
         maxLength:
             type: integer
+            description: The maximum number of characters that should be allowed.
         pattern:
             type: string
+            description: |
+                A regular expression pattern (omitting slashes) against with the input 
+                should be validated.
         dataType:
             type: string
             enum: [string]

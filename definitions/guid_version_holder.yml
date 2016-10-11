@@ -1,0 +1,22 @@
+description: |
+    An object that describes the keys and optimistic lock values of an entity (e.g. a 
+    Subpopulation or SchedulePlan). This object is returned from create and update endpoints 
+    rather than an entire entity.
+type: object
+required:
+    - guid
+    - version
+    - type
+properties:
+    guid:
+        type: string
+        description: The guid of the entity (added when the entity is created).
+    version:
+        type: integer
+        description: |
+            The optimistic locking version of the survey (increments when the entity is 
+            updated). If an entity is submitted with a version that is not the currently saved 
+            version of the entity, a 409 (Conflict) error will occur.
+    type:
+        type: string
+        enum: [GuidVersionHolder]

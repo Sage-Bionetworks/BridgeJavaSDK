@@ -1,12 +1,28 @@
+description: |
+    A date without a time value (e.g. "2016-07-28").
+
+    **UI hints:** datepicker.
 allOf:
     - $ref: ./constraints.yml
     - properties:
+        allowFuture:
+            type: boolean
+            default: false
+            description: Should this question allow answers in the future?
         earliestValue:
             type: string
             format: date
+            description: |
+                ISO 8601 date and time value that is the earliest value that may be set for this question. 
+                No default. If allowFuture is false, that constraint will also be applied regardless 
+                of earliest/latestValue constraints.
         latestValue:
             type: string
             format: date
+            description: |
+                ISO 8601 date and time value that is the earliest value that may be set for this question. 
+                No default. If allowFuture is false, that constraint will also be applied regardless 
+                of earliest/latestValue constraints.
         dataType:
             type: string
             enum: [date]

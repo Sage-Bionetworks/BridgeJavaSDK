@@ -26,4 +26,6 @@ post:
             $ref: ../../definitions/subpopulation.yml
     responses:
         201:
-            $ref: ../../responses/201_message.yml
+            description: Created
+            schema:
+                $ref: ../../definitions/guid_version_holder.yml

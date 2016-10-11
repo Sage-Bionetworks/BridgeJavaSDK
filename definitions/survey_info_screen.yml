@@ -3,15 +3,22 @@ allOf:
     - $ref: ./survey_element.yml
     - required:
         - title
+        - prompt
         - type
     - properties:
         title:
             type: string
+            description: A title for this screen.
         prompt:
             type: string
+            description: The main instructions or information text for the user
         promptDetail:
             type: string
+            description: |
+                Further information on the instructions, displayed in a secondary manner to 
+                the prompt (smaller text, more button, etc.).
         image:
+            description: An optional Image element describing an image to show for this screen.
             $ref: ./image.yml
         type:
             type: string

@@ -1,3 +1,6 @@
+description: |
+    An object that describes the keys and optimistic lock values of a Survey. This object
+    is returned from create and update endpoints rather than an entire Survey.
 type: object
 required:
     - guid
@@ -6,11 +9,17 @@ required:
 properties:
     guid:
         type: string
+        description: The guid of the survey (added when the survey is created).
     createdOn:
         type: string
         format: date-time
+        description: The createdOn value of the survey (added when survey is created).
     version:
         type: integer
+        description: |
+            The optimistic locking version of the survey (increments when the survey is 
+            updated). If a survey is submitted with a version that is not the currently saved 
+            version of the survey, a 409 (Conflict) error will occur.
     type:
         type: string
         enum: [GuidCreatedOnVersionHolder]

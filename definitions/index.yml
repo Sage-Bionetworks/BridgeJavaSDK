@@ -38,6 +38,8 @@ ExternalIdentifier:
     $ref: ./external_identifier.yml
 GuidCreatedOnVersionHolder:
     $ref: ./guid_createdOn_version_holder.yml
+GuidVersionHolder:
+    $ref: ./guid_version_holder.yml
 HealthDataRecord:
     $ref: ./health_data_record.yml
 Image:
@@ -120,6 +122,8 @@ UserProfile:
     $ref: ./user_profile.yml
 UserSessionInfo:
     $ref: ./user_session_info.yml
+Withdrawal:
+    $ref: ./withdrawal.yml
 InvalidEntityException:
     $ref: ./exceptions/invalid_entity_exception.yml
 

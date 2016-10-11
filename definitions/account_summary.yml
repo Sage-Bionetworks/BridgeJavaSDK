@@ -11,23 +11,23 @@ required:
 properties:
     firstName:
         type: string
-        readOnly: true
+        description: First (given) name of user.
     lastName:
         type: string
-        readOnly: true
+        description: Last (family) name of user.
     email:
         type: string
-        readOnly: true
+        description: Email address of user.
     id: 
         type: string
-        readOnly: true
+        description: An identifier assigned to this user, used to retrieve a study participant record.
     creatdOn: 
         type: string
         format: date-time
-        readOnly: true
+        description: Read only. ISO 8601 date and time that the user account was created.
     status:
         type: string
-        readOnly: true
+        description: User account status. `unverified` indicates the user has not verified their email address.
         enum:
             - enabled
             - disabled

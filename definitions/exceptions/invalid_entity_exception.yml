@@ -1,3 +1,5 @@
+description: |
+    A response to submission of a JSON payload that is not valid. The errors 
 type: object
 required:
     - statusCode
@@ -8,7 +10,13 @@ properties:
     statusCode:
         type: integer
     errors:
-        type: string
+        type: array
+        items:
+            type: object
+            additionalProperties:
+                type: array
+                items:
+                    type: string
     entityClass:
         type: string
     entity:

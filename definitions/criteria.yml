@@ -4,8 +4,6 @@ description: |
     matched against user criteria in order to return the correct object. The criteria 
     against which user information will be matched are described in the Criteria object. 
 required:
-    - allOfGroups
-    - noneOfGroups
     - type
 properties:
     language:

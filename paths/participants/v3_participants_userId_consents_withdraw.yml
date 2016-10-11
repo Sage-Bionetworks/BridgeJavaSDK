@@ -13,6 +13,11 @@ post:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/userId
+        - name: withdrawal
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/withdrawal.yml
     responses:
         200:
             $ref: ../../responses/200_message.yml
