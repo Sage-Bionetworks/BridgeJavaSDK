@@ -16,4 +16,4 @@ get:
             schema:
                 $ref: ../../definitions/study_consent.yml
         403:
-            $ref: ../../responses/403_no_developer.yml                  
+            $ref: ../../responses/403_not_developer.yml                  

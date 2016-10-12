@@ -13,7 +13,7 @@ get:
             schema:
                 $ref: ../../definitions/paged_resources/study_consent.yml
         403:
-            $ref: ../../responses/403_no_developer.yml                  
+            $ref: ../../responses/403_not_developer.yml                  
 post:
     summary: Add a new study consent version to this subpopulation
     tags:
@@ -33,4 +33,4 @@ post:
         201:
             $ref: ../../responses/201_message.yml
         403:
-            $ref: ../../responses/403_no_developer.yml                  
+            $ref: ../../responses/403_not_developer.yml                  

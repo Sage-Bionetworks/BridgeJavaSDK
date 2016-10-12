@@ -22,6 +22,6 @@ post:
         - $ref: ../../index.yml#/parameters/empty
     responses:
         200:
-            $ref: '../../responses/200_message.yml'
+            $ref: ../../responses/200_message.yml
         403:
-            $ref: ../../responses/403_no_developer.yml                  
+            $ref: ../../responses/403_not_developer.yml                  
