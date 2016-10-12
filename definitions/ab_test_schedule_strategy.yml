@@ -8,7 +8,6 @@ allOf:
     - type: object
     - required:
         - scheduleGroups
-        - type
     - properties:
         scheduleGroups:
             type: array
@@ -16,4 +15,5 @@ allOf:
                 $ref: ./ab_test_group.yml
         type:
             type: string
+            readOnly: true
             enum: [ABTestScheduleStrategy]

@@ -4,7 +4,6 @@ description: An early user information object that has been superceded by the st
 required:
     - email
     - username
-    - type
 properties:
     firstName:
         type: string
@@ -17,4 +16,5 @@ properties:
         description: Now always the same value as the user's email address
     type:
         type: string
+        readOnly: true
         enum: [UserProfile]

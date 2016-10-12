@@ -1,28 +1,27 @@
 type: object
-required:
-    - items
-    - offsetBy
-    - pageSize
-    - emailFilter
-    - total
-    - type
 properties:
     items:
         type: array
+        readOnly: true
         items:
             $ref: ../account_summary.yml
     offsetBy:
         type: integer
+        readOnly: true
         description: The offsetBy value submitted to the server
     pageSize:
         type: integer
+        readOnly: true
         description: The page size submitted to the server
     emailFilter:
         type: string
+        readOnly: true
         description: The email filter submitted to the server
     total:
         type: integer
+        readOnly: true
         description: The total number of records that match the criteria (may exceed page size)
     type:
         type: string
+        readOnly: true
         enum: [PagedResourceList]

@@ -1,7 +1,7 @@
 type: object
 required:
     - userId
-    - type
+    - studyIdentifier
 properties:
     userId:
         type: string
@@ -29,5 +29,6 @@ properties:
         $ref: ./study_identifier.yml
     type:
         type: string
+        readOnly: true
         enum: [ClientInfo]
     

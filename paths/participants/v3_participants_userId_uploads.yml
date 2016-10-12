@@ -30,3 +30,5 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/paged_resources/upload.yml
+        403:
+            $ref: ../../responses/403_not_researcher.yml

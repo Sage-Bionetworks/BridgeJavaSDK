@@ -26,6 +26,8 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/paged_resources/activity.yml
+        403:
+            $ref: ../../responses/403_not_researcher.yml                
 delete:
     summary: Delete all activities for a participant
     description: |
@@ -43,4 +45,6 @@ delete:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        403:
+            $ref: ../../responses/403_not_researcher.yml                
         

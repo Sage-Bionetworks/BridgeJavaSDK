@@ -1,27 +1,26 @@
 type: object
-required:
-    - items
-    - startTime
-    - endTime
-    - total
-    - type
 properties:
     items:
         type: array
+        readOnly: true
         items:
             $ref: ../upload.yml
     startTime:
         type: string
         format: date-time
+        readOnly: true
         description: The startTime value submitted to the server
     endTime:
         type: string
         format: date-time
+        readOnly: true
         description: The endTime value submitted to the server
     total:
         type: integer
+        readOnly: true
         description: The total number of records that match the criteria (may exceed page size)
     type:
         type: string
+        readOnly: true
         enum: [DateTimeRangeResourceList]
         

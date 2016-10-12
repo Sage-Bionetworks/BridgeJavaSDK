@@ -7,7 +7,6 @@ required:
     - label
     - guid
     - activityType
-    - type
 properties:
     label:
         type: string
@@ -34,4 +33,5 @@ properties:
             should not contain both. 
     type:
         type: string
+        readOnly: true
         enum: [Activity]

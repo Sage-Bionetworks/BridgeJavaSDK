@@ -3,8 +3,6 @@ description: |
     Some objects, like Subpopulations and the schedules in a CriteriaScheduleStrategy, are 
     matched against user criteria in order to return the correct object. The criteria 
     against which user information will be matched are described in the Criteria object. 
-required:
-    - type
 properties:
     language:
         type: string
@@ -37,4 +35,5 @@ properties:
             type: integer
     type:
         type: string
+        readOnly: true
         enum: [Criteria]

@@ -1,6 +1,4 @@
 type: object
-required:
-    - type
 properties:
     reason:
         type: string
@@ -10,4 +8,5 @@ properties:
             The reason will be emailed to the consent notification email as part of the notification that a particular user has withdrawn from the study.
     type:
         type: string
+        readOnly: true
         enum: [Withdrawal]

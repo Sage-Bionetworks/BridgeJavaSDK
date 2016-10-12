@@ -32,10 +32,10 @@ post:
             description: Credentials incorrect or the user does not exist
             schema:
                 $ref: ../../definitions/message.yml
+        410:
+            $ref: ../../responses/410.yml
         412:
-            description: User has signed in, but is not consented
-            schema:
-                $ref: ../../definitions/user_session_info.yml
+            $ref: ../../responses/412.yml
         423:
             description: Account has been disabled
             schema:

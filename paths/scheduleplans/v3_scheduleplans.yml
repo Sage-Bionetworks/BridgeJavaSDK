@@ -10,6 +10,8 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/paged_resources/schedule_plan.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
 post:
     summary: Create a schedule plan
     tags: 
@@ -26,3 +28,5 @@ post:
     responses:
         201:
             $ref: ../../responses/201_message.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

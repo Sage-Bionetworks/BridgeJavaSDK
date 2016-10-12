@@ -33,6 +33,8 @@ post:
     responses:
         201:
             $ref: ../../responses/201_message.yml
+        403:
+            $ref: ../../responses/403_not_developer_worker.yml
 delete:
     summary: Delete a study report (all records)
     tags:
@@ -46,3 +48,5 @@ delete:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        403:
+            $ref: ../../responses/403_not_developer_worker.yml

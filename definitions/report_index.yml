@@ -1,10 +1,11 @@
 type: object
 required:
     - identifier
-    - type
 properties:
     identifier:
         type: string
+        description: The report identifier.
     type:
         type: string
+        readOnly: true
         enum: [ReportIndex]

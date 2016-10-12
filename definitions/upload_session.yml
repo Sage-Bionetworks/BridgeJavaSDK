@@ -3,7 +3,6 @@ required:
     - id
     - url
     - expires
-    - type
 properties:
     id:
         type: string
@@ -20,4 +19,5 @@ properties:
             The ISO 8601 date and time stamp at which this session will expire.
     type:
         type: string
+        readOnly: true
         enum: [UploadSession]

@@ -15,5 +15,6 @@ properties:
         description: User's password
     type:
         type: string
+        readOnly: true
         enum: [SignIn]
         

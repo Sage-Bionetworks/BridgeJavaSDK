@@ -12,6 +12,8 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/schedule_plan.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
 post:
     summary: Update a schedule plan
     tags: 
@@ -29,6 +31,8 @@ post:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
 delete:
     summary: Get a schedule plan
     tags: 
@@ -41,3 +45,5 @@ delete:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

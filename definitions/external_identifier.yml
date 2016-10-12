@@ -2,7 +2,6 @@ type: object
 required:
     - identifier
     - assigned
-    - type
 properties:
     identifier:
         type: string
@@ -12,4 +11,5 @@ properties:
         description: If true, the identifier has been assigned to an account, otherwise false.
     type:
         type: string
+        readOnly: true
         enum: [ExternalIdentifier]

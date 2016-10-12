@@ -12,6 +12,8 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/study_participant.yml
+        403:
+            $ref: ../../responses/403_not_researcher.yml                
 post:
     summary: Update an existing study participant (user) record
     tags:
@@ -30,3 +32,5 @@ post:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        403:
+            $ref: ../../responses/403_not_researcher.yml                

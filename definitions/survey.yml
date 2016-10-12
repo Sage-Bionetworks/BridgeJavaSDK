@@ -8,7 +8,6 @@ required:
     - createdOn
     - version
     - elements
-    - type
 properties:
     guid:
         type: string
@@ -58,4 +57,5 @@ properties:
             $ref: ./survey_element.yml
     type:
         type: string
+        readOnly: true
         enum: [Survey]

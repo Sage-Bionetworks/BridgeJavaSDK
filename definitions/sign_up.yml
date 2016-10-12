@@ -12,4 +12,5 @@ allOf:
             type: string
         type:
             type: string
+            readOnly: true
             enum: [SignUp]

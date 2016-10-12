@@ -6,7 +6,6 @@ type: object
 required:
     - guid
     - version
-    - type
 properties:
     guid:
         type: string
@@ -19,4 +18,5 @@ properties:
             version of the entity, a 409 (Conflict) error will occur.
     type:
         type: string
+        readOnly: true
         enum: [GuidVersionHolder]

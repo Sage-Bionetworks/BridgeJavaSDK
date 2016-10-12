@@ -29,4 +29,8 @@ properties:
             - duplicate
             - succeeded
     record:
-        $ref: ./health_data_record.yml            
+        $ref: ./health_data_record.yml
+    type:
+        type: string
+        readOnly: true
+        enum: [UploadValidationStatus]

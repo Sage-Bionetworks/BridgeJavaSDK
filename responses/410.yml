@@ -1,0 +1,5 @@
+description: |
+    The version of the client making the request no longer has access to this service. The user 
+    must update their app in order to continue using Bridge.
+schema:
+    $ref: ../definitions/message.yml

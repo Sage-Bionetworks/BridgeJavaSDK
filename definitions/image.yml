@@ -1,7 +1,6 @@
 type: object
 required:
     - source
-    - type
 properties:
     source:
         type: string
@@ -18,4 +17,5 @@ properties:
         description: The height of the image in pixels. If image is present, this field is required.
     type:
         type: string
+        readOnly: true
         enum: [Image]

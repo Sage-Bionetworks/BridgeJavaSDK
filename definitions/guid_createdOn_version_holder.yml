@@ -22,4 +22,5 @@ properties:
             version of the survey, a 409 (Conflict) error will occur.
     type:
         type: string
+        readOnly: true
         enum: [GuidCreatedOnVersionHolder]

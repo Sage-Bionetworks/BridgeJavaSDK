@@ -1,7 +1,6 @@
 type: object
 required:
     - label
-    - type
 properties:
     label:
         type: string
@@ -22,4 +21,5 @@ properties:
             along with the label (which will still be required).
     type:
         type: string
+        readOnly: true
         enum: [SurveyQuestionOption]

@@ -4,16 +4,30 @@ required:
     - schemaRevision
     - status
     - requestedOn
-    - type
 properties:
     schemaId:
         type: string
+        description: The GUID assigned to this upload
     schemaRevision:
         type: integer
+        description: The revision of the schema that was used for this upload.
     contentLength:
         type: integer
+        description: |
+            The size of the object in bytes. A standard HTTP header. For more information, 
+            go to [http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13)
     status:
         type: string
+        description: |
+            The status of the upload:
+
+            |Status|Description|
+            |---|---|
+            |unknown|Upload status is unknown. This is generally used for older data formats (namely, Upload v1), which had a binary complete flag rather than an UploadStatus.|
+            |requested|Initial state. Upload is requested. User needs to upload to specified URL and call uploadComplete.|
+            |validation_in_progress|Client process has called uploadComplete. Upload validation is currently taking place.|
+            |validation_failed|Upload validation has failed (see the validationMessageList for further details).|
+            |succeeded|Upload has succeeded, including validation. Note that export to Synapse is a separate step.|
         enum:
             - unknown
             - requested
@@ -24,16 +38,27 @@ properties:
     requestedOn:
         type: string
         format: date-time
+        description: |
+            The date and time (ISO 8601 format) that the client requested an URL to make an upload to the server.
     completedOn:
         type: string
         format: date-time
+        description: |
+            The date and time (ISO 8601 format) that the upload was completed.
     completedBy:
         type: string
+        description: |
+            Currently the API has an endpoint for the client to call and mark an upload completed. 
+            However, there is also a process that detects uploads to S3 and marks the uploads 
+            complete. This field indicates which client completed the upload.
         enum: [app, s3_worker]
     validationMessageList:
         type: array
+        description: |
+            An array of error messages if this upload did not pass validation.
         items:
             type: string
     type:
         type: string
+        readOnly: true
         enum: [Upload]

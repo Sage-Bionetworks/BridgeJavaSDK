@@ -14,3 +14,5 @@ post:
     responses:
         201:
             $ref: ../../responses/201_message.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

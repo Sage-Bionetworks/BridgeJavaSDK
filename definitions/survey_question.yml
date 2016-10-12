@@ -8,7 +8,6 @@ allOf:
         - prompt
         - constraints
         - uiHint
-        - type
     - properties:
         identifier:
             type: string
@@ -58,4 +57,5 @@ allOf:
             $ref: ./constraints/constraints.yml
         type:
             type: string
+            readOnly: true
             enum: [SurveyQuestion]

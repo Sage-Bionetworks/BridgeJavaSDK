@@ -1,23 +1,22 @@
 type: object
-required:
-    - items
-    - startDate
-    - endDate
-    - total
-    - type
 properties:
     items:
         type: array
+        readOnly: true
         items:
             $ref: ../report_data.yml
     startDate:
         type: string
+        readOnly: true
         format: date
     endDate:
         type: string
+        readOnly: true
         format: date
     total:
         type: integer
+        readOnly: true
     type:
         type: string
+        readOnly: true
         enum: [DateRangeResourceList]

@@ -17,4 +17,8 @@ post:
     responses:
         200:
             $ref: ../../responses/200_message.yml
-        
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml
+       

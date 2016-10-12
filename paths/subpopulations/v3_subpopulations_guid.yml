@@ -2,6 +2,7 @@ get:
     summary: Get a subpopulation
     tags:
         - Subpopulations
+        - _For Developers
         - _For Researchers
     security:
         - BridgeSecurity: []
@@ -11,12 +12,14 @@ get:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/subpopulation.yml     
+                $ref: ../../definitions/subpopulation.yml   
+        403:
+            $ref: ../../responses/403_not_developer_researcher.yml
 post:
     summary: Update an existing subpopulation
     tags:
         - Subpopulations
-        - _For Researchers
+        - _For Developers
     security:
         - BridgeSecurity: []
     parameters:
@@ -32,6 +35,8 @@ post:
             description: OK
             schema:
                 $ref: ../../definitions/guid_version_holder.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
 delete:
     summary: Delete a subpopulation
     description: |
@@ -46,3 +51,5 @@ delete:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        403:
+            $ref: ../../responses/403_not_admin_developer.yml

@@ -1,24 +1,23 @@
 type: object
-required:
-    - items
-    - offsetKey
-    - pageSize
-    - total
-    - type
 properties:
     items:
         type: array
+        readOnly: true
         items:
             $ref: ../scheduled_activity.yml
     offsetKey:
         type: string
+        readOnly: true
         description: If present, the key that should be sent in the next request to page forward one page of records. If null, this is the final page of records
     pageSize:
         type: integer
+        readOnly: true
         description: The page size submitted to the server
     total:
         type: integer
+        readOnly: true
         description: The total number of records that match the criteria (may exceed page size)
     type:
         type: string
+        readOnly: true
         enum: [PagedResourceList]

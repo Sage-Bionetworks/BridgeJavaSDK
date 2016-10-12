@@ -53,4 +53,5 @@ allOf:
                 $ref: ../definitions/consent_status.yml
         type:
             type: string
+            readOnly: true
             enum: [UserSessionInfo]

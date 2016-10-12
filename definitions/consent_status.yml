@@ -25,4 +25,5 @@ properties:
         description: Was the consent to participate made against the most recently published version of this consent?
     type:
         type: string
+        readOnly: true
         enum: [ConsentStatus]

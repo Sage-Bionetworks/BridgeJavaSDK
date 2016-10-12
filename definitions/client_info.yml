@@ -29,4 +29,5 @@ properties:
         description: The version of the SDK being used
     type:
         type: string
+        readOnly: true
         enum: [ClientInfo]

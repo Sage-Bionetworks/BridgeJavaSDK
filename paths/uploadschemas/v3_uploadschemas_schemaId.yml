@@ -12,6 +12,8 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/paged_resources/upload_schema.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
 delete:
     summary: Delete all revisions of an upload schema
     tags: 
@@ -24,3 +26,5 @@ delete:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

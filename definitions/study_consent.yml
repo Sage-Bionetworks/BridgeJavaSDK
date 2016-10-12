@@ -5,7 +5,6 @@ required:
     - subpopulationGuid
     - createdOn
     - documentContent
-    - type
 properties:
     subpopulationGuid:
         type: string
@@ -32,4 +31,5 @@ properties:
             **Note:** calls that return lists of these study consents do not populate this field. You must retrieve an individual study consent to get the content of the consent.
     type:
         type: string
+        readOnly: true
         enum: [StudyConsent]

@@ -110,4 +110,5 @@ properties:
             type: integer
     type:
         type: string
+        readOnly: true
         enum: [Study]

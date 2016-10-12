@@ -3,7 +3,6 @@ required:
     - date
     - data
     - healthCode
-    - type
 properties:
     date:
         type: string
@@ -14,4 +13,5 @@ properties:
         type: string
     type:
         type: string
+        readOnly: true
         enum: [ReportData]

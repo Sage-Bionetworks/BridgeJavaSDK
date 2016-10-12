@@ -6,7 +6,6 @@ required:
     - contentLength
     - contentMd5
     - contentType
-    - type
 properties:
     name:
         type: string
@@ -26,4 +25,5 @@ properties:
             For more information, go to [http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17)
     type:
         type: string
+        readOnly: true
         enum: [UploadRequest]

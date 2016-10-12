@@ -3,7 +3,6 @@ description: A pointer to a task identifier defined for this study, and associat
     be performed as part of the mobile application health study (e.g. a walking test).
 required:
     - identifier
-    - type
 properties:
     identifier:
         type: string
@@ -12,4 +11,5 @@ properties:
             it needs to be defined for a study but has no further meaning on the server. 
     type:
         type: string
+        readOnly: true
         enum: [TaskReference]

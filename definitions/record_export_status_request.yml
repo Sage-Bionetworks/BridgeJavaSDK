@@ -2,7 +2,6 @@ type: object
 required:
     - recordIds
     - synapseExporterStatus
-    - type
 properties:
     recordIds:
         type: array
@@ -15,4 +14,5 @@ properties:
             - succeeded
     type:
         type: string
+        readOnly: true
         enum: [RecordExportStatusRequest]

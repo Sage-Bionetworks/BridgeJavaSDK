@@ -16,3 +16,5 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/request_info.yml
+        403:
+            $ref: ../../responses/403_not_researcher.yml                

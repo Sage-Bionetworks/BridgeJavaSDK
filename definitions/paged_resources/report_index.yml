@@ -1,19 +1,18 @@
 type: object
-required:
-    - items
-    - total
-    - reportType
-    - type
 properties:
     items:
         type: array
+        readOnly: true
         items:
             $ref: ../report_index.yml
     reportType:
         type: string
+        readOnly: true
         enum: [study,participant]
     total:
         type: integer
+        readOnly: true
     type:
         type: string
+        readOnly: true
         enum: [ReportTypeResourceList]

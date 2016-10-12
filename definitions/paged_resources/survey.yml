@@ -1,16 +1,15 @@
 type: object
-required:
-    - items
-    - total
-    - type
 properties:
     items:
         type: array
+        readOnly: true
         items:
             $ref: ../survey.yml
     total:
         type: integer
+        readOnly: true
         description: The total number of records in the items list
     type:
         type: string
+        readOnly: true
         enum: [ResourceList]

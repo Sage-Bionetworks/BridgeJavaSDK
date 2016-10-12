@@ -45,10 +45,10 @@ get:
                 type: array
                 items:
                     $ref: ../../definitions/scheduled_activity.yml
+        410:
+            $ref: ../../responses/410.yml
         412:
-            description: User has signed in, but is not consented
-            schema:
-                $ref: ../../definitions/user_session_info.yml
+            $ref: ../../responses/412.yml
 post:
     summary: Update the status of one or more scheduled activities.
     tags: 
@@ -70,3 +70,7 @@ post:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml

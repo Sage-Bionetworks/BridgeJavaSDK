@@ -1,0 +1,22 @@
+200_message:
+    $ref: ./200_message.yml
+201_message:
+    $ref: ./201_message.yml
+202_message:
+    $ref: ./202_message.yml
+403_not_admin:
+    $ref: ./403_not_admin.yml
+403_not_developer:
+    $ref: ./403_not_developer.yml
+403_not_developer_worker:
+    $ref: ./403_not_developer_worker.yml
+403_not_developer_researcher_admin:
+    $ref: ./403_not_developer_researcher_admin.yml
+403_not_researcher:
+    $ref: ./403_not_researcher.yml
+403_not_worker:
+    $ref: ./403_not_worker.yml
+410:
+    $ref: ./410.yml
+412:
+    $ref: ./412.yml

@@ -2,7 +2,6 @@ type: object
 description: A payload that contains a string array of data groups. 
 required:
     - dataGroups
-    - type
 properties:
     dataGroups:
         type: array
@@ -10,4 +9,5 @@ properties:
             type: string
     type:
         type: string
+        readOnly: true
         enum: [DataGroups]

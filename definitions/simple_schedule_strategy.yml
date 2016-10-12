@@ -12,4 +12,5 @@ allOf:
             $ref: ./schedule.yml
         type:
             type: string
+            readOnly: true
             enum: [SimpleScheduleStrategy]

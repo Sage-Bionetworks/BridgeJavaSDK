@@ -8,7 +8,6 @@ required:
     - required
     - defaultGroup
     - version
-    - type
 properties:
     guid:
         type: string
@@ -38,4 +37,5 @@ properties:
         description: The URL to the location of the published consent PDF document for this subpopulation
     type:
         type: string
+        readOnly: true
         enum: [Subpopulation]

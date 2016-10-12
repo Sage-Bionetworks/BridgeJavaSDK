@@ -21,7 +21,6 @@ required:
     - subject
     - mimeType
     - body
-    - type
 properties:
     subject:
         type: string
@@ -36,5 +35,5 @@ properties:
         description: The body text of the email message (can be text or HTML, but the mimeType must be set appropriately)
     type:
         type: string
+        readOnly: true
         enum: [EmailTemplate]
-    

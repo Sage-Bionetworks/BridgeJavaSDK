@@ -7,7 +7,6 @@ required:
     - createdOn
     - status
     - studyIdentifier
-    - type
 properties:
     firstName:
         type: string
@@ -36,4 +35,5 @@ properties:
         $ref: ./study_identifier.yml
     type:
         type: string
+        readOnly: true
         enum: [AccountSummary]

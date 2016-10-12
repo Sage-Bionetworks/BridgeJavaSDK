@@ -5,7 +5,6 @@ required:
     - schemaId
     - version
     - fieldDefinitions
-    - type
 properties:
     name:
         type: string
@@ -43,4 +42,5 @@ properties:
             $ref: ./upload_field_definition.yml
     type:
         type: string
+        readOnly: true
         enum: [UploadSchema]

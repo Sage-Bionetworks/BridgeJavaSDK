@@ -60,5 +60,6 @@ properties:
             - all_qualified_researchers
     type:
         type: string
+        readOnly: true
         enum: [ConsentSignature]
     

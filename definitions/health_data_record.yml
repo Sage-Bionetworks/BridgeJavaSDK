@@ -1,8 +1,6 @@
 description: |
      See [Bridge Upload Data Format](/articles/study_design/upload_data_format.html) for details abot this model object.
 type: object
-required:
-    - type
 properties:
     createdOn:
         type: string
@@ -65,4 +63,5 @@ properties:
             value issued by the service or an update will fail.
     type:
         type: string
+        readOnly: true
         enum: [HealthDataRecord]

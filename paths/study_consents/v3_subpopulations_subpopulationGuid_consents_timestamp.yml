@@ -20,3 +20,5 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/study_consent.yml
+        403:
+            $ref: ../../responses/403_no_developer.yml                  

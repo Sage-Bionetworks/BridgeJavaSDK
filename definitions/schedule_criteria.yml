@@ -2,7 +2,6 @@ type: object
 required:
     - criteria
     - schedule
-    - type
 properties:
     criteria:
         $ref: ./criteria.yml
@@ -10,4 +9,5 @@ properties:
         $ref: ./schedule.yml
     type:
         type: string
+        readOnly: true
         enum: [ScheduleCriteria]

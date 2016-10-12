@@ -5,11 +5,10 @@ required:
     - times
     - activities
     - persistent
-    - type
 properties:
     label:
         type: string
-        description: A label to describe this schedule. Optional.
+        description: A label to describe this schedule.
     scheduleType:
         type: string
         enum:
@@ -87,5 +86,6 @@ properties:
             $ref: ./activity.yml
     type:
         type: string
+        readOnly: true
         enum: [Schedule]
     

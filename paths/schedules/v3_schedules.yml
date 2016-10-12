@@ -15,3 +15,7 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/paged_resources/schedule.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml

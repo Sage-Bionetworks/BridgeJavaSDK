@@ -1,7 +1,6 @@
 type: object
 required:
     - publicKey
-    - type
 properties:
     publicKey:
         type: string
@@ -10,5 +9,6 @@ properties:
             to the Bridge server. Each study has a different CMS public key.
     type:
         type: string
+        readOnly: true
         enum: [CmsPublicKey]
 

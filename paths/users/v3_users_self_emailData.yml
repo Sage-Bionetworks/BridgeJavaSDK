@@ -19,3 +19,7 @@ post:
     responses:
         202:
             $ref: ../../responses/202_message.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml

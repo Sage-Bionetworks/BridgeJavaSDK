@@ -11,4 +11,5 @@ properties:
         description: String identifier if the participant's study.
     type:
         type: string
+        readOnly: true
         enum: [Email]

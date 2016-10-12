@@ -2,7 +2,6 @@ type: object
 required:
     - startDate
     - endDate
-    - type
 properties:
     startDate:
         type: string
@@ -14,4 +13,5 @@ properties:
         description: end date of the date range
     type:
         type: string
+        readOnly: true
         enum: [DateRange]

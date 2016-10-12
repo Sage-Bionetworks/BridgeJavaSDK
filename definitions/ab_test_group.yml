@@ -10,4 +10,5 @@ properties:
         $ref: ./schedule.yml
     type:
         type: string
+        readOnly: true
         enum: [ScheduleGroup]

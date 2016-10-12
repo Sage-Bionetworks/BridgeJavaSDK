@@ -25,6 +25,8 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/paged_resources/external_identifier.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
 post:
     summary: Add external IDs to the study
     tags:
@@ -43,6 +45,8 @@ post:
     responses:
         201:
             $ref: ../../responses/201_message.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
 delete:
     summary: Delete one or more external IDs
     tags: 
@@ -61,3 +65,5 @@ delete:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

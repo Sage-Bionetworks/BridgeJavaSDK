@@ -3,7 +3,6 @@ required:
     - guid
     - label
     - strategy
-    - type
 properties:
     guid:
         type: string
@@ -18,6 +17,6 @@ properties:
         type: integer
     type:
         type: string
+        readOnly: true
         enum: [SchedulePlan]
-
     
