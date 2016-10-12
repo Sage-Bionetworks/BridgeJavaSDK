@@ -5,13 +5,27 @@
     <groupId>org.sagebionetworks.bridge</groupId>
     <artifactId>sdk-group</artifactId>
     <!-- Please use the maven versions plugin to manage this, e.g.`mvn versions:set -DnewVersion=0.8.1`-->
-    <version>0.10.4</version>
+    <version>0.10.5</version>
     <packaging>pom</packaging>
     <url>https://api.sagebridge.org</url>
  
     <modules>
+        <module>api-codegen</module>
         <module>java-sdk</module>
     </modules>
+
+    <properties>
+        <retrofit.version>2.1.0</retrofit.version>
+        <joda-time.version>2.9.4</joda-time.version>
+        <jackson.version>2.6.2</jackson.version>
+        <guava.version>19.0</guava.version>
+        <mockito.version>1.10.19</mockito.version>
+        <junit.version>4.11</junit.version>
+        <equalsverifier.version>1.6</equalsverifier.version>
+        <commons-verifier.version>1.4.0</commons-verifier.version>
+        <commons-long.version>3.1</commons-long.version>
+    </properties>
+
 
     <pluginRepositories>
         <pluginRepository>
@@ -20,17 +34,90 @@
         </pluginRepository>
     </pluginRepositories>
 
+
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-long.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-validator</groupId>
+                <artifactId>commons-validator</artifactId>
+                <version>${commons-verifier.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.retrofit2</groupId>
+                <artifactId>retrofit</artifactId>
+                <version>${retrofit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.retrofit2</groupId>
+                <artifactId>converter-jackson</artifactId>
+                <version>${retrofit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.retrofit2</groupId>
+                <artifactId>converter-gson</artifactId>
+                <version>${retrofit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.retrofit2</groupId>
+                <artifactId>adapter-rxjava</artifactId>
+                <version>${retrofit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-joda</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>${joda-time.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>${joda-time.version}</version>
+                <classifier>no-tzdb</classifier>
+            </dependency>
+            <dependency>
+                <groupId>net.danlew</groupId>
+                <artifactId>android.joda</artifactId>
+                <version>[${joda-time.version},]</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.11</version>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>nl.jqno.equalsverifier</groupId>
+                <artifactId>equalsverifier</artifactId>
+                <version>${equalsverifier.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <build>
         <plugins>
             <plugin>
