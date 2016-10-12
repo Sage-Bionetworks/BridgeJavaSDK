@@ -10,6 +10,8 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/paged_resources/subpopulation.yml
+        401:
+            $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_developer.yml
 post:
@@ -31,5 +33,7 @@ post:
             description: Created
             schema:
                 $ref: ../../definitions/guid_version_holder.yml
+        401:
+            $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_developer.yml

@@ -12,6 +12,8 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/paged_resources/upload_schema.yml
+        401:
+            $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_developer.yml
 delete:
@@ -26,5 +28,7 @@ delete:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_developer.yml

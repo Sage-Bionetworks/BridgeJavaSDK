@@ -18,6 +18,8 @@ post:
             description: OK
             schema:
                 $ref: ../../definitions/upload_session.yml
+        401:
+            $ref: ../../responses/401.yml
         410:
             $ref: ../../responses/410.yml
         412:

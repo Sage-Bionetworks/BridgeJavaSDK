@@ -18,3 +18,5 @@ get:
             description: Report records for the participant
             schema:
                 $ref: ../../definitions/paged_resources/report_data.yml
+        401:
+            $ref: ../../responses/401.yml

@@ -14,6 +14,8 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/study_participant.yml
+        401:
+            $ref: ../../responses/401.yml
 post:
     summary: Update user's participant record
     description: |
@@ -40,3 +42,5 @@ post:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml

@@ -14,5 +14,7 @@ post:
             description: Created
             schema:
                 $ref: ../../definitions/guid_createdOn_version_holder.yml
+        401:
+            $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_developer.yml

@@ -27,6 +27,8 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/paged_resources/account_summary.yml
+        401:
+            $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_researcher.yml
 post:
@@ -46,5 +48,7 @@ post:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_researcher.yml

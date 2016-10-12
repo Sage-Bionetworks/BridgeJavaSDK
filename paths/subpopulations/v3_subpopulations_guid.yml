@@ -13,6 +13,8 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/subpopulation.yml   
+        401:
+            $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_developer_researcher.yml
 post:
@@ -35,6 +37,8 @@ post:
             description: OK
             schema:
                 $ref: ../../definitions/guid_version_holder.yml
+        401:
+            $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_developer.yml
 delete:
@@ -61,5 +65,7 @@ delete:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_admin_developer.yml

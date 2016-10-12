@@ -19,6 +19,8 @@ post:
     responses:
         202:
             $ref: ../../responses/202_message.yml
+        401:
+            $ref: ../../responses/401.yml
         410:
             $ref: ../../responses/410.yml
         412:

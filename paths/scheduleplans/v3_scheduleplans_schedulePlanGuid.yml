@@ -12,6 +12,8 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/schedule_plan.yml
+        401:
+            $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_developer.yml
 post:
@@ -31,6 +33,8 @@ post:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_developer.yml
 delete:
@@ -45,5 +49,7 @@ delete:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_developer.yml

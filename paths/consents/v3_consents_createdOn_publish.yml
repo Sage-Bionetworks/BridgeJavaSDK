@@ -13,3 +13,5 @@ post:
             description: OK
             schema:
                 $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml

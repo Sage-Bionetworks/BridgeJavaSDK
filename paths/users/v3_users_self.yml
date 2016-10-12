@@ -16,6 +16,8 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/user_profile.yml
+        401:
+            $ref: ../../responses/401.yml
 post:
     deprecated: true
     summary: Update the user profile
@@ -39,3 +41,5 @@ post:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml

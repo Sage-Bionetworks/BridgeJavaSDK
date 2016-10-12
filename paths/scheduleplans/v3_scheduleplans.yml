@@ -10,6 +10,8 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/paged_resources/schedule_plan.yml
+        401:
+            $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_developer.yml
 post:
@@ -28,5 +30,7 @@ post:
     responses:
         201:
             $ref: ../../responses/201_message.yml
+        401:
+            $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_developer.yml

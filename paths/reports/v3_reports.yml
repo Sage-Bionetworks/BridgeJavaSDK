@@ -16,3 +16,5 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/paged_resources/report_index.yml
+        401:
+            $ref: ../../responses/401.yml

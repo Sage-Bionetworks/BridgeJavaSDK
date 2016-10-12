@@ -13,6 +13,8 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/consent_signature.yml
+        401:
+            $ref: ../../responses/401.yml
         410:
             $ref: ../../responses/410.yml
         412:
@@ -38,4 +40,6 @@ post:
     responses:
         201:
             $ref: ../../responses/201_message.yml
-            
+        401:
+            $ref: ../../responses/401.yml
+    
