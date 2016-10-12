@@ -30,7 +30,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/bridge.json</inputSpec>
+                            <inputSpec>${project.basedir}/swagger.json</inputSpec>
                             <language>java</language>
                             <library>retrofit2</library>
                             
