@@ -6,7 +6,7 @@
         <groupId>org.sagebionetworks.bridge</groupId>
         <artifactId>sdk-group</artifactId>
         <!-- Please use the maven versions plugin to manage this, e.g.`mvn versions:set -DnewVersion=0.8.1`-->
-        <version>0.10.6</version>
+        <version>0.10.7</version>
     </parent>
 
     <!-- groupId and version are inherited from parent pom -->
@@ -19,7 +19,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <surefire.version>2.18.1</surefire.version>
         <javadoc.version>2.10.4</javadoc.version>
-        <maven-s3-wagon.version>1.2.1</maven-s3-wagon.version>
     </properties>
 
     <organization>
@@ -137,14 +136,4 @@
             </plugin>
         </plugins>
     </reporting>
-
-    <build>
-        <extensions>
-            <extension>
-                <groupId>org.kuali.maven.wagons</groupId>
-                <artifactId>maven-s3-wagon</artifactId>
-                <version>${maven-s3-wagon.version}</version>
-            </extension>            
-        </extensions>
-    </build>
 </project>

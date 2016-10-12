@@ -5,7 +5,7 @@
     <groupId>org.sagebionetworks.bridge</groupId>
     <artifactId>sdk-group</artifactId>
     <!-- Please use the maven versions plugin to manage this, e.g.`mvn versions:set -DnewVersion=0.8.1`-->
-    <version>0.10.6</version>
+    <version>0.10.7</version>
     <packaging>pom</packaging>
     <url>https://api.sagebridge.org</url>
  
@@ -127,17 +127,16 @@
 
         <extensions>
             <extension>
-                <groupId>org.springframework.build</groupId>
-                <artifactId>aws-maven</artifactId>
-                <version>5.0.0.RELEASE</version>
+                <groupId>org.kuali.maven.wagons</groupId>
+                <artifactId>maven-s3-wagon</artifactId>
+                <version>1.2.1</version>
             </extension>
         </extensions>
     </build>
 
     <distributionManagement>
         <repository>
-            <id>org-sagebridge-repo-maven-releases</id>
-            <name>org-sagebridge-repo-maven-releases</name>
+            <id>s3.release</id>
             <url>s3://org-sagebridge-repo-maven-releases</url>
         </repository>
     </distributionManagement>
