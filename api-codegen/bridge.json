@@ -844,6 +844,14 @@
         "parameters": [
           {
             "$ref": "#/parameters/userId"
+          },
+          {
+            "name": "withdrawal",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Withdrawal"
+            }
           }
         ],
         "responses": {
@@ -1105,7 +1113,10 @@
         ],
         "responses": {
           "201": {
-            "$ref": "#/paths/~1v3~1auth~1signUp/post/responses/201"
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/GuidVersionHolder"
+            }
           }
         }
       }
@@ -1163,7 +1174,10 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GuidVersionHolder"
+            }
           }
         }
       },
@@ -1267,6 +1281,14 @@
         "parameters": [
           {
             "$ref": "#/parameters/subpopulationGuid"
+          },
+          {
+            "name": "withdrawal",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Withdrawal"
+            }
           }
         ],
         "responses": {
@@ -3453,28 +3475,28 @@
       "properties": {
         "firstName": {
           "type": "string",
-          "readOnly": true
+          "description": "First (given) name of user."
         },
         "lastName": {
           "type": "string",
-          "readOnly": true
+          "description": "Last (family) name of user."
         },
         "email": {
           "type": "string",
-          "readOnly": true
+          "description": "Email address of user."
         },
         "id": {
           "type": "string",
-          "readOnly": true
+          "description": "An identifier assigned to this user, used to retrieve a study participant record."
         },
         "creatdOn": {
           "type": "string",
           "format": "date-time",
-          "readOnly": true
+          "description": "Read only. ISO 8601 date and time that the user account was created."
         },
         "status": {
           "type": "string",
-          "readOnly": true,
+          "description": "User account status. `unverified` indicates the user has not verified their email address.",
           "enum": [
             "enabled",
             "disabled",
@@ -3493,6 +3515,7 @@
       }
     },
     "Activity": {
+      "description": "When creating an activity as part of a Schedule, you will need to supply a SurveyReference or a TaskReference in the activity. When these are returned, any survey reference that points to the \"most recently published\" survey will be resolved to a specific survey revision (the one most recently published).\n\nTasks may be requested into the future by the client, and then cached. So if a survey is changed and published, it may be some time before participants receive the updated survey.\n",
       "type": "object",
       "required": [
         "label",
@@ -3535,6 +3558,7 @@
       }
     },
     "ClientInfo": {
+      "description": "Describes the content of the `User-Agent` field in the format that is accepted and understandable to the Bridge server (see [REST API getting started](/articles/rest.html)).",
       "type": "object",
       "properties": {
         "appName": {
@@ -3593,6 +3617,7 @@
       }
     },
     "ConsentSignature": {
+      "description": "To consent to participation in a subpopulation (also known as a consent group), participants submit \ntheir electronic signature which can include an image of their actual signature. \n\nIn addition, participants submit a decision on how widely they will share their medical information with researchers (see the scope property of the ConsentSignature JSON object, below).\n\nHow you describe this choice to participants is important if they are to correctly understand the consequences of this decision. We strongly suggest that applications present the following language to users when making this choice:\n\n* **Option #1:** No data sharing. I do not agree to share my coded data (without my name) at this time;\n* **Option #2:** I agree to share my coded data (without my name) with researchers at the sponsor institution, and their partners, in order to conduct this study;\n* **Option #3:** I agree to share my coded data (without my name) with qualified researchers worldwide, for general health research.\n",
       "type": "object",
       "required": [
         "name",
@@ -3603,12 +3628,12 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "The participant's name"
+          "description": "The participant's name."
         },
         "birthdate": {
           "type": "string",
           "format": "date",
-          "description": "The participant's date of birth"
+          "description": "The participant's date of birth in ISO 8601 format (YYYY-MM-DD)."
         },
         "imageData": {
           "type": "string",
@@ -3617,7 +3642,7 @@
         },
         "imageMimeType": {
           "type": "string",
-          "description": "mime type of this image (e.g. \"image/png\")"
+          "description": "mime type of this image (e.g. \"image/png\"). Should only be present if imageData is present."
         },
         "consentCreatedOn": {
           "type": "string",
@@ -3626,7 +3651,7 @@
         },
         "signedOn": {
           "type": "string",
-          "description": "The date and time of agreement to this consent\n",
+          "description": "The date and time of agreement to this consent.\n",
           "format": "date-time"
         },
         "withdrewOn": {
@@ -3636,7 +3661,7 @@
         },
         "scope": {
           "type": "string",
-          "description": "How the participant wishes to share the information collected: not at all; \nshare data in data sets that are available to the study researchers and \ntheir researcher partners only; and finally share data with researchers \nwho qualify under the specific governance qualifications to access the \nstudy's data set.\n",
+          "description": "|Enum|Description|\n|---|---|\n|no_sharing| don't share data generated by this participant (option #1, above);|\n|sponsors_and_partners|share data in data sets that are available to the study researchers and their researcher partners only (option #2, above)|\n|all_qualified_researchers|share data with researchers who qualify under the specific governance qualifications to access the study's data set|\n",
           "enum": [
             "no_sharing",
             "sponsors_and_partners",
@@ -3693,8 +3718,6 @@
       "type": "object",
       "description": "Some objects, like Subpopulations and the schedules in a CriteriaScheduleStrategy, are \nmatched against user criteria in order to return the correct object. The criteria \nagainst which user information will be matched are described in the Criteria object. \n",
       "required": [
-        "allOfGroups",
-        "noneOfGroups",
         "type"
       ],
       "properties": {
@@ -3803,11 +3826,13 @@
       "properties": {
         "startDate": {
           "type": "string",
-          "format": "date"
+          "format": "date",
+          "description": "start date of the date range"
         },
         "endDate": {
           "type": "string",
-          "format": "date"
+          "format": "date",
+          "description": "end date of the date range"
         },
         "type": {
           "type": "string",
@@ -3825,10 +3850,12 @@
       ],
       "properties": {
         "email": {
-          "type": "string"
+          "type": "string",
+          "description": "Participant's email."
         },
         "studyIdentifier": {
-          "type": "string"
+          "type": "string",
+          "description": "String identifier if the participant's study."
         },
         "type": {
           "type": "string",
@@ -3921,11 +3948,17 @@
       "type": "object",
       "required": [
         "identifier",
+        "assigned",
         "type"
       ],
       "properties": {
         "identifier": {
-          "type": "string"
+          "type": "string",
+          "description": "The external identifier."
+        },
+        "assigned": {
+          "type": "boolean",
+          "description": "If true, the identifier has been assigned to an account, otherwise false."
         },
         "type": {
           "type": "string",
@@ -3936,6 +3969,7 @@
       }
     },
     "GuidCreatedOnVersionHolder": {
+      "description": "An object that describes the keys and optimistic lock values of a Survey. This object\nis returned from create and update endpoints rather than an entire Survey.\n",
       "type": "object",
       "required": [
         "guid",
@@ -3944,14 +3978,17 @@
       ],
       "properties": {
         "guid": {
-          "type": "string"
+          "type": "string",
+          "description": "The guid of the survey (added when the survey is created)."
         },
         "createdOn": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "The createdOn value of the survey (added when survey is created)."
         },
         "version": {
-          "type": "integer"
+          "type": "integer",
+          "description": "The optimistic locking version of the survey (increments when the survey is \nupdated). If a survey is submitted with a version that is not the currently saved \nversion of the survey, a 409 (Conflict) error will occur.\n"
         },
         "type": {
           "type": "string",
@@ -3961,45 +3998,84 @@
         }
       }
     },
-    "HealthDataRecord": {
+    "GuidVersionHolder": {
+      "description": "An object that describes the keys and optimistic lock values of an entity (e.g. a \nSubpopulation or SchedulePlan). This object is returned from create and update endpoints \nrather than an entire entity.\n",
       "type": "object",
+      "required": [
+        "guid",
+        "version",
+        "type"
+      ],
+      "properties": {
+        "guid": {
+          "type": "string",
+          "description": "The guid of the entity (added when the entity is created)."
+        },
+        "version": {
+          "type": "integer",
+          "description": "The optimistic locking version of the survey (increments when the entity is \nupdated). If an entity is submitted with a version that is not the currently saved \nversion of the entity, a 409 (Conflict) error will occur.\n"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "GuidVersionHolder"
+          ]
+        }
+      }
+    },
+    "HealthDataRecord": {
+      "description": "See [Bridge Upload Data Format](/articles/study_design/upload_data_format.html) for details abot this model object.\n",
+      "type": "object",
+      "required": [
+        "type"
+      ],
       "properties": {
         "createdOn": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "ISO timestamp of when the data record was created, as reported by the submitting app"
         },
         "data": {
-          "type": "object"
+          "type": "object",
+          "description": "JSON map with key value pairs representing the record's data."
         },
         "id": {
-          "type": "string"
+          "type": "string",
+          "description": "A unique GUID for this record."
         },
         "metadata": {
-          "type": "object"
+          "type": "object",
+          "description": "Arbitrary JSON blob of record metadata, as submitted by the app. For \nResearchKit-based apps, this is info.json verbatim.\n"
         },
         "schemaId": {
-          "type": "string"
+          "type": "string",
+          "description": "Schema ID for the record."
         },
         "schemaRevision": {
-          "type": "integer"
+          "type": "integer",
+          "description": "Schema revision for the record."
         },
         "studyId": {
-          "type": "string"
+          "type": "string",
+          "description": "Study that this record lives in."
         },
         "uploadDate": {
           "type": "string",
-          "format": "date"
+          "format": "date",
+          "description": "Calendar date in YYYY-MM-DD format representing when the server received the upload, \nusing the server's local time zone (US Pacific timezone).\n"
         },
         "uploadId": {
           "type": "string",
-          "description": "the upload GUID"
+          "description": "The upload GUID of the upload this record is processed from."
         },
         "uploadedOn": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "The date and time of the upload."
         },
         "userSharingScope": {
           "type": "string",
+          "description": "The user's sharing scope at the time of this upload's submission.",
           "enum": [
             "no_sharing",
             "sponsors_and_partners",
@@ -4007,16 +4083,25 @@
           ]
         },
         "userExternalId": {
-          "type": "string"
+          "type": "string",
+          "description": "The user's external ID at the time of this upload's submission."
         },
         "userDataGroups": {
           "type": "array",
+          "description": "The user's data groups at the time of this upload's submission.",
           "items": {
             "type": "string"
           }
         },
         "version": {
-          "type": "integer"
+          "type": "integer",
+          "description": "A version number issued for optimistic locking of record updates. Should not be \nset when creating a new health data record. When updating a record retrieved from \nthe API, the object will have the version attribute and this must match the last \nvalue issued by the service or an update will fail.\n"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "HealthDataRecord"
+          ]
         }
       }
     },
@@ -4028,13 +4113,16 @@
       ],
       "properties": {
         "source": {
-          "type": "string"
+          "type": "string",
+          "description": "An URL to an image. It is strongly recommended that the image be an SVG (vector graphics, \nre-scalable to the target device's screen size and resolution), at least 600 by 400 pixels \nin size, if not larger (some phones have screens of up to 800 or more pixels across the \nscreen).\n"
         },
         "width": {
-          "type": "integer"
+          "type": "integer",
+          "description": "The width of the image in pixels. If image is present, this field is required."
         },
         "height": {
-          "type": "integer"
+          "type": "integer",
+          "description": "The height of the image in pixels. If image is present, this field is required."
         },
         "type": {
           "type": "string",
@@ -4057,23 +4145,36 @@
     },
     "PasswordPolicy": {
       "type": "object",
+      "required": [
+        "minLength"
+      ],
       "properties": {
         "minLength": {
           "type": "integer",
-          "minimum": 1,
-          "default": 8
+          "minimum": 2,
+          "maximum": 100,
+          "default": 8,
+          "description": "The minimum number of characters that's required in the password."
         },
         "numericRequired": {
-          "type": "boolean"
+          "type": "boolean",
+          "default": true,
+          "description": "Is at least one number required in the password? (0-9)."
         },
         "symbolRequired": {
-          "type": "boolean"
+          "type": "boolean",
+          "default": true,
+          "description": "Is at least one ASCII symbol (non-letter, non-number) required in the \npassword? (! \" # $ % & ' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _ ` { ¦ } ~).\n"
         },
         "lowerCaseRequired": {
-          "type": "boolean"
+          "type": "boolean",
+          "default": true,
+          "description": "Is at least one lower-case letter required? (a-z)."
         },
         "upperCaseRequired": {
-          "type": "boolean"
+          "type": "boolean",
+          "default": true,
+          "description": "Is at least one upper-case letter required? (A-Z)."
         }
       }
     },
@@ -4086,7 +4187,7 @@
       "properties": {
         "password": {
           "type": "string",
-          "description": "New password to use"
+          "description": "New password to use."
         },
         "sptoken": {
           "type": "string",
@@ -4457,6 +4558,7 @@
       "properties": {
         "scope": {
           "type": "string",
+          "description": "One of three values:\n\n|Value|Description|\n|---|---|\n|no_sharing|Don't share data generated by this participant.|\n|sponsors_and_partners|Share data in data sets that are available to the study researchers and their researcher partners only.|\n|all_qualified_researchers|Share data with researchers who qualify under the specific governance qualifications to access the study's data set. These researchers may do research on new questions after the lifetime of the initial research.|\n",
           "enum": [
             "no_sharing",
             "sponsors_and_partners",
@@ -4564,85 +4666,116 @@
     },
     "Study": {
       "type": "object",
+      "required": [
+        "name",
+        "sponsorName",
+        "supportEmail",
+        "technicalEmail",
+        "consentNotificationEmail",
+        "identifier"
+      ],
       "properties": {
         "name": {
-          "type": "string"
+          "type": "string",
+          "description": "A label for the study. This will be shown to users in emails and other contexts."
         },
         "sponsorName": {
-          "type": "string"
+          "type": "string",
+          "description": "The name of the institution or organization that is conducting the study. Emails will be sent \"from\" this entity."
         },
         "supportEmail": {
-          "type": "string"
+          "type": "string",
+          "description": "The email address that will be given to study participants and other end user for all support requests and queries (technical, study-related, etc.). This can be a comma-separated list of email addresses. \n"
         },
         "technicalEmail": {
-          "type": "string"
+          "type": "string",
+          "description": "The email address for a technical contact who can coordinate with the Bridge Server team on issues related either to client development or hand-offs of the study data through the Bridge server. This can be a comma-separated list of email addresses.\n"
         },
         "consentNotificationEmail": {
-          "type": "string"
+          "type": "string",
+          "description": "Copies of all consent agreements, as well as rosters of all participants in a study, or any other study governance issues, will be emailed to this address. This can be a comma-separated list of email addresses.\n"
         },
         "identifier": {
-          "type": "string"
+          "type": "string",
+          "description": "A user selected identifier that is unique relative to all other Bridge studies (lower-case letters and dashes only). The identifier serves as a \"domain\" that scopes accounts to that study, and is usually created by combining an institution and study tag or acronym. For example, if your work at the University of Washington and your study is on Asthma in Children, your identifier might be uw-child-asthma. Users will not see this identifier.\n"
         },
         "version": {
-          "type": "integer"
+          "type": "integer",
+          "description": "A version number used for optimistic locking of the object these keys represent; this value must be passed back to the server on subsequent updates. An error will be returned (409 Conflict) if the object has been updated since it was retrieved by this client.\n"
         },
         "minAgeOfConsent": {
-          "type": "integer"
+          "type": "integer",
+          "default": 18,
+          "description": "The minimum required age for participants in the study. If the user reports they are younger than this age, they will not be allowed to consent to the research.\n"
         },
         "synapseDataAccessTeamId": {
-          "type": "integer"
+          "type": "integer",
+          "description": "Synapse team ID that is granted read access to exported health data records.\n"
         },
         "synapseProjectId": {
-          "type": "integer"
+          "type": "integer",
+          "description": "The Synapse project to export health data records to."
         },
         "usesCustomExportSchedule": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "By default, all studies are exported using the default nightly schedule. Some studies may need custom schedules for hourly or on-demand exports. To prevent this study from being exported twice (once by the custom schedule, once by the default schedule), you should set this attribute to true.\n"
         },
         "userProfileAttributes": {
           "type": "array",
+          "description": "Custom attributes that can be added to the StudyParticipant object (as members of the attributes property). This data can be personally identifying health information; it will be stored encrypted and in a separate data store from the participant's health data.\n",
           "items": {
             "type": "string"
           }
         },
         "taskIdentifiers": {
           "type": "array",
+          "description": "An enumerated list of **unique** strings that can be used to identify tasks when creating schedules. These mostly serve to prevent typos when designing schedules, which would prevent client scheduling from working. There's no hard limit on the string content (e.g. \"Tapping Test\" is fine as a task identifier, as long as it uniquely identifies a task known to the application).\n",
           "items": {
             "type": "string"
           }
         },
         "dataGroups": {
           "type": "array",
+          "description": "An enumerated list of **unique** strings that can be assigned to user accounts. These \"tags\" will be exported with a participant's health data to Synapse. This can be used to identify test users or specific cohorts in the study, but it should not include sensitive health information about participants. Strings must contain only letters, numbers, underscore or dash, and cannot (as a comma-separated list) exceed the character limit of 100 characters so they can be exported to Synapse.\n",
           "items": {
             "type": "string"
           }
         },
         "passwordPolicy": {
+          "description": "Settings that will govern what is accepted as a valid password when users sign up for the study. If not included, the password policy will default to requiring 8 characters, including lower and upper-case letters, at least one number and at least one symbol.\n",
           "$ref": "#/definitions/PasswordPolicy"
         },
         "verifyEmailTemplate": {
+          "description": "The template for emails delivered to users during sign up, asking them to verify their email address.\n",
           "$ref": "#/definitions/EmailTemplate"
         },
         "resetPasswordTemplate": {
+          "description": "The template for emails delivered to users who ask to reset their passwords.",
           "$ref": "#/definitions/EmailTemplate"
         },
         "active": {
           "type": "boolean"
         },
         "strictUploadValidationEnabled": {
+          "description": "True if uploads in this study should fail on strict validation errors.",
           "type": "boolean"
         },
         "healthCodeExportEnabled": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "**Admin only; read-only for developers.** Should user health codes be exported as part of the participant roster? This identifies users in the public data set; this can only be set to true for certain studies where users expect to be identified by researchers.\n"
         },
         "emailVerificationEnabled": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "**Admin only; read-only for developers.** Should users be asked to validate that they control the email addresses they use to sign up for the study? True by default.\n"
         },
         "externalIdValidationEnabled": {
-          "type": "boolean"
+          "type": "boolean",
+          "default": false,
+          "description": "Should external identifiers be validated? If this is false, then the external ID is treated as an unconstrained string. If this is true, the study designer will need to enter the list of valid codes into Bridge. Bridge will ensure that the following is true:\n\n* If assigned, the ID will have to match one of the IDs entered into Bridge;\n* A given ID will be assigned to one and only one user\n* Once assigned, it is not possible to change or remove the external ID from the user account\n"
         },
         "minSupportedAppVersions": {
           "type": "object",
-          "description": "Minimum supported app versions (older versions will be blocked), keyed by the \nname of the operating system (we expect either \"Android\" or \"iPhone OS\" in the \nUser-Agent header of all requests sent to the server)\n",
+          "description": "Minimum supported app versions (older versions will be blocked), keyed by the \nname of the operating system (we expect either \"Android\" or \"iPhone OS\" in the \nUser-Agent header of all requests sent to the server). Example: `{\"iPhone OS\":14,\"Android\":10}`\n",
           "additionalProperties": {
             "type": "integer"
           }
@@ -4657,7 +4790,7 @@
     },
     "StudyConsent": {
       "type": "object",
-      "description": "For historical reasons, a revision of a consent document is known as a \"study consent\", it would \nmore accurately be named a \"subpopulation consent\" at this point. It is a revision of a consent \ndocument that is associated with a specific study subpopulation.\n",
+      "description": "For historical reasons, a revision of a consent document is known as a \"study consent\" (it would more accurately be named a \"subpopulation consent\" at this point). It is a revision of a consent document that is associated with a specific study subpopulation.\n",
       "required": [
         "subpopulationGuid",
         "createdOn",
@@ -4666,14 +4799,17 @@
       ],
       "properties": {
         "subpopulationGuid": {
-          "type": "string"
+          "type": "string",
+          "description": "The guid of the subpopulation to which this consent belongs."
         },
         "createdOn": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "The time the document was created on the server, represented in ISO 8601 \nformat (e.g. 2011-12-03T22:11:34.554Z). Each update of the consent document \ncreates a new revision at a new `createdOn` timestamp.\n"
         },
         "documentContent": {
-          "type": "string"
+          "type": "string",
+          "description": "A valid XHTML document describing the consent. In this document, the following tokens can be inserted and they will be substituted with the user's consent information when the consent is requested for that user:\n\n|Template variable|Substituted with|\n|---|---|\n|${studyName}|The name of the study|\n|${supportEmail}|The support email address for the study|\n|${technicalEmail}|The technical contact/support email address for the study|\n|${sponsorName}|The name of the sponsor for this study (the institution or research team name)|\n\n**Note:** calls that return lists of these study consents do not populate this field. You must retrieve an individual study consent to get the content of the consent.\n"
         },
         "type": {
           "type": "string",
@@ -4816,30 +4952,38 @@
           "type": "string"
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "description": "The name of this survey. The name can be changed after creation, and should not \nappear in the UI.\n"
         },
         "identifier": {
-          "type": "string"
+          "type": "string",
+          "description": "A private name for the survey, only visible to researchers, used to identify \nthe survey on export. It is recommended (but not required) that this identifier \nbe unique for this survey type within this study.\n"
         },
         "published": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "Is this survey version published? Once published, a survey version may not be \nmodified, but can be scheduled for presentation to users.\n"
         },
         "schemaRevision": {
-          "type": "integer"
+          "type": "integer",
+          "description": "The corresponding schema revision that Bridge server parses against to export \nto Synapse.\n"
         },
         "createdOn": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "The ISO 8601 date on which this version of this survey was created."
         },
         "modifiedOn": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "The date and time when this version of the survey was last modified."
         },
         "version": {
-          "type": "integer"
+          "type": "integer",
+          "description": "The version of this survey as used to implement optimistic locking. This must \nbe passed back to the server on an update, unmodified, in order for the update \nto succeed. If the survey has been concurrently modified, the update will throw \nan error.\n"
         },
         "elements": {
           "type": "array",
+          "description": "An ordered collection of SurveyElement sub-types (the order the questions will \nappear in the survey).\n",
           "items": {
             "discriminator": "type",
             "$ref": "#/definitions/SurveyElement"
@@ -4864,10 +5008,12 @@
       ],
       "properties": {
         "guid": {
-          "type": "string"
+          "type": "string",
+          "description": "A unique GUID for this element of the survey"
         },
         "identifier": {
-          "type": "string"
+          "type": "string",
+          "description": "A unique identifier, assigned by a researcher, that is maintained through later \nversions of the survey. This is not as useful as the identifier which is exported \nfor a question, but can be used to retrieve the screen for subsequent edits.\n"
         }
       }
     },
@@ -4880,21 +5026,26 @@
         {
           "required": [
             "title",
+            "prompt",
             "type"
           ]
         },
         {
           "properties": {
             "title": {
-              "type": "string"
+              "type": "string",
+              "description": "A title for this screen."
             },
             "prompt": {
-              "type": "string"
+              "type": "string",
+              "description": "The main instructions or information text for the user"
             },
             "promptDetail": {
-              "type": "string"
+              "type": "string",
+              "description": "Further information on the instructions, displayed in a secondary manner to \nthe prompt (smaller text, more button, etc.).\n"
             },
             "image": {
+              "description": "An optional Image element describing an image to show for this screen.",
               "$ref": "#/definitions/Image"
             },
             "type": {
@@ -4908,6 +5059,7 @@
       ]
     },
     "SurveyQuestion": {
+      "description": "A question in the survey.\n",
       "allOf": [
         {
           "$ref": "#/definitions/SurveyElement"
@@ -4915,14 +5067,18 @@
         {
           "required": [
             "title",
+            "identifier",
+            "prompt",
             "constraints",
-            "fireEvent",
             "uiHint",
             "type"
           ]
         },
         {
           "properties": {
+            "identifier": {
+              "type": "string"
+            },
             "title": {
               "type": "string"
             },
@@ -4937,6 +5093,7 @@
             },
             "uiHint": {
               "type": "string",
+              "description": "A string \"hint\" to the user interface about the kind of user interface component that should be used to render the question (see values, above). The survey designer provides this hint, but the client application may ignore it or map it to a different set of controls, as desired. For a given data type, there is a defined subset of valid UI hints, which are detailed in the constraints model object documentation.\n\n|Hint|Description|Conditions|\n|---|---|---|\n|checkbox|A checkbox that can be used for a boolean value, or for selecting zero or more multiple values from an enumerated list.|Question will always include an enumeration of answers to display.|\n|combobox|An input that allows a user to enter free form text, or select from an enumerated list of answers. An alternative representation would be a set of radio buttons, with the last button selecting an \"other\" option with an associated text input control.|Question will always include an enumeration of answers to display.|\n|datepicker|A control that allows a user to select a date (with no time of day component).||\n|datetimepicker|A control that allows a user to select a time of day on a specific date. It should default to the current day and allow easy selection of a time of day today.||\n|list|A control that shows a list, and allows for selection of zero or more elements. On some platforms, this is the same as a list of checkboxes (and in HTML can be rendered with a multiple select control).|Question will always include an enumeration of answers to display.|\n|multilinetext|A control for entering longer texts, at least showing multiple lines for input and possibly also providing additional controls (such as a simple WYSIWYG editor with cut-and-paste support or spell checking).||\n|numberfield|An input for entering numbers that includes \"spinner\" controls to increment or decrement a numeric value. The minimum and maximum values, as well as the amount the value is changed by these controls, should be defined by the minValue, maxValue, and step constraints of integer and decimal questions.||\n|radiobutton|Two or more controls that allow for exclusive selection of one item from a list of choices.This can be achieved as well through a list where only one item may be selected.|Question will always include an enumeration of answers to display.|\n|select|A select or picker control for selection of one option from a list of options.|Question will always include an enumeration of answers to display.|\n|slider|A slider control for selection of a continuous value, like a decimal number, or a scale control for selection either of a discrete value such as an integer or a set of string values (where such values are ordered and make sense in this presentation, e.g. \"no pain\" to \"extremely painful\"). If used for an integer or decimal question, the minimum and maximum value constraints, as well as the step constraint, should be used to define the behavior of the slider. If used for an enumerated set of values, each discrete setting of the control (it should not slide continuously) should select a value from the list.|Question **must** include an enumeration of answers to display if the data type is not integer or decimal.|\n|textfield|A single line text field. Note that if there are set values for this textfield, but the user can essentially enter an \"other\" value as well, then the combobox hint with a set of enumerated values should be used.||\n|timepicker|An input for entering a time with no reference to the date of the time.||\n|toggle|A switch or toggle control to select a boolean state||\n",
               "enum": [
                 "checkbox",
                 "combobox",
@@ -4974,16 +5131,20 @@
       ],
       "properties": {
         "label": {
-          "type": "string"
+          "type": "string",
+          "description": "The text to show in the UI (must be plain text)."
         },
         "detail": {
-          "type": "string"
+          "type": "string",
+          "description": "Detail text shown in a de-emphasized way near the label in the UI (must be plain text).\n"
         },
         "value": {
-          "type": "string"
+          "type": "string",
+          "description": "The value to submit when this option is selected. The value is always a string, but should \nbe convertible to the data type of the question's constraints.\n"
         },
         "image": {
-          "$ref": "#/definitions/Image"
+          "$ref": "#/definitions/Image",
+          "description": "An optional Image element describing an image to show for this option. It should be shown \nalong with the label (which will still be required).\n"
         },
         "type": {
           "type": "string",
@@ -5029,6 +5190,7 @@
       }
     },
     "SurveyRule": {
+      "description": "A constraint may have one or more rules in an array:\n* Rules should be evaluated after a user answers a question, against the answer provided by the user;\n* they should be evaluated until one matches (then further evaluation should be aborted);\n* if a rule matches, the action for that rule should be followed (e.g. showing a different question than the next question in the list, or end the survey);\n* if a question allows multiple answers to be submitted, it matches the rule if any of the submitted answers match the rule;\n* if there are no rules or no rule matches, proceed to the next question in the list.\n",
       "type": "object",
       "required": [
         "operator",
@@ -5038,6 +5200,7 @@
       "properties": {
         "operator": {
           "type": "string",
+          "description": "|Value|Operator meaning|\n|---|---|\n|eq|equal to|\n|ne|not equal to|\n|lt|less than|\n|gt|greater than|\n|le|less than or equal to|\n|ge|greater than or equal to|\n|de|user declines to answer this question (it is being skipped)|\n",
           "enum": [
             "eq",
             "ne",
@@ -5049,13 +5212,16 @@
           ]
         },
         "value": {
-          "type": "string"
+          "type": "string",
+          "description": "The value submitted by the user (as a string)."
         },
         "skipToTarget": {
-          "type": "string"
+          "type": "string",
+          "description": "The property will reference an identifier for a question in the survey. The user's next question should be that question, and progress through the survey should proceed from that question in the list. It is guaranteed that the referenced question will be after the current question in the survey.\n"
         },
         "endSurvey": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "If present, this property must be true and no skipTo value should be provided. \nIf the rule matches, immediately end the survey. (An alternative is to have the \nfinal screen of your survey be an info screen with a thank you note, and you can \nskipTo that).\n"
         },
         "type": {
           "type": "string",
@@ -5147,15 +5313,23 @@
     "UploadFieldDefinition": {
       "description": "Note: For legacy reasons, this is the only model object returned from the API that does not have \na type property reflecting the implementation structure of the JSON.\n\n|UploadFieldDefinitionType|Description|\n|---|---|\n|attachment_v2|Attachment. When selected, `fileExtension` and `mimeType` can refine the field definition|\n|boolean|Boolean|\n|calendar_date|Date (no time of day)|\n|timestamp|Date & Time (a timestamp)|\n|float|Decimal|\n|int|Integer|\n|string|String. When selected, `maxLength` and `unboundedText` can refine the field definition|\n|time_v2|Time of Day (no date or timezone)|\n|attachment_blob|Deprecated|\n|attachment_csv|Deprecated|\n|attachment_json_blob|Deprecated|\n|attachment_json_table|Deprecated|\n|duration_v2|Deprecated|\n|inline_json_blob|Deprecated|\n|multi_choice|Deprecated|\n|single_choice|Deprecated|\n",
       "type": "object",
+      "required": [
+        "name",
+        "type"
+      ],
       "properties": {
         "name": {
-          "type": "string"
+          "type": "string",
+          "description": "Field name. A schema cannot contain fields with the same name."
         },
         "required": {
-          "type": "boolean"
+          "type": "boolean",
+          "default": true,
+          "description": "Whether this field is required."
         },
         "type": {
           "type": "string",
+          "description": "Note that this class is unusual in the API in that type is not a constant \n\"UploadFieldDefinition\" value, it is one of the enumerated values and indicates the \ntype of the field, not the type of the model object: \n",
           "enum": [
             "attachment_blob",
             "attachment_csv",
@@ -5176,29 +5350,36 @@
           ]
         },
         "allowOtherChoices": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "Used for MULTI_CHOICE. True if the multi-choice field allows an \"other\" answer with user freeform text. This tells BridgeEX to reserve an \"other\" column for this field. Can be null, so that the number of field parameters doesn't explode.\n"
         },
         "fileExtension": {
-          "type": "string"
+          "type": "string",
+          "description": "Used for ATTACHMENT_V2 types. Used as a hint by BridgeEX to preserve the file extension as a quality-of-life improvement. Includes the period. Examples: \".json\", \".csv\". Optional, defaults to \".tmp\".\n"
         },
         "mimeType": {
-          "type": "string"
+          "type": "string",
+          "description": "Used for ATTACHMENT_V2 types. Used as a hint by BridgeEX to mark a Synapse file handle with the correct MIME type as a quality-of-life improvement. Optional, defaults to \"application/octet-stream\".\n"
         },
         "maxLength": {
-          "type": "integer"
+          "type": "integer",
+          "description": "Used for STRING, SINGLE_CHOICE, and INLINE_JSON_BLOB types. This is a hint for BridgeEX to create a Synapse column with the right width.\n\nIf not specified, Bridge will use the default max length of 100 (if applicable).\n"
         },
         "multiChoiceAnswerList": {
           "type": "array",
+          "description": "Used for MULTI_CHOICE types. This lists all valid answers for this field. It is used by \nBridgeEX to create the Synapse table columns for MULTI_CHOICE fields. This is a list \nbecause order matters, in terms of Synapse column order. Must be specified if the field \ntype is a MULTI_CHOICE.\n\nFor schemas generated from surveys, this list will be the \"value\" in the survey question \noption, or the \"label\" if value is not specified.\n",
           "items": {
             "type": "string"
           }
         },
         "unboundedText": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "True if this field is a text-field with unbounded length. (Only applies to fields that \nare serialized as text, such as INLINE_JSON_BLOB, SINGLE_CHOICE, or STRING. Can be \nnull, so that the number of field parameters doesn't explode. This flag takes \nprecedence over the maxLength value.\n"
         }
       }
     },
     "UploadRequest": {
+      "description": "**Important: Headers of the same values must be used when doing the upload against the pre-signed URL.**\n",
       "type": "object",
       "required": [
         "name",
@@ -5209,16 +5390,20 @@
       ],
       "properties": {
         "name": {
-          "type": "string"
+          "type": "string",
+          "description": "File name"
         },
         "contentLength": {
-          "type": "integer"
+          "type": "integer",
+          "description": "The size of the object in bytes. A standard HTTP header. For more information, \ngo to [http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13)\n"
         },
         "contentMd5": {
-          "type": "string"
+          "type": "string",
+          "description": "The base64-encoded, 128-bit MD5 digest of the object body."
         },
         "contentType": {
-          "type": "string"
+          "type": "string",
+          "description": "A standard MIME type. \nFor more information, go to [http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17)\n"
         },
         "type": {
           "type": "string",
@@ -5240,20 +5425,25 @@
       ],
       "properties": {
         "name": {
-          "type": "string"
+          "type": "string",
+          "description": "User-friendly schema name."
         },
         "revision": {
-          "type": "integer"
+          "type": "integer",
+          "description": "Revision number of the schema, used to distinguish versions of the same data format. \nWhen using this to create or update schemas, to protect against concurrent modification \nerrors, new schemas should not pass in the revision parameter, and updates to existing \nschemas should pass in a revision number equal to the latest revision number.\n"
         },
         "schemaId": {
-          "type": "string"
+          "type": "string",
+          "description": "Unique identifier for the schema."
         },
         "surveyGuid": {
-          "type": "string"
+          "type": "string",
+          "description": "If this schema is created from a survey, this is the GUID of the survey it represents.\n"
         },
         "surveyCreatedOn": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "If this schema is created from a survey, this is the createdOn timestamp \n(in ISO 8601 format) of the survey it represents.\n"
         },
         "schemaType": {
           "type": "string",
@@ -5289,14 +5479,17 @@
       ],
       "properties": {
         "id": {
-          "type": "string"
+          "type": "string",
+          "description": "The upload ID. The client needs to use this ID to call Bridge when the upload is complete.\n"
         },
         "url": {
-          "type": "string"
+          "type": "string",
+          "description": "A pre-signed URL for doing the upload. The URL will remain valid for 24 hours once created on the Bridge side.\n"
         },
         "expires": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "The ISO 8601 date and time stamp at which this session will expire.\n"
         },
         "type": {
           "type": "string",
@@ -5311,16 +5504,18 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "the upload GUID"
+          "description": "The identifier for this upload"
         },
         "messageList": {
           "type": "array",
+          "description": "An array of error messages if failures occurred during validation\n",
           "items": {
             "type": "string"
           }
         },
         "status": {
           "type": "string",
+          "description": "An enumeration of possible upload outcomes:\n\n|Type|Description|\n|---|---|\n|unknown|Upload status is unknown (used for older formats and not likely to occur).|\n|requested|Upload has been requested. The client has received an URL to post the data to, and the server is waiting for the client to call the upload complete endpoint when that upload has been finished.|\n|validation_in_progress|Client has called upload complete and validation is in progress.|\n|validation_failed|Validation failed. See messageList for errors during validation.|\n|succeeded|Validation succeeded; upload has been accepted by the server.|\n",
           "enum": [
             "unknown",
             "requested",
@@ -5454,10 +5649,12 @@
         {
           "properties": {
             "authenticated": {
-              "type": "boolean"
+              "type": "boolean",
+              "description": "Is the user currently authenticated?"
             },
             "sessionToken": {
-              "type": "string"
+              "type": "string",
+              "description": "The session token that must be returned to the server to access services requiring authentication."
             },
             "environment": {
               "type": "string",
@@ -5497,7 +5694,26 @@
         }
       ]
     },
+    "Withdrawal": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "reason": {
+          "type": "string",
+          "description": "An optional, free text description from the participant about why they are no longer participating in the study. Some applications provide a more structured form to the user, and convert this to a text response.\n\nThe reason will be emailed to the consent notification email as part of the notification that a particular user has withdrawn from the study.\n"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "Withdrawal"
+          ]
+        }
+      }
+    },
     "InvalidEntityException": {
+      "description": "A response to submission of a JSON payload that is not valid. The errors \n",
       "type": "object",
       "required": [
         "statusCode",
@@ -5510,7 +5726,16 @@
           "type": "integer"
         },
         "errors": {
-          "type": "string"
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
         },
         "entityClass": {
           "type": "string"
@@ -5942,6 +6167,7 @@
       }
     },
     "MultiValueConstraints": {
+      "description": "User must select a response from a list of options (however the question can allow for a \nfree-form \"other\" value to be provided instead if the user wishes). This is common question \ntype with many possible UI renderings, but the constraints can help to limit the choices:  \n\n|uiHint|Description|\n|---|---|\n|checkbox, list|`allowMultiple` = true|\n|combobox|`allowMultiple` = false, `allowOther` = true|\n|radiobutton, select, slider|`allowMultiple` = false, `allowOther` = false|\n",
       "allOf": [
         {
           "$ref": "#/definitions/Constraints"
@@ -5949,10 +6175,12 @@
         {
           "properties": {
             "allowOther": {
-              "type": "boolean"
+              "type": "boolean",
+              "description": "true if the user should be able to enter another value besides those provided in the\nenumeration, false otherwise. If set to true, then the user's answer must be of the \nright data type, but no other validation occurs.\n"
             },
             "allowMultiple": {
-              "type": "boolean"
+              "type": "boolean",
+              "description": "Can multiple values be returned as an answer? True if the client should submit multiple\nvalues, false otherwise.\n"
             },
             "enumeration": {
               "type": "array",
@@ -5962,6 +6190,7 @@
             },
             "dataType": {
               "type": "string",
+              "description": "The value should be \"multivalue\"; **all the answers to this question are submitted as strings.**\n",
               "enum": [
                 "multivalue"
               ]
@@ -5977,6 +6206,7 @@
       ]
     },
     "BooleanConstraints": {
+      "description": "**UI hints:** checkbox, toggle.\n",
       "allOf": [
         {
           "$ref": "#/definitions/Constraints"
@@ -6000,6 +6230,7 @@
       ]
     },
     "IntegerConstraints": {
+      "description": "**UI hints:** numberfield, slider.\n",
       "allOf": [
         {
           "$ref": "#/definitions/Constraints"
@@ -6008,6 +6239,7 @@
           "properties": {
             "unit": {
               "type": "string",
+              "description": "An optional unit of value.",
               "enum": [
                 "seconds",
                 "minutes",
@@ -6037,13 +6269,17 @@
               ]
             },
             "minValue": {
-              "type": "integer"
+              "type": "integer",
+              "description": "Minimum valid value."
             },
             "maxValue": {
-              "type": "integer"
+              "type": "integer",
+              "description": "Maximum valid value."
             },
             "step": {
-              "type": "integer"
+              "type": "integer",
+              "default": 1,
+              "description": "In increase or decrease in valid values, e.g. a step of 5 for a question that \nrecords weight to the nearest 5 pounds.\n"
             },
             "dataType": {
               "type": "string",
@@ -6062,6 +6298,7 @@
       ]
     },
     "DecimalConstraints": {
+      "description": "**UI hints:** numberfield, slider.\n",
       "allOf": [
         {
           "$ref": "#/definitions/Constraints"
@@ -6099,13 +6336,16 @@
               ]
             },
             "minValue": {
-              "type": "number"
+              "type": "number",
+              "description": "Minimum valid value."
             },
             "maxValue": {
-              "type": "number"
+              "type": "number",
+              "description": "Maximum valid value."
             },
             "step": {
-              "type": "number"
+              "type": "number",
+              "description": "In increase or decrease in valid values, e.g. a step of 0.1 for a question that records\nwater drunk in tenths of a liter.\n"
             },
             "dataType": {
               "type": "string",
@@ -6124,6 +6364,7 @@
       ]
     },
     "StringConstraints": {
+      "description": "A string response. UI Hints for this type should match the intended length of the string \nand any constraints placed upon the length. \n\n**UI hints:** texfield, multilinetext.\n",
       "allOf": [
         {
           "$ref": "#/definitions/Constraints"
@@ -6131,13 +6372,16 @@
         {
           "properties": {
             "minLength": {
-              "type": "integer"
+              "type": "integer",
+              "description": "The minimum number of characters that should be allowed."
             },
             "maxLength": {
-              "type": "integer"
+              "type": "integer",
+              "description": "The maximum number of characters that should be allowed."
             },
             "pattern": {
-              "type": "string"
+              "type": "string",
+              "description": "A regular expression pattern (omitting slashes) against with the input \nshould be validated.\n"
             },
             "dataType": {
               "type": "string",
@@ -6156,12 +6400,18 @@
       ]
     },
     "DateTimeConstraints": {
+      "description": "**UI hints:** datetimepicker.\n",
       "allOf": [
         {
           "$ref": "#/definitions/Constraints"
         },
         {
           "properties": {
+            "allowFuture": {
+              "type": "boolean",
+              "default": false,
+              "description": "Should this question allow answers in the future?"
+            },
             "earliestValue": {
               "type": "string",
               "format": "date-time"
@@ -6187,19 +6437,27 @@
       ]
     },
     "DateConstraints": {
+      "description": "A date without a time value (e.g. \"2016-07-28\").\n\n**UI hints:** datepicker.\n",
       "allOf": [
         {
           "$ref": "#/definitions/Constraints"
         },
         {
           "properties": {
+            "allowFuture": {
+              "type": "boolean",
+              "default": false,
+              "description": "Should this question allow answers in the future?"
+            },
             "earliestValue": {
               "type": "string",
-              "format": "date"
+              "format": "date",
+              "description": "ISO 8601 date and time value that is the earliest value that may be set for this question. \nNo default. If allowFuture is false, that constraint will also be applied regardless \nof earliest/latestValue constraints.\n"
             },
             "latestValue": {
               "type": "string",
-              "format": "date"
+              "format": "date",
+              "description": "ISO 8601 date and time value that is the earliest value that may be set for this question. \nNo default. If allowFuture is false, that constraint will also be applied regardless \nof earliest/latestValue constraints.\n"
             },
             "dataType": {
               "type": "string",
@@ -6218,6 +6476,7 @@
       ]
     },
     "TimeConstraints": {
+      "description": "This is an ISO 8601 time value, in 24 hour time, milliseconds and seconds are optional, and there \nis no time zone for this value (e.g. 14:45:15.357). This represents a time of the day, regardless \nof where the user is, e.g. \"I take my medications at 3:00pm every day, whether I'm in Chicago or Tokyo.\"\n\n**UI hints:** timepicker.\n",
       "allOf": [
         {
           "$ref": "#/definitions/Constraints"
@@ -6241,6 +6500,10 @@
       ]
     },
     "DurationConstraints": {
+      "description": "Deprecated. Use an integer value with a unit of measure instead.\n\nDurations should be given as an integer value (not an ISO 8601 duration value). For the time being, a duration string is accepted if the duration is measured in the same time units required by the question. For example, if the question requires minutes, the duration string must be \"PT120M\", not \"PT2H\" or other equivalent values.\n\n**UI hints:** numberfield, slider.\n",
+      "required": [
+        "unit"
+      ],
       "allOf": [
         {
           "$ref": "#/definitions/Constraints"
@@ -6278,13 +6541,17 @@
               ]
             },
             "minValue": {
-              "type": "integer"
+              "type": "integer",
+              "description": "Maximum valid value."
             },
             "maxValue": {
-              "type": "integer"
+              "type": "integer",
+              "description": "Minimum valid value."
             },
             "step": {
-              "type": "integer"
+              "type": "integer",
+              "default": 1,
+              "description": "In increase or decrease in valid values, e.g. a step of 5 for a question that records weight \nto the nearest 5 pounds.\n"
             },
             "dataType": {
               "type": "string",
