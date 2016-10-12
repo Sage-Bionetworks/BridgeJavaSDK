@@ -1,14 +1,15 @@
 get:
-    summary: Get the most recently published version of each survey
+    summary: Get most recent revision of a study's default subpopulation 
+    deprecated: true
     tags:
-        - Surveys
-        - _For Developers
+        - Consents
+        - _For Developers    
     security:
         - BridgeSecurity: []
     responses:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/paged_resources/survey.yml
+                $ref: ../../definitions/study_consent.yml
         403:
             $ref: ../../responses/403_not_developer.yml

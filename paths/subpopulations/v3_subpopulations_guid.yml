@@ -40,14 +40,24 @@ post:
 delete:
     summary: Delete a subpopulation
     description: |
-        Delete a subpopulation unless it is a default subpopulation, which cannot be deleted.
+        Delete a subpopulation unless it is a default subpopulation, which cannot be deleted. 
+        If this is a 
     tags:
         - Subpopulations
-        - _For Researchers
+        - _For Developers
+        - _For Admins
     security:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/subpopulationGuid
+        - in: query
+          name: physical
+          type: boolean
+          required: false
+          default: false
+          description: |
+            If an admin sets this query value to true, the subpopulation will be permanently
+            deleted from the database (used for testing).
     responses:
         200:
             $ref: ../../responses/200_message.yml

@@ -9,7 +9,7 @@ get:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/subpopulationGuid
-        - name: timestamp
+        - name: createdOn
           description: creation timestamp of the revision
           type: string
           format: date-time

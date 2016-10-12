@@ -17,8 +17,6 @@
 # Scheduled Activities
 /v3/activities:
     $ref: ./activities/v3_activities.yml
-/v3/tasks:
-    $ref: ./activities/v3_activities.yml
 
 # Participants
 /v3/participants:
@@ -55,14 +53,22 @@
     $ref: ./subpopulations/v3_subpopulations.yml                             
 /v3/subpopulations/{subpopulationGuid}:
     $ref: ./subpopulations/v3_subpopulations_guid.yml                             
+/v3/subpopulations/{subpopulationGuid}/consents/signature:
+    $ref: ./subpopulations/v3_subpopulations_subpopulationGuid_consents_signature.yml
+/v3/subpopulations/{subpopulationGuid}/consents/signature/withdraw:
+    $ref: ./subpopulations/v3_subpopulations_subpopulationGuid_consents_signature_withdraw.yml
+/v3/subpopulations/{subpopulationGuid}/consents/signature/email:
+    $ref: ./subpopulations/v3_subpopulations_subpopulationGuid_consents_signature_email.yml
 
 # consents
-/v3/subpopulations/{subpopulationGuid}/consents/signature:
-    $ref: ./consents/v3_subpopulations_subpopulationGuid_consents_signature.yml
-/v3/subpopulations/{subpopulationGuid}/consents/signature/withdraw:
-    $ref: ./consents/v3_subpopulations_subpopulationGuid_consents_signature_withdraw.yml
-/v3/subpopulations/{subpopulationGuid}/consents/signature/email:
-    $ref: ./consents/v3_subpopulations_subpopulationGuid_consents_signature_email.yml
+/v3/consents:
+    $ref: ./consents/v3_consents.yml
+/v3/consents/recent:
+    $ref: ./consents/v3_consents_recent.yml
+/v3/consents/published:
+    $ref: ./consents/v3_consents_published.yml
+/v3/consents/{createdOn}:
+    $ref: ./consents/v3_consents_createdOn.yml
 
 # study consents
 /v3/subpopulations/{subpopulationGuid}/consents:
@@ -71,10 +77,10 @@
     $ref: ./study_consents/v3_subpopulations_subpopulationGuid_consents_recent.yml
 /v3/subpopulations/{subpopulationGuid}/consents/published:
     $ref: ./study_consents/v3_subpopulations_subpopulationGuid_consents_published.yml
-/v3/subpopulations/{subpopulationGuid}/consents/{timestamp}:
-    $ref: ./study_consents/v3_subpopulations_subpopulationGuid_consents_timestamp.yml
-/v3/subpopulations/{subpopulationGuid}/consents/{timestamp}/publish:
-    $ref: ./study_consents/v3_subpopulations_subpopulationGuid_consents_timestamp_publish.yml
+/v3/subpopulations/{subpopulationGuid}/consents/{createdOn}:
+    $ref: ./study_consents/v3_subpopulations_subpopulationGuid_consents_createdOn.yml
+/v3/subpopulations/{subpopulationGuid}/consents/{createdOn}/publish:
+    $ref: ./study_consents/v3_subpopulations_subpopulationGuid_consents_createdOn_publish.yml
 
 # users
 /v3/users:

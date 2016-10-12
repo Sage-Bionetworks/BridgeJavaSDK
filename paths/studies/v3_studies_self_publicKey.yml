@@ -10,3 +10,5 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/cms_public_key.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

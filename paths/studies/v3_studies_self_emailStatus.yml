@@ -13,3 +13,5 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/email_verification_status.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

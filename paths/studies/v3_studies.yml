@@ -2,8 +2,6 @@ get:
     summary: Get all studies
     tags: 
         - Studies
-        - _For Developers
-        - _For Researchers
         - _For Admins
     security:
         -   BridgeSecurity: []
@@ -16,12 +14,14 @@ get:
             - summary
           description: |
             If true, anyone can call this endpoint and return a list of truncated study objects
-            (name and study identifier only).
+            (name and study identifier only). Otherwise, caller must be an admin.
     responses:
         200:
             description: OK
             schema:
                 $ref: ../../definitions/paged_resources/study.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml                
 post:
     summary: Create a new study
     tags:
@@ -38,3 +38,5 @@ post:
     responses:
         201:
             $ref: ../../responses/201_message.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml

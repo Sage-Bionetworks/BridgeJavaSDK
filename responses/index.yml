@@ -4,6 +4,8 @@
     $ref: ./201_message.yml
 202_message:
     $ref: ./202_message.yml
+401:
+    $ref: ./401.yml
 403_not_admin:
     $ref: ./403_not_admin.yml
 403_not_admin_developer:

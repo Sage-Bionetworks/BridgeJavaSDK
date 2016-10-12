@@ -38,6 +38,8 @@ post:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
 delete:
     summary: Delete a survey version
     tags:
@@ -58,3 +60,5 @@ delete:
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        403:
+            $ref: ../../responses/403_not_admin_developer.yml

@@ -1,18 +1,17 @@
-post:
-    summary: Publish a survey
+get:
+    summary: Get specific revision of a study's default subpopulation 
+    deprecated: true
     tags:
-        - Surveys
-        - _For Developers
+        - Consents
+        - _For Developers    
     security:
         - BridgeSecurity: []
     parameters:
-        - $ref: ../../index.yml#/parameters/surveyGuid
         - $ref: ../../index.yml#/parameters/createdOn
-        - $ref: ../../index.yml#/parameters/empty
     responses:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/guid_createdOn_version_holder.yml
+                $ref: ../../definitions/study_consent.yml
         403:
             $ref: ../../responses/403_not_developer.yml

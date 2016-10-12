@@ -5,9 +5,11 @@ get:
     security:
         - BridgeSecurity: []
     responses:
+        # This is wrong (it's just an array of strings), but Swagger Java code generation does not create correct
+        # javadocs for a List<String> type, and that fails.
         200:
             description: OK
             schema:
-                type: array
-                items:
-                    type: string
+                $ref: ../../definitions/paged_resources/string.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml

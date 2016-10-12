@@ -1,0 +1,15 @@
+post:
+    summary: Publish a revision of a study's default subpopulation 
+    deprecated: true
+    tags:
+        - Consents
+        - _For Developers    
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/createdOn
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml

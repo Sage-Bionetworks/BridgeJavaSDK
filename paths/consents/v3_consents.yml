@@ -1,0 +1,30 @@
+get:
+    summary: Get all revisions of the consent in a study's default subpopulation 
+    deprecated: true
+    tags:
+        - Consents
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/study_consent.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+post:
+    summary: Add new consent revision to the study's default subpopulation
+    deprecated: true
+    tags:
+        - Consents
+        - _For Developers    
+    security:
+        - BridgeSecurity: []
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/study_consent.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

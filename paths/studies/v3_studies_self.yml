@@ -12,6 +12,8 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/study.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher_admin.yml
 post:
     summary: Update a study
     tags:
@@ -29,4 +31,4 @@ post:
         200:
             $ref: ../../responses/200_message.yml
         403:
-            $ref: ../../responses/403_not_developer_researcher_admin.yml
+            $ref: ../../responses/403_not_developer.yml
