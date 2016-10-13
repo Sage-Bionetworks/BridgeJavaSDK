@@ -19,7 +19,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <surefire.version>2.18.1</surefire.version>
         <javadoc.version>2.10.4</javadoc.version>
-        <maven-s3-wagon.version>1.2.1</maven-s3-wagon.version>
     </properties>
 
     <organization>
@@ -138,14 +137,4 @@
             </plugin>
         </plugins>
     </reporting>
-
-    <build>
-        <extensions>
-            <extension>
-                <groupId>org.kuali.maven.wagons</groupId>
-                <artifactId>maven-s3-wagon</artifactId>
-                <version>${maven-s3-wagon.version}</version>
-            </extension>            
-        </extensions>
-    </build>
 </project>

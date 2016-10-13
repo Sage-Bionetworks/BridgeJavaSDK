@@ -13,8 +13,6 @@ public class Config {
     public static final Config instance = new Config();
 
     private static final String CONFIG_FILE = "/bridge-sdk.properties";
-    private static final String USER_CONFIG_FILE = System.getProperty("user.home") + CONFIG_FILE;
-
     public enum Props {
         // These all require an entry in bridge-sdk.properties (accounts are optional).
         ACCOUNT_PASSWORD(),
@@ -37,7 +35,7 @@ public class Config {
         properties = new Properties();
 
         // read properties from user config file
-        loadProperties(USER_CONFIG_FILE, properties);
+        loadProperties(System.getProperty("user.home") + CONFIG_FILE, properties);
 
         // overwrite from environment variables and system properties
         for (Props key : Props.values()) {

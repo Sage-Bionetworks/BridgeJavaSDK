@@ -10,8 +10,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.net.UrlEscapers;
 
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
+import org.sagebionetworks.bridge.sdk.models.healthData.RecordExportStatusRequest;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
+import org.sagebionetworks.bridge.sdk.models.upload.Upload;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadSchema;
 
 /** Bridge implementation of the worker client. */
@@ -99,5 +101,16 @@ public class WorkerClient extends BaseApiCaller {
     public void completeUpload(String uploadId) {
         session.checkSignedIn();
         post(config.getCompleteUploadApi(uploadId));
+    }
+
+    /**
+     * update record's exporter status
+     */
+    public void updateRecordExporterStatus(RecordExportStatusRequest recordExportStatusRequest) {
+        session.checkSignedIn();
+        checkNotNull(recordExportStatusRequest);
+        checkNotNull(recordExportStatusRequest.getRecordIds());
+        checkNotNull(recordExportStatusRequest.getSynapseExporterStatus());
+        post(config.getUpdateRecordExportStatusesApi(), recordExportStatusRequest);
     }
 }
