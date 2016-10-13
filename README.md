@@ -4,7 +4,7 @@ This is the Java SDK for the Bridge Server (http://github.com/Sage-Bionetworks/B
 
 ## Using the SDK
 
-Only a pre-release version exists at this time. Here's an example of referencing the JAR via Maven:
+Here's an example of referencing the JAR via Maven:
 
 	<project>
 	    ...
@@ -12,19 +12,18 @@ Only a pre-release version exists at this time. Here's an example of referencing
 			<dependency>
 			    <groupId>org.sagebionetworks</groupId>
 			    <artifactId>java-sdk</artifactId>
-			    <version>develop-SNAPSHOT</version>
+			    <version>0.10.7</version>
 			</dependency>
 		</dependencies>
 		...
-	    <repositories>
+		<repositories>
 			<repository>
-				<id>sagebionetworks</id>
-				<url>http://sagebionetworks.artifactoryonline.com/sagebionetworks/libs-snapshots-local</url>
-			</repository>        
-	    </repositories>	
+				<id>org-sagebridge-repo-maven-releases</id>
+				<name>org-sagebridge-repo-maven-releases</name>
+				<url>http://repo-maven.sagebridge.org/</url>
+			</repository>
+		</repositories>	
 	</project>
-
-Or download it [here](http://sagebionetworks.artifactoryonline.com/sagebionetworks/libs-snapshots-local/org/sagebionetworks/bridge/java-sdk/develop-SNAPSHOT/java-sdk-develop-SNAPSHOT.jar).
 
 ## Developer Bootstrap
 To run this SDK, you must have both Java and Maven installed.
