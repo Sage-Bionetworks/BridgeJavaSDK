@@ -10,7 +10,7 @@ post:
           description: Email address of participant
           required: true
           schema:
-                $ref: '../../definitions/email.yml'
+                $ref: ../../definitions/email.yml
     responses:
         200:
             $ref: ../../responses/200_message.yml
