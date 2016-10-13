@@ -1,3 +1,6 @@
+description: |
+    An identifier to retrieve a series of report data (e.g. "three-week-report"). A separate list of these 
+    are maintained for study and participant reports.
 type: object
 required:
     - identifier

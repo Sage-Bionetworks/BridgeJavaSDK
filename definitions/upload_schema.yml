@@ -15,10 +15,11 @@ properties:
     revision:
         type: integer
         description: |
-            Revision number of the schema, used to distinguish versions of the same data format. 
-            When using this to create or update schemas, to protect against concurrent modification 
-            errors, new schemas should not pass in the revision parameter, and updates to existing 
-            schemas should pass in a revision number equal to the latest revision number.
+            Revision number of the schema, used to distinguish versions of the same data format.
+            This should be blank when creating a schema, and it should be passed back to the server 
+            when updating. If the schema revision cannot be updated in a backwards-compatible fashion, 
+            the server will throw an exception. You will need to increment the revision number 
+            and create a new revision of the schema.
     schemaId:
         type: string
         description: Unique identifier for the schema.
@@ -39,6 +40,10 @@ properties:
             - ios_survey
     version:
         type: integer
+        description: |
+            The optimistic locking version of the survey. This value must be submitted as 
+            part of the next update of the model. If it does not match the value on the server, 
+            a 409 error (Conflict) will prevent the update from occurring.
     fieldDefinitions:
         type: array
         items:

@@ -1,3 +1,6 @@
+description: |
+    A JSON payload to sent the email confirmation token (retrieved from the user's email) 
+    back to the Bridge server.
 type: object
 required:
     - sptoken

@@ -1,3 +1,6 @@
 type: object
 discriminator: type
-description: This is an interface for several implementations
+description: |
+    This is an interface for several implementations. See 
+    [scheduling](/articles/study_design/scheduling.html) for further information on 
+    creating schedules.

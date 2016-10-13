@@ -1,16 +1,15 @@
 type: object
 description: A pointer to a survey defined for this study, and associated with a survey to 
-    be taken as part of the mobile application health study. If the createdOn value is null, 
-    the the user should take the most recently published version of this survey (this is 
-    reflected in the href attribute).
+    be taken as part of the mobile application health study. If the `createdOn` value is null, 
+    then the reference is to the most recently published version of the survey (the specific 
+    version that should be used will be resolved when a [ScheduledActivity](#ScheduledActivity) is created 
+    for the participant).
 required:
-    - identifier
     - guid
-    - href
 properties:
     identifier:
         type: string
-        description: The survey identifier. This value is required [TODO verify this is still true.]
+        description: The survey identifier.
     guid:
         type: string
         description: The survey guid
@@ -22,7 +21,8 @@ properties:
             indicates the most recently published version of the study should be used.
     href:
         type: string
-        description: An URL to retrieve the appropriate survey version.
+        readOnly: true
+        description: An URL to retrieve the survey.
     type:
         type: string
         readOnly: true

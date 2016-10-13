@@ -1,9 +1,11 @@
+description: A typesafe representation of a study's string identifier
 type: object
 required:
     - identifier
 properties:
     identifier:
         type: string
+        description: The study's identifier (unique to the study).
     type:
         type: string
         readOnly: true

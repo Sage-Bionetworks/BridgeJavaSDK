@@ -3,19 +3,18 @@ description: |
     Subpopulation or SchedulePlan). This object is returned from create and update endpoints 
     rather than an entire entity.
 type: object
-required:
-    - guid
-    - version
 properties:
     guid:
         type: string
+        readOnly: true
         description: The guid of the entity (added when the entity is created).
     version:
         type: integer
+        readOnly: true
         description: |
-            The optimistic locking version of the survey (increments when the entity is 
-            updated). If an entity is submitted with a version that is not the currently saved 
-            version of the entity, a 409 (Conflict) error will occur.
+            The optimistic locking version of the survey. This value must be submitted as 
+            part of the next update of the model. If it does not match the value on the server, 
+            a 409 error (Conflict) will prevent the update from occurring.
     type:
         type: string
         readOnly: true

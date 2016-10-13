@@ -1,3 +1,6 @@
+description: |
+    A screen of a survey that presents information to the user: instructions, a thank you message, copyright notice, 
+    or anything similar. 
 type: object
 allOf:
     - $ref: ./survey_element.yml

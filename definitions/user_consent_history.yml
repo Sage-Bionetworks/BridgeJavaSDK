@@ -1,17 +1,10 @@
 description: | 
     A record of a complete consent (including both the dates of consent and withdrawal, if applicable);
+readOnly: true
 type: object
-required:
-    - subpopulationGuid
-    - consentCreatedOn
-    - name
-    - birthdate
-    - signedOn
-    - hasSignedActiveConsent
 properties:
     subpopulationGuid:
         type: string
-        readOnly: true
         description: The consent group that the participant agreed to participate in.
     consentCreatedOn:
         type: string

@@ -114,7 +114,7 @@ parameters:
         required: true
         in: body
         schema:
-          $ref: ./definitions/empty.yml
+            $ref: "#/definitions/EmptyPayload"
 paths:
     $ref: ./paths/index.yml
 definitions:

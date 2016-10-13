@@ -1,26 +1,21 @@
 type: object
+readOnly: true
 properties:
     items:
         type: array
-        readOnly: true
         items:
             $ref: ../external_identifier.yml
     pageSize:
         type: integer
-        readOnly: true
     offsetKey:
         type: string
-        readOnly: true
     idFilter:
         type: string
-        readOnly: true
     offsetFilter:
         type: string
-        readOnly: true
     total:
         type: integer
-        readOnly: true
     type:
         type: string
         readOnly: true
-        enum: [DateRangeResourceList]
+        enum: [PagedResourceList]

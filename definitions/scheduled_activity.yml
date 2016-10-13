@@ -6,17 +6,15 @@ description: |
 type: object
 required:
     - guid
-    - schedulePlanGuid
-    - activity
-    - scheduledOn
-    - persistent
-    - status
-    - type
+    - startedOn
+    - finishedOn
 properties:
     guid:
         type: string
+        readOnly: true
     schedulePlanGuid:
         type: string
+        readOnly: true
     startedOn:
         type: string
         format: date-time
@@ -26,20 +24,30 @@ properties:
     scheduledOn:
         type: string
         format: date-time
+        readOnly: true
     expiresOn:
         type: string
         format: date-time
+        readOnly: true
     activity:
         $ref: ./activity.yml 
+        readOnly: true
     persistent:
         type: boolean
+        readOnly: true
     status:
         type: string
         description: |
-            The activities returned from this endpoint will be `scheduled` (will happen in the future); 
-            `available` (user can do the activity now); or `started` (the client has updated the activity to 
-            indicate it has been started). Activities are not returned from the API if they are `deleted` 
-            or `finished`.
+            Status of this activity.
+            
+            |Status|Description|
+            |---|---|
+            |scheduled|User should do this activity in the future.|
+            |available|User should do this activity now.|
+            |started|User has started this activity and sent a startedOn timestamp to the server.|
+            |deleted|User had delete the activity (set a finishedOn timestamp with no startedOn timestamp).|
+            |finished|User has finished the task (by sending a finishedOn timestamp to the server). The participant currently should not get these back from the server.|
+            |expired|The activity was not started by the user, but now should no longer be done. The participant currently should not get these back from the server.|
         enum:
             - deleted
             - finished
@@ -47,6 +55,8 @@ properties:
             - expired
             - scheduled
             - available
+        readOnly: true
     type:
         type: string
+        readOnly: true
         enum: [ScheduledActivity]

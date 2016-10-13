@@ -1,27 +1,35 @@
 description: |
-    Payload returned with a 400 error when an entity submitted to the server
-    is invalid.
+    Payload returned with a 400 error when an entity submitted to the server is invalid.
 type: object
-required:
-    - statusCode
-    - message
-    - errors
-    - entityClass
-    - entity
+readOnly: true
 properties:
-    statusCode:
-        type: integer
     message:
         type: string
+        description: A message that will include all validation error messages for this object.
     errors:
-        type: array
-        items:
-            type: object
-            additionalProperties:
-                type: array
-                items:
-                    type: string
-    entityClass:
-        type: string
-    entity:
         type: object
+        description: |
+            Errors broken down by the part of the JSON payload that generated them. The keys are "paths" representing 
+            fragments of the JSON (expressed in JavaScript object/array notation), and the values are string arrays of 
+            one or more errors for that element of the JSON. An example makes this clearer:
+
+            ```json
+            "errors":{  
+                "identifier":[  
+                    "identifier is required"
+                ],
+                "elements[0].identifier":[  
+                    "elements[0].identifier is required"
+                ],
+                "elements[0].constraints.enumeration":[  
+                    "enumeration must have non-null, non-empty choices list"
+                ],
+                "elements[0].prompt":[  
+                    "elements[0].prompt is required"
+                ]
+            }
+            ```
+        additionalProperties:
+            type: array
+            items:
+                type: string

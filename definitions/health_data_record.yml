@@ -1,5 +1,6 @@
 description: |
      See [Bridge Upload Data Format](/articles/study_design/upload_data_format.html) for details abot this model object.
+readOnly: true
 type: object
 properties:
     createdOn:
@@ -19,10 +20,12 @@ properties:
             ResearchKit-based apps, this is info.json verbatim.
     schemaId:
         type: string
-        description: Schema ID for the record.
+        description: |
+            [UploadSchema](#UploadSchema) ID for the record.
     schemaRevision:
         type: integer
-        description: Schema revision for the record.
+        description: |
+            [UploadSchema](#UploadSchema) revision for the record.
     studyId:
         type: string
         description: Study that this record lives in.

@@ -1,3 +1,4 @@
+description: Information to sign in to the Bridge server.
 type: object
 required:
     - study

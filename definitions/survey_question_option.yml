@@ -1,3 +1,5 @@
+description: |
+    For questions with a list of enumerated answers, this object represents one of those answers.
 type: object
 required:
     - label
@@ -13,7 +15,8 @@ properties:
         type: string
         description: |
             The value to submit when this option is selected. The value is always a string, but should 
-            be convertible to the data type of the question's constraints.
+            be convertible to the data type of the question's constraints. If no value is provided, than 
+            the label should be sent as the answer to the surver.
     image:
         $ref: ./image.yml
         description: |

@@ -1,3 +1,5 @@
+description: |
+    For more information about scheduling, see [Scheduling](/articles/study_design/scheduling.html).
 type: object
 required:
     - label
@@ -11,6 +13,14 @@ properties:
         description: A label to describe this schedule.
     scheduleType:
         type: string
+        description: |
+            Schedules come in three major flavors:
+
+            |Type|Description|
+            |---|---|
+            |once|Activity happens once and only once, and then is never scheduled again.|
+            |recurring|Activity recurrs periodically, either through the use of a cron schedule, or through the use of properties like `interval`, `times` and `expires`.|
+            |persistent|Activity is always in the participant's list of tasks to do. If it is finished, a new activity is scheduled immediately. Client applications may wish to show these differently in the UI.|
         enum:
             - once
             - recurring
@@ -18,17 +28,13 @@ properties:
     eventId:
         type: string
         description: |
-            A string indicating the event against which a schedule will be schedules. By default if no eventId is 
-            provided, schedules are done against the date and time of the user's enrollment in the study. 
-            A comma-delimited list of events may be provided, and if so, the system will look for each event in 
-            turn until an event is found. If any event is provided, the user's enrollment date will not be used 
-            as a fallback, so this may need to be specified explicitly for some scheduling scenarios.
+            A comma-separated list of event IDs against which will be used for scheduling. If no eventId is provided, 
+            the event `enrollment` will be used. The system will use the first event ID (working left to right) for 
+            which the user has an event with a timestamp.
     delay:
         type: string
         description: |
-            ISO 8601 duration string. An amount of time to wait before scheduling the first task. If the delay is 
-            zero or not included, and you are using an interval to schedule, then the first task will happen at the 
-            same time as the reference event.
+            ISO 8601 duration string. An amount of time to wait before scheduling the first task. 
     interval:
         type: string
         description: |
@@ -39,8 +45,8 @@ properties:
         description: |
             ISO 8601 duration string. The period of time after which an unstarted, scheduled activity should be 
             removed from the application (if it has not been started, no data will have been saved on the server). 
-            This is useful for recurring schedules where the user should not be prompted for a task or schedule 
-            until the next occurrence of the schedule.
+            This is mandatory for recurring schedules so that unstarted activities do not stack up in the user's 
+            UI.
     cronTrigger:
         type: string
         description: |
@@ -48,7 +54,7 @@ properties:
             schedules from the Unix operating system. The format of the cron expression is the seven field format 
             as described in the documentation for the Java Quartz Scheduler (note that there are other formats 
             that take up to eleven fields, this online cron expression generator creates expressions in the right 
-            format). If this is used, the interval and times are ignored
+            format). If this is used, the interval and times are ignored.
     startsOn:
         type: string
         description: The scheduler will not create a task before this date and time.
@@ -64,11 +70,10 @@ properties:
         type: array
         description: |
             Required if an interval is specified (ignored if a cron expression is specified). An array of one or 
-            more ISO 8601 time values. This is a time of the day (without reference to a specific date and time), 
-            e.g. "14:00" for 2pm in local time. If times are provided, one task will be created for each time on the 
-            day determined by the application of the interval, for each activity in the schedule. If the schedule 
-            occurs once, only the first time will be used to schedule the task (and if no time is provided, the 
-            original time of the triggering event will be used; it's clearest to set a time).
+            more ISO 8601 time values (without a date or time zone, e.g. "14:00"). One task will be created for 
+            each time on the day determined by the rest of the scheduler. If the schedule occurs once, only the 
+            first time will be used to schedule the task (and if no time is provided, the original time of the 
+            triggering event will be used; it's clearest to set a time).
         items:
             type: string
             description: |
@@ -76,7 +81,7 @@ properties:
                 separate task, one for each activity in the schedule.**
     persistent:
         type: boolean
-        description: True if schedule type is true.
+        description: True if schedule type is persistent. (This is here for legacy reasons.)
     activities:
         type: array
         description: |

@@ -1,25 +1,24 @@
 description: |
     An object that describes the keys and optimistic lock values of a Survey. This object
-    is returned from create and update endpoints rather than an entire Survey.
+    is returned from create and update endpoints rather than an entire survey.
 type: object
-required:
-    - guid
-    - createdOn
-    - version
 properties:
     guid:
         type: string
+        readOnly: true
         description: The guid of the survey (added when the survey is created).
     createdOn:
         type: string
         format: date-time
+        readOnly: true
         description: The createdOn value of the survey (added when survey is created).
     version:
         type: integer
+        readOnly: true
         description: |
-            The optimistic locking version of the survey (increments when the survey is 
-            updated). If a survey is submitted with a version that is not the currently saved 
-            version of the survey, a 409 (Conflict) error will occur.
+            The optimistic locking version of the survey. This value must be submitted as 
+            part of the next update of the model. If it does not match the value on the server, 
+            a 409 error (Conflict) will prevent the update from occurring.
     type:
         type: string
         readOnly: true

@@ -32,8 +32,9 @@ EmailVerification:
     $ref: ./email_verification.yml
 EmailVerificationStatus:
     $ref: ./email_verification_status.yml
-Empty:
-    $ref: ./empty.yml
+EmptyPayload:
+    description: Bridge POST APIs with no body content require an empty json payload ("{}").
+    type: object
 ExternalIdentifier:
     $ref: ./external_identifier.yml
 GuidCreatedOnVersionHolder:
@@ -126,15 +127,15 @@ Withdrawal:
     $ref: ./withdrawal.yml
 
 # Paged resources
-ResourceList_AccountSummary:
+PagedResourceList_AccountSummary:
     $ref: ./paged_resources/account_summary.yml
 ResourceList_Activity:
     $ref: ./paged_resources/activity.yml
-ResourceList_ExternalIdentifier:
+PagedResourceList_ExternalIdentifier:
     $ref: ./paged_resources/external_identifier.yml
-ResourceList_ReportData:
+DateRangeResourceList_ReportData:
     $ref: ./paged_resources/report_data.yml
-ResourceList_ReportIndex:
+ReportTypeResourceList_ReportIndex:
     $ref: ./paged_resources/report_index.yml
 ResourceList_Schedule:
     $ref: ./paged_resources/schedule.yml
@@ -148,7 +149,7 @@ ResourceList_Subpopulation:
     $ref: ./paged_resources/subpopulation.yml
 ResourceList_Survey:
     $ref: ./paged_resources/survey.yml
-ResourceList_Upload:
+DateTimeRangeResourceList_Upload:
     $ref: ./paged_resources/upload.yml
 ResourceList_UploadSchema:
     $ref: ./paged_resources/upload_schema.yml

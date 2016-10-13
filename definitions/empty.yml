@@ -1,3 +1,0 @@
-type: object
-description: |
-    Bridge POST APIs with no body content require an empty json payload ("{}").

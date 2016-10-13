@@ -1,26 +1,9 @@
+readOnly: true
 allOf:
     - $ref: ./abstract_study_participant.yml
     - description: |
         Information about the user and their session.
     - type: object
-    - required:
-        - email
-        - id
-        - sessionToken
-        - dataSharing
-        - notifyByEmail
-        - attributes
-        - sharingScope
-        - createdOn
-        - environment
-        - status
-        - consented
-        - authenticated
-        - signedMostRecentConsent
-        - roles
-        - dataGroups
-        - languages
-        - consentStatuses
     - properties:
         authenticated:
             type: boolean
@@ -36,14 +19,17 @@ allOf:
                 - develop
                 - staging
                 - production
+        email:
+            type: string
+            description: The user's email.
         dataSharing:
             type: boolean
-            description: true if the sharing scope is anything other than "no_sharing".
+            description: True if the sharing scope is anything other than "no_sharing".
         signedMostRecentConsent:
             type: boolean
         consented:
             type: boolean
-            description: true if all required consents have been signed
+            description: True if all required consents have been signed.
         consentStatuses:
             type: object
             description: |

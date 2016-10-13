@@ -5,6 +5,8 @@ description: |
     * if a rule matches, the action for that rule should be followed (e.g. showing a different question than the next question in the list, or end the survey);
     * if a question allows multiple answers to be submitted, it matches the rule if any of the submitted answers match the rule;
     * if there are no rules or no rule matches, proceed to the next question in the list.
+
+    Either `skipToTarget` or `endSurvey` should be supplied in the rule.
 type: object
 required:
     - operator

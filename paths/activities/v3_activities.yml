@@ -1,4 +1,5 @@
 get:
+    # operationId: getScheduledActivities
     summary: Get a list of the participant's scheduled activities
     tags: 
         - Activities
@@ -50,6 +51,7 @@ get:
         412:
             $ref: ../../responses/412.yml
 post:
+    # operationId: updateScheduledActivities
     summary: Update the status of one or more scheduled activities.
     tags: 
         - Activities

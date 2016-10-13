@@ -1,11 +1,9 @@
 type: object
-description: A survey 
+description: The definition of a survey. 
 required:
     - guid
     - name
     - identifier
-    - published
-    - createdOn
     - version
     - elements
 properties:
@@ -24,21 +22,24 @@ properties:
             be unique for this survey type within this study.
     published:
         type: boolean
+        readOnly: true
         description: |
-            Is this survey version published? Once published, a survey version may not be 
-            modified, but can be scheduled for presentation to users.
+            True if this survey revision has been published, and is accessible to users through scheduling. 
+            More than one version of a survey may be published; it is most common to return the most recently 
+            published version to users.
     schemaRevision:
         type: integer
         description: |
-            The corresponding schema revision that Bridge server parses against to export 
-            to Synapse.
+            The corresponding schema revision that Bridge server uses to export survey answers to Synapse.
     createdOn:
         type: string
         format: date-time
+        readOnly: true
         description: The ISO 8601 date on which this version of this survey was created.
     modifiedOn:
         type: string
         format: date-time
+        readOnly: true
         description: The date and time when this version of the survey was last modified.
     version:
         type: integer

@@ -1,3 +1,5 @@
+description: |
+    A study with its many configuration options.
 type: object
 required:
     - name
@@ -5,34 +7,44 @@ required:
     - supportEmail
     - technicalEmail
     - consentNotificationEmail
-    - identifier
+    - version
 properties:
     name:
         type: string
         description: A label for the study. This will be shown to users in emails and other contexts.
     sponsorName:
         type: string
-        description: The name of the institution or organization that is conducting the study. Emails will be sent "from" this entity.
+        description: The name of the institution or organization that is conducting the study. 
     supportEmail:
         type: string
         description: |
-            The email address that will be given to study participants and other end user for all support requests and queries (technical, study-related, etc.). This can be a comma-separated list of email addresses. 
+            The email address that will be given to study participants and other end user for all support 
+            requests and queries (technical, study-related, etc.). This can be a comma-separated list of email addresses. 
+            Email will be sent via this email address.  
     technicalEmail:
         type: string
         description: |
-            The email address for a technical contact who can coordinate with the Bridge Server team on issues related either to client development or hand-offs of the study data through the Bridge server. This can be a comma-separated list of email addresses.
+            The email address for a technical contact who can coordinate with the Bridge Server team on technical 
+            issues (client or server). This can be a comma-separated list of email addresses.
     consentNotificationEmail:
         type: string
         description: |
-            Copies of all consent agreements, as well as rosters of all participants in a study, or any other study governance issues, will be emailed to this address. This can be a comma-separated list of email addresses.
+            Copies of all consent agreements, as well as rosters of all participants in a study, or any other study 
+            governance issues, will be emailed to this address. This can be a comma-separated list of email addresses.
     identifier:
         type: string
+        readOnly: true
         description: |
-            A user selected identifier that is unique relative to all other Bridge studies (lower-case letters and dashes only). The identifier serves as a "domain" that scopes accounts to that study, and is usually created by combining an institution and study tag or acronym. For example, if your work at the University of Washington and your study is on Asthma in Children, your identifier might be uw-child-asthma. Users will not see this identifier.
+            A user selected identifier that is unique relative to all other Bridge studies (lower-case letters and dashes only). 
+            The identifier serves as a "domain" that scopes accounts to that study, and is usually created by combining an 
+            institution and study tag or acronym. For example, if you work at the University of Washington and your study is on 
+            Asthma in Children, your identifier might be `uw-child-asthma`. Participants will not see this identifier.
     version:
         type: integer
         description: |
-            A version number used for optimistic locking of the object these keys represent; this value must be passed back to the server on subsequent updates. An error will be returned (409 Conflict) if the object has been updated since it was retrieved by this client.
+            A version number used for optimistic locking of the object these keys represent; this value must be passed 
+            back to the server on updates. If the version doesn't match the version in the database, an error will be 
+            returned (409 Conflict) and the study will not be saved. 
     minAgeOfConsent:
         type: integer
         default: 18
@@ -48,23 +60,37 @@ properties:
     usesCustomExportSchedule:
         type: boolean
         description: |
-            By default, all studies are exported using the default nightly schedule. Some studies may need custom schedules for hourly or on-demand exports. To prevent this study from being exported twice (once by the custom schedule, once by the default schedule), you should set this attribute to true.
+            **Note: Bridge engineers will normally set this value when setting up data export. You should probably leave this 
+            setting as is.** By default, all studies are exported using the default nightly schedule. Some studies may need 
+            custom schedules for hourly or on-demand exports. To prevent this study from being exported twice (once by the 
+            custom schedule, once by the default schedule), you should set this attribute to true.
     userProfileAttributes:
         type: array
         description: |
-            Custom attributes that can be added to the StudyParticipant object (as members of the attributes property). This data can be personally identifying health information; it will be stored encrypted and in a separate data store from the participant's health data.
+            Custom attributes that can be added to the StudyParticipant object (as members of the attributes property). For 
+            example, if you wished to collect a telephone number for participants and had permission to do so, you could add 
+            the "telephone" attribute. The map of a user's profile attributes can be personally identifying health information; 
+            it will be stored encrypted and in a separate data store from the participant's health data.
         items:
             type: string
     taskIdentifiers:
         type: array
         description: |
-            An enumerated list of **unique** strings that can be used to identify tasks when creating schedules. These mostly serve to prevent typos when designing schedules, which would prevent client scheduling from working. There's no hard limit on the string content (e.g. "Tapping Test" is fine as a task identifier, as long as it uniquely identifies a task known to the application).
+            An enumerated list of **unique** strings that can be used to identify tasks when creating schedules. These mostly 
+            serve to prevent typos when designing schedules, which would prevent client scheduling from working. There's no hard 
+            limit on the string content (e.g. "Tapping Test" is fine as a task identifier, as long as it uniquely identifies a 
+            task known to the application).
         items:
             type: string
     dataGroups:
         type: array
         description: |
-            An enumerated list of **unique** strings that can be assigned to user accounts. These "tags" will be exported with a participant's health data to Synapse. This can be used to identify test users or specific cohorts in the study, but it should not include sensitive health information about participants. Strings must contain only letters, numbers, underscore or dash, and cannot (as a comma-separated list) exceed the character limit of 100 characters so they can be exported to Synapse.
+            An enumerated list of **unique** strings that can be assigned to user accounts. This is a list of the "tags" that 
+            can be assigned to a given user. The specific data groups that *are* assigned to a user will be exported with a 
+            participant's health data to Synapse. This can be used to identify test users or specific cohorts in the study, but 
+            it should not include sensitive health information about participants. Strings must contain only letters, numbers, 
+            underscore or dash, and cannot (as a comma-separated list) exceed the character limit of 100 characters so they 
+            can be exported to Synapse.
         items:
             type: string
     passwordPolicy:
@@ -80,26 +106,30 @@ properties:
         $ref: ./email_template.yml
     active:
         type: boolean
+        readOnly: true
     strictUploadValidationEnabled:
         description: True if uploads in this study should fail on strict validation errors.
         type: boolean
     healthCodeExportEnabled:
         type: boolean
+        readOnly: true
         description: |
-            **Admin only; read-only for developers.** Should user health codes be exported as part of the participant roster? This identifies users in the public data set; this can only be set to true for certain studies where users expect to be identified by researchers.
+            **Can be edited by admins.** Should user health codes be exported as part of the participant roster? This identifies users in the public data set; this can only be set to true for certain studies where users expect to be identified by researchers.
     emailVerificationEnabled:
         type: boolean
+        readOnly: true
         description: |
-            **Admin only; read-only for developers.** Should users be asked to validate that they control the email addresses they use to sign up for the study? True by default.
+            **Can be edited by admins.** Should users be asked to validate that they control the email addresses they use to sign up for the study? True by default.
     externalIdValidationEnabled:
         type: boolean
         default: false
         description: |
             Should external identifiers be validated? If this is false, then the external ID is treated as an unconstrained string. If this is true, the study designer will need to enter the list of valid codes into Bridge. Bridge will ensure that the following is true:
 
-            * If assigned, the ID will have to match one of the IDs entered into Bridge;
-            * A given ID will be assigned to one and only one user
-            * Once assigned, it is not possible to change or remove the external ID from the user account
+            * Accounts cannot be created without including an externalId;
+            * When assigned, the ID will have to match one of the IDs entered into Bridge;
+            * A given ID will be assigned to one and only one user;
+            * Once assigned, it is not possible to change or remove the external ID from the user account.
     minSupportedAppVersions:
         type: object
         description: |

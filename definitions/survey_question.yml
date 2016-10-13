@@ -11,14 +11,26 @@ allOf:
     - properties:
         identifier:
             type: string
+            description: |
+                A string identifier for this question. It will be used as the column name for the answers to these questions, 
+                so it should help to identify the question.
         title:
             type: string
+            description: |
+                A title for this question. Although this is required, it may or may not be used in the interface. 
         prompt:
             type: string
+            description: |
+                The question proper.
         promptDetail:
             type: string
+            description: |
+                Sub-question text that provides further instructions or clarifications on how to answer.
         fireEvent:
             type: boolean
+            description: |
+                This used to signal that an event should be generated when this question was answered, that included the 
+                answer as part of the event. However, this feature is currently unsuported.
         uiHint:
             type: string
             description: |

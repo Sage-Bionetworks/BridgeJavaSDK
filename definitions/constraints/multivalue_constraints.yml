@@ -1,22 +1,24 @@
 description: |
-    User must select a response from a list of options (however the question can allow for a 
-    free-form "other" value to be provided instead if the user wishes). This is common question 
-    type with many possible UI renderings, but the constraints can help to limit the choices:  
+    A common question type where the participant is given a list of options to choose from. The 
+    UI representation of this question depends in part on whether the participant can select 
+    multiple values, or add another value not included in the list:
     
     |uiHint|Description|
     |---|---|
     |checkbox, list|`allowMultiple` = true|
     |combobox|`allowMultiple` = false, `allowOther` = true|
     |radiobutton, select, slider|`allowMultiple` = false, `allowOther` = false|
+required:
+    - enumeration
+    - dataType
 allOf:
     - $ref: ./constraints.yml
     - properties:
         allowOther:
             type: boolean
             description: |
-                true if the user should be able to enter another value besides those provided in the
-                enumeration, false otherwise. If set to true, then the user's answer must be of the 
-                right data type, but no other validation occurs.
+                True if the user should be able to enter another value besides those provided in the
+                enumeration, false otherwise.
         allowMultiple:
             type: boolean
             description: |
@@ -24,6 +26,7 @@ allOf:
                 values, false otherwise.
         enumeration:
             type: array
+            description: The options presented for selection to the user.
             items:
                 $ref: ../survey_question_option.yml
         dataType:
@@ -33,4 +36,5 @@ allOf:
             enum: [multivalue]
         type:
             type: string
+            readOnly: true
             enum: [MultiValueConstraints]

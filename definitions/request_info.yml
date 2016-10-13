@@ -1,30 +1,61 @@
+description: |
+    Some basic information is captured when a participant makes a request to the Bridge server, 
+    mostly for the purpose of troubleshooting user issues with the application or the study. 
+    Questions that can be answered include:
+
+    * what version of the app is this participant using?
+    * what filtering criteria might be applied to their requests?
+    * when was the last time they uploaded data or retrieved activities?
+    * do they have a session right now, or have they contacted the server recently at all?
+
+    The users activities are also helpul for troubleshooting.
+
+    This information is cached but not persisted; it is not guaranteed to be present for all active users.
 type: object
+readOnly: true
 required:
     - userId
     - studyIdentifier
 properties:
     userId:
         type: string
+        description: The user's account ID.
     clientInfo:
         $ref: ./client_info.yml
+        description: |
+            The `User-Agent` string from the last request as parsed for the purpose of applying filtering 
+            criteria.
     userAgent:
         type: string
+        description: |
+            The `User-Agent` header exactly as it was sent to the server, whether it is parseable 
+            by the Bridge server or not. 
     languages:
         type: array
+        description: |
+            The language or languages sent in the user's `Accept-Language` header and persisted as part of 
+            the participant's account configuration, as they were set at the time of the last request.
         items:
             type: string
     userDataGroups:
         type: array
+        description: The data groups assigned to this participant at the time of the last request.
         items:
             type: string
     activitiesAccessedOn:
         type: string
         format: date-time
+        description: |
+            The last recorded time the participant's application requested scheduled activities 
+            from the server.
     signedInOn:
         type: string
         format: date-time
+        description: |
+            The last recorded time the participant signed in to the server.
     timeZone:
         type: string
+        description: The user's time zone at the time of the last request.
     studyIdentifier:
         $ref: ./study_identifier.yml
     type:

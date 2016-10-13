@@ -1,8 +1,9 @@
 description: |
-    A string response. UI Hints for this type should match the intended length of the string 
-    and any constraints placed upon the length. 
+    A string answer. 
 
     **UI hints:** texfield, multilinetext.
+required:
+    - dataType
 allOf:
     - $ref: ./constraints.yml
     - properties:
@@ -22,4 +23,5 @@ allOf:
             enum: [string]
         type:
             type: string
+            readOnly: true
             enum: [StringConstraints]
