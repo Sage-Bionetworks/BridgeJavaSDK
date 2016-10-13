@@ -259,10 +259,7 @@
             "$ref": "#/responses/200_message"
           },
           "400": {
-            "description": "The new password does not meet the password requirements of the study.",
-            "schema": {
-              "$ref": "#/definitions/InvalidEntityException"
-            }
+            "$ref": "#/responses/400"
           }
         }
       }
@@ -594,7 +591,10 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/200_message"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UserSessionInfo"
+            }
           },
           "401": {
             "$ref": "#/responses/401"
@@ -1166,7 +1166,7 @@
             "required": true,
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/ReportDataWithHealthCode"
+              "$ref": "#/definitions/ReportData"
             }
           }
         ],
@@ -4127,7 +4127,11 @@
   "definitions": {
     "ABTestGroup": {
       "type": "object",
-      "description": "A list of these groups define the way schedules are allocated in an ABTestScheduleStrategy.\n",
+      "description": "A list of these groups define the way schedules are allocated in an ABTestScheduleStrategy. \nSee [ABTestScheduleStrategy](#ABTestScheduleStrategy) for details. \n",
+      "required": [
+        "percentage",
+        "schedule"
+      ],
       "properties": {
         "percentage": {
           "type": "integer",
@@ -4147,7 +4151,7 @@
       }
     },
     "ABTestScheduleStrategy": {
-      "description": "A strategy that divides users into groups according to a percentage scheme, assigning each \ngroup a different Schedule. The combined set of schedule groups should have percentages that \nadd up to 100%. After the initial assignment, new users joining the study will be randomly \nassigned to one of the groups in proportion to their percentage representation in the study.\n",
+      "description": "A strategy that divides users into groups according to a percentage scheme, assigning each \ngroup a different Schedule. The combined set of schedule groups should have percentages that \nadd up to 100%. After the initial assignment, new users joining the study will be randomly \nassigned to one of the groups in proportion to their percentage representation in the study. \n\nNote that this assignment is truly random, so in small populations the percentages may diverge \nfrom those specified in the schedule plan.\n",
       "allOf": [
         {
           "$ref": "#/definitions/ScheduleStrategy"
@@ -4181,9 +4185,7 @@
     },
     "AbstractStudyParticipant": {
       "type": "object",
-      "required": [
-        "email"
-      ],
+      "discriminator": "type",
       "properties": {
         "firstName": {
           "type": "string",
@@ -4195,6 +4197,7 @@
         },
         "email": {
           "type": "string",
+          "readOnly": true,
           "description": "The user's email address. Users can create an account in multiple studies on Bridge; these accounts are entirely separate."
         },
         "externalId": {
@@ -4271,16 +4274,9 @@
       }
     },
     "AccountSummary": {
+      "description": "Summary of a participant for APIs to search and page through participant accounts.  \n",
       "type": "object",
-      "required": [
-        "firstName",
-        "lastName",
-        "email",
-        "id",
-        "createdOn",
-        "status",
-        "studyIdentifier"
-      ],
+      "readOnly": true,
       "properties": {
         "firstName": {
           "type": "string",
@@ -4325,7 +4321,7 @@
       }
     },
     "Activity": {
-      "description": "When creating an activity as part of a Schedule, you will need to supply a SurveyReference or a TaskReference in the activity. When these are returned, any survey reference that points to the \"most recently published\" survey will be resolved to a specific survey revision (the one most recently published).\n\nTasks may be requested into the future by the client, and then cached. So if a survey is changed and published, it may be some time before participants receive the updated survey.\n",
+      "description": "When creating an activity as part of a Schedule, you will need to supply a SurveyReference or a TaskReference in the activity. When these are returned, any survey reference that points to the \"most recently published\" survey will be resolved to a specific survey revision (the one most recently published).\n\nScheduled activities may be requested into the future by the client, and then cached. So if a survey is changed and published, it may be a few days before participants receive the updated survey.\n",
       "type": "object",
       "required": [
         "label",
@@ -4370,18 +4366,19 @@
     "ClientInfo": {
       "description": "Describes the content of the `User-Agent` field in the format that is accepted and understandable to the Bridge server (see [REST API getting started](/articles/rest.html)).",
       "type": "object",
+      "readOnly": true,
       "properties": {
         "appName": {
           "type": "string",
-          "description": "The name of the application"
+          "description": "The name of the application (e.g. \"Cardio Health\")."
         },
         "appVersion": {
           "type": "integer",
-          "description": "The version of the application (must be a number, and should increase with every \nnew release of the application)\n"
+          "description": "The version of the application (must be a number, and should increase with every \nnew release of the application).\n"
         },
         "deviceName": {
           "type": "string",
-          "description": "Information about the device"
+          "description": "Information about the device (e.g. \"Unknown iPhone\")."
         },
         "osName": {
           "type": "string",
@@ -4389,15 +4386,15 @@
         },
         "osVersion": {
           "type": "string",
-          "description": "The version of the operating system (can be a semantic version such as X.Y.Z)"
+          "description": "The version of the operating system (e.g. \"10.0.3\")."
         },
         "sdkName": {
           "type": "string",
-          "description": "The name of the SDK being used"
+          "description": "The name of the SDK being used (e.g. \"BridgeJavaSDK\")."
         },
         "sdkVersion": {
           "type": "integer",
-          "description": "The version of the SDK being used"
+          "description": "The version of the SDK being used (e.g. \"4\")."
         },
         "type": {
           "type": "string",
@@ -4409,14 +4406,16 @@
       }
     },
     "CmsPublicKey": {
+      "description": "A JSON payload that includes the base 64 encoded, public key for CMS encryption of uploads for this \nstudy. Each study has a different CMS public key.\n",
       "type": "object",
+      "readOnly": true,
       "required": [
         "publicKey"
       ],
       "properties": {
         "publicKey": {
           "type": "string",
-          "description": "Base 64 encoded version of the public key for CMS encryption of data that is uploaded \nto the Bridge server. Each study has a different CMS public key.\n"
+          "description": "Base 64 encoded version of the public key for CMS encryption of upload data.    \n"
         },
         "type": {
           "type": "string",
@@ -4428,13 +4427,12 @@
       }
     },
     "ConsentSignature": {
-      "description": "To consent to participation in a subpopulation (also known as a consent group), participants submit \ntheir electronic signature which can include an image of their actual signature. \n\nIn addition, participants submit a decision on how widely they will share their medical information with researchers (see the scope property of the ConsentSignature JSON object, below).\n\nHow you describe this choice to participants is important if they are to correctly understand the consequences of this decision. We strongly suggest that applications present the following language to users when making this choice:\n\n* **Option #1:** No data sharing. I do not agree to share my coded data (without my name) at this time;\n* **Option #2:** I agree to share my coded data (without my name) with researchers at the sponsor institution, and their partners, in order to conduct this study;\n* **Option #3:** I agree to share my coded data (without my name) with qualified researchers worldwide, for general health research.\n",
+      "description": "To consent to participation in a subpopulation (also known as a consent group), participants submit \ntheir electronic signature which can include an image of their actual signature. \n\nAt the time of consent, participants also submit a decision on how widely they will share their \nmedical information with researchers (see the scope property of the ConsentSignature JSON object, below).\n\nHow you describe this choice to participants is important if they are to correctly understand the \nconsequences of this decision. We suggest that applications present the following language to users \nwhen making this choice:\n\n* **Option #1:** No data sharing. I do not agree to share my coded data (without my name) at this time;\n* **Option #2:** I agree to share my coded data (without my name) with researchers at the sponsor institution, and their partners, in order to conduct this study;\n* **Option #3:** I agree to share my coded data (without my name) with qualified researchers worldwide, for general health research.\n",
       "type": "object",
       "required": [
         "name",
         "birthdate",
-        "consentCreatedOn",
-        "signedOn"
+        "scope"
       ],
       "properties": {
         "name": {
@@ -4449,11 +4447,11 @@
         "imageData": {
           "type": "string",
           "format": "binary",
-          "description": "Base 64 encoded image of the participant's signature"
+          "description": "Base 64 encoded image of the participant's signature. If `imageData` is supplied, `imageMimeType` must also be supplied."
         },
         "imageMimeType": {
           "type": "string",
-          "description": "mime type of this image (e.g. \"image/png\"). Should only be present if imageData is present."
+          "description": "Mime type of this image (e.g. \"image/png\"). If `imageData` is supplied, `imageMimeType` must also be supplied."
         },
         "consentCreatedOn": {
           "type": "string",
@@ -4489,26 +4487,21 @@
       }
     },
     "ConsentStatus": {
+      "description": "A description of the participant's consent status in a particular subpopulation (consent group). This \nobject is never used to update state on the server (all fields are read only). \n",
       "type": "object",
-      "required": [
-        "name",
-        "subpopulationGuid",
-        "required",
-        "consented",
-        "signedMostRecentConsent"
-      ],
+      "readOnly": true,
       "properties": {
         "name": {
           "type": "string",
-          "description": "The name of the subpopulation"
+          "description": "The name of the subpopulation."
         },
         "subpopulationGuid": {
           "type": "string",
-          "description": "The GUID for the subpopulation of this consent"
+          "description": "The GUID for the subpopulation of this consent."
         },
         "required": {
           "type": "boolean",
-          "description": "Is this consent required? If required, the user must consent to it before being given \naccess to the server (until signed, a 412 response is returned from the server).\n"
+          "description": "Is this consent required? If required, the user must consent to it before being given \naccess to the server (until signed, a 412 response is returned for most participant endpoints).\n"
         },
         "consented": {
           "type": "boolean",
@@ -4529,36 +4522,36 @@
     },
     "Criteria": {
       "type": "object",
-      "description": "Some objects, like Subpopulations and the schedules in a CriteriaScheduleStrategy, are \nmatched against user criteria in order to return the correct object. The criteria \nagainst which user information will be matched are described in the Criteria object. \n",
+      "description": "Some objects, like Subpopulations and the schedules in a CriteriaScheduleStrategy, are \nmatched against user criteria in order to return the correct object. The criteria \nagainst which user information will be matched are described in the Criteria object. \nSee [Tailoring Content to Participants](/articles/study_design/filtering.html) for a \nfuller explanation. \n",
       "properties": {
         "language": {
           "type": "string",
-          "description": "A two-letter language code. User must declare this a language they can\nuse to match this object.\n"
+          "description": "A two-letter language code. The the must declare an `Accept-Language` header with \nthis language in order to match this object.\n"
         },
         "allOfGroups": {
           "type": "array",
-          "description": "One or more data groups; user must have all these data groups to match",
+          "description": "One or more data groups; the user must have all these data groups to match.",
           "items": {
             "type": "string"
           }
         },
         "noneOfGroups": {
           "type": "array",
-          "description": "One or more data groups; user must have none of these data groups to match",
+          "description": "One or more data groups; the user must have none of these data groups to match.",
           "items": {
             "type": "string"
           }
         },
         "minAppVersion": {
           "type": "object",
-          "description": "A map of operating system names to a minimum app version. User must send a version \nequal to or greater than this to match this object.\n",
+          "description": "A map of operating system names to minimum app versions. The user must send a `User-Agent` header \nin a prescribed format, that declares the app version to be equal to or greater than this \nversion number, in order to match.\n",
           "additionalProperties": {
             "type": "integer"
           }
         },
         "maxAppVersion": {
           "type": "object",
-          "description": "A map of operating system names to a maximum app version. User must send a version \nequal to or less than this to match this object.\n",
+          "description": "A map of operating system names to minimum app versions. The user must send a `User-Agent` header \nin a prescribed format, that declares the app version to be equal to or less than this \nversion number, in order to match.\n",
           "additionalProperties": {
             "type": "integer"
           }
@@ -4573,7 +4566,7 @@
       }
     },
     "CriteriaScheduleStrategy": {
-      "description": "Select the first schedule in a list of schedules that matches the criteria being submitted\nby the participant. Criteria includes factors like the user's app platform and version, their \nlanguage, and data groups that are assigned to the user.  \n",
+      "description": "Select the first schedule in a list of schedules that have been associated to [Criteria](#Criteria). \nBased on information submitted by the user and in the user's account settings, compare each \nschedule in order until one matches the criteria, and use that schedule to assign activities to the \nuser.\n",
       "allOf": [
         {
           "$ref": "#/definitions/ScheduleStrategy"
@@ -4583,14 +4576,14 @@
         },
         {
           "required": [
-            "scheduleCriteria",
-            "type"
+            "scheduleCriteria"
           ]
         },
         {
           "properties": {
             "scheduleCriteria": {
               "type": "array",
+              "description": "The list of schedules and their criteria.",
               "items": {
                 "$ref": "#/definitions/ScheduleCriteria"
               }
@@ -4638,12 +4631,12 @@
         "startDate": {
           "type": "string",
           "format": "date",
-          "description": "start date of the date range"
+          "description": "Start date of the date range."
         },
         "endDate": {
           "type": "string",
           "format": "date",
-          "description": "end date of the date range"
+          "description": "End date of the date range."
         },
         "type": {
           "type": "string",
@@ -4655,9 +4648,10 @@
       }
     },
     "Email": {
+      "description": "Payload object for an email address.",
       "type": "object",
       "required": [
-        "name",
+        "email",
         "studyIdentifier"
       ],
       "properties": {
@@ -4680,7 +4674,7 @@
     },
     "EmailTemplate": {
       "type": "object",
-      "description": "A template for one of the system emails that are sent. In the templates, variable strings can \nbe used to interpolate values from the study or the individual to which the email is being sent. \nThe body of the email template must have a ${url} variable, this is where the link back to the \nBridge server will be inserted in order to complete the email verification/password reset.\n\n|Template Variable|What it will be replaced with|\n|---|---|\n|${url}|Where the link back to the Bridge server will be inserted in order to complete the email verification/password reset|\n|${studyName}|The name of the study|\n|${sponsorName}|The sponsor of the study|\n|${supportEmail}|The support email for the study|\n|${technicalEmail}|The technical support email for the study|\n|${account.givenName}|User's first name|\n|${account.surname}|User's last name|\n|${account.email}|User's email|\n\nYour HTML will be sanitized to remove potential security issues like scripts, frames or embedded Flash objects.\n",
+      "description": "A template for one of the system emails that are sent (email verification and password reset \nemails). \n\nIn the templates, variable strings can be used to interpolate values from the study or the \nindividual to which the email is being sent. **The body of the email template must have a \n${url} variable,** this is where the link back to the Bridge server will be inserted in \norder to complete the required transaction.\n\n|Template Variable|What it will be replaced with|\n|---|---|\n|${url}|Where the link back to the Bridge server will be inserted in order to complete the email verification/password reset|\n|${studyName}|The name of the study|\n|${sponsorName}|The sponsor of the study|\n|${supportEmail}|The support email for the study|\n|${technicalEmail}|The technical support email for the study|\n|${account.givenName}|User's first name|\n|${account.surname}|User's last name|\n|${account.email}|User's email|\n\nYour HTML will be sanitized to remove potential security issues like scripts, frames or embedded Flash objects.\n",
       "required": [
         "subject",
         "mimeType",
@@ -4944,6 +4938,43 @@
         }
       }
     },
+    "InvalidEntity": {
+      "description": "Payload returned with a 400 error when an entity submitted to the server\nis invalid.\n",
+      "type": "object",
+      "required": [
+        "statusCode",
+        "message",
+        "errors",
+        "entityClass",
+        "entity"
+      ],
+      "properties": {
+        "statusCode": {
+          "type": "integer"
+        },
+        "message": {
+          "type": "string"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "entityClass": {
+          "type": "string"
+        },
+        "entity": {
+          "type": "object"
+        }
+      }
+    },
     "Message": {
       "type": "object",
       "required": [
@@ -5006,6 +5037,7 @@
       "properties": {
         "password": {
           "type": "string",
+          "format": "password",
           "description": "New password to use."
         },
         "sptoken": {
@@ -5069,33 +5101,6 @@
         "data": {
           "type": "object",
           "description": "An arbitrary JSON object containing whatever data should be saved for a report."
-        },
-        "type": {
-          "type": "string",
-          "readOnly": true,
-          "enum": [
-            "ReportData"
-          ]
-        }
-      }
-    },
-    "ReportDataWithHealthCode": {
-      "type": "object",
-      "required": [
-        "date",
-        "data",
-        "healthCode"
-      ],
-      "properties": {
-        "date": {
-          "type": "string",
-          "format": "date"
-        },
-        "data": {
-          "type": "object"
-        },
-        "healthCode": {
-          "type": "string"
         },
         "type": {
           "type": "string",
@@ -5419,6 +5424,7 @@
         },
         "password": {
           "type": "string",
+          "format": "password",
           "description": "User's password"
         },
         "type": {
@@ -5451,7 +5457,8 @@
               "type": "string"
             },
             "password": {
-              "type": "string"
+              "type": "string",
+              "format": "password"
             },
             "type": {
               "type": "string",
@@ -5678,9 +5685,6 @@
           "description": "Full record about a study participant\n"
         },
         {
-          "type": "object"
-        },
-        {
           "required": [
             "consentHistories"
           ]
@@ -5712,7 +5716,7 @@
     },
     "Subpopulation": {
       "type": "object",
-      "description": "A subpopulation (usually a consent group). \n",
+      "description": "A subpopulation in the Bridge server is a group of people who, for the purposes of the study, must agree to a specific \nconsent in order to participate in a study. (Some consents can be optional; these will not prevent participants from \nusing Bridge.) For example, a study may have one consent for all participants and a further, optional consent to \ncontribute genetic information. The user must sign the first consent, and may choose to sign the second consent; \nBridge will track the status of all this and refuse data from a participant who has not signed all required consents.\n\n* Users are assigned to one or more subpopulations on every request;\n* Bridge verifies that the user has signed all their required consents;\n* If they have, they are given access to the system. Their session will include detailed information about their consent to all subpopulations;\n* If they have not, Bridge returns a 412 response. The JSON in that response will include detailed information about the user's consent status\n",
       "required": [
         "guid",
         "name",
@@ -5723,40 +5727,44 @@
       ],
       "properties": {
         "guid": {
-          "type": "string"
+          "type": "string",
+          "description": "A unique auto-generated identifier for the subpopulation. Usually a GUID (but not always). Cannot be \nchanged after creation. Used to retrieve the published consent for this subpopulation.\n"
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "description": "The name of this subpopulation"
         },
         "description": {
-          "type": "string"
+          "type": "string",
+          "description": "The description of this subpopulation"
         },
         "criteria": {
-          "$ref": "#/definitions/Criteria"
+          "$ref": "#/definitions/Criteria",
+          "description": "Selection criteria that can optionally be used to determine if a user is in a subpopulation or not. \nIf the user does not match a subpopulation, then that subpopulation and its requirements are \ninvisible to that user. Otherwise the user is in the subpopulation and all its consent requirements apply.\n"
         },
         "required": {
           "type": "boolean",
-          "description": "is the user required to sign the consent agreement for this subpopulation?"
+          "description": "If true, participants must sign the consent associated with this subpopulation if they are identified \nas a member of this subpopulation. Users will receive a 412 HTTP response from Bridge if any of \nthese required consents are not signed.\n"
         },
         "defaultGroup": {
           "type": "boolean",
-          "description": "is this the default subpopulation for the study (there must alwasy be at least one, though it does not need to be required)"
+          "description": "If true, this is the default subpopulation created for a study, and it cannot be deleted (although it can be edited).\n"
         },
         "publishedConsentCreatedOn": {
           "type": "string",
           "format": "date-time",
-          "description": "the createdOn timestamp of the currently published consent for this subpopulation"
+          "description": "The creation date (ISO 8601 timestamp) of the version of the consent agreement for this subpopulation that is \npublished, ie. that is presented to users for their signature. The subpopulation guid and this createdOn \ntimestamp can be used to retrieve the consent document.\n"
         },
         "version": {
           "type": "integer"
         },
         "consentHTML": {
           "type": "string",
-          "description": "The URL to the location of the published consent HTML document for this subpopulation"
+          "description": "The URL to retrieve an HTML version of the published and active version of the consent. This can be \nreferenced in your mobile app, web site, etc. Publishing a new consent version will update this document.\n"
         },
         "consentPDF": {
           "type": "string",
-          "description": "The URL to the location of the published consent PDF document for this subpopulation"
+          "description": "The URL to retrieve a PDF version of the published and active version of the consent. This can be \nreferenced in your mobile app, web site, etc. Publishing a new consent version will update this document.\n"
         },
         "type": {
           "type": "string",
@@ -6255,6 +6263,7 @@
     },
     "UploadSchema": {
       "type": "object",
+      "description": "Represents the expected fields and types for a data upload. This is used to validate incoming \nuploads and to export data to Synapse. See [Bridge Upload Data Format](/articles/study_design/upload_data_format.html) for more details about uploads.\n",
       "required": [
         "name",
         "revision",
@@ -6564,39 +6573,6 @@
           "enum": [
             "Withdrawal"
           ]
-        }
-      }
-    },
-    "InvalidEntityException": {
-      "description": "A response to submission of a JSON payload that is not valid. The errors \n",
-      "type": "object",
-      "required": [
-        "statusCode",
-        "errors",
-        "entityClass",
-        "entity"
-      ],
-      "properties": {
-        "statusCode": {
-          "type": "integer"
-        },
-        "errors": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          }
-        },
-        "entityClass": {
-          "type": "string"
-        },
-        "entity": {
-          "type": "object"
         }
       }
     },
@@ -6983,12 +6959,10 @@
     "Constraints": {
       "type": "object",
       "discriminator": "type",
-      "required": [
-        "rules"
-      ],
       "properties": {
         "rules": {
           "type": "array",
+          "description": "Constraints can include one or more rules about how to progress through the elements of a \nsurvey (e.g. skipping some questions if they are not relevant to the participant, based on \nan answer to a question). See [Survey Rule](#SurveyRule) for more information.\n",
           "items": {
             "$ref": "#/definitions/SurveyRule"
           }
@@ -7036,6 +7010,9 @@
     },
     "BooleanConstraints": {
       "description": "**UI hints:** checkbox, toggle.\n",
+      "required": [
+        "dataType"
+      ],
       "allOf": [
         {
           "$ref": "#/definitions/Constraints"
@@ -7050,6 +7027,7 @@
             },
             "type": {
               "type": "string",
+              "readOnly": true,
               "enum": [
                 "BooleanConstraints"
               ]
@@ -7127,7 +7105,10 @@
       ]
     },
     "DecimalConstraints": {
-      "description": "**UI hints:** numberfield, slider.\n",
+      "description": "A floating point value.\n\n**UI hints:** numberfield, slider.\n",
+      "required": [
+        "dataType"
+      ],
       "allOf": [
         {
           "$ref": "#/definitions/Constraints"
@@ -7184,6 +7165,7 @@
             },
             "type": {
               "type": "string",
+              "readOnly": true,
               "enum": [
                 "DecimalConstraints"
               ]
@@ -7230,6 +7212,9 @@
     },
     "DateTimeConstraints": {
       "description": "**UI hints:** datetimepicker.\n",
+      "required": [
+        "dataType"
+      ],
       "allOf": [
         {
           "$ref": "#/definitions/Constraints"
@@ -7243,11 +7228,13 @@
             },
             "earliestValue": {
               "type": "string",
-              "format": "date-time"
+              "format": "date-time",
+              "description": "ISO 8601 date and time value that is the earliest value that may be set for this question. \nIf allowFuture is false, that constraint should also be applied regardless of \nearliest/latestValue constraints.\n"
             },
             "latestValue": {
               "type": "string",
-              "format": "date-time"
+              "format": "date-time",
+              "description": "ISO 8601 date and time value that is the earliest value that may be set for this question. \nIf allowFuture is false, that constraint should also be applied regardless of  \nearliest/latestValue constraints.\n"
             },
             "dataType": {
               "type": "string",
@@ -7257,6 +7244,7 @@
             },
             "type": {
               "type": "string",
+              "readOnly": true,
               "enum": [
                 "DateTimeConstraints"
               ]
@@ -7267,6 +7255,9 @@
     },
     "DateConstraints": {
       "description": "A date without a time value (e.g. \"2016-07-28\").\n\n**UI hints:** datepicker.\n",
+      "required": [
+        "dataType"
+      ],
       "allOf": [
         {
           "$ref": "#/definitions/Constraints"
@@ -7281,12 +7272,12 @@
             "earliestValue": {
               "type": "string",
               "format": "date",
-              "description": "ISO 8601 date and time value that is the earliest value that may be set for this question. \nNo default. If allowFuture is false, that constraint will also be applied regardless \nof earliest/latestValue constraints.\n"
+              "description": "ISO 8601 date value that is the earliest value that may be set for this question. \nIf allowFuture is false, that constraint should also be applied regardless of \nearliest/latestValue constraints.\n"
             },
             "latestValue": {
               "type": "string",
               "format": "date",
-              "description": "ISO 8601 date and time value that is the earliest value that may be set for this question. \nNo default. If allowFuture is false, that constraint will also be applied regardless \nof earliest/latestValue constraints.\n"
+              "description": "ISO 8601 date value that is the earliest value that may be set for this question. \nIf allowFuture is false, that constraint should also be applied regardless of  \nearliest/latestValue constraints.\n"
             },
             "dataType": {
               "type": "string",
@@ -7296,6 +7287,7 @@
             },
             "type": {
               "type": "string",
+              "readOnly": true,
               "enum": [
                 "DateConstraints"
               ]
@@ -7331,7 +7323,8 @@
     "DurationConstraints": {
       "description": "Deprecated. Use an integer value with a unit of measure instead.\n\nDurations should be given as an integer value (not an ISO 8601 duration value). For the time being, a duration string is accepted if the duration is measured in the same time units required by the question. For example, if the question requires minutes, the duration string must be \"PT120M\", not \"PT2H\" or other equivalent values.\n\n**UI hints:** numberfield, slider.\n",
       "required": [
-        "unit"
+        "unit",
+        "dataType"
       ],
       "allOf": [
         {
@@ -7390,6 +7383,7 @@
             },
             "type": {
               "type": "string",
+              "readOnly": true,
               "enum": [
                 "DurationConstraints"
               ]
@@ -7400,6 +7394,12 @@
     }
   },
   "responses": {
+    "400": {
+      "description": "The submitted JSON payload has validation errors. It must be changed before it can be \nsucessfully re-submitted. Individual errors are provided in a map that is keyed to the \nJSON object structure. \n",
+      "schema": {
+        "$ref": "#/definitions/InvalidEntity"
+      }
+    },
     "401": {
       "description": "Authentication required (user not signed in).",
       "schema": {
