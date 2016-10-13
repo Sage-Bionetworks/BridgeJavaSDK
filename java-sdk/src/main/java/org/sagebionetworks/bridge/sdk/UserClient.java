@@ -4,12 +4,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.Map;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.collect.ImmutableMap;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.ByteArrayEntity;
@@ -18,9 +14,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
-import org.sagebionetworks.bridge.sdk.models.accounts.ConsentSignature;
 import org.sagebionetworks.bridge.sdk.models.accounts.SharingScope;
-import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
 import org.sagebionetworks.bridge.sdk.models.accounts.Withdrawal;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.schedules.Schedule;
@@ -31,9 +25,17 @@ import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadRequest;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadSession;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadValidationStatus;
+import org.sagebionetworks.bridge.sdk.rest.api.ConsentsApi;
+import org.sagebionetworks.bridge.sdk.rest.api.ParticipantsApi;
+import org.sagebionetworks.bridge.sdk.rest.model.ConsentSignature;
+import org.sagebionetworks.bridge.sdk.rest.model.StudyParticipant;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.google.common.collect.ImmutableMap;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Map;
 
 public class UserClient extends BaseApiCaller {
     
@@ -41,8 +43,12 @@ public class UserClient extends BaseApiCaller {
     
     private final TypeReference<ResourceList<ScheduledActivity>> saType = new TypeReference<ResourceList<ScheduledActivity>>() {};
 
+    private final ParticipantsApi participantsApi;
+    private final ConsentsApi consentsApi;
     UserClient(BridgeSession session) {
         super(session);
+        this.participantsApi = API_CLIENT_PROVIDER.getClient(ParticipantsApi.class, signIn);
+        this.consentsApi = API_CLIENT_PROVIDER.getClient(ConsentsApi.class, signIn);
     }
 
     /**
@@ -51,9 +57,7 @@ public class UserClient extends BaseApiCaller {
      * @return participant - the study participant record for this user
      */
     public StudyParticipant getStudyParticipant() {
-        session.checkSignedIn();
-        
-        return get(config.getParticipantSelfApi(), StudyParticipant.class);
+        return call(participantsApi.v3ParticipantsSelfGet());
     }
     
     /**
@@ -85,11 +89,14 @@ public class UserClient extends BaseApiCaller {
      * @param scope
      *          Scope of sharing for this consent
      */
-    public void consentToResearch(SubpopulationGuid subpopGuid, ConsentSignature signature, SharingScope scope) {
+    public void consentToResearch(SubpopulationGuid subpopGuid, org
+            .sagebionetworks.bridge.sdk.models.accounts.ConsentSignature signature,
+                                  SharingScope scope) {
         session.checkSignedIn();
         checkNotNull(subpopGuid, CANNOT_BE_NULL, "subpopGuid");
         checkNotNull(signature, CANNOT_BE_NULL, "ConsentSignature");
         checkNotNull(scope, CANNOT_BE_NULL, "SharingScope");
+
 
         ConsentSubmission submission = new ConsentSubmission(signature, scope);
         
@@ -102,16 +109,16 @@ public class UserClient extends BaseApiCaller {
      * Returns the user's consent signature, which includes the name, birthdate, and signature image.
      *
      * @param subpopGuid
-     *      the GUID object of the subpopulation which the user consented to participate in  
+     *      the GUID object of the subpopulation which the user consented to participate in
      * @return consent signature
      *      
      */
     public ConsentSignature getConsentSignature(SubpopulationGuid subpopGuid) {
-        session.checkSignedIn();
         checkNotNull(subpopGuid, CANNOT_BE_NULL, "subpopGuid");
-        
-        ConsentSignature sig = get(config.getConsentSignatureApi(subpopGuid), ConsentSignature.class);
-        return sig;
+
+        return call(consentsApi.v3SubpopulationsSubpopulationGuidConsentsSignatureGet(
+                subpopGuid.getGuid())
+        );
     }
 
     /**
@@ -121,10 +128,11 @@ public class UserClient extends BaseApiCaller {
      *      email the consent to the user for the GUID object of the subpopulation the user consented to 
      */
     public void emailConsentSignature(SubpopulationGuid subpopGuid) {
-        session.checkSignedIn();
         checkNotNull(subpopGuid, CANNOT_BE_NULL, "subpopGuid");
-        
-        post(config.getEmailConsentSignatureApi(subpopGuid));
+        call(consentsApi.v3SubpopulationsSubpopulationGuidConsentsSignatureEmailPost(
+                subpopGuid.getGuid(),
+                new Object()
+        ));
     }
 
     /**

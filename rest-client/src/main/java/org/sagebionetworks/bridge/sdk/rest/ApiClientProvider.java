@@ -22,6 +22,7 @@ public class ApiClientProvider {
   private final Retrofit.Builder retrofitBuilder;
   private final UserSessionInfoProvider userSessionInfoProvider;
   private final Map<SignIn, WeakReference<Retrofit>> authenticatedRetrofits;
+  private final Map<SignIn, Map<Class, WeakReference>> authenticatedClients;
 
   public ApiClientProvider(String baseUrl, String userAgent) {
     this(baseUrl, userAgent, null);
@@ -31,6 +32,9 @@ public class ApiClientProvider {
   ApiClientProvider(
       String baseUrl, String userAgent, UserSessionInfoProvider userSessionInfoProvider
   ) {
+    authenticatedRetrofits = Maps.newHashMap();
+    authenticatedClients = Maps.newHashMap();
+
     HeaderHandler headerHandler = new HeaderHandler(userAgent);
 
     unauthenticatedOkHttpClient = new OkHttpClient.Builder().addInterceptor(headerHandler).build();
@@ -39,11 +43,8 @@ public class ApiClientProvider {
                                             .client(unauthenticatedOkHttpClient)
                                             .addConverterFactory(GsonConverterFactory.create());
 
-
     this.userSessionInfoProvider = userSessionInfoProvider != null ? userSessionInfoProvider
-        : new UserSessionInfoProvider(getClient(AuthenticationApi.class, null));
-
-    authenticatedRetrofits = Maps.newHashMap();
+        : new UserSessionInfoProvider(getClient(AuthenticationApi.class));
   }
 
   /**
@@ -70,17 +71,25 @@ public class ApiClientProvider {
   }
 
   private <T> T getClientImpl(Class<T> service, SignIn signIn) {
-    Preconditions.checkNotNull(service);
-
-    OkHttpClient.Builder builder = unauthenticatedOkHttpClient.newBuilder();
-    if (signIn != null) {
-      AuthenticationHandler authenticationHandler = new AuthenticationHandler(signIn,
-                                                                              userSessionInfoProvider
-      );
-      builder.addInterceptor(authenticationHandler).authenticator(authenticationHandler);
+    Map<Class, WeakReference> userClients = authenticatedClients.get(signIn);
+    if (userClients == null) {
+      userClients = Maps.newHashMap();
+      authenticatedClients.put(signIn, userClients);
     }
 
-    return retrofitBuilder.client(builder.build()).build().create(service);
+    T authenticateClient = null;
+    WeakReference clientReference = userClients.get(service);
+
+    if (clientReference != null) {
+      authenticateClient = (T) clientReference.get();
+    }
+
+    if (authenticateClient == null) {
+      authenticateClient = getAuthenticatedRetrofit(signIn).create(service);
+      userClients.put(service, new WeakReference(authenticateClient));
+    }
+
+    return authenticateClient;
   }
 
   Retrofit getAuthenticatedRetrofit(SignIn signIn) {
@@ -92,15 +101,16 @@ public class ApiClientProvider {
     }
 
     if (authenticatedRetrofit == null) {
-      AuthenticationHandler authenticationHandler = new AuthenticationHandler(signIn,
-                                                                              userSessionInfoProvider
-      );
-      OkHttpClient okHttpClient = unauthenticatedOkHttpClient.newBuilder()
-                                                             .addInterceptor(authenticationHandler)
-                                                             .authenticator(authenticationHandler)
-                                                             .build();
+      OkHttpClient.Builder builder = unauthenticatedOkHttpClient.newBuilder();
 
-      authenticatedRetrofit = retrofitBuilder.client(okHttpClient).build();
+      if (signIn != null) {
+        AuthenticationHandler authenticationHandler = new AuthenticationHandler(signIn,
+                                                                                userSessionInfoProvider
+        );
+        builder.addInterceptor(authenticationHandler).authenticator(authenticationHandler);
+      }
+
+      authenticatedRetrofit = retrofitBuilder.client(builder.build()).build();
 
       authenticatedRetrofits.put(signIn, new WeakReference<>(authenticatedRetrofit));
     }

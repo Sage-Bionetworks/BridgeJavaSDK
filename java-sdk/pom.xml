@@ -28,6 +28,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.sagebionetworks.bridge</groupId>
+            <artifactId>rest-client</artifactId>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>

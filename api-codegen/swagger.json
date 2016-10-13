@@ -172,11 +172,11 @@
               "$ref": "#/definitions/Message"
             }
           },
+          "410": {
+            "$ref": "#/responses/410"
+          },
           "412": {
-            "description": "User has signed in, but is not consented",
-            "schema": {
-              "$ref": "#/definitions/UserSessionInfo"
-            }
+            "$ref": "#/responses/412"
           },
           "423": {
             "description": "Account has been disabled",
@@ -205,10 +205,10 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Message"
-            }
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
           }
         }
       }
@@ -232,7 +232,7 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
           }
         }
       }
@@ -256,7 +256,7 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
           },
           "400": {
             "description": "The new password does not meet the password requirements of the study.",
@@ -286,10 +286,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Created",
-            "schema": {
-              "$ref": "#/definitions/Message"
-            }
+            "$ref": "#/responses/201_message"
           }
         }
       }
@@ -313,7 +310,7 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
           }
         }
       }
@@ -337,7 +334,7 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
           }
         }
       }
@@ -385,17 +382,38 @@
           "200": {
             "description": "OK",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/ScheduledActivity"
+              "type": "object",
+              "properties": {
+                "items": {
+                  "type": "array",
+                  "readOnly": true,
+                  "items": {
+                    "$ref": "#/definitions/ScheduledActivity"
+                  }
+                },
+                "total": {
+                  "type": "integer",
+                  "readOnly": true,
+                  "description": "The total number of records in the items list"
+                },
+                "type": {
+                  "type": "string",
+                  "readOnly": true,
+                  "enum": [
+                    "ResourceList"
+                  ]
+                }
               }
             }
           },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
           "412": {
-            "description": "User has signed in, but is not consented",
-            "schema": {
-              "$ref": "#/definitions/UserSessionInfo"
-            }
+            "$ref": "#/responses/412"
           }
         }
       },
@@ -426,13 +444,19 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
           }
         }
       }
-    },
-    "/v3/tasks": {
-      "$ref": "#/paths/~1v3~1activities"
     },
     "/v3/participants": {
       "get": {
@@ -476,6 +500,12 @@
             "schema": {
               "$ref": "#/definitions/ResourceList_AccountSummary"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_researcher"
           }
         }
       },
@@ -503,7 +533,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_researcher"
           }
         }
       }
@@ -527,6 +563,9 @@
             "schema": {
               "$ref": "#/definitions/StudyParticipant"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
           }
         }
       },
@@ -555,7 +594,10 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
           }
         }
       }
@@ -583,6 +625,12 @@
             "schema": {
               "$ref": "#/definitions/StudyParticipant"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_researcher"
           }
         }
       },
@@ -613,7 +661,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_researcher"
           }
         }
       }
@@ -656,6 +710,12 @@
             "schema": {
               "$ref": "#/definitions/ResourceList_Upload"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_researcher"
           }
         }
       }
@@ -684,6 +744,12 @@
             "schema": {
               "$ref": "#/definitions/RequestInfo"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_researcher"
           }
         }
       }
@@ -724,6 +790,12 @@
             "schema": {
               "$ref": "#/definitions/ResourceList_Activity"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_researcher"
           }
         }
       },
@@ -746,7 +818,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_researcher"
           }
         }
       }
@@ -773,7 +851,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_researcher"
           }
         }
       }
@@ -798,7 +882,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_researcher"
           }
         }
       }
@@ -823,7 +913,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_researcher"
           }
         }
       }
@@ -856,7 +952,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_researcher"
           }
         }
       }
@@ -884,7 +986,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_researcher"
           }
         }
       }
@@ -921,6 +1029,12 @@
             "schema": {
               "$ref": "#/definitions/ResourceList_ReportData"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_researcher"
           }
         }
       },
@@ -945,7 +1059,13 @@
         ],
         "responses": {
           "201": {
-            "$ref": "#/paths/~1v3~1auth~1signUp/post/responses/201"
+            "$ref": "#/responses/201_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       },
@@ -971,7 +1091,13 @@
         ],
         "responses": {
           "201": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer_worker"
           }
         }
       }
@@ -1007,7 +1133,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer_worker"
           }
         }
       }
@@ -1040,7 +1172,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_worker"
           }
         }
       },
@@ -1063,7 +1201,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_admin"
           }
         }
       }
@@ -1073,7 +1217,7 @@
         "summary": "Get all subpopulations in this study",
         "tags": [
           "Subpopulations",
-          "_For Researchers"
+          "_For Developers"
         ],
         "security": [
           {
@@ -1086,6 +1230,12 @@
             "schema": {
               "$ref": "#/definitions/ResourceList_Subpopulation"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       },
@@ -1093,7 +1243,7 @@
         "summary": "Create a new subpopulation",
         "tags": [
           "Subpopulations",
-          "_For Researchers"
+          "_For Developers"
         ],
         "security": [
           {
@@ -1117,6 +1267,12 @@
             "schema": {
               "$ref": "#/definitions/GuidVersionHolder"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -1126,6 +1282,7 @@
         "summary": "Get a subpopulation",
         "tags": [
           "Subpopulations",
+          "_For Developers",
           "_For Researchers"
         ],
         "security": [
@@ -1144,6 +1301,12 @@
             "schema": {
               "$ref": "#/definitions/Subpopulation"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer_researcher"
           }
         }
       },
@@ -1151,7 +1314,7 @@
         "summary": "Update an existing subpopulation",
         "tags": [
           "Subpopulations",
-          "_For Researchers"
+          "_For Developers"
         ],
         "security": [
           {
@@ -1178,15 +1341,22 @@
             "schema": {
               "$ref": "#/definitions/GuidVersionHolder"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       },
       "delete": {
         "summary": "Delete a subpopulation",
-        "description": "Delete a subpopulation unless it is a default subpopulation, which cannot be deleted.\n",
+        "description": "Delete a subpopulation unless it is a default subpopulation, which cannot be deleted. \nIf this is a \n",
         "tags": [
           "Subpopulations",
-          "_For Researchers"
+          "_For Developers",
+          "_For Admins"
         ],
         "security": [
           {
@@ -1196,11 +1366,25 @@
         "parameters": [
           {
             "$ref": "#/parameters/subpopulationGuid"
+          },
+          {
+            "in": "query",
+            "name": "physical",
+            "type": "boolean",
+            "required": false,
+            "default": false,
+            "description": "If an admin sets this query value to true, the subpopulation will be permanently\ndeleted from the database (used for testing).\n"
           }
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_admin_developer"
           }
         }
       }
@@ -1229,6 +1413,15 @@
             "schema": {
               "$ref": "#/definitions/ConsentSignature"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
           }
         }
       },
@@ -1260,7 +1453,10 @@
         ],
         "responses": {
           "201": {
-            "$ref": "#/paths/~1v3~1auth~1signUp/post/responses/201"
+            "$ref": "#/responses/201_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
           }
         }
       }
@@ -1293,7 +1489,16 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
           }
         }
       }
@@ -1320,7 +1525,164 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
+          }
+        }
+      }
+    },
+    "/v3/consents": {
+      "get": {
+        "summary": "Get all revisions of the consent in a study's default subpopulation",
+        "deprecated": true,
+        "tags": [
+          "Consents",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResourceList_StudyConsent"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
+          }
+        }
+      },
+      "post": {
+        "summary": "Add new consent revision to the study's default subpopulation",
+        "deprecated": true,
+        "tags": [
+          "Consents",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/StudyConsent"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
+          }
+        }
+      }
+    },
+    "/v3/consents/recent": {
+      "get": {
+        "summary": "Get most recent revision of a study's default subpopulation",
+        "deprecated": true,
+        "tags": [
+          "Consents",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/StudyConsent"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
+          }
+        }
+      }
+    },
+    "/v3/consents/published": {
+      "get": {
+        "summary": "Get most recently published revision of a study's default subpopulation",
+        "deprecated": true,
+        "tags": [
+          "Consents",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/StudyConsent"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
+          }
+        }
+      }
+    },
+    "/v3/consents/{createdOn}": {
+      "get": {
+        "summary": "Get specific revision of a study's default subpopulation",
+        "deprecated": true,
+        "tags": [
+          "Consents",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/createdOn"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/StudyConsent"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -1348,6 +1710,12 @@
             "schema": {
               "$ref": "#/definitions/ResourceList_StudyConsent"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       },
@@ -1378,7 +1746,13 @@
         ],
         "responses": {
           "201": {
-            "$ref": "#/paths/~1v3~1auth~1signUp/post/responses/201"
+            "$ref": "#/responses/201_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -1407,6 +1781,12 @@
             "schema": {
               "$ref": "#/definitions/StudyConsent"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -1435,11 +1815,17 @@
             "schema": {
               "$ref": "#/definitions/StudyConsent"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
     },
-    "/v3/subpopulations/{subpopulationGuid}/consents/{timestamp}": {
+    "/v3/subpopulations/{subpopulationGuid}/consents/{createdOn}": {
       "get": {
         "summary": "Get a specific consent revision",
         "description": "Get a specific revision of this subpopulation consent by its creation timestamp.\n",
@@ -1457,7 +1843,7 @@
             "$ref": "#/parameters/subpopulationGuid"
           },
           {
-            "name": "timestamp",
+            "name": "createdOn",
             "description": "creation timestamp of the revision",
             "type": "string",
             "format": "date-time",
@@ -1471,11 +1857,17 @@
             "schema": {
               "$ref": "#/definitions/StudyConsent"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
     },
-    "/v3/subpopulations/{subpopulationGuid}/consents/{timestamp}/publish": {
+    "/v3/subpopulations/{subpopulationGuid}/consents/{createdOn}/publish": {
       "post": {
         "summary": "Publish a specific consent revision",
         "description": "Publish a specific revision of this subpopulation consent by its creation timestamp. This version of \nthe consent will be presented to users in order to participate in this subpopulation. If users have \nsigned any other revision of this consent, the `signedMostRecentConsent` flag in the consent status \nrecord for this consent (in the user's session) will be false. However, the user is still considered to \nbe consented and will not be shut out of performing operations with a 412 response.\n",
@@ -1493,7 +1885,7 @@
             "$ref": "#/parameters/subpopulationGuid"
           },
           {
-            "name": "timestamp",
+            "name": "createdOn",
             "description": "creation timestamp of the revision",
             "type": "string",
             "format": "date-time",
@@ -1506,7 +1898,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -1536,7 +1934,13 @@
         ],
         "responses": {
           "201": {
-            "$ref": "#/paths/~1v3~1auth~1signUp/post/responses/201"
+            "$ref": "#/responses/201_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_admin"
           }
         }
       }
@@ -1561,7 +1965,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_admin"
           }
         }
       }
@@ -1586,6 +1996,9 @@
             "schema": {
               "$ref": "#/definitions/UserProfile"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
           }
         }
       },
@@ -1615,7 +2028,10 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
           }
         }
       }
@@ -1647,7 +2063,10 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
           }
         }
       }
@@ -1678,10 +2097,16 @@
         ],
         "responses": {
           "202": {
-            "description": "Accepted",
-            "schema": {
-              "$ref": "#/definitions/Message"
-            }
+            "$ref": "#/responses/202_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
           }
         }
       }
@@ -1713,7 +2138,10 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
           }
         }
       }
@@ -1738,6 +2166,9 @@
             "schema": {
               "$ref": "#/definitions/DataGroups"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
           }
         }
       },
@@ -1767,7 +2198,10 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
           }
         }
       }
@@ -1775,11 +2209,10 @@
     "/v3/users/self/reports/{identifier}": {
       "get": {
         "summary": "Get a participant report",
-        "description": "Get the records for a specific participant report. Participants can get reports for their own \naccount.\n",
+        "description": "Get the records for a specific participant report. Participants can get reports for their own \naccount. Note that this call does not require consent, but does require authentication. \n",
         "tags": [
           "Users",
           "Reports",
-          "_For Researchers",
           "_For Consented Users"
         ],
         "security": [
@@ -1804,6 +2237,9 @@
             "schema": {
               "$ref": "#/definitions/ResourceList_ReportData"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
           }
         }
       }
@@ -1835,6 +2271,9 @@
             "schema": {
               "$ref": "#/definitions/ResourceList_ReportIndex"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
           }
         }
       }
@@ -1868,6 +2307,9 @@
             "schema": {
               "$ref": "#/definitions/ResourceList_ReportData"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
           }
         }
       },
@@ -1899,7 +2341,13 @@
         ],
         "responses": {
           "201": {
-            "$ref": "#/paths/~1v3~1auth~1signUp/post/responses/201"
+            "$ref": "#/responses/201_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer_worker"
           }
         }
       },
@@ -1922,7 +2370,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer_worker"
           }
         }
       }
@@ -1955,7 +2409,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer_worker"
           }
         }
       }
@@ -1978,6 +2438,12 @@
             "schema": {
               "$ref": "#/definitions/ResourceList_Survey"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       },
@@ -2004,7 +2470,13 @@
         ],
         "responses": {
           "201": {
-            "$ref": "#/paths/~1v3~1auth~1signUp/post/responses/201"
+            "$ref": "#/responses/201_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -2030,6 +2502,12 @@
             "schema": {
               "$ref": "#/definitions/ResourceList_Survey"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -2057,6 +2535,12 @@
             "schema": {
               "$ref": "#/definitions/ResourceList_Survey"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -2084,6 +2568,12 @@
             "schema": {
               "$ref": "#/definitions/Survey"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -2111,6 +2601,18 @@
             "schema": {
               "$ref": "#/definitions/Survey"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
           }
         }
       }
@@ -2141,6 +2643,18 @@
             "schema": {
               "$ref": "#/definitions/Survey"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer_worker"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
           }
         }
       },
@@ -2174,7 +2688,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       },
@@ -2208,7 +2728,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_admin_developer"
           }
         }
       }
@@ -2242,6 +2768,12 @@
             "schema": {
               "$ref": "#/definitions/GuidCreatedOnVersionHolder"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -2275,6 +2807,12 @@
             "schema": {
               "$ref": "#/definitions/GuidCreatedOnVersionHolder"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -2299,6 +2837,15 @@
             "schema": {
               "$ref": "#/definitions/ResourceList_Schedule"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
           }
         }
       }
@@ -2322,6 +2869,15 @@
             "schema": {
               "$ref": "#/definitions/ResourceList_Schedule"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
           }
         }
       }
@@ -2355,6 +2911,15 @@
             "schema": {
               "$ref": "#/definitions/UploadSession"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
           }
         }
       }
@@ -2362,8 +2927,10 @@
     "/v3/uploads/{uploadId}/complete": {
       "post": {
         "summary": "Notify Bridge an upload is complete",
+        "description": "Notify Bridge an upload is complete. Either a consented user or a worker \nprocess can access this endpoing, but failure to have the worker role will \nbe treated like a consent error. \n",
         "tags": [
           "Uploads",
+          "_For Workers",
           "_For Consented Users"
         ],
         "security": [
@@ -2385,6 +2952,15 @@
             "schema": {
               "$ref": "#/definitions/UploadSession"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
           }
         }
       }
@@ -2392,9 +2968,11 @@
     "/v3/uploadstatus/{uploadId}": {
       "get": {
         "summary": "Get status of a single upload attempt",
+        "description": "Caller must either be a participant getting a status of one of the participant's \nown uploads, or a reearcher.\n",
         "tags": [
           "Uploads",
-          "_For Consented Users"
+          "_For Consented Users",
+          "_For Researchers"
         ],
         "security": [
           {
@@ -2412,6 +2990,18 @@
             "schema": {
               "$ref": "#/definitions/UploadValidationStatus"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_researcher"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
           }
         }
       }
@@ -2434,6 +3024,12 @@
             "schema": {
               "$ref": "#/definitions/ResourceList_UploadSchema"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       },
@@ -2461,7 +3057,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -2490,7 +3092,13 @@
         ],
         "responses": {
           "201": {
-            "$ref": "#/paths/~1v3~1auth~1signUp/post/responses/201"
+            "$ref": "#/responses/201_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -2525,7 +3133,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -2553,6 +3167,12 @@
             "schema": {
               "$ref": "#/definitions/ResourceList_UploadSchema"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       },
@@ -2574,7 +3194,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -2602,6 +3228,12 @@
             "schema": {
               "$ref": "#/definitions/UploadSchema"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -2611,7 +3243,8 @@
         "summary": "Get the specific revision of an upload schema",
         "tags": [
           "Upload Schemas",
-          "_For Developers"
+          "_For Developers",
+          "_For Workers"
         ],
         "security": [
           {
@@ -2632,6 +3265,12 @@
             "schema": {
               "$ref": "#/definitions/UploadSchema"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer_worker"
           }
         }
       },
@@ -2656,7 +3295,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -2679,6 +3324,12 @@
             "schema": {
               "$ref": "#/definitions/ResourceList_SchedulePlan"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       },
@@ -2705,7 +3356,13 @@
         ],
         "responses": {
           "201": {
-            "$ref": "#/paths/~1v3~1auth~1signUp/post/responses/201"
+            "$ref": "#/responses/201_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -2733,6 +3390,12 @@
             "schema": {
               "$ref": "#/definitions/SchedulePlan"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       },
@@ -2762,7 +3425,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       },
@@ -2784,7 +3453,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -2794,8 +3469,6 @@
         "summary": "Get all studies",
         "tags": [
           "Studies",
-          "_For Developers",
-          "_For Researchers",
           "_For Admins"
         ],
         "security": [
@@ -2812,7 +3485,7 @@
             "enum": [
               "summary"
             ],
-            "description": "If true, anyone can call this endpoint and return a list of truncated study objects\n(name and study identifier only).\n"
+            "description": "If true, anyone can call this endpoint and return a list of truncated study objects\n(name and study identifier only). Otherwise, caller must be an admin.\n"
           }
         ],
         "responses": {
@@ -2821,6 +3494,9 @@
             "schema": {
               "$ref": "#/definitions/ResourceList_Study"
             }
+          },
+          "403": {
+            "$ref": "#/responses/403_not_admin"
           }
         }
       },
@@ -2847,7 +3523,13 @@
         ],
         "responses": {
           "201": {
-            "$ref": "#/paths/~1v3~1auth~1signUp/post/responses/201"
+            "$ref": "#/responses/201_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_admin"
           }
         }
       }
@@ -2872,6 +3554,9 @@
             "schema": {
               "$ref": "#/definitions/Study"
             }
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer_researcher_admin"
           }
         }
       },
@@ -2898,7 +3583,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -2926,6 +3617,9 @@
             "schema": {
               "$ref": "#/definitions/Study"
             }
+          },
+          "403": {
+            "$ref": "#/responses/403_not_admin"
           }
         }
       },
@@ -2955,7 +3649,10 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_admin"
           }
         }
       },
@@ -2977,7 +3674,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_admin"
           }
         }
       }
@@ -3000,6 +3703,12 @@
             "schema": {
               "$ref": "#/definitions/CmsPublicKey"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -3023,6 +3732,12 @@
             "schema": {
               "$ref": "#/definitions/EmailVerificationStatus"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -3051,6 +3766,12 @@
             "schema": {
               "$ref": "#/definitions/EmailVerificationStatus"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_admin"
           }
         }
       }
@@ -3082,6 +3803,12 @@
             "schema": {
               "$ref": "#/definitions/ResourceList_Upload"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_admin"
           }
         }
       }
@@ -3128,6 +3855,12 @@
             "schema": {
               "$ref": "#/definitions/ResourceList_ExternalIdentifier"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       },
@@ -3157,7 +3890,13 @@
         ],
         "responses": {
           "201": {
-            "$ref": "#/paths/~1v3~1auth~1signUp/post/responses/201"
+            "$ref": "#/responses/201_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       },
@@ -3186,7 +3925,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -3215,6 +3960,12 @@
             "schema": {
               "$ref": "#/definitions/ResourceList_Survey"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_worker"
           }
         }
       }
@@ -3249,6 +4000,12 @@
             "schema": {
               "$ref": "#/definitions/UploadSchema"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_worker"
           }
         }
       }
@@ -3268,11 +4025,34 @@
           "200": {
             "description": "OK",
             "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
+              "type": "object",
+              "properties": {
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "total": {
+                  "type": "integer",
+                  "readOnly": true,
+                  "description": "The total number of records in the items list"
+                },
+                "type": {
+                  "type": "string",
+                  "readOnly": true,
+                  "enum": [
+                    "ResourceList"
+                  ]
+                }
               }
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_admin"
           }
         }
       }
@@ -3295,7 +4075,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_admin"
           }
         }
       }
@@ -3326,7 +4112,13 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/paths/~1v3~1auth~1signOut/post/responses/200"
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_worker"
           }
         }
       }
@@ -3347,6 +4139,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "ScheduleGroup"
           ]
@@ -3364,8 +4157,7 @@
         },
         {
           "required": [
-            "scheduleGroups",
-            "type"
+            "scheduleGroups"
           ]
         },
         {
@@ -3378,6 +4170,7 @@
             },
             "type": {
               "type": "string",
+              "readOnly": true,
               "enum": [
                 "ABTestScheduleStrategy"
               ]
@@ -3388,33 +4181,46 @@
     },
     "AbstractStudyParticipant": {
       "type": "object",
+      "required": [
+        "email"
+      ],
       "properties": {
         "firstName": {
-          "type": "string"
+          "type": "string",
+          "description": "First name (given name) of the user."
         },
         "lastName": {
-          "type": "string"
+          "type": "string",
+          "description": "Last name (family name) of the user."
         },
         "email": {
-          "type": "string"
+          "type": "string",
+          "description": "The user's email address. Users can create an account in multiple studies on Bridge; these accounts are entirely separate."
         },
         "externalId": {
           "type": "string",
-          "description": "An optional value assigned by study managers to re-identify a participant's data set"
+          "description": "An externally-assignable identifier a research partner can use to re-identify a user's data \nin the exported data set (this must be provided by the application, it is not created by Bridge). \nIf external IDs are managed, this is required on creation and cannot be modified after the \naccount is created. Otherwise, it is a string that can be set to any value, changed, removed, etc.\n"
         },
         "id": {
           "type": "string",
-          "readOnly": true
+          "readOnly": true,
+          "description": "An ID assigned to identify this user as an account in the Bridge system. This is separate from the healthCode and the two are never associated in the API or the data exported from Bridge. Used to retrieve study participant information through the API."
         },
         "notifyByEmail": {
-          "type": "boolean"
+          "type": "boolean",
+          "default": true,
+          "description": "True if the user has consented to be contacted via email outside the application, false otherwise.\n"
         },
         "attributes": {
           "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
           "description": "A map of user profile attributes that have been set for this user (the attributes themselves \nmust be specified in the study's configuration, and the values are stored encrypted in case they \nare personally-identifying information).\n"
         },
         "sharingScope": {
           "type": "string",
+          "description": "How far does this user wish to share data?\n\n|Scope|Description|\n|---|---|\n|no_sharing|User does not wish to share data. Note that in some early applications, this is the equivalent of withdrawing from a study, and should be treated as such.|\n|sponsors_and_partners|Share data in data sets that are available to the study researchers and their researcher partners only.|\n|all_qualified_researchers|Share data with researchers who qualify under the specific governance qualifications to access the study's data set. These researchers may do research on new questions after the lifetime of the initial research.|\n",
           "enum": [
             "no_sharing",
             "sponsors_and_partners",
@@ -3428,6 +4234,7 @@
         },
         "status": {
           "type": "string",
+          "description": "An enumeration of the status of the user's account:\n\n|Status|Description|\n|---|---|\n|disabled|Account has been disabled. The account appears not to exist while it is in this state. Bridge does not automatically disable accounts for any reason, but researchers can disable accounts if needed.|\n|unverified|Account has been created but the user has yet to verify the email address. The account appears not to exist while it is in this state.|\n|enabled|Account is active and usable.|\n\nOn creation, the initial status of a user account depends on the email verification policy set \nfor the study. If verification is required, the account will be unverified until that is done; \notherwise it will be enabled.\n",
           "enum": [
             "disabled",
             "enabled",
@@ -3436,6 +4243,7 @@
         },
         "roles": {
           "type": "array",
+          "description": "The roles assigned to this user. Normal study participants do not have any roles assigned, but for \ndevelopers, researchers, etc. their roles will appear hear (see main API documentation about the \nroles assigned by the Bridge server).\n",
           "items": {
             "type": "string",
             "enum": [
@@ -3448,12 +4256,14 @@
         },
         "dataGroups": {
           "type": "array",
+          "description": "data groups to apply to this user",
           "items": {
             "type": "string"
           }
         },
         "languages": {
           "type": "array",
+          "description": "Two letter language codes to assign to this user (these are initially retrieved from the \nuser's Accept-Language header, but are persisted after this as part of the user's options \nand it can be updated later).\n",
           "items": {
             "type": "string"
           }
@@ -3469,8 +4279,7 @@
         "id",
         "createdOn",
         "status",
-        "studyIdentifier",
-        "type"
+        "studyIdentifier"
       ],
       "properties": {
         "firstName": {
@@ -3508,6 +4317,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "AccountSummary"
           ]
@@ -3520,8 +4330,7 @@
       "required": [
         "label",
         "guid",
-        "activityType",
-        "type"
+        "activityType"
       ],
       "properties": {
         "label": {
@@ -3551,6 +4360,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "Activity"
           ]
@@ -3591,6 +4401,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "ClientInfo"
           ]
@@ -3600,8 +4411,7 @@
     "CmsPublicKey": {
       "type": "object",
       "required": [
-        "publicKey",
-        "type"
+        "publicKey"
       ],
       "properties": {
         "publicKey": {
@@ -3610,6 +4420,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "CmsPublicKey"
           ]
@@ -3670,6 +4481,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "ConsentSignature"
           ]
@@ -3708,6 +4520,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "ConsentStatus"
           ]
@@ -3717,9 +4530,6 @@
     "Criteria": {
       "type": "object",
       "description": "Some objects, like Subpopulations and the schedules in a CriteriaScheduleStrategy, are \nmatched against user criteria in order to return the correct object. The criteria \nagainst which user information will be matched are described in the Criteria object. \n",
-      "required": [
-        "type"
-      ],
       "properties": {
         "language": {
           "type": "string",
@@ -3755,6 +4565,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "Criteria"
           ]
@@ -3786,6 +4597,7 @@
             },
             "type": {
               "type": "string",
+              "readOnly": true,
               "enum": [
                 "CriteriaScheduleStrategy"
               ]
@@ -3798,8 +4610,7 @@
       "type": "object",
       "description": "A payload that contains a string array of data groups.",
       "required": [
-        "dataGroups",
-        "type"
+        "dataGroups"
       ],
       "properties": {
         "dataGroups": {
@@ -3810,6 +4621,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "DataGroups"
           ]
@@ -3820,8 +4632,7 @@
       "type": "object",
       "required": [
         "startDate",
-        "endDate",
-        "type"
+        "endDate"
       ],
       "properties": {
         "startDate": {
@@ -3836,6 +4647,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "DateRange"
           ]
@@ -3859,6 +4671,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "Email"
           ]
@@ -3871,8 +4684,7 @@
       "required": [
         "subject",
         "mimeType",
-        "body",
-        "type"
+        "body"
       ],
       "properties": {
         "subject": {
@@ -3892,6 +4704,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "EmailTemplate"
           ]
@@ -3901,8 +4714,7 @@
     "EmailVerification": {
       "type": "object",
       "required": [
-        "sptoken",
-        "type"
+        "sptoken"
       ],
       "properties": {
         "sptoken": {
@@ -3911,6 +4723,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "EmailVerification"
           ]
@@ -3920,8 +4733,7 @@
     "EmailVerificationStatus": {
       "type": "object",
       "required": [
-        "status",
-        "type"
+        "status"
       ],
       "properties": {
         "status": {
@@ -3935,6 +4747,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "EmailVerificationStatus"
           ]
@@ -3948,8 +4761,7 @@
       "type": "object",
       "required": [
         "identifier",
-        "assigned",
-        "type"
+        "assigned"
       ],
       "properties": {
         "identifier": {
@@ -3962,6 +4774,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "ExternalIdentifier"
           ]
@@ -3992,6 +4805,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "GuidCreatedOnVersionHolder"
           ]
@@ -4003,8 +4817,7 @@
       "type": "object",
       "required": [
         "guid",
-        "version",
-        "type"
+        "version"
       ],
       "properties": {
         "guid": {
@@ -4017,6 +4830,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "GuidVersionHolder"
           ]
@@ -4026,9 +4840,6 @@
     "HealthDataRecord": {
       "description": "See [Bridge Upload Data Format](/articles/study_design/upload_data_format.html) for details abot this model object.\n",
       "type": "object",
-      "required": [
-        "type"
-      ],
       "properties": {
         "createdOn": {
           "type": "string",
@@ -4099,6 +4910,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "HealthDataRecord"
           ]
@@ -4108,8 +4920,7 @@
     "Image": {
       "type": "object",
       "required": [
-        "source",
-        "type"
+        "source"
       ],
       "properties": {
         "source": {
@@ -4126,6 +4937,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "Image"
           ]
@@ -4164,7 +4976,7 @@
         "symbolRequired": {
           "type": "boolean",
           "default": true,
-          "description": "Is at least one ASCII symbol (non-letter, non-number) required in the \npassword? (! \" # $ % & ' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _ ` { ¦ } ~).\n"
+          "description": "Is at least one ASCII symbol (non-letter, non-number) required in the \npassword? (! \" # $ % &amp; ' ( ) * + , - . / : ; &lt; = &gt; ? @ [ \\ ] ^ _ ` { ¦ } ~).\n"
         },
         "lowerCaseRequired": {
           "type": "boolean",
@@ -4175,6 +4987,13 @@
           "type": "boolean",
           "default": true,
           "description": "Is at least one upper-case letter required? (A-Z)."
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "enum": [
+            "PasswordPolicy"
+          ]
         }
       }
     },
@@ -4195,6 +5014,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "PasswordReset"
           ]
@@ -4205,8 +5025,7 @@
       "type": "object",
       "required": [
         "recordIds",
-        "synapseExporterStatus",
-        "type"
+        "synapseExporterStatus"
       ],
       "properties": {
         "recordIds": {
@@ -4224,6 +5043,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "RecordExportStatusRequest"
           ]
@@ -4234,19 +5054,25 @@
       "type": "object",
       "required": [
         "date",
-        "data",
-        "type"
+        "data"
       ],
       "properties": {
+        "healthCode": {
+          "type": "string",
+          "description": "**Worker submissions only.** Developers submit report data to an endpoint that \nincludes the user's ID, but workers processing anonymized data do not know a \nparticipant's ID. So the healthCode must be included as part of the report JSON \npayload.\n"
+        },
         "date": {
           "type": "string",
-          "format": "date"
+          "format": "date",
+          "description": "The date (YYYY-MM-DD) of the report data."
         },
         "data": {
-          "type": "object"
+          "type": "object",
+          "description": "An arbitrary JSON object containing whatever data should be saved for a report."
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "ReportData"
           ]
@@ -4258,8 +5084,7 @@
       "required": [
         "date",
         "data",
-        "healthCode",
-        "type"
+        "healthCode"
       ],
       "properties": {
         "date": {
@@ -4274,6 +5099,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "ReportData"
           ]
@@ -4283,15 +5109,16 @@
     "ReportIndex": {
       "type": "object",
       "required": [
-        "identifier",
-        "type"
+        "identifier"
       ],
       "properties": {
         "identifier": {
-          "type": "string"
+          "type": "string",
+          "description": "The report identifier."
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "ReportIndex"
           ]
@@ -4302,7 +5129,7 @@
       "type": "object",
       "required": [
         "userId",
-        "type"
+        "studyIdentifier"
       ],
       "properties": {
         "userId": {
@@ -4342,6 +5169,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "ClientInfo"
           ]
@@ -4355,13 +5183,12 @@
         "scheduleType",
         "times",
         "activities",
-        "persistent",
-        "type"
+        "persistent"
       ],
       "properties": {
         "label": {
           "type": "string",
-          "description": "A label to describe this schedule. Optional."
+          "description": "A label to describe this schedule."
         },
         "scheduleType": {
           "type": "string",
@@ -4422,6 +5249,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "Schedule"
           ]
@@ -4432,8 +5260,7 @@
       "type": "object",
       "required": [
         "criteria",
-        "schedule",
-        "type"
+        "schedule"
       ],
       "properties": {
         "criteria": {
@@ -4444,6 +5271,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "ScheduleCriteria"
           ]
@@ -4455,8 +5283,7 @@
       "required": [
         "guid",
         "label",
-        "strategy",
-        "type"
+        "strategy"
       ],
       "properties": {
         "guid": {
@@ -4477,6 +5304,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "SchedulePlan"
           ]
@@ -4552,8 +5380,7 @@
     "SharingScope": {
       "type": "object",
       "required": [
-        "scope",
-        "type"
+        "scope"
       ],
       "properties": {
         "scope": {
@@ -4567,8 +5394,9 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
-            "ScheduledActivity"
+            "SharingScope"
           ]
         }
       }
@@ -4595,6 +5423,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "SignIn"
           ]
@@ -4626,6 +5455,7 @@
             },
             "type": {
               "type": "string",
+              "readOnly": true,
               "enum": [
                 "SignUp"
               ]
@@ -4656,6 +5486,7 @@
             },
             "type": {
               "type": "string",
+              "readOnly": true,
               "enum": [
                 "SimpleScheduleStrategy"
               ]
@@ -4782,6 +5613,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "Study"
           ]
@@ -4794,8 +5626,7 @@
       "required": [
         "subpopulationGuid",
         "createdOn",
-        "documentContent",
-        "type"
+        "documentContent"
       ],
       "properties": {
         "subpopulationGuid": {
@@ -4813,6 +5644,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "StudyConsent"
           ]
@@ -4822,8 +5654,7 @@
     "StudyIdentifier": {
       "type": "object",
       "required": [
-        "identifier",
-        "type"
+        "identifier"
       ],
       "properties": {
         "identifier": {
@@ -4831,6 +5662,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "StudyIdentifier"
           ]
@@ -4869,6 +5701,7 @@
             },
             "type": {
               "type": "string",
+              "readOnly": true,
               "enum": [
                 "StudyParticipant"
               ]
@@ -4886,8 +5719,7 @@
         "criteria",
         "required",
         "defaultGroup",
-        "version",
-        "type"
+        "version"
       ],
       "properties": {
         "guid": {
@@ -4928,6 +5760,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "Subpopulation"
           ]
@@ -4944,8 +5777,7 @@
         "published",
         "createdOn",
         "version",
-        "elements",
-        "type"
+        "elements"
       ],
       "properties": {
         "guid": {
@@ -4991,6 +5823,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "Survey"
           ]
@@ -5003,8 +5836,7 @@
       "discriminator": "type",
       "required": [
         "guid",
-        "identifier",
-        "type"
+        "identifier"
       ],
       "properties": {
         "guid": {
@@ -5026,8 +5858,7 @@
         {
           "required": [
             "title",
-            "prompt",
-            "type"
+            "prompt"
           ]
         },
         {
@@ -5050,6 +5881,7 @@
             },
             "type": {
               "type": "string",
+              "readOnly": true,
               "enum": [
                 "SurveyInfoScreen"
               ]
@@ -5070,8 +5902,7 @@
             "identifier",
             "prompt",
             "constraints",
-            "uiHint",
-            "type"
+            "uiHint"
           ]
         },
         {
@@ -5115,6 +5946,7 @@
             },
             "type": {
               "type": "string",
+              "readOnly": true,
               "enum": [
                 "SurveyQuestion"
               ]
@@ -5126,8 +5958,7 @@
     "SurveyQuestionOption": {
       "type": "object",
       "required": [
-        "label",
-        "type"
+        "label"
       ],
       "properties": {
         "label": {
@@ -5148,6 +5979,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "SurveyQuestionOption"
           ]
@@ -5160,8 +5992,7 @@
       "required": [
         "identifier",
         "guid",
-        "href",
-        "type"
+        "href"
       ],
       "properties": {
         "identifier": {
@@ -5183,6 +6014,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "SurveyReference"
           ]
@@ -5194,8 +6026,7 @@
       "type": "object",
       "required": [
         "operator",
-        "value",
-        "type"
+        "value"
       ],
       "properties": {
         "operator": {
@@ -5225,6 +6056,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "SurveyRule"
           ]
@@ -5235,8 +6067,7 @@
       "type": "object",
       "description": "A pointer to a task identifier defined for this study, and associated with a task to be performed as part of the mobile application health study (e.g. a walking test).",
       "required": [
-        "identifier",
-        "type"
+        "identifier"
       ],
       "properties": {
         "identifier": {
@@ -5245,6 +6076,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "TaskReference"
           ]
@@ -5257,21 +6089,24 @@
         "schemaId",
         "schemaRevision",
         "status",
-        "requestedOn",
-        "type"
+        "requestedOn"
       ],
       "properties": {
         "schemaId": {
-          "type": "string"
+          "type": "string",
+          "description": "The GUID assigned to this upload"
         },
         "schemaRevision": {
-          "type": "integer"
+          "type": "integer",
+          "description": "The revision of the schema that was used for this upload."
         },
         "contentLength": {
-          "type": "integer"
+          "type": "integer",
+          "description": "The size of the object in bytes. A standard HTTP header. For more information, \ngo to [http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13)\n"
         },
         "status": {
           "type": "string",
+          "description": "The status of the upload:\n\n|Status|Description|\n|---|---|\n|unknown|Upload status is unknown. This is generally used for older data formats (namely, Upload v1), which had a binary complete flag rather than an UploadStatus.|\n|requested|Initial state. Upload is requested. User needs to upload to specified URL and call uploadComplete.|\n|validation_in_progress|Client process has called uploadComplete. Upload validation is currently taking place.|\n|validation_failed|Upload validation has failed (see the validationMessageList for further details).|\n|succeeded|Upload has succeeded, including validation. Note that export to Synapse is a separate step.|\n",
           "enum": [
             "unknown",
             "requested",
@@ -5283,14 +6118,17 @@
         },
         "requestedOn": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "The date and time (ISO 8601 format) that the client requested an URL to make an upload to the server.\n"
         },
         "completedOn": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "The date and time (ISO 8601 format) that the upload was completed.\n"
         },
         "completedBy": {
           "type": "string",
+          "description": "Currently the API has an endpoint for the client to call and mark an upload completed. \nHowever, there is also a process that detects uploads to S3 and marks the uploads \ncomplete. This field indicates which client completed the upload.\n",
           "enum": [
             "app",
             "s3_worker"
@@ -5298,12 +6136,14 @@
         },
         "validationMessageList": {
           "type": "array",
+          "description": "An array of error messages if this upload did not pass validation.\n",
           "items": {
             "type": "string"
           }
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "Upload"
           ]
@@ -5385,8 +6225,7 @@
         "name",
         "contentLength",
         "contentMd5",
-        "contentType",
-        "type"
+        "contentType"
       ],
       "properties": {
         "name": {
@@ -5407,6 +6246,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "UploadRequest"
           ]
@@ -5420,8 +6260,7 @@
         "revision",
         "schemaId",
         "version",
-        "fieldDefinitions",
-        "type"
+        "fieldDefinitions"
       ],
       "properties": {
         "name": {
@@ -5463,6 +6302,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "UploadSchema"
           ]
@@ -5474,8 +6314,7 @@
       "required": [
         "id",
         "url",
-        "expires",
-        "type"
+        "expires"
       ],
       "properties": {
         "id": {
@@ -5493,6 +6332,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "UploadSession"
           ]
@@ -5527,6 +6367,13 @@
         },
         "record": {
           "$ref": "#/definitions/HealthDataRecord"
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "enum": [
+            "UploadValidationStatus"
+          ]
         }
       }
     },
@@ -5539,45 +6386,54 @@
         "name",
         "birthdate",
         "signedOn",
-        "hasSignedActiveConsent",
-        "type"
+        "hasSignedActiveConsent"
       ],
       "properties": {
         "subpopulationGuid": {
           "type": "string",
-          "readOnly": true
+          "readOnly": true,
+          "description": "The consent group that the participant agreed to participate in."
         },
         "consentCreatedOn": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "ISO 8601 date and time that the consent was created on."
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "description": "Name as entered by the participant."
         },
         "birthdate": {
           "type": "string",
-          "format": "date"
+          "format": "date",
+          "description": "ISO 8601 date string (e.g. \"YYYY-MM-DD\")."
         },
         "imageData": {
           "type": "string",
-          "format": "byte"
+          "format": "byte",
+          "description": "The signature image in a base 64 encoding."
         },
         "imageMimeType": {
-          "type": "string"
+          "type": "string",
+          "description": "The IANA mime type indicator for the image (e.g. \"image/png\")."
         },
         "signedOn": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "ISO 8601 date and time that the consent was signed by the user."
         },
         "withdrewOn": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "ISO 8601 date and time that the user withdrew the consent, if the user withdrew \nfrom the study (note that later consent records may re-enroll the user in the \nstudy; nothing prevents users from joining and quitting the study, even multiple times).\n"
         },
         "hasSignedActiveConsent": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "True if the user signed the most recently published version of the consent, false otherwise.\n"
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "UserConsentHistory"
           ]
@@ -5589,8 +6445,7 @@
       "description": "An early user information object that has been superceded by the study participant object, along with a new set of API endpoints (`/v3/participants/self`).",
       "required": [
         "email",
-        "username",
-        "type"
+        "username"
       ],
       "properties": {
         "firstName": {
@@ -5608,6 +6463,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "UserProfile"
           ]
@@ -5686,6 +6542,7 @@
             },
             "type": {
               "type": "string",
+              "readOnly": true,
               "enum": [
                 "UserSessionInfo"
               ]
@@ -5696,9 +6553,6 @@
     },
     "Withdrawal": {
       "type": "object",
-      "required": [
-        "type"
-      ],
       "properties": {
         "reason": {
           "type": "string",
@@ -5706,6 +6560,7 @@
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "Withdrawal"
           ]
@@ -5747,39 +6602,37 @@
     },
     "ResourceList_AccountSummary": {
       "type": "object",
-      "required": [
-        "items",
-        "offsetBy",
-        "pageSize",
-        "emailFilter",
-        "total",
-        "type"
-      ],
       "properties": {
         "items": {
           "type": "array",
+          "readOnly": true,
           "items": {
             "$ref": "#/definitions/AccountSummary"
           }
         },
         "offsetBy": {
           "type": "integer",
+          "readOnly": true,
           "description": "The offsetBy value submitted to the server"
         },
         "pageSize": {
           "type": "integer",
+          "readOnly": true,
           "description": "The page size submitted to the server"
         },
         "emailFilter": {
           "type": "string",
+          "readOnly": true,
           "description": "The email filter submitted to the server"
         },
         "total": {
           "type": "integer",
+          "readOnly": true,
           "description": "The total number of records that match the criteria (may exceed page size)"
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "PagedResourceList"
           ]
@@ -5788,34 +6641,32 @@
     },
     "ResourceList_Activity": {
       "type": "object",
-      "required": [
-        "items",
-        "offsetKey",
-        "pageSize",
-        "total",
-        "type"
-      ],
       "properties": {
         "items": {
           "type": "array",
+          "readOnly": true,
           "items": {
             "$ref": "#/definitions/ScheduledActivity"
           }
         },
         "offsetKey": {
           "type": "string",
+          "readOnly": true,
           "description": "If present, the key that should be sent in the next request to page forward one page of records. If null, this is the final page of records"
         },
         "pageSize": {
           "type": "integer",
+          "readOnly": true,
           "description": "The page size submitted to the server"
         },
         "total": {
           "type": "integer",
+          "readOnly": true,
           "description": "The total number of records that match the criteria (may exceed page size)"
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "PagedResourceList"
           ]
@@ -5824,39 +6675,37 @@
     },
     "ResourceList_ExternalIdentifier": {
       "type": "object",
-      "required": [
-        "items",
-        "pageSize",
-        "offsetKey",
-        "idFilter",
-        "offsetFilter",
-        "total",
-        "type"
-      ],
       "properties": {
         "items": {
           "type": "array",
+          "readOnly": true,
           "items": {
             "$ref": "#/definitions/ExternalIdentifier"
           }
         },
         "pageSize": {
-          "type": "integer"
+          "type": "integer",
+          "readOnly": true
         },
         "offsetKey": {
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "idFilter": {
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "offsetFilter": {
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "total": {
-          "type": "integer"
+          "type": "integer",
+          "readOnly": true
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "DateRangeResourceList"
           ]
@@ -5865,33 +6714,31 @@
     },
     "ResourceList_ReportData": {
       "type": "object",
-      "required": [
-        "items",
-        "startDate",
-        "endDate",
-        "total",
-        "type"
-      ],
       "properties": {
         "items": {
           "type": "array",
+          "readOnly": true,
           "items": {
             "$ref": "#/definitions/ReportData"
           }
         },
         "startDate": {
           "type": "string",
+          "readOnly": true,
           "format": "date"
         },
         "endDate": {
           "type": "string",
+          "readOnly": true,
           "format": "date"
         },
         "total": {
-          "type": "integer"
+          "type": "integer",
+          "readOnly": true
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "DateRangeResourceList"
           ]
@@ -5900,31 +6747,29 @@
     },
     "ResourceList_ReportIndex": {
       "type": "object",
-      "required": [
-        "items",
-        "total",
-        "reportType",
-        "type"
-      ],
       "properties": {
         "items": {
           "type": "array",
+          "readOnly": true,
           "items": {
             "$ref": "#/definitions/ReportIndex"
           }
         },
         "reportType": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "study",
             "participant"
           ]
         },
         "total": {
-          "type": "integer"
+          "type": "integer",
+          "readOnly": true
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "ReportTypeResourceList"
           ]
@@ -5933,24 +6778,22 @@
     },
     "ResourceList_Schedule": {
       "type": "object",
-      "required": [
-        "items",
-        "total",
-        "type"
-      ],
       "properties": {
         "items": {
           "type": "array",
+          "readOnly": true,
           "items": {
             "$ref": "#/definitions/Schedule"
           }
         },
         "total": {
           "type": "integer",
+          "readOnly": true,
           "description": "The total number of records in the items list"
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "ResourceList"
           ]
@@ -5959,24 +6802,22 @@
     },
     "ResourceList_SchedulePlan": {
       "type": "object",
-      "required": [
-        "items",
-        "total",
-        "type"
-      ],
       "properties": {
         "items": {
           "type": "array",
+          "readOnly": true,
           "items": {
             "$ref": "#/definitions/SchedulePlan"
           }
         },
         "total": {
           "type": "integer",
+          "readOnly": true,
           "description": "The total number of records in the items list"
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "ResourceList"
           ]
@@ -5985,24 +6826,22 @@
     },
     "ResourceList_Study": {
       "type": "object",
-      "required": [
-        "items",
-        "total",
-        "type"
-      ],
       "properties": {
         "items": {
           "type": "array",
+          "readOnly": true,
           "items": {
             "$ref": "#/definitions/Study"
           }
         },
         "total": {
           "type": "integer",
+          "readOnly": true,
           "description": "The total number of records in the items list"
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "ResourceList"
           ]
@@ -6011,24 +6850,22 @@
     },
     "ResourceList_StudyConsent": {
       "type": "object",
-      "required": [
-        "items",
-        "total",
-        "type"
-      ],
       "properties": {
         "items": {
           "type": "array",
+          "readOnly": true,
           "items": {
             "$ref": "#/definitions/StudyConsent"
           }
         },
         "total": {
           "type": "integer",
+          "readOnly": true,
           "description": "The total number of records in the items list"
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "ResourceList"
           ]
@@ -6037,24 +6874,22 @@
     },
     "ResourceList_Subpopulation": {
       "type": "object",
-      "required": [
-        "items",
-        "total",
-        "type"
-      ],
       "properties": {
         "items": {
           "type": "array",
+          "readOnly": true,
           "items": {
             "$ref": "#/definitions/Subpopulation"
           }
         },
         "total": {
           "type": "integer",
+          "readOnly": true,
           "description": "The total number of records in the items list."
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "ResourceList"
           ]
@@ -6063,24 +6898,22 @@
     },
     "ResourceList_Survey": {
       "type": "object",
-      "required": [
-        "items",
-        "total",
-        "type"
-      ],
       "properties": {
         "items": {
           "type": "array",
+          "readOnly": true,
           "items": {
             "$ref": "#/definitions/Survey"
           }
         },
         "total": {
           "type": "integer",
+          "readOnly": true,
           "description": "The total number of records in the items list"
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "ResourceList"
           ]
@@ -6089,16 +6922,10 @@
     },
     "ResourceList_Upload": {
       "type": "object",
-      "required": [
-        "items",
-        "startTime",
-        "endTime",
-        "total",
-        "type"
-      ],
       "properties": {
         "items": {
           "type": "array",
+          "readOnly": true,
           "items": {
             "$ref": "#/definitions/Upload"
           }
@@ -6106,19 +6933,23 @@
         "startTime": {
           "type": "string",
           "format": "date-time",
+          "readOnly": true,
           "description": "The startTime value submitted to the server"
         },
         "endTime": {
           "type": "string",
           "format": "date-time",
+          "readOnly": true,
           "description": "The endTime value submitted to the server"
         },
         "total": {
           "type": "integer",
+          "readOnly": true,
           "description": "The total number of records that match the criteria (may exceed page size)"
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "DateTimeRangeResourceList"
           ]
@@ -6127,24 +6958,22 @@
     },
     "ResourceList_UploadSchema": {
       "type": "object",
-      "required": [
-        "items",
-        "total",
-        "type"
-      ],
       "properties": {
         "items": {
           "type": "array",
+          "readOnly": true,
           "items": {
             "$ref": "#/definitions/UploadSchema"
           }
         },
         "total": {
           "type": "integer",
+          "readOnly": true,
           "description": "The total number of records in the list"
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "ResourceList"
           ]
@@ -6568,6 +7397,92 @@
           }
         }
       ]
+    }
+  },
+  "responses": {
+    "401": {
+      "description": "Authentication required (user not signed in).",
+      "schema": {
+        "$ref": "#/definitions/Message"
+      }
+    },
+    "410": {
+      "description": "The version of the client making the request no longer has access to this service. The user \nmust update their app in order to continue using Bridge.\n",
+      "schema": {
+        "$ref": "#/definitions/Message"
+      }
+    },
+    "412": {
+      "description": "User has signed in, but is not consented",
+      "schema": {
+        "$ref": "#/definitions/UserSessionInfo"
+      }
+    },
+    "200_message": {
+      "description": "OK",
+      "schema": {
+        "$ref": "#/definitions/Message"
+      }
+    },
+    "201_message": {
+      "description": "Created",
+      "schema": {
+        "$ref": "#/definitions/Message"
+      }
+    },
+    "202_message": {
+      "description": "Accepted",
+      "schema": {
+        "$ref": "#/definitions/Message"
+      }
+    },
+    "403_not_admin": {
+      "description": "User cannot access this service because they are not an admin (no admin role on account).\n",
+      "schema": {
+        "$ref": "#/definitions/Message"
+      }
+    },
+    "403_not_admin_developer": {
+      "description": "User cannot access this service because they are not a developer or admin (no developer or admin role on account).\n",
+      "schema": {
+        "$ref": "#/definitions/Message"
+      }
+    },
+    "403_not_developer": {
+      "description": "User cannot access this service because they are not a developer (no developer role on account).\n",
+      "schema": {
+        "$ref": "#/definitions/Message"
+      }
+    },
+    "403_not_developer_researcher": {
+      "description": "User cannot access this service because they are not a developer or researcher (no developer or researcher role on account).\n",
+      "schema": {
+        "$ref": "#/definitions/Message"
+      }
+    },
+    "403_not_developer_researcher_admin": {
+      "description": "User cannot access this service because they do not have an administrative role (no developer, worker or admin role on account).\n",
+      "schema": {
+        "$ref": "#/definitions/Message"
+      }
+    },
+    "403_not_developer_worker": {
+      "description": "User cannot access this service because they are not a developer or worker process \n(no developer or worker role on account).\n",
+      "schema": {
+        "$ref": "#/definitions/Message"
+      }
+    },
+    "403_not_researcher": {
+      "description": "User cannot access this service because they are not a researcher (no researcher role on account).\n",
+      "schema": {
+        "$ref": "#/definitions/Message"
+      }
+    },
+    "403_not_worker": {
+      "description": "User cannot access this service because they are not a worker process (no worker role on account).\n",
+      "schema": {
+        "$ref": "#/definitions/Message"
+      }
     }
   }
 }
