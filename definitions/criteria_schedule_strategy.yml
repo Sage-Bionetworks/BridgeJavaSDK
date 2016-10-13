@@ -1,16 +1,17 @@
 description: |
-    Select the first schedule in a list of schedules that matches the criteria being submitted
-    by the participant. Criteria includes factors like the user's app platform and version, their 
-    language, and data groups that are assigned to the user.  
+    Select the first schedule in a list of schedules that have been associated to [Criteria](#Criteria). 
+    Based on information submitted by the user and in the user's account settings, compare each 
+    schedule in order until one matches the criteria, and use that schedule to assign activities to the 
+    user.
 allOf:
     - $ref: ./schedule_strategy.yml
     - type: object
     - required:
         - scheduleCriteria
-        - type
     - properties:
         scheduleCriteria:
             type: array
+            description: The list of schedules and their criteria.
             items:
                 $ref: ./schedule_criteria.yml
         type:

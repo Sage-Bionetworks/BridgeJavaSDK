@@ -1,9 +1,12 @@
 type: object
 description: |
-    A template for one of the system emails that are sent. In the templates, variable strings can 
-    be used to interpolate values from the study or the individual to which the email is being sent. 
-    The body of the email template must have a ${url} variable, this is where the link back to the 
-    Bridge server will be inserted in order to complete the email verification/password reset.
+    A template for one of the system emails that are sent (email verification and password reset 
+    emails). 
+    
+    In the templates, variable strings can be used to interpolate values from the study or the 
+    individual to which the email is being sent. **The body of the email template must have a 
+    ${url} variable,** this is where the link back to the Bridge server will be inserted in 
+    order to complete the required transaction.
 
     |Template Variable|What it will be replaced with|
     |---|---|

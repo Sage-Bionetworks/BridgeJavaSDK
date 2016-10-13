@@ -1,14 +1,18 @@
 description: |
-    A response to submission of a JSON payload that is not valid. The errors 
+    Payload returned with a 400 error when an entity submitted to the server
+    is invalid.
 type: object
 required:
     - statusCode
+    - message
     - errors
     - entityClass
     - entity
 properties:
     statusCode:
         type: integer
+    message:
+        type: string
     errors:
         type: array
         items:

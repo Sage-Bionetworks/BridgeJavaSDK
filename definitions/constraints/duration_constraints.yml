@@ -6,6 +6,7 @@ description: |
     **UI hints:** numberfield, slider.
 required:
     - unit
+    - dataType
 allOf:
     - $ref: ./constraints.yml
     - properties:
@@ -54,4 +55,5 @@ allOf:
             enum: [duration]
         type:
             type: string
+            readOnly: true
             enum: [DurationConstraints]

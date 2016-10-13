@@ -2,9 +2,12 @@ description: |
     To consent to participation in a subpopulation (also known as a consent group), participants submit 
     their electronic signature which can include an image of their actual signature. 
 
-    In addition, participants submit a decision on how widely they will share their medical information with researchers (see the scope property of the ConsentSignature JSON object, below).
+    At the time of consent, participants also submit a decision on how widely they will share their 
+    medical information with researchers (see the scope property of the ConsentSignature JSON object, below).
 
-    How you describe this choice to participants is important if they are to correctly understand the consequences of this decision. We strongly suggest that applications present the following language to users when making this choice:
+    How you describe this choice to participants is important if they are to correctly understand the 
+    consequences of this decision. We suggest that applications present the following language to users 
+    when making this choice:
 
     * **Option #1:** No data sharing. I do not agree to share my coded data (without my name) at this time;
     * **Option #2:** I agree to share my coded data (without my name) with researchers at the sponsor institution, and their partners, in order to conduct this study;
@@ -13,8 +16,7 @@ type: object
 required:
     - name
     - birthdate
-    - consentCreatedOn
-    - signedOn
+    - scope
 properties:
     name:
         type: string
@@ -26,10 +28,12 @@ properties:
     imageData:
         type: string
         format: binary
-        description: Base 64 encoded image of the participant's signature
+        description: Base 64 encoded image of the participant's signature. If `imageData` is supplied, 
+            `imageMimeType` must also be supplied.
     imageMimeType:
         type: string
-        description: mime type of this image (e.g. "image/png"). Should only be present if imageData is present.
+        description: Mime type of this image (e.g. "image/png"). If `imageData` is supplied, `imageMimeType` 
+            must also be supplied.
     consentCreatedOn:
         type: string
         description: |

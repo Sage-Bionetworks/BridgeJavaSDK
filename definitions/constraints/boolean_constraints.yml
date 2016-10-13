@@ -1,5 +1,7 @@
 description: |
     **UI hints:** checkbox, toggle.
+required:
+    - dataType
 allOf:
     - $ref: ./constraints.yml
     - properties:
@@ -8,4 +10,5 @@ allOf:
             enum: [boolean]
         type:
             type: string
+            readOnly: true
             enum: [BooleanConstraints]

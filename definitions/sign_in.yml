@@ -12,6 +12,7 @@ properties:
         description: User's email address
     password:
         type: string
+        format: password
         description: User's password
     type:
         type: string

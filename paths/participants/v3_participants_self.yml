@@ -41,6 +41,8 @@ post:
                 $ref: ../../definitions/study_participant.yml
     responses:
         200:
-            $ref: ../../responses/200_message.yml
+            description: OK
+            schema:
+                $ref: ../../definitions/user_session_info.yml
         401:
             $ref: ../../responses/401.yml

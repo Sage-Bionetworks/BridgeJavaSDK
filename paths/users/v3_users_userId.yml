@@ -10,7 +10,7 @@ delete:
     security:
         - BridgeSecurity: []
     parameters:
-        - $ref: '../../index.yml#/parameters/userId'
+        - $ref: ../../index.yml#/parameters/userId
     responses:
         200:
             $ref: ../../responses/200_message.yml

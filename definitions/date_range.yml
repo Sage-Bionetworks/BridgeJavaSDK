@@ -6,11 +6,11 @@ properties:
     startDate:
         type: string
         format: date
-        description: start date of the date range
+        description: Start date of the date range.
     endDate:
         type: string
         format: date
-        description: end date of the date range
+        description: End date of the date range.
     type:
         type: string
         readOnly: true

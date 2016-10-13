@@ -1,5 +1,9 @@
 description: |
+    A floating point value.
+
     **UI hints:** numberfield, slider.
+required:
+    - dataType
 allOf:
     - $ref: ./constraints.yml
     - properties:
@@ -33,7 +37,7 @@ allOf:
                 - cubic_meters
         minValue:
             type: number
-            description: Minimum valid value.
+            description: Minimum valid value. 
         maxValue:
             type: number
             description: Maximum valid value.
@@ -47,4 +51,5 @@ allOf:
             enum: [decimal]
         type:
             type: string
+            readOnly: true
             enum: [DecimalConstraints]

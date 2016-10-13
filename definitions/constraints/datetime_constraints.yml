@@ -1,5 +1,7 @@
 description: |
     **UI hints:** datetimepicker.
+required:
+    - dataType
 allOf:
     - $ref: ./constraints.yml
     - properties:
@@ -10,12 +12,21 @@ allOf:
         earliestValue:
             type: string
             format: date-time
+            description: |
+                ISO 8601 date and time value that is the earliest value that may be set for this question. 
+                If allowFuture is false, that constraint should also be applied regardless of 
+                earliest/latestValue constraints.
         latestValue:
             type: string
             format: date-time
+            description: |
+                ISO 8601 date and time value that is the earliest value that may be set for this question. 
+                If allowFuture is false, that constraint should also be applied regardless of  
+                earliest/latestValue constraints.
         dataType:
             type: string
             enum: [datetime]
         type:
             type: string
+            readOnly: true
             enum: [DateTimeConstraints]

@@ -1,4 +1,7 @@
 type: object
+description: |
+    Represents the expected fields and types for a data upload. This is used to validate incoming 
+    uploads and to export data to Synapse. See [Bridge Upload Data Format](/articles/study_design/upload_data_format.html) for more details about uploads.
 required:
     - name
     - revision

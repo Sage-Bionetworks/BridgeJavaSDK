@@ -1,8 +1,7 @@
 allOf:
-    - $ref: './abstract_study_participant.yml'
+    - $ref: ./abstract_study_participant.yml
     - description: |
         Full record about a study participant
-    - type: object
     - required:
         - consentHistories
     - properties:

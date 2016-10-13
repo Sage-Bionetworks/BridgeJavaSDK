@@ -1,12 +1,15 @@
+description: |
+    A JSON payload that includes the base 64 encoded, public key for CMS encryption of uploads for this 
+    study. Each study has a different CMS public key.
 type: object
+readOnly: true
 required:
     - publicKey
 properties:
     publicKey:
         type: string
         description: |
-            Base 64 encoded version of the public key for CMS encryption of data that is uploaded 
-            to the Bridge server. Each study has a different CMS public key.
+            Base 64 encoded version of the public key for CMS encryption of upload data.    
     type:
         type: string
         readOnly: true

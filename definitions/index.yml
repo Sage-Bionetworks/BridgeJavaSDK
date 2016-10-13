@@ -44,6 +44,8 @@ HealthDataRecord:
     $ref: ./health_data_record.yml
 Image:
     $ref: ./image.yml
+InvalidEntity:
+    $ref: ./invalid_entity.yml
 Message:
     $ref: ./message.yml
 PasswordPolicy:
@@ -54,8 +56,6 @@ RecordExportStatusRequest:
     $ref: ./record_export_status_request.yml
 ReportData:
     $ref: ./report_data.yml
-ReportDataWithHealthCode:
-    $ref: ./report_data_with_healthCode.yml
 ReportIndex:
     $ref: ./report_index.yml
 RequestInfo:
@@ -124,8 +124,6 @@ UserSessionInfo:
     $ref: ./user_session_info.yml
 Withdrawal:
     $ref: ./withdrawal.yml
-InvalidEntityException:
-    $ref: ./exceptions/invalid_entity_exception.yml
 
 # Paged resources
 ResourceList_AccountSummary:

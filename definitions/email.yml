@@ -1,6 +1,7 @@
+description: Payload object for an email address.
 type: object
 required:
-    - name  
+    - email
     - studyIdentifier
 properties:
     email:

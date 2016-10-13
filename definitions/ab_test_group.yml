@@ -1,6 +1,10 @@
 type: object
 description: |
-    A list of these groups define the way schedules are allocated in an ABTestScheduleStrategy.
+    A list of these groups define the way schedules are allocated in an ABTestScheduleStrategy. 
+    See [ABTestScheduleStrategy](#ABTestScheduleStrategy) for details. 
+required:
+    - percentage
+    - schedule
 properties:
     percentage:
         type: integer

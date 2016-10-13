@@ -1,6 +1,5 @@
 type: object
-required:
-    - email
+discriminator: type
 properties:
     firstName:
         type: string
@@ -10,6 +9,7 @@ properties:
         description: Last name (family name) of the user.
     email:
         type: string
+        readOnly: true
         description: The user's email address. Users can create an account in multiple studies on Bridge; 
             these accounts are entirely separate.
     externalId:

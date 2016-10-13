@@ -2,6 +2,8 @@ description: |
     A date without a time value (e.g. "2016-07-28").
 
     **UI hints:** datepicker.
+required:
+    - dataType
 allOf:
     - $ref: ./constraints.yml
     - properties:
@@ -13,19 +15,20 @@ allOf:
             type: string
             format: date
             description: |
-                ISO 8601 date and time value that is the earliest value that may be set for this question. 
-                No default. If allowFuture is false, that constraint will also be applied regardless 
-                of earliest/latestValue constraints.
+                ISO 8601 date value that is the earliest value that may be set for this question. 
+                If allowFuture is false, that constraint should also be applied regardless of 
+                earliest/latestValue constraints.
         latestValue:
             type: string
             format: date
             description: |
-                ISO 8601 date and time value that is the earliest value that may be set for this question. 
-                No default. If allowFuture is false, that constraint will also be applied regardless 
-                of earliest/latestValue constraints.
+                ISO 8601 date value that is the earliest value that may be set for this question. 
+                If allowFuture is false, that constraint should also be applied regardless of  
+                earliest/latestValue constraints.
         dataType:
             type: string
             enum: [date]
         type:
             type: string
+            readOnly: true
             enum: [DateConstraints]

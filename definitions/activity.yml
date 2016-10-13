@@ -1,7 +1,7 @@
 description: |
     When creating an activity as part of a Schedule, you will need to supply a SurveyReference or a TaskReference in the activity. When these are returned, any survey reference that points to the "most recently published" survey will be resolved to a specific survey revision (the one most recently published).
 
-    Tasks may be requested into the future by the client, and then cached. So if a survey is changed and published, it may be some time before participants receive the updated survey.
+    Scheduled activities may be requested into the future by the client, and then cached. So if a survey is changed and published, it may be a few days before participants receive the updated survey.
 type: object
 required:
     - label

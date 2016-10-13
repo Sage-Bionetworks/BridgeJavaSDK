@@ -1,22 +1,20 @@
+description: |
+    A description of the participant's consent status in a particular subpopulation (consent group). This 
+    object is never used to update state on the server (all fields are read only). 
 type: object
-required:
-    - name
-    - subpopulationGuid
-    - required
-    - consented
-    - signedMostRecentConsent
+readOnly: true
 properties:
     name:
         type: string
-        description: The name of the subpopulation
+        description: The name of the subpopulation.
     subpopulationGuid:
         type: string
-        description: The GUID for the subpopulation of this consent
+        description: The GUID for the subpopulation of this consent.
     required:
         type: boolean
         description: |
             Is this consent required? If required, the user must consent to it before being given 
-            access to the server (until signed, a 412 response is returned from the server).
+            access to the server (until signed, a 412 response is returned for most participant endpoints).
     consented:
         type: boolean
         description: Has the participant consented to this consent agreement?

@@ -1,12 +1,7 @@
+description: |
+    Summary of a participant for APIs to search and page through participant accounts.  
 type: object
-required:
-    - firstName
-    - lastName
-    - email
-    - id
-    - createdOn
-    - status
-    - studyIdentifier
+readOnly: true
 properties:
     firstName:
         type: string
