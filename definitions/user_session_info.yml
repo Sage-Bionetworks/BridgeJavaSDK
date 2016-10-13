@@ -1,5 +1,5 @@
 allOf:
-    - $ref: './abstract_study_participant.yml'
+    - $ref: ./abstract_study_participant.yml
     - description: |
         Information about the user and their session.
     - type: object
