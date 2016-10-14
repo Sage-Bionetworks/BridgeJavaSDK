@@ -1,17 +1,16 @@
 package org.sagebionetworks.bridge.sdk.rest;
 
-import com.google.common.base.Preconditions;
-
-import org.sagebionetworks.bridge.sdk.rest.model.SignIn;
-import org.sagebionetworks.bridge.sdk.rest.model.UserSessionInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 
+import com.google.common.base.Preconditions;
 import okhttp3.Authenticator;
 import okhttp3.Interceptor;
 import okhttp3.Route;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.sagebionetworks.bridge.sdk.rest.model.SignIn;
+import org.sagebionetworks.bridge.sdk.rest.model.UserSessionInfo;
 
 /**
  * Authenticates a user with Bridge: retrieves session and attaches token to header.

@@ -1,20 +1,19 @@
 package org.sagebionetworks.bridge.sdk.rest;
 
+import java.util.Properties;
+
+import okhttp3.OkHttpClient;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import org.sagebionetworks.bridge.sdk.Config;
 import org.sagebionetworks.bridge.sdk.rest.api.AuthenticationApi;
 import org.sagebionetworks.bridge.sdk.rest.api.UploadsApi;
 import org.sagebionetworks.bridge.sdk.rest.model.SignIn;
 import org.sagebionetworks.bridge.sdk.rest.model.UploadRequest;
-
-import java.util.Properties;
-
-import okhttp3.OkHttpClient;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 /**
@@ -43,8 +42,8 @@ public class AuthenticationHandlerIntegrationTest {
 
 
         authenticationHandler = new AuthenticationHandler(credentials,
-                                                          new UserSessionInfoProvider(
-                                                                  authenticationService)
+                new UserSessionInfoProvider(
+                        authenticationService)
         );
 
         // AuthenticationHandler auth must be registered as both an interceptor and an authenticator

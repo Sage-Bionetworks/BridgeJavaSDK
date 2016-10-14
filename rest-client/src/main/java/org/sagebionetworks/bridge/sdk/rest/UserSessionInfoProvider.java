@@ -1,14 +1,14 @@
 package org.sagebionetworks.bridge.sdk.rest;
 
+import java.io.IOException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import retrofit2.Response;
+
 import org.sagebionetworks.bridge.sdk.rest.api.AuthenticationApi;
 import org.sagebionetworks.bridge.sdk.rest.model.SignIn;
 import org.sagebionetworks.bridge.sdk.rest.model.UserSessionInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-
-import retrofit2.Response;
 
 /**
  * Retrieves session information for a Bridge user.
@@ -24,6 +24,7 @@ class UserSessionInfoProvider {
 
     /**
      * Retrieves a session from a service.
+     *
      * @param signIn
      *         sign in credentials for a user
      * @return session info for the user, or null if the return value was not a 200
@@ -31,7 +32,7 @@ class UserSessionInfoProvider {
      */
     public UserSessionInfo retrieveSession(SignIn signIn) throws IOException {
         LOG.info("Retrieving session for study: " + signIn.getStudy() + ", email:" +
-                 signIn.getEmail());
+                signIn.getEmail());
         Response<UserSessionInfo> signInResponse = authenticationApi.v3AuthSignInPost(signIn)
                 .execute();
 

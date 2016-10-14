@@ -1,5 +1,10 @@
 package org.sagebionetworks.bridge.sdk.rest;
 
+import java.lang.ref.WeakReference;
+import java.lang.reflect.Type;
+import java.util.Base64;
+import java.util.Map;
+
 import com.fatboyindustrial.gsonjodatime.Converters;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
@@ -12,18 +17,12 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-
-import org.sagebionetworks.bridge.sdk.rest.api.AuthenticationApi;
-import org.sagebionetworks.bridge.sdk.rest.model.SignIn;
-
-import java.lang.ref.WeakReference;
-import java.lang.reflect.Type;
-import java.util.Base64;
-import java.util.Map;
-
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import org.sagebionetworks.bridge.sdk.rest.api.AuthenticationApi;
+import org.sagebionetworks.bridge.sdk.rest.model.SignIn;
 
 /**
  * Created by liujoshua on 10/11/16.
@@ -36,6 +35,7 @@ public class ApiClientProvider {
     private final UserSessionInfoProvider userSessionInfoProvider;
     private final Map<SignIn, WeakReference<Retrofit>> authenticatedRetrofits;
     private final Map<SignIn, Map<Class, WeakReference>> authenticatedClients;
+
     public ApiClientProvider(String baseUrl, String userAgent) {
         this(baseUrl, userAgent, null);
     }
@@ -62,6 +62,7 @@ public class ApiClientProvider {
 
     /**
      * Creates an unauthenticated client.
+     *
      * @param service
      *         Class representing the service
      * @return service client
@@ -118,7 +119,7 @@ public class ApiClientProvider {
 
             if (signIn != null) {
                 AuthenticationHandler authenticationHandler = new AuthenticationHandler(signIn,
-                                                                                        userSessionInfoProvider
+                        userSessionInfoProvider
                 );
                 builder.addInterceptor(authenticationHandler).authenticator(authenticationHandler);
             }
