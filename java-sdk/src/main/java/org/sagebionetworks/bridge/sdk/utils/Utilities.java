@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -98,6 +99,16 @@ public final class Utilities {
         } catch (JsonProcessingException e) {
             String message = String.format("Could not process %s: %s into JSON", object.getClass().getSimpleName(), object.toString());
             throw new BridgeSDKException(message, e);
+        }
+    }
+
+    public static <T> T getJsonAsType(JsonNode json, Class<T> c) {
+        try {
+            return MAPPER.treeToValue(json, c);
+        } catch (IOException e) {
+            throw new BridgeSDKException("Error message: " + e.getMessage()
+                                         + "\nSomething went wrong while converting JSON into " + c.getSimpleName()
+                                         + ": json=" + json, e);
         }
     }
 

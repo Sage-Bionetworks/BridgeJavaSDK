@@ -3,14 +3,15 @@ package org.sagebionetworks.bridge.sdk;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
-import java.util.Map;
+import com.google.common.collect.ImmutableMap;
 
 import org.sagebionetworks.bridge.sdk.models.accounts.SharingScope;
 import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.ConsentStatus;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
+import org.sagebionetworks.bridge.sdk.rest.model.SignIn;
 
-import com.google.common.collect.ImmutableMap;
+import java.util.Map;
 
 class BridgeSession implements Session {
 
@@ -18,14 +19,23 @@ class BridgeSession implements Session {
 
     private String sessionToken;
     private StudyParticipant participant;
-    private Map<SubpopulationGuid,ConsentStatus> consentStatuses; 
+    private Map<SubpopulationGuid,ConsentStatus> consentStatuses;
+
+    private final SignIn signIn;
     
-    BridgeSession(UserSession session) {
+    BridgeSession(UserSession session, SignIn signIn) {
         checkNotNull(session, "%s cannot be null", "UserSession");
-        
+        checkNotNull(signIn, "signIn cannot be null");
+
         setUserSession(session);
+        this.signIn = signIn;
+        StudyParticipant studyParticipant = session.getStudyParticipant();
     }
-    
+
+    public SignIn getSignIn() {
+        return signIn;
+    }
+
     /**
      * Check that the client is currently authenticated, throwing an exception 
      * if it is not.
