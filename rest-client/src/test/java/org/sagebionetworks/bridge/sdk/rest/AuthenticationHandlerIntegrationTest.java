@@ -38,12 +38,9 @@ public class AuthenticationHandlerIntegrationTest {
                 .getProperty(Config.Props.ADMIN_PASSWORD.getPropertyName());
 
         SignIn credentials = new SignIn().study(STUDY).email(adminEmail).password(adminPassword);
-        AuthenticationApi authenticationService = retrofit.create(AuthenticationApi.class);
-
 
         authenticationHandler = new AuthenticationHandler(credentials,
-                new UserSessionInfoProvider(
-                        authenticationService)
+                new UserSessionInfoProvider(retrofit)
         );
 
         // AuthenticationHandler auth must be registered as both an interceptor and an authenticator

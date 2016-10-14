@@ -1,10 +1,14 @@
 package org.sagebionetworks.bridge.sdk.rest;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 
+import okhttp3.ResponseBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import retrofit2.Converter;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 import org.sagebionetworks.bridge.sdk.rest.api.AuthenticationApi;
 import org.sagebionetworks.bridge.sdk.rest.model.SignIn;
@@ -16,10 +20,12 @@ import org.sagebionetworks.bridge.sdk.rest.model.UserSessionInfo;
 class UserSessionInfoProvider {
     private static final Logger LOG = LoggerFactory.getLogger(UserSessionInfoProvider.class);
 
+    private final Retrofit retrofit;
     private final AuthenticationApi authenticationApi;
 
-    public UserSessionInfoProvider(AuthenticationApi authenticationApi) {
-        this.authenticationApi = authenticationApi;
+    public UserSessionInfoProvider(Retrofit retrofit) {
+        this.retrofit = retrofit;
+        this.authenticationApi = retrofit.create(AuthenticationApi.class);
     }
 
     /**
@@ -39,12 +45,14 @@ class UserSessionInfoProvider {
         if (signInResponse.isSuccessful()) {
             return signInResponse.body();
         } else if (signInResponse.code() == 412) {
-            return ApiClientProvider.GSON
-                    .fromJson(signInResponse.errorBody().string(), UserSessionInfo.class);
+
+            // Look up a converter for the UserSessionInfo type on the Retrofit instance.
+            Converter<ResponseBody, UserSessionInfo> errorConverter =
+                    retrofit.responseBodyConverter(UserSessionInfo.class, new Annotation[0]);
+            return errorConverter.convert(signInResponse.errorBody());
         }
 
         LOG.warn("Login failed");
-
         return null;
     }
 }

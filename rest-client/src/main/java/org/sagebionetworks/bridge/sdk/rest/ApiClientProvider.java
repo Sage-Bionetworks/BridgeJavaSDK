@@ -2,12 +2,12 @@ package org.sagebionetworks.bridge.sdk.rest;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Type;
-import java.util.Base64;
 import java.util.Map;
 
 import com.fatboyindustrial.gsonjodatime.Converters;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
+import com.google.common.io.BaseEncoding;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -21,7 +21,6 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import org.sagebionetworks.bridge.sdk.rest.api.AuthenticationApi;
 import org.sagebionetworks.bridge.sdk.rest.model.SignIn;
 
 /**
@@ -57,7 +56,7 @@ public class ApiClientProvider {
                 .addConverterFactory(GsonConverterFactory.create(GSON));
 
         this.userSessionInfoProvider = userSessionInfoProvider != null ? userSessionInfoProvider
-                : new UserSessionInfoProvider(getClient(AuthenticationApi.class));
+                : new UserSessionInfoProvider(getAuthenticatedRetrofit(null));
     }
 
     /**
@@ -139,11 +138,11 @@ public class ApiClientProvider {
                 Type typeOfT,
                 JsonDeserializationContext context
         ) throws JsonParseException {
-            return Base64.getDecoder().decode(json.getAsString());
+            return BaseEncoding.base64().decode(json.getAsString());
         }
 
         public JsonElement serialize(byte[] src, Type typeOfSrc, JsonSerializationContext context) {
-            return new JsonPrimitive(Base64.getEncoder().encodeToString(src));
+            return new JsonPrimitive(BaseEncoding.base64().encode(src));
         }
     }
 }
