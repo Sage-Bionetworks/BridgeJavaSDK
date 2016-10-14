@@ -1,4 +1,5 @@
 post:
+    operationId: signUp
     tags: ["Authentication"]
     description: |
         Depending on the configuration of the study, the user will normally be sent an email with a link 

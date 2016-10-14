@@ -1,4 +1,5 @@
 post:
+    operationId: publishConsent
     summary: Publish a specific consent revision
     description: |
         Publish a specific revision of this subpopulation consent by its creation timestamp. This version of 

@@ -1,4 +1,5 @@
 get:
+    operationId: getSchedules
     summary: Get schedules for user
     tags: 
         - Schedules

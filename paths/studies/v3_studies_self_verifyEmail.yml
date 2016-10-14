@@ -1,4 +1,5 @@
 post:
+    operationId: verifyStudyEmail
     summary: Trigger SES email verification process
     description: |
         Amazon SES will attempt to verify that it can send email from your support email address. 

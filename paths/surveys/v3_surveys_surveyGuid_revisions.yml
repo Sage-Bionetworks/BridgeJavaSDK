@@ -1,4 +1,5 @@
 get:
+    operationId: getAllVersionsOfSurvey
     summary: Get all revisions of a survey
     tags:
         - Surveys

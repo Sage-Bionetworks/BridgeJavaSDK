@@ -1,4 +1,5 @@
 get:
+    operationId: getAllPublishedSurveysInStudy
     summary: Get the published surveys in a study
     tags: 
         - Studies

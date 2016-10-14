@@ -1,4 +1,5 @@
 get:
+    operationId: getPublishedConsent
     summary: Get the published consent revision
     description: |
         Get the published revision of this subpopulation consent. This is not necessarily the 

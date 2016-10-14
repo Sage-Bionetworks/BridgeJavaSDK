@@ -1,4 +1,5 @@
 post:
+    operationId: resendParticipantConsentAgreement
     summary: Re-send the consent agreement for this subpopulation
     description: |
         When called, re-sends a signed consent agreement document to the participant's email address.

@@ -1,4 +1,5 @@
 get:
+    operationId: getUsersStudy
     summary: Get a study
     tags: 
         - Studies
@@ -15,6 +16,7 @@ get:
         403:
             $ref: ../../responses/403_not_developer_researcher_admin.yml
 post:
+    operationId: updateUsersStudy
     summary: Update a study
     tags:
         - Studies

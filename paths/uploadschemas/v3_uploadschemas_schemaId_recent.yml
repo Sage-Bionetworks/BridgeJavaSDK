@@ -1,4 +1,5 @@
 get:
+    operationId: getMostRecentUploadSchema
     summary: Get the most recent revision of an upload schema
     tags: 
         - Upload Schemas

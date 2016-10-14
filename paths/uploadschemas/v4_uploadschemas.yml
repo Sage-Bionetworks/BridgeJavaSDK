@@ -1,4 +1,5 @@
 post:
+    operationId: createUploadSchema
     summary: Create an upload schema
     tags: 
         - Upload Schemas

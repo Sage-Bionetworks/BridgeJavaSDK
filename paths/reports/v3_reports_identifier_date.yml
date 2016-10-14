@@ -1,4 +1,5 @@
 delete:
+    operationId: deleteStudyReportRecord
     summary: Delete a record for a specific day of a study report
     tags:
         - Reports

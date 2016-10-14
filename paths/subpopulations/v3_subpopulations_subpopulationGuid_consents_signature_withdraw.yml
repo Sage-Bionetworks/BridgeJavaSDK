@@ -1,4 +1,5 @@
 post:
+    operationId: withdrawConsentFromSubpopulation
     summary: Withdraw participant from this subpopulation consent group 
     description: |
         This withdraws the user from only one subpopulation.

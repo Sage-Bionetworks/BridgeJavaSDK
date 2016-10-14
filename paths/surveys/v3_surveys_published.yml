@@ -1,4 +1,5 @@
 get:
+    operationId: getPublishedSurveys
     summary: Get the most recently published version of each survey
     tags:
         - Surveys

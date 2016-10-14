@@ -1,4 +1,5 @@
 get:
+    operationId: getParticipants
     summary: Get a paged list of study participants (users)
     tags:
         - Participants
@@ -32,6 +33,7 @@ get:
         403:
             $ref: ../../responses/403_not_researcher.yml
 post:
+    operationId: createParticipant
     summary: Create a new study participant (user)
     tags:
         - Participants

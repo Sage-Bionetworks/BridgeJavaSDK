@@ -1,4 +1,5 @@
 post:
+    operationId: emailConsentAgreement
     summary: Email the consent agreement to the participant's email address
     tags:
         - Consents

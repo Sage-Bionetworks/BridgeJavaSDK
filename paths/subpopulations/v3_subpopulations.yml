@@ -1,4 +1,5 @@
 get:
+    operationId: getSubpopulations
     summary: Get all subpopulations in this study
     tags:
         - Subpopulations
@@ -15,6 +16,7 @@ get:
         403:
             $ref: ../../responses/403_not_developer.yml
 post:
+    operationId: createSubpopulation
     summary: Create a new subpopulation
     tags:
         - Subpopulations

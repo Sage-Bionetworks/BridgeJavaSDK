@@ -1,4 +1,5 @@
 get:
+    operationId: getStudyUploads
     summary: Get uploads for a study
     tags: 
         - Studies

@@ -1,4 +1,5 @@
 get:
+    operationId: getDefaultConsentRevision
     summary: Get specific revision of a study's default subpopulation 
     deprecated: true
     tags:

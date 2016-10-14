@@ -1,4 +1,5 @@
 get:
+    operationId: getParticipantReportRecords
     summary: Get a participant report
     description: |
         Get the records for a specific participant report. Participants can get reports for their own 

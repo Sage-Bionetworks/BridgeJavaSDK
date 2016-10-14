@@ -1,4 +1,5 @@
 get:
+    operationId: getUsersParticipantRecord
     summary: Get user's participant record
     description: |
         Get the current user's participant record. Any authenticated user may call this endpoint.  
@@ -17,6 +18,7 @@ get:
         401:
             $ref: ../../responses/401.yml
 post:
+    operationId: updateUsersParticipantRecord
     summary: Update user's participant record
     description: |
         Update the current user's participant record. **Unlike most other calls in this API, you can send 

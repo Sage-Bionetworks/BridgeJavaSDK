@@ -1,4 +1,5 @@
 get:
+    operationId: getReportIndices
     summary: Get list of report indices for studies or participants
     tags:
         - Reports

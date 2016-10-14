@@ -1,4 +1,5 @@
 get:
+    operationId: getSchedulesV3
     summary: Get schedules for user
     description: |
         This endpoint is the same as `/v4/schedules` except that any schedule with a cron trigger 

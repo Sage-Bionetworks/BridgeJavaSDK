@@ -1,4 +1,5 @@
 get:
+    operationId: getStudyPublicCsmKey
     summary: Get the public key CMS block for this study
     tags: 
         - Studies

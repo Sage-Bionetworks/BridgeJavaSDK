@@ -1,4 +1,5 @@
 post:
+    operationId: resendEmailVerification
     tags: ["Authentication"]
     description: |
         Resend an email to the provided email address asking the address holder to verify their 

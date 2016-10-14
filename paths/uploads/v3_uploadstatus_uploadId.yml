@@ -1,4 +1,5 @@
 get:
+    operationId: getUploadStatus
     summary: Get status of a single upload attempt
     description: |
         Caller must either be a participant getting a status of one of the participant's 

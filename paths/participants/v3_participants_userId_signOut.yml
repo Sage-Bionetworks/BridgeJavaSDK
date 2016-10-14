@@ -1,4 +1,5 @@
 post:
+    operationId: signOutParticipant
     summary: Sign the user out and delete their server session
     tags:
         - Participants

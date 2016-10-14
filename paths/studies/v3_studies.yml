@@ -1,4 +1,5 @@
 get:
+    operationId: getStudies
     summary: Get all studies
     tags: 
         - Studies
@@ -23,6 +24,7 @@ get:
         403:
             $ref: ../../responses/403_not_admin.yml                
 post:
+    operationId: createStudy
     summary: Create a new study
     tags:
         - Studies

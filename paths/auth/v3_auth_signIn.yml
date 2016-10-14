@@ -1,4 +1,5 @@
 post:
+    operationId: signIn
     tags: ["Authentication"]
     description: |
         Send user credentials to authenticate with the Bridge server. Whether the server returns 

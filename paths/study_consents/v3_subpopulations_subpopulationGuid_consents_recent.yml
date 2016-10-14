@@ -1,4 +1,5 @@
 get:
+    operationId: getMostRecentConsent
     summary: Get the most recently created consent revision
     description: |
         Get the most recently created revision of this subpopulation consent. This is not 

@@ -1,4 +1,5 @@
 get:
+    operationId: getStudyEmailStatus
     summary: SES email verification status
     description: |
         Consents will be emailed from the support email address you provide. Amazon 

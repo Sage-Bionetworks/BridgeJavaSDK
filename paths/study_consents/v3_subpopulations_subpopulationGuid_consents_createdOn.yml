@@ -1,4 +1,5 @@
 get:
+    operationId: getConsent
     summary: Get a specific consent revision
     description: |
         Get a specific revision of this subpopulation consent by its creation timestamp.

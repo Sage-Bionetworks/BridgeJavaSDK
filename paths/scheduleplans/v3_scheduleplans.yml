@@ -1,4 +1,5 @@
 get:
+    operationId: getSchedulePlans
     summary: Get schedule plans
     tags: 
         - Schedules
@@ -15,6 +16,7 @@ get:
         403:
             $ref: ../../responses/403_not_developer.yml
 post:
+    operationId: createSchedulePlan
     summary: Create a schedule plan
     tags: 
         - Schedules

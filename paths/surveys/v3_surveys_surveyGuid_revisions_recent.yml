@@ -1,4 +1,5 @@
 get:
+    operationId: getMostRecentSurveyVersion
     summary: Get most recent revision of a survey
     tags:
         - Surveys

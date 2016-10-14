@@ -1,4 +1,5 @@
 get:
+    operationId: getSchemaRevisionInStudy
     summary: Get a schema revision from a study
     tags: 
         - Studies

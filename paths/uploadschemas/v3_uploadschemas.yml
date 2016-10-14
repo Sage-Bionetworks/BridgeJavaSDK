@@ -1,4 +1,5 @@
 get:
+    operationId: getMostRecentUploadSchemas
     summary: Get most recent revision of all upload schemas
     tags: 
         - Upload Schemas
@@ -15,6 +16,7 @@ get:
         403:
             $ref: ../../responses/403_not_developer.yml
 post:
+    operationId: createOrUpdateUploadSchema
     summary: Create or update an upload schema
     deprecated: true
     tags: 

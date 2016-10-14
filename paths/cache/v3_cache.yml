@@ -1,4 +1,5 @@
 get:
+    operationId: getCacheKeys
     summary: Get all the non-session Redis keys
     tags:
         - _For Admins

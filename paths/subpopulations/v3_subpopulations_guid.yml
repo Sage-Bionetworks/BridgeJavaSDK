@@ -1,4 +1,5 @@
 get:
+    operationId: getSubpopulation
     summary: Get a subpopulation
     tags:
         - Subpopulations
@@ -18,6 +19,7 @@ get:
         403:
             $ref: ../../responses/403_not_developer_researcher.yml
 post:
+    operationId: updateSubpopulation
     summary: Update an existing subpopulation
     tags:
         - Subpopulations
@@ -42,6 +44,7 @@ post:
         403:
             $ref: ../../responses/403_not_developer.yml
 delete:
+    operationId: deleteSubpopulation
     summary: Delete a subpopulation
     description: |
         Delete a subpopulation unless it is a default subpopulation, which cannot be deleted. 

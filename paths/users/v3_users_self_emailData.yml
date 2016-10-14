@@ -1,4 +1,5 @@
 post:
+    operationId: emailDataToUser
     summary: Make user's data available for download
     description: |
         Asynchronously request the uploaded data for this user, in a given time range (inclusive). 

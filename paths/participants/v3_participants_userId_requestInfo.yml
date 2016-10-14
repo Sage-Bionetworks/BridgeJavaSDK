@@ -1,4 +1,5 @@
 get:
+    operationId: getParticipantRequestInfo
     summary: Get information about the last request made by this participant
     description: |
         Retrieves information about the user agent headers and participant settings that were in 

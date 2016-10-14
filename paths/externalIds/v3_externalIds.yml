@@ -1,4 +1,5 @@
 get:
+    operationId: getExternalIds
     summary: Get external IDs
     tags:
         - External Identifiers
@@ -30,6 +31,7 @@ get:
         403:
             $ref: ../../responses/403_not_developer.yml
 post:
+    operationId: addExternalIds
     summary: Add external IDs to the study
     tags:
         - External Identifiers
@@ -52,6 +54,7 @@ post:
         403:
             $ref: ../../responses/403_not_developer.yml
 delete:
+    operationId: deleteExternalIds
     summary: Delete one or more external IDs
     tags: 
         - External Identifiers

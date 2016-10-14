@@ -1,4 +1,5 @@
 get:
+    operationId: getUploadSchema
     summary: Get the specific revision of an upload schema
     tags: 
         - Upload Schemas
@@ -19,6 +20,7 @@ get:
         403:
             $ref: ../../responses/403_not_developer_worker.yml
 delete:
+    operationId: deleteUploadSchema
     summary: Delete a revision of an upload schema
     tags: 
         - Upload Schemas

@@ -1,4 +1,5 @@
 get:
+    operationId: getUsersParticipantReportRecords
     summary: Get participant report records
     tags:
         - Reports
@@ -20,6 +21,7 @@ get:
         403:
             $ref: ../../responses/403_not_researcher.yml
 post:
+    operationId: addParticipantReportRecord
     summary: Add a participant report record
     tags:
         - Reports
@@ -37,6 +39,7 @@ post:
         403:
             $ref: ../../responses/403_not_developer.yml            
 delete:
+    operationId: deleteAllParticipantReportRecords
     summary: Delete a participant report (all records)
     tags:
         - Reports

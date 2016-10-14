@@ -1,4 +1,5 @@
 get:
+    operationId: getAllDefaultConsentRevisions
     summary: Get all revisions of the consent in a study's default subpopulation 
     deprecated: true
     tags:
@@ -16,6 +17,7 @@ get:
         403:
             $ref: ../../responses/403_not_developer.yml
 post:
+    operationId: addNewDefaultConsentRevision
     summary: Add new consent revision to the study's default subpopulation
     deprecated: true
     tags:
