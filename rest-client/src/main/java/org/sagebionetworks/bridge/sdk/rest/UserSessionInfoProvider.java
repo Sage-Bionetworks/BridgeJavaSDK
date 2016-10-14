@@ -39,7 +39,7 @@ class UserSessionInfoProvider {
     public UserSessionInfo retrieveSession(SignIn signIn) throws IOException {
         LOG.info("Retrieving session for study: " + signIn.getStudy() + ", email:" +
                 signIn.getEmail());
-        Response<UserSessionInfo> signInResponse = authenticationApi.v3AuthSignInPost(signIn)
+        Response<UserSessionInfo> signInResponse = authenticationApi.signIn(signIn)
                 .execute();
 
         if (signInResponse.isSuccessful()) {

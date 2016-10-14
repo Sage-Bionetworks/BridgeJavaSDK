@@ -28,6 +28,7 @@ import org.sagebionetworks.bridge.sdk.models.upload.UploadValidationStatus;
 import org.sagebionetworks.bridge.sdk.rest.api.ConsentsApi;
 import org.sagebionetworks.bridge.sdk.rest.api.ParticipantsApi;
 import org.sagebionetworks.bridge.sdk.rest.model.ConsentSignature;
+import org.sagebionetworks.bridge.sdk.rest.model.EmptyPayload;
 import org.sagebionetworks.bridge.sdk.rest.model.StudyParticipant;
 
 import java.io.FileNotFoundException;
@@ -57,7 +58,7 @@ public class UserClient extends BaseApiCaller {
      * @return participant - the study participant record for this user
      */
     public StudyParticipant getStudyParticipant() {
-        return call(participantsApi.v3ParticipantsSelfGet());
+        return call(participantsApi.getUsersParticipantRecord());
     }
     
     /**
@@ -116,9 +117,7 @@ public class UserClient extends BaseApiCaller {
     public ConsentSignature getConsentSignature(SubpopulationGuid subpopGuid) {
         checkNotNull(subpopGuid, CANNOT_BE_NULL, "subpopGuid");
 
-        return call(consentsApi.v3SubpopulationsSubpopulationGuidConsentsSignatureGet(
-                subpopGuid.getGuid())
-        );
+        return call(consentsApi.getConsentSignature(subpopGuid.getGuid()));
     }
 
     /**
@@ -129,10 +128,7 @@ public class UserClient extends BaseApiCaller {
      */
     public void emailConsentSignature(SubpopulationGuid subpopGuid) {
         checkNotNull(subpopGuid, CANNOT_BE_NULL, "subpopGuid");
-        call(consentsApi.v3SubpopulationsSubpopulationGuidConsentsSignatureEmailPost(
-                subpopGuid.getGuid(),
-                new Object()
-        ));
+        call(consentsApi.emailConsentAgreement(subpopGuid.getGuid(), new EmptyPayload()));
     }
 
     /**

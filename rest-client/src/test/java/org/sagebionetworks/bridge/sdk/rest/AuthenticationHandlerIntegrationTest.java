@@ -12,6 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import org.sagebionetworks.bridge.sdk.Config;
 import org.sagebionetworks.bridge.sdk.rest.api.AuthenticationApi;
 import org.sagebionetworks.bridge.sdk.rest.api.UploadsApi;
+import org.sagebionetworks.bridge.sdk.rest.model.EmptyPayload;
 import org.sagebionetworks.bridge.sdk.rest.model.SignIn;
 import org.sagebionetworks.bridge.sdk.rest.model.UploadRequest;
 
@@ -58,7 +59,7 @@ public class AuthenticationHandlerIntegrationTest {
                 .name("name").contentType("type");
 
         UploadsApi svc = bridgeAuthenticatedRetrofit.create(UploadsApi.class);
-        svc.v3UploadsPost(dummyUploadRequest).execute();
+        svc.requestUploadSession(dummyUploadRequest).execute();
 
         String authToken = authenticationHandler.getSessionToken();
         Assert.assertNotNull(authToken);
@@ -67,9 +68,9 @@ public class AuthenticationHandlerIntegrationTest {
         // expires token
         AuthenticationApi authenticatedAuthService = bridgeAuthenticatedRetrofit
                 .create(AuthenticationApi.class);
-        authenticatedAuthService.v3AuthSignOutPost(new Object()).execute();
+        authenticatedAuthService.signOut(new EmptyPayload()).execute();
 
-        svc.v3UploadsPost(dummyUploadRequest).execute();
+        svc.requestUploadSession(dummyUploadRequest).execute();
 
         // verify new session token is now being used
         String newAuthToken = authenticationHandler.getSessionToken();
