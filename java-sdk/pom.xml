@@ -6,7 +6,7 @@
         <groupId>org.sagebionetworks.bridge</groupId>
         <artifactId>sdk-group</artifactId>
         <!-- Please use the maven versions plugin to manage this, e.g.`mvn versions:set -DnewVersion=0.8.1`-->
-        <version>0.10.7</version>
+        <version>0.11.0</version>
     </parent>
 
     <!-- groupId and version are inherited from parent pom -->
@@ -28,8 +28,17 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.sagebionetworks.bridge</groupId>
+            <artifactId>rest-client</artifactId>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.sagebionetworks.bridge</groupId>
+            <artifactId>rest-client</artifactId>
+            <version>0.11.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -39,7 +48,6 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.6.2</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -54,7 +62,6 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>19.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -64,12 +71,10 @@
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
-            <version>2.4</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
-            <version>2.6.2</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>

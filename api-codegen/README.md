@@ -2,5 +2,5 @@
 
 Currently, bridge.json is updated manually
 ```
-     curl https://developer.sagebridge.org/swagger.json > bridge.json
+     curl https://developer.sagebridge.org/swagger.json > swagger.json
 
