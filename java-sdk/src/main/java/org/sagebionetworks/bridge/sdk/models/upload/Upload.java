@@ -11,6 +11,7 @@ import org.joda.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.sagebionetworks.bridge.sdk.models.healthData.RecordExportStatusRequest;
 
 /**
  * A read only information object that describes the current status of an upload. This contains more
@@ -26,13 +27,16 @@ public final class Upload {
     private final LocalDate uploadDate;
     private final String uploadId;
     private final List<String> validationMessageList;
+
+    private final RecordExportStatusRequest.ExporterStatus healthRecordExporterStatus;
     
     @JsonCreator
     public Upload(@JsonProperty("contentLength") long contentLength, @JsonProperty("status") UploadStatus status, 
             @JsonProperty("requestedOn") DateTime requestedOn, @JsonProperty("completedOn") DateTime completedOn,
             @JsonProperty("completedBy") UploadCompletionClient completedBy, 
             @JsonProperty("uploadDate") LocalDate uploadDate, @JsonProperty("uploadId") String uploadId, 
-            @JsonProperty("validationMessageList") List<String> validationMessageList) {
+            @JsonProperty("validationMessageList") List<String> validationMessageList,
+            @JsonProperty("healthRecordExporterStatus") RecordExportStatusRequest.ExporterStatus healthRecordExporterStatus) {
         this.contentLength = contentLength;
         this.status = status;
         this.requestedOn = requestedOn;
@@ -41,6 +45,7 @@ public final class Upload {
         this.uploadDate = uploadDate;
         this.uploadId = uploadId;
         this.validationMessageList = validationMessageList;
+        this.healthRecordExporterStatus = healthRecordExporterStatus;
     }
 
     /**
@@ -97,10 +102,14 @@ public final class Upload {
         return validationMessageList;
     }
 
+    public RecordExportStatusRequest.ExporterStatus getHealthRecordExporterStatus() {
+        return healthRecordExporterStatus;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(contentLength, status, requestedOn, completedOn, completedBy, uploadDate, uploadId,
-                validationMessageList);
+                validationMessageList, healthRecordExporterStatus);
     }
     @Override
     public boolean equals(Object obj) {
@@ -116,7 +125,8 @@ public final class Upload {
                 && Objects.equals(completedBy, other.completedBy) 
                 && Objects.equals(uploadDate, other.uploadDate)
                 && Objects.equals(uploadId, other.uploadId)
-                && Objects.equals(validationMessageList, other.validationMessageList);
+                && Objects.equals(validationMessageList, other.validationMessageList)
+                && Objects.equals(healthRecordExporterStatus, other.healthRecordExporterStatus);
     }
     @Override
     public String toString() {
@@ -124,6 +134,7 @@ public final class Upload {
                 .append("status", status).append("requestedOn", requestedOn)
                 .append("completedOn", completedOn).append("completedBy", completedBy)
                 .append("uploadDate", uploadDate).append("uploadId", uploadId)
-                .append("validationMessageList", validationMessageList).build();
+                .append("validationMessageList", validationMessageList)
+                .append("healthRecordExporterStatus", healthRecordExporterStatus).build();
     }
 }
