@@ -136,14 +136,14 @@
       "required": true,
       "in": "body",
       "schema": {
-        "type": "object",
-        "description": "Bridge POST APIs with no body content require an empty json payload (\"{}\").\n"
+        "$ref": "#/definitions/EmptyPayload"
       }
     }
   },
   "paths": {
     "/v3/auth/signIn": {
       "post": {
+        "operationId": "signIn",
         "tags": [
           "Authentication"
         ],
@@ -189,6 +189,7 @@
     },
     "/v3/auth/signOut": {
       "post": {
+        "operationId": "signOut",
         "tags": [
           "Authentication"
         ],
@@ -215,6 +216,7 @@
     },
     "/v3/auth/requestResetPassword": {
       "post": {
+        "operationId": "requestResetPassword",
         "tags": [
           "Authentication"
         ],
@@ -239,6 +241,7 @@
     },
     "/v3/auth/resetPassword": {
       "post": {
+        "operationId": "resetPassword",
         "tags": [
           "Authentication"
         ],
@@ -266,6 +269,7 @@
     },
     "/v3/auth/signUp": {
       "post": {
+        "operationId": "signUp",
         "tags": [
           "Authentication"
         ],
@@ -290,6 +294,7 @@
     },
     "/v3/auth/verifyEmail": {
       "post": {
+        "operationId": "verifyEmail",
         "tags": [
           "Authentication"
         ],
@@ -314,6 +319,7 @@
     },
     "/v3/auth/resendEmailVerification": {
       "post": {
+        "operationId": "resendEmailVerification",
         "tags": [
           "Authentication"
         ],
@@ -338,6 +344,7 @@
     },
     "/v3/activities": {
       "get": {
+        "operationId": "getScheduledActivities",
         "summary": "Get a list of the participant's scheduled activities",
         "tags": [
           "Activities",
@@ -380,17 +387,16 @@
             "description": "OK",
             "schema": {
               "type": "object",
+              "readOnly": true,
               "properties": {
                 "items": {
                   "type": "array",
-                  "readOnly": true,
                   "items": {
                     "$ref": "#/definitions/ScheduledActivity"
                   }
                 },
                 "total": {
                   "type": "integer",
-                  "readOnly": true,
                   "description": "The total number of records in the items list"
                 },
                 "type": {
@@ -415,6 +421,7 @@
         }
       },
       "post": {
+        "operationId": "updateScheduledActivities",
         "summary": "Update the status of one or more scheduled activities.",
         "tags": [
           "Activities",
@@ -457,6 +464,7 @@
     },
     "/v3/participants": {
       "get": {
+        "operationId": "getParticipants",
         "summary": "Get a paged list of study participants (users)",
         "tags": [
           "Participants",
@@ -495,7 +503,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResourceList_AccountSummary"
+              "$ref": "#/definitions/PagedResourceList_AccountSummary"
             }
           },
           "401": {
@@ -507,6 +515,7 @@
         }
       },
       "post": {
+        "operationId": "createParticipant",
         "summary": "Create a new study participant (user)",
         "tags": [
           "Participants",
@@ -543,6 +552,7 @@
     },
     "/v3/participants/self": {
       "get": {
+        "operationId": "getUsersParticipantRecord",
         "summary": "Get user's participant record",
         "description": "Get the current user's participant record. Any authenticated user may call this endpoint.  \n**The user does not need to have consented to the study in order to access their participant \nrecord.** \n",
         "tags": [
@@ -567,6 +577,7 @@
         }
       },
       "post": {
+        "operationId": "updateUsersParticipantRecord",
         "summary": "Update user's participant record",
         "description": "Update the current user's participant record. **Unlike most other calls in this API, you can send \npartically complete JSON to this endpoint,** and it will selectively update the participant's record \n(rather than treating missing properties as an instruction to delete those fields in the record). \nThis means that many existing APIs that sent a single update value, can direct those payloads to \nthis endpoint and they will still work fine. For this reason most `/v3/users/*` endpoints are \nnow deprecated, though there is no plan to remove them. Any authenticated user may call this \nendpoint. **The user does not need to have consented to the study in order to update their participant \nrecord.** \n",
         "tags": [
@@ -604,6 +615,7 @@
     },
     "/v3/participants/{userId}": {
       "get": {
+        "operationId": "getParticipant",
         "summary": "Get a study participant (user) record",
         "tags": [
           "Participants",
@@ -635,6 +647,7 @@
         }
       },
       "post": {
+        "operationId": "updateParticipant",
         "summary": "Update an existing study participant (user) record",
         "tags": [
           "Participants",
@@ -674,6 +687,7 @@
     },
     "/v3/participants/{userId}/uploads": {
       "get": {
+        "operationId": "getParticipantUploads",
         "summary": "Get a study participant's upload history",
         "description": "Retrieve information about the uploads from a user. This is particularly useful during \ndevelopment to verify the mobile application is sending valid data back to the Bridge \nserver. The API can retrieve up to 2 days worth of upload records, defined by the \nstartTime and endTime timestamps (ISO 8601 format). startTime/endTime are optional and \nwill default to the last 24 hours of uploads. if the endTime is not provided, it will \nbe one day after the startTime. If the startTime is not provided, it will be one day \nbefore the endTime.\n",
         "tags": [
@@ -708,7 +722,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResourceList_Upload"
+              "$ref": "#/definitions/DateTimeRangeResourceList_Upload"
             }
           },
           "401": {
@@ -722,6 +736,7 @@
     },
     "/v3/participants/{userId}/requestInfo": {
       "get": {
+        "operationId": "getParticipantRequestInfo",
         "summary": "Get information about the last request made by this participant",
         "description": "Retrieves information about the user agent headers and participant settings that were in \neffect the last time this participant contacted the Bridge server. Also provides the last \ntime activities were retrieved and uploads were sent back to the server.\n",
         "tags": [
@@ -756,6 +771,7 @@
     },
     "/v3/participants/{userId}/activities": {
       "get": {
+        "operationId": "getParticipantActivities",
         "summary": "Get paged history of activities scheduled for a participant",
         "description": "Provides a view of all the activities that have been created for a participant. The state of these activities is \nreturned without modification. No filtering is performed on the list of activities, which may have been assigned \ndue to different or changing filtering criteria. These records help to determine if a participant is currently active \nin the study (e.g. if there are no activities, the user has never asked for them them). Records are sorted first \nby the type of activity, and then by the date the activity was scheduled to start on.\n",
         "tags": [
@@ -800,6 +816,7 @@
         }
       },
       "delete": {
+        "operationId": "deleteParticipantActivities",
         "summary": "Delete all activities for a participant",
         "description": "Intended for use in development. Developers may wish to delete an account's scheduled activities in order \nto see the impact of changes to schedules for a study. Otherwise, activities from the original \nscheduling will persist until they expire, alongside tasks issued for the newly changed schedule. **This \nshould not be called on production accounts.**\n",
         "tags": [
@@ -831,6 +848,7 @@
     },
     "/v3/participants/{userId}/signOut": {
       "post": {
+        "operationId": "signOutParticipant",
         "summary": "Sign the user out and delete their server session",
         "tags": [
           "Participants",
@@ -864,6 +882,7 @@
     },
     "/v3/participants/{userId}/requestResetPassword": {
       "post": {
+        "operationId": "sendParticipantResetPasswordEmail",
         "summary": "Trigger a request to reset password for this user",
         "description": "When called, a reset password email will be set to the email address for this account.\n",
         "tags": [
@@ -895,6 +914,7 @@
     },
     "/v3/participants/{userId}/resendEmailVerification": {
       "post": {
+        "operationId": "sendParticipantEmailVerification",
         "summary": "Resend an email verification email to this user",
         "description": "When called, resends the email to the user's email account, which contains a link they must \nclick on to verify they control that email address. Account is not activated until this is \ndone.\n",
         "tags": [
@@ -926,6 +946,7 @@
     },
     "/v3/participants/{userId}/consents/withdraw": {
       "post": {
+        "operationId": "withdrawParticipantFromStudy",
         "summary": "Withdraw the participant from the study entirely",
         "description": "This endpoint will withdraw the user from any and all signed consents in the study, and \nset their sharing status to \"no_sharing\". The user is withdrawn from all subpopulations \nin the study whether they currently apply to the user or not. Unless you have more \ncomplicated consent requirements (like an optional consent that can be signed or not), \nthis is the best approach to withdrawing a user from a study.\n",
         "tags": [
@@ -965,6 +986,7 @@
     },
     "/v3/participants/{userId}/consents/{subpopulationGuid}/resendConsent": {
       "post": {
+        "operationId": "resendParticipantConsentAgreement",
         "summary": "Re-send the consent agreement for this subpopulation",
         "description": "When called, re-sends a signed consent agreement document to the participant's email address.\n",
         "tags": [
@@ -999,6 +1021,7 @@
     },
     "/v3/participants/{userId}/reports/{identifier}": {
       "get": {
+        "operationId": "getUsersParticipantReportRecords",
         "summary": "Get participant report records",
         "tags": [
           "Reports",
@@ -1027,7 +1050,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResourceList_ReportData"
+              "$ref": "#/definitions/DateRangeResourceList_ReportData"
             }
           },
           "401": {
@@ -1039,6 +1062,7 @@
         }
       },
       "post": {
+        "operationId": "addParticipantReportRecord",
         "summary": "Add a participant report record",
         "tags": [
           "Reports",
@@ -1070,6 +1094,7 @@
         }
       },
       "delete": {
+        "operationId": "deleteAllParticipantReportRecords",
         "summary": "Delete a participant report (all records)",
         "tags": [
           "Reports",
@@ -1104,6 +1129,7 @@
     },
     "/v3/participants/{userId}/reports/{identifier}/{date}": {
       "delete": {
+        "operationId": "deleteParticipantReportRecord",
         "summary": "Delete a record for a specific day of a participant report",
         "tags": [
           "Reports",
@@ -1146,6 +1172,7 @@
     },
     "/v3/participants/reports/{identifier}": {
       "post": {
+        "operationId": "addParticipantReportRecordForWorker",
         "summary": "Add a participant report record",
         "description": "Endpoint for a worker to add a report record for a participant. Unlike other endpoints, \nthe worker must provide the healthCode of the target user (this endpoint allows external \nprocesses working with data from Synapse to write reports back to Bridge). \n",
         "tags": [
@@ -1183,6 +1210,7 @@
         }
       },
       "delete": {
+        "operationId": "deleteParticipantReportIndex",
         "summary": "Delete a participant report index",
         "description": "Delete a participant report index. These indices can be shared between users so they \nare not normally deleted, but this endpoint allows the index identifiers to be deleted \nduring testing.\n",
         "tags": [
@@ -1214,6 +1242,7 @@
     },
     "/v3/subpopulations": {
       "get": {
+        "operationId": "getSubpopulations",
         "summary": "Get all subpopulations in this study",
         "tags": [
           "Subpopulations",
@@ -1240,6 +1269,7 @@
         }
       },
       "post": {
+        "operationId": "createSubpopulation",
         "summary": "Create a new subpopulation",
         "tags": [
           "Subpopulations",
@@ -1279,6 +1309,7 @@
     },
     "/v3/subpopulations/{subpopulationGuid}": {
       "get": {
+        "operationId": "getSubpopulation",
         "summary": "Get a subpopulation",
         "tags": [
           "Subpopulations",
@@ -1311,6 +1342,7 @@
         }
       },
       "post": {
+        "operationId": "updateSubpopulation",
         "summary": "Update an existing subpopulation",
         "tags": [
           "Subpopulations",
@@ -1351,6 +1383,7 @@
         }
       },
       "delete": {
+        "operationId": "deleteSubpopulation",
         "summary": "Delete a subpopulation",
         "description": "Delete a subpopulation unless it is a default subpopulation, which cannot be deleted. \nIf this is a \n",
         "tags": [
@@ -1391,6 +1424,7 @@
     },
     "/v3/subpopulations/{subpopulationGuid}/consents/signature": {
       "get": {
+        "operationId": "getConsentSignature",
         "summary": "Get the participant's consent signature for the subpopulation",
         "description": "",
         "tags": [
@@ -1426,6 +1460,7 @@
         }
       },
       "post": {
+        "operationId": "createConsentSignature",
         "summary": "Consent to this subpopulation by submitting a signature",
         "description": "Agree to the terms of participant represented by this subpopulation, by submitting a \nsignature to the Bridge server.\n",
         "tags": [
@@ -1463,6 +1498,7 @@
     },
     "/v3/subpopulations/{subpopulationGuid}/consents/signature/withdraw": {
       "post": {
+        "operationId": "withdrawConsentFromSubpopulation",
         "summary": "Withdraw participant from this subpopulation consent group",
         "description": "This withdraws the user from only one subpopulation.\n",
         "tags": [
@@ -1505,6 +1541,7 @@
     },
     "/v3/subpopulations/{subpopulationGuid}/consents/signature/email": {
       "post": {
+        "operationId": "emailConsentAgreement",
         "summary": "Email the consent agreement to the participant's email address",
         "tags": [
           "Consents",
@@ -1541,6 +1578,7 @@
     },
     "/v3/consents": {
       "get": {
+        "operationId": "getAllDefaultConsentRevisions",
         "summary": "Get all revisions of the consent in a study's default subpopulation",
         "deprecated": true,
         "tags": [
@@ -1568,6 +1606,7 @@
         }
       },
       "post": {
+        "operationId": "addNewDefaultConsentRevision",
         "summary": "Add new consent revision to the study's default subpopulation",
         "deprecated": true,
         "tags": [
@@ -1597,6 +1636,7 @@
     },
     "/v3/consents/recent": {
       "get": {
+        "operationId": "getMostRecentDefaultConsentRevision",
         "summary": "Get most recent revision of a study's default subpopulation",
         "deprecated": true,
         "tags": [
@@ -1626,6 +1666,7 @@
     },
     "/v3/consents/published": {
       "get": {
+        "operationId": "getPublishedDefaultConsentRevision",
         "summary": "Get most recently published revision of a study's default subpopulation",
         "deprecated": true,
         "tags": [
@@ -1655,6 +1696,7 @@
     },
     "/v3/consents/{createdOn}": {
       "get": {
+        "operationId": "getDefaultConsentRevision",
         "summary": "Get specific revision of a study's default subpopulation",
         "deprecated": true,
         "tags": [
@@ -1689,6 +1731,7 @@
     },
     "/v3/subpopulations/{subpopulationGuid}/consents": {
       "get": {
+        "operationId": "getAllConsents",
         "summary": "Get a list of all consents for this subpopulation",
         "tags": [
           "Study Consents",
@@ -1720,6 +1763,7 @@
         }
       },
       "post": {
+        "operationId": "createConsent",
         "summary": "Add a new study consent version to this subpopulation",
         "tags": [
           "Study Consents",
@@ -1759,6 +1803,7 @@
     },
     "/v3/subpopulations/{subpopulationGuid}/consents/recent": {
       "get": {
+        "operationId": "getMostRecentConsent",
         "summary": "Get the most recently created consent revision",
         "description": "Get the most recently created revision of this subpopulation consent. This is not \nnecessarily the published version of the consent.\n",
         "tags": [
@@ -1793,6 +1838,7 @@
     },
     "/v3/subpopulations/{subpopulationGuid}/consents/published": {
       "get": {
+        "operationId": "getPublishedConsent",
         "summary": "Get the published consent revision",
         "description": "Get the published revision of this subpopulation consent. This is not necessarily the \nmost recent version of the consent.\n",
         "tags": [
@@ -1827,6 +1873,7 @@
     },
     "/v3/subpopulations/{subpopulationGuid}/consents/{createdOn}": {
       "get": {
+        "operationId": "getConsent",
         "summary": "Get a specific consent revision",
         "description": "Get a specific revision of this subpopulation consent by its creation timestamp.\n",
         "tags": [
@@ -1869,6 +1916,7 @@
     },
     "/v3/subpopulations/{subpopulationGuid}/consents/{createdOn}/publish": {
       "post": {
+        "operationId": "publishConsent",
         "summary": "Publish a specific consent revision",
         "description": "Publish a specific revision of this subpopulation consent by its creation timestamp. This version of \nthe consent will be presented to users in order to participate in this subpopulation. If users have \nsigned any other revision of this consent, the `signedMostRecentConsent` flag in the consent status \nrecord for this consent (in the user's session) will be false. However, the user is still considered to \nbe consented and will not be shut out of performing operations with a 412 response.\n",
         "tags": [
@@ -1911,6 +1959,7 @@
     },
     "/v3/users": {
       "post": {
+        "operationId": "createUser",
         "summary": "Create a new user",
         "tags": [
           "Users",
@@ -1947,6 +1996,7 @@
     },
     "/v3/users/{userId}": {
       "delete": {
+        "operationId": "deleteUser",
         "summary": "Delete a user",
         "description": "This is a heavyweight operation; it is better to disable a user account when possible. \nThis endpoint exists mostly for tests and cases where governance dictates the deletion \nof as much user data as possible. \n",
         "tags": [
@@ -1978,6 +2028,7 @@
     },
     "/v3/users/self": {
       "get": {
+        "operationId": "getUserProfile",
         "deprecated": true,
         "summary": "Retrieve the user profile for this account.",
         "description": "Returns a user profile object that is a subset of the study participant record (which has superceded \nthe profile along with a new set of APIs, see `/v3/participants/self`). Updating the profile will \nupdate the participant record, and vice versa. The user does *not* have to be consented to the study \nto retrieve or update the study profile (just as a user may submit updates to the study participant at sign up).\n",
@@ -2003,6 +2054,7 @@
         }
       },
       "post": {
+        "operationId": "updateUserProfile",
         "deprecated": true,
         "summary": "Update the user profile",
         "description": "Updates a user profile object that is a subset of the study participant record (which has superceded \nthe profile along with a new set of APIs, see `/v3/participants/self`). Updating the profile will \nupdate the participant record, and vice versa. The user does *not* have to be consented to the study \nto retrieve or update the study profile (just as a user may submit updates to the study participant at sign up).\n",
@@ -2038,6 +2090,7 @@
     },
     "/v3/users/self/externalId": {
       "post": {
+        "operationId": "updateUserExternalId",
         "deprecated": true,
         "summary": "Update the user's external ID",
         "description": "Change the external ID of this user. Note that this value can be changed through the \n`/v3/participants/self` API, using the same JSON payload defined here. \n",
@@ -2073,6 +2126,7 @@
     },
     "/v3/users/self/emailData": {
       "post": {
+        "operationId": "emailDataToUser",
         "summary": "Make user's data available for download",
         "description": "Asynchronously request the uploaded data for this user, in a given time range (inclusive). \nBridge server will gather the user's data for the given time zone and email a secure link \nto the user's registered email address. \n",
         "tags": [
@@ -2113,6 +2167,7 @@
     },
     "/v3/users/self/dataSharing": {
       "post": {
+        "operationId": "updateUserDataSharing",
         "deprecated": true,
         "summary": "Change user's data sharing",
         "description": "Change the user's data sharing option to one of the allowable values. Note that this value can \nbe changed through the `/v3/participants/self` API, using the same JSON payload defined here.\n",
@@ -2148,6 +2203,7 @@
     },
     "/v3/users/self/dataGroups": {
       "get": {
+        "operationId": "getUserDataGroups",
         "deprecated": true,
         "summary": "Get a user's data groups.",
         "description": "Get the user's data groups. Note that data groups are also part of the study participant \nrecord, and can be retrieved through the `/v3/participants/self` API.\n",
@@ -2173,6 +2229,7 @@
         }
       },
       "post": {
+        "operationId": "updateUserDataGroups",
         "deprecated": true,
         "summary": "Change user's data groups",
         "description": "Change the user's data groups. Valid values must have been defined first by the study. \nNote that this value can be changed through the `/v3/participants/self` API, using \nthe same JSON payload defined here.\n",
@@ -2208,6 +2265,7 @@
     },
     "/v3/users/self/reports/{identifier}": {
       "get": {
+        "operationId": "getParticipantReportRecords",
         "summary": "Get a participant report",
         "description": "Get the records for a specific participant report. Participants can get reports for their own \naccount. Note that this call does not require consent, but does require authentication. \n",
         "tags": [
@@ -2235,7 +2293,7 @@
           "200": {
             "description": "Report records for the participant",
             "schema": {
-              "$ref": "#/definitions/ResourceList_ReportData"
+              "$ref": "#/definitions/DateRangeResourceList_ReportData"
             }
           },
           "401": {
@@ -2246,6 +2304,7 @@
     },
     "/v3/reports": {
       "get": {
+        "operationId": "getReportIndices",
         "summary": "Get list of report indices for studies or participants",
         "tags": [
           "Reports",
@@ -2269,7 +2328,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResourceList_ReportIndex"
+              "$ref": "#/definitions/ReportTypeResourceList_ReportIndex"
             }
           },
           "401": {
@@ -2280,6 +2339,7 @@
     },
     "/v3/reports/{identifier}": {
       "get": {
+        "operationId": "getStudyReportRecords",
         "summary": "Get study report records",
         "tags": [
           "Reports",
@@ -2305,7 +2365,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResourceList_ReportData"
+              "$ref": "#/definitions/DateRangeResourceList_ReportData"
             }
           },
           "401": {
@@ -2314,6 +2374,7 @@
         }
       },
       "post": {
+        "operationId": "addStudyReportRecord",
         "summary": "Add a record to a study report",
         "tags": [
           "Reports",
@@ -2352,6 +2413,7 @@
         }
       },
       "delete": {
+        "operationId": "deleteAllStudyReportRecords",
         "summary": "Delete a study report (all records)",
         "tags": [
           "Reports",
@@ -2383,6 +2445,7 @@
     },
     "/v3/reports/{identifier}/{date}": {
       "delete": {
+        "operationId": "deleteStudyReportRecord",
         "summary": "Delete a record for a specific day of a study report",
         "tags": [
           "Reports",
@@ -2422,6 +2485,7 @@
     },
     "/v3/surveys": {
       "get": {
+        "operationId": "getMostRecentSurveys",
         "summary": "Get most recent version of each survey",
         "tags": [
           "Surveys",
@@ -2448,6 +2512,7 @@
         }
       },
       "post": {
+        "operationId": "createSurvey",
         "summary": "Create a new survey",
         "tags": [
           "Surveys",
@@ -2486,6 +2551,7 @@
     },
     "/v3/surveys/published": {
       "get": {
+        "operationId": "getPublishedSurveys",
         "summary": "Get the most recently published version of each survey",
         "tags": [
           "Surveys",
@@ -2514,6 +2580,7 @@
     },
     "/v3/surveys/{surveyGuid}/revisions": {
       "get": {
+        "operationId": "getAllVersionsOfSurvey",
         "summary": "Get all revisions of a survey",
         "tags": [
           "Surveys",
@@ -2547,6 +2614,7 @@
     },
     "/v3/surveys/{surveyGuid}/revisions/recent": {
       "get": {
+        "operationId": "getMostRecentSurveyVersion",
         "summary": "Get most recent revision of a survey",
         "tags": [
           "Surveys",
@@ -2580,6 +2648,7 @@
     },
     "/v3/surveys/{surveyGuid}/revisions/published": {
       "get": {
+        "operationId": "getPublishedSurveyVersion",
         "summary": "Get most recently published revision of a survey",
         "tags": [
           "Surveys",
@@ -2619,6 +2688,7 @@
     },
     "/v3/surveys/{surveyGuid}/revisions/{createdOn}": {
       "get": {
+        "operationId": "getSurvey",
         "summary": "Get a survey revision",
         "tags": [
           "Surveys",
@@ -2659,6 +2729,7 @@
         }
       },
       "post": {
+        "operationId": "updateSurvey",
         "summary": "Update a non-published survey revision",
         "tags": [
           "Surveys",
@@ -2699,6 +2770,7 @@
         }
       },
       "delete": {
+        "operationId": "deleteSurvey",
         "summary": "Delete a survey version",
         "tags": [
           "Surveys",
@@ -2741,6 +2813,7 @@
     },
     "/v3/surveys/{surveyGuid}/revisions/{createdOn}/version": {
       "post": {
+        "operationId": "versionSurvey",
         "summary": "Version a survey",
         "tags": [
           "Surveys",
@@ -2780,6 +2853,7 @@
     },
     "/v3/surveys/{surveyGuid}/revisions/{createdOn}/publish": {
       "post": {
+        "operationId": "publishSurvey",
         "summary": "Publish a survey",
         "tags": [
           "Surveys",
@@ -2819,6 +2893,7 @@
     },
     "/v3/schedules": {
       "get": {
+        "operationId": "getSchedulesV3",
         "summary": "Get schedules for user",
         "description": "This endpoint is the same as `/v4/schedules` except that any schedule with a cron trigger \nis marked as being persistent. This is for legacy reasons and the v4 endpoint should be \nused.\n",
         "deprecated": true,
@@ -2852,6 +2927,7 @@
     },
     "/v4/schedules": {
       "get": {
+        "operationId": "getSchedules",
         "summary": "Get schedules for user",
         "tags": [
           "Schedules",
@@ -2884,6 +2960,7 @@
     },
     "/v3/uploads": {
       "post": {
+        "operationId": "requestUploadSession",
         "summary": "Request an upload session",
         "tags": [
           "Uploads",
@@ -2926,6 +3003,7 @@
     },
     "/v3/uploads/{uploadId}/complete": {
       "post": {
+        "operationId": "completeUploadSession",
         "summary": "Notify Bridge an upload is complete",
         "description": "Notify Bridge an upload is complete. Either a consented user or a worker \nprocess can access this endpoing, but failure to have the worker role will \nbe treated like a consent error. \n",
         "tags": [
@@ -2967,6 +3045,7 @@
     },
     "/v3/uploadstatus/{uploadId}": {
       "get": {
+        "operationId": "getUploadStatus",
         "summary": "Get status of a single upload attempt",
         "description": "Caller must either be a participant getting a status of one of the participant's \nown uploads, or a reearcher.\n",
         "tags": [
@@ -3008,6 +3087,7 @@
     },
     "/v3/uploadschemas": {
       "get": {
+        "operationId": "getMostRecentUploadSchemas",
         "summary": "Get most recent revision of all upload schemas",
         "tags": [
           "Upload Schemas",
@@ -3034,6 +3114,7 @@
         }
       },
       "post": {
+        "operationId": "createOrUpdateUploadSchema",
         "summary": "Create or update an upload schema",
         "deprecated": true,
         "tags": [
@@ -3070,6 +3151,7 @@
     },
     "/v4/uploadschemas": {
       "post": {
+        "operationId": "createUploadSchema",
         "summary": "Create an upload schema",
         "tags": [
           "Upload Schemas",
@@ -3105,6 +3187,7 @@
     },
     "/v4/uploadschemas/{schemaId}/revisions/{revision}": {
       "post": {
+        "operationId": "updateUploadSchema",
         "summary": "Update an upload schema",
         "tags": [
           "Upload Schemas",
@@ -3146,6 +3229,7 @@
     },
     "/v3/uploadschemas/{schemaId}": {
       "get": {
+        "operationId": "getAllRevisionsOfUploadSchema",
         "summary": "Get all revisions of an upload schema",
         "tags": [
           "Upload Schemas",
@@ -3177,6 +3261,7 @@
         }
       },
       "delete": {
+        "operationId": "deleteAllRevisionsOfUploadSchema",
         "summary": "Delete all revisions of an upload schema",
         "tags": [
           "Upload Schemas",
@@ -3207,6 +3292,7 @@
     },
     "/v3/uploadschemas/{schemaId}/recent": {
       "get": {
+        "operationId": "getMostRecentUploadSchema",
         "summary": "Get the most recent revision of an upload schema",
         "tags": [
           "Upload Schemas",
@@ -3240,6 +3326,7 @@
     },
     "/v3/uploadschemas/{schemaId}/revisions/{revision}": {
       "get": {
+        "operationId": "getUploadSchema",
         "summary": "Get the specific revision of an upload schema",
         "tags": [
           "Upload Schemas",
@@ -3275,6 +3362,7 @@
         }
       },
       "delete": {
+        "operationId": "deleteUploadSchema",
         "summary": "Delete a revision of an upload schema",
         "tags": [
           "Upload Schemas",
@@ -3308,6 +3396,7 @@
     },
     "/v3/scheduleplans": {
       "get": {
+        "operationId": "getSchedulePlans",
         "summary": "Get schedule plans",
         "tags": [
           "Schedules",
@@ -3334,6 +3423,7 @@
         }
       },
       "post": {
+        "operationId": "createSchedulePlan",
         "summary": "Create a schedule plan",
         "tags": [
           "Schedules",
@@ -3369,6 +3459,7 @@
     },
     "/v3/scheduleplans/{schedulePlanGuid}": {
       "get": {
+        "operationId": "getSchedulePlan",
         "summary": "Get a schedule plan",
         "tags": [
           "Schedules",
@@ -3400,6 +3491,7 @@
         }
       },
       "post": {
+        "operationId": "updateSchedulePlan",
         "summary": "Update a schedule plan",
         "tags": [
           "Schedules",
@@ -3436,6 +3528,7 @@
         }
       },
       "delete": {
+        "operationId": "deleteSchedulePlan",
         "summary": "Get a schedule plan",
         "tags": [
           "Schedules",
@@ -3466,6 +3559,7 @@
     },
     "/v3/studies": {
       "get": {
+        "operationId": "getStudies",
         "summary": "Get all studies",
         "tags": [
           "Studies",
@@ -3501,6 +3595,7 @@
         }
       },
       "post": {
+        "operationId": "createStudy",
         "summary": "Create a new study",
         "tags": [
           "Studies",
@@ -3536,6 +3631,7 @@
     },
     "/v3/studies/self": {
       "get": {
+        "operationId": "getUsersStudy",
         "summary": "Get a study",
         "tags": [
           "Studies",
@@ -3561,6 +3657,7 @@
         }
       },
       "post": {
+        "operationId": "updateUsersStudy",
         "summary": "Update a study",
         "tags": [
           "Studies",
@@ -3596,6 +3693,7 @@
     },
     "/v3/studies/{studyId}": {
       "get": {
+        "operationId": "getStudy",
         "summary": "Get a study",
         "tags": [
           "Studies",
@@ -3624,6 +3722,7 @@
         }
       },
       "post": {
+        "operationId": "updateStudy",
         "summary": "Update a study",
         "tags": [
           "Studies",
@@ -3657,6 +3756,7 @@
         }
       },
       "delete": {
+        "operationId": "deleteStudy",
         "summary": "Delete a study",
         "tags": [
           "Studies",
@@ -3687,6 +3787,7 @@
     },
     "/v3/studies/self/publicKey": {
       "get": {
+        "operationId": "getStudyPublicCsmKey",
         "summary": "Get the public key CMS block for this study",
         "tags": [
           "Studies",
@@ -3715,6 +3816,7 @@
     },
     "/v3/studies/self/emailStatus": {
       "get": {
+        "operationId": "getStudyEmailStatus",
         "summary": "SES email verification status",
         "description": "Consents will be emailed from the support email address you provide. Amazon \nSES will ask the holder of that address to confirm this is OK.\n",
         "tags": [
@@ -3744,6 +3846,7 @@
     },
     "/v3/studies/self/verifyEmail": {
       "post": {
+        "operationId": "verifyStudyEmail",
         "summary": "Trigger SES email verification process",
         "description": "Amazon SES will attempt to verify that it can send email from your support email address. \nIf that fails or expires, this API will trigger another request to verify.\n",
         "tags": [
@@ -3778,6 +3881,7 @@
     },
     "/v3/studies/self/uploads": {
       "get": {
+        "operationId": "getStudyUploads",
         "summary": "Get uploads for a study",
         "tags": [
           "Studies",
@@ -3801,7 +3905,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResourceList_Upload"
+              "$ref": "#/definitions/DateTimeRangeResourceList_Upload"
             }
           },
           "401": {
@@ -3815,6 +3919,7 @@
     },
     "/v3/externalIds": {
       "get": {
+        "operationId": "getExternalIds",
         "summary": "Get external IDs",
         "tags": [
           "External Identifiers",
@@ -3853,7 +3958,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResourceList_ExternalIdentifier"
+              "$ref": "#/definitions/PagedResourceList_ExternalIdentifier"
             }
           },
           "401": {
@@ -3865,6 +3970,7 @@
         }
       },
       "post": {
+        "operationId": "addExternalIds",
         "summary": "Add external IDs to the study",
         "tags": [
           "External Identifiers",
@@ -3901,6 +4007,7 @@
         }
       },
       "delete": {
+        "operationId": "deleteExternalIds",
         "summary": "Delete one or more external IDs",
         "tags": [
           "External Identifiers",
@@ -3938,6 +4045,7 @@
     },
     "/v3/studies/{studyId}/surveys/published": {
       "get": {
+        "operationId": "getAllPublishedSurveysInStudy",
         "summary": "Get the published surveys in a study",
         "tags": [
           "Studies",
@@ -3972,6 +4080,7 @@
     },
     "/v3/studies/{studyId}/uploadschemas/{schemaId}/revisions/{revision}": {
       "get": {
+        "operationId": "getSchemaRevisionInStudy",
         "summary": "Get a schema revision from a study",
         "tags": [
           "Studies",
@@ -4012,6 +4121,7 @@
     },
     "/v3/cache": {
       "get": {
+        "operationId": "getCacheKeys",
         "summary": "Get all the non-session Redis keys",
         "tags": [
           "_For Admins"
@@ -4026,6 +4136,7 @@
             "description": "OK",
             "schema": {
               "type": "object",
+              "readOnly": true,
               "properties": {
                 "items": {
                   "type": "array",
@@ -4035,7 +4146,6 @@
                 },
                 "total": {
                   "type": "integer",
-                  "readOnly": true,
                   "description": "The total number of records in the items list"
                 },
                 "type": {
@@ -4059,6 +4169,7 @@
     },
     "/v3/cache/{cacheKey}": {
       "delete": {
+        "operationId": "deleteCacheKeys",
         "summary": "Get all the non-session Redis keys",
         "tags": [
           "_For Admins"
@@ -4088,6 +4199,7 @@
     },
     "/v3/recordexportstatuses": {
       "post": {
+        "operationId": "updateRecordExportStatuses",
         "summary": "Updates the status of an export job",
         "description": "Updates the status of an export job on the health data records included in that job.\n",
         "tags": [
@@ -4194,11 +4306,6 @@
         "lastName": {
           "type": "string",
           "description": "Last name (family name) of the user."
-        },
-        "email": {
-          "type": "string",
-          "readOnly": true,
-          "description": "The user's email address. Users can create an account in multiple studies on Bridge; these accounts are entirely separate."
         },
         "externalId": {
           "type": "string",
@@ -4706,6 +4813,7 @@
       }
     },
     "EmailVerification": {
+      "description": "A JSON payload to sent the email confirmation token (retrieved from the user's email) \nback to the Bridge server.\n",
       "type": "object",
       "required": [
         "sptoken"
@@ -4725,6 +4833,7 @@
       }
     },
     "EmailVerificationStatus": {
+      "description": "The status of the email address that will be used to send consents to users. \nThe consents are sent on behalf of the study using the study's support email \naddress, and our email provider (Amazon's SES) requires that the address holder \nconfirm this is an allowed use of the address. \n",
       "type": "object",
       "required": [
         "status"
@@ -4732,7 +4841,7 @@
       "properties": {
         "status": {
           "type": "string",
-          "description": "Status of verifying support email address.",
+          "description": "Status of verifying support email address.\n\n|Status|Description|\n|---|---|\n|unverified|User has not consented to use the support email address.|\n|pending|System is waiting for the user to confirm the address.|\n|verified|Bridge can send consent emails.| \n",
           "enum": [
             "unverified",
             "pending",
@@ -4748,14 +4857,15 @@
         }
       }
     },
-    "Empty": {
-      "$ref": "#/parameters/empty/schema"
+    "EmptyPayload": {
+      "description": "Bridge POST APIs with no body content require an empty json payload (\"{}\").",
+      "type": "object"
     },
     "ExternalIdentifier": {
+      "description": "An external identifier assigned to a participant's account to allow external \nre-identification of the user by the study sponsor.\n",
       "type": "object",
       "required": [
-        "identifier",
-        "assigned"
+        "identifier"
       ],
       "properties": {
         "identifier": {
@@ -4764,6 +4874,7 @@
         },
         "assigned": {
           "type": "boolean",
+          "readOnly": true,
           "description": "If true, the identifier has been assigned to an account, otherwise false."
         },
         "type": {
@@ -4776,26 +4887,24 @@
       }
     },
     "GuidCreatedOnVersionHolder": {
-      "description": "An object that describes the keys and optimistic lock values of a Survey. This object\nis returned from create and update endpoints rather than an entire Survey.\n",
+      "description": "An object that describes the keys and optimistic lock values of a Survey. This object\nis returned from create and update endpoints rather than an entire survey.\n",
       "type": "object",
-      "required": [
-        "guid",
-        "createdOn",
-        "version"
-      ],
       "properties": {
         "guid": {
           "type": "string",
+          "readOnly": true,
           "description": "The guid of the survey (added when the survey is created)."
         },
         "createdOn": {
           "type": "string",
           "format": "date-time",
+          "readOnly": true,
           "description": "The createdOn value of the survey (added when survey is created)."
         },
         "version": {
           "type": "integer",
-          "description": "The optimistic locking version of the survey (increments when the survey is \nupdated). If a survey is submitted with a version that is not the currently saved \nversion of the survey, a 409 (Conflict) error will occur.\n"
+          "readOnly": true,
+          "description": "The optimistic locking version of the survey. This value must be submitted as \npart of the next update of the model. If it does not match the value on the server, \na 409 error (Conflict) will prevent the update from occurring.\n"
         },
         "type": {
           "type": "string",
@@ -4809,18 +4918,16 @@
     "GuidVersionHolder": {
       "description": "An object that describes the keys and optimistic lock values of an entity (e.g. a \nSubpopulation or SchedulePlan). This object is returned from create and update endpoints \nrather than an entire entity.\n",
       "type": "object",
-      "required": [
-        "guid",
-        "version"
-      ],
       "properties": {
         "guid": {
           "type": "string",
+          "readOnly": true,
           "description": "The guid of the entity (added when the entity is created)."
         },
         "version": {
           "type": "integer",
-          "description": "The optimistic locking version of the survey (increments when the entity is \nupdated). If an entity is submitted with a version that is not the currently saved \nversion of the entity, a 409 (Conflict) error will occur.\n"
+          "readOnly": true,
+          "description": "The optimistic locking version of the survey. This value must be submitted as \npart of the next update of the model. If it does not match the value on the server, \na 409 error (Conflict) will prevent the update from occurring.\n"
         },
         "type": {
           "type": "string",
@@ -4833,6 +4940,7 @@
     },
     "HealthDataRecord": {
       "description": "See [Bridge Upload Data Format](/articles/study_design/upload_data_format.html) for details abot this model object.\n",
+      "readOnly": true,
       "type": "object",
       "properties": {
         "createdOn": {
@@ -4854,11 +4962,11 @@
         },
         "schemaId": {
           "type": "string",
-          "description": "Schema ID for the record."
+          "description": "[UploadSchema](#UploadSchema) ID for the record.\n"
         },
         "schemaRevision": {
           "type": "integer",
-          "description": "Schema revision for the record."
+          "description": "[UploadSchema](#UploadSchema) revision for the record.\n"
         },
         "studyId": {
           "type": "string",
@@ -4939,54 +5047,37 @@
       }
     },
     "InvalidEntity": {
-      "description": "Payload returned with a 400 error when an entity submitted to the server\nis invalid.\n",
+      "description": "Payload returned with a 400 error when an entity submitted to the server is invalid.\n",
       "type": "object",
-      "required": [
-        "statusCode",
-        "message",
-        "errors",
-        "entityClass",
-        "entity"
-      ],
+      "readOnly": true,
       "properties": {
-        "statusCode": {
-          "type": "integer"
-        },
         "message": {
-          "type": "string"
+          "type": "string",
+          "description": "A message that will include all validation error messages for this object."
         },
         "errors": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+          "type": "object",
+          "description": "Errors broken down by the part of the JSON payload that generated them. The keys are \"paths\" representing \nfragments of the JSON (expressed in JavaScript object/array notation), and the values are string arrays of \none or more errors for that element of the JSON. An example makes this clearer:\n\n```json\n\"errors\":{  \n    \"identifier\":[  \n        \"identifier is required\"\n    ],\n    \"elements[0].identifier\":[  \n        \"elements[0].identifier is required\"\n    ],\n    \"elements[0].constraints.enumeration\":[  \n        \"enumeration must have non-null, non-empty choices list\"\n    ],\n    \"elements[0].prompt\":[  \n        \"elements[0].prompt is required\"\n    ]\n}\n```\n",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
             }
           }
-        },
-        "entityClass": {
-          "type": "string"
-        },
-        "entity": {
-          "type": "object"
         }
       }
     },
     "Message": {
       "type": "object",
-      "required": [
-        "message"
-      ],
       "properties": {
         "message": {
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         }
       }
     },
     "PasswordPolicy": {
+      "description": "The rules to enforce on the creation of passwords for Bridge accounts.\n",
       "type": "object",
       "required": [
         "minLength"
@@ -5029,6 +5120,7 @@
       }
     },
     "PasswordReset": {
+      "description": "Payload to send a new password to the Bridge server.",
       "type": "object",
       "required": [
         "password",
@@ -5054,6 +5146,7 @@
       }
     },
     "RecordExportStatusRequest": {
+      "description": "A payload sending back the status of an export of one or more health data records to Synapse. \nUsed to trace the upload of data to the Synapse data repository. \n",
       "type": "object",
       "required": [
         "recordIds",
@@ -5062,6 +5155,7 @@
       "properties": {
         "recordIds": {
           "type": "array",
+          "description": "One or more [HealthDataRecord](#HealthDataRecord) IDS.",
           "items": {
             "type": "string"
           }
@@ -5083,6 +5177,7 @@
       }
     },
     "ReportData": {
+      "description": "The JSON data for one time point of a report (curently a day expressed in the format YYYY-MM-DD). Data can be for a study as a whole or a report on a single participant depending on the endpoint that is used to persist the data in Bridge.",
       "type": "object",
       "required": [
         "date",
@@ -5112,6 +5207,7 @@
       }
     },
     "ReportIndex": {
+      "description": "An identifier to retrieve a series of report data (e.g. \"three-week-report\"). A separate list of these \nare maintained for study and participant reports.\n",
       "type": "object",
       "required": [
         "identifier"
@@ -5131,43 +5227,53 @@
       }
     },
     "RequestInfo": {
+      "description": "Some basic information is captured when a participant makes a request to the Bridge server, \nmostly for the purpose of troubleshooting user issues with the application or the study. \nQuestions that can be answered include:\n\n* what version of the app is this participant using?\n* what filtering criteria might be applied to their requests?\n* when was the last time they uploaded data or retrieved activities?\n* do they have a session right now, or have they contacted the server recently at all?\n\nThe users activities are also helpul for troubleshooting.\n\nThis information is cached but not persisted; it is not guaranteed to be present for all active users.\n",
       "type": "object",
+      "readOnly": true,
       "required": [
         "userId",
         "studyIdentifier"
       ],
       "properties": {
         "userId": {
-          "type": "string"
+          "type": "string",
+          "description": "The user's account ID."
         },
         "clientInfo": {
-          "$ref": "#/definitions/ClientInfo"
+          "$ref": "#/definitions/ClientInfo",
+          "description": "The `User-Agent` string from the last request as parsed for the purpose of applying filtering \ncriteria.\n"
         },
         "userAgent": {
-          "type": "string"
+          "type": "string",
+          "description": "The `User-Agent` header exactly as it was sent to the server, whether it is parseable \nby the Bridge server or not. \n"
         },
         "languages": {
           "type": "array",
+          "description": "The language or languages sent in the user's `Accept-Language` header and persisted as part of \nthe participant's account configuration, as they were set at the time of the last request.\n",
           "items": {
             "type": "string"
           }
         },
         "userDataGroups": {
           "type": "array",
+          "description": "The data groups assigned to this participant at the time of the last request.",
           "items": {
             "type": "string"
           }
         },
         "activitiesAccessedOn": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "The last recorded time the participant's application requested scheduled activities \nfrom the server.\n"
         },
         "signedInOn": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "The last recorded time the participant signed in to the server.\n"
         },
         "timeZone": {
-          "type": "string"
+          "type": "string",
+          "description": "The user's time zone at the time of the last request."
         },
         "studyIdentifier": {
           "$ref": "#/definitions/StudyIdentifier"
@@ -5182,6 +5288,7 @@
       }
     },
     "Schedule": {
+      "description": "For more information about scheduling, see [Scheduling](/articles/study_design/scheduling.html).\n",
       "type": "object",
       "required": [
         "label",
@@ -5197,6 +5304,7 @@
         },
         "scheduleType": {
           "type": "string",
+          "description": "Schedules come in three major flavors:\n\n|Type|Description|\n|---|---|\n|once|Activity happens once and only once, and then is never scheduled again.|\n|recurring|Activity recurrs periodically, either through the use of a cron schedule, or through the use of properties like `interval`, `times` and `expires`.|\n|persistent|Activity is always in the participant's list of tasks to do. If it is finished, a new activity is scheduled immediately. Client applications may wish to show these differently in the UI.|\n",
           "enum": [
             "once",
             "recurring",
@@ -5205,11 +5313,11 @@
         },
         "eventId": {
           "type": "string",
-          "description": "A string indicating the event against which a schedule will be schedules. By default if no eventId is \nprovided, schedules are done against the date and time of the user's enrollment in the study. \nA comma-delimited list of events may be provided, and if so, the system will look for each event in \nturn until an event is found. If any event is provided, the user's enrollment date will not be used \nas a fallback, so this may need to be specified explicitly for some scheduling scenarios.\n"
+          "description": "A comma-separated list of event IDs against which will be used for scheduling. If no eventId is provided, \nthe event `enrollment` will be used. The system will use the first event ID (working left to right) for \nwhich the user has an event with a timestamp.\n"
         },
         "delay": {
           "type": "string",
-          "description": "ISO 8601 duration string. An amount of time to wait before scheduling the first task. If the delay is \nzero or not included, and you are using an interval to schedule, then the first task will happen at the \nsame time as the reference event.\n"
+          "description": "ISO 8601 duration string. An amount of time to wait before scheduling the first task. \n"
         },
         "interval": {
           "type": "string",
@@ -5217,11 +5325,11 @@
         },
         "expires": {
           "type": "string",
-          "description": "ISO 8601 duration string. The period of time after which an unstarted, scheduled activity should be \nremoved from the application (if it has not been started, no data will have been saved on the server). \nThis is useful for recurring schedules where the user should not be prompted for a task or schedule \nuntil the next occurrence of the schedule.\n"
+          "description": "ISO 8601 duration string. The period of time after which an unstarted, scheduled activity should be \nremoved from the application (if it has not been started, no data will have been saved on the server). \nThis is mandatory for recurring schedules so that unstarted activities do not stack up in the user's \nUI.\n"
         },
         "cronTrigger": {
           "type": "string",
-          "description": "A cron expression will schedule recurring tasks according to this standard syntax for describing event \nschedules from the Unix operating system. The format of the cron expression is the seven field format \nas described in the documentation for the Java Quartz Scheduler (note that there are other formats \nthat take up to eleven fields, this online cron expression generator creates expressions in the right \nformat). If this is used, the interval and times are ignored\n"
+          "description": "A cron expression will schedule recurring tasks according to this standard syntax for describing event \nschedules from the Unix operating system. The format of the cron expression is the seven field format \nas described in the documentation for the Java Quartz Scheduler (note that there are other formats \nthat take up to eleven fields, this online cron expression generator creates expressions in the right \nformat). If this is used, the interval and times are ignored.\n"
         },
         "startsOn": {
           "type": "string",
@@ -5235,7 +5343,7 @@
         },
         "times": {
           "type": "array",
-          "description": "Required if an interval is specified (ignored if a cron expression is specified). An array of one or \nmore ISO 8601 time values. This is a time of the day (without reference to a specific date and time), \ne.g. \"14:00\" for 2pm in local time. If times are provided, one task will be created for each time on the \nday determined by the application of the interval, for each activity in the schedule. If the schedule \noccurs once, only the first time will be used to schedule the task (and if no time is provided, the \noriginal time of the triggering event will be used; it's clearest to set a time).\n",
+          "description": "Required if an interval is specified (ignored if a cron expression is specified). An array of one or \nmore ISO 8601 time values (without a date or time zone, e.g. \"14:00\"). One task will be created for \neach time on the day determined by the rest of the scheduler. If the schedule occurs once, only the \nfirst time will be used to schedule the task (and if no time is provided, the original time of the \ntriggering event will be used; it's clearest to set a time).\n",
           "items": {
             "type": "string",
             "description": "24hr time value(s) without a time zone (e.g. \"14:30\"). **Each time value will create a \nseparate task, one for each activity in the schedule.**\n"
@@ -5243,7 +5351,7 @@
         },
         "persistent": {
           "type": "boolean",
-          "description": "True if schedule type is true."
+          "description": "True if schedule type is persistent. (This is here for legacy reasons.)"
         },
         "activities": {
           "type": "array",
@@ -5262,6 +5370,7 @@
       }
     },
     "ScheduleCriteria": {
+      "description": "In a [CriteriaScheduleStrategy](#CriteriaScheduleStrategy), a list of ScheduleCriteria objects relate \neach schedule to a set of criteria that needs to match the user's request in order to select that \nschedule for the user.\n",
       "type": "object",
       "required": [
         "criteria",
@@ -5284,10 +5393,12 @@
       }
     },
     "SchedulePlan": {
+      "description": "A schedule plan relates schedules to some specific strategies for using these schedules to create \nactivities for participants.\n",
       "type": "object",
       "required": [
         "guid",
         "label",
+        "version",
         "strategy"
       ],
       "properties": {
@@ -5299,7 +5410,8 @@
         },
         "modifiedOn": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "readOnly": true
         },
         "strategy": {
           "$ref": "#/definitions/ScheduleStrategy"
@@ -5319,26 +5431,24 @@
     "ScheduleStrategy": {
       "type": "object",
       "discriminator": "type",
-      "description": "This is an interface for several implementations"
+      "description": "This is an interface for several implementations. See \n[scheduling](/articles/study_design/scheduling.html) for further information on \ncreating schedules.\n"
     },
     "ScheduledActivity": {
       "description": "Description of an activity (such as a task or survey) the study would like the participant to perform. \nA scheduled activity will contain a reference to a task or survey, but not both, and the activityType \nwill reflect which property exists on the activity (e.g. if a task is defined, the activityType will be \n\"task\"). \n",
       "type": "object",
       "required": [
         "guid",
-        "schedulePlanGuid",
-        "activity",
-        "scheduledOn",
-        "persistent",
-        "status",
-        "type"
+        "startedOn",
+        "finishedOn"
       ],
       "properties": {
         "guid": {
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "schedulePlanGuid": {
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "startedOn": {
           "type": "string",
@@ -5350,21 +5460,25 @@
         },
         "scheduledOn": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "readOnly": true
         },
         "expiresOn": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "readOnly": true
         },
         "activity": {
-          "$ref": "#/definitions/Activity"
+          "$ref": "#/definitions/Activity",
+          "readOnly": true
         },
         "persistent": {
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "status": {
           "type": "string",
-          "description": "The activities returned from this endpoint will be `scheduled` (will happen in the future); \n`available` (user can do the activity now); or `started` (the client has updated the activity to \nindicate it has been started). Activities are not returned from the API if they are `deleted` \nor `finished`.\n",
+          "description": "Status of this activity.\n\n|Status|Description|\n|---|---|\n|scheduled|User should do this activity in the future.|\n|available|User should do this activity now.|\n|started|User has started this activity and sent a startedOn timestamp to the server.|\n|deleted|User had delete the activity (set a finishedOn timestamp with no startedOn timestamp).|\n|finished|User has finished the task (by sending a finishedOn timestamp to the server). The participant currently should not get these back from the server.|\n|expired|The activity was not started by the user, but now should no longer be done. The participant currently should not get these back from the server.|\n",
           "enum": [
             "deleted",
             "finished",
@@ -5372,10 +5486,12 @@
             "expired",
             "scheduled",
             "available"
-          ]
+          ],
+          "readOnly": true
         },
         "type": {
           "type": "string",
+          "readOnly": true,
           "enum": [
             "ScheduledActivity"
           ]
@@ -5407,6 +5523,7 @@
       }
     },
     "SignIn": {
+      "description": "Information to sign in to the Bridge server.",
       "type": "object",
       "required": [
         "study",
@@ -5437,6 +5554,7 @@
       }
     },
     "SignUp": {
+      "description": "The information necessary to sign up for a Bridge study. Only the study's ID, an email address, and a password \nare required to sign up for a study. However, all the information of \n[AbstractStudyParticipant](#AbstractStudyParticipant) can be submitted at sign up. In some configurations of \nthe server, for example, an `externalId` value must be submitted at the time of sign up.\n",
       "allOf": [
         {
           "$ref": "#/definitions/AbstractStudyParticipant"
@@ -5454,11 +5572,17 @@
         {
           "properties": {
             "study": {
-              "type": "string"
+              "type": "string",
+              "description": "The study ID of the study the participant is joining."
+            },
+            "email": {
+              "type": "string",
+              "description": "The user's email. Users can use the same email for different studies, but their account \nis identified by the email within a study.\n"
             },
             "password": {
               "type": "string",
-              "format": "password"
+              "format": "password",
+              "description": "User's password."
             },
             "type": {
               "type": "string",
@@ -5503,6 +5627,7 @@
       ]
     },
     "Study": {
+      "description": "A study with its many configuration options.\n",
       "type": "object",
       "required": [
         "name",
@@ -5510,7 +5635,7 @@
         "supportEmail",
         "technicalEmail",
         "consentNotificationEmail",
-        "identifier"
+        "version"
       ],
       "properties": {
         "name": {
@@ -5519,27 +5644,28 @@
         },
         "sponsorName": {
           "type": "string",
-          "description": "The name of the institution or organization that is conducting the study. Emails will be sent \"from\" this entity."
+          "description": "The name of the institution or organization that is conducting the study."
         },
         "supportEmail": {
           "type": "string",
-          "description": "The email address that will be given to study participants and other end user for all support requests and queries (technical, study-related, etc.). This can be a comma-separated list of email addresses. \n"
+          "description": "The email address that will be given to study participants and other end user for all support \nrequests and queries (technical, study-related, etc.). This can be a comma-separated list of email addresses. \nEmail will be sent via this email address.  \n"
         },
         "technicalEmail": {
           "type": "string",
-          "description": "The email address for a technical contact who can coordinate with the Bridge Server team on issues related either to client development or hand-offs of the study data through the Bridge server. This can be a comma-separated list of email addresses.\n"
+          "description": "The email address for a technical contact who can coordinate with the Bridge Server team on technical \nissues (client or server). This can be a comma-separated list of email addresses.\n"
         },
         "consentNotificationEmail": {
           "type": "string",
-          "description": "Copies of all consent agreements, as well as rosters of all participants in a study, or any other study governance issues, will be emailed to this address. This can be a comma-separated list of email addresses.\n"
+          "description": "Copies of all consent agreements, as well as rosters of all participants in a study, or any other study \ngovernance issues, will be emailed to this address. This can be a comma-separated list of email addresses.\n"
         },
         "identifier": {
           "type": "string",
-          "description": "A user selected identifier that is unique relative to all other Bridge studies (lower-case letters and dashes only). The identifier serves as a \"domain\" that scopes accounts to that study, and is usually created by combining an institution and study tag or acronym. For example, if your work at the University of Washington and your study is on Asthma in Children, your identifier might be uw-child-asthma. Users will not see this identifier.\n"
+          "readOnly": true,
+          "description": "A user selected identifier that is unique relative to all other Bridge studies (lower-case letters and dashes only). \nThe identifier serves as a \"domain\" that scopes accounts to that study, and is usually created by combining an \ninstitution and study tag or acronym. For example, if you work at the University of Washington and your study is on \nAsthma in Children, your identifier might be `uw-child-asthma`. Participants will not see this identifier.\n"
         },
         "version": {
           "type": "integer",
-          "description": "A version number used for optimistic locking of the object these keys represent; this value must be passed back to the server on subsequent updates. An error will be returned (409 Conflict) if the object has been updated since it was retrieved by this client.\n"
+          "description": "A version number used for optimistic locking of the object these keys represent; this value must be passed \nback to the server on updates. If the version doesn't match the version in the database, an error will be \nreturned (409 Conflict) and the study will not be saved. \n"
         },
         "minAgeOfConsent": {
           "type": "integer",
@@ -5556,25 +5682,25 @@
         },
         "usesCustomExportSchedule": {
           "type": "boolean",
-          "description": "By default, all studies are exported using the default nightly schedule. Some studies may need custom schedules for hourly or on-demand exports. To prevent this study from being exported twice (once by the custom schedule, once by the default schedule), you should set this attribute to true.\n"
+          "description": "**Note: Bridge engineers will normally set this value when setting up data export. You should probably leave this \nsetting as is.** By default, all studies are exported using the default nightly schedule. Some studies may need \ncustom schedules for hourly or on-demand exports. To prevent this study from being exported twice (once by the \ncustom schedule, once by the default schedule), you should set this attribute to true.\n"
         },
         "userProfileAttributes": {
           "type": "array",
-          "description": "Custom attributes that can be added to the StudyParticipant object (as members of the attributes property). This data can be personally identifying health information; it will be stored encrypted and in a separate data store from the participant's health data.\n",
+          "description": "Custom attributes that can be added to the StudyParticipant object (as members of the attributes property). For \nexample, if you wished to collect a telephone number for participants and had permission to do so, you could add \nthe \"telephone\" attribute. The map of a user's profile attributes can be personally identifying health information; \nit will be stored encrypted and in a separate data store from the participant's health data.\n",
           "items": {
             "type": "string"
           }
         },
         "taskIdentifiers": {
           "type": "array",
-          "description": "An enumerated list of **unique** strings that can be used to identify tasks when creating schedules. These mostly serve to prevent typos when designing schedules, which would prevent client scheduling from working. There's no hard limit on the string content (e.g. \"Tapping Test\" is fine as a task identifier, as long as it uniquely identifies a task known to the application).\n",
+          "description": "An enumerated list of **unique** strings that can be used to identify tasks when creating schedules. These mostly \nserve to prevent typos when designing schedules, which would prevent client scheduling from working. There's no hard \nlimit on the string content (e.g. \"Tapping Test\" is fine as a task identifier, as long as it uniquely identifies a \ntask known to the application).\n",
           "items": {
             "type": "string"
           }
         },
         "dataGroups": {
           "type": "array",
-          "description": "An enumerated list of **unique** strings that can be assigned to user accounts. These \"tags\" will be exported with a participant's health data to Synapse. This can be used to identify test users or specific cohorts in the study, but it should not include sensitive health information about participants. Strings must contain only letters, numbers, underscore or dash, and cannot (as a comma-separated list) exceed the character limit of 100 characters so they can be exported to Synapse.\n",
+          "description": "An enumerated list of **unique** strings that can be assigned to user accounts. This is a list of the \"tags\" that \ncan be assigned to a given user. The specific data groups that *are* assigned to a user will be exported with a \nparticipant's health data to Synapse. This can be used to identify test users or specific cohorts in the study, but \nit should not include sensitive health information about participants. Strings must contain only letters, numbers, \nunderscore or dash, and cannot (as a comma-separated list) exceed the character limit of 100 characters so they \ncan be exported to Synapse.\n",
           "items": {
             "type": "string"
           }
@@ -5592,7 +5718,8 @@
           "$ref": "#/definitions/EmailTemplate"
         },
         "active": {
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "strictUploadValidationEnabled": {
           "description": "True if uploads in this study should fail on strict validation errors.",
@@ -5600,16 +5727,18 @@
         },
         "healthCodeExportEnabled": {
           "type": "boolean",
-          "description": "**Admin only; read-only for developers.** Should user health codes be exported as part of the participant roster? This identifies users in the public data set; this can only be set to true for certain studies where users expect to be identified by researchers.\n"
+          "readOnly": true,
+          "description": "**Can be edited by admins.** Should user health codes be exported as part of the participant roster? This identifies users in the public data set; this can only be set to true for certain studies where users expect to be identified by researchers.\n"
         },
         "emailVerificationEnabled": {
           "type": "boolean",
-          "description": "**Admin only; read-only for developers.** Should users be asked to validate that they control the email addresses they use to sign up for the study? True by default.\n"
+          "readOnly": true,
+          "description": "**Can be edited by admins.** Should users be asked to validate that they control the email addresses they use to sign up for the study? True by default.\n"
         },
         "externalIdValidationEnabled": {
           "type": "boolean",
           "default": false,
-          "description": "Should external identifiers be validated? If this is false, then the external ID is treated as an unconstrained string. If this is true, the study designer will need to enter the list of valid codes into Bridge. Bridge will ensure that the following is true:\n\n* If assigned, the ID will have to match one of the IDs entered into Bridge;\n* A given ID will be assigned to one and only one user\n* Once assigned, it is not possible to change or remove the external ID from the user account\n"
+          "description": "Should external identifiers be validated? If this is false, then the external ID is treated as an unconstrained string. If this is true, the study designer will need to enter the list of valid codes into Bridge. Bridge will ensure that the following is true:\n\n* Accounts cannot be created without including an externalId;\n* When assigned, the ID will have to match one of the IDs entered into Bridge;\n* A given ID will be assigned to one and only one user;\n* Once assigned, it is not possible to change or remove the external ID from the user account.\n"
         },
         "minSupportedAppVersions": {
           "type": "object",
@@ -5629,7 +5758,7 @@
     },
     "StudyConsent": {
       "type": "object",
-      "description": "For historical reasons, a revision of a consent document is known as a \"study consent\" (it would more accurately be named a \"subpopulation consent\" at this point). It is a revision of a consent document that is associated with a specific study subpopulation.\n",
+      "description": "For historical reasons, a revision of a consent document is known as a \"study consent\" (it would more accurate to call it \na \"subpopulation consent\"). It is a revision of the consent document that is associated with a subpopulation.\n\nSubpopulations can be used to group users for several purposes, but the most important use of subpopulations is to divide \nusers into different *consent groups.* \n\n**Note:** calls that return lists of these study consents do not populate the `documentContent` property. You must retrieve an \nindividual study consent to get the content of the consent.\n",
       "required": [
         "subpopulationGuid",
         "createdOn",
@@ -5643,11 +5772,11 @@
         "createdOn": {
           "type": "string",
           "format": "date-time",
-          "description": "The time the document was created on the server, represented in ISO 8601 \nformat (e.g. 2011-12-03T22:11:34.554Z). Each update of the consent document \ncreates a new revision at a new `createdOn` timestamp.\n"
+          "description": "The time the document was created on the server. Each update of the consent document creates a new revision \nat a new `createdOn` timestamp.\n"
         },
         "documentContent": {
           "type": "string",
-          "description": "A valid XHTML document describing the consent. In this document, the following tokens can be inserted and they will be substituted with the user's consent information when the consent is requested for that user:\n\n|Template variable|Substituted with|\n|---|---|\n|${studyName}|The name of the study|\n|${supportEmail}|The support email address for the study|\n|${technicalEmail}|The technical contact/support email address for the study|\n|${sponsorName}|The name of the sponsor for this study (the institution or research team name)|\n\n**Note:** calls that return lists of these study consents do not populate this field. You must retrieve an individual study consent to get the content of the consent.\n"
+          "description": "A valid XHTML document describing the consent. In this document, the following tokens can be inserted and they \nwill be substituted with the user's consent information when the consent is requested for that user:\n\n|Template variable|Substituted with|\n|---|---|\n|${studyName}|The name of the study|\n|${supportEmail}|The support email address for the study|\n|${technicalEmail}|The technical contact/support email address for the study|\n|${sponsorName}|The name of the sponsor for this study (the institution or research team name)|\n\nThe signature block will be appended to the end of your consent document. **It is not possible to remove or \nchange the signature block at this time.**\n"
         },
         "type": {
           "type": "string",
@@ -5659,13 +5788,15 @@
       }
     },
     "StudyIdentifier": {
+      "description": "A typesafe representation of a study's string identifier",
       "type": "object",
       "required": [
         "identifier"
       ],
       "properties": {
         "identifier": {
-          "type": "string"
+          "type": "string",
+          "description": "The study's identifier (unique to the study)."
         },
         "type": {
           "type": "string",
@@ -5682,12 +5813,7 @@
           "$ref": "#/definitions/AbstractStudyParticipant"
         },
         {
-          "description": "Full record about a study participant\n"
-        },
-        {
-          "required": [
-            "consentHistories"
-          ]
+          "description": "The full record about a study participant.\n"
         },
         {
           "properties": {
@@ -5696,11 +5822,17 @@
               "readOnly": true,
               "description": "Only included in studies that have been configured to return the health code, and only to researchers\nthrough the researcher APIs.\n"
             },
+            "email": {
+              "type": "string",
+              "readOnly": true,
+              "description": "The user's email."
+            },
             "consentHistories": {
               "type": "object",
               "readOnly": true,
               "additionalProperties": {
-                "$ref": "#/definitions/UserConsentHistory"
+                "$ref": "#/definitions/UserConsentHistory",
+                "description": "A complete historical record of all the user's consents and withdrawals of consent for all consent groups \nin the study.\n"
               }
             },
             "type": {
@@ -5716,7 +5848,7 @@
     },
     "Subpopulation": {
       "type": "object",
-      "description": "A subpopulation in the Bridge server is a group of people who, for the purposes of the study, must agree to a specific \nconsent in order to participate in a study. (Some consents can be optional; these will not prevent participants from \nusing Bridge.) For example, a study may have one consent for all participants and a further, optional consent to \ncontribute genetic information. The user must sign the first consent, and may choose to sign the second consent; \nBridge will track the status of all this and refuse data from a participant who has not signed all required consents.\n\n* Users are assigned to one or more subpopulations on every request;\n* Bridge verifies that the user has signed all their required consents;\n* If they have, they are given access to the system. Their session will include detailed information about their consent to all subpopulations;\n* If they have not, Bridge returns a 412 response. The JSON in that response will include detailed information about the user's consent status\n",
+      "description": "A subpopulation in the Bridge server is a group of people who, for the purposes of the study, must agree to a specific \nconsent in order to participate in a study. (Some consents can be optional; these will not prevent participants from \nusing Bridge.) For example, a study may have one consent for all participants and a further, optional consent to \ncontribute genetic information. The user must sign the first consent, and may choose to sign the second consent; \nBridge will track the status of all this and refuse data from a participant who has not signed all required consents.\n\n* Users are assigned to one or more subpopulations on every request;\n* Bridge verifies that the user has signed all their required consents;\n* If they have, they are given access to the system. Their session will include detailed information about their consent status;\n* If the user's consent is not complete, Bridge returns a 412 response (Precondition Not Met). The JSON in that response will \n    include a [UserSessionInfo](#UserSessionInfo) object that contains a summary of the user's consent status.\n\n**Note:** filtering on Bridge is **opt-in**: if a request does not include information like a `User-Agent` \nheader, then all subpopulations may be assumed to apply to the caller.\n",
       "required": [
         "guid",
         "name",
@@ -5732,23 +5864,23 @@
         },
         "name": {
           "type": "string",
-          "description": "The name of this subpopulation"
+          "description": "The name of this subpopulation."
         },
         "description": {
           "type": "string",
-          "description": "The description of this subpopulation"
+          "description": "The description of this subpopulation."
         },
         "criteria": {
           "$ref": "#/definitions/Criteria",
-          "description": "Selection criteria that can optionally be used to determine if a user is in a subpopulation or not. \nIf the user does not match a subpopulation, then that subpopulation and its requirements are \ninvisible to that user. Otherwise the user is in the subpopulation and all its consent requirements apply.\n"
+          "description": "Optional selection criteria that can be used to determine if a user should be assigned to this \nsubpopulation or not. If the user does not match a subpopulation, then that subpopulation and its \nrequirements are invisible to that user. Otherwise the user is in the subpopulation and all its \nconsent requirements apply.\n"
         },
         "required": {
           "type": "boolean",
-          "description": "If true, participants must sign the consent associated with this subpopulation if they are identified \nas a member of this subpopulation. Users will receive a 412 HTTP response from Bridge if any of \nthese required consents are not signed.\n"
+          "description": "If true, participants must sign the consent associated with this subpopulation if they are identified \nas a member of this subpopulation. Users will receive a 412 response from Bridge if this condition is \nnot met.\n"
         },
         "defaultGroup": {
           "type": "boolean",
-          "description": "If true, this is the default subpopulation created for a study, and it cannot be deleted (although it can be edited).\n"
+          "description": "If true, this is the default subpopulation created for a study, and it cannot be deleted (although it can be changed, \nand even made optional or hidden through the use of criteria).\n"
         },
         "publishedConsentCreatedOn": {
           "type": "string",
@@ -5756,15 +5888,16 @@
           "description": "The creation date (ISO 8601 timestamp) of the version of the consent agreement for this subpopulation that is \npublished, ie. that is presented to users for their signature. The subpopulation guid and this createdOn \ntimestamp can be used to retrieve the consent document.\n"
         },
         "version": {
-          "type": "integer"
+          "type": "integer",
+          "description": "The optimistic locking version of the survey. This value must be submitted as \npart of the next update of the model. If it does not match the value on the server, \na 409 error (Conflict) will prevent the update from occurring.\n"
         },
         "consentHTML": {
           "type": "string",
-          "description": "The URL to retrieve an HTML version of the published and active version of the consent. This can be \nreferenced in your mobile app, web site, etc. Publishing a new consent version will update this document.\n"
+          "description": "The URL to retrieve an HTML version of the published and active version of the consent. This can be \nreferenced in your mobile app, web site, etc. Publishing a new consent revision will update this document.\n"
         },
         "consentPDF": {
           "type": "string",
-          "description": "The URL to retrieve a PDF version of the published and active version of the consent. This can be \nreferenced in your mobile app, web site, etc. Publishing a new consent version will update this document.\n"
+          "description": "The URL to retrieve a PDF version of the published and active version of the consent. This can be \nreferenced in your mobile app, web site, etc. Publishing a new consent revision will update this document.\n"
         },
         "type": {
           "type": "string",
@@ -5777,13 +5910,11 @@
     },
     "Survey": {
       "type": "object",
-      "description": "A survey",
+      "description": "The definition of a survey.",
       "required": [
         "guid",
         "name",
         "identifier",
-        "published",
-        "createdOn",
         "version",
         "elements"
       ],
@@ -5801,20 +5932,23 @@
         },
         "published": {
           "type": "boolean",
-          "description": "Is this survey version published? Once published, a survey version may not be \nmodified, but can be scheduled for presentation to users.\n"
+          "readOnly": true,
+          "description": "True if this survey revision has been published, and is accessible to users through scheduling. \nMore than one version of a survey may be published; it is most common to return the most recently \npublished version to users.\n"
         },
         "schemaRevision": {
           "type": "integer",
-          "description": "The corresponding schema revision that Bridge server parses against to export \nto Synapse.\n"
+          "description": "The corresponding schema revision that Bridge server uses to export survey answers to Synapse.\n"
         },
         "createdOn": {
           "type": "string",
           "format": "date-time",
+          "readOnly": true,
           "description": "The ISO 8601 date on which this version of this survey was created."
         },
         "modifiedOn": {
           "type": "string",
           "format": "date-time",
+          "readOnly": true,
           "description": "The date and time when this version of the survey was last modified."
         },
         "version": {
@@ -5840,7 +5974,7 @@
     },
     "SurveyElement": {
       "type": "object",
-      "description": "A survey element (info screen or question)",
+      "description": "A survey element (either an info screen or a question).",
       "discriminator": "type",
       "required": [
         "guid",
@@ -5858,6 +5992,7 @@
       }
     },
     "SurveyInfoScreen": {
+      "description": "A screen of a survey that presents information to the user: instructions, a thank you message, copyright notice, \nor anything similar. \n",
       "type": "object",
       "allOf": [
         {
@@ -5916,19 +6051,24 @@
         {
           "properties": {
             "identifier": {
-              "type": "string"
+              "type": "string",
+              "description": "A string identifier for this question. It will be used as the column name for the answers to these questions, \nso it should help to identify the question.\n"
             },
             "title": {
-              "type": "string"
+              "type": "string",
+              "description": "A title for this question. Although this is required, it may or may not be used in the interface. \n"
             },
             "prompt": {
-              "type": "string"
+              "type": "string",
+              "description": "The question proper.\n"
             },
             "promptDetail": {
-              "type": "string"
+              "type": "string",
+              "description": "Sub-question text that provides further instructions or clarifications on how to answer.\n"
             },
             "fireEvent": {
-              "type": "boolean"
+              "type": "boolean",
+              "description": "This used to signal that an event should be generated when this question was answered, that included the \nanswer as part of the event. However, this feature is currently unsuported.\n"
             },
             "uiHint": {
               "type": "string",
@@ -5964,6 +6104,7 @@
       ]
     },
     "SurveyQuestionOption": {
+      "description": "For questions with a list of enumerated answers, this object represents one of those answers.\n",
       "type": "object",
       "required": [
         "label"
@@ -5979,7 +6120,7 @@
         },
         "value": {
           "type": "string",
-          "description": "The value to submit when this option is selected. The value is always a string, but should \nbe convertible to the data type of the question's constraints.\n"
+          "description": "The value to submit when this option is selected. The value is always a string, but should \nbe convertible to the data type of the question's constraints. If no value is provided, than \nthe label should be sent as the answer to the surver.\n"
         },
         "image": {
           "$ref": "#/definitions/Image",
@@ -5996,16 +6137,14 @@
     },
     "SurveyReference": {
       "type": "object",
-      "description": "A pointer to a survey defined for this study, and associated with a survey to be taken as part of the mobile application health study. If the createdOn value is null, the the user should take the most recently published version of this survey (this is reflected in the href attribute).",
+      "description": "A pointer to a survey defined for this study, and associated with a survey to be taken as part of the mobile application health study. If the `createdOn` value is null, then the reference is to the most recently published version of the survey (the specific version that should be used will be resolved when a [ScheduledActivity](#ScheduledActivity) is created for the participant).",
       "required": [
-        "identifier",
-        "guid",
-        "href"
+        "guid"
       ],
       "properties": {
         "identifier": {
           "type": "string",
-          "description": "The survey identifier. This value is required [TODO verify this is still true.]"
+          "description": "The survey identifier."
         },
         "guid": {
           "type": "string",
@@ -6018,7 +6157,8 @@
         },
         "href": {
           "type": "string",
-          "description": "An URL to retrieve the appropriate survey version."
+          "readOnly": true,
+          "description": "An URL to retrieve the survey."
         },
         "type": {
           "type": "string",
@@ -6030,7 +6170,7 @@
       }
     },
     "SurveyRule": {
-      "description": "A constraint may have one or more rules in an array:\n* Rules should be evaluated after a user answers a question, against the answer provided by the user;\n* they should be evaluated until one matches (then further evaluation should be aborted);\n* if a rule matches, the action for that rule should be followed (e.g. showing a different question than the next question in the list, or end the survey);\n* if a question allows multiple answers to be submitted, it matches the rule if any of the submitted answers match the rule;\n* if there are no rules or no rule matches, proceed to the next question in the list.\n",
+      "description": "A constraint may have one or more rules in an array:\n* Rules should be evaluated after a user answers a question, against the answer provided by the user;\n* they should be evaluated until one matches (then further evaluation should be aborted);\n* if a rule matches, the action for that rule should be followed (e.g. showing a different question than the next question in the list, or end the survey);\n* if a question allows multiple answers to be submitted, it matches the rule if any of the submitted answers match the rule;\n* if there are no rules or no rule matches, proceed to the next question in the list.\n\nEither `skipToTarget` or `endSurvey` should be supplied in the rule.\n",
       "type": "object",
       "required": [
         "operator",
@@ -6278,7 +6418,7 @@
         },
         "revision": {
           "type": "integer",
-          "description": "Revision number of the schema, used to distinguish versions of the same data format. \nWhen using this to create or update schemas, to protect against concurrent modification \nerrors, new schemas should not pass in the revision parameter, and updates to existing \nschemas should pass in a revision number equal to the latest revision number.\n"
+          "description": "Revision number of the schema, used to distinguish versions of the same data format.\nThis should be blank when creating a schema, and it should be passed back to the server \nwhen updating. If the schema revision cannot be updated in a backwards-compatible fashion, \nthe server will throw an exception. You will need to increment the revision number \nand create a new revision of the schema.\n"
         },
         "schemaId": {
           "type": "string",
@@ -6301,7 +6441,8 @@
           ]
         },
         "version": {
-          "type": "integer"
+          "type": "integer",
+          "description": "The optimistic locking version of the survey. This value must be submitted as \npart of the next update of the model. If it does not match the value on the server, \na 409 error (Conflict) will prevent the update from occurring.\n"
         },
         "fieldDefinitions": {
           "type": "array",
@@ -6350,14 +6491,15 @@
     },
     "UploadValidationStatus": {
       "type": "object",
+      "readOnly": true,
       "properties": {
         "id": {
           "type": "string",
-          "description": "The identifier for this upload"
+          "description": "The identifier for this upload."
         },
         "messageList": {
           "type": "array",
-          "description": "An array of error messages if failures occurred during validation\n",
+          "description": "An array of error messages if failures occurred during validation.\n",
           "items": {
             "type": "string"
           }
@@ -6388,19 +6530,11 @@
     },
     "UserConsentHistory": {
       "description": "A record of a complete consent (including both the dates of consent and withdrawal, if applicable);\n",
+      "readOnly": true,
       "type": "object",
-      "required": [
-        "subpopulationGuid",
-        "consentCreatedOn",
-        "name",
-        "birthdate",
-        "signedOn",
-        "hasSignedActiveConsent"
-      ],
       "properties": {
         "subpopulationGuid": {
           "type": "string",
-          "readOnly": true,
           "description": "The consent group that the participant agreed to participate in."
         },
         "consentCreatedOn": {
@@ -6480,6 +6614,7 @@
       }
     },
     "UserSessionInfo": {
+      "readOnly": true,
       "allOf": [
         {
           "$ref": "#/definitions/AbstractStudyParticipant"
@@ -6489,27 +6624,6 @@
         },
         {
           "type": "object"
-        },
-        {
-          "required": [
-            "email",
-            "id",
-            "sessionToken",
-            "dataSharing",
-            "notifyByEmail",
-            "attributes",
-            "sharingScope",
-            "createdOn",
-            "environment",
-            "status",
-            "consented",
-            "authenticated",
-            "signedMostRecentConsent",
-            "roles",
-            "dataGroups",
-            "languages",
-            "consentStatuses"
-          ]
         },
         {
           "properties": {
@@ -6531,16 +6645,20 @@
                 "production"
               ]
             },
+            "email": {
+              "type": "string",
+              "description": "The user's email."
+            },
             "dataSharing": {
               "type": "boolean",
-              "description": "true if the sharing scope is anything other than \"no_sharing\"."
+              "description": "True if the sharing scope is anything other than \"no_sharing\"."
             },
             "signedMostRecentConsent": {
               "type": "boolean"
             },
             "consented": {
               "type": "boolean",
-              "description": "true if all required consents have been signed"
+              "description": "True if all required consents have been signed."
             },
             "consentStatuses": {
               "type": "object",
@@ -6576,34 +6694,30 @@
         }
       }
     },
-    "ResourceList_AccountSummary": {
+    "PagedResourceList_AccountSummary": {
       "type": "object",
+      "readOnly": true,
       "properties": {
         "items": {
           "type": "array",
-          "readOnly": true,
           "items": {
             "$ref": "#/definitions/AccountSummary"
           }
         },
         "offsetBy": {
           "type": "integer",
-          "readOnly": true,
           "description": "The offsetBy value submitted to the server"
         },
         "pageSize": {
           "type": "integer",
-          "readOnly": true,
           "description": "The page size submitted to the server"
         },
         "emailFilter": {
           "type": "string",
-          "readOnly": true,
           "description": "The email filter submitted to the server"
         },
         "total": {
           "type": "integer",
-          "readOnly": true,
           "description": "The total number of records that match the criteria (may exceed page size)"
         },
         "type": {
@@ -6617,28 +6731,59 @@
     },
     "ResourceList_Activity": {
       "type": "object",
+      "readOnly": true,
       "properties": {
         "items": {
           "type": "array",
-          "readOnly": true,
           "items": {
             "$ref": "#/definitions/ScheduledActivity"
           }
         },
         "offsetKey": {
           "type": "string",
-          "readOnly": true,
           "description": "If present, the key that should be sent in the next request to page forward one page of records. If null, this is the final page of records"
         },
         "pageSize": {
           "type": "integer",
-          "readOnly": true,
           "description": "The page size submitted to the server"
         },
         "total": {
           "type": "integer",
-          "readOnly": true,
           "description": "The total number of records that match the criteria (may exceed page size)"
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "enum": [
+            "ResourceList"
+          ]
+        }
+      }
+    },
+    "PagedResourceList_ExternalIdentifier": {
+      "type": "object",
+      "readOnly": true,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExternalIdentifier"
+          }
+        },
+        "pageSize": {
+          "type": "integer"
+        },
+        "offsetKey": {
+          "type": "string"
+        },
+        "idFilter": {
+          "type": "string"
+        },
+        "offsetFilter": {
+          "type": "string"
+        },
+        "total": {
+          "type": "integer"
         },
         "type": {
           "type": "string",
@@ -6649,68 +6794,26 @@
         }
       }
     },
-    "ResourceList_ExternalIdentifier": {
+    "DateRangeResourceList_ReportData": {
       "type": "object",
+      "readOnly": true,
       "properties": {
         "items": {
           "type": "array",
-          "readOnly": true,
-          "items": {
-            "$ref": "#/definitions/ExternalIdentifier"
-          }
-        },
-        "pageSize": {
-          "type": "integer",
-          "readOnly": true
-        },
-        "offsetKey": {
-          "type": "string",
-          "readOnly": true
-        },
-        "idFilter": {
-          "type": "string",
-          "readOnly": true
-        },
-        "offsetFilter": {
-          "type": "string",
-          "readOnly": true
-        },
-        "total": {
-          "type": "integer",
-          "readOnly": true
-        },
-        "type": {
-          "type": "string",
-          "readOnly": true,
-          "enum": [
-            "DateRangeResourceList"
-          ]
-        }
-      }
-    },
-    "ResourceList_ReportData": {
-      "type": "object",
-      "properties": {
-        "items": {
-          "type": "array",
-          "readOnly": true,
           "items": {
             "$ref": "#/definitions/ReportData"
           }
         },
         "startDate": {
           "type": "string",
-          "readOnly": true,
           "format": "date"
         },
         "endDate": {
           "type": "string",
-          "readOnly": true,
           "format": "date"
         },
         "total": {
-          "type": "integer",
-          "readOnly": true
+          "type": "integer"
         },
         "type": {
           "type": "string",
@@ -6721,27 +6824,25 @@
         }
       }
     },
-    "ResourceList_ReportIndex": {
+    "ReportTypeResourceList_ReportIndex": {
       "type": "object",
+      "readOnly": true,
       "properties": {
         "items": {
           "type": "array",
-          "readOnly": true,
           "items": {
             "$ref": "#/definitions/ReportIndex"
           }
         },
         "reportType": {
           "type": "string",
-          "readOnly": true,
           "enum": [
             "study",
             "participant"
           ]
         },
         "total": {
-          "type": "integer",
-          "readOnly": true
+          "type": "integer"
         },
         "type": {
           "type": "string",
@@ -6754,17 +6855,16 @@
     },
     "ResourceList_Schedule": {
       "type": "object",
+      "readOnly": true,
       "properties": {
         "items": {
           "type": "array",
-          "readOnly": true,
           "items": {
             "$ref": "#/definitions/Schedule"
           }
         },
         "total": {
           "type": "integer",
-          "readOnly": true,
           "description": "The total number of records in the items list"
         },
         "type": {
@@ -6778,17 +6878,16 @@
     },
     "ResourceList_SchedulePlan": {
       "type": "object",
+      "readOnly": true,
       "properties": {
         "items": {
           "type": "array",
-          "readOnly": true,
           "items": {
             "$ref": "#/definitions/SchedulePlan"
           }
         },
         "total": {
           "type": "integer",
-          "readOnly": true,
           "description": "The total number of records in the items list"
         },
         "type": {
@@ -6802,17 +6901,16 @@
     },
     "ResourceList_Study": {
       "type": "object",
+      "readOnly": true,
       "properties": {
         "items": {
           "type": "array",
-          "readOnly": true,
           "items": {
             "$ref": "#/definitions/Study"
           }
         },
         "total": {
           "type": "integer",
-          "readOnly": true,
           "description": "The total number of records in the items list"
         },
         "type": {
@@ -6826,17 +6924,16 @@
     },
     "ResourceList_StudyConsent": {
       "type": "object",
+      "readOnly": true,
       "properties": {
         "items": {
           "type": "array",
-          "readOnly": true,
           "items": {
             "$ref": "#/definitions/StudyConsent"
           }
         },
         "total": {
           "type": "integer",
-          "readOnly": true,
           "description": "The total number of records in the items list"
         },
         "type": {
@@ -6850,17 +6947,16 @@
     },
     "ResourceList_Subpopulation": {
       "type": "object",
+      "readOnly": true,
       "properties": {
         "items": {
           "type": "array",
-          "readOnly": true,
           "items": {
             "$ref": "#/definitions/Subpopulation"
           }
         },
         "total": {
           "type": "integer",
-          "readOnly": true,
           "description": "The total number of records in the items list."
         },
         "type": {
@@ -6874,17 +6970,16 @@
     },
     "ResourceList_Survey": {
       "type": "object",
+      "readOnly": true,
       "properties": {
         "items": {
           "type": "array",
-          "readOnly": true,
           "items": {
             "$ref": "#/definitions/Survey"
           }
         },
         "total": {
           "type": "integer",
-          "readOnly": true,
           "description": "The total number of records in the items list"
         },
         "type": {
@@ -6896,12 +6991,12 @@
         }
       }
     },
-    "ResourceList_Upload": {
+    "DateTimeRangeResourceList_Upload": {
       "type": "object",
+      "readOnly": true,
       "properties": {
         "items": {
           "type": "array",
-          "readOnly": true,
           "items": {
             "$ref": "#/definitions/Upload"
           }
@@ -6909,18 +7004,15 @@
         "startTime": {
           "type": "string",
           "format": "date-time",
-          "readOnly": true,
           "description": "The startTime value submitted to the server"
         },
         "endTime": {
           "type": "string",
           "format": "date-time",
-          "readOnly": true,
           "description": "The endTime value submitted to the server"
         },
         "total": {
           "type": "integer",
-          "readOnly": true,
           "description": "The total number of records that match the criteria (may exceed page size)"
         },
         "type": {
@@ -6934,17 +7026,16 @@
     },
     "ResourceList_UploadSchema": {
       "type": "object",
+      "readOnly": true,
       "properties": {
         "items": {
           "type": "array",
-          "readOnly": true,
           "items": {
             "$ref": "#/definitions/UploadSchema"
           }
         },
         "total": {
           "type": "integer",
-          "readOnly": true,
           "description": "The total number of records in the list"
         },
         "type": {
@@ -6970,7 +7061,11 @@
       }
     },
     "MultiValueConstraints": {
-      "description": "User must select a response from a list of options (however the question can allow for a \nfree-form \"other\" value to be provided instead if the user wishes). This is common question \ntype with many possible UI renderings, but the constraints can help to limit the choices:  \n\n|uiHint|Description|\n|---|---|\n|checkbox, list|`allowMultiple` = true|\n|combobox|`allowMultiple` = false, `allowOther` = true|\n|radiobutton, select, slider|`allowMultiple` = false, `allowOther` = false|\n",
+      "description": "A common question type where the participant is given a list of options to choose from. The \nUI representation of this question depends in part on whether the participant can select \nmultiple values, or add another value not included in the list:\n\n|uiHint|Description|\n|---|---|\n|checkbox, list|`allowMultiple` = true|\n|combobox|`allowMultiple` = false, `allowOther` = true|\n|radiobutton, select, slider|`allowMultiple` = false, `allowOther` = false|\n",
+      "required": [
+        "enumeration",
+        "dataType"
+      ],
       "allOf": [
         {
           "$ref": "#/definitions/Constraints"
@@ -6979,7 +7074,7 @@
           "properties": {
             "allowOther": {
               "type": "boolean",
-              "description": "true if the user should be able to enter another value besides those provided in the\nenumeration, false otherwise. If set to true, then the user's answer must be of the \nright data type, but no other validation occurs.\n"
+              "description": "True if the user should be able to enter another value besides those provided in the\nenumeration, false otherwise.\n"
             },
             "allowMultiple": {
               "type": "boolean",
@@ -6987,6 +7082,7 @@
             },
             "enumeration": {
               "type": "array",
+              "description": "The options presented for selection to the user.",
               "items": {
                 "$ref": "#/definitions/SurveyQuestionOption"
               }
@@ -7000,6 +7096,7 @@
             },
             "type": {
               "type": "string",
+              "readOnly": true,
               "enum": [
                 "MultiValueConstraints"
               ]
@@ -7037,7 +7134,10 @@
       ]
     },
     "IntegerConstraints": {
-      "description": "**UI hints:** numberfield, slider.\n",
+      "description": "This type can be used to collect a number, or with a unit, it can be used to collect \na measure or a duration (e.g. \"3 hours\", or \"180 pounds\").\n\n**UI hints:** numberfield, slider.\n",
+      "required": [
+        "dataType"
+      ],
       "allOf": [
         {
           "$ref": "#/definitions/Constraints"
@@ -7096,6 +7196,7 @@
             },
             "type": {
               "type": "string",
+              "readOnly": true,
               "enum": [
                 "IntegerConstraints"
               ]
@@ -7175,7 +7276,10 @@
       ]
     },
     "StringConstraints": {
-      "description": "A string response. UI Hints for this type should match the intended length of the string \nand any constraints placed upon the length. \n\n**UI hints:** texfield, multilinetext.\n",
+      "description": "A string answer. \n\n**UI hints:** texfield, multilinetext.\n",
+      "required": [
+        "dataType"
+      ],
       "allOf": [
         {
           "$ref": "#/definitions/Constraints"
@@ -7202,6 +7306,7 @@
             },
             "type": {
               "type": "string",
+              "readOnly": true,
               "enum": [
                 "StringConstraints"
               ]
@@ -7298,6 +7403,9 @@
     },
     "TimeConstraints": {
       "description": "This is an ISO 8601 time value, in 24 hour time, milliseconds and seconds are optional, and there \nis no time zone for this value (e.g. 14:45:15.357). This represents a time of the day, regardless \nof where the user is, e.g. \"I take my medications at 3:00pm every day, whether I'm in Chicago or Tokyo.\"\n\n**UI hints:** timepicker.\n",
+      "required": [
+        "dataType"
+      ],
       "allOf": [
         {
           "$ref": "#/definitions/Constraints"
@@ -7312,6 +7420,7 @@
             },
             "type": {
               "type": "string",
+              "readOnly": true,
               "enum": [
                 "TimeConstraints"
               ]
