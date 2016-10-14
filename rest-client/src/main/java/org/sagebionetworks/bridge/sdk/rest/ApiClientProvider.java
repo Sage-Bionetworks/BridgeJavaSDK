@@ -1,5 +1,6 @@
 package org.sagebionetworks.bridge.sdk.rest;
 
+import com.fatboyindustrial.gsonjodatime.Converters;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
@@ -12,12 +13,12 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.rest.api.AuthenticationApi;
 import org.sagebionetworks.bridge.sdk.rest.model.SignIn;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Type;
+import java.util.Base64;
 import java.util.Map;
 
 import okhttp3.OkHttpClient;
@@ -28,6 +29,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by liujoshua on 10/11/16.
  */
 public class ApiClientProvider {
+  public static final Gson GSON = Converters
+            .registerAll(new GsonBuilder())
+            .registerTypeAdapter(byte[].class, new ByteArrayToBase64TypeAdapter())
+            .create();
+
+  private static class ByteArrayToBase64TypeAdapter implements JsonSerializer<byte[]>, JsonDeserializer<byte[]> {
+    public byte[] deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+      return Base64.getDecoder().decode(json.getAsString());
+    }
+
+    public JsonElement serialize(byte[] src, Type typeOfSrc, JsonSerializationContext context) {
+      return new JsonPrimitive(Base64.getEncoder().encodeToString(src));
+    }
+  }
 
   private final OkHttpClient unauthenticatedOkHttpClient;
   private final Retrofit.Builder retrofitBuilder;
@@ -50,13 +65,9 @@ public class ApiClientProvider {
 
     unauthenticatedOkHttpClient = new OkHttpClient.Builder().addInterceptor(headerHandler).build();
 
-
-
-    Gson gson = new GsonBuilder().registerTypeAdapter(DateTime.class, new DateTimeConverter()).create();
-
     retrofitBuilder = new Retrofit.Builder().baseUrl(baseUrl)
                                             .client(unauthenticatedOkHttpClient)
-                                            .addConverterFactory(GsonConverterFactory.create(gson));
+                                            .addConverterFactory(GsonConverterFactory.create(GSON));
 
     this.userSessionInfoProvider = userSessionInfoProvider != null ? userSessionInfoProvider
         : new UserSessionInfoProvider(getClient(AuthenticationApi.class));
@@ -93,7 +104,7 @@ public class ApiClientProvider {
     }
 
     T authenticateClient = null;
-    WeakReference clientReference = userClients.get(service);
+    WeakReference<T> clientReference = userClients.get(service);
 
     if (clientReference != null) {
       authenticateClient = (T) clientReference.get();
@@ -101,7 +112,7 @@ public class ApiClientProvider {
 
     if (authenticateClient == null) {
       authenticateClient = getAuthenticatedRetrofit(signIn).create(service);
-      userClients.put(service, new WeakReference(authenticateClient));
+      userClients.put(service, new WeakReference<>(authenticateClient));
     }
 
     return authenticateClient;
@@ -131,23 +142,5 @@ public class ApiClientProvider {
     }
 
     return authenticatedRetrofit;
-  }
-
-  private static final class DateTimeConverter implements JsonSerializer<DateTime>,
-          JsonDeserializer<DateTime> {
-    // No need for an InstanceCreator since DateTime provides a no-args constructor
-    @Override
-    public JsonElement serialize(DateTime src, Type srcType, JsonSerializationContext context) {
-      return new JsonPrimitive(src.toString());
-    }
-
-    @Override
-    public DateTime deserialize(
-            JsonElement json,
-            Type type,
-            JsonDeserializationContext context
-    ) throws JsonParseException {
-      return new DateTime(json.getAsString());
-    }
   }
 }

@@ -25,7 +25,7 @@ class BridgeSession implements Session {
     
     BridgeSession(UserSession session, SignIn signIn) {
         checkNotNull(session, "%s cannot be null", "UserSession");
-        checkNotNull(signIn);
+        checkNotNull(signIn, "signIn cannot be null");
 
         setUserSession(session);
         this.signIn = signIn;

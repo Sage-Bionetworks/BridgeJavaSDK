@@ -60,19 +60,22 @@ public class ClientProvider {
     /**
      * Sign In to Bridge with the given credentials. Returns a session object to manipulate. Method is idempotent.
      *
-     * @param signIn
+     * @param signInCredentials
      *            The credentials you wish to sign in with.
      * @return Session
      */
-    public static Session signIn(SignInCredentials signIn) throws ConsentRequiredException {
-        checkNotNull(signIn, "SignInCredentials required.");
+    public static Session signIn(SignInCredentials signInCredentials) throws
+            ConsentRequiredException {
+        checkNotNull(signInCredentials, "SignInCredentials required.");
 
-        UserSession userSession = new BaseApiCaller(null).post(config.getSignInApi(), signIn, UserSession.class);
-        return new BridgeSession(userSession,
-                                 new SignIn().study(signIn.getStudyIdentifier())
-                                             .email(signIn.getEmail())
-                                             .password(signIn.getPassword())
-        );
+        SignIn signIn = new SignIn().study(signInCredentials.getStudyIdentifier())
+                                    .email(signInCredentials.getEmail())
+                                    .password(signInCredentials.getPassword());
+
+        UserSession userSession = new BaseApiCaller(null).post(config.getSignInApi(),
+                                                               signInCredentials, UserSession
+                                                                       .class, signIn);
+        return new BridgeSession(userSession, signIn);
     }
 
     /**

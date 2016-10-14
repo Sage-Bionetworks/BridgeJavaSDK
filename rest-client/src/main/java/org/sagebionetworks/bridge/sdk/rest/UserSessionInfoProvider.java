@@ -1,5 +1,7 @@
 package org.sagebionetworks.bridge.sdk.rest;
 
+import com.google.gson.Gson;
+
 import org.sagebionetworks.bridge.sdk.rest.api.AuthenticationApi;
 import org.sagebionetworks.bridge.sdk.rest.model.SignIn;
 import org.sagebionetworks.bridge.sdk.rest.model.UserSessionInfo;
@@ -15,6 +17,7 @@ import retrofit2.Response;
  */
 class UserSessionInfoProvider {
   private static final Logger LOG = LoggerFactory.getLogger(UserSessionInfoProvider.class);
+
   private final AuthenticationApi authenticationApi;
 
   public UserSessionInfoProvider(AuthenticationApi authenticationApi) {
@@ -35,6 +38,9 @@ class UserSessionInfoProvider {
 
     if (signInResponse.isSuccessful()) {
       return signInResponse.body();
+    } else if (signInResponse.code() == 412) {
+      return ApiClientProvider.GSON.fromJson(signInResponse.errorBody().string(), UserSessionInfo
+              .class);
     }
 
     LOG.warn("Login failed");
