@@ -31,7 +31,6 @@ import org.sagebionetworks.bridge.sdk.exceptions.NotAuthenticatedException;
 import org.sagebionetworks.bridge.sdk.exceptions.PublishedSurveyException;
 import org.sagebionetworks.bridge.sdk.exceptions.UnauthorizedException;
 import org.sagebionetworks.bridge.sdk.exceptions.UnsupportedVersionException;
-import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadRequest;
 import org.sagebionetworks.bridge.sdk.rest.ApiClientProvider;
 import org.sagebionetworks.bridge.sdk.rest.model.SignIn;
@@ -107,7 +106,6 @@ class BaseApiCaller {
 
     private final ObjectMapper mapper = Utilities.getMapper();
 
-    private final String studyId;
     protected final SignIn signIn;
 
     @Deprecated
@@ -118,12 +116,7 @@ class BaseApiCaller {
     protected BaseApiCaller(BridgeSession session) {
         //checkNotNull(session); no session when used for sign in/sign out/reset password
         this.session = session;
-        this.studyId = session.getStudyId();
-        StudyParticipant studyParticipant = session.getStudyParticipant();
-        this.signIn = new SignIn().study(studyId)
-                                    .email(studyParticipant.getEmail())
-                                    .password(studyParticipant.getPassword());
-
+        this.signIn = session == null ? null : session.getSignIn();
     }
 
     protected <T> T call(Call<T> call) {
@@ -289,35 +282,36 @@ class BaseApiCaller {
     }
 
   private void throwExceptionOnErrorStatus(Response response, String url) {
+      Object body = response.isSuccessful() ? response.body() : response.errorBody();
       try {
-          logger.debug("{} RESPONSE: {}", response.code(), response.raw() + response.raw().body()
-              .string());
-      } catch(IOException e) {
+          logger.debug("{} RESPONSE: {}", response.code(), body);
+      } catch(Exception e) {
           logger.debug("{} RESPONSE: <ERROR>", response.code());
       }
 
-    List<String> statusHeaders = response.headers().toMultimap().get(BRIDGE_API_STATUS_HEADER);
-    if (statusHeaders.size() > 0 && "deprecated".equals(statusHeaders.get(0))) {
-      logger.warn(url + " is a deprecated API. This API may return 410 (Gone) at a future date. Please consult the API documentation for an alternative.");
-    }
-    if (response.isSuccessful()) {
-      return;
-    }
-
-    try {
-      JsonNode node = mapper.readTree(response.errorBody().string());
-        throwExceptionOnErrorStatus(url,response.code(),node);
-      } catch(BridgeSDKException e){
-        // rethrow known exceptions
-        throw e;
-      } catch(Throwable t) {
-        t.printStackTrace();
-        throw new BridgeSDKException(response.message(), response.code(), url);
+      List<String> statusHeaders = response.headers().toMultimap().get(BRIDGE_API_STATUS_HEADER);
+      if (statusHeaders != null && statusHeaders.size() > 0 &&
+          "deprecated".equals(statusHeaders.get(0))) {
+          logger.warn(url +
+                      " is a deprecated API. This API may return 410 (Gone) at a future date. " +
+                      "Please consult the API documentation for an alternative.");
+      }
+      if (response.isSuccessful()) {
+          return;
       }
 
+      try {
+          JsonNode node = mapper.readTree(response.errorBody().string());
+          throwExceptionOnErrorStatus(url, response.code(), node);
+      } catch (BridgeSDKException e) {
+          // rethrow known exceptions
+          throw e;
+      } catch (Throwable t) {
+          t.printStackTrace();
+          throw new BridgeSDKException(response.message(), response.code(), url);
+      }
   }
 
-    @SuppressWarnings("unchecked")
     private void throwExceptionOnErrorStatus(HttpResponse response, String url) {
         try {
             logger.debug("{} RESPONSE: {}", response.getStatusLine().getStatusCode(), EntityUtils.toString(response.getEntity()));
@@ -336,12 +330,11 @@ class BaseApiCaller {
         if (statusCode < 200 || statusCode > 299) {
             try {
                 JsonNode node = getJsonNode(response);
-                throwExceptionOnErrorStatus(url,statusCode,node);
+                throwExceptionOnErrorStatus(url, statusCode, node);
             } catch(BridgeSDKException e){
               // rethrow known exceptions
               throw e;
             } catch(Throwable t) {
-                t.printStackTrace();
                 throw new BridgeSDKException(status.getReasonPhrase(), status.getStatusCode(), url);
             }
         }
@@ -365,9 +358,9 @@ class BaseApiCaller {
         } else if (statusCode == 410) {
             e = new UnsupportedVersionException(message, url);
         } else if (statusCode == 412) {
-            UserSession session = Utilities.getJsonAsType(node.asText(), UserSession.class);
+            UserSession session = Utilities.getJsonAsType(node, UserSession.class);
             e = new ConsentRequiredException("Consent required.", url, new BridgeSession
-                (session, studyId));
+                (session, signIn));
         } else if (statusCode == 409 && message.contains("already exists")) {
             e = new EntityAlreadyExistsException(message, url);
         } else if (statusCode == 409 && message.contains("has the wrong version number")) {

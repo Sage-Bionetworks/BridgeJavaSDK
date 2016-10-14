@@ -16,13 +16,12 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import org.sagebionetworks.bridge.Tests;
+import org.sagebionetworks.bridge.sdk.rest.model.SignIn;
 import org.sagebionetworks.bridge.sdk.rest.model.StudyParticipant;
 import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BridgeUserClientTest {
-
-    @Mock BridgeSession session;
 
     @Captor ArgumentCaptor<UserSession> sessionCaptor;
 
@@ -46,7 +45,7 @@ public class BridgeUserClientTest {
 
         UserSession session = Utilities.getMapper().readValue(json, UserSession.class);
 
-        BridgeSession bridgeSession = spy(new BridgeSession(session, "studyId"));
+        BridgeSession bridgeSession = spy(new BridgeSession(session, new SignIn()));
         UserClient client = new UserClient(bridgeSession);
         client = spy(client);
         doReturn(session).when(client).post(anyString(), any(StudyParticipant.class), eq(UserSession.class));

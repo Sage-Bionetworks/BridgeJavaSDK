@@ -2,11 +2,22 @@ package org.sagebionetworks.bridge.sdk.rest;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
+import org.joda.time.DateTime;
 import org.sagebionetworks.bridge.sdk.rest.api.AuthenticationApi;
 import org.sagebionetworks.bridge.sdk.rest.model.SignIn;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Type;
 import java.util.Map;
 
 import okhttp3.OkHttpClient;
@@ -39,9 +50,13 @@ public class ApiClientProvider {
 
     unauthenticatedOkHttpClient = new OkHttpClient.Builder().addInterceptor(headerHandler).build();
 
+
+
+    Gson gson = new GsonBuilder().registerTypeAdapter(DateTime.class, new DateTimeConverter()).create();
+
     retrofitBuilder = new Retrofit.Builder().baseUrl(baseUrl)
                                             .client(unauthenticatedOkHttpClient)
-                                            .addConverterFactory(GsonConverterFactory.create());
+                                            .addConverterFactory(GsonConverterFactory.create(gson));
 
     this.userSessionInfoProvider = userSessionInfoProvider != null ? userSessionInfoProvider
         : new UserSessionInfoProvider(getClient(AuthenticationApi.class));
@@ -116,5 +131,23 @@ public class ApiClientProvider {
     }
 
     return authenticatedRetrofit;
+  }
+
+  private static final class DateTimeConverter implements JsonSerializer<DateTime>,
+          JsonDeserializer<DateTime> {
+    // No need for an InstanceCreator since DateTime provides a no-args constructor
+    @Override
+    public JsonElement serialize(DateTime src, Type srcType, JsonSerializationContext context) {
+      return new JsonPrimitive(src.toString());
+    }
+
+    @Override
+    public DateTime deserialize(
+            JsonElement json,
+            Type type,
+            JsonDeserializationContext context
+    ) throws JsonParseException {
+      return new DateTime(json.getAsString());
+    }
   }
 }

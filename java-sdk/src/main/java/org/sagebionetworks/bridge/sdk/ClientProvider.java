@@ -4,16 +4,16 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-import java.util.LinkedHashSet;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import org.sagebionetworks.bridge.sdk.exceptions.ConsentRequiredException;
 import org.sagebionetworks.bridge.sdk.models.accounts.EmailCredentials;
 import org.sagebionetworks.bridge.sdk.models.accounts.SignInCredentials;
 import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
-import org.sagebionetworks.bridge.sdk.rest.ApiClientProvider;
+import org.sagebionetworks.bridge.sdk.rest.model.SignIn;
 import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.util.LinkedHashSet;
 
 public class ClientProvider {
 
@@ -68,7 +68,11 @@ public class ClientProvider {
         checkNotNull(signIn, "SignInCredentials required.");
 
         UserSession userSession = new BaseApiCaller(null).post(config.getSignInApi(), signIn, UserSession.class);
-        return new BridgeSession(userSession, signIn.getStudyIdentifier());
+        return new BridgeSession(userSession,
+                                 new SignIn().study(signIn.getStudyIdentifier())
+                                             .email(signIn.getEmail())
+                                             .password(signIn.getPassword())
+        );
     }
 
     /**
