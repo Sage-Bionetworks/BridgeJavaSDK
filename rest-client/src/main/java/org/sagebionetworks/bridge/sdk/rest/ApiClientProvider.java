@@ -29,118 +29,120 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by liujoshua on 10/11/16.
  */
 public class ApiClientProvider {
-  public static final Gson GSON = Converters
-            .registerAll(new GsonBuilder())
-            .registerTypeAdapter(byte[].class, new ByteArrayToBase64TypeAdapter())
-            .create();
-
-  private static class ByteArrayToBase64TypeAdapter implements JsonSerializer<byte[]>, JsonDeserializer<byte[]> {
-    public byte[] deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-      return Base64.getDecoder().decode(json.getAsString());
+    public static final Gson GSON = Converters.registerAll(new GsonBuilder())
+            .registerTypeAdapter(byte[].class, new ByteArrayToBase64TypeAdapter()).create();
+    private final OkHttpClient unauthenticatedOkHttpClient;
+    private final Retrofit.Builder retrofitBuilder;
+    private final UserSessionInfoProvider userSessionInfoProvider;
+    private final Map<SignIn, WeakReference<Retrofit>> authenticatedRetrofits;
+    private final Map<SignIn, Map<Class, WeakReference>> authenticatedClients;
+    public ApiClientProvider(String baseUrl, String userAgent) {
+        this(baseUrl, userAgent, null);
     }
 
-    public JsonElement serialize(byte[] src, Type typeOfSrc, JsonSerializationContext context) {
-      return new JsonPrimitive(Base64.getEncoder().encodeToString(src));
-    }
-  }
+    // allow unit tests to inject a UserSessionInfoProvider
+    ApiClientProvider(
+            String baseUrl, String userAgent, UserSessionInfoProvider userSessionInfoProvider
+    ) {
+        authenticatedRetrofits = Maps.newHashMap();
+        authenticatedClients = Maps.newHashMap();
 
-  private final OkHttpClient unauthenticatedOkHttpClient;
-  private final Retrofit.Builder retrofitBuilder;
-  private final UserSessionInfoProvider userSessionInfoProvider;
-  private final Map<SignIn, WeakReference<Retrofit>> authenticatedRetrofits;
-  private final Map<SignIn, Map<Class, WeakReference>> authenticatedClients;
+        HeaderHandler headerHandler = new HeaderHandler(userAgent);
 
-  public ApiClientProvider(String baseUrl, String userAgent) {
-    this(baseUrl, userAgent, null);
-  }
+        unauthenticatedOkHttpClient = new OkHttpClient.Builder().addInterceptor(headerHandler)
+                .build();
 
-  // allow unit tests to inject a UserSessionInfoProvider
-  ApiClientProvider(
-      String baseUrl, String userAgent, UserSessionInfoProvider userSessionInfoProvider
-  ) {
-    authenticatedRetrofits = Maps.newHashMap();
-    authenticatedClients = Maps.newHashMap();
+        retrofitBuilder = new Retrofit.Builder().baseUrl(baseUrl)
+                .client(unauthenticatedOkHttpClient)
+                .addConverterFactory(GsonConverterFactory.create(GSON));
 
-    HeaderHandler headerHandler = new HeaderHandler(userAgent);
-
-    unauthenticatedOkHttpClient = new OkHttpClient.Builder().addInterceptor(headerHandler).build();
-
-    retrofitBuilder = new Retrofit.Builder().baseUrl(baseUrl)
-                                            .client(unauthenticatedOkHttpClient)
-                                            .addConverterFactory(GsonConverterFactory.create(GSON));
-
-    this.userSessionInfoProvider = userSessionInfoProvider != null ? userSessionInfoProvider
-        : new UserSessionInfoProvider(getClient(AuthenticationApi.class));
-  }
-
-  /**
-   * Creates an unauthenticated client.
-   * @param service
-   *     Class representing the service
-   * @return service client
-   */
-  public <T> T getClient(Class<T> service) {
-    return getClientImpl(service, null);
-  }
-
-  /**
-   * @param service
-   *     Class representing the service
-   * @param signIn
-   *     credentials for the user, or null for an unauthenticated client
-   * @return service client that is authenticated with the user's credentials
-   */
-  public <T> T getClient(Class<T> service, SignIn signIn) {
-    Preconditions.checkNotNull(signIn);
-
-    return getClientImpl(service, signIn);
-  }
-
-  private <T> T getClientImpl(Class<T> service, SignIn signIn) {
-    Map<Class, WeakReference> userClients = authenticatedClients.get(signIn);
-    if (userClients == null) {
-      userClients = Maps.newHashMap();
-      authenticatedClients.put(signIn, userClients);
+        this.userSessionInfoProvider = userSessionInfoProvider != null ? userSessionInfoProvider
+                : new UserSessionInfoProvider(getClient(AuthenticationApi.class));
     }
 
-    T authenticateClient = null;
-    WeakReference<T> clientReference = userClients.get(service);
-
-    if (clientReference != null) {
-      authenticateClient = (T) clientReference.get();
+    /**
+     * Creates an unauthenticated client.
+     * @param service
+     *         Class representing the service
+     * @return service client
+     */
+    public <T> T getClient(Class<T> service) {
+        return getClientImpl(service, null);
     }
 
-    if (authenticateClient == null) {
-      authenticateClient = getAuthenticatedRetrofit(signIn).create(service);
-      userClients.put(service, new WeakReference<>(authenticateClient));
+    /**
+     * @param service
+     *         Class representing the service
+     * @param signIn
+     *         credentials for the user, or null for an unauthenticated client
+     * @return service client that is authenticated with the user's credentials
+     */
+    public <T> T getClient(Class<T> service, SignIn signIn) {
+        Preconditions.checkNotNull(signIn);
+
+        return getClientImpl(service, signIn);
     }
 
-    return authenticateClient;
-  }
+    private <T> T getClientImpl(Class<T> service, SignIn signIn) {
+        Map<Class, WeakReference> userClients = authenticatedClients.get(signIn);
+        if (userClients == null) {
+            userClients = Maps.newHashMap();
+            authenticatedClients.put(signIn, userClients);
+        }
 
-  Retrofit getAuthenticatedRetrofit(SignIn signIn) {
-    Retrofit authenticatedRetrofit = null;
+        T authenticateClient = null;
+        WeakReference<T> clientReference = userClients.get(service);
 
-    WeakReference<Retrofit> authenticatedRetrofitReference = authenticatedRetrofits.get(signIn);
-    if (authenticatedRetrofitReference != null) {
-      authenticatedRetrofit = authenticatedRetrofitReference.get();
+        if (clientReference != null) {
+            authenticateClient = (T) clientReference.get();
+        }
+
+        if (authenticateClient == null) {
+            authenticateClient = getAuthenticatedRetrofit(signIn).create(service);
+            userClients.put(service, new WeakReference<>(authenticateClient));
+        }
+
+        return authenticateClient;
     }
 
-    if (authenticatedRetrofit == null) {
-      OkHttpClient.Builder builder = unauthenticatedOkHttpClient.newBuilder();
+    Retrofit getAuthenticatedRetrofit(SignIn signIn) {
+        Retrofit authenticatedRetrofit = null;
 
-      if (signIn != null) {
-        AuthenticationHandler authenticationHandler = new AuthenticationHandler(signIn,
-                                                                                userSessionInfoProvider
-        );
-        builder.addInterceptor(authenticationHandler).authenticator(authenticationHandler);
-      }
+        WeakReference<Retrofit> authenticatedRetrofitReference = authenticatedRetrofits.get(signIn);
+        if (authenticatedRetrofitReference != null) {
+            authenticatedRetrofit = authenticatedRetrofitReference.get();
+        }
 
-      authenticatedRetrofit = retrofitBuilder.client(builder.build()).build();
+        if (authenticatedRetrofit == null) {
+            OkHttpClient.Builder builder = unauthenticatedOkHttpClient.newBuilder();
 
-      authenticatedRetrofits.put(signIn, new WeakReference<>(authenticatedRetrofit));
+            if (signIn != null) {
+                AuthenticationHandler authenticationHandler = new AuthenticationHandler(signIn,
+                                                                                        userSessionInfoProvider
+                );
+                builder.addInterceptor(authenticationHandler).authenticator(authenticationHandler);
+            }
+
+            authenticatedRetrofit = retrofitBuilder.client(builder.build()).build();
+
+            authenticatedRetrofits.put(signIn, new WeakReference<>(authenticatedRetrofit));
+        }
+
+        return authenticatedRetrofit;
     }
 
-    return authenticatedRetrofit;
-  }
+    private static class ByteArrayToBase64TypeAdapter implements JsonSerializer<byte[]>,
+            JsonDeserializer<byte[]> {
+        public byte[] deserialize(
+                JsonElement json,
+                Type typeOfT,
+                JsonDeserializationContext context
+        ) throws JsonParseException {
+            return Base64.getDecoder().decode(json.getAsString());
+        }
+
+        public JsonElement serialize(byte[] src, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(Base64.getEncoder().encodeToString(src));
+        }
+    }
 }
