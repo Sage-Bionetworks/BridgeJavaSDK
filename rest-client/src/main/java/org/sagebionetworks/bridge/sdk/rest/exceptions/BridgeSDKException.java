@@ -70,7 +70,7 @@ public class BridgeSDKException extends RuntimeException {
 
     @Override
     public String toString() {
-        return "BridgeSDKException [statusCode=" + statusCode + ", endpoint=" + endpoint + "]";
+        return this.getClass().getSimpleName() + " [statusCode=" + statusCode + ", endpoint=" + endpoint + "]";
     }
     
 }
