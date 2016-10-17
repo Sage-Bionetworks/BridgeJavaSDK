@@ -114,21 +114,36 @@ public class ApiClientProvider {
         }
 
         if (authenticatedRetrofit == null) {
-            OkHttpClient.Builder builder = unauthenticatedOkHttpClient.newBuilder();
-
-            if (signIn != null) {
-                AuthenticationHandler authenticationHandler = new AuthenticationHandler(signIn,
-                        userSessionInfoProvider
-                );
-                builder.addInterceptor(authenticationHandler).authenticator(authenticationHandler);
-            }
-
-            authenticatedRetrofit = retrofitBuilder.client(builder.build()).build();
-
-            authenticatedRetrofits.put(signIn, new WeakReference<>(authenticatedRetrofit));
+            authenticatedRetrofit = createAuthenticatedRetrofit(signIn, null);
         }
 
         return authenticatedRetrofit;
+    }
+
+    // allow test to inject retrofit
+    Retrofit createAuthenticatedRetrofit(SignIn signIn, AuthenticationHandler handler) {
+        OkHttpClient.Builder httpClientBuilder = unauthenticatedOkHttpClient.newBuilder();
+
+        if (signIn != null) {
+            AuthenticationHandler authenticationHandler = handler;
+            // this is the normal code path (only tests will inject a handler)
+            if (authenticationHandler == null) {
+                authenticationHandler = new AuthenticationHandler(signIn,
+                        userSessionInfoProvider
+                );
+            }
+            httpClientBuilder.addInterceptor(authenticationHandler).authenticator(authenticationHandler);
+        }
+
+        Retrofit authenticatedRetrofit = retrofitBuilder.client(httpClientBuilder.build()).build();
+        authenticatedRetrofits.put(signIn,
+                new WeakReference<>(authenticatedRetrofit));
+        return authenticatedRetrofit;
+    }
+
+    // allow test access to retrofit builder
+    Retrofit.Builder getRetrofitBuilder() {
+        return retrofitBuilder;
     }
 
     private static class ByteArrayToBase64TypeAdapter implements JsonSerializer<byte[]>,
