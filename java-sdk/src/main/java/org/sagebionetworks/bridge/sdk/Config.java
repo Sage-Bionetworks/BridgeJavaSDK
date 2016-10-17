@@ -25,9 +25,9 @@ import org.joda.time.format.ISODateTimeFormat;
 
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.models.accounts.SignInCredentials;
-import org.sagebionetworks.bridge.sdk.models.healthData.RecordExportStatusRequest;
 import org.sagebionetworks.bridge.sdk.models.reports.ReportType;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
+import org.sagebionetworks.bridge.sdk.rest.model.SignIn;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
@@ -228,6 +228,14 @@ public final class Config {
 
     public SignInCredentials getAdminCredentials() {
         return new SignInCredentials(getStudyIdentifier(), getAdminEmail(), getAdminPassword());
+    }
+    
+    public SignIn getAccountSignIn() {
+        return new SignIn().study(getStudyIdentifier()).email(getAccountEmail()).password(getAccountPassword());
+    }
+
+    public SignIn getAdminSignIn() {
+        return new SignIn().study(getStudyIdentifier()).email(getAdminEmail()).password(getAdminPassword());
     }
     
     public String getAccountEmail() {

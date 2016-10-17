@@ -29,6 +29,7 @@ import org.sagebionetworks.bridge.sdk.rest.model.SignIn;
 public class ApiClientProvider {
     public static final Gson GSON = Converters.registerAll(new GsonBuilder())
             .registerTypeAdapter(byte[].class, new ByteArrayToBase64TypeAdapter()).create();
+    
     private final OkHttpClient unauthenticatedOkHttpClient;
     private final Retrofit.Builder retrofitBuilder;
     private final UserSessionInfoProvider userSessionInfoProvider;
@@ -40,21 +41,19 @@ public class ApiClientProvider {
     }
 
     // allow unit tests to inject a UserSessionInfoProvider
-    ApiClientProvider(
-            String baseUrl, String userAgent, UserSessionInfoProvider userSessionInfoProvider
-    ) {
+    ApiClientProvider(String baseUrl, String userAgent, UserSessionInfoProvider userSessionInfoProvider) {
         authenticatedRetrofits = Maps.newHashMap();
         authenticatedClients = Maps.newHashMap();
 
         HeaderHandler headerHandler = new HeaderHandler(userAgent);
 
         unauthenticatedOkHttpClient = new OkHttpClient.Builder().addInterceptor(headerHandler)
-                .build();
+                .addInterceptor(new ErrorResponseInterceptor()).build();
 
         retrofitBuilder = new Retrofit.Builder().baseUrl(baseUrl)
                 .client(unauthenticatedOkHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(GSON));
-
+        
         this.userSessionInfoProvider = userSessionInfoProvider != null ? userSessionInfoProvider
                 : new UserSessionInfoProvider(getAuthenticatedRetrofit(null));
     }
