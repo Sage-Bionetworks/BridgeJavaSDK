@@ -45,10 +45,7 @@ properties:
     userSharingScope:
         type: string
         description: The user's sharing scope at the time of this upload's submission.
-        enum:
-            - no_sharing
-            - sponsors_and_partners
-            - all_qualified_researchers
+        $ref: ./enums/sharing_scope.yml
     userExternalId:
         type: string
         description: The user's external ID at the time of this upload's submission.

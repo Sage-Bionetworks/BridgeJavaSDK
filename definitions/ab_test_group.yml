@@ -15,4 +15,4 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [ScheduleGroup]
+        enum: [ABTestGroup]

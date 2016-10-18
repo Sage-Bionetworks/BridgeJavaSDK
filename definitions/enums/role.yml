@@ -1,0 +1,12 @@
+type: array
+description: |
+    The roles assigned to this user. Normal study participants do not have any roles assigned, but for 
+    developers, researchers, etc. their roles will appear hear (see main API documentation about the 
+    roles assigned by the Bridge server).
+items:
+    type: string
+    enum:
+        - developer
+        - researcher
+        - admin
+        - worker

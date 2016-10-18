@@ -19,7 +19,7 @@ get:
           type: string
           in: query
         - name: assignmentFilter
-          type: string
+          type: boolean
           in: query
     responses:
         200:

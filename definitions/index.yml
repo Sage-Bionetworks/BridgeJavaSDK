@@ -1,3 +1,33 @@
+SharingScope:
+    $ref: ./enums/sharing_scope.yml
+AccountStatus:
+    $ref: ./enums/account_status.yml
+Environment:
+    $ref: ./enums/environment.yml
+ScheduleType:
+    $ref: ./enums/schedule_type.yml
+Role:
+    $ref: ./enums/role.yml
+ActivityType:
+    $ref: ./enums/activity_type.yml
+Unit:
+    $ref: ./enums/unit.yml
+MimeType:
+    $ref: ./enums/mime_type.yml
+UIHint:
+    $ref: ./enums/ui_hint.yml
+Operator:
+    $ref: ./enums/operator.yml
+UploadStatus:
+    $ref: ./enums/upload_status.yml
+UploadSchemaType:
+    $ref: ./enums/upload_schema_type.yml
+SynapseExportStatus:
+    $ref: ./enums/synapse_export_status.yml
+ScheduleStatus:
+    $ref: ./enums/schedule_status.yml
+FieldDefinitionType:
+    $ref: ./enums/field_definition_type.yml
 ABTestGroup:
     $ref: ./ab_test_group.yml
 ABTestScheduleStrategy:
@@ -33,7 +63,6 @@ EmailVerification:
 EmailVerificationStatus:
     $ref: ./email_verification_status.yml
 EmptyPayload:
-    description: Bridge POST APIs with no body content require an empty json payload ("{}").
     type: object
 ExternalIdentifier:
     $ref: ./external_identifier.yml
@@ -71,8 +100,8 @@ ScheduleStrategy:
     $ref: ./schedule_strategy.yml
 ScheduledActivity:
     $ref: ./scheduled_activity.yml
-SharingScope:
-    $ref: ./sharing_scope.yml
+SharingScopeForm:
+    $ref: ./sharing_scope_form.yml
 SignIn:
     $ref: ./sign_in.yml
 SignUp:

@@ -12,10 +12,7 @@ properties:
         items:
             type: string
     synapseExporterStatus:
-        type: string
-        enum:
-            - not_exported
-            - succeeded
+        $ref: ./enums/synapse_export_status.yml
     type:
         type: string
         readOnly: true

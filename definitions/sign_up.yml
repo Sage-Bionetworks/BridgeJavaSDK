@@ -23,6 +23,11 @@ allOf:
             type: string
             format: password
             description: User's password.
+        consent:
+            type: boolean
+            description: |
+                **Create user API  for admins only.** Create this user consented to all required consents. 
+                For testing purposes only.
         type:
             type: string
             readOnly: true

@@ -8,19 +8,7 @@ required:
     - status
 properties:
     status:
-        type: string
-        description: |
-            Status of verifying support email address.
-
-            |Status|Description|
-            |---|---|
-            |unverified|User has not consented to use the support email address.|
-            |pending|System is waiting for the user to confirm the address.|
-            |verified|Bridge can send consent emails.| 
-        enum:
-            - unverified
-            - pending
-            - verified
+        $ref: ./enums/account_status.yml
     type:
         type: string
         readOnly: true

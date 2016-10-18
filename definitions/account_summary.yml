@@ -20,12 +20,7 @@ properties:
         format: date-time
         description: Read only. ISO 8601 date and time that the user account was created.
     status:
-        type: string
-        description: User account status. `unverified` indicates the user has not verified their email address.
-        enum:
-            - enabled
-            - disabled
-            - unverified
+        $ref: ./enums/account_status.yml
     studyIdentifier:
         $ref: ./study_identifier.yml
     type:

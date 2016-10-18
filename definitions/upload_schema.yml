@@ -34,10 +34,7 @@ properties:
             If this schema is created from a survey, this is the createdOn timestamp 
             (in ISO 8601 format) of the survey it represents.
     schemaType:
-        type: string
-        enum:
-            - ios_data
-            - ios_survey
+        $ref: ./enums/upload_schema_type.yml
     version:
         type: integer
         description: |

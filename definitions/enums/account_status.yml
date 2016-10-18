@@ -1,0 +1,17 @@
+type: string
+description: |
+    Status of verifying support email address.
+
+    |Status|Description|
+    |---|---|
+    |unverified|User has not consented to use the support email address.|
+    |pending|System is waiting for the user to confirm the address.|
+    |verified|Bridge can send consent emails.|
+
+    On creation, the initial status of a user account depends on the email verification policy set 
+    for the study. If verification is required, the account will be unverified until that is done; 
+    otherwise it will be enabled.
+enum:
+    - enabled
+    - disabled
+    - unverified

@@ -17,6 +17,8 @@ post:
         consent (or consents) the user must submit a signature for, before they will be allowed to 
         make further calls to Bridge. You can also implement logic to re-consent to updated consents, 
         if desired.
+
+        Note that a 412 response will not be sent for any account that has an administrative role.
     parameters:
         - name: SignIn
           in: body

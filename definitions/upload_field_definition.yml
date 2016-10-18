@@ -34,28 +34,7 @@ properties:
         default: true
         description: Whether this field is required.
     type:
-        type: string
-        description: |
-            Note that this class is unusual in the API in that type is not a constant 
-            "UploadFieldDefinition" value, it is one of the enumerated values and indicates the 
-            type of the field, not the type of the model object: 
-        enum:
-            - attachment_blob
-            - attachment_csv
-            - attachment_json_blob
-            - attachment_json_table
-            - attachment_v2
-            - boolean
-            - calendar_date
-            - duration_v2
-            - float
-            - inline_json_blob
-            - int
-            - multi_choice
-            - single_choice
-            - string
-            - time_v2
-            - timestamp
+        $ref: ./enums/field_definition_type.yml
     allowOtherChoices:
         type: boolean
         description: |

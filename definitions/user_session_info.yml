@@ -12,13 +12,7 @@ allOf:
             type: string
             description: The session token that must be returned to the server to access services requiring authentication.
         environment:
-            type: string
-            description: This value should always be set to production.
-            enum:
-                - local
-                - develop
-                - staging
-                - production
+            $ref: ./enums/environment.yml
         email:
             type: string
             description: The user's email.

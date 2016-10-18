@@ -12,19 +12,7 @@ properties:
         type: string
         description: A label to describe this schedule.
     scheduleType:
-        type: string
-        description: |
-            Schedules come in three major flavors:
-
-            |Type|Description|
-            |---|---|
-            |once|Activity happens once and only once, and then is never scheduled again.|
-            |recurring|Activity recurrs periodically, either through the use of a cron schedule, or through the use of properties like `interval`, `times` and `expires`.|
-            |persistent|Activity is always in the participant's list of tasks to do. If it is finished, a new activity is scheduled immediately. Client applications may wish to show these differently in the UI.|
-        enum:
-            - once
-            - recurring
-            - persistent
+        $ref: ./enums/schedule_type.yml
     eventId:
         type: string
         description: |

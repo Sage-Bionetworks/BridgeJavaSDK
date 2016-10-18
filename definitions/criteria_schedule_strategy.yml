@@ -16,5 +16,4 @@ allOf:
                 $ref: ./schedule_criteria.yml
         type:
             type: string
-            readOnly: true
             enum: [CriteriaScheduleStrategy]

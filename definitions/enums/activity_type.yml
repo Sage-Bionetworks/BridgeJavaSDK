@@ -1,0 +1,8 @@
+type: string
+enum:
+    - survey
+    - task
+description: |
+    If the activityType is set to `survey`, the activity should contain a survey stanza;
+    if the activityType is set to `task`, the activity should contain a task stanza. An activity 
+    should not contain both. 

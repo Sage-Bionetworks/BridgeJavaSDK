@@ -16,7 +16,7 @@ post:
           description: Sharing scope 
           required: true
           schema:
-            $ref: ../../definitions/sharing_scope.yml
+            $ref: ../../definitions/sharing_scope_form.yml
     responses:
         200:
             $ref: ../../responses/200_message.yml

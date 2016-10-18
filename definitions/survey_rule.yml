@@ -13,25 +13,7 @@ required:
     - value
 properties:
     operator:
-        type: string
-        description: |
-            |Value|Operator meaning|
-            |---|---|
-            |eq|equal to|
-            |ne|not equal to|
-            |lt|less than|
-            |gt|greater than|
-            |le|less than or equal to|
-            |ge|greater than or equal to|
-            |de|user declines to answer this question (it is being skipped)|
-        enum:
-            - eq
-            - ne
-            - lt
-            - gt
-            - le
-            - ge
-            - de
+        $ref: ./enums/operator.yml
     value:
         type: string
         description: The value submitted by the user (as a string).

@@ -29,10 +29,7 @@ properties:
         type: string
         description: The subject line of the email message (no markup allowed)
     mimeType:
-        type: string
-        enum:
-            - text/plain
-            - text/html
+        $ref: ./enums/mime_type.yml
     body:
         type: string
         description: The body text of the email message (can be text or HTML, but the mimeType must be set appropriately)

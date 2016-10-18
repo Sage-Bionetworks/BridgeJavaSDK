@@ -18,5 +18,4 @@ allOf:
                 $ref: ./ab_test_group.yml
         type:
             type: string
-            readOnly: true
             enum: [ABTestScheduleStrategy]

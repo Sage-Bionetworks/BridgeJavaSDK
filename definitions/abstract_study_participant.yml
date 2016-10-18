@@ -34,54 +34,15 @@ properties:
             must be specified in the study's configuration, and the values are stored encrypted in case they 
             are personally-identifying information).
     sharingScope:
-        type: string
-        description: |
-            How far does this user wish to share data?
-
-            |Scope|Description|
-            |---|---|
-            |no_sharing|User does not wish to share data. Note that in some early applications, this is the equivalent of withdrawing from a study, and should be treated as such.|
-            |sponsors_and_partners|Share data in data sets that are available to the study researchers and their researcher partners only.|
-            |all_qualified_researchers|Share data with researchers who qualify under the specific governance qualifications to access the study's data set. These researchers may do research on new questions after the lifetime of the initial research.|
-        enum:
-            - no_sharing
-            - sponsors_and_partners
-            - all_qualified_researchers
+        $ref: ./enums/sharing_scope.yml
     createdOn:
         type: string
         format: date-time
         readOnly: true
     status:
-        type: string
-        description: |
-            An enumeration of the status of the user's account:
-
-            |Status|Description|
-            |---|---|
-            |disabled|Account has been disabled. The account appears not to exist while it is in this state. Bridge does not automatically disable accounts for any reason, but researchers can disable accounts if needed.|
-            |unverified|Account has been created but the user has yet to verify the email address. The account appears not to exist while it is in this state.|
-            |enabled|Account is active and usable.|
-
-            On creation, the initial status of a user account depends on the email verification policy set 
-            for the study. If verification is required, the account will be unverified until that is done; 
-            otherwise it will be enabled.
-        enum:
-            - disabled
-            - enabled
-            - unverified
+        $ref: ./enums/account_status.yml
     roles:
-        type: array
-        description: |
-            The roles assigned to this user. Normal study participants do not have any roles assigned, but for 
-            developers, researchers, etc. their roles will appear hear (see main API documentation about the 
-            roles assigned by the Bridge server).
-        items:
-            type: string
-            enum:
-                - developer
-                - researcher
-                - admin
-                - worker
+        $ref: ./enums/role.yml
     dataGroups:
         type: array
         description: data groups to apply to this user
