@@ -42,7 +42,9 @@ properties:
     status:
         $ref: ./enums/account_status.yml
     roles:
-        $ref: ./enums/role.yml
+        type: array
+        items:
+            $ref: ./enums/role.yml
     dataGroups:
         type: array
         description: data groups to apply to this user
