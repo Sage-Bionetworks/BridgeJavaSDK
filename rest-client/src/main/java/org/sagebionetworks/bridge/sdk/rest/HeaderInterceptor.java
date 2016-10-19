@@ -7,10 +7,10 @@ import okhttp3.Interceptor;
 /**
  * Attaches headers that are common to all Bridge HTTP requests.
  */
-class HeaderHandler implements Interceptor {
+class HeaderInterceptor implements Interceptor {
     private final String userAgent;
 
-    public HeaderHandler(String userAgent) {
+    public HeaderInterceptor(String userAgent) {
         this.userAgent = userAgent;
     }
 
