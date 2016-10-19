@@ -1,7 +1,5 @@
 package org.sagebionetworks.bridge.sdk.models.accounts;
 
-import nl.jqno.equalsverifier.EqualsVerifier;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -10,6 +8,8 @@ import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 import com.fasterxml.jackson.databind.JsonNode;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
 
 public class ExternalIdentifierTest {
     

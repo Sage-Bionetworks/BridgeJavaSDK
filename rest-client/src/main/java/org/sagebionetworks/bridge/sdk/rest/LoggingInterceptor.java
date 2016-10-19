@@ -24,7 +24,8 @@ public class LoggingInterceptor implements Interceptor {
         Request request = chain.request();
         if (logger.isDebugEnabled()) {
             if ("POST".equals(request.method()) || "PUT".equals(request.method())) {
-                logger.debug(request.method()+" "+request.url().toString()+"\n    "+requestBodyToString(request));    
+                logger.debug(request.method() + " " + request.url().toString() + "\n    "
+                        + redactPasswords(requestBodyToString(request)));
             } else {
                 logger.debug(request.method()+" "+request.url().toString());
             }
@@ -37,16 +38,20 @@ public class LoggingInterceptor implements Interceptor {
             Response newResponse = response.newBuilder()
                     .body(ResponseBody.create(body.contentType(), bodyString.getBytes())).build();
 
-            logger.debug("    "+response.code()+": "+bodyString);
+            logger.debug(response.code()+" RESPONSE: "+redactPasswords(bodyString));
             return newResponse;
         }
         return response;
     }
 
-    private static String requestBodyToString(final Request request) throws IOException {
+    private String requestBodyToString(final Request request) throws IOException {
         Request copy = request.newBuilder().build();
         Buffer buffer = new Buffer();
         copy.body().writeTo(buffer);
         return buffer.readUtf8();
+    }
+    
+    private String redactPasswords(String string) {
+        return string.replaceAll("password\":\"([^\"]*)\"", "password\":\"[REDACTED]\"");
     }
 }

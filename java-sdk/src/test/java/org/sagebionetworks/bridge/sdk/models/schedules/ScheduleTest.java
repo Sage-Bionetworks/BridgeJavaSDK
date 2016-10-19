@@ -2,8 +2,6 @@ package org.sagebionetworks.bridge.sdk.models.schedules;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import nl.jqno.equalsverifier.EqualsVerifier;
-import nl.jqno.equalsverifier.Warning;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
@@ -13,6 +11,9 @@ import org.junit.Test;
 import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 import com.google.common.collect.Lists;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 
 public class ScheduleTest {
     @Test

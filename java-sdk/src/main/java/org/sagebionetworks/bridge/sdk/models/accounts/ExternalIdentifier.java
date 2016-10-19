@@ -1,7 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.accounts;
 
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static com.google.common.base.Preconditions.checkArgument;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.util.Objects;
 

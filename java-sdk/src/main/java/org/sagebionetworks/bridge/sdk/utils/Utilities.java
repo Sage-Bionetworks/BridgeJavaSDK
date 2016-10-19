@@ -10,6 +10,7 @@ import java.util.Map;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.commons.validator.routines.UrlValidator;
+
 import org.sagebionetworks.bridge.sdk.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.json.LowercaseEnumModule;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;

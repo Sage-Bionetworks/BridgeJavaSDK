@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.joda.time.DateTime;
+
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
 
 import com.fasterxml.jackson.annotation.JsonCreator;

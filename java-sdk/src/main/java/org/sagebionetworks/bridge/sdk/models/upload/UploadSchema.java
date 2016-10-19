@@ -3,15 +3,16 @@ package org.sagebionetworks.bridge.sdk.models.upload;
 import java.util.List;
 import java.util.Objects;
 
+import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
+
+import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
-import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
-
-import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 
 /**
  * This class represents a schema for the uploads sent by the mobile apps. This can be created and updated by study

@@ -188,6 +188,7 @@ public final class Schedule {
      * @return
      */
     @JsonIgnore
+    @SuppressWarnings({"deprecation"})
     public boolean getPersistent() {
         if (activities != null) {
             for (Activity activity : activities) {
