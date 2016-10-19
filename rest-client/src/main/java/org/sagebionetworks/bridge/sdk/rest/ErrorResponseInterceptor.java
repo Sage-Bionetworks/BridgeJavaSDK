@@ -6,9 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.sagebionetworks.bridge.sdk.rest.exceptions.BadRequestException;
 import org.sagebionetworks.bridge.sdk.rest.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.rest.exceptions.ConcurrentModificationException;

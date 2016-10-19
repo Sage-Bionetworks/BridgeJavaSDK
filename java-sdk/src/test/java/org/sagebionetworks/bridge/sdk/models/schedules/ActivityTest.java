@@ -1,14 +1,14 @@
 package org.sagebionetworks.bridge.sdk.models.schedules;
 
-import nl.jqno.equalsverifier.EqualsVerifier;
-import nl.jqno.equalsverifier.Warning;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 import org.sagebionetworks.bridge.sdk.utils.Utilities;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 
 public class ActivityTest {
     
@@ -23,6 +23,7 @@ public class ActivityTest {
      * @throws Exception
      */
     @Test
+    @SuppressWarnings({"deprecation"})
     public void activityKnowsWhenItIsPersistentlyScheduled() throws Exception {
         // This is persistently scheduled due to an activity
         Schedule schedule = Utilities.getMapper().readValue("{\"scheduleType\":\"once\",\"eventId\":\"activity:HHH:finished\",\"activities\":[{\"label\":\"Label\",\"labelDetail\":\"Label Detail\",\"guid\":\"HHH\",\"task\":{\"identifier\":\"foo\"},\"activityType\":\"task\"}]}", Schedule.class);

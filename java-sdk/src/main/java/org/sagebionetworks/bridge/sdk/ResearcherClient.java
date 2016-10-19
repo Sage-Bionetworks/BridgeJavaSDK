@@ -7,12 +7,12 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-
 import org.sagebionetworks.bridge.sdk.models.PagedResourceList;
 import org.sagebionetworks.bridge.sdk.models.accounts.AccountSummary;
 import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
 import org.sagebionetworks.bridge.sdk.models.holders.IdentifierHolder;
+
+import com.fasterxml.jackson.core.type.TypeReference;
 
 public class ResearcherClient extends StudyStaffClient {
 

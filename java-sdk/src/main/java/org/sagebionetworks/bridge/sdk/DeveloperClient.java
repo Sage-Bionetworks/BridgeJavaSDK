@@ -6,7 +6,6 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.util.List;
 
-import com.google.common.net.UrlEscapers;
 import org.joda.time.DateTime;
 
 import org.sagebionetworks.bridge.sdk.models.PagedResourceList;
@@ -27,6 +26,7 @@ import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadSchema;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.net.UrlEscapers;
 
 public class DeveloperClient extends StudyStaffClient {
     

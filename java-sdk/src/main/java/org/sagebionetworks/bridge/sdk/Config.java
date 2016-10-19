@@ -12,7 +12,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Properties;
 
-import com.google.common.collect.ImmutableList;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicNameValuePair;
@@ -30,6 +29,7 @@ import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
 import org.sagebionetworks.bridge.sdk.rest.model.SignIn;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 public final class Config {

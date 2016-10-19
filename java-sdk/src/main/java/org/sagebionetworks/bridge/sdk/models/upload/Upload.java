@@ -9,9 +9,10 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
+import org.sagebionetworks.bridge.sdk.models.healthData.RecordExportStatusRequest;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.sagebionetworks.bridge.sdk.models.healthData.RecordExportStatusRequest;
 
 /**
  * A read only information object that describes the current status of an upload. This contains more

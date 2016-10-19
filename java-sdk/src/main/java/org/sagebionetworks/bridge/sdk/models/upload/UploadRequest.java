@@ -4,13 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.google.common.io.Files;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.common.io.Files;
 
 /** Represents an upload request to the Bridge Server. */
 @JsonDeserialize(builder = UploadRequest.Builder.class)
