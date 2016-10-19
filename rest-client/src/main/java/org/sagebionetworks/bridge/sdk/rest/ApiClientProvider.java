@@ -45,10 +45,11 @@ public class ApiClientProvider {
         authenticatedRetrofits = Maps.newHashMap();
         authenticatedClients = Maps.newHashMap();
 
-        HeaderHandler headerHandler = new HeaderHandler(userAgent);
-
-        unauthenticatedOkHttpClient = new OkHttpClient.Builder().addInterceptor(headerHandler)
-                .addInterceptor(new ErrorResponseInterceptor()).build();
+        unauthenticatedOkHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new HeaderInterceptor(userAgent))
+                .addInterceptor(new DeprecationInterceptor())
+                .addInterceptor(new ErrorResponseInterceptor())
+                .addInterceptor(new LoggingInterceptor()).build();
 
         retrofitBuilder = new Retrofit.Builder().baseUrl(baseUrl)
                 .client(unauthenticatedOkHttpClient)
@@ -68,7 +69,7 @@ public class ApiClientProvider {
     public <T> T getClient(Class<T> service) {
         return getClientImpl(service, null);
     }
-
+    
     /**
      * @param service
      *         Class representing the service

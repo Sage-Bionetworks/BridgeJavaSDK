@@ -30,13 +30,14 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * Convert HTTP bad request and server errors to Java business exceptions.
+ *
+ */
 public class ErrorResponseInterceptor implements Interceptor {
 
-    private static final Logger logger = LoggerFactory.getLogger(ErrorResponseInterceptor.class);
-    
     private static final TypeReference<HashMap<String, ArrayList<String>>> ERRORS_MAP_TYPE_REF = 
             new TypeReference<HashMap<String, ArrayList<String>>>() {};
-    private static final String BRIDGE_API_STATUS_HEADER = "Bridge-Api-Status";
     private static final ObjectMapper MAPPER = Utilities.getObjectMapper();
 
     @Override
@@ -45,26 +46,11 @@ public class ErrorResponseInterceptor implements Interceptor {
         
         Response response = chain.proceed(request);
         
-        logDeprecationWarning(response);
-        if (response.code() != 200) {
+        if (response.code() > 399) {
             throwErrorCodeException(response);
         }
         return response;
     }
-    
-    /**
-     * TODO: This is really a separate interceptor, it's orthogonal to exception handling.
-     * @param response
-     */
-    private void logDeprecationWarning(Response response) {
-        List<String> statusHeaders = response.headers().toMultimap().get(BRIDGE_API_STATUS_HEADER);
-        if (statusHeaders != null && statusHeaders.size() > 0 && "deprecated".equals(statusHeaders.get(0))) {
-            logger.warn(response.request().url().toString()
-                    + " is a deprecated API. This API may return 410 (Gone) at a future date. "
-                    + "Please consult the API documentation for an alternative.");
-        }
-    }
-    
     
     private void throwErrorCodeException(Response response) {
         String url = response.request().url().toString();
