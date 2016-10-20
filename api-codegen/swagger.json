@@ -4707,7 +4707,6 @@
         },
         "imageData": {
           "type": "string",
-          "format": "binary",
           "description": "Base 64 encoded image of the participant's signature. If `imageData` is supplied, `imageMimeType` must also be supplied."
         },
         "imageMimeType": {
