@@ -157,7 +157,7 @@ public final class Config {
     private Properties config;
     private Environment environment;
 
-    Config() {
+    public Config() {
         config = new Properties();
 
         // Load from default configuration file
