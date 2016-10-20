@@ -64,7 +64,6 @@ public class UserSessionInterceptor implements Interceptor {
         SignIn signIn = recoverSignIn(request);
         try {
             Response response = chain.proceed(request);
-            
             if (signIn != null) {
                 String bodyString = response.body().string();
 
