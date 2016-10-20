@@ -1,5 +1,6 @@
 package org.sagebionetworks.bridge.sdk.utils;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static org.apache.commons.validator.routines.UrlValidator.ALLOW_LOCAL_URLS;
 import static org.apache.commons.validator.routines.UrlValidator.NO_FRAGMENTS;
 
@@ -19,6 +20,8 @@ import org.sagebionetworks.bridge.sdk.models.holders.GuidVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleGuidCreatedOnVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleGuidHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleGuidVersionHolder;
+import org.sagebionetworks.bridge.sdk.rest.model.ConsentStatus;
+import org.sagebionetworks.bridge.sdk.rest.model.UserSessionInfo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -132,4 +135,43 @@ public final class Utilities {
                     + ": json=" + json, e);
         }
     }
+    
+    public static boolean isUserConsented(UserSessionInfo session) {
+        checkNotNull(session);
+        Map<String,ConsentStatus> statuses = session.getConsentStatuses();
+        checkNotNull(statuses);
+        if (statuses.isEmpty()) {
+            return false;
+        }
+        for (ConsentStatus status : statuses.values()) {
+            if (isTrue(status.getRequired()) && !isTrue(status.getConsented())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Are all the required consents up-to-date?
+     * @return
+     */
+    public static boolean isConsentCurrent(UserSessionInfo session) {
+        checkNotNull(session);
+        Map<String,ConsentStatus> statuses = session.getConsentStatuses();
+        checkNotNull(statuses);
+        if (statuses.isEmpty()) {
+            return false;
+        }
+        for (ConsentStatus status : statuses.values()) {
+            if (isTrue(status.getRequired()) && !isTrue(status.getSignedMostRecentConsent())) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private static boolean isTrue(Boolean bool) {
+        return bool != null && bool == Boolean.TRUE;
+    }
+    
 }

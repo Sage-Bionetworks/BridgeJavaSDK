@@ -41,5 +41,4 @@ class Utilities {
     static <T> T last(List<T> list) {
         return (list == null || list.isEmpty()) ? null : list.get(list.size()-1);
     }
-
 }
