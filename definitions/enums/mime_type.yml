@@ -2,3 +2,4 @@ type: string
 enum:
     - text/plain
     - text/html
+    - application/pdf

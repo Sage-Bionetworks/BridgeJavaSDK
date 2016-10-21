@@ -6,6 +6,7 @@ required:
     - sponsorName
     - supportEmail
     - technicalEmail
+    - identifier
     - consentNotificationEmail
     - version
 properties:
@@ -33,7 +34,6 @@ properties:
             governance issues, will be emailed to this address. This can be a comma-separated list of email addresses.
     identifier:
         type: string
-        readOnly: true
         description: |
             A user selected identifier that is unique relative to all other Bridge studies (lower-case letters and dashes only). 
             The identifier serves as a "domain" that scopes accounts to that study, and is usually created by combining an 
