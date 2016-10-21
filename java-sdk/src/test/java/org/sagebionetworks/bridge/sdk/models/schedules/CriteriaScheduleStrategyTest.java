@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.models.Criteria;
 import org.sagebionetworks.bridge.sdk.models.studies.OperatingSystem;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,7 +23,7 @@ import nl.jqno.equalsverifier.Warning;
 
 public class CriteriaScheduleStrategyTest {
     
-    private static final ObjectMapper MAPPER = Utilities.getMapper();
+    private static final ObjectMapper MAPPER = BridgeUtils.getMapper();
 
     @Test
     public void equalsContract() {

@@ -45,7 +45,7 @@ import org.sagebionetworks.bridge.sdk.exceptions.PublishedSurveyException;
 import org.sagebionetworks.bridge.sdk.exceptions.UnauthorizedException;
 import org.sagebionetworks.bridge.sdk.exceptions.UnsupportedVersionException;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadRequest;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -95,7 +95,7 @@ class BaseApiCaller {
             .build();
     private final Executor exec = Executor.newInstance(client);
 
-    private final ObjectMapper mapper = Utilities.getMapper();
+    private final ObjectMapper mapper = BridgeUtils.getMapper();
 
     protected BridgeSession session;
 
@@ -378,7 +378,7 @@ class BaseApiCaller {
         assert url != null;
         
         String fullUrl = config.getEnvironment().getUrl() + url;
-        assert Utilities.isValidUrl(fullUrl) : fullUrl;
+        assert BridgeUtils.isValidUrl(fullUrl) : fullUrl;
         return fullUrl;
     }
 

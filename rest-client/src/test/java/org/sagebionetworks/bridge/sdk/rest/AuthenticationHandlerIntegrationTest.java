@@ -2,12 +2,9 @@ package org.sagebionetworks.bridge.sdk.rest;
 
 import java.util.Properties;
 
-import okhttp3.OkHttpClient;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import org.sagebionetworks.bridge.sdk.Config;
 import org.sagebionetworks.bridge.sdk.rest.api.AuthenticationApi;
@@ -41,7 +38,7 @@ public class AuthenticationHandlerIntegrationTest {
         signIn = new SignIn().study(STUDY).email(adminEmail).password(adminPassword);
 
         authenticationHandler = new AuthenticationHandler(signIn,
-                new UserSessionInfoProvider(provider.getAuthenticatedRetrofit(null))
+                new UserSessionInfoProvider(provider.getAuthenticatedRetrofit(null), new UserSessionInterceptor())
         );
 
         provider.createAuthenticatedRetrofit(signIn, authenticationHandler);

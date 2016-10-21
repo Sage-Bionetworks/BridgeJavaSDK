@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -22,7 +22,7 @@ public class SignInCredentialsTest {
     public void canSerializer() throws Exception {
         SignInCredentials signIn = new SignInCredentials("study-key", "email@email.com", "password");
         
-        JsonNode node = Utilities.getMapper().valueToTree(signIn);
+        JsonNode node = BridgeUtils.getMapper().valueToTree(signIn);
         assertEquals("study-key", node.get("study").asText());
         assertEquals("email@email.com", node.get("username").asText());
         assertEquals("email@email.com", node.get("email").asText());

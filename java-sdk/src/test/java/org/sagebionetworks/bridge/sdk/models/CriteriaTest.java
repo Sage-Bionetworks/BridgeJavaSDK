@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.models.studies.OperatingSystem;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Maps;
@@ -55,7 +55,7 @@ public class CriteriaTest {
         criteria.setAllOfGroups(SET_A);
         criteria.setNoneOfGroups(SET_B);
         
-        JsonNode node = Utilities.getMapper().valueToTree(criteria);
+        JsonNode node = BridgeUtils.getMapper().valueToTree(criteria);
         assertEquals(2, node.get("minAppVersions").get("iPhone OS").asInt());
         assertEquals(8, node.get("maxAppVersions").get("iPhone OS").asInt());
         assertEquals(10, node.get("minAppVersions").get("Android").asInt());
@@ -66,7 +66,7 @@ public class CriteriaTest {
         
         String json = makeJson("{'minAppVersions':{'iPhone OS':2,'Android':10},'maxAppVersions':{'iPhone OS':8},'allOfGroups':['a','b'],'noneOfGroups':['c','d']}");
         
-        Criteria crit = Utilities.getMapper().readValue(json, Criteria.class);
+        Criteria crit = BridgeUtils.getMapper().readValue(json, Criteria.class);
         assertEquals(new Integer(2), crit.getMinAppVersions().get(OperatingSystem.IOS));
         assertEquals(new Integer(8), crit.getMaxAppVersions().get(OperatingSystem.IOS));
         assertEquals(new Integer(10), crit.getMinAppVersions().get(OperatingSystem.ANDROID));

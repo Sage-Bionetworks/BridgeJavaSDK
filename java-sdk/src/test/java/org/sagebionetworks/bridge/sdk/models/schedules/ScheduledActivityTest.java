@@ -7,7 +7,7 @@ import static org.junit.Assert.assertNull;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
@@ -28,10 +28,10 @@ public class ScheduledActivityTest {
             DateTime.parse("2014-06-08T17:32:12.970-07:00").withZone(UTC),
             null, 2, 8, true);
         
-        String json = Utilities.getMapper().writeValueAsString(schActivity);
+        String json = BridgeUtils.getMapper().writeValueAsString(schActivity);
         assertEquals("{\"guid\":\"AAA-BBB-CCC\",\"activity\":{\"label\":\"Activity Label 1\",\"task\":{\"identifier\":\"task1\"},\"activityType\":\"task\"},\"scheduledOn\":\"2014-06-01T17:00:00.000Z\",\"expiresOn\":\"2014-06-14T17:00:00.000Z\",\"startedOn\":\"2014-06-09T00:32:12.970Z\",\"minAppVersion\":2,\"maxAppVersion\":8,\"persistent\":true,\"status\":\"started\"}", json);
         
-        ScheduledActivity newSchActivity = Utilities.getMapper().readValue(json, ScheduledActivity.class);
+        ScheduledActivity newSchActivity = BridgeUtils.getMapper().readValue(json, ScheduledActivity.class);
         assertEquals(schActivity.getGuid(), newSchActivity.getGuid());
         assertEquals(schActivity.getActivity(), newSchActivity.getActivity());
         assertEquals(schActivity.getScheduledOn(), newSchActivity.getScheduledOn());

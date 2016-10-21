@@ -9,7 +9,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Maps;
@@ -41,8 +41,8 @@ public class ConsentStatusTest {
     public void canSerialize() throws Exception {
         ConsentStatus status = new ConsentStatus("Name", "GUID", true, true, true);
 
-        String json = Utilities.getMapper().writeValueAsString(status);
-        JsonNode node = Utilities.getMapper().readTree(json);
+        String json = BridgeUtils.getMapper().writeValueAsString(status);
+        JsonNode node = BridgeUtils.getMapper().readTree(json);
         
         assertEquals("Name", node.get("name").asText());
         assertEquals("GUID", node.get("subpopulationGuid").asText());
@@ -50,7 +50,7 @@ public class ConsentStatusTest {
         assertTrue(node.get("consented").asBoolean());
         assertTrue(node.get("mostRecentConsent").asBoolean());
         
-        ConsentStatus status2 = Utilities.getMapper().readValue(json, ConsentStatus.class);
+        ConsentStatus status2 = BridgeUtils.getMapper().readValue(json, ConsentStatus.class);
         assertEquals(status, status2);
     }
 

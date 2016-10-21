@@ -1,7 +1,7 @@
 package org.sagebionetworks.bridge.sdk.models.subpopulations;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static org.sagebionetworks.bridge.sdk.utils.Utilities.TO_STRING_STYLE;
+import static org.sagebionetworks.bridge.sdk.utils.BridgeUtils.TO_STRING_STYLE;
 
 import java.util.Map;
 import java.util.Objects;

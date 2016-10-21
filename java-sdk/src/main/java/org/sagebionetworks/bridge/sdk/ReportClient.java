@@ -11,7 +11,7 @@ import org.sagebionetworks.bridge.sdk.models.ReportTypeResourceList;
 import org.sagebionetworks.bridge.sdk.models.reports.ReportData;
 import org.sagebionetworks.bridge.sdk.models.reports.ReportIndex;
 import org.sagebionetworks.bridge.sdk.models.reports.ReportType;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -98,7 +98,7 @@ public class ReportClient extends BaseApiCaller {
         checkArgument(isNotBlank(reportId), CANNOT_BE_BLANK, "reportId");
         checkNotNull(reportData, CANNOT_BE_NULL, "reportData");
         
-        ObjectNode node = (ObjectNode)Utilities.getMapper().valueToTree(reportData);
+        ObjectNode node = (ObjectNode)BridgeUtils.getMapper().valueToTree(reportData);
         node.put("healthCode", healthCode);
         post(config.getParticipantsReportsIdentifierApi(reportId), node);
     }

@@ -35,7 +35,7 @@ public class ErrorResponseInterceptor implements Interceptor {
 
     private static final TypeReference<HashMap<String, ArrayList<String>>> ERRORS_MAP_TYPE_REF = 
             new TypeReference<HashMap<String, ArrayList<String>>>() {};
-    private static final ObjectMapper MAPPER = Utilities.getObjectMapper();
+    private static final ObjectMapper MAPPER = RestUtils.getObjectMapper();
 
     @Override
     public Response intercept(Chain chain) throws IOException {
@@ -80,7 +80,7 @@ public class ErrorResponseInterceptor implements Interceptor {
         } else if (statusCode == 410) {
             e = new UnsupportedVersionException(message, url);
         } else if (statusCode == 412) {
-            UserSessionInfo session = Utilities.getJsonAsType(node, UserSessionInfo.class);
+            UserSessionInfo session = RestUtils.getJsonAsType(node, UserSessionInfo.class);
             e = new ConsentRequiredException("Consent required.", url, session);
         } else if (statusCode == 409 && message.contains("already exists")) {
             e = new EntityAlreadyExistsException(message, url);

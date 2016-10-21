@@ -159,7 +159,7 @@ public final class Config {
     private Properties config;
     private Environment environment;
 
-    Config() {
+    public Config() {
         config = new Properties();
 
         // Load from default configuration file
@@ -273,6 +273,22 @@ public final class Config {
         return environment;
     }
 
+    /** Once switched over, this method can be deleted as getEnvironment() will point to the 
+     * constant created by api-codegen.
+     */
+    public org.sagebionetworks.bridge.sdk.rest.model.Environment getEnvironment2() {
+        if (environment == Environment.LOCAL) {
+            return org.sagebionetworks.bridge.sdk.rest.model.Environment.LOCAL;
+        } else if (environment == Environment.DEV) {
+            return org.sagebionetworks.bridge.sdk.rest.model.Environment.DEVELOP;
+        } else if (environment == Environment.STAGING) {
+            return org.sagebionetworks.bridge.sdk.rest.model.Environment.STAGING;
+        } else if (environment == Environment.PRODUCTION) {
+            return org.sagebionetworks.bridge.sdk.rest.model.Environment.PRODUCTION;
+        }
+        throw new RuntimeException("Environment enum could not be translated to rest package enumeration: " + environment);
+    }
+    
     public String getLogLevel() {
         return fromProperty(Props.LOG_LEVEL);
     }
