@@ -41,6 +41,8 @@ properties:
             An array of error messages if this upload did not pass validation.
         items:
             type: string
+    healthRecordExporterStatus:
+        $ref: ./enums/health_record_exporter_status.yml    
     type:
         type: string
         readOnly: true

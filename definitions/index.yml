@@ -4,6 +4,8 @@ AccountStatus:
     $ref: ./enums/account_status.yml
 Environment:
     $ref: ./enums/environment.yml
+HealthRecordExporterStatus:
+    $ref: ./enums/health_record_exporter_status.yml
 ScheduleType:
     $ref: ./enums/schedule_type.yml
 Role:

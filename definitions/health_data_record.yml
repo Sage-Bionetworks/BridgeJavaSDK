@@ -61,6 +61,8 @@ properties:
             set when creating a new health data record. When updating a record retrieved from 
             the API, the object will have the version attribute and this must match the last 
             value issued by the service or an update will fail.
+    synapseExporterStatus:
+        $ref: ./enums/health_record_exporter_status.yml    
     type:
         type: string
         readOnly: true
