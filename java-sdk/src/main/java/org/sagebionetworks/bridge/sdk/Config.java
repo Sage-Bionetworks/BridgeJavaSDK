@@ -51,6 +51,7 @@ public final class Config {
     private static final String DAYS_AHEAD = "daysAhead";
     private static final String OFFSET = "offset";
     private static final String MINIMUM_PER_SCHEDULE = "minimumPerSchedule";
+    private static final String FORMAT = "format";
 
     private static final String CONFIG_FILE = "/bridge-sdk.properties";
     private static final String USER_CONFIG_FILE = System.getProperty("user.home") + "/bridge-sdk.properties";
@@ -537,6 +538,13 @@ public final class Config {
     
     public String getStudiesApi() {
         return Props.V3_STUDIES.getEndpoint();
+    }
+
+    public String getAllStudiesSummaryApi() {
+        List<NameValuePair> queryParams = Lists.newArrayList();
+        queryParams.add(new BasicNameValuePair(FORMAT, "summary"));
+
+        return withQueryParams(String.format(Props.V3_STUDIES.getEndpoint()), queryParams);
     }
 
     public String getStudyApi(String identifier) {
