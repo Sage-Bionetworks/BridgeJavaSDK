@@ -13,7 +13,7 @@ import org.sagebionetworks.bridge.sdk.models.accounts.SharingScope;
 import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.ConsentStatus;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
@@ -27,7 +27,7 @@ public class UserSessionTest {
     private static final SubpopulationGuid SUBPOP_GUID = new SubpopulationGuid("study");
     private static final ConsentStatus CONSENT_STATUS = new ConsentStatus("Consent Name", "study", true, true, true);
     
-    private static ObjectMapper mapper = Utilities.getMapper();
+    private static ObjectMapper mapper = BridgeUtils.getMapper();
 
     @Test
     public void canConstructUserSessionFromJson() throws Exception {

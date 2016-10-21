@@ -1,13 +1,9 @@
 package org.sagebionetworks.bridge.sdk.rest;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 
-import okhttp3.ResponseBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import retrofit2.Converter;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 
 import org.sagebionetworks.bridge.sdk.rest.api.AuthenticationApi;
@@ -20,12 +16,12 @@ import org.sagebionetworks.bridge.sdk.rest.model.UserSessionInfo;
 class UserSessionInfoProvider {
     private static final Logger LOG = LoggerFactory.getLogger(UserSessionInfoProvider.class);
 
-    private final Retrofit retrofit;
     private final AuthenticationApi authenticationApi;
-
-    public UserSessionInfoProvider(Retrofit retrofit) {
-        this.retrofit = retrofit;
+    private UserSessionInterceptor sessionInterceptor;
+    
+    public UserSessionInfoProvider(Retrofit retrofit, UserSessionInterceptor sessionInterceptor) {
         this.authenticationApi = retrofit.create(AuthenticationApi.class);
+        this.sessionInterceptor = sessionInterceptor;
     }
 
     /**
@@ -37,22 +33,15 @@ class UserSessionInfoProvider {
      * @throws IOException
      */
     public UserSessionInfo retrieveSession(SignIn signIn) throws IOException {
-        LOG.info("Retrieving session for study: " + signIn.getStudy() + ", email:" +
-                signIn.getEmail());
-        Response<UserSessionInfo> signInResponse = authenticationApi.signIn(signIn)
-                .execute();
-
-        if (signInResponse.isSuccessful()) {
-            return signInResponse.body();
-        } else if (signInResponse.code() == 412) {
-
-            // Look up a converter for the UserSessionInfo type on the Retrofit instance.
-            Converter<ResponseBody, UserSessionInfo> errorConverter =
-                    retrofit.responseBodyConverter(UserSessionInfo.class, new Annotation[0]);
-            return errorConverter.convert(signInResponse.errorBody());
+        UserSessionInfo session = sessionInterceptor.getSession(signIn);
+        if (session != null) {
+            return session;
         }
-
-        LOG.warn("Login failed");
-        return null;
+        LOG.info("No session, call intercepted for authentication attempt: " + signIn.getEmail());
+        authenticationApi.signIn(signIn).execute();
+        
+        // Calling sign in will cause the session to be saved by the session interceptor. No further 
+        // work is required here.
+        return sessionInterceptor.getSession(signIn);
     }
 }

@@ -7,7 +7,7 @@ import org.joda.time.DateTimeZone;
 import org.junit.Test;
 
 import org.sagebionetworks.bridge.Tests;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -24,7 +24,7 @@ public class AccountSummaryTest {
         DateTime createdOn = DateTime.now().withZone(DateTimeZone.UTC);
         AccountSummary summary = new AccountSummary("firstName", "lastName", "email@email.com", createdOn, "id", AccountStatus.UNVERIFIED);
         
-        JsonNode node = Utilities.getMapper().valueToTree(summary);
+        JsonNode node = BridgeUtils.getMapper().valueToTree(summary);
         assertEquals("firstName", node.get("firstName").asText());
         assertEquals("lastName", node.get("lastName").asText());
         assertEquals("email@email.com", node.get("email").asText());
@@ -32,7 +32,7 @@ public class AccountSummaryTest {
         assertEquals(createdOn.toString(), node.get("createdOn").asText());
         assertEquals("unverified", node.get("status").asText());
         
-        AccountSummary newSummary = Utilities.getMapper().treeToValue(node, AccountSummary.class);
+        AccountSummary newSummary = BridgeUtils.getMapper().treeToValue(node, AccountSummary.class);
         assertEquals(summary, newSummary);
     }
     
@@ -40,7 +40,7 @@ public class AccountSummaryTest {
     public void deserializesCorrectly() throws Exception {
         String json = Tests.unescapeJson("{'firstName':'firstName','lastName':'lastName','email':'email@email.com','id':'ABC','createdOn':'2016-04-07T18:47:00.375Z','status':'unverified'}");
 
-        AccountSummary summary = Utilities.getMapper().readValue(json, AccountSummary.class);
+        AccountSummary summary = BridgeUtils.getMapper().readValue(json, AccountSummary.class);
         assertEquals("firstName", summary.getFirstName());
         assertEquals("lastName", summary.getLastName());
         assertEquals("email@email.com", summary.getEmail());

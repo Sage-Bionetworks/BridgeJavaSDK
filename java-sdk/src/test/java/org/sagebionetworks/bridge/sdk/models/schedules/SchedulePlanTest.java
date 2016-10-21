@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import org.sagebionetworks.bridge.Tests;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
@@ -22,8 +22,8 @@ public class SchedulePlanTest {
         SchedulePlan plan1 = Tests.getABTestSchedulePlan();
         SchedulePlan plan2 = Tests.getABTestSchedulePlan();
         
-        String json = Utilities.getMapper().writeValueAsString(plan1);
-        plan1 = Utilities.getMapper().readValue(json, SchedulePlan.class);
+        String json = BridgeUtils.getMapper().writeValueAsString(plan1);
+        plan1 = BridgeUtils.getMapper().readValue(json, SchedulePlan.class);
         
         assertEquals(plan2, plan1);
     }

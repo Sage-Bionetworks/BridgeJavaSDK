@@ -12,7 +12,7 @@ import org.sagebionetworks.bridge.sdk.models.holders.SimpleVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -41,7 +41,7 @@ public final class AdminClient extends StudyStaffClient {
     public String createUser(StudyParticipant participant, boolean consentUser) {
         session.checkSignedIn();
 
-        ObjectNode node = (ObjectNode)Utilities.getMapper().valueToTree(participant);
+        ObjectNode node = (ObjectNode)BridgeUtils.getMapper().valueToTree(participant);
         node.put("consent", Boolean.toString(consentUser));
         
         UserSession userSession = post(config.getUsersApi(), node, UserSession.class);

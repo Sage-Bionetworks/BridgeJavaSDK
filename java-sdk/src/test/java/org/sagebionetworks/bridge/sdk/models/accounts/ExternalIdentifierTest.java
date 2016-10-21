@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -37,11 +37,11 @@ public class ExternalIdentifierTest {
     public void canSerialize() throws Exception {
         ExternalIdentifier identifier = new ExternalIdentifier("ABC", true);
         
-        JsonNode node = Utilities.getMapper().valueToTree(identifier);
+        JsonNode node = BridgeUtils.getMapper().valueToTree(identifier);
         assertEquals("ABC", node.get("identifier").asText());
         assertTrue(node.get("assigned").asBoolean());
         
-        ExternalIdentifier deser = Utilities.getMapper().readValue(node.toString(), ExternalIdentifier.class);
+        ExternalIdentifier deser = BridgeUtils.getMapper().readValue(node.toString(), ExternalIdentifier.class);
         assertEquals(identifier, deser);
     }
     

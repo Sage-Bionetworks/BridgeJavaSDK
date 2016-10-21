@@ -3,7 +3,7 @@ package org.sagebionetworks.bridge.sdk.models.surveys;
 import java.io.IOException;
 import java.util.Map;
 
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -45,7 +45,7 @@ class ConstraintsDeserializer extends JsonDeserializer<Constraints> {
                 throw new RuntimeException("Invalid constraint data type: " + dataType);
             }
         }
-        return Utilities.getMapper().treeToValue(node, clazz);
+        return BridgeUtils.getMapper().treeToValue(node, clazz);
     }
 
 }

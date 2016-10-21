@@ -1,6 +1,6 @@
 package org.sagebionetworks.bridge.sdk.models.surveys;
 
-import static org.sagebionetworks.bridge.sdk.utils.Utilities.TO_STRING_STYLE;
+import static org.sagebionetworks.bridge.sdk.utils.BridgeUtils.TO_STRING_STYLE;
 
 import java.util.Objects;
 

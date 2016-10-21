@@ -20,7 +20,7 @@ import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.Roles;
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -59,7 +59,7 @@ public class StudyParticipantTest {
                 "password", SharingScope.ALL_QUALIFIED_RESEARCHERS, true, DATA_GROUPS, "healthCode", ATTRIBUTES, consentHistories,
                 Sets.newHashSet(Roles.DEVELOPER), CREATED_ON, AccountStatus.ENABLED, LANGUAGES, ID);
         
-        JsonNode node = Utilities.getMapper().valueToTree(participant);
+        JsonNode node = BridgeUtils.getMapper().valueToTree(participant);
         
         assertEquals("firstName", node.get("firstName").asText());
         assertEquals("lastName", node.get("lastName").asText());
@@ -101,7 +101,7 @@ public class StudyParticipantTest {
         assertEquals("2012-10-10T10:10:10.000Z",consent.get("withdrewOn").asText());
         assertTrue(consent.get("hasSignedActiveConsent").asBoolean());
         
-        StudyParticipant deserParticipant = Utilities.getMapper().treeToValue(node, StudyParticipant.class);
+        StudyParticipant deserParticipant = BridgeUtils.getMapper().treeToValue(node, StudyParticipant.class);
         assertEquals(participant, deserParticipant);
     }
     
@@ -127,7 +127,7 @@ public class StudyParticipantTest {
                 .withLanguages(Tests.<String>newLinkedHashSet())
                 .build();
         
-        JsonNode node = Utilities.getMapper().valueToTree(participant);
+        JsonNode node = BridgeUtils.getMapper().valueToTree(participant);
         assertEquals(0, ((ArrayNode)node.get("languages")).size());
         assertNotNull(node.get("dataGroups"));
     }
@@ -136,15 +136,15 @@ public class StudyParticipantTest {
     public void doNotSendBooleanUnlessSpecificallySet() {
         StudyParticipant participant = new StudyParticipant.Builder().build();
         
-        JsonNode node = Utilities.getMapper().valueToTree(participant);
+        JsonNode node = BridgeUtils.getMapper().valueToTree(participant);
         assertNull(node.get("notifyByEmail"));
         
         participant = new StudyParticipant.Builder().withNotifyByEmail(false).build();
-        node = Utilities.getMapper().valueToTree(participant);
+        node = BridgeUtils.getMapper().valueToTree(participant);
         assertFalse(node.get("notifyByEmail").asBoolean());
         
         participant = new StudyParticipant.Builder().withNotifyByEmail(true).build();
-        node = Utilities.getMapper().valueToTree(participant);
+        node = BridgeUtils.getMapper().valueToTree(participant);
         assertTrue(node.get("notifyByEmail").asBoolean());
     }
     

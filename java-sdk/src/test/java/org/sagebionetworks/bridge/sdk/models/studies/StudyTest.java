@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import org.sagebionetworks.bridge.sdk.models.studies.EmailTemplate.MimeType;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -46,8 +46,8 @@ public class StudyTest {
         study.getMinSupportedAppVersions().put(OperatingSystem.IOS, 12);
         study.getMinSupportedAppVersions().put(OperatingSystem.ANDROID, 14);
         
-        String json = Utilities.getMapper().writeValueAsString(study);
-        JsonNode node = Utilities.getMapper().readTree(json);
+        String json = BridgeUtils.getMapper().writeValueAsString(study);
+        JsonNode node = BridgeUtils.getMapper().readTree(json);
         
         assertEquals("Test Name", node.get("name").asText());
         assertEquals("Sponsor Name", node.get("sponsorName").asText());
@@ -88,7 +88,7 @@ public class StudyTest {
         assertEquals("html", rpTemplate.get("mimeType").asText());
         
         // And the resultant object is equal to the original (comparing by value)
-        Study newStudy = Utilities.getMapper().readValue(json, Study.class);
+        Study newStudy = BridgeUtils.getMapper().readValue(json, Study.class);
         
         assertEquals(study, newStudy);
     }

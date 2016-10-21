@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.sagebionetworks.bridge.sdk.models.schedules.ScheduleType;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -27,7 +27,7 @@ public class EnumSerializationTest {
     
     @Before
     public void before() {
-        mapper = Utilities.getMapper();
+        mapper = BridgeUtils.getMapper();
     }
     
     @Test

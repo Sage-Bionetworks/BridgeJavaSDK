@@ -11,7 +11,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.google.common.collect.ImmutableList;
 
@@ -159,7 +159,7 @@ public class UploadFieldDefinitionTest {
 
         // convert to POJO
         List<String> expectedAnswerList = ImmutableList.of("asdf", "jkl;");
-        UploadFieldDefinition fieldDef = Utilities.getMapper().readValue(jsonText, UploadFieldDefinition.class);
+        UploadFieldDefinition fieldDef = BridgeUtils.getMapper().readValue(jsonText, UploadFieldDefinition.class);
         assertTrue(fieldDef.getAllowOtherChoices());
         assertEquals(".json", fieldDef.getFileExtension());
         assertEquals("text/json", fieldDef.getMimeType());
@@ -171,10 +171,10 @@ public class UploadFieldDefinitionTest {
         assertTrue(fieldDef.isUnboundedText());
 
         // convert back to JSON
-        String convertedJson = Utilities.getMapper().writeValueAsString(fieldDef);
+        String convertedJson = BridgeUtils.getMapper().writeValueAsString(fieldDef);
 
         // then convert to a map so we can validate the raw JSON
-        Map<String, Object> jsonMap = Utilities.getMapper().readValue(convertedJson, Utilities.TYPE_REF_RAW_MAP);
+        Map<String, Object> jsonMap = BridgeUtils.getMapper().readValue(convertedJson, BridgeUtils.TYPE_REF_RAW_MAP);
         assertEquals(9, jsonMap.size());
         assertTrue((boolean) jsonMap.get("allowOtherChoices"));
         assertEquals(".json", jsonMap.get("fileExtension"));

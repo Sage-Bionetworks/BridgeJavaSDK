@@ -11,7 +11,7 @@ import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.models.Criteria;
 import org.sagebionetworks.bridge.sdk.models.studies.OperatingSystem;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.google.common.collect.Sets;
 
@@ -43,8 +43,8 @@ public class SubpopulationTest {
         subpop.setVersion(2L);
         subpop.setCriteria(criteria);
         
-        String json = Utilities.getMapper().writeValueAsString(subpop);
-        Subpopulation subpop2 = Utilities.getMapper().readValue(json, Subpopulation.class);
+        String json = BridgeUtils.getMapper().writeValueAsString(subpop);
+        Subpopulation subpop2 = BridgeUtils.getMapper().readValue(json, Subpopulation.class);
         assertEquals(subpop, subpop2);
         
         String jsonWithPublicationTimestamp = Tests.unescapeJson("{'publishedConsentCreatedOn':'"+TIMESTAMP.toString()+"', "+
@@ -59,7 +59,7 @@ public class SubpopulationTest {
                     "'allOfGroups':[]"+
                     ",'noneOfGroups':['group2']}}");
         
-        Subpopulation subpopulation = Utilities.getMapper().readValue(jsonWithPublicationTimestamp, Subpopulation.class);
+        Subpopulation subpopulation = BridgeUtils.getMapper().readValue(jsonWithPublicationTimestamp, Subpopulation.class);
         assertEquals(TIMESTAMP, subpopulation.getPublishedConsentCreatedOn());
         assertEquals(new SubpopulationGuid("guid"), subpopulation.getGuid());
         assertEquals("Name", subpop.getName());

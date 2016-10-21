@@ -10,7 +10,7 @@ import org.sagebionetworks.bridge.sdk.exceptions.ConsentRequiredException;
 import org.sagebionetworks.bridge.sdk.models.accounts.EmailCredentials;
 import org.sagebionetworks.bridge.sdk.models.accounts.SignInCredentials;
 import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -49,7 +49,7 @@ public class ClientProvider {
     }
     
     public static LinkedHashSet<String> getLanguages() {
-        return Utilities.newLinkedHashSet(languages);
+        return BridgeUtils.newLinkedHashSet(languages);
     }
     
     public static void clearLanguages() {
@@ -84,7 +84,7 @@ public class ClientProvider {
         checkArgument(isNotBlank(studyId), "Study ID required.");
         checkNotNull(participant, "StudyParticipant required.");
 
-        ObjectNode node = (ObjectNode)Utilities.getMapper().valueToTree(participant);
+        ObjectNode node = (ObjectNode)BridgeUtils.getMapper().valueToTree(participant);
         node.put("study", studyId);
 
         new BaseApiCaller(null).post(config.getSignUpApi(), node);
