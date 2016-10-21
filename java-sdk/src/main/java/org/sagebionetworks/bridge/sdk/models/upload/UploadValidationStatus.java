@@ -3,13 +3,14 @@ package org.sagebionetworks.bridge.sdk.models.upload;
 import java.util.List;
 import java.util.Objects;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.google.common.base.Joiner;
-import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.StringUtils;
 
 import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 import org.sagebionetworks.bridge.sdk.models.healthData.HealthDataRecord;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableList;
 
 /** This class represents upload validation status and messages. */
 @JsonDeserialize(builder = UploadValidationStatus.Builder.class)

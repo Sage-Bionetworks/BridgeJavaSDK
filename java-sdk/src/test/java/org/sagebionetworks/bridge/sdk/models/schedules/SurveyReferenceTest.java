@@ -2,11 +2,12 @@ package org.sagebionetworks.bridge.sdk.models.schedules;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import nl.jqno.equalsverifier.EqualsVerifier;
-import nl.jqno.equalsverifier.Warning;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 
 public class SurveyReferenceTest {
 

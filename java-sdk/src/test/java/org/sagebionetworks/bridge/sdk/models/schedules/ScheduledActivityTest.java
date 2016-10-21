@@ -4,13 +4,13 @@ import static org.joda.time.DateTimeZone.UTC;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import nl.jqno.equalsverifier.EqualsVerifier;
-import nl.jqno.equalsverifier.Warning;
-
 import org.joda.time.DateTime;
 import org.junit.Test;
 
 import org.sagebionetworks.bridge.sdk.utils.Utilities;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 
 public class ScheduledActivityTest {
     

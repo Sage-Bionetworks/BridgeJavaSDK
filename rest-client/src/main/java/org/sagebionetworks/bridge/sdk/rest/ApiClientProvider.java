@@ -29,6 +29,7 @@ import org.sagebionetworks.bridge.sdk.rest.model.SignIn;
 public class ApiClientProvider {
     public static final Gson GSON = Converters.registerAll(new GsonBuilder())
             .registerTypeAdapter(byte[].class, new ByteArrayToBase64TypeAdapter()).create();
+    
     private final OkHttpClient unauthenticatedOkHttpClient;
     private final Retrofit.Builder retrofitBuilder;
     private final UserSessionInfoProvider userSessionInfoProvider;
@@ -40,21 +41,20 @@ public class ApiClientProvider {
     }
 
     // allow unit tests to inject a UserSessionInfoProvider
-    ApiClientProvider(
-            String baseUrl, String userAgent, UserSessionInfoProvider userSessionInfoProvider
-    ) {
+    ApiClientProvider(String baseUrl, String userAgent, UserSessionInfoProvider userSessionInfoProvider) {
         authenticatedRetrofits = Maps.newHashMap();
         authenticatedClients = Maps.newHashMap();
 
-        HeaderHandler headerHandler = new HeaderHandler(userAgent);
-
-        unauthenticatedOkHttpClient = new OkHttpClient.Builder().addInterceptor(headerHandler)
-                .build();
+        unauthenticatedOkHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new HeaderInterceptor(userAgent))
+                .addInterceptor(new DeprecationInterceptor())
+                .addInterceptor(new ErrorResponseInterceptor())
+                .addInterceptor(new LoggingInterceptor()).build();
 
         retrofitBuilder = new Retrofit.Builder().baseUrl(baseUrl)
                 .client(unauthenticatedOkHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(GSON));
-
+        
         this.userSessionInfoProvider = userSessionInfoProvider != null ? userSessionInfoProvider
                 : new UserSessionInfoProvider(getAuthenticatedRetrofit(null));
     }
@@ -69,7 +69,7 @@ public class ApiClientProvider {
     public <T> T getClient(Class<T> service) {
         return getClientImpl(service, null);
     }
-
+    
     /**
      * @param service
      *         Class representing the service
@@ -114,21 +114,36 @@ public class ApiClientProvider {
         }
 
         if (authenticatedRetrofit == null) {
-            OkHttpClient.Builder builder = unauthenticatedOkHttpClient.newBuilder();
-
-            if (signIn != null) {
-                AuthenticationHandler authenticationHandler = new AuthenticationHandler(signIn,
-                        userSessionInfoProvider
-                );
-                builder.addInterceptor(authenticationHandler).authenticator(authenticationHandler);
-            }
-
-            authenticatedRetrofit = retrofitBuilder.client(builder.build()).build();
-
-            authenticatedRetrofits.put(signIn, new WeakReference<>(authenticatedRetrofit));
+            authenticatedRetrofit = createAuthenticatedRetrofit(signIn, null);
         }
 
         return authenticatedRetrofit;
+    }
+
+    // allow test to inject retrofit
+    Retrofit createAuthenticatedRetrofit(SignIn signIn, AuthenticationHandler handler) {
+        OkHttpClient.Builder httpClientBuilder = unauthenticatedOkHttpClient.newBuilder();
+
+        if (signIn != null) {
+            AuthenticationHandler authenticationHandler = handler;
+            // this is the normal code path (only tests will inject a handler)
+            if (authenticationHandler == null) {
+                authenticationHandler = new AuthenticationHandler(signIn,
+                        userSessionInfoProvider
+                );
+            }
+            httpClientBuilder.addInterceptor(authenticationHandler).authenticator(authenticationHandler);
+        }
+
+        Retrofit authenticatedRetrofit = retrofitBuilder.client(httpClientBuilder.build()).build();
+        authenticatedRetrofits.put(signIn,
+                new WeakReference<>(authenticatedRetrofit));
+        return authenticatedRetrofit;
+    }
+
+    // allow test access to retrofit builder
+    Retrofit.Builder getRetrofitBuilder() {
+        return retrofitBuilder;
     }
 
     private static class ByteArrayToBase64TypeAdapter implements JsonSerializer<byte[]>,

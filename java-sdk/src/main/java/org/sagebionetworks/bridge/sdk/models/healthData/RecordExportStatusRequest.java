@@ -1,14 +1,9 @@
 package org.sagebionetworks.bridge.sdk.models.healthData;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.sagebionetworks.bridge.sdk.Config;
-import org.sagebionetworks.bridge.sdk.models.upload.UploadCompletionClient;
-import org.sagebionetworks.bridge.sdk.models.upload.UploadStatus;
-
-import java.util.List;
 
 /** Represents a record export status request to the Bridge Server. */
 public class RecordExportStatusRequest {

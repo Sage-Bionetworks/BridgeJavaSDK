@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 import org.joda.time.DateTimeZone;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.sagebionetworks.bridge.sdk.Config;
 
 public class ConfigTest {
 

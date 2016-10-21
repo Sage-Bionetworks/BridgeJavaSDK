@@ -1,13 +1,14 @@
 package org.sagebionetworks.bridge.sdk.models.studies;
 
 import static org.junit.Assert.assertEquals;
-import nl.jqno.equalsverifier.EqualsVerifier;
 
 import org.junit.Test;
 
 import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 import com.fasterxml.jackson.databind.JsonNode;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
 
 public class PasswordPolicyTest {
     @Test

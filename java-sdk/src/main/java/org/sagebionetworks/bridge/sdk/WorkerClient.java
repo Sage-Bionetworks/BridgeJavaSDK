@@ -6,9 +6,6 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.joda.time.DateTime;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.google.common.net.UrlEscapers;
-
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.healthData.RecordExportStatusRequest;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
@@ -16,6 +13,9 @@ import org.sagebionetworks.bridge.sdk.models.reports.ReportData;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.upload.Upload;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadSchema;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.net.UrlEscapers;
 
 /** Bridge implementation of the worker client. */
 public class WorkerClient extends BaseApiCaller {

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.joda.time.DateTime;
+
 import org.sagebionetworks.bridge.sdk.models.holders.GuidHolder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
