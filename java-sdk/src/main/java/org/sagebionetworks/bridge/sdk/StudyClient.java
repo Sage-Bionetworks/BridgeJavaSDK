@@ -10,6 +10,7 @@ import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.holders.SimpleVersionHolder;
 import org.sagebionetworks.bridge.sdk.models.holders.VersionHolder;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
+import org.sagebionetworks.bridge.sdk.models.studies.StudySummary;
 import org.sagebionetworks.bridge.sdk.models.upload.Upload;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -18,7 +19,10 @@ public class StudyClient extends BaseApiCaller {
     
     private static final TypeReference<ResourceList<Study>> STUDY_RESOURCE_LIST = 
             new TypeReference<ResourceList<Study>>() {};
-            
+
+    private static final TypeReference<ResourceList<StudySummary>> STUDY_SUMMARY_RESOURCE_LIST =
+            new TypeReference<ResourceList<StudySummary>>() {};
+
     private static final TypeReference<DateTimeRangeResourceList<Upload>> UPLOAD_PAGED_RESOURCE_LIST =
             new TypeReference<DateTimeRangeResourceList<Upload>>() {};
             
@@ -76,6 +80,11 @@ public class StudyClient extends BaseApiCaller {
     public ResourceList<Study> getAllStudies() {
         session.checkSignedIn();
         return get(config.getStudiesApi(), STUDY_RESOURCE_LIST);
+    }
+
+    public ResourceList<StudySummary> getAllStudiesSummary() {
+        session.checkSignedIn();
+        return get(config.getAllStudiesSummaryApi(), STUDY_SUMMARY_RESOURCE_LIST);
     }
 
     /**
