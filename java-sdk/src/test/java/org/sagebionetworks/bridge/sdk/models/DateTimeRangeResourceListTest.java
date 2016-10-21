@@ -8,7 +8,7 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 
 import org.sagebionetworks.bridge.Tests;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -27,7 +27,7 @@ public class DateTimeRangeResourceListTest {
                 "'startTime':'2016-02-03T10:10:10.000Z','endTime':'2016-02-23T14:40:40.000Z',"+
                 "'type':'DateTimeRangeResourceList'}");
 
-        JsonNode node = Utilities.getMapper().readTree(json);
+        JsonNode node = BridgeUtils.getMapper().readTree(json);
         assertEquals("2016-02-03T10:10:10.000Z", node.get("startTime").asText());
         assertEquals("2016-02-23T14:40:40.000Z", node.get("endTime").asText());
         assertEquals(3, node.get("total").asInt());
@@ -37,7 +37,7 @@ public class DateTimeRangeResourceListTest {
         assertEquals("C", node.get("items").get(2).asText());
         assertEquals(5, node.size());
         
-        DateTimeRangeResourceList<String> desList = Utilities.getMapper().readValue(node.toString(), STRING_LIST_TYPE);
+        DateTimeRangeResourceList<String> desList = BridgeUtils.getMapper().readValue(node.toString(), STRING_LIST_TYPE);
         
         assertEquals(RESOURCE_ITEMS, desList.getItems());
         assertEquals(RESOURCE_ITEMS.size(), desList.getTotal());

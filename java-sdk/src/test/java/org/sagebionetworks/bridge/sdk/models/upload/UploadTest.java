@@ -7,7 +7,7 @@ import org.joda.time.LocalDate;
 import org.junit.Test;
 
 import org.sagebionetworks.bridge.Tests;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 
@@ -26,7 +26,7 @@ public class UploadTest {
                 "'uploadDate':'2016-10-10','uploadId':'DEF','validationMessageList':"+
                     "['message 1','message 2'],'schemaId':'schemaId','schemaRevision':2,'type':'Upload'}");
         
-        Upload deser = Utilities.getMapper().readValue(json, Upload.class);
+        Upload deser = BridgeUtils.getMapper().readValue(json, Upload.class);
         assertEquals(10000, deser.getContentLength());
         assertEquals(UploadStatus.SUCCEEDED, deser.getStatus());
         assertEquals(DateTime.parse("2016-07-26T22:43:10.392Z"), deser.getRequestedOn());

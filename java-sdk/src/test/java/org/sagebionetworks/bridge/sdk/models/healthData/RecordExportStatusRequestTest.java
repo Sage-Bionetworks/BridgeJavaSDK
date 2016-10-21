@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import org.sagebionetworks.bridge.Tests;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 public class RecordExportStatusRequestTest {
 
@@ -14,7 +14,7 @@ public class RecordExportStatusRequestTest {
         String json = Tests.unescapeJson("{'recordIds':['test record id'],"+
                 "'synapseExporterStatus':'SUCCEEDED'}");
 
-        RecordExportStatusRequest deser = Utilities.getMapper().readValue(json, RecordExportStatusRequest.class);
+        RecordExportStatusRequest deser = BridgeUtils.getMapper().readValue(json, RecordExportStatusRequest.class);
         assertEquals(RecordExportStatusRequest.ExporterStatus.SUCCEEDED, deser.getSynapseExporterStatus());
         assertEquals("test record id", deser.getRecordIds().get(0));
     }

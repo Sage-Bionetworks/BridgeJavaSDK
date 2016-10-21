@@ -10,7 +10,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.google.common.collect.ImmutableList;
 
@@ -157,7 +157,7 @@ public class UploadValidationStatusTest {
                 "}";
 
         // convert to POJO
-        UploadValidationStatus status = Utilities.getMapper().readValue(jsonText, UploadValidationStatus.class);
+        UploadValidationStatus status = BridgeUtils.getMapper().readValue(jsonText, UploadValidationStatus.class);
         assertEquals("json-upload", status.getId());
         assertEquals(UploadStatus.SUCCEEDED, status.getStatus());
 
@@ -168,10 +168,10 @@ public class UploadValidationStatusTest {
         assertEquals("baz", messageList.get(2));
 
         // convert back to JSON
-        String convertedJson = Utilities.getMapper().writeValueAsString(status);
+        String convertedJson = BridgeUtils.getMapper().writeValueAsString(status);
 
         // then convert to a map so we can validate the raw JSON
-        Map<String, Object> jsonMap = Utilities.getMapper().readValue(convertedJson, Utilities.TYPE_REF_RAW_MAP);
+        Map<String, Object> jsonMap = BridgeUtils.getMapper().readValue(convertedJson, BridgeUtils.TYPE_REF_RAW_MAP);
         assertEquals(3, jsonMap.size());
         assertEquals("json-upload", jsonMap.get("id"));
         assertEquals("succeeded", jsonMap.get("status"));

@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import org.sagebionetworks.bridge.sdk.models.studies.EmailTemplate.MimeType;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -22,13 +22,13 @@ public class EmailTemplateTest {
     public void canSerialize() throws Exception {
         EmailTemplate template = new EmailTemplate("Subject", "Body", MimeType.TEXT);
         
-        String json = Utilities.getMapper().writeValueAsString(template);
-        JsonNode node = Utilities.getMapper().readTree(json);
+        String json = BridgeUtils.getMapper().writeValueAsString(template);
+        JsonNode node = BridgeUtils.getMapper().readTree(json);
         
         assertEquals("Subject", node.get("subject").asText());
         assertEquals("Body", node.get("body").asText());
         
-        EmailTemplate template2 = Utilities.getMapper().readValue(json, EmailTemplate.class);
+        EmailTemplate template2 = BridgeUtils.getMapper().readValue(json, EmailTemplate.class);
         assertEquals(template, template2);
     }
 

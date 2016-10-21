@@ -34,7 +34,7 @@ public class ApiClientProvider {
     private final Retrofit.Builder retrofitBuilder;
     private final UserSessionInfoProvider userSessionInfoProvider;
     private final Map<SignIn, WeakReference<Retrofit>> authenticatedRetrofits;
-    private final Map<SignIn, Map<Class, WeakReference>> authenticatedClients;
+    private final Map<SignIn, Map<Class<?>, WeakReference<?>>> authenticatedClients;
 
     public ApiClientProvider(String baseUrl, String userAgent) {
         this(baseUrl, userAgent, null);
@@ -44,8 +44,11 @@ public class ApiClientProvider {
     ApiClientProvider(String baseUrl, String userAgent, UserSessionInfoProvider userSessionInfoProvider) {
         authenticatedRetrofits = Maps.newHashMap();
         authenticatedClients = Maps.newHashMap();
+        
+        UserSessionInterceptor sessionInterceptor = new UserSessionInterceptor();
 
         unauthenticatedOkHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(sessionInterceptor)
                 .addInterceptor(new HeaderInterceptor(userAgent))
                 .addInterceptor(new DeprecationInterceptor())
                 .addInterceptor(new ErrorResponseInterceptor())
@@ -56,7 +59,7 @@ public class ApiClientProvider {
                 .addConverterFactory(GsonConverterFactory.create(GSON));
         
         this.userSessionInfoProvider = userSessionInfoProvider != null ? userSessionInfoProvider
-                : new UserSessionInfoProvider(getAuthenticatedRetrofit(null));
+                : new UserSessionInfoProvider(getAuthenticatedRetrofit(null), sessionInterceptor);
     }
 
     /**
@@ -83,15 +86,16 @@ public class ApiClientProvider {
         return getClientImpl(service, signIn);
     }
 
+    @SuppressWarnings("unchecked")
     private <T> T getClientImpl(Class<T> service, SignIn signIn) {
-        Map<Class, WeakReference> userClients = authenticatedClients.get(signIn);
+        Map<Class<?>, WeakReference<?>> userClients = authenticatedClients.get(signIn);
         if (userClients == null) {
             userClients = Maps.newHashMap();
             authenticatedClients.put(signIn, userClients);
         }
 
         T authenticateClient = null;
-        WeakReference<T> clientReference = userClients.get(service);
+        WeakReference<?> clientReference = userClients.get(service);
 
         if (clientReference != null) {
             authenticateClient = (T) clientReference.get();

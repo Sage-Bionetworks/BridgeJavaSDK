@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 
 import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.google.common.collect.ImmutableList;
 
@@ -208,7 +208,7 @@ public class UploadSchemaTest {
                 "}";
 
         // convert to POJO
-        UploadSchema uploadSchema = Utilities.getMapper().readValue(jsonText, UploadSchema.class);
+        UploadSchema uploadSchema = BridgeUtils.getMapper().readValue(jsonText, UploadSchema.class);
         assertEquals("Test Schema", uploadSchema.getName());
         assertEquals(3, uploadSchema.getRevision().intValue());
         assertEquals("test-schema", uploadSchema.getSchemaId());
@@ -224,10 +224,10 @@ public class UploadSchemaTest {
         assertEquals("foo", fieldDefList.get(0).getName());
 
         // convert back to JSON
-        String convertedJson = Utilities.getMapper().writeValueAsString(uploadSchema);
+        String convertedJson = BridgeUtils.getMapper().writeValueAsString(uploadSchema);
 
         // then convert to a map so we can validate the raw JSON
-        Map<String, Object> jsonMap = Utilities.getMapper().readValue(convertedJson, Utilities.TYPE_REF_RAW_MAP);
+        Map<String, Object> jsonMap = BridgeUtils.getMapper().readValue(convertedJson, BridgeUtils.TYPE_REF_RAW_MAP);
         assertEquals(9, jsonMap.size());
         assertEquals("Test Schema", jsonMap.get("name"));
         assertEquals(3, jsonMap.get("revision"));

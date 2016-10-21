@@ -1,6 +1,6 @@
 package org.sagebionetworks.bridge.sdk.exceptions;
 
-import static org.sagebionetworks.bridge.sdk.utils.Utilities.TO_STRING_STYLE;
+import static org.sagebionetworks.bridge.sdk.utils.BridgeUtils.TO_STRING_STYLE;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
