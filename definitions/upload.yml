@@ -41,7 +41,7 @@ properties:
             An array of error messages if this upload did not pass validation.
         items:
             type: string
-    synapseExporterStatus:
+    healthRecordExporterStatus:
         $ref: ./enums/synapse_exporter_status.yml
     type:
         type: string
