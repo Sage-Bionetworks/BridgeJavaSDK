@@ -4,8 +4,6 @@ AccountStatus:
     $ref: ./enums/account_status.yml
 Environment:
     $ref: ./enums/environment.yml
-HealthRecordExporterStatus:
-    $ref: ./enums/health_record_exporter_status.yml
 ScheduleType:
     $ref: ./enums/schedule_type.yml
 Role:
@@ -24,8 +22,8 @@ UploadStatus:
     $ref: ./enums/upload_status.yml
 UploadSchemaType:
     $ref: ./enums/upload_schema_type.yml
-SynapseExportStatus:
-    $ref: ./enums/synapse_export_status.yml
+SynapseExporterStatus:
+    $ref: ./enums/synapse_exporter_status.yml
 ScheduleStatus:
     $ref: ./enums/schedule_status.yml
 FieldDefinitionType:

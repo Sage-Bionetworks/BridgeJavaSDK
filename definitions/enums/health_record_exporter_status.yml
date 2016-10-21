@@ -1,6 +1,0 @@
-type: string
-description: |
-    The status of the job that exports the data of this upload to Synapse. 
-enum:
-    - not_exported
-    - succeeded
