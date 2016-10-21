@@ -14,7 +14,6 @@ import static org.sagebionetworks.bridge.sdk.utils.BridgeUtils.TO_STRING_STYLE;
 public class StudySummary {
     private String name;
     private String identifier;
-    private String type;
 
     public String getName() {
         return this.name;
@@ -32,17 +31,9 @@ public class StudySummary {
         this.identifier = identifier;
     }
 
-    public String getType() {
-        return this.type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     @Override
     public int hashCode() {
-        return Objects.hash(name, identifier, type);
+        return Objects.hash(name, identifier);
     }
 
     @Override
@@ -53,8 +44,7 @@ public class StudySummary {
             return false;
         StudySummary other = (StudySummary) obj;
         return (Objects.equals(name, other.name)
-                && Objects.equals(identifier, other.identifier)
-                && Objects.equals(type, other.type));
+                && Objects.equals(identifier, other.identifier));
     }
 
     @Override
@@ -62,7 +52,6 @@ public class StudySummary {
         return new ToStringBuilder(this, TO_STRING_STYLE)
                 .append("name", name)
                 .append("identifier", identifier)
-                .append("type", type)
                 .toString();
     }
 }
