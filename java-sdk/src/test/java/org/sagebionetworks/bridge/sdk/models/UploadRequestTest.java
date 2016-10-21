@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import org.sagebionetworks.bridge.sdk.exceptions.InvalidEntityException;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadRequest;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 
@@ -115,17 +115,17 @@ public class UploadRequestTest {
                 "}";
 
         // convert to POJO
-        UploadRequest req = Utilities.getMapper().readValue(jsonText, UploadRequest.class);
+        UploadRequest req = BridgeUtils.getMapper().readValue(jsonText, UploadRequest.class);
         assertEquals("test-from-json", req.getName());
         assertEquals(1337, req.getContentLength());
         assertEquals("dummy md5", req.getContentMd5());
         assertEquals("text/plain", req.getContentType());
 
         // convert back to JSON
-        String convertedJson = Utilities.getMapper().writeValueAsString(req);
+        String convertedJson = BridgeUtils.getMapper().writeValueAsString(req);
 
         // then convert to a map so we can validate the raw JSON
-        Map<String, Object> jsonMap = Utilities.getMapper().readValue(convertedJson, Utilities.TYPE_REF_RAW_MAP);
+        Map<String, Object> jsonMap = BridgeUtils.getMapper().readValue(convertedJson, BridgeUtils.TYPE_REF_RAW_MAP);
         assertEquals(4, jsonMap.size());
         assertEquals("test-from-json", jsonMap.get("name"));
         assertEquals(1337, (int) jsonMap.get("contentLength"));

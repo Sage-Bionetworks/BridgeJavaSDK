@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -27,7 +27,7 @@ public class ReportIndexTest {
                 "'type':'ReportIndex'}, {'identifier':'bar','type':'ReportIndex'}],"+
                 "'total':1,'type':'ResourceList'}");
        
-        ResourceList<ReportIndex> results = Utilities.getMapper().readValue(json, REPORT_INDEX_LIST_TYPE);
+        ResourceList<ReportIndex> results = BridgeUtils.getMapper().readValue(json, REPORT_INDEX_LIST_TYPE);
         assertEquals(2, results.getItems().size());
         assertEquals("fofo", results.getItems().get(0).getIdentifier());
         assertEquals("bar", results.getItems().get(1).getIdentifier());

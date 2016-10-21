@@ -4326,7 +4326,8 @@
       "type": "string",
       "enum": [
         "text/plain",
-        "text/html"
+        "text/html",
+        "application/pdf"
       ]
     },
     "UIHint": {
@@ -4912,7 +4913,7 @@
           "type": "string",
           "description": "Participant's email."
         },
-        "studyIdentifier": {
+        "study": {
           "type": "string",
           "description": "String identifier if the participant's study."
         },
@@ -5742,6 +5743,7 @@
         "sponsorName",
         "supportEmail",
         "technicalEmail",
+        "identifier",
         "consentNotificationEmail",
         "version"
       ],
@@ -5768,7 +5770,6 @@
         },
         "identifier": {
           "type": "string",
-          "readOnly": true,
           "description": "A user selected identifier that is unique relative to all other Bridge studies (lower-case letters and dashes only). \nThe identifier serves as a \"domain\" that scopes accounts to that study, and is usually created by combining an \ninstitution and study tag or acronym. For example, if you work at the University of Washington and your study is on \nAsthma in Children, your identifier might be `uw-child-asthma`. Participants will not see this identifier.\n"
         },
         "version": {

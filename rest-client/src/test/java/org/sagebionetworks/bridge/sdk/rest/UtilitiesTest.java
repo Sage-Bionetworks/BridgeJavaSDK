@@ -11,19 +11,19 @@ import org.junit.Test;
 public class UtilitiesTest {
     @Test
     public void lastWorksWithNull() {
-        assertNull(Utilities.last(null));
+        assertNull(RestUtils.last(null));
     }
     
     @Test
     public void lastWorksWithEmptyList() {
-        assertNull(Utilities.last(new ArrayList<>()));
+        assertNull(RestUtils.last(new ArrayList<>()));
     }
     
     @Test
     public void lastWorksWithOneItemList() {
         List<String> list = new ArrayList<>();
         list.add("A");
-        assertEquals("A", Utilities.last(list));
+        assertEquals("A", RestUtils.last(list));
     }
     
     @Test
@@ -32,7 +32,7 @@ public class UtilitiesTest {
         list.add("A");
         list.add("B");
         list.add("C");
-        assertEquals("C", Utilities.last(list));
+        assertEquals("C", RestUtils.last(list));
         
     }
 }

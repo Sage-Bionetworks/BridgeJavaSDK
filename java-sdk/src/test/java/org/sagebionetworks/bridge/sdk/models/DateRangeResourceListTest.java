@@ -8,7 +8,7 @@ import org.joda.time.LocalDate;
 import org.junit.Test;
 
 import org.sagebionetworks.bridge.Tests;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -26,7 +26,7 @@ public class DateRangeResourceListTest {
     public void canSerialize() throws Exception {
         String json = Tests.unescapeJson("{'items':['A','B','C'],'total':'3','startDate':'2016-02-03','endDate':'2016-02-23','type':'DateRangeResourceList'}");
 
-        JsonNode node = Utilities.getMapper().readTree(json);
+        JsonNode node = BridgeUtils.getMapper().readTree(json);
         assertEquals("2016-02-03", node.get("startDate").asText());
         assertEquals("2016-02-23", node.get("endDate").asText());
         assertEquals(3, node.get("total").asInt());
@@ -36,7 +36,7 @@ public class DateRangeResourceListTest {
         assertEquals("C", node.get("items").get(2).asText());
         assertEquals(5, node.size());
         
-        DateRangeResourceList<String> desList = Utilities.getMapper().readValue(node.toString(), STRING_LIST_TYPE);
+        DateRangeResourceList<String> desList = BridgeUtils.getMapper().readValue(node.toString(), STRING_LIST_TYPE);
         
         assertEquals(RESOURCE_ITEMS, desList.getItems());
         assertEquals(RESOURCE_ITEMS.size(), desList.getTotal());

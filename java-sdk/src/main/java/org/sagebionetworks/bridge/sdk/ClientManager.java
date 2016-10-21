@@ -39,26 +39,13 @@ public final class ClientManager {
     public final ClientInfo getClientInfo() {
         return clientInfo;
     }
-    
-    /**
-     * Creates an unauthenticated client.
-     *
-     * @param service
-     *         Class representing the service
-     * @return service client
-     */
-    public final <T> T getUnauthenticatedClient(Class<T> service) {
-        return apiClientProvider.getClient(service);
-    }
 
     /**
      * @param service
      *         Class representing the service
-     * @param signIn
-     *         credentials for the user, or null for an unauthenticated client
-     * @return service client that is authenticated with the user's credentials
+     * @return service client
      */
-    public final <T> T getAuthenticatedClient(Class<T> service) {
+    public final <T> T getClient(Class<T> service) {
         return apiClientProvider.getClient(service, signIn);
     }
     
@@ -80,7 +67,10 @@ public final class ClientManager {
             return this;
         }
         public ClientManager build() {
-            checkNotNull(signIn, "Sign in must be supplied to ClientManager builder");
+            checkNotNull(signIn, "Sign in must be supplied to ClientManager builder.");
+            checkNotNull(signIn.getStudy(), "Sign in must have a study identifier.");
+            checkNotNull(signIn.getEmail(), "Sign in must specify an email address.");
+            checkNotNull(signIn.getPassword(), "Sign in must specify a password.");
             if (this.config == null) {
                 this.config = new Config();
             }

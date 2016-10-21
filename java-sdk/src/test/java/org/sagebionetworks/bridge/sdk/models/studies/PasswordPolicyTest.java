@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -20,8 +20,8 @@ public class PasswordPolicyTest {
     public void canSerialize() throws Exception {
         PasswordPolicy policy = new PasswordPolicy(8, true, false, true, true);
         
-        String json = Utilities.getMapper().writeValueAsString(policy);
-        JsonNode node = Utilities.getMapper().readTree(json);
+        String json = BridgeUtils.getMapper().writeValueAsString(policy);
+        JsonNode node = BridgeUtils.getMapper().readTree(json);
         
         assertEquals(8, node.get("minLength").asInt());
         assertEquals(true, node.get("numericRequired").asBoolean());
@@ -29,7 +29,7 @@ public class PasswordPolicyTest {
         assertEquals(true, node.get("lowerCaseRequired").asBoolean());
         assertEquals(true, node.get("upperCaseRequired").asBoolean());
         
-        PasswordPolicy policy2 = Utilities.getMapper().readValue(json, PasswordPolicy.class);
+        PasswordPolicy policy2 = BridgeUtils.getMapper().readValue(json, PasswordPolicy.class);
         assertEquals(policy, policy2);
     }
 }

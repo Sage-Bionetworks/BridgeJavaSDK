@@ -22,7 +22,7 @@ import okio.Buffer;
 
 public class UserSessionInterceptor implements Interceptor {
     private static final Logger LOG = LoggerFactory.getLogger(UserSessionInterceptor.class);
-    private static final ObjectMapper MAPPER = Utilities.getObjectMapper();
+    private static final ObjectMapper MAPPER = RestUtils.getObjectMapper();
 
     private final Map<String,SignIn> sessionTokenMap = new HashMap<>();
     private final Map<SignIn,UserSessionInfo> sessionMap = new HashMap<>();
@@ -102,7 +102,7 @@ public class UserSessionInterceptor implements Interceptor {
     }
     
     private SignIn recoverSignIn(Request request) throws IOException {
-        String pathSeg = Utilities.last(request.url().pathSegments());
+        String pathSeg = RestUtils.last(request.url().pathSegments());
         if ("signIn".equals(pathSeg)) {
             Request newRequest = request.newBuilder().build();
             Buffer buffer = createBuffer();
@@ -114,7 +114,7 @@ public class UserSessionInterceptor implements Interceptor {
     }
     
     private boolean isSuccessfulSignOut(Request request, Response response) {
-        String pathSeg = Utilities.last(request.url().pathSegments());
+        String pathSeg = RestUtils.last(request.url().pathSegments());
         return ("signOut".equals(pathSeg) && response.code() == 200);
     }
     

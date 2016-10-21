@@ -9,7 +9,7 @@ import org.joda.time.LocalDate;
 import org.junit.Test;
 
 import org.sagebionetworks.bridge.sdk.models.subpopulations.SubpopulationGuid;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -33,7 +33,7 @@ public class UserConsentHistoryTest {
         UserConsentHistory history = new UserConsentHistory(new SubpopulationGuid("guid"), consentCreatedOn, "name",
                 LocalDate.parse("2000-01-01"), "imageData", "image/png", signedOn, withdrewOn, true);
         
-        JsonNode node = Utilities.getMapper().valueToTree(history);
+        JsonNode node = BridgeUtils.getMapper().valueToTree(history);
         assertEquals("guid", node.get("subpopulationGuid").asText());
         assertEquals(consentCreatedOn.toString(), node.get("consentCreatedOn").asText());
         assertEquals("name", node.get("name").asText());
@@ -44,7 +44,7 @@ public class UserConsentHistoryTest {
         assertEquals(withdrewOn.toString(), node.get("withdrewOn").asText());
         assertTrue(node.get("hasSignedActiveConsent").asBoolean());
         
-        UserConsentHistory deserHistory = Utilities.getMapper().treeToValue(node, UserConsentHistory.class);
+        UserConsentHistory deserHistory = BridgeUtils.getMapper().treeToValue(node, UserConsentHistory.class);
         assertEquals(history, deserHistory);
     }
 }

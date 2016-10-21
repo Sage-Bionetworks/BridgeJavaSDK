@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.models.accounts.AccountStatus;
 import org.sagebionetworks.bridge.sdk.models.accounts.AccountSummary;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -19,7 +19,7 @@ public class PagedResourceListTest {
                 "{'firstName':'firstName2','lastName':'lastName2','email':'email2@email.com','status':'disabled'}],"+
                 "'offsetBy': 10,'offsetKey':'aKey','pageSize': 10,'total': 100,'emailFilter':'foo'}";
 
-        PagedResourceList<AccountSummary> page = Utilities.getMapper()
+        PagedResourceList<AccountSummary> page = BridgeUtils.getMapper()
                 .readValue(Tests.unescapeJson(json), new TypeReference<PagedResourceList<AccountSummary>>(){});
         assertEquals(new Integer(10), page.getOffsetBy());
         assertEquals(10, page.getPageSize());

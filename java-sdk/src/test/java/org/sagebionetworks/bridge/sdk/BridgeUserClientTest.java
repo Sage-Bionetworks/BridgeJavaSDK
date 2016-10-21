@@ -17,7 +17,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
+import org.sagebionetworks.bridge.sdk.utils.BridgeUtils;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BridgeUserClientTest {
@@ -46,7 +46,7 @@ public class BridgeUserClientTest {
                     "'mostRecentConsent':true}},"+
                 "'consented':true}");
         
-        UserSession session = Utilities.getMapper().readValue(json, UserSession.class);
+        UserSession session = BridgeUtils.getMapper().readValue(json, UserSession.class);
         
         //doReturn(makeParticipant("DEF")).when(session).getStudyParticipant();
         
