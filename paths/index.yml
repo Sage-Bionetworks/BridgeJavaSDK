@@ -185,6 +185,10 @@
     $ref: ./studies/v3_studies_studyId_surveys_published.yml
 /v3/studies/{studyId}/uploadschemas/{schemaId}/revisions/{revision}:
     $ref: ./studies/v3_studies_studyId_uploadschemas_schemaId_revisions_revision.yml
+/v3/studies/{studyId}/reports/{identifier}:
+    $ref: ./studies/v3_studies_studyId_reports_identifier.yml
+/v3/studies/{studyId}/uploads:
+    $ref: ./studies/v3_studies_studyId_uploads.yml
 
 # Cache Management
 /v3/cache:
