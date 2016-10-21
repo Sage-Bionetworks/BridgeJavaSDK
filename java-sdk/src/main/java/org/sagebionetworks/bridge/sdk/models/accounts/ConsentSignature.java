@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import org.joda.time.LocalDate;
 import org.joda.time.format.ISODateTimeFormat;
+
 import org.sagebionetworks.bridge.sdk.json.DateOnlySerializer;
 
 import com.fasterxml.jackson.annotation.JsonCreator;

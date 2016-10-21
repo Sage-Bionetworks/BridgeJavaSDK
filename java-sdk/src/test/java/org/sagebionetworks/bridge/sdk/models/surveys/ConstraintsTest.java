@@ -1,9 +1,9 @@
 package org.sagebionetworks.bridge.sdk.models.surveys;
 
+import org.junit.Test;
+
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
-
-import org.junit.Test;
 
 public class ConstraintsTest {
 

@@ -12,6 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import org.sagebionetworks.bridge.sdk.Config;
 import org.sagebionetworks.bridge.sdk.rest.api.AuthenticationApi;
 import org.sagebionetworks.bridge.sdk.rest.api.UploadsApi;
+import org.sagebionetworks.bridge.sdk.rest.model.EmptyPayload;
 import org.sagebionetworks.bridge.sdk.rest.model.SignIn;
 import org.sagebionetworks.bridge.sdk.rest.model.UploadRequest;
 
@@ -24,12 +25,12 @@ public class AuthenticationHandlerIntegrationTest {
     private static final String BASE_URL = "https://webservices-develop.sagebridge.org/";
 
     private AuthenticationHandler authenticationHandler;
-    private Retrofit bridgeAuthenticatedRetrofit;
+    private ApiClientProvider provider;
+    private SignIn signIn;
 
     @Before
     public void before() {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create()).build();
+        provider = new ApiClientProvider(BASE_URL, "user-agent-string");
 
         Properties properties = Config.instance.properties;
 
@@ -37,19 +38,15 @@ public class AuthenticationHandlerIntegrationTest {
         String adminPassword = properties
                 .getProperty(Config.Props.ADMIN_PASSWORD.getPropertyName());
 
-        SignIn credentials = new SignIn().study(STUDY).email(adminEmail).password(adminPassword);
+        signIn = new SignIn().study(STUDY).email(adminEmail).password(adminPassword);
 
-        authenticationHandler = new AuthenticationHandler(credentials,
-                new UserSessionInfoProvider(retrofit)
+        authenticationHandler = new AuthenticationHandler(signIn,
+                new UserSessionInfoProvider(provider.getAuthenticatedRetrofit(null))
         );
 
-        // AuthenticationHandler auth must be registered as both an interceptor and an authenticator
-        OkHttpClient authedHttpClient = new OkHttpClient.Builder()
-                .authenticator(authenticationHandler).addInterceptor(authenticationHandler).build();
+        provider.createAuthenticatedRetrofit(signIn, authenticationHandler);
 
-        bridgeAuthenticatedRetrofit = new Retrofit.Builder().baseUrl(BASE_URL)
-                .client(authedHttpClient).addConverterFactory(GsonConverterFactory.create())
-                .build();
+
     }
 
     @Test
@@ -57,19 +54,18 @@ public class AuthenticationHandlerIntegrationTest {
         UploadRequest dummyUploadRequest = new UploadRequest().contentLength(1).contentMd5("hash")
                 .name("name").contentType("type");
 
-        UploadsApi svc = bridgeAuthenticatedRetrofit.create(UploadsApi.class);
-        svc.v3UploadsPost(dummyUploadRequest).execute();
+        UploadsApi svc = provider.getClient(UploadsApi.class, signIn);
+        svc.requestUploadSession(dummyUploadRequest).execute();
 
         String authToken = authenticationHandler.getSessionToken();
         Assert.assertNotNull(authToken);
         Assert.assertTrue(authToken.length() > 0);
 
         // expires token
-        AuthenticationApi authenticatedAuthService = bridgeAuthenticatedRetrofit
-                .create(AuthenticationApi.class);
-        authenticatedAuthService.v3AuthSignOutPost(new Object()).execute();
+        AuthenticationApi authenticatedAuthService = provider.getClient(AuthenticationApi.class, signIn);
+        authenticatedAuthService.signOut(new EmptyPayload()).execute();
 
-        svc.v3UploadsPost(dummyUploadRequest).execute();
+        svc.requestUploadSession(dummyUploadRequest).execute();
 
         // verify new session token is now being used
         String newAuthToken = authenticationHandler.getSessionToken();

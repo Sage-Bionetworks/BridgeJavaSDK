@@ -7,9 +7,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import nl.jqno.equalsverifier.EqualsVerifier;
-import nl.jqno.equalsverifier.Warning;
-
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -17,6 +14,9 @@ import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.accounts.StudyParticipant;
 
 import com.google.common.collect.Lists;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 
 public class ResourceListTest {
     

@@ -1,11 +1,11 @@
 package org.sagebionetworks.bridge.sdk.models.healthData;
 
-import org.junit.Test;
-import org.sagebionetworks.bridge.Tests;
-import org.sagebionetworks.bridge.sdk.Config;
-import org.sagebionetworks.bridge.sdk.utils.Utilities;
-
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
+import org.sagebionetworks.bridge.Tests;
+import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 public class HealthDataRecordTest {
     @Test

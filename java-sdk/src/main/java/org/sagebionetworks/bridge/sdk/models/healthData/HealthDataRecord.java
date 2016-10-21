@@ -1,6 +1,5 @@
 package org.sagebionetworks.bridge.sdk.models.healthData;
 
-import org.sagebionetworks.bridge.sdk.Config;
 import java.util.Objects;
 
 /**

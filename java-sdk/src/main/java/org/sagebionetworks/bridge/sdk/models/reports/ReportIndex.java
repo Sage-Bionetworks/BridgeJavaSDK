@@ -1,8 +1,8 @@
 package org.sagebionetworks.bridge.sdk.models.reports;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
-import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
  * An index for a type of report, either for studies as a whole or for participants in the 

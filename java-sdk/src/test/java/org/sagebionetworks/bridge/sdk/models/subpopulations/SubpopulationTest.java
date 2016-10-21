@@ -11,7 +11,6 @@ import org.sagebionetworks.bridge.Tests;
 import org.sagebionetworks.bridge.sdk.models.Criteria;
 import org.sagebionetworks.bridge.sdk.models.studies.OperatingSystem;
 import org.sagebionetworks.bridge.sdk.models.studies.Study;
-import org.sagebionetworks.bridge.sdk.models.subpopulations.Subpopulation;
 import org.sagebionetworks.bridge.sdk.utils.Utilities;
 
 import com.google.common.collect.Sets;
