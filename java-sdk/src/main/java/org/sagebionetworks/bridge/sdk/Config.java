@@ -140,7 +140,9 @@ public final class Config {
         V4_SCHEDULES("/v4/schedules"),
         V4_UPLOADSCHEMAS_SCHEMAID_REVISIONS_REV("/v4/uploadschemas/%s/revisions/%d"),
         V4_UPLOADSCHEMAS("/v4/uploadschemas"),
-        V3_UPDATERECORDEXPORTSTATUSES("/v3/recordExportStatuses");
+        V3_UPDATERECORDEXPORTSTATUSES("/v3/recordExportStatuses"),
+        V3_UPLOADSFORSTUDY("/v3/studies/%s/uploads"),
+        V3_SAVEREPORTSFORSTUDY("/v3/studies/%s/reports/%s");
 
         private String endpoint;
         private Props(String endpoint) {
@@ -718,6 +720,26 @@ public final class Config {
 
     public String getUpdateRecordExportStatusesApi() {
             return Props.V3_UPDATERECORDEXPORTSTATUSES.getEndpoint();
+    }
+
+    public String getUploadsForStudyApi(String studyId, DateTime startTime, DateTime endTime) {
+        List<NameValuePair> queryParams = Lists.newArrayList();
+        if (startTime != null) {
+            queryParams.add(new BasicNameValuePair(START_TIME, startTime.toString()));
+        }
+        if (endTime != null) {
+            queryParams.add(new BasicNameValuePair(END_TIME, endTime.toString()));
+        }
+
+        return withQueryParams(String.format(Props.V3_UPLOADSFORSTUDY.getEndpoint(), studyId),
+                queryParams);
+    }
+
+    public String getSaveReportForStudyApi(String studyId, String reportId) {
+        checkArgument(isNotBlank(studyId));
+        checkArgument(isNotBlank(reportId));
+
+        return String.format(Props.V3_SAVEREPORTSFORSTUDY.getEndpoint(), studyId, reportId);
     }
     
     private String startEndDateURL(Props prop, String reportId, LocalDate startDate, LocalDate endDate) {

@@ -12,6 +12,7 @@ import com.google.common.net.UrlEscapers;
 import org.sagebionetworks.bridge.sdk.models.ResourceList;
 import org.sagebionetworks.bridge.sdk.models.healthData.RecordExportStatusRequest;
 import org.sagebionetworks.bridge.sdk.models.holders.GuidCreatedOnVersionHolder;
+import org.sagebionetworks.bridge.sdk.models.reports.ReportData;
 import org.sagebionetworks.bridge.sdk.models.surveys.Survey;
 import org.sagebionetworks.bridge.sdk.models.upload.Upload;
 import org.sagebionetworks.bridge.sdk.models.upload.UploadSchema;
@@ -112,5 +113,27 @@ public class WorkerClient extends BaseApiCaller {
         checkNotNull(recordExportStatusRequest.getRecordIds());
         checkNotNull(recordExportStatusRequest.getSynapseExporterStatus());
         post(config.getUpdateRecordExportStatusesApi(), recordExportStatusRequest);
+    }
+
+    /**
+     * get all uploads for specified study given date range as resource list
+     */
+    public ResourceList<Upload> getUploadsForStudy(String studyId, DateTime startDateTime, DateTime endDateTime) {
+        session.checkSignedIn();
+        checkNotNull(studyId);
+        checkNotNull(startDateTime);
+        checkNotNull(endDateTime);
+        return get(config.getUploadsForStudyApi(studyId, startDateTime, endDateTime), new TypeReference<ResourceList<Upload>>(){});
+    }
+
+    /**
+     * Save generated reports to bridgePF for specified study
+     */
+    public void saveReportForStudy(String studyId, String reportId, ReportData reportData) {
+        session.checkSignedIn();
+        checkNotNull(studyId);
+        checkNotNull(reportId);
+        checkNotNull(reportData);
+        post(config.getSaveReportForStudyApi(studyId, reportId), reportData);
     }
 }
