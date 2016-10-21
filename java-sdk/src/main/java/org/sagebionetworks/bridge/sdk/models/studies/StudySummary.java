@@ -5,7 +5,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Objects;
 
-import static org.sagebionetworks.bridge.sdk.utils.Utilities.TO_STRING_STYLE;
+import static org.sagebionetworks.bridge.sdk.utils.BridgeUtils.TO_STRING_STYLE;
 
 /**
  * Represent a study summary object
