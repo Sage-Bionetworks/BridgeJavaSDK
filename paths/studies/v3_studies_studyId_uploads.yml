@@ -4,7 +4,7 @@ get:
     tags: 
         - Studies
         - Uploads
-        - _For Wokers
+        - _For Workers
     security:
         -   BridgeSecurity: []
     parameters:
