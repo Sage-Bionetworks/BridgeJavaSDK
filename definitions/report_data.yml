@@ -10,10 +10,9 @@ properties:
     healthCode:
         type: string
         description: |
-            **Worker submissions only.** Developers submit report data to an endpoint that 
-            includes the user's ID, but workers processing anonymized data do not know a 
-            participant's ID. So the healthCode must be included as part of the report JSON 
-            payload.
+            **Worker submissions of participant reports only.** Developers submit report data to an 
+            endpoint that includes the user's ID, but workers processing anonymized data do not know a 
+            participant's ID. So the healthCode must be included as part of the report JSON payload.
     date:
         type: string
         format: date
