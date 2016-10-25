@@ -37,14 +37,14 @@ public class ReportData {
     }
 
     @Override
-    public int hashCode() {
+    final public int hashCode() {
         return Objects.hash(date, reportData);
     }
     @Override
-    public boolean equals(Object obj) {
+    final public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null || getClass() != obj.getClass())
+        if (obj == null || !(obj instanceof ReportData))
             return false;
         ReportData other = (ReportData) obj;
         return Objects.equals(date, other.date)
