@@ -39,7 +39,6 @@
                             <invokerPackage>${package-directory}.utils</invokerPackage>
 
                             <configOptions>
-                            	<dateLibrary>joda</dateLibrary>
                             </configOptions>
 
                             <environmentVariables>
@@ -88,7 +87,7 @@ https://github.com/swagger-api/swagger-codegen/blob/master/modules/swagger-codeg
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
-            <!-- <classifier>no-tzdb</classifier> -->
+            <classifier>no-tzdb</classifier> 
         </dependency>
         <dependency>
             <groupId>junit</groupId>
