@@ -1,16 +1,20 @@
 type: object
 required:
+    - uploadId
     - schemaId
     - schemaRevision
     - status
     - requestedOn
 properties:
+    uploadId:
+        type: string
+        description: The GUID assigned to this upoad.
     schemaId:
         type: string
-        description: The GUID assigned to this upload
+        description: The ID of the schema for this upload.
     schemaRevision:
         type: integer
-        description: The revision of the schema that was used for this upload.
+        description: The revision for the schema of this upload.
     contentLength:
         type: integer
         description: |

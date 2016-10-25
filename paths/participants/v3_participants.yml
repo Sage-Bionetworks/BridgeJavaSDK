@@ -41,15 +41,17 @@ post:
     security:
         - BridgeSecurity: []
     parameters:
-        - name: StudyParticipant
+        - name: SignUp
           in: body
-          description: Study participant 
+          description: Sign up 
           required: true
           schema:
-                $ref: ../../definitions/study_participant.yml
+                $ref: ../../definitions/sign_up.yml
     responses:
-        200:
-            $ref: ../../responses/200_message.yml
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/identifier_holder.yml
         401:
             $ref: ../../responses/401.yml
         403:

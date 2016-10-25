@@ -72,6 +72,8 @@ GuidVersionHolder:
     $ref: ./guid_version_holder.yml
 HealthDataRecord:
     $ref: ./health_data_record.yml
+IdentifierHolder:
+    $ref: ./identifier_holder.yml
 Image:
     $ref: ./image.yml
 InvalidEntity:
@@ -168,6 +170,8 @@ ReportTypeResourceList_ReportIndex:
     $ref: ./paged_resources/report_index.yml
 ResourceList_Schedule:
     $ref: ./paged_resources/schedule.yml
+ResourceList_ScheduledActivity:
+    $ref: ./paged_resources/scheduled_activity.yml
 ResourceList_SchedulePlan:
     $ref: ./paged_resources/schedule_plan.yml
 ResourceList_Study:
