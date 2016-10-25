@@ -386,27 +386,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "type": "object",
-              "readOnly": true,
-              "properties": {
-                "items": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/ScheduledActivity"
-                  }
-                },
-                "total": {
-                  "type": "integer",
-                  "description": "The total number of records in the items list"
-                },
-                "type": {
-                  "type": "string",
-                  "readOnly": true,
-                  "enum": [
-                    "ResourceList"
-                  ]
-                }
-              }
+              "$ref": "#/definitions/ResourceList_ScheduledActivity"
             }
           },
           "401": {
@@ -528,18 +508,21 @@
         ],
         "parameters": [
           {
-            "name": "StudyParticipant",
+            "name": "SignUp",
             "in": "body",
-            "description": "Study participant",
+            "description": "Sign up",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/StudyParticipant"
+              "$ref": "#/definitions/SignUp"
             }
           }
         ],
         "responses": {
-          "200": {
-            "$ref": "#/responses/200_message"
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/IdentifierHolder"
+            }
           },
           "401": {
             "$ref": "#/responses/401"
@@ -3446,7 +3429,10 @@
         ],
         "responses": {
           "201": {
-            "$ref": "#/responses/201_message"
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/GuidVersionHolder"
+            }
           },
           "401": {
             "$ref": "#/responses/401"
@@ -4119,6 +4105,92 @@
         }
       }
     },
+    "/v3/studies/{studyId}/reports/{identifier}": {
+      "post": {
+        "operationId": "saveReportForStudy",
+        "summary": "save report for a study",
+        "description": "Save a report for a specified study with arbitrary report id given by wokers into bridgePF.\n",
+        "tags": [
+          "Studies",
+          "Reports",
+          "_For Workers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/studyId"
+          },
+          {
+            "$ref": "#/parameters/identifier"
+          },
+          {
+            "name": "body",
+            "description": "Report data",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ReportData"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/responses/201_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_worker"
+          }
+        }
+      }
+    },
+    "/v3/studies/{studyId}/uploads": {
+      "get": {
+        "operationId": "getUploadsForStudy",
+        "summary": "Get uploads for a specified study",
+        "tags": [
+          "Studies",
+          "Uploads",
+          "_For Workers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/studyId"
+          },
+          {
+            "$ref": "#/parameters/startTime"
+          },
+          {
+            "$ref": "#/parameters/endTime"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DateTimeRangeResourceList_Upload"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_admin"
+          }
+        }
+      }
+    },
     "/v3/cache": {
       "get": {
         "operationId": "getCacheKeys",
@@ -4381,8 +4453,9 @@
         "ios_survey"
       ]
     },
-    "SynapseExportStatus": {
+    "SynapseExporterStatus": {
       "type": "string",
+      "description": "The status of the job that exports the data of this upload to Synapse. \n\n|Value|Description|\n|---|---|\n|not_exported|Record related to this upload has not been exported to Synapse.|\n|succeeded|Record related to this upload has been exported to Synapse and is available to researchers.|\n",
       "enum": [
         "not_exported",
         "succeeded"
@@ -4567,7 +4640,7 @@
           "type": "string",
           "description": "An identifier assigned to this user, used to retrieve a study participant record."
         },
-        "creatdOn": {
+        "createdOn": {
           "type": "string",
           "format": "date-time",
           "description": "Read only. ISO 8601 date and time that the user account was created."
@@ -5142,11 +5215,32 @@
           "type": "integer",
           "description": "A version number issued for optimistic locking of record updates. Should not be \nset when creating a new health data record. When updating a record retrieved from \nthe API, the object will have the version attribute and this must match the last \nvalue issued by the service or an update will fail.\n"
         },
+        "synapseExporterStatus": {
+          "$ref": "#/definitions/SynapseExporterStatus"
+        },
         "type": {
           "type": "string",
           "readOnly": true,
           "enum": [
             "HealthDataRecord"
+          ]
+        }
+      }
+    },
+    "IdentifierHolder": {
+      "description": "An object that holds an identifier for a created entity.\n",
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The identifier of the entity (added when the entity is created)."
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "enum": [
+            "IdentifierHolder"
           ]
         }
       }
@@ -5293,7 +5387,7 @@
           }
         },
         "synapseExporterStatus": {
-          "$ref": "#/definitions/SynapseExportStatus"
+          "$ref": "#/definitions/SynapseExporterStatus"
         },
         "type": {
           "type": "string",
@@ -5314,7 +5408,7 @@
       "properties": {
         "healthCode": {
           "type": "string",
-          "description": "**Worker submissions only.** Developers submit report data to an endpoint that \nincludes the user's ID, but workers processing anonymized data do not know a \nparticipant's ID. So the healthCode must be included as part of the report JSON \npayload.\n"
+          "description": "**Worker submissions of participant reports only.** Developers submit report data to an \nendpoint that includes the user's ID, but workers processing anonymized data do not know a \nparticipant's ID. So the healthCode must be included as part of the report JSON payload.\n"
         },
         "date": {
           "type": "string",
@@ -5836,12 +5930,10 @@
         },
         "healthCodeExportEnabled": {
           "type": "boolean",
-          "readOnly": true,
           "description": "**Can be edited by admins.** Should user health codes be exported as part of the participant roster? This identifies users in the public data set; this can only be set to true for certain studies where users expect to be identified by researchers.\n"
         },
         "emailVerificationEnabled": {
           "type": "boolean",
-          "readOnly": true,
           "description": "**Can be edited by admins.** Should users be asked to validate that they control the email addresses they use to sign up for the study? True by default.\n"
         },
         "externalIdValidationEnabled": {
@@ -5933,15 +6025,17 @@
             },
             "email": {
               "type": "string",
-              "readOnly": true,
               "description": "The user's email."
             },
             "consentHistories": {
               "type": "object",
               "readOnly": true,
+              "description": "A complete historical record of all the user's consents and withdrawals of consent for all consent groups \nin the study.\n",
               "additionalProperties": {
-                "$ref": "#/definitions/UserConsentHistory",
-                "description": "A complete historical record of all the user's consents and withdrawals of consent for all consent groups \nin the study.\n"
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/UserConsentHistory"
+                }
               }
             },
             "type": {
@@ -6317,19 +6411,24 @@
     "Upload": {
       "type": "object",
       "required": [
+        "uploadId",
         "schemaId",
         "schemaRevision",
         "status",
         "requestedOn"
       ],
       "properties": {
+        "uploadId": {
+          "type": "string",
+          "description": "The GUID assigned to this upoad."
+        },
         "schemaId": {
           "type": "string",
-          "description": "The GUID assigned to this upload"
+          "description": "The ID of the schema for this upload."
         },
         "schemaRevision": {
           "type": "integer",
-          "description": "The revision of the schema that was used for this upload."
+          "description": "The revision for the schema of this upload."
         },
         "contentLength": {
           "type": "integer",
@@ -6362,6 +6461,9 @@
           "items": {
             "type": "string"
           }
+        },
+        "healthRecordExporterStatus": {
+          "$ref": "#/definitions/SynapseExporterStatus"
         },
         "type": {
           "type": "string",
@@ -6896,6 +6998,29 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/Schedule"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "description": "The total number of records in the items list"
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "enum": [
+            "ResourceList"
+          ]
+        }
+      }
+    },
+    "ResourceList_ScheduledActivity": {
+      "type": "object",
+      "readOnly": true,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ScheduledActivity"
           }
         },
         "total": {
