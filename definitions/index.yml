@@ -2,6 +2,8 @@ SharingScope:
     $ref: ./enums/sharing_scope.yml
 AccountStatus:
     $ref: ./enums/account_status.yml
+DataType:
+    $ref: ./enums/data_type.yml
 Environment:
     $ref: ./enums/environment.yml
 ScheduleType:
@@ -18,6 +20,8 @@ UIHint:
     $ref: ./enums/ui_hint.yml
 Operator:
     $ref: ./enums/operator.yml
+ReportType:
+    $ref: ./enums/report_type.yml
 UploadStatus:
     $ref: ./enums/upload_status.yml
 UploadSchemaType:
@@ -26,8 +30,9 @@ SynapseExporterStatus:
     $ref: ./enums/synapse_exporter_status.yml
 ScheduleStatus:
     $ref: ./enums/schedule_status.yml
-FieldDefinitionType:
-    $ref: ./enums/field_definition_type.yml
+UploadFieldType:
+    $ref: ./enums/upload_field_type.yml
+    
 ABTestGroup:
     $ref: ./ab_test_group.yml
 ABTestScheduleStrategy:
@@ -154,6 +159,8 @@ UserProfile:
     $ref: ./user_profile.yml
 UserSessionInfo:
     $ref: ./user_session_info.yml
+VersionHolder:
+    $ref: ./version_holder.yml
 Withdrawal:
     $ref: ./withdrawal.yml
 

@@ -21,7 +21,7 @@ properties:
         description: One or more data groups; the user must have none of these data groups to match.
         items:
             type: string
-    minAppVersion:
+    minAppVersions:
         type: object
         description: |
             A map of operating system names to minimum app versions. The user must send a `User-Agent` header 
@@ -29,7 +29,7 @@ properties:
             version number, in order to match.
         additionalProperties:
             type: integer
-    maxAppVersion:
+    maxAppVersions:
         type: object
         description: |
             A map of operating system names to minimum app versions. The user must send a `User-Agent` header 

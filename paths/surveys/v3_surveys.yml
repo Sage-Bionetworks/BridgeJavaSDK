@@ -31,7 +31,9 @@ post:
             $ref: ../../definitions/survey.yml
     responses:
         201:
-            $ref: ../../responses/201_message.yml
+            description: Created
+            schema:
+                $ref: ../../definitions/guid_createdOn_version_holder.yml
         401:
             $ref: ../../responses/401.yml
         403:

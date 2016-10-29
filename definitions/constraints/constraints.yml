@@ -1,5 +1,7 @@
 type: object
 discriminator: type
+required:
+    - type
 properties:
     rules:
         type: array
@@ -9,3 +11,7 @@ properties:
             an answer to a question). See [Survey Rule](#SurveyRule) for more information.
         items:
             $ref: ../survey_rule.yml
+    dataType:
+        $ref: ../enums/data_type.yml
+    type:
+        type: string

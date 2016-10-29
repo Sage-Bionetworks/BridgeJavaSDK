@@ -7,6 +7,7 @@ allOf:
     - required:
         - title
         - prompt
+        - type
     - properties:
         title:
             type: string
@@ -22,7 +23,3 @@ allOf:
         image:
             description: An optional Image element describing an image to show for this screen.
             $ref: ./image.yml
-        type:
-            type: string
-            readOnly: true
-            enum: [SurveyInfoScreen]

@@ -25,10 +25,3 @@ allOf:
                 ISO 8601 date value that is the earliest value that may be set for this question. 
                 If allowFuture is false, that constraint should also be applied regardless of  
                 earliest/latestValue constraints.
-        dataType:
-            type: string
-            enum: [date]
-        type:
-            type: string
-            readOnly: true
-            enum: [DateConstraints]

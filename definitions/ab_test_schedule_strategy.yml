@@ -16,6 +16,3 @@ allOf:
             type: array
             items:
                 $ref: ./ab_test_group.yml
-        type:
-            type: string
-            enum: [ABTestScheduleStrategy]

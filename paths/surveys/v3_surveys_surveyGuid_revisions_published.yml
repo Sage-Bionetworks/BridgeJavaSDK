@@ -4,6 +4,7 @@ get:
     tags:
         - Surveys
         - _For Developers
+        - _For Consented Users
     security:
         - BridgeSecurity: []
     parameters:

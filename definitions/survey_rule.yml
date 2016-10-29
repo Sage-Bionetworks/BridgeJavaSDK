@@ -17,7 +17,7 @@ properties:
     value:
         type: string
         description: The value submitted by the user (as a string).
-    skipToTarget:
+    skipTo:
         type: string
         description: |
             The property will reference an identifier for a question in the survey. The user's next question should be that question, and progress through the survey should proceed from that question in the list. It is guaranteed that the referenced question will be after the current question in the survey.

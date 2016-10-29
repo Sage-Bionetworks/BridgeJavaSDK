@@ -4,16 +4,10 @@ allOf:
     - $ref: ./survey_element.yml
     - required:
         - title
-        - identifier
         - prompt
         - constraints
         - uiHint
     - properties:
-        identifier:
-            type: string
-            description: |
-                A string identifier for this question. It will be used as the column name for the answers to these questions, 
-                so it should help to identify the question.
         title:
             type: string
             description: |
@@ -35,7 +29,3 @@ allOf:
             $ref: ./enums/ui_hint.yml
         constraints:
             $ref: ./constraints/constraints.yml
-        type:
-            type: string
-            readOnly: true
-            enum: [SurveyQuestion]

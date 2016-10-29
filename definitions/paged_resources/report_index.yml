@@ -6,8 +6,7 @@ properties:
         items:
             $ref: ../report_index.yml
     reportType:
-        type: string
-        enum: [study,participant]
+        $ref: ../enums/report_type.yml
     total:
         type: integer
     type:

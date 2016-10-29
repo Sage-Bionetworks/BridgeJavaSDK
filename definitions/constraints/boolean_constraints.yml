@@ -4,11 +4,3 @@ required:
     - dataType
 allOf:
     - $ref: ./constraints.yml
-    - properties:
-        dataType:
-            type: string
-            enum: [boolean]
-        type:
-            type: string
-            readOnly: true
-            enum: [BooleanConstraints]

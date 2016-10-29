@@ -1,0 +1,15 @@
+type: string
+description: |
+    The data type of the answer to a question. The actual value is always submitted in JSON 
+    as a string (so no type conversion occurs inadvertently during transfer); the data type 
+    indicates the intended type of the answer. Each data type has a different set of constraints 
+    that may be applied to it.
+enum:
+    - duration
+    - string
+    - integer
+    - decimal
+    - boolean
+    - date
+    - time
+    - datetime

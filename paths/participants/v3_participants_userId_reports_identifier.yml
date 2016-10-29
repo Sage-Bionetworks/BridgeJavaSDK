@@ -31,6 +31,12 @@ post:
     parameters:
         - $ref: ../../index.yml#/parameters/userId
         - $ref: ../../index.yml#/parameters/identifier
+        - name: ReportData
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/report_data.yml
+
     responses:
         201:
             $ref: ../../responses/201_message.yml

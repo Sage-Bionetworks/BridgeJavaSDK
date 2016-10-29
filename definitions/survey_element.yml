@@ -4,6 +4,7 @@ discriminator: type
 required:
     - guid
     - identifier
+    - type
 properties:
     guid:
         type: string
@@ -14,3 +15,5 @@ properties:
             A unique identifier, assigned by a researcher, that is maintained through later 
             versions of the survey. This is not as useful as the identifier which is exported 
             for a question, but can be used to retrieve the screen for subsequent edits.
+    type:
+        type: string

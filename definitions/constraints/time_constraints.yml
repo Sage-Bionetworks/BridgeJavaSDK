@@ -8,11 +8,3 @@ required:
     - dataType
 allOf:
     - $ref: ./constraints.yml
-    - properties:
-        dataType:
-            type: string
-            enum: [time]
-        type:
-            type: string
-            readOnly: true
-            enum: [TimeConstraints]

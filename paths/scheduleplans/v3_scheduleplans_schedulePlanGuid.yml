@@ -34,7 +34,9 @@ post:
             $ref: ../../definitions/schedule_plan.yml
     responses:
         200:
-            $ref: ../../responses/200_message.yml
+            description: OK
+            schema:
+                $ref: ../../definitions/guid_version_holder.yml
         401:
             $ref: ../../responses/401.yml
         403:

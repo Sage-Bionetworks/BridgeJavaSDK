@@ -29,12 +29,3 @@ allOf:
             description: The options presented for selection to the user.
             items:
                 $ref: ../survey_question_option.yml
-        dataType:
-            type: string
-            description: |
-                The value should be "multivalue"; **all the answers to this question are submitted as strings.**
-            enum: [multivalue]
-        type:
-            type: string
-            readOnly: true
-            enum: [MultiValueConstraints]

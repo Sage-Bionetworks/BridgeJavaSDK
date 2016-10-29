@@ -34,7 +34,6 @@ properties:
     createdOn:
         type: string
         format: date-time
-        readOnly: true
         description: The ISO 8601 date on which this version of this survey was created.
     modifiedOn:
         type: string

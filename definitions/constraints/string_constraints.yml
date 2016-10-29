@@ -18,10 +18,3 @@ allOf:
             description: |
                 A regular expression pattern (omitting slashes) against with the input 
                 should be validated.
-        dataType:
-            type: string
-            enum: [string]
-        type:
-            type: string
-            readOnly: true
-            enum: [StringConstraints]

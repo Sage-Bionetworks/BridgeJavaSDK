@@ -76,6 +76,13 @@ parameters:
         required: true
         in: path
         type: string
+        format: date-time
+    newSchemaRev:
+        name: newSchemaRev
+        description: Should a new schema revision be created?
+        required: false
+        in: query
+        type: boolean
     identifier:
         name: identifier
         description: identifier

@@ -16,7 +16,9 @@ post:
             $ref: ../../definitions/upload_schema.yml
     responses:
         200:
-            $ref: ../../responses/200_message.yml
+            description: OK
+            schema:
+                $ref: ../../definitions/upload_schema.yml
         401:
             $ref: ../../responses/401.yml
         403:

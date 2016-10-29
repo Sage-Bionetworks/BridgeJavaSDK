@@ -34,7 +34,7 @@ properties:
         default: true
         description: Whether this field is required.
     type:
-        $ref: ./enums/field_definition_type.yml
+        $ref: ./enums/upload_field_type.yml
     allowOtherChoices:
         type: boolean
         description: |

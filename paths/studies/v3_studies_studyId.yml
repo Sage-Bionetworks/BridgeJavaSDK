@@ -32,7 +32,9 @@ post:
             $ref: ../../definitions/study.yml
     responses:
         200:
-            $ref: ../../responses/200_message.yml
+            description: OK
+            schema:
+                $ref: ../../definitions/version_holder.yml
         403:
             $ref: ../../responses/403_not_admin.yml            
 delete:

@@ -20,10 +20,3 @@ allOf:
             description: |
                 In increase or decrease in valid values, e.g. a step of 0.1 for a question that records
                 water drunk in tenths of a liter.
-        dataType:
-            type: string
-            enum: [decimal]
-        type:
-            type: string
-            readOnly: true
-            enum: [DecimalConstraints]
