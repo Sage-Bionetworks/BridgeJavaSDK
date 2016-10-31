@@ -37,7 +37,7 @@ class UserSessionInfoProvider {
         if (session != null) {
             return session;
         }
-        LOG.info("No session, call intercepted for authentication attempt: " + signIn.getEmail());
+        LOG.debug("No session, call intercepted for authentication attempt: " + signIn.getEmail());
         authenticationApi.signIn(signIn).execute();
         
         // Calling sign in will cause the session to be saved by the session interceptor. No further 
