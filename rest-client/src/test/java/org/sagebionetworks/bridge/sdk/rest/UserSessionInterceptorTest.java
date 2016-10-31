@@ -152,4 +152,5 @@ public class UserSessionInterceptorTest {
         assertNotSame(copy, response);
         assertEquals(200, copy.code());
     }
+    
 }

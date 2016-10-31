@@ -6,82 +6,26 @@
         <groupId>org.sagebionetworks.bridge</groupId>
         <artifactId>sdk-group</artifactId>
         <!-- Please use the maven versions plugin to manage this, e.g.`mvn versions:set -DnewVersion=0.8.1`-->
-        <version>0.12.0</version>
+        <version>0.12.1</version>
     </parent>
 
     <!-- groupId and version are inherited from parent pom -->
     <artifactId>java-sdk</artifactId>
     <packaging>jar</packaging>
     <name>BridgeJavaSDK</name>
-    <url>https://api.sagebridge.org</url>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <surefire.version>2.18.1</surefire.version>
-        <javadoc.version>2.10.4</javadoc.version>
-    </properties>
-
-    <organization>
-        <name>Sage Bionetworks</name>
-        <url>https://www.sagebionetworks.org</url>
-    </organization>
+    <url>https://developer.sagebridge.org</url>
 
     <dependencies>
         <dependency>
             <groupId>org.sagebionetworks.bridge</groupId>
             <artifactId>rest-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.sagebionetworks.bridge</groupId>
-            <artifactId>rest-client</artifactId>
-            <version>0.12.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.5</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>fluent-hc</artifactId>
-            <version>4.3.5</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-validator</groupId>
-            <artifactId>commons-validator</artifactId>
-            <version>1.4.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.1</version>
-        </dependency>
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-joda</artifactId>
+            <version>0.12.1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-resources-plugin</artifactId>
             <version>2.6</version>
         </dependency>
-        <!-- Use logback, which requires the slf4j APIs and replaces that logging system. -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -97,53 +41,5 @@
             <artifactId>logback-core</artifactId>
             <version>1.1.2</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpmime</artifactId>
-            <version>4.3</version>
-        </dependency>
-        <dependency>
-            <groupId>nl.jqno.equalsverifier</groupId>
-            <artifactId>equalsverifier</artifactId>
-            <version>1.6</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>1.10.19</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-        	<groupId>com.squareup.retrofit2</groupId>
-        	<artifactId>adapter-rxjava</artifactId>
-        	<version>2.1.0</version>
-        </dependency>
     </dependencies>
-
-    <distributionManagement>
-        <site>
-            <id>s3.site</id>
-            <url>s3://developer.sagebridge.org/${project.artifactId}/${project.version}</url>
-        </site>    
-    </distributionManagement>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${javadoc.version}</version>
-                <configuration>
-                    <links>
-                        <link>http://joda-time.sourceforge.net/apidocs/</link>
-                    </links>
-                    <show>public</show>
-                    <excludePackageNames>
-                        org.sagebionetworks.bridge.sdk.json,org.sagebionetworks.bridge.sdk.utils
-                    </excludePackageNames>
-                </configuration>
-            </plugin>
-        </plugins>
-    </reporting>
 </project>

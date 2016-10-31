@@ -110,7 +110,7 @@ public class UserSessionInterceptor implements Interceptor {
             Buffer buffer = createBuffer();
             newRequest.body().writeTo(buffer);
             String string = buffer.readUtf8();
-            return RestUtils.MAPPER.readValue(string, SignIn.class);
+            return RestUtils.GSON.fromJson(string, SignIn.class);
         }
         return null;
     }
@@ -121,6 +121,6 @@ public class UserSessionInterceptor implements Interceptor {
     }
     
     private UserSessionInfo getUserSessionInfo(String bodyString) throws IOException {
-        return RestUtils.MAPPER.readValue(bodyString, UserSessionInfo.class);
+        return RestUtils.GSON.fromJson(bodyString, UserSessionInfo.class);
     }
 }
