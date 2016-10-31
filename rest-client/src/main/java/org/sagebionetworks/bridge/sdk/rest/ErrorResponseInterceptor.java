@@ -21,7 +21,6 @@ import org.sagebionetworks.bridge.sdk.rest.model.UserSessionInfo;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import okhttp3.Interceptor;
 import okhttp3.Request;
@@ -35,7 +34,6 @@ public class ErrorResponseInterceptor implements Interceptor {
 
     private static final TypeReference<HashMap<String, ArrayList<String>>> ERRORS_MAP_TYPE_REF = 
             new TypeReference<HashMap<String, ArrayList<String>>>() {};
-    private static final ObjectMapper MAPPER = RestUtils.getObjectMapper();
 
     @Override
     public Response intercept(Chain chain) throws IOException {
@@ -52,7 +50,7 @@ public class ErrorResponseInterceptor implements Interceptor {
     private void throwErrorCodeException(Response response) {
         String url = response.request().url().toString();
         try {
-            JsonNode node = MAPPER.readTree(response.body().string());
+            JsonNode node = RestUtils.MAPPER.readTree(response.body().string());
             throwExceptionOnErrorStatus(url, response.code(), node);
         } catch (BridgeSDKException e) {
             // rethrow known exceptions
@@ -89,7 +87,7 @@ public class ErrorResponseInterceptor implements Interceptor {
         } else if (statusCode == 400 && message.contains("A published survey")) {
             e = new PublishedSurveyException(message, url);
         } else if (statusCode == 400 && node.has("errors")) {
-            Map<String, List<String>> errors = MAPPER.convertValue(node.get("errors"), ERRORS_MAP_TYPE_REF);
+            Map<String, List<String>> errors = RestUtils.MAPPER.convertValue(node.get("errors"), ERRORS_MAP_TYPE_REF);
             e = new InvalidEntityException(message, errors, url);
         } else if (statusCode == 400) {
             e = new BadRequestException(message, url);

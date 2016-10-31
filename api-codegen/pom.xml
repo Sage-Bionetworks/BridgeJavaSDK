@@ -5,7 +5,7 @@
         <groupId>org.sagebionetworks.bridge</groupId>
         <artifactId>sdk-group</artifactId>
         <!-- Please use the maven versions plugin to manage this, e.g.`mvn versions:set -DnewVersion=0.8.1`-->
-        <version>0.11.6</version>
+        <version>0.12.0</version>
     </parent>
 
     <artifactId>rest-api-codegen</artifactId>
@@ -39,7 +39,6 @@
                             <invokerPackage>${package-directory}.utils</invokerPackage>
 
                             <configOptions>
-
                             </configOptions>
 
                             <environmentVariables>
@@ -88,7 +87,7 @@ https://github.com/swagger-api/swagger-codegen/blob/master/modules/swagger-codeg
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
-            <classifier>no-tzdb</classifier>
+            <classifier>no-tzdb</classifier> 
         </dependency>
         <dependency>
             <groupId>junit</groupId>

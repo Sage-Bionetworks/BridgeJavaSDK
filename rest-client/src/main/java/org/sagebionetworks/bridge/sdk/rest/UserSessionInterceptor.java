@@ -11,8 +11,6 @@ import org.sagebionetworks.bridge.sdk.rest.exceptions.ConsentRequiredException;
 import org.sagebionetworks.bridge.sdk.rest.model.SignIn;
 import org.sagebionetworks.bridge.sdk.rest.model.UserSessionInfo;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -21,8 +19,12 @@ import okhttp3.Interceptor;
 import okio.Buffer;
 
 public class UserSessionInterceptor implements Interceptor {
+
     private static final Logger LOG = LoggerFactory.getLogger(UserSessionInterceptor.class);
-    private static final ObjectMapper MAPPER = RestUtils.getObjectMapper();
+    
+    private static final String SIGN_OUT_PATH_SEGMENT = "signOut";
+    private static final String SIGN_IN_PATH_SEGMENT = "signIn";
+    private static final String BRIDGE_SESSION_HEADER = "Bridge-Session";
 
     private final Map<String,SignIn> sessionTokenMap = new HashMap<>();
     private final Map<SignIn,UserSessionInfo> sessionMap = new HashMap<>();
@@ -73,7 +75,7 @@ public class UserSessionInterceptor implements Interceptor {
                 return copyResponse(response, bodyString);
             }
             if (isSuccessfulSignOut(request, response)) {
-                String sessionToken = request.header("Bridge-Session");
+                String sessionToken = request.header(BRIDGE_SESSION_HEADER);
                 if (sessionToken != null) {
                     removeSession(sessionToken);
                 }
@@ -103,22 +105,22 @@ public class UserSessionInterceptor implements Interceptor {
     
     private SignIn recoverSignIn(Request request) throws IOException {
         String pathSeg = RestUtils.last(request.url().pathSegments());
-        if ("signIn".equals(pathSeg)) {
+        if (SIGN_IN_PATH_SEGMENT.equals(pathSeg)) {
             Request newRequest = request.newBuilder().build();
             Buffer buffer = createBuffer();
             newRequest.body().writeTo(buffer);
             String string = buffer.readUtf8();
-            return MAPPER.readValue(string, SignIn.class);
+            return RestUtils.MAPPER.readValue(string, SignIn.class);
         }
         return null;
     }
     
     private boolean isSuccessfulSignOut(Request request, Response response) {
         String pathSeg = RestUtils.last(request.url().pathSegments());
-        return ("signOut".equals(pathSeg) && response.code() == 200);
+        return (SIGN_OUT_PATH_SEGMENT.equals(pathSeg) && response.code() == 200);
     }
     
     private UserSessionInfo getUserSessionInfo(String bodyString) throws IOException {
-        return MAPPER.readValue(bodyString, UserSessionInfo.class);
+        return RestUtils.MAPPER.readValue(bodyString, UserSessionInfo.class);
     }
 }

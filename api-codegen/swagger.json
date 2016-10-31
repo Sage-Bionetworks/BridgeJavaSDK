@@ -91,7 +91,15 @@
       "description": "Created on timestamp (ISO 8601)",
       "required": true,
       "in": "path",
-      "type": "string"
+      "type": "string",
+      "format": "date-time"
+    },
+    "newSchemaRev": {
+      "name": "newSchemaRev",
+      "description": "Should a new schema revision be created?",
+      "required": false,
+      "in": "query",
+      "type": "boolean"
     },
     "identifier": {
       "name": "identifier",
@@ -386,27 +394,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "type": "object",
-              "readOnly": true,
-              "properties": {
-                "items": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/ScheduledActivity"
-                  }
-                },
-                "total": {
-                  "type": "integer",
-                  "description": "The total number of records in the items list"
-                },
-                "type": {
-                  "type": "string",
-                  "readOnly": true,
-                  "enum": [
-                    "ResourceList"
-                  ]
-                }
-              }
+              "$ref": "#/definitions/ResourceList_ScheduledActivity"
             }
           },
           "401": {
@@ -528,18 +516,21 @@
         ],
         "parameters": [
           {
-            "name": "StudyParticipant",
+            "name": "SignUp",
             "in": "body",
-            "description": "Study participant",
+            "description": "Sign up",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/StudyParticipant"
+              "$ref": "#/definitions/SignUp"
             }
           }
         ],
         "responses": {
-          "200": {
-            "$ref": "#/responses/200_message"
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/IdentifierHolder"
+            }
           },
           "401": {
             "$ref": "#/responses/401"
@@ -1079,6 +1070,14 @@
           },
           {
             "$ref": "#/parameters/identifier"
+          },
+          {
+            "name": "ReportData",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ReportData"
+            }
           }
         ],
         "responses": {
@@ -1983,7 +1982,10 @@
         ],
         "responses": {
           "201": {
-            "$ref": "#/responses/201_message"
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/UserSessionInfo"
+            }
           },
           "401": {
             "$ref": "#/responses/401"
@@ -2026,104 +2028,6 @@
         }
       }
     },
-    "/v3/users/self": {
-      "get": {
-        "operationId": "getUserProfile",
-        "deprecated": true,
-        "summary": "Retrieve the user profile for this account.",
-        "description": "Returns a user profile object that is a subset of the study participant record (which has superceded \nthe profile along with a new set of APIs, see `/v3/participants/self`). Updating the profile will \nupdate the participant record, and vice versa. The user does *not* have to be consented to the study \nto retrieve or update the study profile (just as a user may submit updates to the study participant at sign up).\n",
-        "tags": [
-          "Users",
-          "_For Consented Users"
-        ],
-        "security": [
-          {
-            "BridgeSecurity": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/UserProfile"
-            }
-          },
-          "401": {
-            "$ref": "#/responses/401"
-          }
-        }
-      },
-      "post": {
-        "operationId": "updateUserProfile",
-        "deprecated": true,
-        "summary": "Update the user profile",
-        "description": "Updates a user profile object that is a subset of the study participant record (which has superceded \nthe profile along with a new set of APIs, see `/v3/participants/self`). Updating the profile will \nupdate the participant record, and vice versa. The user does *not* have to be consented to the study \nto retrieve or update the study profile (just as a user may submit updates to the study participant at sign up).\n",
-        "tags": [
-          "Users",
-          "_For Consented Users"
-        ],
-        "security": [
-          {
-            "BridgeSecurity": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "UserProfile",
-            "in": "body",
-            "description": "Updated profile",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UserProfile"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/200_message"
-          },
-          "401": {
-            "$ref": "#/responses/401"
-          }
-        }
-      }
-    },
-    "/v3/users/self/externalId": {
-      "post": {
-        "operationId": "updateUserExternalId",
-        "deprecated": true,
-        "summary": "Update the user's external ID",
-        "description": "Change the external ID of this user. Note that this value can be changed through the \n`/v3/participants/self` API, using the same JSON payload defined here. \n",
-        "tags": [
-          "Users",
-          "_For Consented Users"
-        ],
-        "security": [
-          {
-            "BridgeSecurity": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "ExternalIdentifier",
-            "in": "body",
-            "description": "External identifier",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ExternalIdentifier"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/200_message"
-          },
-          "401": {
-            "$ref": "#/responses/401"
-          }
-        }
-      }
-    },
     "/v3/users/self/emailData": {
       "post": {
         "operationId": "emailDataToUser",
@@ -2161,104 +2065,6 @@
           },
           "412": {
             "$ref": "#/responses/412"
-          }
-        }
-      }
-    },
-    "/v3/users/self/dataSharing": {
-      "post": {
-        "operationId": "updateUserDataSharing",
-        "deprecated": true,
-        "summary": "Change user's data sharing",
-        "description": "Change the user's data sharing option to one of the allowable values. Note that this value can \nbe changed through the `/v3/participants/self` API, using the same JSON payload defined here.\n",
-        "tags": [
-          "Users",
-          "_For Consented Users"
-        ],
-        "security": [
-          {
-            "BridgeSecurity": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "SharingScope",
-            "in": "body",
-            "description": "Sharing scope",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/SharingScopeForm"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/200_message"
-          },
-          "401": {
-            "$ref": "#/responses/401"
-          }
-        }
-      }
-    },
-    "/v3/users/self/dataGroups": {
-      "get": {
-        "operationId": "getUserDataGroups",
-        "deprecated": true,
-        "summary": "Get a user's data groups.",
-        "description": "Get the user's data groups. Note that data groups are also part of the study participant \nrecord, and can be retrieved through the `/v3/participants/self` API.\n",
-        "tags": [
-          "Users",
-          "_For Consented Users"
-        ],
-        "security": [
-          {
-            "BridgeSecurity": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/DataGroups"
-            }
-          },
-          "401": {
-            "$ref": "#/responses/401"
-          }
-        }
-      },
-      "post": {
-        "operationId": "updateUserDataGroups",
-        "deprecated": true,
-        "summary": "Change user's data groups",
-        "description": "Change the user's data groups. Valid values must have been defined first by the study. \nNote that this value can be changed through the `/v3/participants/self` API, using \nthe same JSON payload defined here.\n",
-        "tags": [
-          "Users",
-          "_For Consented Users"
-        ],
-        "security": [
-          {
-            "BridgeSecurity": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "DataGroups",
-            "in": "body",
-            "description": "Data groups",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/DataGroups"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/200_message"
-          },
-          "401": {
-            "$ref": "#/responses/401"
           }
         }
       }
@@ -2535,7 +2341,10 @@
         ],
         "responses": {
           "201": {
-            "$ref": "#/responses/201_message"
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/GuidCreatedOnVersionHolder"
+            }
           },
           "401": {
             "$ref": "#/responses/401"
@@ -2652,7 +2461,8 @@
         "summary": "Get most recently published revision of a survey",
         "tags": [
           "Surveys",
-          "_For Developers"
+          "_For Developers",
+          "_For Consented Users"
         ],
         "security": [
           {
@@ -2759,7 +2569,10 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/200_message"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GuidCreatedOnVersionHolder"
+            }
           },
           "401": {
             "$ref": "#/responses/401"
@@ -2872,6 +2685,9 @@
             "$ref": "#/parameters/createdOn"
           },
           {
+            "$ref": "#/parameters/newSchemaRev"
+          },
+          {
             "$ref": "#/parameters/empty"
           }
         ],
@@ -2887,40 +2703,6 @@
           },
           "403": {
             "$ref": "#/responses/403_not_developer"
-          }
-        }
-      }
-    },
-    "/v3/schedules": {
-      "get": {
-        "operationId": "getSchedulesV3",
-        "summary": "Get schedules for user",
-        "description": "This endpoint is the same as `/v4/schedules` except that any schedule with a cron trigger \nis marked as being persistent. This is for legacy reasons and the v4 endpoint should be \nused.\n",
-        "deprecated": true,
-        "tags": [
-          "Schedules",
-          "_For Consented Users"
-        ],
-        "security": [
-          {
-            "BridgeSecurity": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/ResourceList_Schedule"
-            }
-          },
-          "401": {
-            "$ref": "#/responses/401"
-          },
-          "410": {
-            "$ref": "#/responses/410"
-          },
-          "412": {
-            "$ref": "#/responses/412"
           }
         }
       }
@@ -3043,7 +2825,7 @@
         }
       }
     },
-    "/v3/uploadstatus/{uploadId}": {
+    "/v3/uploadstatuses/{uploadId}": {
       "get": {
         "operationId": "getUploadStatus",
         "summary": "Get status of a single upload attempt",
@@ -3138,7 +2920,10 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/200_message"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UploadSchema"
+            }
           },
           "401": {
             "$ref": "#/responses/401"
@@ -3174,7 +2959,10 @@
         ],
         "responses": {
           "201": {
-            "$ref": "#/responses/201_message"
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/UploadSchema"
+            }
           },
           "401": {
             "$ref": "#/responses/401"
@@ -3216,7 +3004,10 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/200_message"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UploadSchema"
+            }
           },
           "401": {
             "$ref": "#/responses/401"
@@ -3446,7 +3237,10 @@
         ],
         "responses": {
           "201": {
-            "$ref": "#/responses/201_message"
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/GuidVersionHolder"
+            }
           },
           "401": {
             "$ref": "#/responses/401"
@@ -3517,7 +3311,10 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/200_message"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GuidVersionHolder"
+            }
           },
           "401": {
             "$ref": "#/responses/401"
@@ -3618,7 +3415,10 @@
         ],
         "responses": {
           "201": {
-            "$ref": "#/responses/201_message"
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/VersionHolder"
+            }
           },
           "401": {
             "$ref": "#/responses/401"
@@ -3748,7 +3548,10 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/200_message"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/VersionHolder"
+            }
           },
           "403": {
             "$ref": "#/responses/403_not_admin"
@@ -4119,6 +3922,92 @@
         }
       }
     },
+    "/v3/studies/{studyId}/reports/{identifier}": {
+      "post": {
+        "operationId": "saveReportForStudy",
+        "summary": "save report for a study",
+        "description": "Save a report for a specified study with arbitrary report id given by wokers into bridgePF.\n",
+        "tags": [
+          "Studies",
+          "Reports",
+          "_For Workers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/studyId"
+          },
+          {
+            "$ref": "#/parameters/identifier"
+          },
+          {
+            "name": "body",
+            "description": "Report data",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ReportData"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/responses/201_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_worker"
+          }
+        }
+      }
+    },
+    "/v3/studies/{studyId}/uploads": {
+      "get": {
+        "operationId": "getUploadsForStudy",
+        "summary": "Get uploads for a specified study",
+        "tags": [
+          "Studies",
+          "Uploads",
+          "_For Workers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/studyId"
+          },
+          {
+            "$ref": "#/parameters/startTime"
+          },
+          {
+            "$ref": "#/parameters/endTime"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DateTimeRangeResourceList_Upload"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_admin"
+          }
+        }
+      }
+    },
     "/v3/cache": {
       "get": {
         "operationId": "getCacheKeys",
@@ -4255,6 +4144,20 @@
         "unverified"
       ]
     },
+    "DataType": {
+      "type": "string",
+      "description": "The data type of the answer to a question. The actual value is always submitted in JSON \nas a string (so no type conversion occurs inadvertently during transfer); the data type \nindicates the intended type of the answer. Each data type has a different set of constraints \nthat may be applied to it.\n",
+      "enum": [
+        "duration",
+        "string",
+        "integer",
+        "decimal",
+        "boolean",
+        "date",
+        "time",
+        "datetime"
+      ]
+    },
     "Environment": {
       "type": "string",
       "description": "This value should always be set to production.",
@@ -4294,6 +4197,7 @@
     },
     "Unit": {
       "type": "string",
+      "description": "The unit of measurement being used for a numeric value when it is expressing something like \na duration, weight, or length.\n\n## Duration\n|Type|Description|\n|---|---|\n|seconds|Seconds|\n|minutes|Minutes|\n|hours|Hours|\n|days|Days|\n|weeks|Weeks|\n|months|Months|\n|years|Years|\n\n## Imperial measures\n|Type|Description|\n|---|---|\n|inches|Inches|\n|feet|Feet|\n|yards|Yards|\n|miles|Miles|\n|ounces|Ounces|\n|pounds|Pounds|\n|pints|Pints|\n|quarts|Quarts|\n|gallons|Gallons|\n\n## Metric measures\n|Type|Description|\n|---|---|\n|centimeters|Centimeters|\n|meters|Meters|\n|kilometers|Kilometers|\n|grams|Grams|\n|kilograms|Kilgrams|\n|milliliters|Milliliters|\n|cubic_centimeters|Cubic centimeters (cc)|\n|liters|Liters|\n|cubic_meters|Cubic meters (m<sup>3</sup>)|\n",
       "enum": [
         "seconds",
         "minutes",
@@ -4362,6 +4266,14 @@
         "de"
       ]
     },
+    "ReportType": {
+      "type": "string",
+      "description": "The type of report: participant reports are scoped to an individual participant and can only be seen by \nthe participant or a researcher; study reports are available to all users in a study.\n",
+      "enum": [
+        "participant",
+        "study"
+      ]
+    },
     "UploadStatus": {
       "type": "string",
       "description": "The status of the upload:\n\n|Status|Description|\n|---|---|\n|unknown|Upload status is unknown. This is generally used for older data formats (namely, Upload v1), which had a binary complete flag rather than an UploadStatus.|\n|requested|Initial state. Upload is requested. User needs to upload to specified URL and call uploadComplete.|\n|validation_in_progress|Client process has called uploadComplete. Upload validation is currently taking place.|\n|validation_failed|Upload validation has failed (see the validationMessageList for further details).|\n|succeeded|Upload has succeeded, including validation. Note that export to Synapse is a separate step.|\n",
@@ -4381,8 +4293,9 @@
         "ios_survey"
       ]
     },
-    "SynapseExportStatus": {
+    "SynapseExporterStatus": {
       "type": "string",
+      "description": "The status of the job that exports the data of this upload to Synapse. \n\n|Value|Description|\n|---|---|\n|not_exported|Record related to this upload has not been exported to Synapse.|\n|succeeded|Record related to this upload has been exported to Synapse and is available to researchers.|\n",
       "enum": [
         "not_exported",
         "succeeded"
@@ -4401,7 +4314,7 @@
       ],
       "readOnly": true
     },
-    "FieldDefinitionType": {
+    "UploadFieldType": {
       "type": "string",
       "description": "Note that this class is unusual in the API in that type is not a constant \n\"UploadFieldDefinition\" value, it is one of the enumerated values and indicates the \ntype of the field, not the type of the model object: \n",
       "enum": [
@@ -4469,12 +4382,6 @@
               "items": {
                 "$ref": "#/definitions/ABTestGroup"
               }
-            },
-            "type": {
-              "type": "string",
-              "enum": [
-                "ABTestScheduleStrategy"
-              ]
             }
           }
         }
@@ -4567,7 +4474,7 @@
           "type": "string",
           "description": "An identifier assigned to this user, used to retrieve a study participant record."
         },
-        "creatdOn": {
+        "createdOn": {
           "type": "string",
           "format": "date-time",
           "description": "Read only. ISO 8601 date and time that the user account was created."
@@ -4797,14 +4704,14 @@
             "type": "string"
           }
         },
-        "minAppVersion": {
+        "minAppVersions": {
           "type": "object",
           "description": "A map of operating system names to minimum app versions. The user must send a `User-Agent` header \nin a prescribed format, that declares the app version to be equal to or greater than this \nversion number, in order to match.\n",
           "additionalProperties": {
             "type": "integer"
           }
         },
-        "maxAppVersion": {
+        "maxAppVersions": {
           "type": "object",
           "description": "A map of operating system names to minimum app versions. The user must send a `User-Agent` header \nin a prescribed format, that declares the app version to be equal to or less than this \nversion number, in order to match.\n",
           "additionalProperties": {
@@ -4842,12 +4749,6 @@
               "items": {
                 "$ref": "#/definitions/ScheduleCriteria"
               }
-            },
-            "type": {
-              "type": "string",
-              "enum": [
-                "CriteriaScheduleStrategy"
-              ]
             }
           }
         }
@@ -5142,11 +5043,32 @@
           "type": "integer",
           "description": "A version number issued for optimistic locking of record updates. Should not be \nset when creating a new health data record. When updating a record retrieved from \nthe API, the object will have the version attribute and this must match the last \nvalue issued by the service or an update will fail.\n"
         },
+        "synapseExporterStatus": {
+          "$ref": "#/definitions/SynapseExporterStatus"
+        },
         "type": {
           "type": "string",
           "readOnly": true,
           "enum": [
             "HealthDataRecord"
+          ]
+        }
+      }
+    },
+    "IdentifierHolder": {
+      "description": "An object that holds an identifier for a created entity.\n",
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The identifier of the entity (added when the entity is created)."
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "enum": [
+            "IdentifierHolder"
           ]
         }
       }
@@ -5293,7 +5215,7 @@
           }
         },
         "synapseExporterStatus": {
-          "$ref": "#/definitions/SynapseExportStatus"
+          "$ref": "#/definitions/SynapseExporterStatus"
         },
         "type": {
           "type": "string",
@@ -5314,7 +5236,7 @@
       "properties": {
         "healthCode": {
           "type": "string",
-          "description": "**Worker submissions only.** Developers submit report data to an endpoint that \nincludes the user's ID, but workers processing anonymized data do not know a \nparticipant's ID. So the healthCode must be included as part of the report JSON \npayload.\n"
+          "description": "**Worker submissions of participant reports only.** Developers submit report data to an \nendpoint that includes the user's ID, but workers processing anonymized data do not know a \nparticipant's ID. So the healthCode must be included as part of the report JSON payload.\n"
         },
         "date": {
           "type": "string",
@@ -5553,7 +5475,15 @@
     "ScheduleStrategy": {
       "type": "object",
       "discriminator": "type",
-      "description": "This is an interface for several implementations. See \n[scheduling](/articles/study_design/scheduling.html) for further information on \ncreating schedules.\n"
+      "required": [
+        "type"
+      ],
+      "description": "This is an interface for several implementations. See \n[scheduling](/articles/study_design/scheduling.html) for further information on \ncreating schedules.\n",
+      "properties": {
+        "type": {
+          "type": "string"
+        }
+      }
     },
     "ScheduledActivity": {
       "description": "Description of an activity (such as a task or survey) the study would like the participant to perform. \nA scheduled activity will contain a reference to a task or survey, but not both, and the activityType \nwill reflect which property exists on the activity (e.g. if a task is defined, the activityType will be \n\"task\"). \n",
@@ -5724,12 +5654,6 @@
           "properties": {
             "schedule": {
               "$ref": "#/definitions/Schedule"
-            },
-            "type": {
-              "type": "string",
-              "enum": [
-                "SimpleScheduleStrategy"
-              ]
             }
           }
         }
@@ -5836,12 +5760,10 @@
         },
         "healthCodeExportEnabled": {
           "type": "boolean",
-          "readOnly": true,
           "description": "**Can be edited by admins.** Should user health codes be exported as part of the participant roster? This identifies users in the public data set; this can only be set to true for certain studies where users expect to be identified by researchers.\n"
         },
         "emailVerificationEnabled": {
           "type": "boolean",
-          "readOnly": true,
           "description": "**Can be edited by admins.** Should users be asked to validate that they control the email addresses they use to sign up for the study? True by default.\n"
         },
         "externalIdValidationEnabled": {
@@ -5933,15 +5855,17 @@
             },
             "email": {
               "type": "string",
-              "readOnly": true,
               "description": "The user's email."
             },
             "consentHistories": {
               "type": "object",
               "readOnly": true,
+              "description": "A complete historical record of all the user's consents and withdrawals of consent for all consent groups \nin the study.\n",
               "additionalProperties": {
-                "$ref": "#/definitions/UserConsentHistory",
-                "description": "A complete historical record of all the user's consents and withdrawals of consent for all consent groups \nin the study.\n"
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/UserConsentHistory"
+                }
               }
             },
             "type": {
@@ -6051,7 +5975,6 @@
         "createdOn": {
           "type": "string",
           "format": "date-time",
-          "readOnly": true,
           "description": "The ISO 8601 date on which this version of this survey was created."
         },
         "modifiedOn": {
@@ -6087,7 +6010,8 @@
       "discriminator": "type",
       "required": [
         "guid",
-        "identifier"
+        "identifier",
+        "type"
       ],
       "properties": {
         "guid": {
@@ -6097,6 +6021,9 @@
         "identifier": {
           "type": "string",
           "description": "A unique identifier, assigned by a researcher, that is maintained through later \nversions of the survey. This is not as useful as the identifier which is exported \nfor a question, but can be used to retrieve the screen for subsequent edits.\n"
+        },
+        "type": {
+          "type": "string"
         }
       }
     },
@@ -6110,7 +6037,8 @@
         {
           "required": [
             "title",
-            "prompt"
+            "prompt",
+            "type"
           ]
         },
         {
@@ -6130,13 +6058,6 @@
             "image": {
               "description": "An optional Image element describing an image to show for this screen.",
               "$ref": "#/definitions/Image"
-            },
-            "type": {
-              "type": "string",
-              "readOnly": true,
-              "enum": [
-                "SurveyInfoScreen"
-              ]
             }
           }
         }
@@ -6151,7 +6072,6 @@
         {
           "required": [
             "title",
-            "identifier",
             "prompt",
             "constraints",
             "uiHint"
@@ -6159,10 +6079,6 @@
         },
         {
           "properties": {
-            "identifier": {
-              "type": "string",
-              "description": "A string identifier for this question. It will be used as the column name for the answers to these questions, \nso it should help to identify the question.\n"
-            },
             "title": {
               "type": "string",
               "description": "A title for this question. Although this is required, it may or may not be used in the interface. \n"
@@ -6184,13 +6100,6 @@
             },
             "constraints": {
               "$ref": "#/definitions/Constraints"
-            },
-            "type": {
-              "type": "string",
-              "readOnly": true,
-              "enum": [
-                "SurveyQuestion"
-              ]
             }
           }
         }
@@ -6277,7 +6186,7 @@
           "type": "string",
           "description": "The value submitted by the user (as a string)."
         },
-        "skipToTarget": {
+        "skipTo": {
           "type": "string",
           "description": "The property will reference an identifier for a question in the survey. The user's next question should be that question, and progress through the survey should proceed from that question in the list. It is guaranteed that the referenced question will be after the current question in the survey.\n"
         },
@@ -6317,19 +6226,24 @@
     "Upload": {
       "type": "object",
       "required": [
+        "uploadId",
         "schemaId",
         "schemaRevision",
         "status",
         "requestedOn"
       ],
       "properties": {
+        "uploadId": {
+          "type": "string",
+          "description": "The GUID assigned to this upoad."
+        },
         "schemaId": {
           "type": "string",
-          "description": "The GUID assigned to this upload"
+          "description": "The ID of the schema for this upload."
         },
         "schemaRevision": {
           "type": "integer",
-          "description": "The revision of the schema that was used for this upload."
+          "description": "The revision for the schema of this upload."
         },
         "contentLength": {
           "type": "integer",
@@ -6363,6 +6277,9 @@
             "type": "string"
           }
         },
+        "healthRecordExporterStatus": {
+          "$ref": "#/definitions/SynapseExporterStatus"
+        },
         "type": {
           "type": "string",
           "readOnly": true,
@@ -6390,7 +6307,7 @@
           "description": "Whether this field is required."
         },
         "type": {
-          "$ref": "#/definitions/FieldDefinitionType"
+          "$ref": "#/definitions/UploadFieldType"
         },
         "allowOtherChoices": {
           "type": "boolean",
@@ -6482,6 +6399,10 @@
         "surveyGuid": {
           "type": "string",
           "description": "If this schema is created from a survey, this is the GUID of the survey it represents.\n"
+        },
+        "studyId": {
+          "type": "string",
+          "description": "**Only available through worker APIs.** The identifier of the study from which this schema was retrieved.\n"
         },
         "surveyCreatedOn": {
           "type": "string",
@@ -6713,6 +6634,24 @@
         }
       ]
     },
+    "VersionHolder": {
+      "description": "An object that holds the version for a created or undated entity.\n",
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "integer",
+          "readOnly": true,
+          "description": "The optimistic locking version of the entity."
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "enum": [
+            "VersionHolder"
+          ]
+        }
+      }
+    },
     "Withdrawal": {
       "type": "object",
       "properties": {
@@ -6870,11 +6809,7 @@
           }
         },
         "reportType": {
-          "type": "string",
-          "enum": [
-            "study",
-            "participant"
-          ]
+          "$ref": "#/definitions/ReportType"
         },
         "total": {
           "type": "integer"
@@ -6896,6 +6831,29 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/Schedule"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "description": "The total number of records in the items list"
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "enum": [
+            "ResourceList"
+          ]
+        }
+      }
+    },
+    "ResourceList_ScheduledActivity": {
+      "type": "object",
+      "readOnly": true,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ScheduledActivity"
           }
         },
         "total": {
@@ -7085,6 +7043,9 @@
     "Constraints": {
       "type": "object",
       "discriminator": "type",
+      "required": [
+        "type"
+      ],
       "properties": {
         "rules": {
           "type": "array",
@@ -7092,6 +7053,12 @@
           "items": {
             "$ref": "#/definitions/SurveyRule"
           }
+        },
+        "dataType": {
+          "$ref": "#/definitions/DataType"
+        },
+        "type": {
+          "type": "string"
         }
       }
     },
@@ -7121,20 +7088,6 @@
               "items": {
                 "$ref": "#/definitions/SurveyQuestionOption"
               }
-            },
-            "dataType": {
-              "type": "string",
-              "description": "The value should be \"multivalue\"; **all the answers to this question are submitted as strings.**\n",
-              "enum": [
-                "multivalue"
-              ]
-            },
-            "type": {
-              "type": "string",
-              "readOnly": true,
-              "enum": [
-                "MultiValueConstraints"
-              ]
             }
           }
         }
@@ -7148,23 +7101,6 @@
       "allOf": [
         {
           "$ref": "#/definitions/Constraints"
-        },
-        {
-          "properties": {
-            "dataType": {
-              "type": "string",
-              "enum": [
-                "boolean"
-              ]
-            },
-            "type": {
-              "type": "string",
-              "readOnly": true,
-              "enum": [
-                "BooleanConstraints"
-              ]
-            }
-          }
         }
       ]
     },
@@ -7194,19 +7130,6 @@
               "type": "integer",
               "default": 1,
               "description": "In increase or decrease in valid values, e.g. a step of 5 for a question that \nrecords weight to the nearest 5 pounds.\n"
-            },
-            "dataType": {
-              "type": "string",
-              "enum": [
-                "integer"
-              ]
-            },
-            "type": {
-              "type": "string",
-              "readOnly": true,
-              "enum": [
-                "IntegerConstraints"
-              ]
             }
           }
         }
@@ -7237,19 +7160,6 @@
             "step": {
               "type": "number",
               "description": "In increase or decrease in valid values, e.g. a step of 0.1 for a question that records\nwater drunk in tenths of a liter.\n"
-            },
-            "dataType": {
-              "type": "string",
-              "enum": [
-                "decimal"
-              ]
-            },
-            "type": {
-              "type": "string",
-              "readOnly": true,
-              "enum": [
-                "DecimalConstraints"
-              ]
             }
           }
         }
@@ -7277,19 +7187,6 @@
             "pattern": {
               "type": "string",
               "description": "A regular expression pattern (omitting slashes) against with the input \nshould be validated.\n"
-            },
-            "dataType": {
-              "type": "string",
-              "enum": [
-                "string"
-              ]
-            },
-            "type": {
-              "type": "string",
-              "readOnly": true,
-              "enum": [
-                "StringConstraints"
-              ]
             }
           }
         }
@@ -7320,19 +7217,6 @@
               "type": "string",
               "format": "date-time",
               "description": "ISO 8601 date and time value that is the earliest value that may be set for this question. \nIf allowFuture is false, that constraint should also be applied regardless of  \nearliest/latestValue constraints.\n"
-            },
-            "dataType": {
-              "type": "string",
-              "enum": [
-                "datetime"
-              ]
-            },
-            "type": {
-              "type": "string",
-              "readOnly": true,
-              "enum": [
-                "DateTimeConstraints"
-              ]
             }
           }
         }
@@ -7363,19 +7247,6 @@
               "type": "string",
               "format": "date",
               "description": "ISO 8601 date value that is the earliest value that may be set for this question. \nIf allowFuture is false, that constraint should also be applied regardless of  \nearliest/latestValue constraints.\n"
-            },
-            "dataType": {
-              "type": "string",
-              "enum": [
-                "date"
-              ]
-            },
-            "type": {
-              "type": "string",
-              "readOnly": true,
-              "enum": [
-                "DateConstraints"
-              ]
             }
           }
         }
@@ -7389,23 +7260,6 @@
       "allOf": [
         {
           "$ref": "#/definitions/Constraints"
-        },
-        {
-          "properties": {
-            "dataType": {
-              "type": "string",
-              "enum": [
-                "time"
-              ]
-            },
-            "type": {
-              "type": "string",
-              "readOnly": true,
-              "enum": [
-                "TimeConstraints"
-              ]
-            }
-          }
         }
       ]
     },
@@ -7436,19 +7290,6 @@
               "type": "integer",
               "default": 1,
               "description": "In increase or decrease in valid values, e.g. a step of 5 for a question that records weight \nto the nearest 5 pounds.\n"
-            },
-            "dataType": {
-              "type": "string",
-              "enum": [
-                "duration"
-              ]
-            },
-            "type": {
-              "type": "string",
-              "readOnly": true,
-              "enum": [
-                "DurationConstraints"
-              ]
             }
           }
         }
