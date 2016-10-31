@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import org.sagebionetworks.bridge.sdk.rest.ApiClientProvider;
+import org.sagebionetworks.bridge.sdk.rest.RestUtils;
 import org.sagebionetworks.bridge.sdk.rest.model.ConsentSignature;
 
 import com.google.gson.stream.JsonReader;
@@ -45,23 +45,23 @@ public class LocalDateTypeAdapterTest {
     
     @Test
     public void worksWithGson() {
-        LocalDate result = ApiClientProvider.GSON.fromJson("\""+DATE_STRING+"\"", LocalDate.class);
+        LocalDate result = RestUtils.GSON.fromJson("\""+DATE_STRING+"\"", LocalDate.class);
         assertEquals(DATE_STRING, result.toString());
     }
     
     @Test
     public void handlesNull() {
-        DateTime result = ApiClientProvider.GSON.fromJson("", DateTime.class);
+        DateTime result = RestUtils.GSON.fromJson("", DateTime.class);
         assertNull(result);
         
-        result = ApiClientProvider.GSON.fromJson((String)null, DateTime.class);
+        result = RestUtils.GSON.fromJson((String)null, DateTime.class);
         assertNull(result);
     }
     
     @Test
     public void handlesNullField() {
         ConsentSignature signature = new ConsentSignature();
-        assertEquals("{}", ApiClientProvider.GSON.toJson(signature));
+        assertEquals("{}", RestUtils.GSON.toJson(signature));
         
     }
 }

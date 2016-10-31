@@ -27,6 +27,8 @@ public final class ClientManager {
     private final ApiClientProvider apiClientProvider;
     
     private ClientManager(Config config, ClientInfo clientInfo, SignIn signIn) {
+        checkNotNull(HOSTS.get(config.getEnvironment()));
+        
         this.config = config;
         this.clientInfo = clientInfo;
         this.signIn = signIn;
@@ -80,7 +82,7 @@ public final class ClientManager {
             if (this.config == null) {
                 this.config = new Config();
             }
-            
+
             ClientInfo info = new ClientInfo();
             info.setOsName(System.getProperty("os.name"));
             info.setOsVersion(System.getProperty("os.version"));

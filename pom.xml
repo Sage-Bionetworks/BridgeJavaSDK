@@ -5,9 +5,14 @@
     <groupId>org.sagebionetworks.bridge</groupId>
     <artifactId>sdk-group</artifactId>
     <!-- Please use the maven versions plugin to manage this, e.g.`mvn versions:set -DnewVersion=0.8.1`-->
-    <version>0.12.0</version>
+    <version>0.12.1</version>
     <packaging>pom</packaging>
     <url>https://api.sagebridge.org</url>
+
+    <organization>
+        <name>Sage Bionetworks</name>
+        <url>https://www.sagebionetworks.org</url>
+    </organization>
 
     <modules>
         <module>api-codegen</module>
@@ -16,67 +21,62 @@
     </modules>
 
     <properties>
-        <retrofit.version>2.1.0</retrofit.version>
+        <commons-codec.version>1.9</commons-codec.version>
         <gson-jodatime.version>1.4.0</gson-jodatime.version>
-        <joda-time.version>2.9.4</joda-time.version>
-        <jackson.version>2.6.2</jackson.version>
-        <guava.version>19.0</guava.version>
-        <mockito.version>1.10.19</mockito.version>
-        <junit.version>4.11</junit.version>
-        <equalsverifier.version>1.6</equalsverifier.version>
-        <commons-verifier.version>1.4.0</commons-verifier.version>
-        <commons-long.version>3.1</commons-long.version>
-        <sl4j.version>1.7.21</sl4j.version>
         <gson.version>2.7</gson.version>
+        <guava.version>19.0</guava.version>
+        <javadoc.version>2.10.4</javadoc.version>
+        <joda-time.version>2.9.4</joda-time.version>
+        <junit.version>4.11</junit.version>
+        <logback.version>1.1.2</logback.version>
+        <maven-compiler-plugin>3.1</maven-compiler-plugin>
+        <maven-resources-plugin.version>2.6</maven-resources-plugin.version>
+        <maven-s3-wagon.version>1.2.1</maven-s3-wagon.version>
+        <maven-surefire-plugin>2.19.1</maven-surefire-plugin>
+        <mockito.version>1.10.19</mockito.version>
+        <powermock.version>1.6.5</powermock.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <retrofit.version>2.1.0</retrofit.version>
+        <slf4j.version>1.7.21</slf4j.version>
+        <surefire.version>2.18.1</surefire.version>
+        <swagger-annotations.version>1.5.0</swagger-annotations.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.google.code.gson</groupId>
-                <artifactId>gson</artifactId>
-                <version>${gson.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.sagebionetworks.bridge</groupId>
                 <artifactId>rest-api-codegen</artifactId>
-                <version>0.12.0</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.sagebionetworks.bridge</groupId>
                 <artifactId>rest-client</artifactId>
-                <version>0.12.0</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${sl4j.version}</version>
-            </dependency>
-            <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-simple</artifactId>
-                <version>${sl4j.version}</version>
-                <scope>test</scope>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-lang3</artifactId>
-                <version>${commons-long.version}</version>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${logback.version}</version>
+            </dependency>           
+            <dependency>
+                <groupId>com.fatboyindustrial.gson-jodatime-serialisers</groupId>
+                <artifactId>gson-jodatime-serialisers</artifactId>
+                <version>${gson-jodatime.version}</version>
             </dependency>
             <dependency>
-                <groupId>commons-validator</groupId>
-                <artifactId>commons-validator</artifactId>
-                <version>${commons-verifier.version}</version>
-            </dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>        
             <dependency>
                 <groupId>com.squareup.retrofit2</groupId>
                 <artifactId>retrofit</artifactId>
-                <version>${retrofit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.squareup.retrofit2</groupId>
-                <artifactId>converter-jackson</artifactId>
                 <version>${retrofit.version}</version>
             </dependency>
             <dependency>
@@ -85,51 +85,35 @@
                 <version>${retrofit.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.fatboyindustrial.gson-jodatime-serialisers</groupId>
-                <artifactId>gson-jodatime-serialisers</artifactId>
-                <version>${gson-jodatime.version}</version>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${commons-codec.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.squareup.retrofit2</groupId>
-                <artifactId>adapter-rxjava</artifactId>
-                <version>${retrofit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.datatype</groupId>
-                <artifactId>jackson-datatype-joda</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger-annotations.version}</version>
             </dependency>
             <dependency>
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time</artifactId>
                 <version>${joda-time.version}</version>
+                <classifier>no-tzdb</classifier> 
             </dependency>
             <dependency>
-                <groupId>joda-time</groupId>
-                <artifactId>joda-time</artifactId>
-                <version>${joda-time.version}</version>
-                <classifier>no-tzdb</classifier>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven-resources-plugin.version}</version>
+            </dependency>            
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.danlew</groupId>
-                <artifactId>android.joda</artifactId>
-                <version>[${joda-time.version},]</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-core</artifactId>
-                <version>${mockito.version}</version>
-                <scope>test</scope>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
@@ -138,9 +122,21 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>nl.jqno.equalsverifier</groupId>
-                <artifactId>equalsverifier</artifactId>
-                <version>${equalsverifier.version}</version>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-api-mockito</artifactId>
+                <version>${powermock.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-module-junit4</artifactId>
+                <version>${powermock.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
@@ -164,7 +160,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.19.1</version>
+                        <version>${maven-surefire-plugin}</version>
                         <configuration>
                             <excludes>
                                 <exclude>**/*IntegrationTest*.java</exclude>
@@ -183,7 +179,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.1</version>
+                    <version>${maven-compiler-plugin}</version>
                     <configuration>
                         <source>1.7</source>
                         <target>1.7</target>
@@ -196,7 +192,7 @@
             <extension>
                 <groupId>org.kuali.maven.wagons</groupId>
                 <artifactId>maven-s3-wagon</artifactId>
-                <version>1.2.1</version>
+                <version>${maven-s3-wagon.version}</version>
             </extension>
         </extensions>
     </build>

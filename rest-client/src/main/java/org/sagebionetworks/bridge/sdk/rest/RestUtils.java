@@ -11,26 +11,44 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import org.sagebionetworks.bridge.sdk.rest.api.ForConsentedUsersApi;
 import org.sagebionetworks.bridge.sdk.rest.exceptions.BridgeSDKException;
-import org.sagebionetworks.bridge.sdk.rest.json.LowercaseEnumModule;
+import org.sagebionetworks.bridge.sdk.rest.gson.ByteArrayToBase64TypeAdapter;
+import org.sagebionetworks.bridge.sdk.rest.gson.DateTimeTypeAdapter;
+import org.sagebionetworks.bridge.sdk.rest.gson.LocalDateTypeAdapter;
+import org.sagebionetworks.bridge.sdk.rest.gson.RuntimeTypeAdapterFactory;
+import org.sagebionetworks.bridge.sdk.rest.model.ABTestScheduleStrategy;
+import org.sagebionetworks.bridge.sdk.rest.model.BooleanConstraints;
 import org.sagebionetworks.bridge.sdk.rest.model.ClientInfo;
 import org.sagebionetworks.bridge.sdk.rest.model.ConsentStatus;
+import org.sagebionetworks.bridge.sdk.rest.model.Constraints;
+import org.sagebionetworks.bridge.sdk.rest.model.CriteriaScheduleStrategy;
+import org.sagebionetworks.bridge.sdk.rest.model.DateConstraints;
+import org.sagebionetworks.bridge.sdk.rest.model.DateTimeConstraints;
+import org.sagebionetworks.bridge.sdk.rest.model.DecimalConstraints;
+import org.sagebionetworks.bridge.sdk.rest.model.DurationConstraints;
 import org.sagebionetworks.bridge.sdk.rest.model.EmptyPayload;
+import org.sagebionetworks.bridge.sdk.rest.model.IntegerConstraints;
+import org.sagebionetworks.bridge.sdk.rest.model.MultiValueConstraints;
+import org.sagebionetworks.bridge.sdk.rest.model.ScheduleStrategy;
+import org.sagebionetworks.bridge.sdk.rest.model.SimpleScheduleStrategy;
+import org.sagebionetworks.bridge.sdk.rest.model.StringConstraints;
+import org.sagebionetworks.bridge.sdk.rest.model.SurveyElement;
+import org.sagebionetworks.bridge.sdk.rest.model.SurveyInfoScreen;
+import org.sagebionetworks.bridge.sdk.rest.model.SurveyQuestion;
+import org.sagebionetworks.bridge.sdk.rest.model.TimeConstraints;
 import org.sagebionetworks.bridge.sdk.rest.model.UploadRequest;
 import org.sagebionetworks.bridge.sdk.rest.model.UploadSession;
 import org.sagebionetworks.bridge.sdk.rest.model.UserSessionInfo;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.io.Files;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -43,29 +61,41 @@ import retrofit2.http.PUT;
 import retrofit2.http.Url;
 
 public class RestUtils {
+    
+    // It's unfortunate but we need to specify subtypes for GSON. Or maybe it's fortunate, because this information 
+    // doesn't need to be in the auto-generated classes for GSON to do its work.
 
-    public static final ObjectMapper MAPPER = getObjectMapper();
+    private static final RuntimeTypeAdapterFactory<SurveyElement> surveyElementFactory = RuntimeTypeAdapterFactory  
+            .of(SurveyElement.class, "type")
+            .registerSubtype(SurveyQuestion.class, SurveyQuestion.class.getSimpleName())
+            .registerSubtype(SurveyInfoScreen.class, SurveyInfoScreen.class.getSimpleName());
     
-    private static ObjectMapper getObjectMapper() {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        mapper.configure(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS, true);
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        mapper.registerModule(new JodaModule());
-        mapper.registerModule(new LowercaseEnumModule());
-        return mapper;
-    }
+    private static final RuntimeTypeAdapterFactory<ScheduleStrategy> scheduleStrategyFactory = RuntimeTypeAdapterFactory  
+            .of(ScheduleStrategy.class, "type")
+            .registerSubtype(SimpleScheduleStrategy.class, SimpleScheduleStrategy.class.getSimpleName())
+            .registerSubtype(ABTestScheduleStrategy.class, ABTestScheduleStrategy.class.getSimpleName())
+            .registerSubtype(CriteriaScheduleStrategy.class, CriteriaScheduleStrategy.class.getSimpleName());
     
-    static <T> T getJsonAsType(JsonNode json, Class<T> c) {
-        try {
-            return MAPPER.treeToValue(json, c);
-        } catch (IOException e) {
-            String message = "Error message: " + e.getMessage() + 
-                    "\nSomething went wrong while converting JSON into " + c.getSimpleName() + ": json=" + json;
-            throw new BridgeSDKException(message, e);
-        }
-    }
+    private static final RuntimeTypeAdapterFactory<Constraints> constraintsFactory = RuntimeTypeAdapterFactory  
+            .of(Constraints.class, "type")
+            .registerSubtype(BooleanConstraints.class, BooleanConstraints.class.getSimpleName())
+            .registerSubtype(DateConstraints.class, DateConstraints.class.getSimpleName())
+            .registerSubtype(DateTimeConstraints.class, DateTimeConstraints.class.getSimpleName())
+            .registerSubtype(DecimalConstraints.class, DecimalConstraints.class.getSimpleName())
+            .registerSubtype(DurationConstraints.class, DurationConstraints.class.getSimpleName())
+            .registerSubtype(IntegerConstraints.class, IntegerConstraints.class.getSimpleName())
+            .registerSubtype(MultiValueConstraints.class, MultiValueConstraints.class.getSimpleName())
+            .registerSubtype(StringConstraints.class, StringConstraints.class.getSimpleName())
+            .registerSubtype(TimeConstraints.class, TimeConstraints.class.getSimpleName());
+    
+    public static final Gson GSON = new GsonBuilder()
+            .registerTypeAdapter(byte[].class, new ByteArrayToBase64TypeAdapter())
+            .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
+            .registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
+            .registerTypeAdapterFactory(surveyElementFactory)
+            .registerTypeAdapterFactory(scheduleStrategyFactory)
+            .registerTypeAdapterFactory(constraintsFactory)
+            .create();
     
     static <T> T last(List<T> list) {
         return (list == null || list.isEmpty()) ? null : list.get(list.size()-1);

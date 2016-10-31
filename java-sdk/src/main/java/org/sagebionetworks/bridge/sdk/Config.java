@@ -50,7 +50,8 @@ public final class Config {
         try (InputStream in = this.getClass().getResourceAsStream(CONFIG_FILE)) {
             config.load(in);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            // This is okay, we'll fall back to examining environmental variables.
+            System.err.println(e.getMessage());
         }
         // Overwrite from user's local file
         loadProperties(USER_CONFIG_FILE, config);

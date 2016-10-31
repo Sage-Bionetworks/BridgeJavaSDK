@@ -5,7 +5,7 @@
         <groupId>org.sagebionetworks.bridge</groupId>
         <artifactId>sdk-group</artifactId>
         <!-- Please use the maven versions plugin to manage this, e.g.`mvn versions:set -DnewVersion=0.8.1`-->
-        <version>0.12.0</version>
+        <version>0.12.1</version>
     </parent>
 
     <artifactId>rest-api-codegen</artifactId>
@@ -14,7 +14,6 @@
 
     <properties>
         <package-directory>org.sagebionetworks.bridge.sdk.rest</package-directory>
-        <swagger-annotations.version>1.5.0</swagger-annotations.version>
     </properties>
 
     <build>
@@ -74,7 +73,6 @@ https://github.com/swagger-api/swagger-codegen/blob/master/modules/swagger-codeg
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>${swagger-annotations.version}</version>
         </dependency>
         <dependency>
             <groupId>com.squareup.retrofit2</groupId>
@@ -88,10 +86,6 @@ https://github.com/swagger-api/swagger-codegen/blob/master/modules/swagger-codeg
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
             <classifier>no-tzdb</classifier> 
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
         </dependency>
     </dependencies>
 
