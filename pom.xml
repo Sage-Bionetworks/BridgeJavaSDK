@@ -28,13 +28,18 @@
         <javadoc.version>2.10.4</javadoc.version>
         <joda-time.version>2.9.4</joda-time.version>
         <junit.version>4.11</junit.version>
+        <logback.version>1.1.2</logback.version>
+        <maven-compiler-plugin>3.1</maven-compiler-plugin>
+        <maven-resources-plugin.version>2.6</maven-resources-plugin.version>
         <maven-s3-wagon.version>1.2.1</maven-s3-wagon.version>
+        <maven-surefire-plugin>2.19.1</maven-surefire-plugin>
         <mockito.version>1.10.19</mockito.version>
         <powermock.version>1.6.5</powermock.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <retrofit.version>2.1.0</retrofit.version>
-        <sl4j.version>1.7.21</sl4j.version>
+        <slf4j.version>1.7.21</slf4j.version>
         <surefire.version>2.18.1</surefire.version>
+        <swagger-annotations.version>1.5.0</swagger-annotations.version>
     </properties>
 
     <dependencyManagement>
@@ -42,12 +47,97 @@
             <dependency>
                 <groupId>org.sagebionetworks.bridge</groupId>
                 <artifactId>rest-api-codegen</artifactId>
-                <version>0.12.1</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.sagebionetworks.bridge</groupId>
                 <artifactId>rest-client</artifactId>
-                <version>0.12.1</version>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${logback.version}</version>
+            </dependency>           
+            <dependency>
+                <groupId>com.fatboyindustrial.gson-jodatime-serialisers</groupId>
+                <artifactId>gson-jodatime-serialisers</artifactId>
+                <version>${gson-jodatime.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>        
+            <dependency>
+                <groupId>com.squareup.retrofit2</groupId>
+                <artifactId>retrofit</artifactId>
+                <version>${retrofit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.retrofit2</groupId>
+                <artifactId>converter-gson</artifactId>
+                <version>${retrofit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${commons-codec.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger-annotations.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>${joda-time.version}</version>
+                <classifier>no-tzdb</classifier> 
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven-resources-plugin.version}</version>
+            </dependency>            
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-api-mockito</artifactId>
+                <version>${powermock.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-module-junit4</artifactId>
+                <version>${powermock.version}</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -70,7 +160,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.19.1</version>
+                        <version>${maven-surefire-plugin}</version>
                         <configuration>
                             <excludes>
                                 <exclude>**/*IntegrationTest*.java</exclude>
@@ -89,7 +179,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.1</version>
+                    <version>${maven-compiler-plugin}</version>
                     <configuration>
                         <source>1.7</source>
                         <target>1.7</target>
