@@ -5710,7 +5710,7 @@
           "description": "Synapse team ID that is granted read access to exported health data records.\n"
         },
         "synapseProjectId": {
-          "type": "integer",
+          "type": "string",
           "description": "The Synapse project to export health data records to."
         },
         "usesCustomExportSchedule": {
