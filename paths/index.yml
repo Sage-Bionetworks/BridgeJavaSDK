@@ -87,16 +87,8 @@
     $ref: ./users/v3_users.yml
 /v3/users/{userId}:
     $ref: ./users/v3_users_userId.yml
-/v3/users/self:
-    $ref: ./users/v3_users_self.yml
-/v3/users/self/externalId:
-    $ref: ./users/v3_users_self_externalId.yml
 /v3/users/self/emailData:
     $ref: ./users/v3_users_self_emailData.yml
-/v3/users/self/dataSharing:
-    $ref: ./users/v3_users_self_dataSharing.yml
-/v3/users/self/dataGroups:
-    $ref: ./users/v3_users_self_dataGroups.yml
 /v3/users/self/reports/{identifier}:
     $ref: ./users/v3_users_self_reports_identifier.yml
 /v3/reports:
@@ -127,8 +119,6 @@
     $ref: ./surveys/v3_surveys_surveyGuid_revisions_createdOn_publish.yml
 
 # Schedules
-/v3/schedules:
-    $ref: ./schedules/v3_schedules.yml
 /v4/schedules:
     $ref: ./schedules/v4_schedules.yml
 
@@ -137,8 +127,8 @@
     $ref: ./uploads/v3_uploads.yml
 /v3/uploads/{uploadId}/complete:
     $ref: ./uploads/v3_uploads_uploadId_complete.yml
-/v3/uploadstatus/{uploadId}:
-    $ref: ./uploads/v3_uploadstatus_uploadId.yml
+/v3/uploadstatuses/{uploadId}:
+    $ref: ./uploads/v3_uploadstatuses_uploadId.yml
 
 # Upload schemas
 /v3/uploadschemas:
