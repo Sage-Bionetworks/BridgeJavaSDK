@@ -23,11 +23,17 @@ public class LoggingInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
         if (logger.isDebugEnabled()) {
-            if ("POST".equals(request.method()) || "PUT".equals(request.method())) {
+            if ("POST".equals(request.method())) {
                 logger.debug(request.method() + " " + request.url().toString() + "\n    "
                         + redactPasswords(requestBodyToString(request)));
             } else {
                 logger.debug(request.method()+" "+request.url().toString());
+            }
+            if (request.header("User-Agent") != null) {
+                logger.debug("User-Agent: " + request.header("User-Agent"));    
+            }
+            if (request.header("Accept-Language") != null) {
+                logger.debug("Accept-Language: " + request.header("Accept-Language"));    
             }
         }
         Response response = chain.proceed(request);

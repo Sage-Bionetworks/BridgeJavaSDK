@@ -5,32 +5,34 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.Map;
 
 import org.sagebionetworks.bridge.sdk.rest.ApiClientProvider;
+import org.sagebionetworks.bridge.sdk.rest.RestUtils;
+import org.sagebionetworks.bridge.sdk.rest.model.ClientInfo;
+import org.sagebionetworks.bridge.sdk.rest.model.Environment;
 import org.sagebionetworks.bridge.sdk.rest.model.SignIn;
 
 import com.google.common.collect.ImmutableMap;
 
 public final class ClientManager {
     
-    private Map<org.sagebionetworks.bridge.sdk.rest.model.Environment,String> HOSTS = 
-            new ImmutableMap.Builder<org.sagebionetworks.bridge.sdk.rest.model.Environment,String>()
-            .put(org.sagebionetworks.bridge.sdk.rest.model.Environment.LOCAL,"http://localhost:9000")
-            .put(org.sagebionetworks.bridge.sdk.rest.model.Environment.DEVELOP,"https://webservices-develop.sagebridge.org")
-            .put(org.sagebionetworks.bridge.sdk.rest.model.Environment.STAGING,"https://webservices-staging.sagebridge.org")
-            .put(org.sagebionetworks.bridge.sdk.rest.model.Environment.PRODUCTION,"https://webservices.sagebridge.org")
+    private Map<Environment,String> HOSTS = new ImmutableMap.Builder<Environment,String>()
+            .put(Environment.LOCAL,"http://localhost:9000")
+            .put(Environment.DEVELOP,"https://webservices-develop.sagebridge.org")
+            .put(Environment.STAGING,"https://webservices-staging.sagebridge.org")
+            .put(Environment.PRODUCTION,"https://webservices.sagebridge.org")
             .build();
     
     private final Config config;
     private final ClientInfo clientInfo;
     private final transient SignIn signIn;
+    private final ApiClientProvider apiClientProvider;
     
     private ClientManager(Config config, ClientInfo clientInfo, SignIn signIn) {
         this.config = config;
         this.clientInfo = clientInfo;
         this.signIn = signIn;
-        this.apiClientProvider = new ApiClientProvider(HOSTS.get(config.getEnvironment2()), clientInfo.toString());
+        String userAgent = RestUtils.getUserAgent(clientInfo);
+        this.apiClientProvider = new ApiClientProvider(HOSTS.get(config.getEnvironment()), userAgent);
     }
-    
-    private ApiClientProvider apiClientProvider;
     
     public final Config getConfig() {
         return config;
@@ -38,6 +40,10 @@ public final class ClientManager {
     
     public final ClientInfo getClientInfo() {
         return clientInfo;
+    }
+    
+    public final String getHostUrl() {
+        return HOSTS.get(config.getEnvironment());
     }
 
     /**
@@ -74,10 +80,31 @@ public final class ClientManager {
             if (this.config == null) {
                 this.config = new Config();
             }
-            if (this.clientInfo == null) {
-                this.clientInfo = new ClientInfo.Builder().build();
+            
+            ClientInfo info = new ClientInfo();
+            info.setOsName(System.getProperty("os.name"));
+            info.setOsVersion(System.getProperty("os.version"));
+            info.setSdkName("BridgeJavaSDK");
+            info.setSdkVersion(Integer.parseInt(config.getSdkVersion()));
+            if (this.clientInfo != null) {
+                if (clientInfo.getAppName() != null) {
+                    info.setAppName(clientInfo.getAppName());
+                }
+                if (clientInfo.getAppVersion() != null) {
+                    info.setAppVersion(clientInfo.getAppVersion());
+                }
+                if (clientInfo.getDeviceName() != null) {
+                    info.setDeviceName(clientInfo.getDeviceName());
+                }
+                if (clientInfo.getOsName() != null) {
+                    info.setOsName(clientInfo.getOsName());
+                }
+                if (clientInfo.getOsVersion() != null) {
+                    info.setOsVersion(clientInfo.getOsVersion());
+                }
             }
-            return new ClientManager(config, clientInfo, signIn);
+            
+            return new ClientManager(config, info, signIn);
         }
     }
     
