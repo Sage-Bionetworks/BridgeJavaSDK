@@ -157,8 +157,6 @@ public class RestUtils {
         }
         if (isNotBlank(info.getDeviceName()) && isNotBlank(info.getOsName()) && isNotBlank(info.getOsVersion())) {
             stanzas.add(String.format("(%s; %s/%s)", info.getDeviceName(), info.getOsName(), info.getOsVersion()));
-        } else if (isNotBlank(info.getOsName()) && isNotBlank(info.getOsVersion())) {
-            stanzas.add(String.format("(%s/%s)", info.getOsName(), info.getOsVersion()));
         }
         if (!stanzas.isEmpty() && isNotBlank(info.getSdkName()) && info.getSdkVersion() != null) {
             stanzas.add(String.format("%s/%s", info.getSdkName(), info.getSdkVersion()));    
