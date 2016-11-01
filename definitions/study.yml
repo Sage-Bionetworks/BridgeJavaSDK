@@ -55,7 +55,7 @@ properties:
         description: |
             Synapse team ID that is granted read access to exported health data records.
     synapseProjectId:
-        type: integer
+        type: string
         description: The Synapse project to export health data records to.
     usesCustomExportSchedule:
         type: boolean
