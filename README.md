@@ -5,8 +5,7 @@ This is the Java SDK for the Bridge Server. For documentation on the REST servic
 
 This SDK project has three sub-projects:
 * The [api-codegen/](api-codegen/) package takes a swagger.json description of our REST services and converts these into Java classes;
-* The [rest-client/](rest-client/) package creates a minimal REST API client for working with the Bridge server, useful for any kind of Java environment (including Android);
-* The [java-sdk/](java-sdk/) package adds some utility classes to configure and utilize the REST client, and is intended for non-Android Java environments. It is the library we use to write integration tests for both our client and server software.
+* The [rest-client/](rest-client/) package creates a minimal REST API client for working with the Bridge server, useful for any kind of Java environment (including Android). It is the library we use to write integration tests for both our client and server software.
 
 ## Using the Java SDK
 
@@ -17,8 +16,8 @@ Here's an example of referencing the JAR via Maven:
 		<dependencies>
 			<dependency>
 			    <groupId>org.sagebionetworks</groupId>
-			    <artifactId>java-sdk</artifactId>
-			    <version>0.12.0</version>
+			    <artifactId>rest-client</artifactId>
+			    <version>0.12.3</version>
 			</dependency>
 		</dependencies>
 		...
