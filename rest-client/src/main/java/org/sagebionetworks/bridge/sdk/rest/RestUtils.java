@@ -15,7 +15,6 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import org.sagebionetworks.bridge.sdk.rest.api.ForConsentedUsersApi;
-import org.sagebionetworks.bridge.sdk.rest.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.sdk.rest.gson.ByteArrayToBase64TypeAdapter;
 import org.sagebionetworks.bridge.sdk.rest.gson.DateTimeTypeAdapter;
 import org.sagebionetworks.bridge.sdk.rest.gson.LocalDateTypeAdapter;
@@ -62,8 +61,7 @@ import retrofit2.http.Url;
 
 public class RestUtils {
     
-    // It's unfortunate but we need to specify subtypes for GSON. Or maybe it's fortunate, because this information 
-    // doesn't need to be in the auto-generated classes for GSON to do its work.
+    // It's unfortunate but we need to specify subtypes for GSON.
 
     private static final RuntimeTypeAdapterFactory<SurveyElement> surveyElementFactory = RuntimeTypeAdapterFactory  
             .of(SurveyElement.class, "type")
@@ -161,9 +159,6 @@ public class RestUtils {
         if (!stanzas.isEmpty() && isNotBlank(info.getSdkName()) && info.getSdkVersion() != null) {
             stanzas.add(String.format("%s/%s", info.getSdkName(), info.getSdkVersion()));    
         }
-        if (stanzas.isEmpty()) {
-            throw new BridgeSDKException("ClientInfo provided without enough information for User-Agent string: " + info, 500);
-        }
         return Joiner.on(" ").join(stanzas);
     }
     
@@ -193,7 +188,7 @@ public class RestUtils {
         request.setName(file.getName());
         request.setContentLength((int)contentLength);
         request.setContentMd5(contentMd5);
-        request.setContentType("application/zip"); // TODO: Always?!
+        request.setContentType("application/zip");
         
         UploadSession session = usersApi.requestUploadSession(request).execute().body();
         
