@@ -165,33 +165,33 @@ Withdrawal:
     $ref: ./withdrawal.yml
 
 # Paged resources
-PagedResourceList_AccountSummary:
+AccountSummaryList:
     $ref: ./paged_resources/account_summary.yml
-ResourceList_Activity:
+ActivityList:
     $ref: ./paged_resources/activity.yml
-PagedResourceList_ExternalIdentifier:
+ExternalIdentifierList:
     $ref: ./paged_resources/external_identifier.yml
-DateRangeResourceList_ReportData:
+ReportDataList:
     $ref: ./paged_resources/report_data.yml
-ReportTypeResourceList_ReportIndex:
+ReportIndexList:
     $ref: ./paged_resources/report_index.yml
-ResourceList_Schedule:
+ScheduleList:
     $ref: ./paged_resources/schedule.yml
-ResourceList_ScheduledActivity:
+ScheduledActivityList:
     $ref: ./paged_resources/scheduled_activity.yml
-ResourceList_SchedulePlan:
+SchedulePlanList:
     $ref: ./paged_resources/schedule_plan.yml
-ResourceList_Study:
+StudyList:
     $ref: ./paged_resources/study.yml
-ResourceList_StudyConsent:
+StudyConsentList:
     $ref: ./paged_resources/study_consent.yml
-ResourceList_Subpopulation:
+SubpopulationList:
     $ref: ./paged_resources/subpopulation.yml
-ResourceList_Survey:
+SurveyList:
     $ref: ./paged_resources/survey.yml
-DateTimeRangeResourceList_Upload:
+UploadList:
     $ref: ./paged_resources/upload.yml
-ResourceList_UploadSchema:
+UploadSchemaList:
     $ref: ./paged_resources/upload_schema.yml
 
 # Constraints
