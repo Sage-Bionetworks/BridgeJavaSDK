@@ -86,6 +86,7 @@ public final class ClientManager {
             ClientInfo info = new ClientInfo();
             info.setOsName(System.getProperty("os.name"));
             info.setOsVersion(System.getProperty("os.version"));
+            info.setDeviceName(System.getProperty("os.arch"));
             info.setSdkName("BridgeJavaSDK");
             info.setSdkVersion(Integer.parseInt(config.getSdkVersion()));
             if (this.clientInfo != null) {
