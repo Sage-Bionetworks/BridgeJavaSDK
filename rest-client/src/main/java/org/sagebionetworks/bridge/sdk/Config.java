@@ -14,10 +14,10 @@ import org.sagebionetworks.bridge.sdk.rest.model.SignIn;
 public final class Config {
 
     private static final String CONFIG_FILE = "/bridge-sdk.properties";
-    private static final String USER_CONFIG_FILE = System.getProperty("user.home") + "/bridge-sdk.properties";
+    private static final String USER_CONFIG_FILE = System.getProperty("user.home") + CONFIG_FILE;
 
     public enum Props {
-        // These all require and entry in bridge-sdk.properties (accounts are optional).
+        // These all require an entry in bridge-sdk.properties (accounts are optional).
         ACCOUNT_EMAIL(null), 
         ACCOUNT_PASSWORD(null), 
         ADMIN_EMAIL(null), 
@@ -158,5 +158,4 @@ public final class Config {
         checkNotNull(value, "The property '" + prop.getPropertyName() + "' has not been set.");
         return value.trim();
     }
-    
 }

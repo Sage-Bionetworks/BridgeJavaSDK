@@ -74,6 +74,15 @@ public final class ClientManager {
             this.signIn = signIn;
             return this;
         }
+        private ClientInfo getDefaultClientInfo() {
+            ClientInfo info = new ClientInfo();
+            info.setOsName(System.getProperty("os.name"));
+            info.setOsVersion(System.getProperty("os.version"));
+            info.setDeviceName(System.getProperty("os.arch"));
+            info.setSdkName("BridgeJavaSDK");
+            info.setSdkVersion(Integer.parseInt(config.getSdkVersion()));
+            return info;
+        }
         public ClientManager build() {
             checkNotNull(signIn, "Sign in must be supplied to ClientManager builder.");
             checkNotNull(signIn.getStudy(), "Sign in must have a study identifier.");
@@ -83,12 +92,7 @@ public final class ClientManager {
                 this.config = new Config();
             }
 
-            ClientInfo info = new ClientInfo();
-            info.setOsName(System.getProperty("os.name"));
-            info.setOsVersion(System.getProperty("os.version"));
-            info.setDeviceName(System.getProperty("os.arch"));
-            info.setSdkName("BridgeJavaSDK");
-            info.setSdkVersion(Integer.parseInt(config.getSdkVersion()));
+            ClientInfo info = getDefaultClientInfo();
             if (this.clientInfo != null) {
                 if (clientInfo.getAppName() != null) {
                     info.setAppName(clientInfo.getAppName());
@@ -106,7 +110,6 @@ public final class ClientManager {
                     info.setOsVersion(clientInfo.getOsVersion());
                 }
             }
-            
             return new ClientManager(config, info, signIn);
         }
     }

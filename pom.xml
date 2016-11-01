@@ -16,7 +16,6 @@
 
     <modules>
         <module>api-codegen</module>
-        <module>java-sdk</module>
         <module>rest-client</module>
     </modules>
 
