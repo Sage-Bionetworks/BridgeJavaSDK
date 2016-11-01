@@ -394,7 +394,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResourceList_ScheduledActivity"
+              "$ref": "#/definitions/ScheduledActivityList"
             }
           },
           "401": {
@@ -491,7 +491,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/PagedResourceList_AccountSummary"
+              "$ref": "#/definitions/AccountSummaryList"
             }
           },
           "401": {
@@ -713,7 +713,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/DateTimeRangeResourceList_Upload"
+              "$ref": "#/definitions/UploadList"
             }
           },
           "401": {
@@ -795,7 +795,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResourceList_Activity"
+              "$ref": "#/definitions/ActivityList"
             }
           },
           "401": {
@@ -1041,7 +1041,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/DateRangeResourceList_ReportData"
+              "$ref": "#/definitions/ReportDataList"
             }
           },
           "401": {
@@ -1256,7 +1256,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResourceList_Subpopulation"
+              "$ref": "#/definitions/SubpopulationList"
             }
           },
           "401": {
@@ -1593,7 +1593,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResourceList_StudyConsent"
+              "$ref": "#/definitions/StudyConsentList"
             }
           },
           "401": {
@@ -1750,7 +1750,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResourceList_StudyConsent"
+              "$ref": "#/definitions/StudyConsentList"
             }
           },
           "401": {
@@ -2099,7 +2099,7 @@
           "200": {
             "description": "Report records for the participant",
             "schema": {
-              "$ref": "#/definitions/DateRangeResourceList_ReportData"
+              "$ref": "#/definitions/ReportDataList"
             }
           },
           "401": {
@@ -2134,7 +2134,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ReportTypeResourceList_ReportIndex"
+              "$ref": "#/definitions/ReportIndexList"
             }
           },
           "401": {
@@ -2171,7 +2171,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/DateRangeResourceList_ReportData"
+              "$ref": "#/definitions/ReportDataList"
             }
           },
           "401": {
@@ -2306,7 +2306,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResourceList_Survey"
+              "$ref": "#/definitions/SurveyList"
             }
           },
           "401": {
@@ -2375,7 +2375,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResourceList_Survey"
+              "$ref": "#/definitions/SurveyList"
             }
           },
           "401": {
@@ -2409,7 +2409,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResourceList_Survey"
+              "$ref": "#/definitions/SurveyList"
             }
           },
           "401": {
@@ -2725,7 +2725,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResourceList_Schedule"
+              "$ref": "#/definitions/ScheduleList"
             }
           },
           "401": {
@@ -2884,7 +2884,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResourceList_UploadSchema"
+              "$ref": "#/definitions/UploadSchemaList"
             }
           },
           "401": {
@@ -3040,7 +3040,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResourceList_UploadSchema"
+              "$ref": "#/definitions/UploadSchemaList"
             }
           },
           "401": {
@@ -3202,7 +3202,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResourceList_SchedulePlan"
+              "$ref": "#/definitions/SchedulePlanList"
             }
           },
           "401": {
@@ -3383,7 +3383,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResourceList_Study"
+              "$ref": "#/definitions/StudyList"
             }
           },
           "403": {
@@ -3708,7 +3708,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/DateTimeRangeResourceList_Upload"
+              "$ref": "#/definitions/UploadList"
             }
           },
           "401": {
@@ -3761,7 +3761,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/PagedResourceList_ExternalIdentifier"
+              "$ref": "#/definitions/ExternalIdentifierList"
             }
           },
           "401": {
@@ -3869,7 +3869,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResourceList_Survey"
+              "$ref": "#/definitions/SurveyList"
             }
           },
           "401": {
@@ -3996,7 +3996,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/DateTimeRangeResourceList_Upload"
+              "$ref": "#/definitions/UploadList"
             }
           },
           "401": {
@@ -6668,7 +6668,7 @@
         }
       }
     },
-    "PagedResourceList_AccountSummary": {
+    "AccountSummaryList": {
       "type": "object",
       "readOnly": true,
       "properties": {
@@ -6703,7 +6703,7 @@
         }
       }
     },
-    "ResourceList_Activity": {
+    "ActivityList": {
       "type": "object",
       "readOnly": true,
       "properties": {
@@ -6734,7 +6734,7 @@
         }
       }
     },
-    "PagedResourceList_ExternalIdentifier": {
+    "ExternalIdentifierList": {
       "type": "object",
       "readOnly": true,
       "properties": {
@@ -6768,7 +6768,7 @@
         }
       }
     },
-    "DateRangeResourceList_ReportData": {
+    "ReportDataList": {
       "type": "object",
       "readOnly": true,
       "properties": {
@@ -6798,7 +6798,7 @@
         }
       }
     },
-    "ReportTypeResourceList_ReportIndex": {
+    "ReportIndexList": {
       "type": "object",
       "readOnly": true,
       "properties": {
@@ -6823,7 +6823,7 @@
         }
       }
     },
-    "ResourceList_Schedule": {
+    "ScheduleList": {
       "type": "object",
       "readOnly": true,
       "properties": {
@@ -6846,7 +6846,7 @@
         }
       }
     },
-    "ResourceList_ScheduledActivity": {
+    "ScheduledActivityList": {
       "type": "object",
       "readOnly": true,
       "properties": {
@@ -6869,7 +6869,7 @@
         }
       }
     },
-    "ResourceList_SchedulePlan": {
+    "SchedulePlanList": {
       "type": "object",
       "readOnly": true,
       "properties": {
@@ -6892,7 +6892,7 @@
         }
       }
     },
-    "ResourceList_Study": {
+    "StudyList": {
       "type": "object",
       "readOnly": true,
       "properties": {
@@ -6915,7 +6915,7 @@
         }
       }
     },
-    "ResourceList_StudyConsent": {
+    "StudyConsentList": {
       "type": "object",
       "readOnly": true,
       "properties": {
@@ -6938,7 +6938,7 @@
         }
       }
     },
-    "ResourceList_Subpopulation": {
+    "SubpopulationList": {
       "type": "object",
       "readOnly": true,
       "properties": {
@@ -6961,7 +6961,7 @@
         }
       }
     },
-    "ResourceList_Survey": {
+    "SurveyList": {
       "type": "object",
       "readOnly": true,
       "properties": {
@@ -6984,7 +6984,7 @@
         }
       }
     },
-    "DateTimeRangeResourceList_Upload": {
+    "UploadList": {
       "type": "object",
       "readOnly": true,
       "properties": {
@@ -7017,7 +7017,7 @@
         }
       }
     },
-    "ResourceList_UploadSchema": {
+    "UploadSchemaList": {
       "type": "object",
       "readOnly": true,
       "properties": {
