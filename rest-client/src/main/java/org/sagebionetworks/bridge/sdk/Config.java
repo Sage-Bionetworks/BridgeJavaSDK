@@ -14,7 +14,7 @@ import org.sagebionetworks.bridge.sdk.rest.model.SignIn;
 public final class Config {
 
     private static final String CONFIG_FILE = "/bridge-sdk.properties";
-    private static final String USER_CONFIG_FILE = System.getProperty("user.home") + CONFIG_FILE;
+    private static final String USER_CONFIG_FILE = System.getProperty("user.home") + "/bridge-sdk.properties";
 
     public enum Props {
         // These all require an entry in bridge-sdk.properties (accounts are optional).
