@@ -60,6 +60,7 @@ properties:
             timestamp can be used to retrieve the consent document.
     version:
         type: integer
+        format: int64
         description: | 
             The optimistic locking version of the survey. This value must be submitted as 
             part of the next update of the model. If it does not match the value on the server, 

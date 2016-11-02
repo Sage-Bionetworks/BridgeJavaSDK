@@ -20,6 +20,7 @@ properties:
         $ref: ./schedule_strategy.yml
     version:
         type: integer
+        format: int64
     type:
         type: string
         readOnly: true

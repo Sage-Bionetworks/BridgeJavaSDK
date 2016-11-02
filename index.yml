@@ -34,6 +34,7 @@ parameters:
         required: true
         in: path
         type: integer
+        format: int64
     schedulePlanGuid:
         name: schedulePlanGuid
         description: Schedule plan GUID

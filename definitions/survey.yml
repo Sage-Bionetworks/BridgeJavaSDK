@@ -29,6 +29,7 @@ properties:
             published version to users.
     schemaRevision:
         type: integer
+        format: int64
         description: |
             The corresponding schema revision that Bridge server uses to export survey answers to Synapse.
     createdOn:
@@ -42,6 +43,7 @@ properties:
         description: The date and time when this version of the survey was last modified.
     version:
         type: integer
+        format: int64
         description: |
             The version of this survey as used to implement optimistic locking. This must 
             be passed back to the server on an update, unmodified, in order for the update 

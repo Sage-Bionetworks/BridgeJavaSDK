@@ -14,6 +14,7 @@ properties:
         description: The createdOn value of the survey (added when survey is created).
     version:
         type: integer
+        format: int64
         readOnly: true
         description: |
             The optimistic locking version of the survey. This value must be submitted as 

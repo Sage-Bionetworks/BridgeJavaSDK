@@ -41,6 +41,7 @@ properties:
             Asthma in Children, your identifier might be `uw-child-asthma`. Participants will not see this identifier.
     version:
         type: integer
+        format: int64
         description: |
             A version number used for optimistic locking of the object these keys represent; this value must be passed 
             back to the server on updates. If the version doesn't match the version in the database, an error will be 
@@ -52,6 +53,7 @@ properties:
             The minimum required age for participants in the study. If the user reports they are younger than this age, they will not be allowed to consent to the research.
     synapseDataAccessTeamId:
         type: integer
+        format: int64
         description: |
             Synapse team ID that is granted read access to exported health data records.
     synapseProjectId:

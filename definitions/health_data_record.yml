@@ -24,6 +24,7 @@ properties:
             [UploadSchema](#UploadSchema) ID for the record.
     schemaRevision:
         type: integer
+        format: int64
         description: |
             [UploadSchema](#UploadSchema) revision for the record.
     studyId:
@@ -56,6 +57,7 @@ properties:
             type: string
     version:
         type: integer
+        format: int64
         description: |
             A version number issued for optimistic locking of record updates. Should not be 
             set when creating a new health data record. When updating a record retrieved from 

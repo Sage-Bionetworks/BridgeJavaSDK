@@ -1,5 +1,5 @@
 description: |
-    Select the first schedule in a list of schedules that have been associated to [Criteria](#Criteria). 
+    Select the first schedule in a list of schedules that have been associated to [Criteria](/#Criteria). 
     Based on information submitted by the user and in the user's account settings, compare each 
     schedule in order until one matches the criteria, and use that schedule to assign activities to the 
     user.

@@ -4,6 +4,7 @@ type: object
 properties:
     version:
         type: integer
+        format: int64
         readOnly: true
         description: The optimistic locking version of the entity.
     type:

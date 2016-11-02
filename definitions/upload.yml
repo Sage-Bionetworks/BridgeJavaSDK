@@ -14,9 +14,11 @@ properties:
         description: The ID of the schema for this upload.
     schemaRevision:
         type: integer
+        format: int64
         description: The revision for the schema of this upload.
     contentLength:
         type: integer
+        format: int64
         description: |
             The size of the object in bytes. A standard HTTP header. For more information, 
             go to [http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13)

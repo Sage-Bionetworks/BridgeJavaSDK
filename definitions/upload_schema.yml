@@ -14,6 +14,7 @@ properties:
         description: User-friendly schema name.
     revision:
         type: integer
+        format: int64
         description: |
             Revision number of the schema, used to distinguish versions of the same data format.
             This should be blank when creating a schema, and it should be passed back to the server 
@@ -41,6 +42,7 @@ properties:
         $ref: ./enums/upload_schema_type.yml
     version:
         type: integer
+        format: int64
         description: |
             The optimistic locking version of the survey. This value must be submitted as 
             part of the next update of the model. If it does not match the value on the server, 
