@@ -58,12 +58,12 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
-		<dependency>
-			<groupId>com.squareup.retrofit2</groupId>
-			<artifactId>converter-gson</artifactId>
-			<version>${retrofit.version}</version>
-		</dependency>        
-		<dependency>
+        <dependency>
+            <groupId>com.squareup.retrofit2</groupId>
+            <artifactId>converter-gson</artifactId>
+            <version>${retrofit.version}</version>
+        </dependency>        
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
@@ -110,10 +110,10 @@
     </reporting>
     
     <build>
-    	<!-- The swagger plug-in adds the root directory of the code generation to the Maven build, 
-    		but this is the root of an entire Maven project, not a source directory. So we use 
-    		addCompileSourceRoot = false to suppress that, and the build-helper-maven-plugin to 
-    		add the correct source folder back into the build. -->
+        <!-- The swagger plug-in adds the root directory of the code generation to the Maven build, 
+            but this is the root of an entire Maven project, not a source directory. So we use 
+            addCompileSourceRoot = false to suppress that, and the build-helper-maven-plugin to 
+            add the correct source folder back into the build. -->
         <plugins>
             <plugin>
                 <groupId>io.swagger</groupId>
@@ -146,25 +146,25 @@
                 </executions>
             </plugin>
             <!-- Why does it take 20 lines of XML to add one directory to the source path. Why. -->
-      		<plugin>
-       			<groupId>org.codehaus.mojo</groupId>
-        		<artifactId>build-helper-maven-plugin</artifactId>
-       			<version>1.7</version>
-        		<executions>
-          			<execution>
-            			<id>add-source</id>
-            			<phase>generate-sources</phase>
-            			<goals>
-              				<goal>add-source</goal>
-            			</goals>
-            			<configuration>
-              				<sources>
-                				<source>${project.build.directory}/swagger/src/main/java</source>
-              				</sources>
-            			</configuration>
-          			</execution>
-        		</executions>
-      		</plugin>            
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.build.directory}/swagger/src/main/java</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
         </plugins>
     </build>    
 </project>
