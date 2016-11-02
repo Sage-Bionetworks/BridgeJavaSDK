@@ -109,6 +109,10 @@
     </reporting>
     
     <build>
+    	<!-- The swagger plug-in adds the root directory of the code generation to the Maven build, 
+    		but this is the root of an entire Maven project, not a source directory. So we use 
+    		addCompileSourceRoot = false to suppress that, and the build-helper-maven-plugin to 
+    		add the correct source folder back into the build. -->
         <plugins>
             <plugin>
                 <groupId>io.swagger</groupId>
@@ -128,10 +132,6 @@
                             <invokerPackage>${package-directory}.utils</invokerPackage>
                             <configOptions></configOptions>
                             <output>${project.build.directory}/swagger</output>
-                            <!-- This folder includes an entire Maven project, which is totally 
-                            	a broken thing to include in the Maven project. Have no idea
-                            	why this is true by default.
-                             -->
                             <addCompileSourceRoot>false</addCompileSourceRoot>
                             <environmentVariables>
                                 <models></models>
