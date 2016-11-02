@@ -128,16 +128,10 @@
                             <invokerPackage>${package-directory}.utils</invokerPackage>
                             <configOptions></configOptions>
                             <output>${project.build.directory}/swagger</output>
-                            <!-- This folder includes an entire Maven project, which is totally 
-                            	a broken thing to include in the Maven project. Have no idea
-                            	why this is true by default.
-                             -->
-                            <addCompileSourceRoot>false</addCompileSourceRoot>
                             <environmentVariables>
                                 <models></models>
                                 <apis></apis>
-                                <!-- <supportingFiles>CollectionFormats.java,StringUtil.java</supportingFiles> -->
-                                <supportingFiles>StringUtil.java</supportingFiles>
+                                <supportingFiles>CollectionFormats.java,StringUtil.java</supportingFiles>
                                 <apiTests>false</apiTests>
                             </environmentVariables>
                         </configuration>
