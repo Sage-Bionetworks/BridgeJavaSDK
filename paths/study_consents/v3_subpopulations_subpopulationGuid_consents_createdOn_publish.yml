@@ -20,7 +20,6 @@ post:
           format: date-time
           in: path
           required: true
-        - $ref: ../../index.yml#/parameters/empty
     responses:
         200:
             $ref: ../../responses/200_message.yml

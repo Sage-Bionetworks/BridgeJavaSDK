@@ -19,4 +19,4 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [GuidVersionHolder]
+        description: "GuidVersionHolder"

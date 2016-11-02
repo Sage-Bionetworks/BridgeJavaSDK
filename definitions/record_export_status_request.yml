@@ -16,4 +16,4 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [RecordExportStatusRequest]
+        description: "RecordExportStatusRequest"

@@ -31,4 +31,4 @@ allOf:
         type:
             type: string
             readOnly: true
-            enum: [SignUp]
+            description: "SignUp"

@@ -25,4 +25,4 @@ allOf:
         type:
             type: string
             readOnly: true
-            enum: [StudyParticipant]
+            description: "StudyParticipant"

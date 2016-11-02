@@ -15,3 +15,4 @@ properties:
         $ref: ../enums/data_type.yml
     type:
         type: string
+        readOnly: true

@@ -10,7 +10,6 @@ post:
         - $ref: ../../index.yml#/parameters/surveyGuid
         - $ref: ../../index.yml#/parameters/createdOn
         - $ref: ../../index.yml#/parameters/newSchemaRev
-        - $ref: ../../index.yml#/parameters/empty
     responses:
         200:
             description: OK

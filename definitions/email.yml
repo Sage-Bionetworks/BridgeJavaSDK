@@ -13,4 +13,4 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [Email]
+        description: "Email"

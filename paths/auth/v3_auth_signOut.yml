@@ -6,8 +6,6 @@ post:
         - BridgeSecurity: []
     description: |
         Delete the user's session on the server.
-    parameters:
-        - $ref: ../../index.yml#/parameters/empty
     responses:
         200:
             $ref: ../../responses/200_message.yml

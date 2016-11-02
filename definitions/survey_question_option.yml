@@ -25,4 +25,4 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [SurveyQuestionOption]
+        description: "SurveyQuestionOption"

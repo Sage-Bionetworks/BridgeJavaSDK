@@ -31,4 +31,4 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [SurveyRule]
+        description: "SurveyRule"

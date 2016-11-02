@@ -80,5 +80,5 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [Schedule]
+        description: "Schedule"
     

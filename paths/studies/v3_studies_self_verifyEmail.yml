@@ -9,8 +9,6 @@ post:
         - _For Developers
     security:
         -   BridgeSecurity: []
-    parameters:
-        - $ref: ../../index.yml#/parameters/empty
     responses:
         200:
             description: OK

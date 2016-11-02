@@ -78,4 +78,4 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [Subpopulation]
+        description: "Subpopulation"

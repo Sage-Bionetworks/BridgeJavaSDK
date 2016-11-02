@@ -19,5 +19,5 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [DateTimeRangeResourceList]
+        description: "DateTimeRangeResourceList"
         

@@ -24,4 +24,4 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [ConsentStatus]
+        description: "ConsentStatus"

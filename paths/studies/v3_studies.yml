@@ -7,12 +7,10 @@ get:
     security:
         -   BridgeSecurity: []
     parameters:
-        - name: format
+        - name: summary
           required: false
           in: query
-          type: string
-          enum:
-            - summary
+          type: boolean
           description: |
             If true, anyone can call this endpoint and return a list of truncated study objects
             (name and study identifier only). Otherwise, caller must be an admin.

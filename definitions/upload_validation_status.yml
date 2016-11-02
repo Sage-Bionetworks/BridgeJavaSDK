@@ -17,4 +17,4 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [UploadValidationStatus]
+        description: "UploadValidationStatus"

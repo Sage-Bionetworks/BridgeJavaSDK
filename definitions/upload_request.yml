@@ -27,4 +27,4 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [UploadRequest]
+        description: "UploadRequest"

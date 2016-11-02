@@ -11,4 +11,4 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [EmailVerification]
+        description: "EmailVerification"

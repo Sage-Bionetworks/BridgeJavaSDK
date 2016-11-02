@@ -26,4 +26,4 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [AccountSummary]
+        description: "AccountSummary"

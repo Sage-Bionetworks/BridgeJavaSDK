@@ -34,4 +34,4 @@ allOf:
         type:
             type: string
             readOnly: true
-            enum: [UserSessionInfo]
+            description: "UserSessionInfo"

@@ -17,4 +17,4 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [ResourceList]
+        description: "ResourceList"

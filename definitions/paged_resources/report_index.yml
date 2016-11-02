@@ -12,4 +12,4 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [ReportTypeResourceList]
+        description: "ReportTypeResourceList"

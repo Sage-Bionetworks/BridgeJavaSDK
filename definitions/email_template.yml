@@ -36,4 +36,4 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [EmailTemplate]
+        description: "EmailTemplate"

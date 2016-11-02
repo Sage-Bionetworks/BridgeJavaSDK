@@ -42,4 +42,4 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [UserConsentHistory]
+        description: "UserConsentHistory"

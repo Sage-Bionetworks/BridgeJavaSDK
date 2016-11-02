@@ -40,4 +40,4 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [StudyConsent]
+        description: "StudyConsent"

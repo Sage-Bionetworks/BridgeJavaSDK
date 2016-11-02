@@ -13,7 +13,6 @@ post:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/uploadId
-        - $ref: ../../index.yml#/parameters/empty
     responses:
         200:
             description: OK

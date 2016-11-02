@@ -9,7 +9,6 @@ post:
     parameters:
         - $ref: ../../index.yml#/parameters/surveyGuid
         - $ref: ../../index.yml#/parameters/createdOn
-        - $ref: ../../index.yml#/parameters/empty
     responses:
         201:
             description: Created

@@ -18,4 +18,4 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [PagedResourceList]
+        description: "PagedResourceList"

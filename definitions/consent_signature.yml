@@ -54,5 +54,5 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [ConsentSignature]
+        description: "ConsentSignature"
     

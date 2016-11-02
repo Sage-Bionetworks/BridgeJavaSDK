@@ -54,4 +54,4 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [UploadSchema]
+        description: "UploadSchema"

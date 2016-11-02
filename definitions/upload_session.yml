@@ -20,4 +20,4 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [UploadSession]
+        description: "UploadSession"

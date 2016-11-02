@@ -52,4 +52,4 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [Upload]
+        description: "Upload"

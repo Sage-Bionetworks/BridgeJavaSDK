@@ -23,4 +23,4 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [ReportData]
+        description: "ReportData"

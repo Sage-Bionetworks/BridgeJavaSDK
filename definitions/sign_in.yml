@@ -18,5 +18,5 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [SignIn]
+        description: "SignIn"
         

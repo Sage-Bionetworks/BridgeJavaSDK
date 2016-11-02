@@ -57,8 +57,6 @@ CriteriaScheduleStrategy:
     $ref: ./criteria_schedule_strategy.yml
 DataGroups:
     $ref: ./data_groups.yml
-DateRange:
-    $ref: ./date_range.yml
 Email:
     $ref: ./email.yml
 EmailTemplate:
@@ -67,8 +65,6 @@ EmailVerification:
     $ref: ./email_verification.yml
 EmailVerificationStatus:
     $ref: ./email_verification_status.yml
-EmptyPayload:
-    type: object
 ExternalIdentifier:
     $ref: ./external_identifier.yml
 GuidCreatedOnVersionHolder:

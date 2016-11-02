@@ -27,4 +27,4 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [Activity]
+        description: "Activity"

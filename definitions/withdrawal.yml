@@ -9,4 +9,4 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [Withdrawal]
+        description: "Withdrawal"

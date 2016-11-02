@@ -61,5 +61,5 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [ClientInfo]
+        description: "ClientInfo"
     

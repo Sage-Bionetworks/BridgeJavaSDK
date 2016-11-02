@@ -13,5 +13,5 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [CmsPublicKey]
+        description: "CmsPublicKey"
 

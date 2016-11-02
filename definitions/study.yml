@@ -141,4 +141,4 @@ properties:
     type:
         type: string
         readOnly: true
-        enum: [Study]
+        description: "Study"
