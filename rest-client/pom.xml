@@ -5,7 +5,7 @@
     <parent>
         <artifactId>sdk-group</artifactId>
         <groupId>org.sagebionetworks.bridge</groupId>
-        <version>0.12.3</version>
+        <version>0.12.4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -29,12 +29,12 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.sagebionetworks.bridge</groupId>
-            <artifactId>rest-api-codegen</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.squareup.retrofit2</groupId>
             <artifactId>retrofit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -43,6 +43,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
@@ -56,6 +57,11 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.retrofit2</groupId>
+            <artifactId>converter-gson</artifactId>
+            <version>${retrofit.version}</version>
         </dependency>        
         <dependency>
             <groupId>junit</groupId>
@@ -78,4 +84,89 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    
+    <distributionManagement>
+        <site>
+            <id>s3.site</id>
+            <url>s3://developer.sagebridge.org/${project.artifactId}/${project.version}</url>
+        </site>    
+    </distributionManagement>
+    
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${javadoc.version}</version>
+                <configuration>
+                    <links>
+                        <link>http://joda-time.sourceforge.net/apidocs/</link>
+                        <link>http://square.github.io/retrofit/2.x/retrofit/</link>
+                    </links>
+                    <show>public</show>
+                    <excludePackageNames>
+                        org.sagebionetworks.bridge.rest.gson,org.sagebionetworks.bridge.rest.utils
+                    </excludePackageNames>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+    
+    <build>
+        <!-- The swagger plug-in adds the root directory of the code generation to the Maven build, 
+            but this is the root of an entire Maven project, not a source directory. So we use 
+            addCompileSourceRoot = false to suppress that, and the build-helper-maven-plugin to 
+            add the correct source folder back into the build. -->
+        <plugins>
+            <plugin>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-codegen-maven-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/swagger.json</inputSpec>
+                            <language>java</language>
+                            <library>retrofit2</library>
+                            <apiPackage>${package-directory}.api</apiPackage>
+                            <modelPackage>${package-directory}.model</modelPackage>
+                            <invokerPackage>${package-directory}.utils</invokerPackage>
+                            <configOptions></configOptions>
+                            <output>${project.build.directory}/swagger</output>
+                            <addCompileSourceRoot>false</addCompileSourceRoot>
+                            <environmentVariables>
+                                <models></models>
+                                <apis></apis>
+                                <supportingFiles>CollectionFormats.java,StringUtil.java</supportingFiles>
+                                <apiTests>false</apiTests>
+                            </environmentVariables>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Why does it take 20 lines of XML to add one directory to the source path. Why. -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/swagger/src/main/java</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>    
 </project>

@@ -7,7 +7,7 @@
 .settings
 target
 'SDK Notes'
-/bin/
+bin
 
 # IntelliJ project files
 *.iml
