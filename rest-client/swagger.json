@@ -138,15 +138,6 @@
       "type": "string",
       "format": "date-time",
       "required": true
-    },
-    "empty": {
-      "name": "body",
-      "description": "Bridge currently requires an empty JSON object for POSTs without body content",
-      "required": true,
-      "in": "body",
-      "schema": {
-        "$ref": "#/definitions/EmptyPayload"
-      }
     }
   },
   "paths": {
@@ -208,11 +199,6 @@
           }
         ],
         "description": "Delete the user's session on the server.\n",
-        "parameters": [
-          {
-            "$ref": "#/parameters/empty"
-          }
-        ],
         "responses": {
           "200": {
             "$ref": "#/responses/200_message"
@@ -854,9 +840,6 @@
         "parameters": [
           {
             "$ref": "#/parameters/userId"
-          },
-          {
-            "$ref": "#/parameters/empty"
           }
         ],
         "responses": {
@@ -1555,9 +1538,6 @@
         "parameters": [
           {
             "$ref": "#/parameters/subpopulationGuid"
-          },
-          {
-            "$ref": "#/parameters/empty"
           }
         ],
         "responses": {
@@ -1939,9 +1919,6 @@
             "format": "date-time",
             "in": "path",
             "required": true
-          },
-          {
-            "$ref": "#/parameters/empty"
           }
         ],
         "responses": {
@@ -2045,13 +2022,10 @@
         ],
         "parameters": [
           {
-            "name": "DateRange",
-            "in": "body",
-            "description": "Date range",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/DateRange"
-            }
+            "$ref": "#/parameters/startDate"
+          },
+          {
+            "$ref": "#/parameters/endDate"
           }
         ],
         "responses": {
@@ -2644,9 +2618,6 @@
           },
           {
             "$ref": "#/parameters/createdOn"
-          },
-          {
-            "$ref": "#/parameters/empty"
           }
         ],
         "responses": {
@@ -2687,9 +2658,6 @@
           },
           {
             "$ref": "#/parameters/newSchemaRev"
-          },
-          {
-            "$ref": "#/parameters/empty"
           }
         ],
         "responses": {
@@ -2802,9 +2770,6 @@
         "parameters": [
           {
             "$ref": "#/parameters/uploadId"
-          },
-          {
-            "$ref": "#/parameters/empty"
           }
         ],
         "responses": {
@@ -3370,13 +3335,10 @@
         ],
         "parameters": [
           {
-            "name": "format",
+            "name": "summary",
             "required": false,
             "in": "query",
-            "type": "string",
-            "enum": [
-              "summary"
-            ],
+            "type": "boolean",
             "description": "If true, anyone can call this endpoint and return a list of truncated study objects\n(name and study identifier only). Otherwise, caller must be an admin.\n"
           }
         ],
@@ -3660,11 +3622,6 @@
         "security": [
           {
             "BridgeSecurity": []
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/empty"
           }
         ],
         "responses": {
@@ -4041,9 +3998,7 @@
                 "type": {
                   "type": "string",
                   "readOnly": true,
-                  "enum": [
-                    "ResourceList"
-                  ]
+                  "description": "ResourceList"
                 }
               }
             }
@@ -4356,9 +4311,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "ABTestGroup"
-          ]
+          "description": "ABTestGroup"
         }
       }
     },
@@ -4489,9 +4442,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "AccountSummary"
-          ]
+          "description": "AccountSummary"
         }
       }
     },
@@ -4527,9 +4478,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "Activity"
-          ]
+          "description": "Activity"
         }
       }
     },
@@ -4569,9 +4518,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "ClientInfo"
-          ]
+          "description": "ClientInfo"
         }
       }
     },
@@ -4590,9 +4537,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "CmsPublicKey"
-          ]
+          "description": "CmsPublicKey"
         }
       }
     },
@@ -4643,9 +4588,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "ConsentSignature"
-          ]
+          "description": "ConsentSignature"
         }
       }
     },
@@ -4677,9 +4620,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "ConsentStatus"
-          ]
+          "description": "ConsentStatus"
         }
       }
     },
@@ -4722,9 +4663,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "Criteria"
-          ]
+          "description": "Criteria"
         }
       }
     },
@@ -4771,35 +4710,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "DataGroups"
-          ]
-        }
-      }
-    },
-    "DateRange": {
-      "type": "object",
-      "required": [
-        "startDate",
-        "endDate"
-      ],
-      "properties": {
-        "startDate": {
-          "type": "string",
-          "format": "date",
-          "description": "Start date of the date range."
-        },
-        "endDate": {
-          "type": "string",
-          "format": "date",
-          "description": "End date of the date range."
-        },
-        "type": {
-          "type": "string",
-          "readOnly": true,
-          "enum": [
-            "DateRange"
-          ]
+          "description": "DataGroups"
         }
       }
     },
@@ -4822,9 +4733,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "Email"
-          ]
+          "description": "Email"
         }
       }
     },
@@ -4851,9 +4760,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "EmailTemplate"
-          ]
+          "description": "EmailTemplate"
         }
       }
     },
@@ -4871,9 +4778,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "EmailVerification"
-          ]
+          "description": "EmailVerification"
         }
       }
     },
@@ -4890,14 +4795,9 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "EmailVerificationStatus"
-          ]
+          "description": "EmailVerificationStatus"
         }
       }
-    },
-    "EmptyPayload": {
-      "type": "object"
     },
     "ExternalIdentifier": {
       "description": "An external identifier assigned to a participant's account to allow external \nre-identification of the user by the study sponsor.\n",
@@ -4918,9 +4818,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "ExternalIdentifier"
-          ]
+          "description": "ExternalIdentifier"
         }
       }
     },
@@ -4948,9 +4846,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "GuidCreatedOnVersionHolder"
-          ]
+          "description": "GuidCreatedOnVersionHolder"
         }
       }
     },
@@ -4972,9 +4868,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "GuidVersionHolder"
-          ]
+          "description": "GuidVersionHolder"
         }
       }
     },
@@ -5054,9 +4948,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "HealthDataRecord"
-          ]
+          "description": "HealthDataRecord"
         }
       }
     },
@@ -5072,9 +4964,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "IdentifierHolder"
-          ]
+          "description": "IdentifierHolder"
         }
       }
     },
@@ -5099,9 +4989,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "Image"
-          ]
+          "description": "Image"
         }
       }
     },
@@ -5172,9 +5060,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "PasswordPolicy"
-          ]
+          "description": "PasswordPolicy"
         }
       }
     },
@@ -5198,9 +5084,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "PasswordReset"
-          ]
+          "description": "PasswordReset"
         }
       }
     },
@@ -5225,9 +5109,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "RecordExportStatusRequest"
-          ]
+          "description": "RecordExportStatusRequest"
         }
       }
     },
@@ -5255,9 +5137,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "ReportData"
-          ]
+          "description": "ReportData"
         }
       }
     },
@@ -5275,9 +5155,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "ReportIndex"
-          ]
+          "description": "ReportIndex"
         }
       }
     },
@@ -5336,9 +5214,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "ClientInfo"
-          ]
+          "description": "ClientInfo"
         }
       }
     },
@@ -5412,9 +5288,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "Schedule"
-          ]
+          "description": "Schedule"
         }
       }
     },
@@ -5435,9 +5309,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "ScheduleCriteria"
-          ]
+          "description": "ScheduleCriteria"
         }
       }
     },
@@ -5472,9 +5344,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "SchedulePlan"
-          ]
+          "description": "SchedulePlan"
         }
       }
     },
@@ -5540,9 +5410,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "ScheduledActivity"
-          ]
+          "description": "ScheduledActivity"
         }
       }
     },
@@ -5558,9 +5426,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "SharingScope"
-          ]
+          "description": "SharingScope"
         }
       }
     },
@@ -5589,9 +5455,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "SignIn"
-          ]
+          "description": "SignIn"
         }
       }
     },
@@ -5633,9 +5497,7 @@
             "type": {
               "type": "string",
               "readOnly": true,
-              "enum": [
-                "SignUp"
-              ]
+              "description": "SignUp"
             }
           }
         }
@@ -5789,9 +5651,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "Study"
-          ]
+          "description": "Study"
         }
       }
     },
@@ -5820,9 +5680,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "StudyConsent"
-          ]
+          "description": "StudyConsent"
         }
       }
     },
@@ -5840,9 +5698,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "StudyIdentifier"
-          ]
+          "description": "StudyIdentifier"
         }
       }
     },
@@ -5879,9 +5735,7 @@
             "type": {
               "type": "string",
               "readOnly": true,
-              "enum": [
-                "StudyParticipant"
-              ]
+              "description": "StudyParticipant"
             }
           }
         }
@@ -5944,9 +5798,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "Subpopulation"
-          ]
+          "description": "Subpopulation"
         }
       }
     },
@@ -6009,9 +5861,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "Survey"
-          ]
+          "description": "Survey"
         }
       }
     },
@@ -6142,9 +5992,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "SurveyQuestionOption"
-          ]
+          "description": "SurveyQuestionOption"
         }
       }
     },
@@ -6176,9 +6024,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "SurveyReference"
-          ]
+          "description": "SurveyReference"
         }
       }
     },
@@ -6208,9 +6054,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "SurveyRule"
-          ]
+          "description": "SurveyRule"
         }
       }
     },
@@ -6228,9 +6072,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "TaskReference"
-          ]
+          "description": "TaskReference"
         }
       }
     },
@@ -6296,9 +6138,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "Upload"
-          ]
+          "description": "Upload"
         }
       }
     },
@@ -6381,9 +6221,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "UploadRequest"
-          ]
+          "description": "UploadRequest"
         }
       }
     },
@@ -6441,9 +6279,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "UploadSchema"
-          ]
+          "description": "UploadSchema"
         }
       }
     },
@@ -6471,9 +6307,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "UploadSession"
-          ]
+          "description": "UploadSession"
         }
       }
     },
@@ -6501,9 +6335,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "UploadValidationStatus"
-          ]
+          "description": "UploadValidationStatus"
         }
       }
     },
@@ -6556,9 +6388,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "UserConsentHistory"
-          ]
+          "description": "UserConsentHistory"
         }
       }
     },
@@ -6586,9 +6416,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "UserProfile"
-          ]
+          "description": "UserProfile"
         }
       }
     },
@@ -6642,9 +6470,7 @@
             "type": {
               "type": "string",
               "readOnly": true,
-              "enum": [
-                "UserSessionInfo"
-              ]
+              "description": "UserSessionInfo"
             }
           }
         }
@@ -6663,9 +6489,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "VersionHolder"
-          ]
+          "description": "VersionHolder"
         }
       }
     },
@@ -6679,9 +6503,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "Withdrawal"
-          ]
+          "description": "Withdrawal"
         }
       }
     },
@@ -6715,9 +6537,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "PagedResourceList"
-          ]
+          "description": "PagedResourceList"
         }
       }
     },
@@ -6746,9 +6566,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "ResourceList"
-          ]
+          "description": "ResourceList"
         }
       }
     },
@@ -6780,9 +6598,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "PagedResourceList"
-          ]
+          "description": "PagedResourceList"
         }
       }
     },
@@ -6810,9 +6626,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "DateRangeResourceList"
-          ]
+          "description": "DateRangeResourceList"
         }
       }
     },
@@ -6835,9 +6649,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "ReportTypeResourceList"
-          ]
+          "description": "ReportTypeResourceList"
         }
       }
     },
@@ -6858,9 +6670,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "ResourceList"
-          ]
+          "description": "ResourceList"
         }
       }
     },
@@ -6881,9 +6691,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "ResourceList"
-          ]
+          "description": "ResourceList"
         }
       }
     },
@@ -6904,9 +6712,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "ResourceList"
-          ]
+          "description": "ResourceList"
         }
       }
     },
@@ -6927,9 +6733,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "ResourceList"
-          ]
+          "description": "ResourceList"
         }
       }
     },
@@ -6950,9 +6754,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "ResourceList"
-          ]
+          "description": "ResourceList"
         }
       }
     },
@@ -6973,9 +6775,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "ResourceList"
-          ]
+          "description": "ResourceList"
         }
       }
     },
@@ -6996,9 +6796,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "ResourceList"
-          ]
+          "description": "ResourceList"
         }
       }
     },
@@ -7029,9 +6827,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "DateTimeRangeResourceList"
-          ]
+          "description": "DateTimeRangeResourceList"
         }
       }
     },
@@ -7052,9 +6848,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "enum": [
-            "ResourceList"
-          ]
+          "description": "ResourceList"
         }
       }
     },
@@ -7076,7 +6870,8 @@
           "$ref": "#/definitions/DataType"
         },
         "type": {
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         }
       }
     },

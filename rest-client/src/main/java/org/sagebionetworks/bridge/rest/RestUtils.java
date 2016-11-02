@@ -29,7 +29,6 @@ import org.sagebionetworks.bridge.rest.model.DateConstraints;
 import org.sagebionetworks.bridge.rest.model.DateTimeConstraints;
 import org.sagebionetworks.bridge.rest.model.DecimalConstraints;
 import org.sagebionetworks.bridge.rest.model.DurationConstraints;
-import org.sagebionetworks.bridge.rest.model.EmptyPayload;
 import org.sagebionetworks.bridge.rest.model.IntegerConstraints;
 import org.sagebionetworks.bridge.rest.model.MultiValueConstraints;
 import org.sagebionetworks.bridge.rest.model.ScheduleStrategy;
@@ -147,8 +146,21 @@ public class RestUtils {
     }
     
     /**
-     * Convert ClientInfo object into a User-Agent header value that can be used by the Bridge 
-     * server to filter content appropriately for your app.
+     * <p>Convert ClientInfo object into a User-Agent header value that can be used by the Bridge 
+     * server to filter content appropriately for your app.</p>
+     * 
+     * <p>There are three main stanzas in the Bridge User-Agent header, and all parts of a given 
+     * stanza must be provided or that stanza will be dropped from the final header:</p>
+     * 
+     *  <ul>
+     *   <li>appName and appVersion;</li>
+     *   <li>deviceName, osName and osVersion;</li>
+     *   <li>sdkName and sdkVersion</li>
+     *  </ul>
+     *  
+     *  <p>The ClientManager will provide values for the final two groupings (and enforces 
+     *  settings for the SDK information). </p>
+     * 
      * @param info
      *      a ClientInfo object
      * @return
@@ -215,7 +227,7 @@ public class RestUtils {
         RequestBody body = RequestBody.create(MediaType.parse(request.getContentType()), file);
 
         s3service.uploadToS3(session.getUrl(), body, request.getContentMd5(), request.getContentType()).execute();
-        usersApi.completeUploadSession(session.getId(), new EmptyPayload()).execute();
+        usersApi.completeUploadSession(session.getId()).execute();
         
         return session;
     }    
