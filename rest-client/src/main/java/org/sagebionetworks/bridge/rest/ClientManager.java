@@ -10,6 +10,26 @@ import org.sagebionetworks.bridge.rest.model.SignIn;
 
 import com.google.common.collect.ImmutableMap;
 
+/**
+ * <p>ClientManager provides support for configuring API classes using values set via a properties 
+ * file (~/bridge-sdk.properties), from environment variables, or from Java system variables. The 
+ * key values you can set:</p>
+ * 
+ *  <dl>
+ *      <dt>STUDY_IDENTIFIER</dt>
+ *      <dd>The identifier of your study (study.identifier in properties file).</dd>
+ *      <dt>ACCOUNT_EMAIL</dt>
+ *      <dd>The email address of your account (account.email in properties file).</dd>
+ *      <dt>ACCOUNT_PASSWORD</dt>
+ *      <dd>The password of your account (account.password in properties file).</dd>
+ *  </dl>
+ * 
+ * <p>Once you provide credentials (through configuration or programmatically), clients retrieved 
+ * through this class will re-authenticate the caller if the session expires.</p> 
+ * 
+ * <p>The ClientManager contacts our production servers unless you configure another 
+ * <code>Environment</code>.</p>
+ */
 public final class ClientManager {
     
     private Map<Environment,String> HOSTS = new ImmutableMap.Builder<Environment,String>()
@@ -31,7 +51,8 @@ public final class ClientManager {
         this.clientInfo = clientInfo;
         this.signIn = signIn;
         String userAgent = RestUtils.getUserAgent(clientInfo);
-        this.apiClientProvider = new ApiClientProvider(HOSTS.get(config.getEnvironment()), userAgent);
+        String hostUrl = HOSTS.get(config.getEnvironment());
+        this.apiClientProvider = new ApiClientProvider(hostUrl, userAgent);
     }
     
     public final Config getConfig() {
@@ -47,6 +68,8 @@ public final class ClientManager {
     }
 
     /**
+     * @param <T>
+     *         One of the Api classes in the org.sagebionetworks.bridge.rest.api package.
      * @param service
      *         Class representing the service
      * @return service client
@@ -60,14 +83,36 @@ public final class ClientManager {
         private ClientInfo clientInfo;
         private SignIn signIn;
         
+        /**
+         * Provide a configuration object for this ClientManager. A default configuration
+         * is created if none is provided.
+         * @param config
+         *      a Config object
+         * @return builder
+         */
         public Builder withConfig(Config config) {
             this.config = config;
             return this;
         }
+        /**
+         * Provide a ClientInfo object for requests made by clients from this ClientManager. 
+         * This information is used to create a well-formed <code>User-Agent</code> header 
+         * for requests.
+         * @param clientInfo
+         *      a ClientInfo object
+         * @return builder
+         */
         public Builder withClientInfo(ClientInfo clientInfo) {
             this.clientInfo = clientInfo;
             return this;
         }
+        /**
+         * Provide the sign in credentials for clients from this ClientManager. This information 
+         * can be provided via configuration, or programmatically through this object.
+         * @param signIn
+         *      a SignIn object
+         * @return builder
+         */
         public Builder withSignIn(SignIn signIn) {
             this.signIn = signIn;
             return this;
@@ -91,6 +136,9 @@ public final class ClientManager {
             checkNotNull(signIn.getPassword(), "Sign in must specify a password.");
             if (this.config == null) {
                 this.config = new Config();
+            }
+            if (this.config.getEnvironment() == null) {
+                this.config.set(Environment.PRODUCTION);
             }
             ClientInfo info = getDefaultClientInfo();
             if (this.clientInfo != null) {

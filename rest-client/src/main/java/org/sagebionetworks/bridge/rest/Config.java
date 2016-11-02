@@ -70,7 +70,6 @@ public final class Config {
         if (envName != null) {
             environment = Environment.valueOf(envName.toUpperCase());
         }
-        checkNotNull(environment);
     }
 
     private void loadProperties(final String fileName, final Properties properties) {

@@ -3,6 +3,8 @@ language: java
 jdk: openjdk7
 script: 
   - mvn clean deploy
+  - cd rest-client/
+  - mvn site site:deploy
 branches:
   only:
     - develop

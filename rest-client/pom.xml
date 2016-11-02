@@ -104,6 +104,9 @@
                         <link>http://square.github.io/retrofit/2.x/retrofit/</link>
                     </links>
                     <show>public</show>
+                    <excludePackageNames>
+                        org.sagebionetworks.bridge.rest.gson,org.sagebionetworks.bridge.rest.utils
+                    </excludePackageNames>
                 </configuration>
             </plugin>
         </plugins>
@@ -137,8 +140,7 @@
                             <environmentVariables>
                                 <models></models>
                                 <apis></apis>
-                                <!-- <supportingFiles>CollectionFormats.java,StringUtil.java</supportingFiles> -->
-                                <supportingFiles>StringUtil.java</supportingFiles>
+                                <supportingFiles>CollectionFormats.java,StringUtil.java</supportingFiles>
                                 <apiTests>false</apiTests>
                             </environmentVariables>
                         </configuration>

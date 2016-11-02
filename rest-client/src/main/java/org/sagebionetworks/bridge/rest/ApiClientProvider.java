@@ -13,7 +13,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import org.sagebionetworks.bridge.rest.model.SignIn;
 
 /**
- * Created by liujoshua on 10/11/16.
+ * Base class for creating clients that are correctly configured to communicate with the 
+ * Bridge server. This class has been designed so that different authentication credentials 
+ * can be used for different clients retrieved from this provider. 
  */
 public class ApiClientProvider {
     
@@ -57,6 +59,8 @@ public class ApiClientProvider {
     /**
      * Creates an unauthenticated client.
      *
+     * @param <T>
+     *         One of the Api classes in the org.sagebionetworks.bridge.rest.api package.
      * @param service
      *         Class representing the service
      * @return service client
@@ -66,6 +70,8 @@ public class ApiClientProvider {
     }
     
     /**
+     * @param <T>
+     *         One of the Api classes in the org.sagebionetworks.bridge.rest.api package.
      * @param service
      *         Class representing the service
      * @param signIn

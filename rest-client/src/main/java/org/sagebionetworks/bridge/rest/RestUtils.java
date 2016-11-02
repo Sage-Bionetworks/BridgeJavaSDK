@@ -59,6 +59,9 @@ import retrofit2.http.Header;
 import retrofit2.http.PUT;
 import retrofit2.http.Url;
 
+/**
+ * Utilities for working with the REST model objects returned from the Bridge REST client.
+ */
 public class RestUtils {
     
     // It's unfortunate but we need to specify subtypes for GSON.
@@ -102,6 +105,7 @@ public class RestUtils {
     /**
      * Are all required consents signed?
      * @param session
+     *      A UserSessionInfo object
      * @return true if all required consents are signed, false if there are no consents, 
      *  or they are not all signed
      */
@@ -123,6 +127,7 @@ public class RestUtils {
     /**
      * Are all the required consents up-to-date?
      * @param session
+     *      A UserSessionInfo object
      * @return true if all required consents are signed and up-to-date, false if there are no 
      *  consents, or they are not all signed, or they are not all up-to-date.
      */
@@ -145,6 +150,7 @@ public class RestUtils {
      * Convert ClientInfo object into a User-Agent header value that can be used by the Bridge 
      * server to filter content appropriately for your app.
      * @param info
+     *      a ClientInfo object
      * @return
      *  string User-Agent header value
      */
@@ -162,20 +168,18 @@ public class RestUtils {
         return Joiner.on(" ").join(stanzas);
     }
     
-    private static boolean isNotBlank(String string) {
-        return (string != null && string.length() > 0);
-    }
-    
-    private static boolean isTrue(Boolean bool) {
-        return bool != null && bool == Boolean.TRUE;
-    }
-    
-    interface S3Service {
-        @PUT
-        Call<Void> uploadToS3(@Url String url, @Body RequestBody body, @Header("Content-MD5") String md5Hash,
-                @Header("Content-Type") String contentType);
-    }
-    
+    /**
+     * Manages the conversation with the Bridge server and Amazon's S3 service to upload an encrypted zip 
+     * file to Bridge. 
+     * @param usersApi
+     *      The ForConsentedUsersApi for the user making the upload
+     * @param file
+     *      A File referencing a zip file to upload
+     * @return
+     *      An UploadSession with information about the upload session
+     * @throws IOException
+     *      IOException if an issue occurs during upload. Callers are responsible for re-trying the upload
+     */
     public static UploadSession upload(ForConsentedUsersApi usersApi, File file) throws IOException {
         checkNotNull(usersApi, "ForConsentedUsersApi cannot be null");
         checkNotNull(file, "File cannot be null");
@@ -215,4 +219,19 @@ public class RestUtils {
         
         return session;
     }    
+    
+    interface S3Service {
+        @PUT
+        Call<Void> uploadToS3(@Url String url, @Body RequestBody body, @Header("Content-MD5") String md5Hash,
+                @Header("Content-Type") String contentType);
+    }
+    
+    private static boolean isNotBlank(String string) {
+        return (string != null && string.length() > 0);
+    }
+    
+    private static boolean isTrue(Boolean bool) {
+        return bool != null && bool == Boolean.TRUE;
+    }
+
 }
