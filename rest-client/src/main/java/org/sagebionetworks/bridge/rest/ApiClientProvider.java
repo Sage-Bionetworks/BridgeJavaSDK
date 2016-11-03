@@ -36,12 +36,12 @@ public class ApiClientProvider {
         
         UserSessionInterceptor sessionInterceptor = new UserSessionInterceptor();
 
-        // 5 second timeout: creating studies takes awhile, and tests fail if the timeout is shorter.
+        // Devo may take up to 2 minutes to boot up. Need to set timeouts accordingly so that integration tests succeed
         // May want to make it possible to configure this value when creating the ApiClientProvider.
         unauthenticatedOkHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(30, TimeUnit.SECONDS) // server times out after 30 seconds, past this it's pointless to wait.
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
+                .connectTimeout(2, TimeUnit.MINUTES)
+                .readTimeout(2, TimeUnit.MINUTES)
+                .writeTimeout(2, TimeUnit.MINUTES)
                 .addInterceptor(sessionInterceptor)
                 .addInterceptor(new HeaderInterceptor(userAgent))
                 .addInterceptor(new DeprecationInterceptor())
