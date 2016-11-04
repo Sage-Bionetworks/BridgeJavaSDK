@@ -155,6 +155,9 @@ public class RestUtils {
      *  string User-Agent header value
      */
     public static String getUserAgent(ClientInfo info) {
+        if (info == null) {
+            return null;
+        }
         List<String> stanzas = Lists.newArrayListWithCapacity(3);
         if (isNotBlank(info.getAppName()) && info.getAppVersion() != null) {
             stanzas.add(String.format("%s/%s", info.getAppName(), info.getAppVersion()));
@@ -164,6 +167,9 @@ public class RestUtils {
         }
         if (!stanzas.isEmpty() && isNotBlank(info.getSdkName()) && info.getSdkVersion() != null) {
             stanzas.add(String.format("%s/%s", info.getSdkName(), info.getSdkVersion()));    
+        }
+        if (stanzas.isEmpty()) {
+            return null;
         }
         return Joiner.on(" ").join(stanzas);
     }
