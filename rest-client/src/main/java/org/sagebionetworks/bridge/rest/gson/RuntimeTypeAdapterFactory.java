@@ -12,6 +12,9 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * Taken from:
+ * https://github.com/google/gson/blob/master/extras/src/main/java/com/google/gson/typeadapters/RuntimeTypeAdapterFactory.java
  */
 
 package org.sagebionetworks.bridge.rest.gson;
@@ -31,9 +34,6 @@ import com.google.gson.internal.Streams;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-
-// NOTE: I do not see a maven repository that includes the gson extras package, 
-// where this file was copied from.
 
 /**
  * Adapts values whose runtime type may differ from their declaration type. This is necessary when a field's type is not
