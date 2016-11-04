@@ -117,7 +117,7 @@ public class RestUtilsTest {
     
     @Test
     public void userAgentBlankWithNoInfo() {
-        assertEquals("", RestUtils.getUserAgent(new ClientInfo()));
+        assertNull(RestUtils.getUserAgent(new ClientInfo()));
     }
     
     @Test
