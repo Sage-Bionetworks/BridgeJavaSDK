@@ -29,7 +29,6 @@ import org.sagebionetworks.bridge.rest.model.DateConstraints;
 import org.sagebionetworks.bridge.rest.model.DateTimeConstraints;
 import org.sagebionetworks.bridge.rest.model.DecimalConstraints;
 import org.sagebionetworks.bridge.rest.model.DurationConstraints;
-import org.sagebionetworks.bridge.rest.model.EmptyPayload;
 import org.sagebionetworks.bridge.rest.model.IntegerConstraints;
 import org.sagebionetworks.bridge.rest.model.MultiValueConstraints;
 import org.sagebionetworks.bridge.rest.model.ScheduleStrategy;
@@ -44,6 +43,9 @@ import org.sagebionetworks.bridge.rest.model.UploadSession;
 import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 import com.google.common.io.Files;
 import com.google.gson.Gson;
@@ -63,6 +65,10 @@ import retrofit2.http.Url;
  * Utilities for working with the REST model objects returned from the Bridge REST client.
  */
 public class RestUtils {
+    private static final Joiner JOINER = Joiner.on(",");
+    
+    private static final Predicate<String> LANG_PREDICATE = Predicates.and(Predicates.notNull(),
+            Predicates.containsPattern(".+"));
     
     // It's unfortunate but we need to specify subtypes for GSON.
 
@@ -168,6 +174,17 @@ public class RestUtils {
         return Joiner.on(" ").join(stanzas);
     }
     
+    public static String getAcceptLanguage(List<String> langs) {
+        if (langs == null) {
+            return null;
+        }
+        langs = FluentIterable.from(langs).filter(LANG_PREDICATE).toList();
+        if (langs.isEmpty()) {
+            return null;
+        }
+        return JOINER.join(langs);
+    }
+    
     /**
      * Manages the conversation with the Bridge server and Amazon's S3 service to upload an encrypted zip 
      * file to Bridge. 
@@ -215,7 +232,7 @@ public class RestUtils {
         RequestBody body = RequestBody.create(MediaType.parse(request.getContentType()), file);
 
         s3service.uploadToS3(session.getUrl(), body, request.getContentMd5(), request.getContentType()).execute();
-        usersApi.completeUploadSession(session.getId(), new EmptyPayload()).execute();
+        usersApi.completeUploadSession(session.getId()).execute();
         
         return session;
     }    
