@@ -153,8 +153,21 @@ public class RestUtils {
     }
     
     /**
-     * Convert ClientInfo object into a User-Agent header value that can be used by the Bridge 
-     * server to filter content appropriately for your app.
+     * <p>Convert ClientInfo object into a User-Agent header value that can be used by the Bridge 
+     * server to filter content appropriately for your app.</p>
+     * 
+     * <p>There are three main stanzas in the Bridge User-Agent header, and all parts of a given 
+     * stanza must be provided or that stanza will be dropped from the final header:</p>
+     * 
+     *  <ul>
+     *   <li>appName and appVersion;</li>
+     *   <li>deviceName, osName and osVersion;</li>
+     *   <li>sdkName and sdkVersion</li>
+     *  </ul>
+     *  
+     *  <p>The ClientManager will provide values for the final two groupings (and enforces 
+     *  settings for the SDK information). </p>
+     * 
      * @param info
      *      a ClientInfo object
      * @return
