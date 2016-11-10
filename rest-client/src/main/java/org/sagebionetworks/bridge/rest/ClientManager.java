@@ -1,6 +1,7 @@
 package org.sagebionetworks.bridge.rest;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Strings.isNullOrEmpty;
 
 import java.util.List;
 import java.util.Map;
@@ -16,18 +17,35 @@ import com.google.common.collect.ImmutableMap;
  * <p>ClientManager provides support for configuring API classes using values set via a properties 
  * file (~/bridge-sdk.properties), from environment variables, or from Java system variables. The 
  * key values you can set:</p>
- * 
  *  <dl>
- *      <dt>STUDY_IDENTIFIER</dt>
- *      <dd>The identifier of your study (study.identifier in properties file).</dd>
- *      <dt>ACCOUNT_EMAIL</dt>
- *      <dd>The email address of your account (account.email in properties file).</dd>
- *      <dt>ACCOUNT_PASSWORD</dt>
- *      <dd>The password of your account (account.password in properties file).</dd>
- *      <dt>LANGUAGES</dt>
- *      <dd>A comma-separated list of preferred languages for this client (most to least preferred). Optional 
- *          (languages in properties file).</dd>
- *  </dl>
+ *      <dt>ACCOUNT_EMAIL (account.email in properties file)</dt>
+ *      <dd>The email address of your account.</dd>
+ *  
+ *      <dt>ACCOUNT_PASSWORD (account.password in properties file)</dt> 
+ *      <dd>The password of your account.</dd>
+ *      
+ *      <dt>APP_NAME (app.name in properties file)</dt>
+ *      <dd>The name of your application.</dd>
+ *      
+ *      <dt>APP_VERSION (app.version in properties file)</dt>
+ *      <dd>The version of your application (must be a positive integer that increases with each app release, 
+ *          often called a "build number". Not a semantic version number).</dd>
+ *      
+ *      <dt>DEVICE_NAME (device.name in properties file)</dt>
+ *      <dd>The name of the device/device hardware your app is running on.</dd>
+ *      
+ *      <dt>LANGUAGES (languages in properties file)</dt>
+ *      <dd>A comma-separated list of preferred languages for this client (most to least preferred). Optional.</dd>
+ *      
+ *      <dt>OS_NAME (os.name in properties file)</dt>
+ *      <dd>The name of the operating system (Bridge will filter content based on "iPhone OS" or "Android" as a value for this setting.</dd>
+ *      
+ *      <dt>OS_VERSION (os.version in properties file)</dt>
+ *      <dd>The operating system version of the client (a string in any format).</dd>
+ *      
+ *      <dt>STUDY_IDENTIFIER (study.identifier in properties file)</dt>
+ *      <dd>The identifier of your study (not the name, but the ID).</dd>
+ *  </dl> 
  * 
  * <p>Once you provide credentials (through configuration or programmatically), clients retrieved 
  * through this class will re-authenticate the caller if the session expires.</p> 
@@ -36,7 +54,7 @@ import com.google.common.collect.ImmutableMap;
  * <code>Environment</code>.</p>
  */
 public final class ClientManager {
-
+    
     public static interface ClientSupplier {
         ApiClientProvider get(String hostUrl, String userAgent, String acceptLanguage);
     }
@@ -136,7 +154,10 @@ public final class ClientManager {
         /**
          * Provide a ClientInfo object for requests made by clients from this ClientManager. 
          * This information is used to create a well-formed <code>User-Agent</code> header 
-         * for requests.
+         * for requests. If you provide a clientInfo object to the ClientManager, any values 
+         * that would be set in the properties file (e.g. device.name or app.version) will be 
+         * ignored. If you want to change these values, create the client manager and then 
+         * update the resulting clientInfo object.
          * @param clientInfo
          *      a ClientInfo object
          * @return builder
@@ -203,20 +224,37 @@ public final class ClientManager {
             }
             ClientInfo info = getDefaultClientInfo();
             if (this.clientInfo != null) {
-                if (clientInfo.getAppName() != null) {
+                if (!isNullOrEmpty(clientInfo.getAppName())) {
                     info.setAppName(clientInfo.getAppName());
                 }
                 if (clientInfo.getAppVersion() != null) {
                     info.setAppVersion(clientInfo.getAppVersion());
                 }
-                if (clientInfo.getDeviceName() != null) {
+                if (!isNullOrEmpty(clientInfo.getDeviceName())) {
                     info.setDeviceName(clientInfo.getDeviceName());
                 }
-                if (clientInfo.getOsName() != null) {
+                if (!isNullOrEmpty(clientInfo.getOsName())) {
                     info.setOsName(clientInfo.getOsName());
                 }
-                if (clientInfo.getOsVersion() != null) {
+                if (!isNullOrEmpty(clientInfo.getOsVersion())) {
                     info.setOsVersion(clientInfo.getOsVersion());
+                }
+            } else {
+                // We don't use the configuration if a clientInfo object was provided.
+                if (!isNullOrEmpty(config.getAppName())) {
+                    info.setAppName(config.getAppName());
+                }
+                if (!isNullOrEmpty(config.getAppVersion())) {
+                    info.setAppVersion(Integer.parseInt(config.getAppVersion()));
+                }
+                if (!isNullOrEmpty(config.getDeviceName())) {
+                    info.setDeviceName(config.getDeviceName());
+                }
+                if (!isNullOrEmpty(config.getOsName())) {
+                    info.setOsName(config.getOsName());
+                }
+                if (!isNullOrEmpty(config.getOsVersion())) {
+                    info.setOsVersion(config.getOsVersion());
                 }
             }
             if (this.supplier == null) {
