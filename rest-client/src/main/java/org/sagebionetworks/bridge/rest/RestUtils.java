@@ -43,6 +43,9 @@ import org.sagebionetworks.bridge.rest.model.UploadSession;
 import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 import com.google.common.io.Files;
 import com.google.gson.Gson;
@@ -62,6 +65,10 @@ import retrofit2.http.Url;
  * Utilities for working with the REST model objects returned from the Bridge REST client.
  */
 public class RestUtils {
+    private static final Joiner JOINER = Joiner.on(",");
+    
+    private static final Predicate<String> LANG_PREDICATE = Predicates.and(Predicates.notNull(),
+            Predicates.containsPattern(".+"));
     
     // It's unfortunate but we need to specify subtypes for GSON.
 
@@ -184,6 +191,17 @@ public class RestUtils {
             return null;
         }
         return Joiner.on(" ").join(stanzas);
+    }
+    
+    public static String getAcceptLanguage(List<String> langs) {
+        if (langs == null) {
+            return null;
+        }
+        langs = FluentIterable.from(langs).filter(LANG_PREDICATE).toList();
+        if (langs.isEmpty()) {
+            return null;
+        }
+        return JOINER.join(langs);
     }
     
     /**

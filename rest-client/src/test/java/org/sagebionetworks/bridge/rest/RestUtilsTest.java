@@ -15,6 +15,7 @@ import org.sagebionetworks.bridge.rest.model.ClientInfo;
 import org.sagebionetworks.bridge.rest.model.ConsentStatus;
 import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 public class RestUtilsTest {
@@ -185,6 +186,26 @@ public class RestUtilsTest {
         );
         assertTrue(RestUtils.isConsentCurrent(session(map)));
         assertTrue(RestUtils.isUserConsented(session(map)));
+    }
+    
+    @Test
+    public void acceptLanguageNull() {
+        assertNull(RestUtils.getAcceptLanguage(null));
+    }
+    
+    @Test
+    public void acceptLanguageEmptyList() {
+        assertNull(RestUtils.getAcceptLanguage(Lists.<String>newArrayList()));
+    }
+    
+    @Test
+    public void acceptLanguageWorks() {
+        assertEquals("de,en", RestUtils.getAcceptLanguage(Lists.<String>newArrayList("de","en")));
+    }
+    
+    @Test
+    public void acceptLanguageNullsEmptyRemoved() {
+        assertEquals("de,en", RestUtils.getAcceptLanguage(Lists.<String>newArrayList("","de",null,"en")));
     }
     
     private Map<String,ConsentStatus> map(ConsentStatus status1, ConsentStatus status2) {

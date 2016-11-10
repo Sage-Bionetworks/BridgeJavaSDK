@@ -17,24 +17,17 @@ public final class Config {
     private static final String USER_CONFIG_FILE = System.getProperty("user.home") + "/bridge-sdk.properties";
 
     public enum Props {
-        // These all require an entry in bridge-sdk.properties (accounts are optional).
-        ACCOUNT_EMAIL(null), 
-        ACCOUNT_PASSWORD(null), 
-        ADMIN_EMAIL(null), 
-        ADMIN_PASSWORD(null), 
-        DEV_NAME(null), 
-        ENV(null), 
-        LOG_LEVEL(null), 
-        SDK_VERSION(null), 
-        STUDY_IDENTIFIER(null);
+        ACCOUNT_EMAIL, 
+        ACCOUNT_PASSWORD, 
+        ADMIN_EMAIL, 
+        ADMIN_PASSWORD, 
+        DEV_NAME, 
+        ENV, 
+        LANGUAGES,
+        LOG_LEVEL, 
+        SDK_VERSION, 
+        STUDY_IDENTIFIER;
 
-        private String endpoint;
-        private Props(String endpoint) {
-            this.endpoint = endpoint;
-        }
-        public String getEndpoint() {
-            return endpoint;
-        }
         public String getPropertyName() {
             return this.name().replace("_", ".").toLowerCase();
         }
@@ -140,6 +133,10 @@ public final class Config {
         return fromProperty(Props.ADMIN_PASSWORD);
     }
 
+    public String getLanguages() {
+        return fromProperty(Props.LANGUAGES);
+    }
+    
     public String getDevName() {
         return fromProperty(Props.DEV_NAME);
     }
