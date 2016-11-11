@@ -21,10 +21,15 @@ public final class Config {
         ACCOUNT_PASSWORD, 
         ADMIN_EMAIL, 
         ADMIN_PASSWORD, 
-        DEV_NAME, 
+        APP_NAME,
+        APP_VERSION,
+        DEV_NAME,
+        DEVICE_NAME,
         ENV, 
         LANGUAGES,
         LOG_LEVEL, 
+        OS_NAME,
+        OS_VERSION,
         SDK_VERSION, 
         STUDY_IDENTIFIER;
 
@@ -140,6 +145,26 @@ public final class Config {
     public String getDevName() {
         return fromProperty(Props.DEV_NAME);
     }
+    
+    public String getAppName() {
+        return fromProperty(Props.APP_NAME);
+    }
+    
+    public String getAppVersion() {
+        return fromProperty(Props.APP_VERSION);
+    }
+    
+    public String getDeviceName() {
+        return fromProperty(Props.DEVICE_NAME);
+    }
+    
+    public String getOsName() {
+        return fromProperty(Props.OS_NAME);
+    }
+    
+    public String getOsVersion() {
+        return fromProperty(Props.OS_VERSION);
+    }
 
     public Environment getEnvironment() {
         return environment;
@@ -151,7 +176,6 @@ public final class Config {
 
     private String fromProperty(Props prop) {
         String value = config.getProperty(prop.getPropertyName());
-        checkNotNull(value, "The property '" + prop.getPropertyName() + "' has not been set.");
-        return value.trim();
+        return (value == null || value.trim().length() == 0) ? null : value.trim();
     }
 }

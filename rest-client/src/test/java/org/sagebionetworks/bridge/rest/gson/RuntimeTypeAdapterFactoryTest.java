@@ -1,6 +1,5 @@
 package org.sagebionetworks.bridge.rest.gson;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.StringWriter;
@@ -9,7 +8,6 @@ import java.io.Writer;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import org.sagebionetworks.bridge.rest.model.SurveyElement;
@@ -55,8 +53,6 @@ public class RuntimeTypeAdapterFactoryTest {
         JsonWriter writer = new JsonWriter(outputWriter);
         
         typeAdapter.write(writer, question);
-        System.out.println(outputWriter.toString());
-        
         assertTrue(outputWriter.toString().contains("\"type\":\"SurveyQuestion\""));
     }
 }

@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import org.sagebionetworks.bridge.rest.model.ClientInfo;
 import org.sagebionetworks.bridge.rest.model.Environment;
 import org.sagebionetworks.bridge.rest.model.SignIn;
 
@@ -54,5 +55,26 @@ public class ClientManagerTest {
         assertEquals(Environment.PRODUCTION, manager.getConfig().getEnvironment());
         assertEquals("dudeski", manager.getConfig().getDevName());
         assertEquals("debug", manager.getConfig().getLogLevel());
+    }
+    
+    @Test
+    public void testClientInfoLoadedFromPropsFile() {
+        SignIn signIn = new SignIn().study("study-identifier").email("account@email.com")
+                .password("account-password");
+        
+        ClientManager manager = new ClientManager.Builder().withSignIn(signIn).withClientSupplier(supplier).build();
+        
+        // These values are set in the test bridge-sdk.properties file, and we want to verify they
+        // are used to construct the clientInfo object, so this doesn't have to be hard-wired into
+        // the application.
+        
+        ClientInfo info = manager.getClientInfo();
+        assertEquals("testName", info.getAppName());
+        assertEquals((Integer)33, info.getAppVersion());
+        assertEquals("Swankie Device", info.getDeviceName());
+        assertEquals("webOS", info.getOsName());
+        assertEquals("ultimate", info.getOsVersion());
+        assertEquals("BridgeJavaSDK", info.getSdkName());
+        assertEquals((Integer)5, info.getSdkVersion());
     }
 }
