@@ -23,6 +23,8 @@ get:
           type: string
           required: false
           in: query
+        - $ref: ../../index.yml#/parameters/startDate
+        - $ref: ../../index.yml#/parameters/endDate
     responses:
         200:
             description: OK
