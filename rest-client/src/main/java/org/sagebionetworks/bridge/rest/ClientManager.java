@@ -220,7 +220,9 @@ public final class ClientManager {
             }
             if (this.acceptLanguages == null || this.acceptLanguages.isEmpty()) {
                 String langs = this.config.getLanguages();
-                this.acceptLanguages = SPLITTER.splitToList(langs);
+                if (!isNullOrEmpty(langs)) {
+                    this.acceptLanguages = SPLITTER.splitToList(langs);    
+                }
             }
             ClientInfo info = getDefaultClientInfo();
             if (this.clientInfo != null) {

@@ -67,6 +67,7 @@ public class ClientManagerTest {
         // These values are set in the test bridge-sdk.properties file, and we want to verify they
         // are used to construct the clientInfo object, so this doesn't have to be hard-wired into
         // the application.
+        
         ClientInfo info = manager.getClientInfo();
         assertEquals("testName", info.getAppName());
         assertEquals((Integer)33, info.getAppVersion());
