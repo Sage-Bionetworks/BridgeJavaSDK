@@ -177,6 +177,8 @@ ScheduledActivityList:
     $ref: ./paged_resources/scheduled_activity.yml
 SchedulePlanList:
     $ref: ./paged_resources/schedule_plan.yml
+StringList:
+    $ref: ./paged_resources/string.yml
 StudyList:
     $ref: ./paged_resources/study.yml
 StudyConsentList:
