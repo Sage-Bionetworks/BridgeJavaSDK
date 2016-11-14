@@ -1,5 +1,6 @@
 type: object
 readOnly: true
+description: Payload returning a list of [AccountSummary](/#AccountSummary) records.
 properties:
     items:
         type: array
@@ -8,10 +9,10 @@ properties:
     offsetBy:
         type: integer
         format: int64
-        description: The offsetBy value submitted to the server
+        description: The offsetBy value submitted to the server.
     pageSize:
         type: integer
-        description: The page size submitted to the server
+        description: The page size submitted to the server.
     emailFilter:
         type: string
         description: The email filter submitted to the server
@@ -25,7 +26,7 @@ properties:
         description: The end date filter applied to the createdOn timestamp of the account.
     total:
         type: integer
-        description: The total number of records that match the criteria (may exceed page size)
+        description: The total number of records that match the criteria (may exceed page size).
     type:
         type: string
         readOnly: true

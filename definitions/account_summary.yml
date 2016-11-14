@@ -1,5 +1,5 @@
 description: |
-    Summary of a participant for APIs to search and page through participant accounts.  
+    Summary of a participant, used in APIs to search and retrieve participant accounts.  
 type: object
 readOnly: true
 properties:
@@ -18,7 +18,8 @@ properties:
     createdOn: 
         type: string
         format: date-time
-        description: Read only. ISO 8601 date and time that the user account was created.
+        readOnly: true
+        description: ISO 8601 date and time that the user account was created.
     status:
         $ref: ./enums/account_status.yml
     studyIdentifier:
