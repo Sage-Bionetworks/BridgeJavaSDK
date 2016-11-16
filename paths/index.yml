@@ -69,6 +69,8 @@
     $ref: ./consents/v3_consents_published.yml
 /v3/consents/{createdOn}:
     $ref: ./consents/v3_consents_createdOn.yml
+/v3/consents/withdraw:
+    $ref: ./consents/v3_consents_withdraw.yml
 
 # study consents
 /v3/subpopulations/{subpopulationGuid}/consents:
