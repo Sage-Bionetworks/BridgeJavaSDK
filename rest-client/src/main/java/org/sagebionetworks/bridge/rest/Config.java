@@ -11,6 +11,19 @@ import java.util.Properties;
 import org.sagebionetworks.bridge.rest.model.Environment;
 import org.sagebionetworks.bridge.rest.model.SignIn;
 
+/**
+ * <p>The Config class provides the implementation for loading configuration for the ClientManager. The 
+ * properties included in Config.Props are loaded from the following locations:</p>
+ * <ul>
+ *  <li>A bridge-sdk.properties file in the user's home directory;</li>
+ *  <li>environment variables;</li>
+ *  <li>Java system properties.</li>
+ * </ul>
+ * <p>Each location will overwrite the prior location, and values can be set programmatically, for example:</p>
+ * <pre>
+ * config.setProperty(Config.Props.ACCOUNT_EMAIL, "email@email.com");
+ * </pre>
+ */
 public final class Config {
 
     private static final String CONFIG_FILE = "/bridge-sdk.properties";
