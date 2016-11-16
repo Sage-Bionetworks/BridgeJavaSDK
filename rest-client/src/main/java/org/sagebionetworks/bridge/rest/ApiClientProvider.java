@@ -4,13 +4,14 @@ import java.lang.ref.WeakReference;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import org.sagebionetworks.bridge.rest.model.SignIn;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
+
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import org.sagebionetworks.bridge.rest.model.SignIn;
 
 /**
  * Base class for creating clients that are correctly configured to communicate with the 
@@ -25,12 +26,12 @@ public class ApiClientProvider {
     private final Map<SignIn, WeakReference<Retrofit>> authenticatedRetrofits;
     private final Map<SignIn, Map<Class<?>, WeakReference<?>>> authenticatedClients;
 
-    public ApiClientProvider(String baseUrl, String userAgent) {
-        this(baseUrl, userAgent, null);
+    public ApiClientProvider(String baseUrl, String userAgent, String acceptLanguage) {
+        this(baseUrl, userAgent, acceptLanguage, null);
     }
 
     // allow unit tests to inject a UserSessionInfoProvider
-    ApiClientProvider(String baseUrl, String userAgent, UserSessionInfoProvider userSessionInfoProvider) {
+    ApiClientProvider(String baseUrl, String userAgent, String acceptLanguage, UserSessionInfoProvider userSessionInfoProvider) {
         authenticatedRetrofits = Maps.newHashMap();
         authenticatedClients = Maps.newHashMap();
         
@@ -43,7 +44,7 @@ public class ApiClientProvider {
                 .readTimeout(2, TimeUnit.MINUTES)
                 .writeTimeout(2, TimeUnit.MINUTES)
                 .addInterceptor(sessionInterceptor)
-                .addInterceptor(new HeaderInterceptor(userAgent))
+                .addInterceptor(new HeaderInterceptor(userAgent, acceptLanguage))
                 .addInterceptor(new DeprecationInterceptor())
                 .addInterceptor(new ErrorResponseInterceptor())
                 .addInterceptor(new LoggingInterceptor()).build();

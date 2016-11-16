@@ -11,30 +11,41 @@ import java.util.Properties;
 import org.sagebionetworks.bridge.rest.model.Environment;
 import org.sagebionetworks.bridge.rest.model.SignIn;
 
+/**
+ * <p>The Config class provides the implementation for loading configuration for the ClientManager. The 
+ * properties included in Config.Props are loaded from the following locations:</p>
+ * <ul>
+ *  <li>A bridge-sdk.properties file in the user's home directory;</li>
+ *  <li>environment variables;</li>
+ *  <li>Java system properties.</li>
+ * </ul>
+ * <p>Each location will overwrite the prior location, and values can be set programmatically, for example:</p>
+ * <pre>
+ * config.setProperty(Config.Props.ACCOUNT_EMAIL, "email@email.com");
+ * </pre>
+ */
 public final class Config {
 
     private static final String CONFIG_FILE = "/bridge-sdk.properties";
     private static final String USER_CONFIG_FILE = System.getProperty("user.home") + "/bridge-sdk.properties";
 
     public enum Props {
-        // These all require an entry in bridge-sdk.properties (accounts are optional).
-        ACCOUNT_EMAIL(null), 
-        ACCOUNT_PASSWORD(null), 
-        ADMIN_EMAIL(null), 
-        ADMIN_PASSWORD(null), 
-        DEV_NAME(null), 
-        ENV(null), 
-        LOG_LEVEL(null), 
-        SDK_VERSION(null), 
-        STUDY_IDENTIFIER(null);
+        ACCOUNT_EMAIL, 
+        ACCOUNT_PASSWORD, 
+        ADMIN_EMAIL, 
+        ADMIN_PASSWORD, 
+        APP_NAME,
+        APP_VERSION,
+        DEV_NAME,
+        DEVICE_NAME,
+        ENV, 
+        LANGUAGES,
+        LOG_LEVEL, 
+        OS_NAME,
+        OS_VERSION,
+        SDK_VERSION, 
+        STUDY_IDENTIFIER;
 
-        private String endpoint;
-        private Props(String endpoint) {
-            this.endpoint = endpoint;
-        }
-        public String getEndpoint() {
-            return endpoint;
-        }
         public String getPropertyName() {
             return this.name().replace("_", ".").toLowerCase();
         }
@@ -140,8 +151,32 @@ public final class Config {
         return fromProperty(Props.ADMIN_PASSWORD);
     }
 
+    public String getLanguages() {
+        return fromProperty(Props.LANGUAGES);
+    }
+    
     public String getDevName() {
         return fromProperty(Props.DEV_NAME);
+    }
+    
+    public String getAppName() {
+        return fromProperty(Props.APP_NAME);
+    }
+    
+    public String getAppVersion() {
+        return fromProperty(Props.APP_VERSION);
+    }
+    
+    public String getDeviceName() {
+        return fromProperty(Props.DEVICE_NAME);
+    }
+    
+    public String getOsName() {
+        return fromProperty(Props.OS_NAME);
+    }
+    
+    public String getOsVersion() {
+        return fromProperty(Props.OS_VERSION);
     }
 
     public Environment getEnvironment() {
@@ -154,7 +189,6 @@ public final class Config {
 
     private String fromProperty(Props prop) {
         String value = config.getProperty(prop.getPropertyName());
-        checkNotNull(value, "The property '" + prop.getPropertyName() + "' has not been set.");
-        return value.trim();
+        return (value == null || value.trim().length() == 0) ? null : value.trim();
     }
 }
