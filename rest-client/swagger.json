@@ -472,6 +472,12 @@
             "type": "string",
             "required": false,
             "in": "query"
+          },
+          {
+            "$ref": "#/parameters/startDate"
+          },
+          {
+            "$ref": "#/parameters/endDate"
           }
         ],
         "responses": {
@@ -1515,9 +1521,6 @@
           },
           "410": {
             "$ref": "#/responses/410"
-          },
-          "412": {
-            "$ref": "#/responses/412"
           }
         }
       }
@@ -1705,6 +1708,39 @@
           },
           "403": {
             "$ref": "#/responses/403_not_developer"
+          }
+        }
+      }
+    },
+    "/v3/consents/withdraw": {
+      "post": {
+        "operationId": "withdrawAllConsents",
+        "summary": "Withdraw all consents to research for this user, whether currently applicable or not",
+        "tags": [
+          "Consents",
+          "_For Consented Users"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "withdrawal",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Withdrawal"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
           }
         }
       }
@@ -3982,25 +4018,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "type": "object",
-              "readOnly": true,
-              "properties": {
-                "items": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                "total": {
-                  "type": "integer",
-                  "description": "The total number of records in the items list"
-                },
-                "type": {
-                  "type": "string",
-                  "readOnly": true,
-                  "description": "ResourceList"
-                }
-              }
+              "$ref": "#/definitions/StringList"
             }
           },
           "401": {
@@ -4093,7 +4111,7 @@
     },
     "AccountStatus": {
       "type": "string",
-      "description": "Status of verifying support email address.\n\n|Status|Description|\n|---|---|\n|unverified|User has not consented to use the support email address.|\n|pending|System is waiting for the user to confirm the address.|\n|verified|Bridge can send consent emails.|\n\nOn creation, the initial status of a user account depends on the email verification policy set \nfor the study. If verification is required, the account will be unverified until that is done; \notherwise it will be enabled.\n",
+      "description": "Status of a participant's account, for accounts that must verify an email address. \n\n|Status|Description|\n|---|---|\n|unverified|User has not consented to use the support email address.|\n|pending|System is waiting for the user to confirm the address.|\n|verified|User can consented and can sign in to the Bridge server.|\n\nOn creation, the initial status of a user account depends on the email verification policy set \nfor the study. If verification is required, the account will be unverified until that is done; \notherwise it will be enabled.\n",
       "enum": [
         "enabled",
         "disabled",
@@ -4224,7 +4242,7 @@
     },
     "ReportType": {
       "type": "string",
-      "description": "The type of report: participant reports are scoped to an individual participant and can only be seen by \nthe participant or a researcher; study reports are available to all users in a study.\n",
+      "description": "The type of report: `participant` reports are scoped to an individual participant and can only be seen by \nthe participant or a researcher; `study` reports are available to all users in a study.\n",
       "enum": [
         "participant",
         "study"
@@ -4294,7 +4312,7 @@
     },
     "ABTestGroup": {
       "type": "object",
-      "description": "A list of these groups define the way schedules are allocated in an ABTestScheduleStrategy. \nSee [ABTestScheduleStrategy](#ABTestScheduleStrategy) for details. \n",
+      "description": "A list of these groups define the way schedules are allocated in an ABTestScheduleStrategy \n(each schedule associated to a percentage). See [ABTestScheduleStrategy](#ABTestScheduleStrategy) \nfor details. \n",
       "required": [
         "percentage",
         "schedule"
@@ -4302,10 +4320,10 @@
       "properties": {
         "percentage": {
           "type": "integer",
-          "description": "The percentage of users to assign to this schedule"
+          "description": "The percentage of users to assign to this schedule."
         },
         "schedule": {
-          "description": "the schedule to assign to these users",
+          "description": "The schedule to assign to these users.",
           "$ref": "#/definitions/Schedule"
         },
         "type": {
@@ -4316,7 +4334,7 @@
       }
     },
     "ABTestScheduleStrategy": {
-      "description": "A strategy that divides users into groups according to a percentage scheme, assigning each \ngroup a different Schedule. The combined set of schedule groups should have percentages that \nadd up to 100%. After the initial assignment, new users joining the study will be randomly \nassigned to one of the groups in proportion to their percentage representation in the study. \n\nNote that this assignment is truly random, so in small populations the percentages may diverge \nfrom those specified in the schedule plan.\n",
+      "description": "A strategy that divides users into groups according to a percentage scheme, assigning each \ngroup a different [Schedule](/#Schedule). The combined set of schedule groups should have \npercentages that add up to 100%. After the initial assignment, new users joining the study \nwill be randomly assigned to one of the groups in proportion to their percentage \nrepresentation in the study. \n\nNote that this assignment is truly random, so in small populations the percentages may diverge \nfrom those specified in the schedule plan.\n",
       "allOf": [
         {
           "$ref": "#/definitions/ScheduleStrategy"
@@ -4355,12 +4373,12 @@
         },
         "externalId": {
           "type": "string",
-          "description": "An externally-assignable identifier a research partner can use to re-identify a user's data \nin the exported data set (this must be provided by the application, it is not created by Bridge). \nIf external IDs are managed, this is required on creation and cannot be modified after the \naccount is created. Otherwise, it is a string that can be set to any value, changed, removed, etc.\n"
+          "description": "An externally-assignable identifier a research partner can use to re-identify a user's data \nin the exported data set (this must be provided by the application, it is not created by Bridge). \nIt is a string that can be set or updated to any value without constraints, unless Bridge is \nconfigured to manage the study's external IDs. Then the ID must be submitted on sign up, and cannot be \nmodified afterward.\n"
         },
         "id": {
           "type": "string",
           "readOnly": true,
-          "description": "An ID assigned to identify this user as an account in the Bridge system. This is separate from the healthCode and the two are never associated in the API or the data exported from Bridge. Used to retrieve study participant information through the API."
+          "description": "An ID assigned to this account by Bridge system. This ID is exposed in the API and is different from the health code assigned to the user's anonymized data. Bridge never exports this ID along with the health code from Bridge."
         },
         "notifyByEmail": {
           "type": "boolean",
@@ -4372,7 +4390,7 @@
           "additionalProperties": {
             "type": "string"
           },
-          "description": "A map of user profile attributes that have been set for this user (the attributes themselves \nmust be specified in the study's configuration, and the values are stored encrypted in case they \nare personally-identifying information).\n"
+          "description": "A map of user profile attributes that have been set for this user (the attributes themselves \nmust be specified in the study's configuration, and the values are stored encrypted in case they \ncapture personally-identifying information).\n"
         },
         "sharingScope": {
           "$ref": "#/definitions/SharingScope"
@@ -4380,7 +4398,8 @@
         "createdOn": {
           "type": "string",
           "format": "date-time",
-          "readOnly": true
+          "readOnly": true,
+          "description": "The date and time the account was created."
         },
         "status": {
           "$ref": "#/definitions/AccountStatus"
@@ -4393,14 +4412,14 @@
         },
         "dataGroups": {
           "type": "array",
-          "description": "data groups to apply to this user",
+          "description": "The data groups set for this user. Data groups must be strings that are defined in the \nlist of all valid data groups for the study, as part of the study object. \n",
           "items": {
             "type": "string"
           }
         },
         "languages": {
           "type": "array",
-          "description": "Two letter language codes to assign to this user (these are initially retrieved from the \nuser's Accept-Language header, but are persisted after this as part of the user's options \nand it can be updated later).\n",
+          "description": "Two letter language codes to assign to this user (these are initially retrieved from the \nuser's `Accept-Language` header and then persisted as part of account configuration). \n",
           "items": {
             "type": "string"
           }
@@ -4408,7 +4427,7 @@
       }
     },
     "AccountSummary": {
-      "description": "Summary of a participant for APIs to search and page through participant accounts.  \n",
+      "description": "Summary of a participant, used in APIs to search and retrieve participant accounts.  \n",
       "type": "object",
       "readOnly": true,
       "properties": {
@@ -4431,7 +4450,8 @@
         "createdOn": {
           "type": "string",
           "format": "date-time",
-          "description": "Read only. ISO 8601 date and time that the user account was created."
+          "readOnly": true,
+          "description": "ISO 8601 date and time that the user account was created."
         },
         "status": {
           "$ref": "#/definitions/AccountStatus"
@@ -6510,6 +6530,7 @@
     "AccountSummaryList": {
       "type": "object",
       "readOnly": true,
+      "description": "Payload returning a list of [AccountSummary](/#AccountSummary) records.",
       "properties": {
         "items": {
           "type": "array",
@@ -6520,19 +6541,29 @@
         "offsetBy": {
           "type": "integer",
           "format": "int64",
-          "description": "The offsetBy value submitted to the server"
+          "description": "The offsetBy value submitted to the server."
         },
         "pageSize": {
           "type": "integer",
-          "description": "The page size submitted to the server"
+          "description": "The page size submitted to the server."
         },
         "emailFilter": {
           "type": "string",
           "description": "The email filter submitted to the server"
         },
+        "startDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The start date filter applied to the createdOn timestamp of the account."
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The end date filter applied to the createdOn timestamp of the account."
+        },
         "total": {
           "type": "integer",
-          "description": "The total number of records that match the criteria (may exceed page size)"
+          "description": "The total number of records that match the criteria (may exceed page size)."
         },
         "type": {
           "type": "string",
@@ -6703,6 +6734,27 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/SchedulePlan"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "description": "The total number of records in the items list"
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "ResourceList"
+        }
+      }
+    },
+    "StringList": {
+      "type": "object",
+      "readOnly": true,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "string"
           }
         },
         "total": {
