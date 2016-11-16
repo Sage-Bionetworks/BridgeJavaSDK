@@ -4,13 +4,14 @@ import java.lang.ref.WeakReference;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import org.sagebionetworks.bridge.rest.model.SignIn;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
+
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import org.sagebionetworks.bridge.rest.model.SignIn;
 
 /**
  * Base class for creating clients that are correctly configured to communicate with the 

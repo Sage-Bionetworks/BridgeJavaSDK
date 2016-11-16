@@ -55,7 +55,7 @@ import com.google.common.collect.ImmutableMap;
  */
 public final class ClientManager {
     
-    public static interface ClientSupplier {
+    static interface ClientSupplier {
         ApiClientProvider get(String hostUrl, String userAgent, String acceptLanguage);
     }
     
@@ -135,7 +135,7 @@ public final class ClientManager {
          *      a factory to build ApiClientProvider
          * @return builder
          */
-        public Builder withClientSupplier(ClientSupplier supplier) {
+        Builder withClientSupplier(ClientSupplier supplier) {
             this.supplier = supplier;
             return this;
         }

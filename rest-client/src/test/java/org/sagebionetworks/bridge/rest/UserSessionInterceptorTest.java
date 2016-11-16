@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.any;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doReturn;
 
 import java.io.IOException;
@@ -22,15 +22,15 @@ import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 
 import com.google.common.collect.Lists;
 
+import okhttp3.HttpUrl;
+import okhttp3.Interceptor.Chain;
+import okhttp3.MediaType;
+import okhttp3.Protocol;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import okhttp3.HttpUrl;
-import okhttp3.Interceptor.Chain;
 import okio.Buffer;
-import okhttp3.MediaType;
-import okhttp3.Protocol;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Request.class, Response.class, Chain.class, HttpUrl.class, ResponseBody.class,

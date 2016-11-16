@@ -11,11 +11,11 @@ import org.sagebionetworks.bridge.rest.exceptions.ConsentRequiredException;
 import org.sagebionetworks.bridge.rest.model.SignIn;
 import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 
+import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import okhttp3.Interceptor;
 import okio.Buffer;
 
 class UserSessionInterceptor implements Interceptor {
