@@ -125,6 +125,22 @@
       "format": "date",
       "required": true
     },
+    "startDateOpt": {
+      "name": "startDate",
+      "in": "query",
+      "description": "The first day to include in reports that are returned",
+      "type": "string",
+      "format": "date",
+      "required": false
+    },
+    "endDateOpt": {
+      "name": "endDate",
+      "in": "query",
+      "description": "The last day to include in reports that are returned",
+      "type": "string",
+      "format": "date",
+      "required": false
+    },
     "startTime": {
       "name": "startTime",
       "in": "query",
@@ -474,10 +490,10 @@
             "in": "query"
           },
           {
-            "$ref": "#/parameters/startDate"
+            "$ref": "#/parameters/startDateOpt"
           },
           {
-            "$ref": "#/parameters/endDate"
+            "$ref": "#/parameters/endDateOpt"
           }
         ],
         "responses": {
