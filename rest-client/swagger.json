@@ -3694,8 +3694,8 @@
     },
     "/v3/studies/self/uploads": {
       "get": {
-        "operationId": "getStudyUploads",
-        "summary": "Get uploads for a study",
+        "operationId": "getUploads",
+        "summary": "Get uploads for the study",
         "tags": [
           "Studies",
           "Uploads",
@@ -3979,7 +3979,7 @@
     },
     "/v3/studies/{studyId}/uploads": {
       "get": {
-        "operationId": "getUploadsForStudy",
+        "operationId": "getUploadsInStudy",
         "summary": "Get uploads for a specified study",
         "tags": [
           "Studies",
