@@ -1,6 +1,6 @@
 get:
-    operationId: getStudyUploads
-    summary: Get uploads for a study
+    operationId: getUploads
+    summary: Get uploads for the study
     tags: 
         - Studies
         - Uploads
