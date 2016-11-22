@@ -3,6 +3,26 @@ description: |
     Note that this class is unusual in the API in that type is not a constant 
     "UploadFieldDefinition" value, it is one of the enumerated values and indicates the 
     type of the field, not the type of the model object: 
+
+    |UploadFieldDefinitionType|Description|
+    |---|---|
+    |attachment_v2|Attachment. When selected, `fileExtension` and `mimeType` can refine the field definition|
+    |boolean|Boolean|
+    |calendar_date|Date (no time of day)|
+    |timestamp|Date & Time (a timestamp)|
+    |float|Decimal|
+    |int|Integer|
+    |string|String. When selected, `maxLength` and `unboundedText` can refine the field definition|
+    |time_v2|Time of Day (no date or timezone)|
+    |attachment_blob|Deprecated|
+    |attachment_csv|Deprecated|
+    |attachment_json_blob|Deprecated|
+    |attachment_json_table|Deprecated|
+    |duration_v2|Deprecated|
+    |inline_json_blob|Deprecated|
+    |multi_choice|Deprecated|
+    |single_choice|Deprecated|
+
 enum:
     - attachment_blob
     - attachment_csv

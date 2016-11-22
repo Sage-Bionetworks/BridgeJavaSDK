@@ -21,6 +21,7 @@ allOf:
             description: True if the sharing scope is anything other than "no_sharing".
         signedMostRecentConsent:
             type: boolean
+            description: True if all *required* consents have been signed and the versions signed are the most up-to-date versions of those consents.
         consented:
             type: boolean
             description: True if all required consents have been signed.
@@ -28,7 +29,8 @@ allOf:
             type: object
             description: |
                 A mapping from a subpopulation GUID to information about the participant's consent status 
-                in that subpopulation (whether consented or not).
+                in that subpopulation (whether consented or not). Only the subpopulations that currently apply 
+                to this user will have a ConsentStatus object in the map.
             additionalProperties:
                 $ref: ../definitions/consent_status.yml
         type:

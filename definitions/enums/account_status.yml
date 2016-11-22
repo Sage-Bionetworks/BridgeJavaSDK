@@ -6,11 +6,11 @@ description: |
     |---|---|
     |unverified|User has not consented to use the support email address.|
     |pending|System is waiting for the user to confirm the address.|
-    |verified|User can consented and can sign in to the Bridge server.|
+    |verified|User has consented and can sign in to the Bridge server.|
 
-    On creation, the initial status of a user account depends on the email verification policy set 
-    for the study. If verification is required, the account will be unverified until that is done; 
-    otherwise it will be enabled.
+    On creation, the initial status of a user account depends on the email verification policy of 
+    the study. If verification is required, the account will be unverified until the participant 
+    verifies the email address; otherwise it will be enabled.
 enum:
     - enabled
     - disabled

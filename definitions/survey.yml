@@ -52,8 +52,8 @@ properties:
     elements:
         type: array
         description: |
-            An ordered collection of SurveyElement sub-types (the order the questions will 
-            appear in the survey).
+            An ordered collection of SurveyElement sub-types (in the order they will appear in 
+            the survey).
         items:
             discriminator: type
             $ref: ./survey_element.yml

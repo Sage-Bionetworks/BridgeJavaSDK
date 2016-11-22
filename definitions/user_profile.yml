@@ -1,6 +1,7 @@
 type: object
-description: An early user information object that has been superceded by the study participant 
-    object, along with a new set of API endpoints (`/v3/participants/self`).
+description: An early user information object that has been superceded by the 
+    [StudyParticipant](#StudyParticipant) object, along with a new set of API 
+    endpoints (`/v3/participants/self`).
 required:
     - email
     - username

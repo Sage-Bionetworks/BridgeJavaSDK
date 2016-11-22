@@ -8,9 +8,11 @@ properties:
     startDate:
         type: string
         format: date
+        description: The start date provided for filtering the content of this request.
     endDate:
         type: string
         format: date
+        description: The end date provided for filtering the content of this request.
     total:
         type: integer
     type:

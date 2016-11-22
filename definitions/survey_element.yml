@@ -12,8 +12,7 @@ properties:
     identifier:
         type: string
         description: |
-            A unique identifier, assigned by a researcher, that is maintained through later 
-            versions of the survey. This is not as useful as the identifier which is exported 
-            for a question, but can be used to retrieve the screen for subsequent edits.
+            A unique and easy-to-remember identifier, assigned by a researcher, that is maintained through 
+            later versions of the survey.
     type:
         type: string

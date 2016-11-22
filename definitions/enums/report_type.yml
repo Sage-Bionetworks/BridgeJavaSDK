@@ -1,7 +1,12 @@
 type: string
 description: |
-    The type of report: `participant` reports are scoped to an individual participant and can only be seen by 
-    the participant or a researcher; `study` reports are available to all users in a study.
+    The type of report:
+
+    |Type|Description|
+    |---|---|
+    |participant|Reports are scoped to an individual participant and can only be seen by the participant or a researcher|
+    |study|Reports are available to all authenticated users in a study|
+
 enum:
     - participant
     - study

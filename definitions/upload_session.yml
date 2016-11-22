@@ -11,7 +11,7 @@ properties:
     url:
         type: string
         description: |
-            A pre-signed URL for doing the upload. The URL will remain valid for 24 hours once created on the Bridge side.
+            A pre-signed URL for doing a PUT upload of the data. The URL will remain valid for 24 hours once created on the Bridge side.
     expires:
         type: string
         format: date-time

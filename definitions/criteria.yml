@@ -3,7 +3,7 @@ description: |
     Some objects, like Subpopulations and the schedules in a CriteriaScheduleStrategy, are 
     matched against user criteria in order to return the correct object. The criteria 
     against which user information will be matched are described in the Criteria object. 
-    See [Tailoring Content to Participants](/articles/study_design/filtering.html) for a 
+    See [Customizing Content for Participants](/articles/filtering.html) for a 
     fuller explanation. 
 properties:
     language:

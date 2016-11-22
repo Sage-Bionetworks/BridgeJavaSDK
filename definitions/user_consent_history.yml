@@ -12,7 +12,7 @@ properties:
         description: ISO 8601 date and time that the consent was created on.
     name:
         type: string
-        description: Name as entered by the participant.
+        description: Full name as entered by the participant.
     birthdate:
         type: string
         format: date
@@ -34,7 +34,7 @@ properties:
         description: |
             ISO 8601 date and time that the user withdrew the consent, if the user withdrew 
             from the study (note that later consent records may re-enroll the user in the 
-            study; nothing prevents users from joining and quitting the study, even multiple times).
+            study; nothing prevents users from joining and quitting the study multiple times).
     hasSignedActiveConsent:
         type: boolean
         description: |

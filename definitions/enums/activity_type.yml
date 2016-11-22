@@ -1,8 +1,11 @@
 type: string
+description: |
+    An activity represents either a survey or a task to be performed (not both).
+
+    |Type|Description|
+    |---|---|
+    |survey|Activity represents a survey. The activity should contain a survey stanza.|
+    |task|Activity represents any other task. The activity should contain a task stanza.|
 enum:
     - survey
     - task
-description: |
-    If the activityType is set to `survey`, the activity should contain a survey stanza;
-    if the activityType is set to `task`, the activity should contain a task stanza. An activity 
-    should not contain both. 

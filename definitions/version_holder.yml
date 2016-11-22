@@ -1,5 +1,5 @@
 description: |
-    An object that holds the version for a created or undated entity.
+    An object that holds the version for a created or updated entity.
 type: object
 properties:
     version:

@@ -1,17 +1,19 @@
 description: |
     To consent to participation in a subpopulation (also known as a consent group), participants submit 
-    their electronic signature which can include an image of their actual signature. 
+    their electronic signature. This can include an image of their actual signature. 
 
     At the time of consent, participants also submit a decision on how widely they will share their 
     medical information with researchers (see the scope property of the ConsentSignature JSON object, below).
 
-    How you describe this choice to participants is important if they are to correctly understand the 
-    consequences of this decision. We suggest that applications present the following language to users 
-    when making this choice:
+    How you describe to participants the choice to share research data is important if they are to correctly 
+    understand the consequences of this decision. We suggest that applications present the following 
+    language to users when making this choice:
 
     * **Option #1:** No data sharing. I do not agree to share my coded data (without my name) at this time;
     * **Option #2:** I agree to share my coded data (without my name) with researchers at the sponsor institution, and their partners, in order to conduct this study;
     * **Option #3:** I agree to share my coded data (without my name) with qualified researchers worldwide, for general health research.
+
+    Note that if your study does re-identify participants in the study, this language will have to be adjusted.
 type: object
 required:
     - name

@@ -17,23 +17,36 @@ properties:
         readOnly: true
     startedOn:
         type: string
+        description: This field is filled out by the client to persist the fact that a task has been started.
         format: date-time
     finishedOn:
         type: string
+        description: |
+            This field is filled out by the client to persist the fact that a task has been finished. To delete a task, 
+            simply mark startedOn and finishedOn with the same timestamp.
         format: date-time
     scheduledOn:
         type: string
         format: date-time
+        description: |
+            The time at which the activity should be made available to the participant. It's fine to show the activity 
+            before this, but the user should not be able to start it until this time has passed.
         readOnly: true
     expiresOn:
         type: string
         format: date-time
+        description: |
+            The time after which this task should no longer be made available to the participant. It will also no longer be 
+            returned from the server API. 
         readOnly: true
     activity:
         $ref: ./activity.yml 
         readOnly: true
     persistent:
         type: boolean
+        description: |
+            Is this activity persistent? If so, it will never be removed from the list of activities; the client may 
+            wish to provide different UI for such a task.
         readOnly: true
     status:
         $ref: ./enums/schedule_status.yml

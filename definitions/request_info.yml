@@ -8,8 +8,6 @@ description: |
     * when was the last time they uploaded data or retrieved activities?
     * do they have a session right now, or have they contacted the server recently at all?
 
-    The users activities are also helpul for troubleshooting.
-
     This information is cached but not persisted; it is not guaranteed to be present for all active users.
 type: object
 readOnly: true

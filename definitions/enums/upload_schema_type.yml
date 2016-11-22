@@ -1,4 +1,12 @@
 type: string
+description: |
+    The type of data being uploaded.
+
+    |Status|Description|
+    |---|---|
+    |ios_survey|Survey data|
+    |ios_data|All other kinds of data (e.g. from sensors or tasks in your app).|
+
 enum:
     - ios_data
     - ios_survey

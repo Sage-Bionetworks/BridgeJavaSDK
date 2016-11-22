@@ -1,4 +1,13 @@
 type: string
+description: |
+    Available MIME types:
+
+    |Type|Description|
+    |---|---|
+    |text/plain|Plain text|
+    |text/html|HTML|
+    |application/pdf|PDF document|
+
 enum:
     - text/plain
     - text/html

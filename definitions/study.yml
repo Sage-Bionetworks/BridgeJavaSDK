@@ -19,9 +19,8 @@ properties:
     supportEmail:
         type: string
         description: |
-            The email address that will be given to study participants and other end user for all support 
-            requests and queries (technical, study-related, etc.). This can be a comma-separated list of email addresses. 
-            Email will be sent via this email address.  
+            The email address that will be given to study participants and other end users to contact for support 
+            requests. This can be a comma-separated list of email addresses. Email will be sent via this email address.  
     technicalEmail:
         type: string
         description: |
@@ -30,8 +29,8 @@ properties:
     consentNotificationEmail:
         type: string
         description: |
-            Copies of all consent agreements, as well as rosters of all participants in a study, or any other study 
-            governance issues, will be emailed to this address. This can be a comma-separated list of email addresses.
+            Copies of all consent agreements and withdrawals will be emailed to this address. This can be a comma-separated 
+            list of email addresses.
     identifier:
         type: string
         description: |

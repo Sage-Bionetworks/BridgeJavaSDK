@@ -11,7 +11,8 @@ allOf:
         title:
             type: string
             description: |
-                A title for this question. Although this is required, it may or may not be used in the interface. 
+                A title for this question. Although this is required, it may or may not be used in the 
+                interface. 
         prompt:
             type: string
             description: |
@@ -20,11 +21,6 @@ allOf:
             type: string
             description: |
                 Sub-question text that provides further instructions or clarifications on how to answer.
-        fireEvent:
-            type: boolean
-            description: |
-                This used to signal that an event should be generated when this question was answered, that included the 
-                answer as part of the event. However, this feature is currently unsuported.
         uiHint:
             $ref: ./enums/ui_hint.yml
         constraints:

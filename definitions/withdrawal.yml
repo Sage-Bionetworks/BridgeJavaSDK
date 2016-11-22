@@ -5,7 +5,7 @@ properties:
         description: |
             An optional, free text description from the participant about why they are no longer participating in the study. Some applications provide a more structured form to the user, and convert this to a text response.
 
-            The reason will be emailed to the consent notification email as part of the notification that a particular user has withdrawn from the study.
+            The reason will be emailed to the consent notification email address as part of the notification that this user has withdrawn from the study.
     type:
         type: string
         readOnly: true
