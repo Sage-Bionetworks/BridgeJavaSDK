@@ -4,7 +4,7 @@ get:
     tags:
         - Surveys
         - _For Consented Users
-        - _For Worker
+        - _For Workers
         - _For Developers
     security:
         - BridgeSecurity: []
