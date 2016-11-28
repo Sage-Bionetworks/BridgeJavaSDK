@@ -3,6 +3,8 @@ get:
     summary: Get a survey revision
     tags:
         - Surveys
+        - _For Consented Users
+        - _For Worker
         - _For Developers
     security:
         - BridgeSecurity: []
