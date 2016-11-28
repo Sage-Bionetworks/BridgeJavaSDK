@@ -4280,7 +4280,8 @@
       "type": "string",
       "enum": [
         "ios_data",
-        "ios_survey"
+        "ios_survey",
+        "upload_v2"
       ]
     },
     "SynapseExporterStatus": {
