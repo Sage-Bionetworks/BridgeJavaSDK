@@ -37,17 +37,20 @@ properties:
             must also be supplied.
     consentCreatedOn:
         type: string
+        readOnly: true
         description: |
             The timestamp of the version of the subpopulation consent that was 
             presented to the participant for agreement. 
         format: date-time
     signedOn:
         type: string
+        readOnly: true
         description: |
             The date and time of agreement to this consent.
         format: date-time
     withdrewOn:
         type: string
+        readOnly: true
         description: |
             If this consent is later revoked, this is the date of revocation.
         format: date-time
