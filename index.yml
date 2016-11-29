@@ -109,14 +109,14 @@ parameters:
         in: query
         description: The first day to include in reports that are returned
         type: string
-        format: date 
+        format: date-time 
         required: false
     endDateOpt:
         name: endDate
         in: query
         description: The last day to include in reports that are returned
         type: string 
-        format: date
+        format: date-time
         required: false
     startTime:
         name: startTime

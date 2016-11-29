@@ -6,7 +6,9 @@ description: |
     |---|---|
     |ios_survey|Survey data|
     |ios_data|All other kinds of data (e.g. from sensors or tasks in your app).|
+    |upload_v2|*Reserved for future use.*|
 
 enum:
     - ios_data
     - ios_survey
+    - upload_v2
