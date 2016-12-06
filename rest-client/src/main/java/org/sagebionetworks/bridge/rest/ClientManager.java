@@ -53,7 +53,7 @@ import com.google.common.collect.ImmutableMap;
  * <p>The ClientManager contacts our production servers unless you configure another 
  * <code>Environment</code>.</p>
  */
-public final class ClientManager {
+public class ClientManager {
     
     static interface ClientSupplier {
         ApiClientProvider get(String hostUrl, String userAgent, String acceptLanguage);
@@ -117,7 +117,7 @@ public final class ClientManager {
      *         Class representing the service
      * @return service client
      */
-    public final <T> T getClient(Class<T> service) {
+    public <T> T getClient(Class<T> service) {
         return apiClientProvider.getClient(service, signIn);
     }
     
