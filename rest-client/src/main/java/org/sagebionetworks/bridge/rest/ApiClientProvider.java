@@ -45,7 +45,7 @@ public class ApiClientProvider {
                 .writeTimeout(2, TimeUnit.MINUTES)
                 .addInterceptor(sessionInterceptor)
                 .addInterceptor(new HeaderInterceptor(userAgent, acceptLanguage))
-                .addInterceptor(new DeprecationInterceptor())
+                .addInterceptor(new WarningHeaderInterceptor())
                 .addInterceptor(new ErrorResponseInterceptor())
                 .addInterceptor(new LoggingInterceptor()).build();
 
