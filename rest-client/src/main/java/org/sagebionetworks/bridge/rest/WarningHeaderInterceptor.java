@@ -29,7 +29,6 @@ class WarningHeaderInterceptor implements Interceptor {
     }
     
     /**
-     * TODO: This is really a separate interceptor, it's orthogonal to exception handling.
      * @param response
      */
     private void logWarning(Response response) {
