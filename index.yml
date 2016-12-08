@@ -132,7 +132,7 @@ parameters:
         required: true
     synapseUserId:
         name: synapseUserId
-        description: syanpse user id
+        description: synapse user id
         required: true
         in: query
         type: string

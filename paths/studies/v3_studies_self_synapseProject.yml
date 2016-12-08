@@ -1,9 +1,9 @@
 post:
-    operationId: createSynapse
+    operationId: createSynapseProjectTeam
     summary: Create new Synapse Project and Team
     description: |
          Save a new synapse project and a new synapse team for a given target synapse user; 
-         also granting admin permission to this target user and birdge exporter.
+         also granting admin permission to this target user and bridge exporter.
     tags: 
         - Studies
         - _For Developers
