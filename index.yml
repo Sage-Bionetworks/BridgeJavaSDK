@@ -130,6 +130,13 @@ parameters:
         type: string
         format: date-time
         required: true
+    synapseUserId:
+        name: synapseUserId
+        description: syanpse user id
+        required: true
+        in: query
+        type: string
+
 paths:
     $ref: ./paths/index.yml
 definitions:

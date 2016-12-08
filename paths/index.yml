@@ -167,6 +167,8 @@
     $ref: ./studies/v3_studies_self_verifyEmail.yml
 /v3/studies/self/uploads:
     $ref: ./studies/v3_studies_self_uploads.yml
+/v3/studies/self/synapseProject:
+    $ref: ./studies/v3_studies_self_synapseProject.yml
 
 # External IDs
 /v3/externalIds:
