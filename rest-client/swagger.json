@@ -3070,35 +3070,6 @@
             "$ref": "#/responses/403_not_developer"
           }
         }
-      },
-      "delete": {
-        "operationId": "deleteAllRevisionsOfUploadSchema",
-        "summary": "Delete all revisions of an upload schema",
-        "tags": [
-          "Upload Schemas",
-          "_For Developers"
-        ],
-        "security": [
-          {
-            "BridgeSecurity": []
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/schemaId"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/200_message"
-          },
-          "401": {
-            "$ref": "#/responses/401"
-          },
-          "403": {
-            "$ref": "#/responses/403_not_developer"
-          }
-        }
       }
     },
     "/v3/uploadschemas/{schemaId}/recent": {
@@ -3169,38 +3140,6 @@
           },
           "403": {
             "$ref": "#/responses/403_not_developer_worker"
-          }
-        }
-      },
-      "delete": {
-        "operationId": "deleteUploadSchema",
-        "summary": "Delete a revision of an upload schema",
-        "tags": [
-          "Upload Schemas",
-          "_For Developers"
-        ],
-        "security": [
-          {
-            "BridgeSecurity": []
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/schemaId"
-          },
-          {
-            "$ref": "#/parameters/revision"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/200_message"
-          },
-          "401": {
-            "$ref": "#/responses/401"
-          },
-          "403": {
-            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -3889,6 +3828,40 @@
           },
           "403": {
             "$ref": "#/responses/403_not_worker"
+          }
+        }
+      }
+    },
+    "/v3/studies/{studyId}/uploadschemas/{schemaId}": {
+      "delete": {
+        "operationId": "deleteAllRevisionsOfUploadSchema",
+        "summary": "Delete all revisions of an upload schema",
+        "tags": [
+          "Upload Schemas",
+          "_For Admins"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/studyId"
+          },
+          {
+            "$ref": "#/parameters/schemaId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_admin"
           }
         }
       }
