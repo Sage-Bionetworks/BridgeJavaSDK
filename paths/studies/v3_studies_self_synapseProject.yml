@@ -1,9 +1,11 @@
 post:
     operationId: createSynapseProjectTeam
-    summary: Create new Synapse Project and Team
+    summary: Create new Synapse project and team
     description: |
-         Save a new synapse project and a new synapse team for a given target synapse user; 
-         also granting admin permission to this target user and bridge exporter.
+         Create a new Synapse project and team for the provided Synapse user, and grant permissions to 
+         the Bridge exporter to export Bridge data into that study. This call also grants admin  
+         permissions to the specified Synapse user for that project and team. You will need to create 
+         a Synapse user first, and provide that user's ID to this endpoint call.
     tags: 
         - Studies
         - _For Developers

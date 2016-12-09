@@ -89,6 +89,8 @@ RecordExportStatusRequest:
     $ref: ./record_export_status_request.yml
 ReportData:
     $ref: ./report_data.yml
+ReportDataForWorker:
+    $ref: ./report_data_for_worker.yml
 ReportIndex:
     $ref: ./report_index.yml
 RequestInfo:
