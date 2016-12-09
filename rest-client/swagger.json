@@ -154,6 +154,13 @@
       "type": "string",
       "format": "date-time",
       "required": true
+    },
+    "synapseUserId": {
+      "name": "synapseUserId",
+      "description": "synapse user id",
+      "required": true,
+      "in": "query",
+      "type": "string"
     }
   },
   "paths": {
@@ -2478,6 +2485,12 @@
           },
           "403": {
             "$ref": "#/responses/403_not_developer"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
           }
         }
       }
@@ -3722,6 +3735,38 @@
             "schema": {
               "$ref": "#/definitions/UploadList"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_admin"
+          }
+        }
+      }
+    },
+    "/v3/studies/self/synapseProject": {
+      "post": {
+        "operationId": "createSynapseProjectTeam",
+        "summary": "Create new Synapse Project and Team",
+        "description": "Save a new synapse project and a new synapse team for a given target synapse user; \nalso granting admin permission to this target user and bridge exporter.\n",
+        "tags": [
+          "Studies",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/synapseUserId"
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/responses/201_message"
           },
           "401": {
             "$ref": "#/responses/401"
