@@ -1205,7 +1205,7 @@
             "required": true,
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/ReportData"
+              "$ref": "#/definitions/ReportDataForWorker"
             }
           }
         ],
@@ -3083,35 +3083,6 @@
             "$ref": "#/responses/403_not_developer"
           }
         }
-      },
-      "delete": {
-        "operationId": "deleteAllRevisionsOfUploadSchema",
-        "summary": "Delete all revisions of an upload schema",
-        "tags": [
-          "Upload Schemas",
-          "_For Developers"
-        ],
-        "security": [
-          {
-            "BridgeSecurity": []
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/schemaId"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/200_message"
-          },
-          "401": {
-            "$ref": "#/responses/401"
-          },
-          "403": {
-            "$ref": "#/responses/403_not_developer"
-          }
-        }
       }
     },
     "/v3/uploadschemas/{schemaId}/recent": {
@@ -3182,38 +3153,6 @@
           },
           "403": {
             "$ref": "#/responses/403_not_developer_worker"
-          }
-        }
-      },
-      "delete": {
-        "operationId": "deleteUploadSchema",
-        "summary": "Delete a revision of an upload schema",
-        "tags": [
-          "Upload Schemas",
-          "_For Developers"
-        ],
-        "security": [
-          {
-            "BridgeSecurity": []
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/schemaId"
-          },
-          {
-            "$ref": "#/parameters/revision"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/200_message"
-          },
-          "401": {
-            "$ref": "#/responses/401"
-          },
-          "403": {
-            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -3748,8 +3687,8 @@
     "/v3/studies/self/synapseProject": {
       "post": {
         "operationId": "createSynapseProjectTeam",
-        "summary": "Create new Synapse Project and Team",
-        "description": "Save a new synapse project and a new synapse team for a given target synapse user; \nalso granting admin permission to this target user and bridge exporter.\n",
+        "summary": "Create new Synapse project and team",
+        "description": "Create a new Synapse project and team for the provided Synapse user, and grant permissions to \nthe Bridge exporter to export Bridge data into that study. This call also grants admin  \npermissions to the specified Synapse user for that project and team. You will need to create \na Synapse user first, and provide that user's ID to this endpoint call.\n",
         "tags": [
           "Studies",
           "_For Developers"
@@ -3772,7 +3711,7 @@
             "$ref": "#/responses/401"
           },
           "403": {
-            "$ref": "#/responses/403_not_admin"
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -3934,6 +3873,40 @@
           },
           "403": {
             "$ref": "#/responses/403_not_worker"
+          }
+        }
+      }
+    },
+    "/v3/studies/{studyId}/uploadschemas/{schemaId}": {
+      "delete": {
+        "operationId": "deleteAllRevisionsOfUploadSchema",
+        "summary": "Delete all revisions of an upload schema",
+        "tags": [
+          "Upload Schemas",
+          "_For Admins"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/studyId"
+          },
+          {
+            "$ref": "#/parameters/schemaId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_admin"
           }
         }
       }
@@ -5210,9 +5183,33 @@
         "data"
       ],
       "properties": {
+        "date": {
+          "type": "string",
+          "format": "date",
+          "description": "The date (YYYY-MM-DD) of the report data."
+        },
+        "data": {
+          "type": "object",
+          "description": "An arbitrary JSON object containing whatever data should be saved for a report."
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "ReportData"
+        }
+      }
+    },
+    "ReportDataForWorker": {
+      "description": "The JSON data to submit a report record for a point in time (curently a day expressed in the format YYYY-MM-DD). This object includes a healthCode because worker processes, as they produce records for a participant report, may be working from anonymized data.",
+      "type": "object",
+      "required": [
+        "date",
+        "data"
+      ],
+      "properties": {
         "healthCode": {
           "type": "string",
-          "description": "**Worker submissions of participant reports only.** Developers submit report data to an \nendpoint that includes the user's ID, but workers processing anonymized data do not know a \nparticipant's ID. So the healthCode must be included as part of the report JSON payload.\n"
+          "description": "The health code of the person for whom this data is being created.\n"
         },
         "date": {
           "type": "string",
