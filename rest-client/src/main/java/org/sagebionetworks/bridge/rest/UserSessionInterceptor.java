@@ -21,14 +21,21 @@ import okio.Buffer;
 class UserSessionInterceptor implements Interceptor {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserSessionInterceptor.class);
-    
+
     private static final String SIGN_OUT_PATH_SEGMENT = "signOut";
     private static final String SIGN_IN_PATH_SEGMENT = "signIn";
     private static final String BRIDGE_SESSION_HEADER = "Bridge-Session";
 
     private final Map<String,SignIn> sessionTokenMap = new HashMap<>();
     private final Map<SignIn,UserSessionInfo> sessionMap = new HashMap<>();
-    
+
+    public synchronized void removeSession(UserSessionInfo session) {
+        if (LOG.isDebugEnabled()) {
+            LOG.info("Removing session from cache: " + session.getEmail());
+        }
+
+        sessionMap.remove(sessionTokenMap.get(session.getSessionToken()));
+    }
     public synchronized UserSessionInfo getSession(SignIn signIn) {
         UserSessionInfo session = sessionMap.get(signIn);
         if (LOG.isDebugEnabled() && session != null) {
@@ -36,30 +43,30 @@ class UserSessionInterceptor implements Interceptor {
         }
         return session;
     }
-    
+
     public synchronized void addSession(SignIn signIn, UserSessionInfo userSessionInfo) {
         if (LOG.isDebugEnabled()) {
             if (sessionMap.containsKey(signIn)) {
                 LOG.debug("Updating session in cache: " + signIn.getEmail());
             } else {
-                LOG.debug("Adding session to cache: " + signIn.getEmail());    
+                LOG.debug("Adding session to cache: " + signIn.getEmail());
             }
         }
         sessionMap.put(signIn, userSessionInfo);
         sessionTokenMap.put(userSessionInfo.getSessionToken(), signIn);
     }
-    
+
     public synchronized void removeSession(String sessionToken) {
         if (sessionTokenMap.containsKey(sessionToken)) {
             SignIn signIn = sessionTokenMap.get(sessionToken);
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Removing session from cache: " + signIn.getEmail());    
+                LOG.debug("Removing session from cache: " + signIn.getEmail());
             }
             sessionMap.remove(signIn);
             sessionTokenMap.remove(sessionToken);
         }
     }
-    
+
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
@@ -71,7 +78,7 @@ class UserSessionInterceptor implements Interceptor {
 
                 UserSessionInfo userSessionInfo = getUserSessionInfo(bodyString);
                 addSession(signIn, userSessionInfo);
-                
+
                 return copyResponse(response, bodyString);
             }
             if (isSuccessfulSignOut(request, response)) {
@@ -86,23 +93,23 @@ class UserSessionInterceptor implements Interceptor {
             // the sign in information). At other times we just rethrow this exception because it 
             // doesn't invalidate the session. 
             if (signIn != null) {
-                addSession(signIn, e.getSession());    
+                addSession(signIn, e.getSession());
             }
             throw e;
         }
     }
-    
+
     protected Response copyResponse(Response response, String bodyString) throws IOException {
         MediaType contentType = response.body().contentType();
         ResponseBody body = ResponseBody.create(contentType, bodyString.getBytes());
         Response newResponse = response.newBuilder().body(body).build();
         return newResponse;
     }
-    
+
     protected Buffer createBuffer() {
         return new Buffer();
     }
-    
+
     private SignIn recoverSignIn(Request request) throws IOException {
         String pathSeg = RestUtils.last(request.url().pathSegments());
         if (SIGN_IN_PATH_SEGMENT.equals(pathSeg)) {
@@ -114,12 +121,12 @@ class UserSessionInterceptor implements Interceptor {
         }
         return null;
     }
-    
+
     private boolean isSuccessfulSignOut(Request request, Response response) {
         String pathSeg = RestUtils.last(request.url().pathSegments());
         return (SIGN_OUT_PATH_SEGMENT.equals(pathSeg) && response.code() == 200);
     }
-    
+
     private UserSessionInfo getUserSessionInfo(String bodyString) throws IOException {
         return RestUtils.GSON.fromJson(bodyString, UserSessionInfo.class);
     }
