@@ -2,6 +2,7 @@ package org.sagebionetworks.bridge.rest;
 
 import java.io.IOException;
 
+import org.sagebionetworks.bridge.rest.exceptions.ConsentRequiredException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +24,14 @@ class UserSessionInfoProvider {
     public UserSessionInfoProvider(Retrofit retrofit, UserSessionInterceptor sessionInterceptor) {
         this.authenticationApi = retrofit.create(AuthenticationApi.class);
         this.sessionInterceptor = sessionInterceptor;
+    }
+
+    public void removeSession(UserSessionInfo session) {
+        if (session == null) {
+            return;
+        }
+        LOG.debug("Removing session: " + session.getEmail());
+        this.sessionInterceptor.removeSession(session);
     }
 
     /**

@@ -2,6 +2,7 @@ package org.sagebionetworks.bridge.rest;
 
 import java.io.IOException;
 
+import org.sagebionetworks.bridge.rest.exceptions.ConsentRequiredException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,6 +46,7 @@ class AuthenticationHandler implements Authenticator, Interceptor {
     public okhttp3.Request authenticate(Route route, okhttp3.Response response) throws IOException {
         // if we reach this part of the code, the server had returned a 401 and userSession is
         // invalid
+        this.userSessionInfoProvider.removeSession(userSession);
         this.userSession = null;
 
         if (tryCount >= MAX_TRIES) {
