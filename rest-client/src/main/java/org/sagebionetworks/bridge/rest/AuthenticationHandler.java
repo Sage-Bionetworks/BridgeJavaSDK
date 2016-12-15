@@ -56,11 +56,7 @@ class AuthenticationHandler implements Authenticator, Interceptor {
         }
         tryCount++;
 
-        try {
-            userSession = userSessionInfoProvider.retrieveSession(signIn);
-        } catch (ConsentRequiredException e) {
-            LOG.debug("Ignoring 412 during auto-authentication");
-        }
+        userSession = userSessionInfoProvider.retrieveSession(signIn);
 
         // interceptor was already triggered for this request and failed to authenticate
         // add headers again, now that we've retrieved a session again
