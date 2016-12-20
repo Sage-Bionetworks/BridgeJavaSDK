@@ -4626,24 +4626,6 @@
           "type": "string",
           "description": "Mime type of this image (e.g. \"image/png\"). If `imageData` is supplied, `imageMimeType` must also be supplied."
         },
-        "consentCreatedOn": {
-          "type": "string",
-          "readOnly": true,
-          "description": "The timestamp of the version of the subpopulation consent that was \npresented to the participant for agreement. \n",
-          "format": "date-time"
-        },
-        "signedOn": {
-          "type": "string",
-          "readOnly": true,
-          "description": "The date and time of agreement to this consent.\n",
-          "format": "date-time"
-        },
-        "withdrewOn": {
-          "type": "string",
-          "readOnly": true,
-          "description": "If this consent is later revoked, this is the date of revocation.\n",
-          "format": "date-time"
-        },
         "scope": {
           "$ref": "#/definitions/SharingScope"
         },
