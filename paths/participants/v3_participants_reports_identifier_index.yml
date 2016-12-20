@@ -1,0 +1,24 @@
+post:
+    operationId: updateParticipantReportIndex
+    summary: Update an existing participant report index
+    tags:
+        - Participants
+        - Reports
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/identifier
+        - name: ReportIndex
+          in: body
+          description: Report index 
+          required: true
+          schema:
+                $ref: ../../definitions/report_index.yml
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml                

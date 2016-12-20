@@ -47,8 +47,10 @@
     $ref: ./participants/v3_participants_userId_reports_identifier_date.yml
 /v3/participants/reports/{identifier}:
     $ref: ./participants/v3_participants_reports_identifier.yml
-    
-# subpopulations
+/v3/participants/reports/{identifier}/index:
+    $ref: ./participants/v3_participants_reports_identifier_index.yml
+
+# Subpopulations
 /v3/subpopulations:
     $ref: ./subpopulations/v3_subpopulations.yml                             
 /v3/subpopulations/{subpopulationGuid}:
@@ -60,7 +62,7 @@
 /v3/subpopulations/{subpopulationGuid}/consents/signature/email:
     $ref: ./subpopulations/v3_subpopulations_subpopulationGuid_consents_signature_email.yml
 
-# consents
+# Consents
 /v3/consents:
     $ref: ./consents/v3_consents.yml
 /v3/consents/recent:
@@ -72,7 +74,7 @@
 /v3/consents/withdraw:
     $ref: ./consents/v3_consents_withdraw.yml
 
-# study consents
+# Study Consents
 /v3/subpopulations/{subpopulationGuid}/consents:
     $ref: ./study_consents/v3_subpopulations_subpopulationGuid_consents.yml
 /v3/subpopulations/{subpopulationGuid}/consents/recent:
@@ -84,7 +86,7 @@
 /v3/subpopulations/{subpopulationGuid}/consents/{createdOn}/publish:
     $ref: ./study_consents/v3_subpopulations_subpopulationGuid_consents_createdOn_publish.yml
 
-# users
+# Users
 /v3/users:
     $ref: ./users/v3_users.yml
 /v3/users/{userId}:
@@ -93,10 +95,14 @@
     $ref: ./users/v3_users_self_emailData.yml
 /v3/users/self/reports/{identifier}:
     $ref: ./users/v3_users_self_reports_identifier.yml
+
+# Reports
 /v3/reports:
     $ref: ./reports/v3_reports.yml
 /v3/reports/{identifier}:
     $ref: ./reports/v3_reports_identifier.yml
+/v3/reports/{identifier}/index:
+    $ref: ./reports/v3_reports_identifier_index.yml
 /v3/reports/{identifier}/{date}:
     $ref: ./reports/v3_reports_identifier_date.yml
 

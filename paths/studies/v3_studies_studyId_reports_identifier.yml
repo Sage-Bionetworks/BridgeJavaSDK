@@ -1,3 +1,23 @@
+get:
+    operationId: getPublicStudyReportRecords
+    summary: Get public study report records
+    description: |
+        Get public study report records (no authentication is needed, but report index must be mark the report as "public" or 
+        the server will return 404 for the report). Only study reports may be made public.
+    tags:
+        - Reports
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/identifier
+        - $ref: ../../index.yml#/parameters/startDate
+        - $ref: ../../index.yml#/parameters/endDate
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/report_data.yml
 post:
     operationId: saveReportForStudy
     summary: save report for a study
