@@ -1,3 +1,23 @@
+get:
+    operationId: getStudyReportIndex
+    summary: Get a study report index
+    tags:
+        - Reports
+        - _For Developers
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/identifier
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/report_index.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher.yml
 post:
     operationId: updateStudyReportIndex
     summary: Update an existing study report index
