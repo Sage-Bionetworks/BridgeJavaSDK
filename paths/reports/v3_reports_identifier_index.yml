@@ -1,6 +1,8 @@
 get:
     operationId: getStudyReportIndex
     summary: Get a study report index
+    description: |
+        Get the index (or metadata) for a set of report records. 
     tags:
         - Reports
         - _For Developers
@@ -21,6 +23,8 @@ get:
 post:
     operationId: updateStudyReportIndex
     summary: Update an existing study report index
+    description: |
+        Update the index (or metadata) for a set of report records.
     tags:
         - Reports
         - _For Developers

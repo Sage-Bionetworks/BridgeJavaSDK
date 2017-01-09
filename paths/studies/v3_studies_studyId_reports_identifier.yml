@@ -2,8 +2,8 @@ get:
     operationId: getPublicStudyReportRecords
     summary: Get public study report records
     description: |
-        Get public study report records (no authentication is needed, but report index must be mark the report as "public" or 
-        the server will return 404 for the report). Only study reports may be made public.
+        Get public study report records (no authentication is needed, but index for the report must be marked as 
+        public or the server will return 404 for the report). Only study reports may be made public.
     tags:
         - Reports
     parameters:
