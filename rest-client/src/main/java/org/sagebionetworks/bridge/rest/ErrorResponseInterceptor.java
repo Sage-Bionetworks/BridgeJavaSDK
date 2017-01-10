@@ -55,10 +55,8 @@ class ErrorResponseInterceptor implements Interceptor {
             JsonElement node = RestUtils.GSON.fromJson(response.body().string(), JsonElement.class);
             throwExceptionOnErrorStatus(url, response.code(), node, null);
         } catch (BridgeSDKException e) {
-            // rethrow known exceptions
-            throw e;
+            throw e; // rethrow known exceptions
         } catch (Throwable t) {
-            t.printStackTrace();
             throwExceptionOnErrorStatus(url, response.code(), null, response.message());
         }
     }

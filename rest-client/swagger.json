@@ -2283,6 +2283,81 @@
         }
       }
     },
+    "/v3/reports/{identifier}/index": {
+      "get": {
+        "operationId": "getStudyReportIndex",
+        "summary": "Get a study report index",
+        "description": "Get the index (or metadata) for a set of report records. \n",
+        "tags": [
+          "Reports",
+          "_For Developers",
+          "_For Researchers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/identifier"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ReportIndex"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer_researcher"
+          }
+        }
+      },
+      "post": {
+        "operationId": "updateStudyReportIndex",
+        "summary": "Update an existing study report index",
+        "description": "Update the index (or metadata) for a set of report records.\n",
+        "tags": [
+          "Reports",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/identifier"
+          },
+          {
+            "name": "ReportIndex",
+            "in": "body",
+            "description": "Report index",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ReportIndex"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
+          }
+        }
+      }
+    },
     "/v3/reports/{identifier}/{date}": {
       "delete": {
         "operationId": "deleteStudyReportRecord",
@@ -3953,6 +4028,36 @@
       }
     },
     "/v3/studies/{studyId}/reports/{identifier}": {
+      "get": {
+        "operationId": "getPublicStudyReportRecords",
+        "summary": "Get public study report records",
+        "description": "Get public study report records (no authentication is needed, but index for the report must be marked as \npublic or the server will return 404 for the report). Only study reports may be made public.\n",
+        "tags": [
+          "Reports"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/studyId"
+          },
+          {
+            "$ref": "#/parameters/identifier"
+          },
+          {
+            "$ref": "#/parameters/startDate"
+          },
+          {
+            "$ref": "#/parameters/endDate"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ReportDataList"
+            }
+          }
+        }
+      },
       "post": {
         "operationId": "saveReportForStudy",
         "summary": "save report for a study",
@@ -5219,6 +5324,10 @@
         "identifier": {
           "type": "string",
           "description": "The report identifier."
+        },
+        "public": {
+          "type": "boolean",
+          "description": "Study reports can be marked as \"public\", which will make them accessible through the API \nto any requester (authentication is not required).\n"
         },
         "type": {
           "type": "string",
