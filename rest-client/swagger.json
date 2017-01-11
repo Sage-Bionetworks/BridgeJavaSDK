@@ -5832,6 +5832,13 @@
             "type": "integer"
           }
         },
+        "pushNotificationARNs": {
+          "type": "object",
+          "description": "A map between operating system names, and the platform ARN necessary to register a device to \nreceive mobile push notifications. The operating system names are currently \"Android\" and \n\"iPhone OS\". The ARN (Amazon Resource Name) is the name of the Application/platform ARN defined \nin SNS (currently this must be done by a Bridge administrator).\n",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
         "type": {
           "type": "string",
           "readOnly": true,
