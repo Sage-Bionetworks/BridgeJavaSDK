@@ -137,6 +137,15 @@ properties:
             User-Agent header of all requests sent to the server). Example: `{"iPhone OS":14,"Android":10}`
         additionalProperties:
             type: integer
+    pushNotificationARNs:
+        type: object
+        description: |
+            A map between operating system names, and the platform ARN necessary to register a device to 
+            receive mobile push notifications. The operating system names are currently "Android" and 
+            "iPhone OS". The ARN (Amazon Resource Name) is the name of the Application/platform ARN defined 
+            in SNS (currently this must be done by a Bridge administrator).
+        additionalProperties:
+            type: string
     type:
         type: string
         readOnly: true
