@@ -1,0 +1,13 @@
+description: |
+    An object that provides the GUID for the newly created entity. This object is returned 
+    from create and update endpoints rather than an entire entity.
+type: object
+properties:
+    guid:
+        type: string
+        readOnly: true
+        description: The guid of the entity (added when the entity is created).
+    type:
+        type: string
+        readOnly: true
+        description: "GuidHolder"

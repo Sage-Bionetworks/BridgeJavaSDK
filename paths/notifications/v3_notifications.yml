@@ -1,0 +1,52 @@
+get:
+    operationId: getNotificationRegistrations
+    summary: Get all of a user's notification registrations
+    description: |
+        Return all the registrations for this user. There may be more than one, if a user installs 
+        the application on different devices. It is possible there may be multiple registrations on 
+        one device, but we attempt to prevent this.
+    tags:
+        - Notifications
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/notification_registration.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml
+post:
+    operationId: createNotificationRegistration
+    summary: Register a client to receive push notifications
+    description: |
+        Create a new registration. The client will retrieve an identifying token (called different things and 
+        in a different format on different platforms), and register it with Bridge. Bridge will return a 
+        Bridge-specific GUID to track this registration to retrieve notifications, which the client can 
+        delete at a later time. If the token already exists in an existing registration record, then that 
+        registration record will be returned in lieu of creating a redundant record.
+    tags:
+        - Notifications
+        - _For Consented Users
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - name: body
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/notification_registration.yml
+    responses:
+        201:
+            $ref: ../../responses/201_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml

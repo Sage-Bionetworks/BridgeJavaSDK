@@ -1,0 +1,75 @@
+get:
+    operationId: getNotificationRegistration
+    summary: Get a push notification registration
+    description: |
+        Get a single push notification registration by its GUID. This request is scoped to the user through 
+        a healthCode.
+    tags:
+        - Notifications
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/notification_registration.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml
+post:
+    operationId: updateNotificationRegistration
+    summary: Update a push notification registration
+    description: |
+        Update an existing device registration with a new token that has been assigned by the 
+        client operating system. At least on iOS, the device token can change over the lifetime of 
+        the app, and it is considered best practice to re-send this token to the server on every 
+        start-up of the app. The guid returned should be the same as the GUID that was used to 
+        submit the update.
+    tags:
+        - Notifications
+        - _For Consented Users
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+        - name: body
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/notification_registration.yml
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml
+delete:
+    operationId: deleteNotificationRegistration
+    summary: Delete a push notification registration
+    description: |
+        Delete a registration record. User can no longer be sent push notifications by the server.
+    tags:
+        - Notifications
+        - _For Consented Users
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml
