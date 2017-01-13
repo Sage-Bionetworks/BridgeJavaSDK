@@ -8,6 +8,7 @@ get:
         a push notification directly to the user.
     tags:
         - Participants
+        - Notifications
         - _For Researchers    
     security:
         - BridgeSecurity: []

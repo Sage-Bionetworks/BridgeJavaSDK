@@ -83,6 +83,8 @@ InvalidEntity:
     $ref: ./invalid_entity.yml
 Message:
     $ref: ./message.yml
+NotificationMessage:
+    $ref: ./notification_message.yml
 NotificationRegistration:
     $ref: ./notification_registration.yml
 PasswordPolicy:
