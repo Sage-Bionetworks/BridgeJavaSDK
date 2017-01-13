@@ -2864,7 +2864,7 @@
       "get": {
         "operationId": "getNotificationRegistrations",
         "summary": "Get all of a user's notification registrations",
-        "description": "Return all the registrations for this user. There may be more than one, if a user installs \nthe application on different devices. It is possible there may be multiple registrations on \none device, but we attempt to prevent this.\n",
+        "description": "Return all the registrations for this user. There may be more than one, if a user installs \nthe application on different devices. It is possible there may be multiple registrations on \none device, but Bridge attempts to prevent this.\n",
         "tags": [
           "Notifications",
           "_For Consented Users"
@@ -2895,7 +2895,7 @@
       "post": {
         "operationId": "createNotificationRegistration",
         "summary": "Register a client to receive push notifications",
-        "description": "Create a new registration. The client will retrieve an identifying token (called different things and \nin a different format on different platforms), and register it with Bridge. Bridge will return a \nBridge-specific GUID to track this registration to retrieve notifications, which the client can \ndelete at a later time. If the token already exists in an existing registration record, then that \nregistration record will be returned in lieu of creating a redundant record.\n",
+        "description": "Create a new registration. The client will retrieve an identifying token (the exact format and \nname for the token varies by platform), and register it with Bridge. Bridge will return a \nBridge-specific GUID to track this registration, which the client can use to update or delete \nthe registration at a later time. If the token already exists in an existing registration record, \nthen that registration record will be returned in lieu of creating a redundant record.\n",
         "tags": [
           "Notifications",
           "_For Consented Users"
@@ -2935,7 +2935,7 @@
       "get": {
         "operationId": "getNotificationRegistration",
         "summary": "Get a push notification registration",
-        "description": "Get a single push notification registration by its GUID. This request is scoped to the user through \na healthCode.\n",
+        "description": "Get a single push notification registration by its GUID. This request is scoped to the user.\n",
         "tags": [
           "Notifications",
           "_For Consented Users"
@@ -5225,13 +5225,13 @@
       }
     },
     "GuidHolder": {
-      "description": "An object that provides the GUID for the newly created entity. This object is returned \nfrom create and update endpoints rather than an entire entity.\n",
+      "description": "An object that provides the GUID for a newly created entity. This object is returned \nfrom create and update endpoints rather than an entire entity.\n",
       "type": "object",
       "properties": {
         "guid": {
           "type": "string",
           "readOnly": true,
-          "description": "The guid of the entity (added when the entity is created)."
+          "description": "The guid of the newly created entity."
         },
         "type": {
           "type": "string",
