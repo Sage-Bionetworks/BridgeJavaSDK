@@ -24,6 +24,7 @@ import org.sagebionetworks.bridge.rest.exceptions.EntityAlreadyExistsException;
 import org.sagebionetworks.bridge.rest.exceptions.EntityNotFoundException;
 import org.sagebionetworks.bridge.rest.exceptions.InvalidEntityException;
 import org.sagebionetworks.bridge.rest.exceptions.NotAuthenticatedException;
+import org.sagebionetworks.bridge.rest.exceptions.NotImplementedException;
 import org.sagebionetworks.bridge.rest.exceptions.PublishedSurveyException;
 import org.sagebionetworks.bridge.rest.exceptions.UnauthorizedException;
 import org.sagebionetworks.bridge.rest.exceptions.UnsupportedVersionException;
@@ -72,6 +73,21 @@ public class ErrorResponseInterceptorTest {
         assertSame(response, retval);
     }
 
+    @Test
+    public void notImplementedException() throws Exception {
+        doReturn(501).when(response).code();
+        doReturn("{\"message\":\"This service has not been implemented.\"}").when(body).string();
+        
+        try {
+            ErrorResponseInterceptor interceptor = new ErrorResponseInterceptor();
+            interceptor.intercept(chain);
+            fail("Should have thrown exception");
+        } catch(NotImplementedException e) {
+            assertEquals(501, e.getStatusCode());
+            assertEquals("This service has not been implemented.", e.getMessage());
+        }
+    }
+    
     @Test
     public void publishedSurvey400() throws Exception {
         doReturn(400).when(response).code();
