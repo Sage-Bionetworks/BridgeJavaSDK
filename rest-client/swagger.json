@@ -161,6 +161,13 @@
       "required": true,
       "in": "query",
       "type": "string"
+    },
+    "guid": {
+      "name": "guid",
+      "description": "A guid",
+      "required": true,
+      "in": "path",
+      "type": "string"
     }
   },
   "paths": {
@@ -730,6 +737,41 @@
             "description": "OK",
             "schema": {
               "$ref": "#/definitions/UploadList"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_researcher"
+          }
+        }
+      }
+    },
+    "/v3/participants/{userId}/notifications": {
+      "get": {
+        "operationId": "getParticipantPushNotificationRegistrations",
+        "summary": "Get a study participant's push notification registrations",
+        "description": "Get all of a study participant's registrations for push notifications. There \ncan be more than one of these if the participant has downloaded and installed the \napp on more than one device. There must be at least one record in order to send \na push notification directly to the user.\n",
+        "tags": [
+          "Participants",
+          "_For Researchers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/userId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/NotificationRegistrationList"
             }
           },
           "401": {
@@ -2814,6 +2856,189 @@
           },
           "403": {
             "$ref": "#/responses/403_not_developer"
+          }
+        }
+      }
+    },
+    "/v3/notifications": {
+      "get": {
+        "operationId": "getNotificationRegistrations",
+        "summary": "Get all of a user's notification registrations",
+        "description": "Return all the registrations for this user. There may be more than one, if a user installs \nthe application on different devices. It is possible there may be multiple registrations on \none device, but we attempt to prevent this.\n",
+        "tags": [
+          "Notifications",
+          "_For Consented Users"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/NotificationRegistrationList"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createNotificationRegistration",
+        "summary": "Register a client to receive push notifications",
+        "description": "Create a new registration. The client will retrieve an identifying token (called different things and \nin a different format on different platforms), and register it with Bridge. Bridge will return a \nBridge-specific GUID to track this registration to retrieve notifications, which the client can \ndelete at a later time. If the token already exists in an existing registration record, then that \nregistration record will be returned in lieu of creating a redundant record.\n",
+        "tags": [
+          "Notifications",
+          "_For Consented Users"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/NotificationRegistration"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/responses/201_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
+          }
+        }
+      }
+    },
+    "/v3/notifications/{guid}": {
+      "get": {
+        "operationId": "getNotificationRegistration",
+        "summary": "Get a push notification registration",
+        "description": "Get a single push notification registration by its GUID. This request is scoped to the user through \na healthCode.\n",
+        "tags": [
+          "Notifications",
+          "_For Consented Users"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/guid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/NotificationRegistration"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
+          }
+        }
+      },
+      "post": {
+        "operationId": "updateNotificationRegistration",
+        "summary": "Update a push notification registration",
+        "description": "Update an existing device registration with a new token that has been assigned by the \nclient operating system. At least on iOS, the device token can change over the lifetime of \nthe app, and it is considered best practice to re-send this token to the server on every \nstart-up of the app. The guid returned should be the same as the GUID that was used to \nsubmit the update.\n",
+        "tags": [
+          "Notifications",
+          "_For Consented Users"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/guid"
+          },
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/NotificationRegistration"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteNotificationRegistration",
+        "summary": "Delete a push notification registration",
+        "description": "Delete a registration record. User can no longer be sent push notifications by the server.\n",
+        "tags": [
+          "Notifications",
+          "_For Consented Users"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/guid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
           }
         }
       }
@@ -4999,6 +5224,22 @@
         }
       }
     },
+    "GuidHolder": {
+      "description": "An object that provides the GUID for the newly created entity. This object is returned \nfrom create and update endpoints rather than an entire entity.\n",
+      "type": "object",
+      "properties": {
+        "guid": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The guid of the entity (added when the entity is created)."
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "GuidHolder"
+        }
+      }
+    },
     "GuidVersionHolder": {
       "description": "An object that describes the keys and optimistic lock values of an entity (e.g. a \nSubpopulation or SchedulePlan). This object is returned from create and update endpoints \nrather than an entire entity.\n",
       "type": "object",
@@ -5169,6 +5410,39 @@
         "message": {
           "type": "string",
           "readOnly": true
+        }
+      }
+    },
+    "NotificationRegistration": {
+      "type": "object",
+      "properties": {
+        "guid": {
+          "type": "string"
+        },
+        "deviceId": {
+          "description": "This should be either the device token retrieved from the iOS operation system, or the \nregistrationId on Android.\n",
+          "type": "string"
+        },
+        "osName": {
+          "description": "Information used to track which type of deviceId is being submitted. This string should be \neither \"Android\" or \"iPhone OS\" (\"iOS\" also works), and should match the operating system \nfrom which you retrieved a push notification identifier (deviceId).\n",
+          "type": "string"
+        },
+        "createdOn": {
+          "description": "Date the client registered for push notifications with Bridge.\n",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "modifiedOn": {
+          "description": "The last time the registration was updated based on a new device identifier being \nissued by the client operating system (iOS or Android).\n",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "NotificationRegistration"
         }
       }
     },
@@ -6798,6 +7072,26 @@
           "type": "string",
           "readOnly": true,
           "description": "PagedResourceList"
+        }
+      }
+    },
+    "NotificationRegistrationList": {
+      "type": "object",
+      "readOnly": true,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NotificationRegistration"
+          }
+        },
+        "total": {
+          "type": "integer"
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "ResourceList"
         }
       }
     },
