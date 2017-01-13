@@ -2,8 +2,7 @@ get:
     operationId: getNotificationRegistration
     summary: Get a push notification registration
     description: |
-        Get a single push notification registration by its GUID. This request is scoped to the user through 
-        a healthCode.
+        Get a single push notification registration by its GUID. This request is scoped to the user.
     tags:
         - Notifications
         - _For Consented Users

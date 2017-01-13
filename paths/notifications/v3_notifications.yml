@@ -4,7 +4,7 @@ get:
     description: |
         Return all the registrations for this user. There may be more than one, if a user installs 
         the application on different devices. It is possible there may be multiple registrations on 
-        one device, but we attempt to prevent this.
+        one device, but Bridge attempts to prevent this.
     tags:
         - Notifications
         - _For Consented Users
@@ -25,11 +25,11 @@ post:
     operationId: createNotificationRegistration
     summary: Register a client to receive push notifications
     description: |
-        Create a new registration. The client will retrieve an identifying token (called different things and 
-        in a different format on different platforms), and register it with Bridge. Bridge will return a 
-        Bridge-specific GUID to track this registration to retrieve notifications, which the client can 
-        delete at a later time. If the token already exists in an existing registration record, then that 
-        registration record will be returned in lieu of creating a redundant record.
+        Create a new registration. The client will retrieve an identifying token (the exact format and 
+        name for the token varies by platform), and register it with Bridge. Bridge will return a 
+        Bridge-specific GUID to track this registration, which the client can use to update or delete 
+        the registration at a later time. If the token already exists in an existing registration record, 
+        then that registration record will be returned in lieu of creating a redundant record.
     tags:
         - Notifications
         - _For Consented Users
