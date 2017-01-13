@@ -50,3 +50,5 @@ post:
             $ref: ../../responses/410.yml
         412:
             $ref: ../../responses/412.yml
+        501:
+            $ref: ../../responses/501.yml
