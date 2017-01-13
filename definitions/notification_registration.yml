@@ -2,7 +2,6 @@ type: object
 properties:
     guid:
         type: string
-        readOnly: true
     deviceId:
         description: |
             This should be either the device token retrieved from the iOS operation system, or the 
