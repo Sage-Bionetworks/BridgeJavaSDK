@@ -755,6 +755,7 @@
         "description": "Get all of a study participant's registrations for push notifications. There \ncan be more than one of these if the participant has downloaded and installed the \napp on more than one device. There must be at least one record in order to send \na push notification directly to the user.\n",
         "tags": [
           "Participants",
+          "Notifications",
           "_For Researchers"
         ],
         "security": [
@@ -773,6 +774,47 @@
             "schema": {
               "$ref": "#/definitions/NotificationRegistrationList"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_researcher"
+          }
+        }
+      }
+    },
+    "/v3/participants/{userId}/sendNotification": {
+      "post": {
+        "operationId": "sendNotification",
+        "summary": "Send a push notification to a single participant",
+        "description": "Send a push notification to an individual participant (assuming they have registered for push notification). \nDo not use this method to notify a group of participants; create a topic, ask your users to subscribe to that \ntopic, and send a message via that topic instead.\n",
+        "tags": [
+          "Participants",
+          "Notifications",
+          "_For Researchers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/userId"
+          },
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/NotificationMessage"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200_message"
           },
           "401": {
             "$ref": "#/responses/401"
@@ -5416,6 +5458,24 @@
         "message": {
           "type": "string",
           "readOnly": true
+        }
+      }
+    },
+    "NotificationMessage": {
+      "type": "object",
+      "properties": {
+        "subject": {
+          "type": "string",
+          "description": "Very short rendition of the notification. For example, this value will be displayed on an \nApple iWatch, where the message is shown for a short time only.\n"
+        },
+        "message": {
+          "type": "string",
+          "description": "Full notification system.\n"
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "NotificationMessage"
         }
       }
     },
