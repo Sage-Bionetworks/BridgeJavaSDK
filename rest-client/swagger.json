@@ -5463,6 +5463,10 @@
     },
     "NotificationMessage": {
       "type": "object",
+      "required": [
+        "subject",
+        "message"
+      ],
       "properties": {
         "subject": {
           "type": "string",
@@ -5481,6 +5485,10 @@
     },
     "NotificationRegistration": {
       "type": "object",
+      "required": [
+        "deviceId",
+        "osName"
+      ],
       "properties": {
         "guid": {
           "type": "string"
