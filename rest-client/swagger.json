@@ -161,6 +161,13 @@
       "required": true,
       "in": "query",
       "type": "string"
+    },
+    "guid": {
+      "name": "guid",
+      "description": "A guid",
+      "required": true,
+      "in": "path",
+      "type": "string"
     }
   },
   "paths": {
@@ -731,6 +738,83 @@
             "schema": {
               "$ref": "#/definitions/UploadList"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_researcher"
+          }
+        }
+      }
+    },
+    "/v3/participants/{userId}/notifications": {
+      "get": {
+        "operationId": "getParticipantPushNotificationRegistrations",
+        "summary": "Get a study participant's push notification registrations",
+        "description": "Get all of a study participant's registrations for push notifications. There can be more than one \nof these if the participant has downloaded and installed the app on more than one device. There must \nbe at least one record in order to send a push notification to the user.\n",
+        "tags": [
+          "Participants",
+          "Notifications",
+          "_For Researchers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/userId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/NotificationRegistrationList"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_researcher"
+          }
+        }
+      }
+    },
+    "/v3/participants/{userId}/sendNotification": {
+      "post": {
+        "operationId": "sendNotification",
+        "summary": "Send a push notification to a single participant",
+        "description": "Send a push notification to an individual participant (assuming they have registered for push notifications). \nDo not use this method to notify a group of participants; create a topic, ask your users to subscribe to that \ntopic, and send a message via that topic instead.\n",
+        "tags": [
+          "Participants",
+          "Notifications",
+          "_For Researchers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/userId"
+          },
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/NotificationMessage"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/responses/201_message"
           },
           "401": {
             "$ref": "#/responses/401"
@@ -2814,6 +2898,195 @@
           },
           "403": {
             "$ref": "#/responses/403_not_developer"
+          }
+        }
+      }
+    },
+    "/v3/notifications": {
+      "get": {
+        "operationId": "getNotificationRegistrations",
+        "summary": "Get all of a user's notification registrations",
+        "description": "Return all the registrations for this user. There may be more than one  if the user installs \nthe application on different devices. Bridge attempts to prevent multiple registrations on the\nsave device.\n",
+        "tags": [
+          "Notifications",
+          "_For Consented Users"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/NotificationRegistrationList"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createNotificationRegistration",
+        "summary": "Register a client to receive push notifications",
+        "description": "Create a new registration. The client will retrieve an identifying token (the exact format and \nname for the token varies by platform), and register it with Bridge. Bridge will return a \nBridge-specific GUID to track this registration, which the client can use to update or delete \nthe registration at a later time. If the token already exists in an existing registration record, \nthen that registration record will be returned in lieu of creating a redundant record.\n",
+        "tags": [
+          "Notifications",
+          "_For Consented Users"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/NotificationRegistration"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/responses/201_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
+          },
+          "501": {
+            "description": "This endpoint has not been implemented for this study. It has been disabled, or not completely configured. \nThe caller cannot fix the call to succeed, but it is not an unexpected server error, it is intentional.\n",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          }
+        }
+      }
+    },
+    "/v3/notifications/{guid}": {
+      "get": {
+        "operationId": "getNotificationRegistration",
+        "summary": "Get a push notification registration",
+        "description": "Get a single push notification registration by its GUID. This request is scoped to the user.\n",
+        "tags": [
+          "Notifications",
+          "_For Consented Users"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/guid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/NotificationRegistration"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
+          }
+        }
+      },
+      "post": {
+        "operationId": "updateNotificationRegistration",
+        "summary": "Update a push notification registration",
+        "description": "Update an existing device registration with a new token that has been assigned by the \nclient operating system. At least on iOS, the device token can change over the lifetime of \nthe app, and it is considered best practice to re-send this token to the server on every \nstart-up of the app. The guid returned from an update will always match the GUID that was \nsubmitted.\n",
+        "tags": [
+          "Notifications",
+          "_For Consented Users"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/guid"
+          },
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/NotificationRegistration"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteNotificationRegistration",
+        "summary": "Delete a push notification registration",
+        "description": "Delete a registration record. Bridge can no longer send push notifications to this device.\n",
+        "tags": [
+          "Notifications",
+          "_For Consented Users"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/guid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
           }
         }
       }
@@ -4999,6 +5272,22 @@
         }
       }
     },
+    "GuidHolder": {
+      "description": "An object that provides the GUID for a newly created entity. This object is returned \nfrom create and update endpoints rather than an entire entity.\n",
+      "type": "object",
+      "properties": {
+        "guid": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The guid of the newly created entity."
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "GuidHolder"
+        }
+      }
+    },
     "GuidVersionHolder": {
       "description": "An object that describes the keys and optimistic lock values of an entity (e.g. a \nSubpopulation or SchedulePlan). This object is returned from create and update endpoints \nrather than an entire entity.\n",
       "type": "object",
@@ -5169,6 +5458,65 @@
         "message": {
           "type": "string",
           "readOnly": true
+        }
+      }
+    },
+    "NotificationMessage": {
+      "type": "object",
+      "required": [
+        "subject",
+        "message"
+      ],
+      "properties": {
+        "subject": {
+          "type": "string",
+          "description": "Very short rendition of the notification. For example, this value will be displayed on an \nApple iWatch, where the message is shown for a short time only.\n"
+        },
+        "message": {
+          "type": "string",
+          "description": "Full notification message.\n"
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "NotificationMessage"
+        }
+      }
+    },
+    "NotificationRegistration": {
+      "type": "object",
+      "required": [
+        "deviceId",
+        "osName"
+      ],
+      "properties": {
+        "guid": {
+          "type": "string"
+        },
+        "deviceId": {
+          "description": "This should be either the device token retrieved from the iOS operation system, or the \nregistrationId on Android.\n",
+          "type": "string"
+        },
+        "osName": {
+          "description": "Information used to track which type of deviceId is being submitted. This string should be \neither \"Android\" or \"iPhone OS\" (\"iOS\" also works), and should match the operating system \nfrom which you retrieved a push notification identifier (deviceId).\n",
+          "type": "string"
+        },
+        "createdOn": {
+          "description": "Date the client registered for push notifications with Bridge.\n",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "modifiedOn": {
+          "description": "The last time the registration was updated based on a new device identifier being \nissued by the client operating system (iOS or Android). If an updated registration is \nsubmitted but the deviceId has not changed, the record is not modified.\n",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "NotificationRegistration"
         }
       }
     },
@@ -6798,6 +7146,26 @@
           "type": "string",
           "readOnly": true,
           "description": "PagedResourceList"
+        }
+      }
+    },
+    "NotificationRegistrationList": {
+      "type": "object",
+      "readOnly": true,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NotificationRegistration"
+          }
+        },
+        "total": {
+          "type": "integer"
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "ResourceList"
         }
       }
     },
