@@ -752,7 +752,7 @@
       "get": {
         "operationId": "getParticipantPushNotificationRegistrations",
         "summary": "Get a study participant's push notification registrations",
-        "description": "Get all of a study participant's registrations for push notifications. There \ncan be more than one of these if the participant has downloaded and installed the \napp on more than one device. There must be at least one record in order to send \na push notification directly to the user.\n",
+        "description": "Get all of a study participant's registrations for push notifications. There can be more than one \nof these if the participant has downloaded and installed the app on more than one device. There must \nbe at least one record in order to send a push notification to the user.\n",
         "tags": [
           "Participants",
           "Notifications",
@@ -788,7 +788,7 @@
       "post": {
         "operationId": "sendNotification",
         "summary": "Send a push notification to a single participant",
-        "description": "Send a push notification to an individual participant (assuming they have registered for push notification). \nDo not use this method to notify a group of participants; create a topic, ask your users to subscribe to that \ntopic, and send a message via that topic instead.\n",
+        "description": "Send a push notification to an individual participant (assuming they have registered for push notifications). \nDo not use this method to notify a group of participants; create a topic, ask your users to subscribe to that \ntopic, and send a message via that topic instead.\n",
         "tags": [
           "Participants",
           "Notifications",
@@ -2906,7 +2906,7 @@
       "get": {
         "operationId": "getNotificationRegistrations",
         "summary": "Get all of a user's notification registrations",
-        "description": "Return all the registrations for this user. There may be more than one, if a user installs \nthe application on different devices. It is possible there may be multiple registrations on \none device, but Bridge attempts to prevent this.\n",
+        "description": "Return all the registrations for this user. There may be more than one  if the user installs \nthe application on different devices. Bridge attempts to prevent multiple registrations on the\nsave device.\n",
         "tags": [
           "Notifications",
           "_For Consented Users"
@@ -2971,7 +2971,7 @@
             "$ref": "#/responses/412"
           },
           "501": {
-            "description": "This endpoint has not been implemented for this study. It has been disabled, or \nnot completely configured. The caller cannot fix the call to succeed, but it is \nnot an unexpected server error, it is intentional.\n",
+            "description": "This endpoint has not been implemented for this study. It has been disabled, or not completely configured. \nThe caller cannot fix the call to succeed, but it is not an unexpected server error, it is intentional.\n",
             "schema": {
               "$ref": "#/definitions/Message"
             }
@@ -3019,7 +3019,7 @@
       "post": {
         "operationId": "updateNotificationRegistration",
         "summary": "Update a push notification registration",
-        "description": "Update an existing device registration with a new token that has been assigned by the \nclient operating system. At least on iOS, the device token can change over the lifetime of \nthe app, and it is considered best practice to re-send this token to the server on every \nstart-up of the app. The guid returned should be the same as the GUID that was used to \nsubmit the update.\n",
+        "description": "Update an existing device registration with a new token that has been assigned by the \nclient operating system. At least on iOS, the device token can change over the lifetime of \nthe app, and it is considered best practice to re-send this token to the server on every \nstart-up of the app. The guid returned from an update will always match the GUID that was \nsubmitted.\n",
         "tags": [
           "Notifications",
           "_For Consented Users"
@@ -3060,7 +3060,7 @@
       "delete": {
         "operationId": "deleteNotificationRegistration",
         "summary": "Delete a push notification registration",
-        "description": "Delete a registration record. User can no longer be sent push notifications by the server.\n",
+        "description": "Delete a registration record. Bridge can no longer send push notifications to this device.\n",
         "tags": [
           "Notifications",
           "_For Consented Users"
@@ -5474,7 +5474,7 @@
         },
         "message": {
           "type": "string",
-          "description": "Full notification system.\n"
+          "description": "Full notification message.\n"
         },
         "type": {
           "type": "string",
@@ -5508,7 +5508,7 @@
           "readOnly": true
         },
         "modifiedOn": {
-          "description": "The last time the registration was updated based on a new device identifier being \nissued by the client operating system (iOS or Android).\n",
+          "description": "The last time the registration was updated based on a new device identifier being \nissued by the client operating system (iOS or Android). If an updated registration is \nsubmitted but the deviceId has not changed, the record is not modified.\n",
           "type": "string",
           "format": "date-time",
           "readOnly": true
