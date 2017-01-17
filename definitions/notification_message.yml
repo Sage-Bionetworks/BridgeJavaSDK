@@ -11,7 +11,7 @@ properties:
     message:
         type: string
         description: |
-            Full notification system.
+            Full notification message.
     type:
         type: string
         readOnly: true

@@ -2,9 +2,9 @@ get:
     operationId: getNotificationRegistrations
     summary: Get all of a user's notification registrations
     description: |
-        Return all the registrations for this user. There may be more than one, if a user installs 
-        the application on different devices. It is possible there may be multiple registrations on 
-        one device, but Bridge attempts to prevent this.
+        Return all the registrations for this user. There may be more than one  if the user installs 
+        the application on different devices. Bridge attempts to prevent multiple registrations on the
+        save device.
     tags:
         - Notifications
         - _For Consented Users

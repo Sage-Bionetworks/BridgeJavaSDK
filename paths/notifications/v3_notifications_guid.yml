@@ -28,8 +28,8 @@ post:
         Update an existing device registration with a new token that has been assigned by the 
         client operating system. At least on iOS, the device token can change over the lifetime of 
         the app, and it is considered best practice to re-send this token to the server on every 
-        start-up of the app. The guid returned should be the same as the GUID that was used to 
-        submit the update.
+        start-up of the app. The guid returned from an update will always match the GUID that was 
+        submitted.
     tags:
         - Notifications
         - _For Consented Users
@@ -55,7 +55,7 @@ delete:
     operationId: deleteNotificationRegistration
     summary: Delete a push notification registration
     description: |
-        Delete a registration record. User can no longer be sent push notifications by the server.
+        Delete a registration record. Bridge can no longer send push notifications to this device.
     tags:
         - Notifications
         - _For Consented Users
