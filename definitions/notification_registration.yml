@@ -1,4 +1,7 @@
 type: object
+required:
+    - deviceId
+    - osName
 properties:
     guid:
         type: string

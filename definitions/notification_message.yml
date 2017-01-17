@@ -1,4 +1,7 @@
 type: object
+required:
+    - subject
+    - message
 properties:
     subject:
         type: string
