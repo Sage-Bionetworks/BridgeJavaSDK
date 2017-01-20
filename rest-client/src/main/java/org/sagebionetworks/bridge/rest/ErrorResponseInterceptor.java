@@ -15,6 +15,7 @@ import org.sagebionetworks.bridge.rest.exceptions.EntityAlreadyExistsException;
 import org.sagebionetworks.bridge.rest.exceptions.EntityNotFoundException;
 import org.sagebionetworks.bridge.rest.exceptions.InvalidEntityException;
 import org.sagebionetworks.bridge.rest.exceptions.NotAuthenticatedException;
+import org.sagebionetworks.bridge.rest.exceptions.NotImplementedException;
 import org.sagebionetworks.bridge.rest.exceptions.PublishedSurveyException;
 import org.sagebionetworks.bridge.rest.exceptions.UnauthorizedException;
 import org.sagebionetworks.bridge.rest.exceptions.UnsupportedVersionException;
@@ -55,10 +56,8 @@ class ErrorResponseInterceptor implements Interceptor {
             JsonElement node = RestUtils.GSON.fromJson(response.body().string(), JsonElement.class);
             throwExceptionOnErrorStatus(url, response.code(), node, null);
         } catch (BridgeSDKException e) {
-            // rethrow known exceptions
-            throw e;
+            throw e; // rethrow known exceptions
         } catch (Throwable t) {
-            t.printStackTrace();
             throwExceptionOnErrorStatus(url, response.code(), null, response.message());
         }
     }
@@ -102,6 +101,8 @@ class ErrorResponseInterceptor implements Interceptor {
             } else {
                 e = new BadRequestException(message, url);
             }
+        } else if (statusCode == 501) {
+            e = new NotImplementedException(message, url);
         } else {
             e = new BridgeSDKException(message, statusCode, url);
         }
