@@ -133,6 +133,10 @@
     $ref: ./notifications/v3_notifications.yml
 /v3/notifications/{guid}:
     $ref: ./notifications/v3_notifications_guid.yml
+/v3/topics:
+    $ref: ./topics/v3_topics.yml
+/v3/topics/{guid}:
+    $ref: ./topics/v3_topics_guid.yml
 
 # Schedules
 /v4/schedules:

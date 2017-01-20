@@ -4,7 +4,6 @@ get:
     description: |
         Get a single push notification registration by its GUID. This request is scoped to the user.
     tags:
-        - Notifications
         - _For Consented Users
     security:
         - BridgeSecurity: []
@@ -31,7 +30,6 @@ post:
         start-up of the app. The guid returned from an update will always match the GUID that was 
         submitted.
     tags:
-        - Notifications
         - _For Consented Users
     security:
         -   BridgeSecurity: []
@@ -44,7 +42,9 @@ post:
             $ref: ../../definitions/notification_registration.yml
     responses:
         200:
-            $ref: ../../responses/200_message.yml
+            description: OK
+            schema:
+                $ref: ../../definitions/guid_holder.yml
         401:
             $ref: ../../responses/401.yml
         410:
@@ -57,7 +57,6 @@ delete:
     description: |
         Delete a registration record. Bridge can no longer send push notifications to this device.
     tags:
-        - Notifications
         - _For Consented Users
     security:
         -   BridgeSecurity: []

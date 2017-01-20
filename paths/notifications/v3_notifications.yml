@@ -2,11 +2,10 @@ get:
     operationId: getNotificationRegistrations
     summary: Get all of a user's notification registrations
     description: |
-        Return all the registrations for this user. There may be more than one  if the user installs 
+        Return all the registrations for this user. There may be more than one if the user installs 
         the application on different devices. Bridge attempts to prevent multiple registrations on the
         save device.
     tags:
-        - Notifications
         - _For Consented Users
     security:
         - BridgeSecurity: []
@@ -31,7 +30,6 @@ post:
         the registration at a later time. If the token already exists in an existing registration record, 
         then that registration record will be returned in lieu of creating a redundant record.
     tags:
-        - Notifications
         - _For Consented Users
     security:
         -   BridgeSecurity: []
@@ -43,7 +41,9 @@ post:
             $ref: ../../definitions/notification_registration.yml
     responses:
         201:
-            $ref: ../../responses/201_message.yml
+            description: Created
+            schema:
+                $ref: ../../definitions/guid_holder.yml
         401:
             $ref: ../../responses/401.yml
         410:
