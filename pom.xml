@@ -5,7 +5,7 @@
     <groupId>org.sagebionetworks.bridge</groupId>
     <artifactId>sdk-group</artifactId>
     <!-- Please use the maven versions plugin to manage this, e.g.`mvn versions:set -DnewVersion=0.8.1`-->
-    <version>0.12.18</version>
+    <version>0.12.22</version>
 
     <packaging>pom</packaging>
     <url>https://api.sagebridge.org</url>
@@ -21,7 +21,6 @@
 
     <properties>
         <commons-codec.version>1.9</commons-codec.version>
-        <gson-jodatime.version>1.4.0</gson-jodatime.version>
         <gson.version>2.7</gson.version>
         <guava.version>19.0</guava.version>
         <javadoc.version>2.10.4</javadoc.version>
@@ -58,11 +57,6 @@
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-core</artifactId>
                 <version>${logback.version}</version>
-            </dependency>           
-            <dependency>
-                <groupId>com.fatboyindustrial.gson-jodatime-serialisers</groupId>
-                <artifactId>gson-jodatime-serialisers</artifactId>
-                <version>${gson-jodatime.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>

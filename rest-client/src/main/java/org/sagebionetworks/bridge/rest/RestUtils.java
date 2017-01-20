@@ -32,6 +32,7 @@ import org.sagebionetworks.bridge.rest.model.DurationConstraints;
 import org.sagebionetworks.bridge.rest.model.IntegerConstraints;
 import org.sagebionetworks.bridge.rest.model.MultiValueConstraints;
 import org.sagebionetworks.bridge.rest.model.ScheduleStrategy;
+import org.sagebionetworks.bridge.rest.model.SignIn;
 import org.sagebionetworks.bridge.rest.model.SimpleScheduleStrategy;
 import org.sagebionetworks.bridge.rest.model.StringConstraints;
 import org.sagebionetworks.bridge.rest.model.SurveyElement;
@@ -254,7 +255,26 @@ public class RestUtils {
         usersApi.completeUploadSession(session.getId()).execute();
         
         return session;
-    }    
+    }
+
+    /**
+     * Makes a defensive copy of SignIn for internal use.
+     * <br>
+     * We make a defensive copy to 1) ensure object does not change since it is used as the Map's
+     * key, and 2) make sure the "type" field is consistent (always null), because type is only
+     * settable via reflection
+     */
+    static SignIn makeInternalCopy(SignIn signIn) {
+        SignIn signInKey = null;
+        if (signIn != null) {
+            signInKey = new SignIn();
+            signInKey.email(signIn.getEmail())
+                    .password(signIn.getPassword())
+                    .study(signIn.getStudy());
+        }
+
+        return signInKey;
+    }
     
     interface S3Service {
         @PUT
