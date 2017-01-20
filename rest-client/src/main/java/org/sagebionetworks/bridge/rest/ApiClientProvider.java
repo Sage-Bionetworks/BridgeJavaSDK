@@ -1,14 +1,15 @@
 package org.sagebionetworks.bridge.rest;
 
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.sagebionetworks.bridge.rest.model.SignIn;
+import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
-
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -57,6 +58,17 @@ public class ApiClientProvider {
                 : new UserSessionInfoProvider(getAuthenticatedRetrofit(null), sessionInterceptor);
     }
 
+
+    /**
+     * @param signIn
+     *          credentials for the user
+     * @return user most recent session info from Bridge, or null if authentication failed
+     * @throws IOException sign in error
+     */
+    public UserSessionInfo getUserSessionInfo(SignIn signIn) throws IOException {
+        return userSessionInfoProvider.retrieveSession(signIn);
+    }
+
     /**
      * Creates an unauthenticated client.
      *
@@ -87,10 +99,12 @@ public class ApiClientProvider {
 
     @SuppressWarnings("unchecked")
     private <T> T getClientImpl(Class<T> service, SignIn signIn) {
-        Map<Class<?>, WeakReference<?>> userClients = authenticatedClients.get(signIn);
+        SignIn internalSignIn = RestUtils.makeInternalCopy(signIn);
+
+        Map<Class<?>, WeakReference<?>> userClients = authenticatedClients.get(internalSignIn);
         if (userClients == null) {
             userClients = Maps.newHashMap();
-            authenticatedClients.put(signIn, userClients);
+            authenticatedClients.put(internalSignIn, userClients);
         }
 
         T authenticateClient = null;
@@ -101,51 +115,58 @@ public class ApiClientProvider {
         }
 
         if (authenticateClient == null) {
-            authenticateClient = getAuthenticatedRetrofit(signIn).create(service);
+            authenticateClient = getAuthenticatedRetrofit(internalSignIn).create(service);
             userClients.put(service, new WeakReference<>(authenticateClient));
         }
 
         return authenticateClient;
     }
 
-    Retrofit getAuthenticatedRetrofit(SignIn signIn) {
+    private Retrofit getAuthenticatedRetrofit(SignIn signIn) {
         Retrofit authenticatedRetrofit = null;
+        SignIn internalSignIn = RestUtils.makeInternalCopy(signIn);
 
-        WeakReference<Retrofit> authenticatedRetrofitReference = authenticatedRetrofits.get(signIn);
+        WeakReference<Retrofit> authenticatedRetrofitReference = authenticatedRetrofits.get(internalSignIn);
         if (authenticatedRetrofitReference != null) {
             authenticatedRetrofit = authenticatedRetrofitReference.get();
         }
 
         if (authenticatedRetrofit == null) {
-            authenticatedRetrofit = createAuthenticatedRetrofit(signIn, null);
+            authenticatedRetrofit = createAuthenticatedRetrofit(internalSignIn, null);
         }
 
         return authenticatedRetrofit;
     }
 
-    // allow test to inject retrofit
+    // default access to allow tests to inject retrofit
     Retrofit createAuthenticatedRetrofit(SignIn signIn, AuthenticationHandler handler) {
+        SignIn internalSignIn = RestUtils.makeInternalCopy(signIn);
+
         OkHttpClient.Builder httpClientBuilder = unauthenticatedOkHttpClient.newBuilder();
 
-        if (signIn != null) {
+        if (internalSignIn != null) {
             AuthenticationHandler authenticationHandler = handler;
             // this is the normal code path (only tests will inject a handler)
             if (authenticationHandler == null) {
-                authenticationHandler = new AuthenticationHandler(signIn,
+                authenticationHandler = new AuthenticationHandler(internalSignIn,
                         userSessionInfoProvider
                 );
             }
-            httpClientBuilder.addInterceptor(authenticationHandler).authenticator(authenticationHandler);
+            httpClientBuilder.addInterceptor(authenticationHandler).authenticator
+                    (authenticationHandler);
         }
 
         Retrofit authenticatedRetrofit = retrofitBuilder.client(httpClientBuilder.build()).build();
-        authenticatedRetrofits.put(signIn,
+        authenticatedRetrofits.put(internalSignIn,
                 new WeakReference<>(authenticatedRetrofit));
+
         return authenticatedRetrofit;
+
     }
 
     // allow test access to retrofit builder
     Retrofit.Builder getRetrofitBuilder() {
         return retrofitBuilder;
     }
+
 }

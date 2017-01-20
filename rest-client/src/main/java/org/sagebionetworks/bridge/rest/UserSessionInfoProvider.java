@@ -19,14 +19,15 @@ class UserSessionInfoProvider {
     private static final Logger LOG = LoggerFactory.getLogger(UserSessionInfoProvider.class);
 
     private final AuthenticationApi authenticationApi;
-    private UserSessionInterceptor sessionInterceptor;
+    private final UserSessionInterceptor sessionInterceptor;
     
     public UserSessionInfoProvider(Retrofit retrofit, UserSessionInterceptor sessionInterceptor) {
         this.authenticationApi = retrofit.create(AuthenticationApi.class);
         this.sessionInterceptor = sessionInterceptor;
     }
 
-    public void removeSession(UserSessionInfo session) {
+    // intended for use by AuthenticationHandler
+    void removeSession(UserSessionInfo session) {
         if (session == null) {
             return;
         }
@@ -43,10 +44,15 @@ class UserSessionInfoProvider {
      * @throws IOException
      */
     public UserSessionInfo retrieveSession(SignIn signIn) throws IOException {
+        if (signIn == null) {
+            return null;
+        }
+
         UserSessionInfo session = sessionInterceptor.getSession(signIn);
         if (session != null) {
             return session;
         }
+
         LOG.debug("No session, call intercepted for authentication attempt: " + signIn.getEmail());
         authenticationApi.signIn(signIn).execute();
         
