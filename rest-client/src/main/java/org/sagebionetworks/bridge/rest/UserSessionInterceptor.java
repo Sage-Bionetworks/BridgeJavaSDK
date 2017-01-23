@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gson.JsonSyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,31 +77,44 @@ class UserSessionInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
 
-        SignIn signIn = recoverSignIn(request);
+        SignIn signIn = null;
         try {
             Response response = chain.proceed(request);
-            if (signIn != null) {
-                String bodyString = response.body().string();
 
-                UserSessionInfo userSessionInfo = getUserSessionInfo(bodyString);
-                addSession(signIn, userSessionInfo);
-
-                return copyResponse(response, bodyString);
-            }
             if (isSuccessfulSignOut(request, response)) {
                 String sessionToken = request.header(BRIDGE_SESSION_HEADER);
                 if (sessionToken != null) {
                     removeSession(sessionToken);
                 }
+                return response;
             }
-            return response;
+
+            // TODO: consider white-listing URLs instead of always attempting session retrieval
+            String bodyString = response.body().string();
+            UserSessionInfo userSessionInfo = getUserSessionInfo(bodyString);
+            if (userSessionInfo != null) {
+                signIn = recoverSignIn(request);
+                if (signIn == null) {
+                    // if this wasn't a sign in, check if we previously captured the sign in
+                    signIn = sessionTokenMap.get(userSessionInfo.getSessionToken());
+                }
+                if (signIn != null) {
+                    addSession(signIn, userSessionInfo);
+                }
+            }
+
+            // response body was already read, create copy instance before passing up the chain
+            return copyResponse(response, bodyString);
         } catch (ConsentRequiredException e) {
-            // Only add a session if the exception was thrown during a sign in (and thus we'll have 
-            // the sign in information). At other times we just rethrow this exception because it 
-            // doesn't invalidate the session. 
+            signIn = recoverSignIn(request);
+            if (signIn == null) {
+                // if this wasn't a sign in, check if we previously captured the sign in
+                signIn = sessionTokenMap.get(e.getSession().getSessionToken());
+            }
             if (signIn != null) {
                 addSession(signIn, e.getSession());
             }
+            // We just rethrow this exception because it doesn't invalidate the session.
             throw e;
         }
     }
@@ -135,7 +149,13 @@ class UserSessionInterceptor implements Interceptor {
         return (SIGN_OUT_PATH_SEGMENT.equals(pathSeg) && response.code() == 200);
     }
 
-    private UserSessionInfo getUserSessionInfo(String bodyString) throws IOException {
-        return RestUtils.GSON.fromJson(bodyString, UserSessionInfo.class);
+    private UserSessionInfo getUserSessionInfo(String bodyString) {
+        try {
+            return RestUtils.GSON.fromJson(bodyString, UserSessionInfo.class);
+        } catch (JsonSyntaxException e) {
+            LOG.debug("Failed to deserialize UserSessionInfo from response", e);
+            // this likely means we didn't have a UserSessionInfo return type
+            return null;
+        }
     }
 }
