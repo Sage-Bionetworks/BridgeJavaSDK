@@ -49,9 +49,11 @@ class AuthenticationHandler implements Authenticator, Interceptor {
         this.userSessionInfoProvider.removeSession(userSession);
         this.userSession = null;
 
-        if (tryCount >= MAX_TRIES) {
+        if (tryCount >= MAX_TRIES || signIn == null) {
             LOG.info("Maximum retries reached");
             this.tryCount = 0;
+
+            // returning null terminates the request chain and propagates the 401
             return null;
         }
         tryCount++;
@@ -62,7 +64,6 @@ class AuthenticationHandler implements Authenticator, Interceptor {
         // add headers again, now that we've retrieved a session again
         return addBridgeHeaders(response.request());
     }
-
 
     @Override
     public okhttp3.Response intercept(Chain chain) throws IOException {

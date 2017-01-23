@@ -16,19 +16,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.fatboyindustrial.gson-jodatime-serialisers</groupId>
-            <artifactId>gson-jodatime-serialisers</artifactId>
-            <exclusions>
-                <exclusion>
-                    <!-- old version which conflicted with retrofit's,
-                        removing from dependency tree since this
-                        declaration was "nearer" and taking precedence -->
-                    <artifactId>gson</artifactId>
-                    <groupId>com.google.code.gson</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
             <groupId>com.squareup.retrofit2</groupId>
             <artifactId>retrofit</artifactId>
         </dependency>
