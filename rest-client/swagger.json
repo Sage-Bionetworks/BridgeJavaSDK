@@ -2906,9 +2906,8 @@
       "get": {
         "operationId": "getNotificationRegistrations",
         "summary": "Get all of a user's notification registrations",
-        "description": "Return all the registrations for this user. There may be more than one  if the user installs \nthe application on different devices. Bridge attempts to prevent multiple registrations on the\nsave device.\n",
+        "description": "Return all the registrations for this user. There may be more than one if the user installs \nthe application on different devices. Bridge attempts to prevent multiple registrations on the\nsave device.\n",
         "tags": [
-          "Notifications",
           "_For Consented Users"
         ],
         "security": [
@@ -2939,7 +2938,6 @@
         "summary": "Register a client to receive push notifications",
         "description": "Create a new registration. The client will retrieve an identifying token (the exact format and \nname for the token varies by platform), and register it with Bridge. Bridge will return a \nBridge-specific GUID to track this registration, which the client can use to update or delete \nthe registration at a later time. If the token already exists in an existing registration record, \nthen that registration record will be returned in lieu of creating a redundant record.\n",
         "tags": [
-          "Notifications",
           "_For Consented Users"
         ],
         "security": [
@@ -2959,7 +2957,10 @@
         ],
         "responses": {
           "201": {
-            "$ref": "#/responses/201_message"
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/GuidHolder"
+            }
           },
           "401": {
             "$ref": "#/responses/401"
@@ -2985,7 +2986,6 @@
         "summary": "Get a push notification registration",
         "description": "Get a single push notification registration by its GUID. This request is scoped to the user.\n",
         "tags": [
-          "Notifications",
           "_For Consented Users"
         ],
         "security": [
@@ -3021,7 +3021,6 @@
         "summary": "Update a push notification registration",
         "description": "Update an existing device registration with a new token that has been assigned by the \nclient operating system. At least on iOS, the device token can change over the lifetime of \nthe app, and it is considered best practice to re-send this token to the server on every \nstart-up of the app. The guid returned from an update will always match the GUID that was \nsubmitted.\n",
         "tags": [
-          "Notifications",
           "_For Consented Users"
         ],
         "security": [
@@ -3044,7 +3043,10 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/200_message"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GuidHolder"
+            }
           },
           "401": {
             "$ref": "#/responses/401"
@@ -3062,7 +3064,6 @@
         "summary": "Delete a push notification registration",
         "description": "Delete a registration record. Bridge can no longer send push notifications to this device.\n",
         "tags": [
-          "Notifications",
           "_For Consented Users"
         ],
         "security": [
@@ -3087,6 +3088,179 @@
           },
           "412": {
             "$ref": "#/responses/412"
+          }
+        }
+      }
+    },
+    "/v3/topics": {
+      "get": {
+        "operationId": "getNotificationTopics",
+        "summary": "Get all the notification topics in this study",
+        "description": "Return all the topics defined for this study. Participants can be subscribed to topics if they \nregister for notifications. Researchers can then send push notifications to those users through \nthe user of a topic.\n",
+        "tags": [
+          "Notifications",
+          "_For Developers",
+          "_For Researchers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/NotificationTopicList"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer_researcher"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createNotificationTopic",
+        "summary": "Create a notification topic",
+        "description": "Create a notification topic. No participant is initially subscribed to a topic when it is \ncreated; users must be given the means to subscribe to a topic in the application. \n",
+        "tags": [
+          "Notifications",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/NotificationTopic"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/GuidHolder"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
+          }
+        }
+      }
+    },
+    "/v3/topics/{guid}": {
+      "get": {
+        "operationId": "getNotificationTopic",
+        "summary": "Get a notification topic",
+        "tags": [
+          "Notifications",
+          "_For Developers",
+          "_For Researchers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/guid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/NotificationTopic"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer_researcher"
+          }
+        }
+      },
+      "post": {
+        "operationId": "updateNotificationTopic",
+        "summary": "Update a notification topic",
+        "tags": [
+          "Notifications",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/guid"
+          },
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/NotificationTopic"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GuidHolder"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteNotificationTopic",
+        "summary": "Delete a notification topic",
+        "tags": [
+          "Notifications",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/guid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -5520,6 +5694,43 @@
         }
       }
     },
+    "NotificationTopic": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "guid": {
+          "description": "A unique GUID for this topic",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of this topic (visible to developers and researchers in design tools).\n",
+          "type": "string"
+        },
+        "description": {
+          "description": "Description of the purpose of this topic (visible to developers and researchers in \ndesign tools).\n",
+          "type": "string"
+        },
+        "createdOn": {
+          "description": "The date and time this topic was created.\n",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "modifiedOn": {
+          "description": "The date and time this topic was last modified.\n",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "NotificationTopic"
+        }
+      }
+    },
     "PasswordPolicy": {
       "description": "The rules to enforce on the creation of passwords for Bridge accounts.\n",
       "type": "object",
@@ -7157,6 +7368,26 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/NotificationRegistration"
+          }
+        },
+        "total": {
+          "type": "integer"
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "ResourceList"
+        }
+      }
+    },
+    "NotificationTopicList": {
+      "type": "object",
+      "readOnly": true,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NotificationTopic"
           }
         },
         "total": {
