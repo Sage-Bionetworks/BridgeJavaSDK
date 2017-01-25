@@ -20,7 +20,7 @@ class UserSessionInfoProvider {
 
     private final AuthenticationApi authenticationApi;
     private final UserSessionInterceptor sessionInterceptor;
-    
+
     public UserSessionInfoProvider(Retrofit retrofit, UserSessionInterceptor sessionInterceptor) {
         this.authenticationApi = retrofit.create(AuthenticationApi.class);
         this.sessionInterceptor = sessionInterceptor;
@@ -44,13 +44,17 @@ class UserSessionInfoProvider {
      * @throws IOException
      */
     public UserSessionInfo retrieveSession(SignIn signIn) throws IOException {
-        UserSessionInfo session = retrieveCachedSession(SignIn signIn)
+        UserSessionInfo session = retrieveCachedSession(signIn);
+
+        if (session != null) {
+            return session;
+        }
 
         LOG.debug("No session, call intercepted for authentication attempt: " + signIn.getEmail());
         authenticationApi.signIn(signIn).execute();
-        
-        // Calling sign in will cause the session to be saved by the session interceptor. No further 
-        // work is required here.
+
+        // Calling sign in will cause the session to be saved by the session interceptor. No
+        // further work is required here.
         return sessionInterceptor.getSession(signIn);
     }
 

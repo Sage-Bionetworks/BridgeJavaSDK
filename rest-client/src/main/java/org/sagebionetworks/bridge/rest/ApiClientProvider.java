@@ -15,12 +15,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Base class for creating clients that are correctly configured to communicate with the 
- * Bridge server. This class has been designed so that different authentication credentials 
- * can be used for different clients retrieved from this provider. 
+ * Base class for creating clients that are correctly configured to communicate with the
+ * Bridge server. This class has been designed so that different authentication credentials
+ * can be used for different clients retrieved from this provider.
  */
 public class ApiClientProvider {
-    
+
     private final OkHttpClient unauthenticatedOkHttpClient;
     private final Retrofit.Builder retrofitBuilder;
     private final UserSessionInfoProvider userSessionInfoProvider;
@@ -32,13 +32,15 @@ public class ApiClientProvider {
     }
 
     // allow unit tests to inject a UserSessionInfoProvider
-    ApiClientProvider(String baseUrl, String userAgent, String acceptLanguage, UserSessionInfoProvider userSessionInfoProvider) {
+    ApiClientProvider(String baseUrl, String userAgent, String acceptLanguage,
+                      UserSessionInfoProvider userSessionInfoProvider) {
         authenticatedRetrofits = Maps.newHashMap();
         authenticatedClients = Maps.newHashMap();
-        
+
         UserSessionInterceptor sessionInterceptor = new UserSessionInterceptor();
 
-        // Devo may take up to 2 minutes to boot up. Need to set timeouts accordingly so that integration tests succeed
+        // Devo may take up to 2 minutes to boot up. Need to set timeouts accordingly so that
+        // integration tests succeed
         // May want to make it possible to configure this value when creating the ApiClientProvider.
         unauthenticatedOkHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(2, TimeUnit.MINUTES)
@@ -53,42 +55,33 @@ public class ApiClientProvider {
         retrofitBuilder = new Retrofit.Builder().baseUrl(baseUrl)
                 .client(unauthenticatedOkHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(RestUtils.GSON));
-        
+
         this.userSessionInfoProvider = userSessionInfoProvider != null ? userSessionInfoProvider
                 : new UserSessionInfoProvider(getAuthenticatedRetrofit(null), sessionInterceptor);
     }
 
-
     /**
-     * @param signIn
-     *          credentials for the user
-     * @return user most recent session info from Bridge, or null if authentication failed
-     * @throws IOException sign in error
+     * @return user session info provider backing this instance
      */
-    public UserSessionInfo getUserSessionInfo(SignIn signIn) throws IOException {
-        return userSessionInfoProvider.retrieveSession(signIn);
+    public UserSessionInfoProvider getUserSessionInfoProvider() {
+        return userSessionInfoProvider;
     }
 
     /**
      * Creates an unauthenticated client.
      *
-     * @param <T>
-     *         One of the Api classes in the org.sagebionetworks.bridge.rest.api package.
-     * @param service
-     *         Class representing the service
+     * @param <T>     One of the Api classes in the org.sagebionetworks.bridge.rest.api package.
+     * @param service Class representing the service
      * @return service client
      */
     public <T> T getClient(Class<T> service) {
         return getClientImpl(service, null);
     }
-    
+
     /**
-     * @param <T>
-     *         One of the Api classes in the org.sagebionetworks.bridge.rest.api package.
-     * @param service
-     *         Class representing the service
-     * @param signIn
-     *         credentials for the user, or null for an unauthenticated client
+     * @param <T>     One of the Api classes in the org.sagebionetworks.bridge.rest.api package.
+     * @param service Class representing the service
+     * @param signIn  credentials for the user, or null for an unauthenticated client
      * @return service client that is authenticated with the user's credentials
      */
     public <T> T getClient(Class<T> service, SignIn signIn) {
@@ -126,7 +119,8 @@ public class ApiClientProvider {
         Retrofit authenticatedRetrofit = null;
         SignIn internalSignIn = RestUtils.makeInternalCopy(signIn);
 
-        WeakReference<Retrofit> authenticatedRetrofitReference = authenticatedRetrofits.get(internalSignIn);
+        WeakReference<Retrofit> authenticatedRetrofitReference = authenticatedRetrofits.get
+                (internalSignIn);
         if (authenticatedRetrofitReference != null) {
             authenticatedRetrofit = authenticatedRetrofitReference.get();
         }
