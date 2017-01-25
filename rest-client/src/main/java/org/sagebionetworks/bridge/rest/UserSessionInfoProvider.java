@@ -36,7 +36,7 @@ class UserSessionInfoProvider {
     }
 
     /**
-     * Retrieves a session from a service.
+     * Retrieves a session. Tries to retrieve from a cache before calling a service.
      *
      * @param signIn
      *         sign in credentials for a user
@@ -44,20 +44,29 @@ class UserSessionInfoProvider {
      * @throws IOException
      */
     public UserSessionInfo retrieveSession(SignIn signIn) throws IOException {
-        if (signIn == null) {
-            return null;
-        }
-
-        UserSessionInfo session = sessionInterceptor.getSession(signIn);
-        if (session != null) {
-            return session;
-        }
+        UserSessionInfo session = retrieveCachedSession(SignIn signIn)
 
         LOG.debug("No session, call intercepted for authentication attempt: " + signIn.getEmail());
         authenticationApi.signIn(signIn).execute();
         
         // Calling sign in will cause the session to be saved by the session interceptor. No further 
         // work is required here.
+        return sessionInterceptor.getSession(signIn);
+    }
+
+    /**
+     * Retrieves a session without making a network call.
+     *
+     * @param signIn
+     *         sign in credentials for a user
+     * @return session info for the user
+     */
+    public UserSessionInfo retrieveCachedSession(SignIn signIn) throws
+            IOException {
+        if (signIn == null) {
+            return null;
+        }
+
         return sessionInterceptor.getSession(signIn);
     }
 }
