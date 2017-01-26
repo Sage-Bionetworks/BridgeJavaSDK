@@ -176,6 +176,13 @@
       "in": "query",
       "type": "string",
       "required": true
+    },
+    "guid": {
+      "name": "guid",
+      "description": "A guid",
+      "required": true,
+      "in": "path",
+      "type": "string"
     }
   },
   "paths": {
@@ -756,6 +763,83 @@
         }
       }
     },
+    "/v3/participants/{userId}/notifications": {
+      "get": {
+        "operationId": "getParticipantPushNotificationRegistrations",
+        "summary": "Get a study participant's push notification registrations",
+        "description": "Get all of a study participant's registrations for push notifications. There can be more than one \nof these if the participant has downloaded and installed the app on more than one device. There must \nbe at least one record in order to send a push notification to the user.\n",
+        "tags": [
+          "Participants",
+          "Notifications",
+          "_For Researchers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/userId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/NotificationRegistrationList"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_researcher"
+          }
+        }
+      }
+    },
+    "/v3/participants/{userId}/sendNotification": {
+      "post": {
+        "operationId": "sendNotification",
+        "summary": "Send a push notification to a single participant",
+        "description": "Send a push notification to an individual participant (assuming they have registered for push notifications). \nDo not use this method to notify a group of participants; create a topic, ask your users to subscribe to that \ntopic, and send a message via that topic instead.\n",
+        "tags": [
+          "Participants",
+          "Notifications",
+          "_For Researchers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/userId"
+          },
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/NotificationMessage"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/responses/201_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_researcher"
+          }
+        }
+      }
+    },
     "/v3/participants/{userId}/requestInfo": {
       "get": {
         "operationId": "getParticipantRequestInfo",
@@ -1220,7 +1304,7 @@
             "required": true,
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/ReportData"
+              "$ref": "#/definitions/ReportDataForWorker"
             }
           }
         ],
@@ -2298,6 +2382,81 @@
         }
       }
     },
+    "/v3/reports/{identifier}/index": {
+      "get": {
+        "operationId": "getStudyReportIndex",
+        "summary": "Get a study report index",
+        "description": "Get the index (or metadata) for a set of report records. \n",
+        "tags": [
+          "Reports",
+          "_For Developers",
+          "_For Researchers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/identifier"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ReportIndex"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer_researcher"
+          }
+        }
+      },
+      "post": {
+        "operationId": "updateStudyReportIndex",
+        "summary": "Update an existing study report index",
+        "description": "Update the index (or metadata) for a set of report records.\n",
+        "tags": [
+          "Reports",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/identifier"
+          },
+          {
+            "name": "ReportIndex",
+            "in": "body",
+            "description": "Report index",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ReportIndex"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
+          }
+        }
+      }
+    },
     "/v3/reports/{identifier}/{date}": {
       "delete": {
         "operationId": "deleteStudyReportRecord",
@@ -2758,6 +2917,369 @@
         }
       }
     },
+    "/v3/notifications": {
+      "get": {
+        "operationId": "getNotificationRegistrations",
+        "summary": "Get all of a user's notification registrations",
+        "description": "Return all the registrations for this user. There may be more than one if the user installs \nthe application on different devices. Bridge attempts to prevent multiple registrations on the\nsave device.\n",
+        "tags": [
+          "_For Consented Users"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/NotificationRegistrationList"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createNotificationRegistration",
+        "summary": "Register a client to receive push notifications",
+        "description": "Create a new registration. The client will retrieve an identifying token (the exact format and \nname for the token varies by platform), and register it with Bridge. Bridge will return a \nBridge-specific GUID to track this registration, which the client can use to update or delete \nthe registration at a later time. If the token already exists in an existing registration record, \nthen that registration record will be returned in lieu of creating a redundant record.\n",
+        "tags": [
+          "_For Consented Users"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/NotificationRegistration"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/GuidHolder"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
+          },
+          "501": {
+            "description": "This endpoint has not been implemented for this study. It has been disabled, or not completely configured. \nThe caller cannot fix the call to succeed, but it is not an unexpected server error, it is intentional.\n",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          }
+        }
+      }
+    },
+    "/v3/notifications/{guid}": {
+      "get": {
+        "operationId": "getNotificationRegistration",
+        "summary": "Get a push notification registration",
+        "description": "Get a single push notification registration by its GUID. This request is scoped to the user.\n",
+        "tags": [
+          "_For Consented Users"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/guid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/NotificationRegistration"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
+          }
+        }
+      },
+      "post": {
+        "operationId": "updateNotificationRegistration",
+        "summary": "Update a push notification registration",
+        "description": "Update an existing device registration with a new token that has been assigned by the \nclient operating system. At least on iOS, the device token can change over the lifetime of \nthe app, and it is considered best practice to re-send this token to the server on every \nstart-up of the app. The guid returned from an update will always match the GUID that was \nsubmitted.\n",
+        "tags": [
+          "_For Consented Users"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/guid"
+          },
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/NotificationRegistration"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GuidHolder"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteNotificationRegistration",
+        "summary": "Delete a push notification registration",
+        "description": "Delete a registration record. Bridge can no longer send push notifications to this device.\n",
+        "tags": [
+          "_For Consented Users"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/guid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
+          }
+        }
+      }
+    },
+    "/v3/topics": {
+      "get": {
+        "operationId": "getNotificationTopics",
+        "summary": "Get all the notification topics in this study",
+        "description": "Return all the topics defined for this study. Participants can be subscribed to topics if they \nregister for notifications. Researchers can then send push notifications to those users through \nthe user of a topic.\n",
+        "tags": [
+          "Notifications",
+          "_For Developers",
+          "_For Researchers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/NotificationTopicList"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer_researcher"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createNotificationTopic",
+        "summary": "Create a notification topic",
+        "description": "Create a notification topic. No participant is initially subscribed to a topic when it is \ncreated; users must be given the means to subscribe to a topic in the application. \n",
+        "tags": [
+          "Notifications",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/NotificationTopic"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/GuidHolder"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
+          }
+        }
+      }
+    },
+    "/v3/topics/{guid}": {
+      "get": {
+        "operationId": "getNotificationTopic",
+        "summary": "Get a notification topic",
+        "tags": [
+          "Notifications",
+          "_For Developers",
+          "_For Researchers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/guid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/NotificationTopic"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer_researcher"
+          }
+        }
+      },
+      "post": {
+        "operationId": "updateNotificationTopic",
+        "summary": "Update a notification topic",
+        "tags": [
+          "Notifications",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/guid"
+          },
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/NotificationTopic"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GuidHolder"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteNotificationTopic",
+        "summary": "Delete a notification topic",
+        "tags": [
+          "Notifications",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/guid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
+          }
+        }
+      }
+    },
     "/v4/schedules": {
       "get": {
         "operationId": "getSchedules",
@@ -3098,35 +3620,6 @@
             "$ref": "#/responses/403_not_developer"
           }
         }
-      },
-      "delete": {
-        "operationId": "deleteAllRevisionsOfUploadSchema",
-        "summary": "Delete all revisions of an upload schema",
-        "tags": [
-          "Upload Schemas",
-          "_For Developers"
-        ],
-        "security": [
-          {
-            "BridgeSecurity": []
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/schemaId"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/200_message"
-          },
-          "401": {
-            "$ref": "#/responses/401"
-          },
-          "403": {
-            "$ref": "#/responses/403_not_developer"
-          }
-        }
       }
     },
     "/v3/uploadschemas/{schemaId}/recent": {
@@ -3197,38 +3690,6 @@
           },
           "403": {
             "$ref": "#/responses/403_not_developer_worker"
-          }
-        }
-      },
-      "delete": {
-        "operationId": "deleteUploadSchema",
-        "summary": "Delete a revision of an upload schema",
-        "tags": [
-          "Upload Schemas",
-          "_For Developers"
-        ],
-        "security": [
-          {
-            "BridgeSecurity": []
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/schemaId"
-          },
-          {
-            "$ref": "#/parameters/revision"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/200_message"
-          },
-          "401": {
-            "$ref": "#/responses/401"
-          },
-          "403": {
-            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -3777,8 +4238,8 @@
     "/v3/studies/self/synapseProject": {
       "post": {
         "operationId": "createSynapseProjectTeam",
-        "summary": "Create new Synapse Project and Team",
-        "description": "Save a new synapse project and a new synapse team for a given target synapse user; \nalso granting admin permission to this target user and bridge exporter.\n",
+        "summary": "Create new Synapse project and team",
+        "description": "Create a new Synapse project and team for the provided Synapse user, and grant permissions to \nthe Bridge exporter to export Bridge data into that study. This call also grants admin  \npermissions to the specified Synapse user for that project and team. You will need to create \na Synapse user first, and provide that user's ID to this endpoint call.\n",
         "tags": [
           "Studies",
           "_For Developers"
@@ -3801,7 +4262,7 @@
             "$ref": "#/responses/401"
           },
           "403": {
-            "$ref": "#/responses/403_not_admin"
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -3967,6 +4428,40 @@
         }
       }
     },
+    "/v3/studies/{studyId}/uploadschemas/{schemaId}": {
+      "delete": {
+        "operationId": "deleteAllRevisionsOfUploadSchema",
+        "summary": "Delete all revisions of an upload schema",
+        "tags": [
+          "Upload Schemas",
+          "_For Admins"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/studyId"
+          },
+          {
+            "$ref": "#/parameters/schemaId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_admin"
+          }
+        }
+      }
+    },
     "/v3/studies/{studyId}/uploadschemas/{schemaId}/revisions/{revision}": {
       "get": {
         "operationId": "getSchemaRevisionInStudy",
@@ -4009,6 +4504,36 @@
       }
     },
     "/v3/studies/{studyId}/reports/{identifier}": {
+      "get": {
+        "operationId": "getPublicStudyReportRecords",
+        "summary": "Get public study report records",
+        "description": "Get public study report records (no authentication is needed, but index for the report must be marked as \npublic or the server will return 404 for the report). Only study reports may be made public.\n",
+        "tags": [
+          "Reports"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/studyId"
+          },
+          {
+            "$ref": "#/parameters/identifier"
+          },
+          {
+            "$ref": "#/parameters/startDate"
+          },
+          {
+            "$ref": "#/parameters/endDate"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ReportDataList"
+            }
+          }
+        }
+      },
       "post": {
         "operationId": "saveReportForStudy",
         "summary": "save report for a study",
@@ -4688,24 +5213,6 @@
           "type": "string",
           "description": "Mime type of this image (e.g. \"image/png\"). If `imageData` is supplied, `imageMimeType` must also be supplied."
         },
-        "consentCreatedOn": {
-          "type": "string",
-          "readOnly": true,
-          "description": "The timestamp of the version of the subpopulation consent that was \npresented to the participant for agreement. \n",
-          "format": "date-time"
-        },
-        "signedOn": {
-          "type": "string",
-          "readOnly": true,
-          "description": "The date and time of agreement to this consent.\n",
-          "format": "date-time"
-        },
-        "withdrewOn": {
-          "type": "string",
-          "readOnly": true,
-          "description": "If this consent is later revoked, this is the date of revocation.\n",
-          "format": "date-time"
-        },
         "scope": {
           "$ref": "#/definitions/SharingScope"
         },
@@ -4974,6 +5481,22 @@
         }
       }
     },
+    "GuidHolder": {
+      "description": "An object that provides the GUID for a newly created entity. This object is returned \nfrom create and update endpoints rather than an entire entity.\n",
+      "type": "object",
+      "properties": {
+        "guid": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The guid of the newly created entity."
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "GuidHolder"
+        }
+      }
+    },
     "GuidVersionHolder": {
       "description": "An object that describes the keys and optimistic lock values of an entity (e.g. a \nSubpopulation or SchedulePlan). This object is returned from create and update endpoints \nrather than an entire entity.\n",
       "type": "object",
@@ -5005,6 +5528,10 @@
           "type": "string",
           "format": "date-time",
           "description": "ISO timestamp of when the data record was created, as reported by the submitting app"
+        },
+        "createdOnTimeZone": {
+          "type": "string",
+          "description": "The original timezone of the createdOn timestamp, expressed as a 4-digit string with sign. For example, -0800, +0900"
         },
         "data": {
           "type": "object",
@@ -5147,6 +5674,102 @@
         }
       }
     },
+    "NotificationMessage": {
+      "type": "object",
+      "required": [
+        "subject",
+        "message"
+      ],
+      "properties": {
+        "subject": {
+          "type": "string",
+          "description": "Very short rendition of the notification. For example, this value will be displayed on an \nApple iWatch, where the message is shown for a short time only.\n"
+        },
+        "message": {
+          "type": "string",
+          "description": "Full notification message.\n"
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "NotificationMessage"
+        }
+      }
+    },
+    "NotificationRegistration": {
+      "type": "object",
+      "required": [
+        "deviceId",
+        "osName"
+      ],
+      "properties": {
+        "guid": {
+          "type": "string"
+        },
+        "deviceId": {
+          "description": "This should be either the device token retrieved from the iOS operation system, or the \nregistrationId on Android.\n",
+          "type": "string"
+        },
+        "osName": {
+          "description": "Information used to track which type of deviceId is being submitted. This string should be \neither \"Android\" or \"iPhone OS\" (\"iOS\" also works), and should match the operating system \nfrom which you retrieved a push notification identifier (deviceId).\n",
+          "type": "string"
+        },
+        "createdOn": {
+          "description": "Date the client registered for push notifications with Bridge.\n",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "modifiedOn": {
+          "description": "The last time the registration was updated based on a new device identifier being \nissued by the client operating system (iOS or Android). If an updated registration is \nsubmitted but the deviceId has not changed, the record is not modified.\n",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "NotificationRegistration"
+        }
+      }
+    },
+    "NotificationTopic": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "guid": {
+          "description": "A unique GUID for this topic",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of this topic (visible to developers and researchers in design tools).\n",
+          "type": "string"
+        },
+        "description": {
+          "description": "Description of the purpose of this topic (visible to developers and researchers in \ndesign tools).\n",
+          "type": "string"
+        },
+        "createdOn": {
+          "description": "The date and time this topic was created.\n",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "modifiedOn": {
+          "description": "The date and time this topic was last modified.\n",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "NotificationTopic"
+        }
+      }
+    },
     "PasswordPolicy": {
       "description": "The rules to enforce on the creation of passwords for Bridge accounts.\n",
       "type": "object",
@@ -5245,9 +5868,33 @@
         "data"
       ],
       "properties": {
+        "date": {
+          "type": "string",
+          "format": "date",
+          "description": "The date (YYYY-MM-DD) of the report data."
+        },
+        "data": {
+          "type": "object",
+          "description": "An arbitrary JSON object containing whatever data should be saved for a report."
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "ReportData"
+        }
+      }
+    },
+    "ReportDataForWorker": {
+      "description": "The JSON data to submit a report record for a point in time (curently a day expressed in the format YYYY-MM-DD). This object includes a healthCode because worker processes, as they produce records for a participant report, may be working from anonymized data.",
+      "type": "object",
+      "required": [
+        "date",
+        "data"
+      ],
+      "properties": {
         "healthCode": {
           "type": "string",
-          "description": "**Worker submissions of participant reports only.** Developers submit report data to an \nendpoint that includes the user's ID, but workers processing anonymized data do not know a \nparticipant's ID. So the healthCode must be included as part of the report JSON payload.\n"
+          "description": "The health code of the person for whom this data is being created.\n"
         },
         "date": {
           "type": "string",
@@ -5275,6 +5922,10 @@
         "identifier": {
           "type": "string",
           "description": "The report identifier."
+        },
+        "public": {
+          "type": "boolean",
+          "description": "Study reports can be marked as \"public\", which will make them accessible through the API \nto any requester (authentication is not required).\n"
         },
         "type": {
           "type": "string",
@@ -5777,6 +6428,13 @@
           "description": "Minimum supported app versions (older versions will be blocked), keyed by the \nname of the operating system (we expect either \"Android\" or \"iPhone OS\" in the \nUser-Agent header of all requests sent to the server). Example: `{\"iPhone OS\":14,\"Android\":10}`\n",
           "additionalProperties": {
             "type": "integer"
+          }
+        },
+        "pushNotificationARNs": {
+          "type": "object",
+          "description": "A map between operating system names, and the platform ARN necessary to register a device to \nreceive mobile push notifications. The operating system names are currently \"Android\" and \n\"iPhone OS\". The ARN (Amazon Resource Name) is the name of the Application/platform ARN defined \nin SNS (currently this must be done by a Bridge administrator).\n",
+          "additionalProperties": {
+            "type": "string"
           }
         },
         "type": {
@@ -6738,6 +7396,46 @@
           "type": "string",
           "readOnly": true,
           "description": "PagedResourceList"
+        }
+      }
+    },
+    "NotificationRegistrationList": {
+      "type": "object",
+      "readOnly": true,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NotificationRegistration"
+          }
+        },
+        "total": {
+          "type": "integer"
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "ResourceList"
+        }
+      }
+    },
+    "NotificationTopicList": {
+      "type": "object",
+      "readOnly": true,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NotificationTopic"
+          }
+        },
+        "total": {
+          "type": "integer"
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "ResourceList"
         }
       }
     },
