@@ -2,7 +2,7 @@ package org.sagebionetworks.bridge.rest;
 
 import java.io.IOException;
 
-import org.sagebionetworks.bridge.rest.exceptions.ConsentRequiredException;
+import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,10 +29,8 @@ class AuthenticationHandler implements Authenticator, Interceptor {
     private int tryCount;
 
     /**
-     * @param signIn
-     *         credentials for the user
-     * @param userSessionInfoProvider
-     *         for retrieving the user's session
+     * @param signIn                  credentials for the user
+     * @param userSessionInfoProvider for retrieving the user's session
      */
     public AuthenticationHandler(SignIn signIn, UserSessionInfoProvider userSessionInfoProvider) {
         Preconditions.checkNotNull(signIn);
@@ -46,10 +44,10 @@ class AuthenticationHandler implements Authenticator, Interceptor {
     public okhttp3.Request authenticate(Route route, okhttp3.Response response) throws IOException {
         // if we reach this part of the code, the server had returned a 401 and userSession is
         // invalid
-        this.userSessionInfoProvider.removeSession(userSession);
+        this.userSessionInfoProvider.removeCachedSession(userSession);
         this.userSession = null;
 
-        if (tryCount >= MAX_TRIES || signIn == null) {
+        if (tryCount >= MAX_TRIES || !isValidSignIn(signIn)) {
             LOG.info("Maximum retries reached");
             this.tryCount = 0;
 
@@ -63,6 +61,11 @@ class AuthenticationHandler implements Authenticator, Interceptor {
         // interceptor was already triggered for this request and failed to authenticate
         // add headers again, now that we've retrieved a session again
         return addBridgeHeaders(response.request());
+    }
+
+    private boolean isValidSignIn(SignIn signIn) {
+        return signIn != null && !Strings.isNullOrEmpty(signIn.getEmail()) && !Strings
+                .isNullOrEmpty(signIn.getPassword());
     }
 
     @Override

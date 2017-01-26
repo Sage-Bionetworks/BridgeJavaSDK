@@ -15,7 +15,7 @@ import retrofit2.Retrofit;
 /**
  * Retrieves session information for a Bridge user.
  */
-class UserSessionInfoProvider {
+public class UserSessionInfoProvider {
     private static final Logger LOG = LoggerFactory.getLogger(UserSessionInfoProvider.class);
 
     private final AuthenticationApi authenticationApi;
@@ -27,7 +27,7 @@ class UserSessionInfoProvider {
     }
 
     // intended for use by AuthenticationHandler
-    void removeSession(UserSessionInfo session) {
+    void removeCachedSession(UserSessionInfo session) {
         if (session == null) {
             return;
         }
@@ -65,8 +65,7 @@ class UserSessionInfoProvider {
      *         sign in credentials for a user
      * @return session info for the user
      */
-    public UserSessionInfo retrieveCachedSession(SignIn signIn) throws
-            IOException {
+    public UserSessionInfo retrieveCachedSession(SignIn signIn) {
         if (signIn == null) {
             return null;
         }
