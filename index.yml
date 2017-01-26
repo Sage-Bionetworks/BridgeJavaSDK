@@ -149,6 +149,12 @@ parameters:
         in: query
         type: string
         required: true
+    guid:
+        name: guid
+        description: A guid
+        required: true
+        in: path
+        type: string
 
 paths:
     $ref: ./paths/index.yml

@@ -69,6 +69,8 @@ ExternalIdentifier:
     $ref: ./external_identifier.yml
 GuidCreatedOnVersionHolder:
     $ref: ./guid_createdOn_version_holder.yml
+GuidHolder:
+    $ref: ./guid_holder.yml
 GuidVersionHolder:
     $ref: ./guid_version_holder.yml
 HealthDataRecord:
@@ -81,6 +83,12 @@ InvalidEntity:
     $ref: ./invalid_entity.yml
 Message:
     $ref: ./message.yml
+NotificationMessage:
+    $ref: ./notification_message.yml
+NotificationRegistration:
+    $ref: ./notification_registration.yml
+NotificationTopic:
+    $ref: ./notification_topic.yml
 PasswordPolicy:
     $ref: ./password_policy.yml
 PasswordReset:
@@ -89,6 +97,8 @@ RecordExportStatusRequest:
     $ref: ./record_export_status_request.yml
 ReportData:
     $ref: ./report_data.yml
+ReportDataForWorker:
+    $ref: ./report_data_for_worker.yml
 ReportIndex:
     $ref: ./report_index.yml
 RequestInfo:
@@ -167,6 +177,10 @@ ActivityList:
     $ref: ./paged_resources/activity.yml
 ExternalIdentifierList:
     $ref: ./paged_resources/external_identifier.yml
+NotificationRegistrationList:
+    $ref: ./paged_resources/notification_registration.yml
+NotificationTopicList:
+    $ref: ./paged_resources/notification_topic.yml
 ReportDataList:
     $ref: ./paged_resources/report_data.yml
 ReportIndexList:

@@ -1,0 +1,24 @@
+description:
+    The JSON data to submit a report record for a point in time (curently a day expressed in the format YYYY-MM-DD). 
+    This object includes a healthCode because worker processes, as they produce records for a participant report, 
+    may be working from anonymized data. 
+type: object
+required:
+    - date
+    - data
+properties:
+    healthCode:
+        type: string
+        description: |
+            The health code of the person for whom this data is being created.
+    date:
+        type: string
+        format: date
+        description: The date (YYYY-MM-DD) of the report data. 
+    data:
+        type: object
+        description: An arbitrary JSON object containing whatever data should be saved for a report.
+    type:
+        type: string
+        readOnly: true
+        description: "ReportData"

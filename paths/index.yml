@@ -27,6 +27,10 @@
     $ref: ./participants/v3_participants_userId.yml
 /v3/participants/{userId}/uploads:
     $ref: ./participants/v3_participants_userId_uploads.yml
+/v3/participants/{userId}/notifications:
+    $ref: ./participants/v3_participants_userId_notifications.yml
+/v3/participants/{userId}/sendNotification:
+    $ref: ./participants/v3_participants_userId_sendNotification.yml
 /v3/participants/{userId}/requestInfo:
     $ref: ./participants/v3_participants_userId_requestInfo.yml
 /v3/participants/{userId}/activities:
@@ -47,8 +51,8 @@
     $ref: ./participants/v3_participants_userId_reports_identifier_date.yml
 /v3/participants/reports/{identifier}:
     $ref: ./participants/v3_participants_reports_identifier.yml
-    
-# subpopulations
+
+# Subpopulations
 /v3/subpopulations:
     $ref: ./subpopulations/v3_subpopulations.yml                             
 /v3/subpopulations/{subpopulationGuid}:
@@ -60,7 +64,7 @@
 /v3/subpopulations/{subpopulationGuid}/consents/signature/email:
     $ref: ./subpopulations/v3_subpopulations_subpopulationGuid_consents_signature_email.yml
 
-# consents
+# Consents
 /v3/consents:
     $ref: ./consents/v3_consents.yml
 /v3/consents/recent:
@@ -72,7 +76,7 @@
 /v3/consents/withdraw:
     $ref: ./consents/v3_consents_withdraw.yml
 
-# study consents
+# Study Consents
 /v3/subpopulations/{subpopulationGuid}/consents:
     $ref: ./study_consents/v3_subpopulations_subpopulationGuid_consents.yml
 /v3/subpopulations/{subpopulationGuid}/consents/recent:
@@ -84,7 +88,7 @@
 /v3/subpopulations/{subpopulationGuid}/consents/{createdOn}/publish:
     $ref: ./study_consents/v3_subpopulations_subpopulationGuid_consents_createdOn_publish.yml
 
-# users
+# Users
 /v3/users:
     $ref: ./users/v3_users.yml
 /v3/users/{userId}:
@@ -93,10 +97,14 @@
     $ref: ./users/v3_users_self_emailData.yml
 /v3/users/self/reports/{identifier}:
     $ref: ./users/v3_users_self_reports_identifier.yml
+
+# Reports
 /v3/reports:
     $ref: ./reports/v3_reports.yml
 /v3/reports/{identifier}:
     $ref: ./reports/v3_reports_identifier.yml
+/v3/reports/{identifier}/index:
+    $ref: ./reports/v3_reports_identifier_index.yml
 /v3/reports/{identifier}/{date}:
     $ref: ./reports/v3_reports_identifier_date.yml
 
@@ -119,6 +127,16 @@
     $ref: ./surveys/v3_surveys_surveyGuid_revisions_createdOn_version.yml
 /v3/surveys/{surveyGuid}/revisions/{createdOn}/publish:
     $ref: ./surveys/v3_surveys_surveyGuid_revisions_createdOn_publish.yml
+
+# Notifications
+/v3/notifications:
+    $ref: ./notifications/v3_notifications.yml
+/v3/notifications/{guid}:
+    $ref: ./notifications/v3_notifications_guid.yml
+/v3/topics:
+    $ref: ./topics/v3_topics.yml
+/v3/topics/{guid}:
+    $ref: ./topics/v3_topics_guid.yml
 
 # Schedules
 /v4/schedules:
@@ -177,6 +195,8 @@
 # APIs for getting entities across studies
 /v3/studies/{studyId}/surveys/published:
     $ref: ./studies/v3_studies_studyId_surveys_published.yml
+/v3/studies/{studyId}/uploadschemas/{schemaId}:
+    $ref: ./studies/v3_studies_studyId_uploadschemas_schemaId.yml
 /v3/studies/{studyId}/uploadschemas/{schemaId}/revisions/{revision}:
     $ref: ./studies/v3_studies_studyId_uploadschemas_schemaId_revisions_revision.yml
 /v3/studies/{studyId}/reports/{identifier}:

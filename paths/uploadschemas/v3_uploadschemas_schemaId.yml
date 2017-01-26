@@ -17,20 +17,3 @@ get:
             $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_developer.yml
-delete:
-    operationId: deleteAllRevisionsOfUploadSchema
-    summary: Delete all revisions of an upload schema
-    tags: 
-        - Upload Schemas
-        - _For Developers
-    security:
-        -   BridgeSecurity: []
-    parameters:
-        - $ref: ../../index.yml#/parameters/schemaId
-    responses:
-        200:
-            $ref: ../../responses/200_message.yml
-        401:
-            $ref: ../../responses/401.yml
-        403:
-            $ref: ../../responses/403_not_developer.yml

@@ -8,6 +8,11 @@ properties:
     identifier:
         type: string
         description: The report identifier.
+    public:
+        type: boolean
+        description: |
+            Study reports can be marked as "public", which will make them accessible through the API 
+            to any requester (authentication is not required).
     type:
         type: string
         readOnly: true
