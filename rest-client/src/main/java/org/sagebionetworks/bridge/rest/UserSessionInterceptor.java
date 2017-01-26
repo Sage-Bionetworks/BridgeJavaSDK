@@ -19,10 +19,15 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.Buffer;
 
+/**
+ * Inspects requests and responses to keep session updated.
+ */
 class UserSessionInterceptor implements Interceptor {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserSessionInterceptor.class);
 
+    private static final String HTTP_METHOD_POST = "POST";
+    private static final String PARTICIPANT_SELF_PATH = "v3/participant/self";
     private static final String SIGN_OUT_PATH_SEGMENT = "signOut";
     private static final String SIGN_IN_PATH_SEGMENT = "signIn";
     private static final String BRIDGE_SESSION_HEADER = "Bridge-Session";
@@ -81,7 +86,7 @@ class UserSessionInterceptor implements Interceptor {
         try {
             Response response = chain.proceed(request);
 
-            if (isSuccessfulSignOut(request, response)) {
+            if (response.code() == 401 || isSuccessfulSignOut(request, response)) {
                 String sessionToken = request.header(BRIDGE_SESSION_HEADER);
                 if (sessionToken != null) {
                     removeSession(sessionToken);
@@ -89,11 +94,17 @@ class UserSessionInterceptor implements Interceptor {
                 return response;
             }
 
-            // TODO: consider white-listing URLs instead of always attempting session retrieval
             String bodyString = response.body().string();
-            UserSessionInfo userSessionInfo = getUserSessionInfo(bodyString);
+
+            UserSessionInfo userSessionInfo = null;
+            signIn = recoverSignIn(request);
+            if (signIn != null) {
+                userSessionInfo = getUserSessionInfo(bodyString);
+            } else if (returnsMySessionInfo(request)){
+                userSessionInfo = getUserSessionInfo(bodyString);
+            }
+
             if (userSessionInfo != null) {
-                signIn = recoverSignIn(request);
                 if (signIn == null) {
                     // if this wasn't a sign in, check if we previously captured the sign in
                     signIn = sessionTokenMap.get(userSessionInfo.getSessionToken());
@@ -147,6 +158,14 @@ class UserSessionInterceptor implements Interceptor {
     private boolean isSuccessfulSignOut(Request request, Response response) {
         String pathSeg = RestUtils.last(request.url().pathSegments());
         return (SIGN_OUT_PATH_SEGMENT.equals(pathSeg) && response.code() == 200);
+    }
+
+    private boolean returnsMySessionInfo(Request request) {
+        if (PARTICIPANT_SELF_PATH.equals(request.url().encodedPath())
+                && HTTP_METHOD_POST.equals(request.method())) {
+            return true;
+        }
+        return false;
     }
 
     private UserSessionInfo getUserSessionInfo(String bodyString) {
