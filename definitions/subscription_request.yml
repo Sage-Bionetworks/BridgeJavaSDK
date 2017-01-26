@@ -1,0 +1,16 @@
+type: object
+description: |
+required:
+    - topicGuids
+properties:
+    topicGuids:
+        type: array
+        description: |
+            The topics to which the caller should be subscribed. If a topic is not in this list, and the 
+            caller is currently subscribed to that topic, they will be unsubscribed from that topic.
+        items:
+            type: string
+    type:
+        type: string
+        readOnly: true
+        description: "SubscriptionRequest"

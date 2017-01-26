@@ -1,0 +1,19 @@
+type: object
+required:
+    - topicGuid
+    - topicName
+    - subscribed
+properties:
+    topicGuid:
+        type: string
+        readOnly: true
+    topicName:
+        type: string
+        readOnly: true
+    subscribed:
+        type: boolean
+        readOnly: true
+    type:
+        type: string
+        readOnly: true
+        description: "SubscriptionStatus"
