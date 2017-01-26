@@ -26,15 +26,6 @@ public class UserSessionInfoProvider {
         this.sessionInterceptor = sessionInterceptor;
     }
 
-    // intended for use by AuthenticationHandler
-    void removeCachedSession(UserSessionInfo session) {
-        if (session == null) {
-            return;
-        }
-        LOG.debug("Removing session: " + session.getEmail());
-        this.sessionInterceptor.removeSession(session);
-    }
-
     /**
      * Retrieves a session. Tries to retrieve from a cache before calling a service.
      *

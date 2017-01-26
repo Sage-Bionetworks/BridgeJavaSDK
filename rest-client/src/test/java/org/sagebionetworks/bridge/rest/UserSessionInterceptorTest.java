@@ -88,6 +88,21 @@ public class UserSessionInterceptorTest {
     }
 
     @Test
+    public void interceptsHttpStatusCode401() throws IOException {
+        interceptor.addSession(signIn, userSessionInfo);
+        doReturn(request).when(chain).request();
+        doReturn(httpUrl).when(request).url();
+        doReturn(Lists.newArrayList("v3", "auth", "signOut")).when(httpUrl).pathSegments();
+        doReturn(response).when(chain).proceed(request);
+        doReturn(401).when(response).code();
+        doReturn("sessionToken").when(request).header("Bridge-Session");
+
+        interceptor.intercept(chain);
+
+        assertNull(interceptor.getSession(signIn));
+    }
+
+    @Test
     public void interceptsSignOut() throws IOException {
         interceptor.addSession(signIn, userSessionInfo);
         doReturn(request).when(chain).request();

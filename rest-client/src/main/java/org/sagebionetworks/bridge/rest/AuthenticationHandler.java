@@ -44,7 +44,6 @@ class AuthenticationHandler implements Authenticator, Interceptor {
     public okhttp3.Request authenticate(Route route, okhttp3.Response response) throws IOException {
         // if we reach this part of the code, the server had returned a 401 and userSession is
         // invalid
-        this.userSessionInfoProvider.removeCachedSession(userSession);
         this.userSession = null;
 
         if (tryCount >= MAX_TRIES || !isValidSignIn(signIn)) {
