@@ -136,6 +136,19 @@ parameters:
         required: true
         in: query
         type: string
+    pageSize:
+        name: pageSize
+        description: maximum number of records in each returned page
+        in: query
+        type: integer
+        format: int64
+        required: true
+    offsetKey:
+        name: offsetKey
+        description: next page start key for pagination 
+        in: query
+        type: string
+        required: true
 
 paths:
     $ref: ./paths/index.yml

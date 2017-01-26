@@ -10,6 +10,8 @@ get:
     parameters:
         - $ref: ../../index.yml#/parameters/startTime
         - $ref: ../../index.yml#/parameters/endTime
+        - $ref: ../../index.yml#/parameters/pageSize
+        - $ref: ../../index.yml#/parameters/offsetKey
     responses:
         200:
             description: OK

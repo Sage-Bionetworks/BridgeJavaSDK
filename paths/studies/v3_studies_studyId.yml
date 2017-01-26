@@ -47,6 +47,12 @@ delete:
         -   BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
+        - name: physical
+          description: Physically delete the study
+          default: true
+          required: false
+          in: query
+          type: boolean
     responses:
         200:
             $ref: ../../responses/200_message.yml
