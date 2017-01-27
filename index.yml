@@ -142,13 +142,15 @@ parameters:
         in: query
         type: integer
         format: int64
-        required: true
+        required: false
+        default: 50
+        maximum: 100
     offsetKey:
         name: offsetKey
         description: next page start key for pagination 
         in: query
         type: string
-        required: true
+        required: false
     guid:
         name: guid
         description: A guid

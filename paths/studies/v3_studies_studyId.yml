@@ -49,7 +49,7 @@ delete:
         - $ref: ../../index.yml#/parameters/studyId
         - name: physical
           description: Physically delete the study
-          default: true
+          default: false
           required: false
           in: query
           type: boolean
