@@ -4,8 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 
@@ -17,6 +20,7 @@ import org.mockito.Spy;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import org.sagebionetworks.bridge.rest.exceptions.EntityNotFoundException;
 import org.sagebionetworks.bridge.rest.model.SignIn;
 import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 
@@ -88,16 +92,35 @@ public class UserSessionInterceptorTest {
     }
 
     @Test
-    public void interceptsHttpStatusCode401() throws IOException {
+    public void interceptsSignIn_EntityNotFoundException() throws IOException {
         interceptor.addSession(signIn, userSessionInfo);
         doReturn(request).when(chain).request();
         doReturn(httpUrl).when(request).url();
-        doReturn(Lists.newArrayList("v3", "auth", "signOut")).when(httpUrl).pathSegments();
+        doReturn(Lists.newArrayList("v3", "auth", "signIn")).when(httpUrl).pathSegments();
+        doReturn(requestBuilder).when(request).newBuilder();
+        doReturn(request).when(requestBuilder).build();
+        doReturn(requestBody).when(request).body();
+        doReturn(Tests.unescapeJson("{'study':'studyId','email':'email@email.com'," +
+                "'password':'P4ssword'}")).when(buffer).readUtf8();
+        // Just assume creating a buffer works.
+        doReturn(buffer).when(interceptor).createBuffer();
+
         doReturn(response).when(chain).proceed(request);
-        doReturn(401).when(response).code();
+
+        doThrow(new EntityNotFoundException("Fail", httpUrl.toString())).when(chain).proceed
+                (request);
+
+        doReturn(404).when(response).code();
         doReturn("sessionToken").when(request).header("Bridge-Session");
 
-        interceptor.intercept(chain);
+        try {
+            interceptor.intercept(chain);
+            fail();
+        } catch (Throwable e) {
+            e.printStackTrace();
+            assertTrue(e instanceof EntityNotFoundException);
+
+        }
 
         assertNull(interceptor.getSession(signIn));
     }

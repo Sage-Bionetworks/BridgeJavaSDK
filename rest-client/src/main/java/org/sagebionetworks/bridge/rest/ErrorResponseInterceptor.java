@@ -50,7 +50,7 @@ class ErrorResponseInterceptor implements Interceptor {
         return response;
     }
     
-    private void throwErrorCodeException(Response response) {
+    static void throwErrorCodeException(Response response) {
         String url = response.request().url().toString();
         try {
             JsonElement node = RestUtils.GSON.fromJson(response.body().string(), JsonElement.class);
@@ -62,7 +62,8 @@ class ErrorResponseInterceptor implements Interceptor {
         }
     }
 
-    private void throwExceptionOnErrorStatus(String url, int statusCode, JsonElement node, String message) {
+    static private void throwExceptionOnErrorStatus(String url, int statusCode, JsonElement node,
+                                              String message) {
         if (Strings.isNullOrEmpty(message)) {
             if (node != null && node.getAsJsonObject().get("message") != null) {
                 message = node.getAsJsonObject().get("message").getAsString();
