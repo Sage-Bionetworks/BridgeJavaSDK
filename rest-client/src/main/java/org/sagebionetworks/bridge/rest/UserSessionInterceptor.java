@@ -182,8 +182,7 @@ class UserSessionInterceptor implements Interceptor {
     }
 
     private boolean returnsMySessionInfo(Request request) {
-        if (PARTICIPANT_SELF_PATH.equals(request.url().encodedPath())
-                && HTTP_METHOD_POST.equals(request.method())) {
+        if (PARTICIPANT_SELF_PATH.equals(request.url().encodedPath()) && HTTP_METHOD_POST.equals(request.method())) {
             return true;
         }
         return false;

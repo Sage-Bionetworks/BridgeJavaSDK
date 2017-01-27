@@ -32,15 +32,14 @@ public class ApiClientProvider {
     }
 
     // allow unit tests to inject a UserSessionInfoProvider
-    ApiClientProvider(String baseUrl, String userAgent, String acceptLanguage,
-                      UserSessionInfoProvider userSessionInfoProvider) {
+    ApiClientProvider(String baseUrl, String userAgent, String acceptLanguage, UserSessionInfoProvider
+            userSessionInfoProvider) {
         authenticatedRetrofits = Maps.newHashMap();
         authenticatedClients = Maps.newHashMap();
 
         UserSessionInterceptor sessionInterceptor = new UserSessionInterceptor();
 
-        // Devo may take up to 2 minutes to boot up. Need to set timeouts accordingly so that
-        // integration tests succeed
+        // Devo may take up to 2 minutes to boot up. Need to set timeouts accordingly so that integration tests succeed
         // May want to make it possible to configure this value when creating the ApiClientProvider.
         unauthenticatedOkHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(2, TimeUnit.MINUTES)
@@ -124,8 +123,7 @@ public class ApiClientProvider {
         Retrofit authenticatedRetrofit = null;
         SignIn internalSignIn = RestUtils.makeInternalCopy(signIn);
 
-        WeakReference<Retrofit> authenticatedRetrofitReference = authenticatedRetrofits.get
-                (internalSignIn);
+        WeakReference<Retrofit> authenticatedRetrofitReference = authenticatedRetrofits.get(internalSignIn);
         if (authenticatedRetrofitReference != null) {
             authenticatedRetrofit = authenticatedRetrofitReference.get();
         }

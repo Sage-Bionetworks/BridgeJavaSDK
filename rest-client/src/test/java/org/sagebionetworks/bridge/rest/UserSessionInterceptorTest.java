@@ -212,38 +212,6 @@ public class UserSessionInterceptorTest {
     }
 
     @Test
-    public void interceptsNonUserSessionResponses() throws IOException {
-        doReturn(response).when(chain).proceed(request);
-        doReturn(request).when(chain).request();
-
-        // Mock request
-        doReturn(httpUrl).when(request).url();
-        doReturn(Lists.newArrayList("v3", "other", "url")).when(httpUrl).pathSegments();
-        doReturn(requestBuilder).when(request).newBuilder();
-        doReturn(request).when(requestBuilder).build();
-        // Just assume creating a buffer works.
-        doReturn(buffer).when(interceptor).createBuffer();
-        doReturn("sessionToken").when(request).header("Bridge-Session");
-
-        String sessionToken = "theSessionToken";
-
-        // Mock response
-        doReturn(responseBody).when(response).body();
-        doReturn(MediaType.parse("application/json")).when(responseBody).contentType();
-        doReturn(Tests.unescapeJson("{'email':'emailInSession@email.com'," +
-                "'sessionToken':'" + sessionToken + "'}")).when
-                (responseBody)
-                .string();
-        // Just assume copying works
-        doReturn(response).when(interceptor).copyResponse(any(Response.class), any(String.class));
-
-        interceptor.intercept(chain);
-
-        UserSessionInfo info = interceptor.getSession(signIn);
-        assertNull(info);
-    }
-
-    @Test
     public void interceptsParticipantSelfUpdates() throws IOException {
         doReturn(response).when(chain).proceed(request);
         doReturn(request).when(chain).request();

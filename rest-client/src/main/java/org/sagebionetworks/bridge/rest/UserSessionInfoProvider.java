@@ -44,8 +44,8 @@ public class UserSessionInfoProvider {
         LOG.debug("No session, call intercepted for authentication attempt: " + signIn.getEmail());
         authenticationApi.signIn(signIn).execute();
 
-        // Calling sign in will cause the session to be saved by the session interceptor. No
-        // further work is required here.
+        // Calling sign in will cause the session to be saved by the session interceptor. No further
+        // work is required here.
         return sessionInterceptor.getSession(signIn);
     }
 
