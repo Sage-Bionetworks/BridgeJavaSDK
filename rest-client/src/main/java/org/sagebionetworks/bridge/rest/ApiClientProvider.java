@@ -70,8 +70,10 @@ public class ApiClientProvider {
     /**
      * Creates an unauthenticated client.
      *
-     * @param <T>     One of the Api classes in the org.sagebionetworks.bridge.rest.api package.
-     * @param service Class representing the service
+     * @param <T>
+     *         One of the Api classes in the org.sagebionetworks.bridge.rest.api package.
+     * @param service
+     *         Class representing the service
      * @return service client
      */
     public <T> T getClient(Class<T> service) {
@@ -79,9 +81,12 @@ public class ApiClientProvider {
     }
 
     /**
-     * @param <T>     One of the Api classes in the org.sagebionetworks.bridge.rest.api package.
-     * @param service Class representing the service
-     * @param signIn  credentials for the user, or null for an unauthenticated client
+     * @param <T>
+     *         One of the Api classes in the org.sagebionetworks.bridge.rest.api package.
+     * @param service
+     *         Class representing the service
+     * @param signIn
+     *         credentials for the user, or null for an unauthenticated client
      * @return service client that is authenticated with the user's credentials
      */
     public <T> T getClient(Class<T> service, SignIn signIn) {

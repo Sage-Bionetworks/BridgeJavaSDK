@@ -29,8 +29,10 @@ class AuthenticationHandler implements Authenticator, Interceptor {
     private int tryCount;
 
     /**
-     * @param signIn                  credentials for the user
-     * @param userSessionInfoProvider for retrieving the user's session
+     * @param signIn
+     *         credentials for the user
+     * @param userSessionInfoProvider
+     *         for retrieving the user's session
      */
     public AuthenticationHandler(SignIn signIn, UserSessionInfoProvider userSessionInfoProvider) {
         Preconditions.checkNotNull(signIn);
