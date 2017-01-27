@@ -162,6 +162,21 @@
       "in": "query",
       "type": "string"
     },
+    "pageSize": {
+      "name": "pageSize",
+      "description": "maximum number of records in each returned page",
+      "in": "query",
+      "type": "integer",
+      "format": "int64",
+      "required": true
+    },
+    "offsetKey": {
+      "name": "offsetKey",
+      "description": "next page start key for pagination",
+      "in": "query",
+      "type": "string",
+      "required": true
+    },
     "guid": {
       "name": "guid",
       "description": "A guid",
@@ -4064,6 +4079,14 @@
         "parameters": [
           {
             "$ref": "#/parameters/studyId"
+          },
+          {
+            "name": "physical",
+            "description": "Physically delete the study",
+            "default": true,
+            "required": false,
+            "in": "query",
+            "type": "boolean"
           }
         ],
         "responses": {
@@ -4188,6 +4211,12 @@
           },
           {
             "$ref": "#/parameters/endTime"
+          },
+          {
+            "$ref": "#/parameters/pageSize"
+          },
+          {
+            "$ref": "#/parameters/offsetKey"
           }
         ],
         "responses": {
@@ -4572,6 +4601,12 @@
           },
           {
             "$ref": "#/parameters/endTime"
+          },
+          {
+            "$ref": "#/parameters/pageSize"
+          },
+          {
+            "$ref": "#/parameters/offsetKey"
           }
         ],
         "responses": {
@@ -7635,6 +7670,14 @@
             "$ref": "#/definitions/Upload"
           }
         },
+        "pageSize": {
+          "type": "integer",
+          "description": "maximum number of records in each returned page"
+        },
+        "offsetKey": {
+          "type": "string",
+          "description": "start key for next page"
+        },
         "startTime": {
           "type": "string",
           "format": "date-time",
@@ -7652,7 +7695,7 @@
         "type": {
           "type": "string",
           "readOnly": true,
-          "description": "DateTimeRangeResourceList"
+          "description": "PagedResourceList"
         }
       }
     },
@@ -7825,6 +7868,14 @@
             "pattern": {
               "type": "string",
               "description": "A regular expression pattern (omitting slashes) against with the input \nshould be validated.\n"
+            },
+            "patternErrorMessage": {
+              "type": "string",
+              "description": "If a pattern is provided, an error message is required, explaining the desired format if the \ndata does not fit the pattern.\n"
+            },
+            "patternPlaceholder": {
+              "type": "string",
+              "description": "An example of the data to be entered, usually shown in or next to the input control \n(e.g. \"###-###-####\" for a US telephone number). This is not required, but it is desirable.\n"
             }
           }
         }
