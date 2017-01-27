@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gson.JsonSyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.sagebionetworks.bridge.rest.exceptions.ConsentRequiredException;
+import org.sagebionetworks.bridge.rest.exceptions.EntityNotFoundException;
 import org.sagebionetworks.bridge.rest.model.SignIn;
 import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 
@@ -18,10 +20,15 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.Buffer;
 
+/**
+ * Inspects requests and responses to keep session updated.
+ */
 class UserSessionInterceptor implements Interceptor {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserSessionInterceptor.class);
 
+    private static final String HTTP_METHOD_POST = "POST";
+    private static final String PARTICIPANT_SELF_PATH = "v3/participant/self";
     private static final String SIGN_OUT_PATH_SEGMENT = "signOut";
     private static final String SIGN_IN_PATH_SEGMENT = "signIn";
     private static final String BRIDGE_SESSION_HEADER = "Bridge-Session";
@@ -53,6 +60,10 @@ class UserSessionInterceptor implements Interceptor {
         sessionTokenMap.put(userSessionInfo.getSessionToken(), internalSignIn);
     }
 
+    public synchronized void removeSession(SignIn signIn) {
+        removeSession(sessionMap.get(signIn));
+    }
+
     public synchronized void removeSession(UserSessionInfo session) {
         if (session == null) {
             return;
@@ -76,30 +87,65 @@ class UserSessionInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
 
-        SignIn signIn = recoverSignIn(request);
+        SignIn signIn = null;
         try {
+            signIn = recoverSignIn(request);
+
             Response response = chain.proceed(request);
-            if (signIn != null) {
-                String bodyString = response.body().string();
 
-                UserSessionInfo userSessionInfo = getUserSessionInfo(bodyString);
-                addSession(signIn, userSessionInfo);
-
-                return copyResponse(response, bodyString);
-            }
             if (isSuccessfulSignOut(request, response)) {
                 String sessionToken = request.header(BRIDGE_SESSION_HEADER);
                 if (sessionToken != null) {
                     removeSession(sessionToken);
                 }
+                return response;
             }
-            return response;
+
+            if (response.code() > 399) {
+                LOG.warn("Received an error code when an exception was " +
+                        "expected, UserSessionInfo may not be correctly updated");
+            }
+
+            String bodyString = response.body().string();
+            UserSessionInfo userSessionInfo = null;
+            if (signIn != null) {
+                userSessionInfo = getUserSessionInfo(bodyString);
+            } else if (returnsMySessionInfo(request)){
+                userSessionInfo = getUserSessionInfo(bodyString);
+            }
+
+            if (userSessionInfo != null) {
+                if (signIn == null) {
+                    // if this wasn't a sign in, check if we previously captured the sign in
+                    signIn = sessionTokenMap.get(userSessionInfo.getSessionToken());
+                }
+                if (signIn != null) {
+                    addSession(signIn, userSessionInfo);
+                }
+            }
+
+            // response body was already read, create copy instance before passing up the chain
+            return copyResponse(response, bodyString);
+
+            // presumably, any exceptions thrown are from interceptors
+            // particularly, AuthenticationHandler throws these, which we're interest in
         } catch (ConsentRequiredException e) {
-            // Only add a session if the exception was thrown during a sign in (and thus we'll have 
-            // the sign in information). At other times we just rethrow this exception because it 
-            // doesn't invalidate the session. 
+            if (signIn == null) {
+                // if this wasn't a sign in, check if we previously captured the sign in
+                signIn = sessionTokenMap.get(e.getSession().getSessionToken());
+            }
             if (signIn != null) {
                 addSession(signIn, e.getSession());
+            }
+            // We just rethrow this exception because it doesn't invalidate the session.
+            throw e;
+        } catch (EntityNotFoundException e) {
+            // signIn throws EntityNotFound if email and password are incorrect, but many APIs
+            // could be throwing EntityNotFound also
+            if (signIn != null) {
+                LOG.debug("Bad sign in attempt, removing session");
+                removeSession(request.header(BRIDGE_SESSION_HEADER));
+                removeSession(signIn);
             }
             throw e;
         }
@@ -135,7 +181,20 @@ class UserSessionInterceptor implements Interceptor {
         return (SIGN_OUT_PATH_SEGMENT.equals(pathSeg) && response.code() == 200);
     }
 
-    private UserSessionInfo getUserSessionInfo(String bodyString) throws IOException {
-        return RestUtils.GSON.fromJson(bodyString, UserSessionInfo.class);
+    private boolean returnsMySessionInfo(Request request) {
+        if (PARTICIPANT_SELF_PATH.equals(request.url().encodedPath()) && HTTP_METHOD_POST.equals(request.method())) {
+            return true;
+        }
+        return false;
+    }
+
+    private UserSessionInfo getUserSessionInfo(String bodyString) {
+        try {
+            return RestUtils.GSON.fromJson(bodyString, UserSessionInfo.class);
+        } catch (JsonSyntaxException e) {
+            LOG.debug("Failed to deserialize UserSessionInfo from response", e);
+            // this likely means we didn't have a UserSessionInfo return type
+            return null;
+        }
     }
 }
