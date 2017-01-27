@@ -8,6 +8,7 @@ import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
@@ -20,6 +21,7 @@ import org.mockito.Spy;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import org.sagebionetworks.bridge.rest.exceptions.ConsentRequiredException;
 import org.sagebionetworks.bridge.rest.exceptions.EntityNotFoundException;
 import org.sagebionetworks.bridge.rest.model.SignIn;
 import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
@@ -89,6 +91,43 @@ public class UserSessionInterceptorTest {
 
         interceptor.removeSession("sessionToken");
         assertNull(interceptor.getSession(signIn));
+    }
+
+    @Test
+    public void interceptsConsentRequiredException() throws IOException {
+        doReturn(request).when(chain).request();
+        doReturn(httpUrl).when(request).url();
+        doReturn(Lists.newArrayList("v3", "auth", "signIn")).when(httpUrl).pathSegments();
+        doReturn(requestBuilder).when(request).newBuilder();
+        doReturn(request).when(requestBuilder).build();
+        doReturn(requestBody).when(request).body();
+        doReturn(Tests.unescapeJson("{'study':'studyId','email':'email@email.com'," +
+                "'password':'P4ssword'}")).when(buffer).readUtf8();
+
+        SignIn signIn = new SignIn().study("studyId").email("email@email.com").password("P4ssword");
+        interceptor.addSession(signIn, userSessionInfo);
+
+        // Just assume creating a buffer works.
+        doReturn(buffer).when(interceptor).createBuffer();
+
+        doReturn(response).when(chain).proceed(request);
+
+        UserSessionInfo newSession = mock(UserSessionInfo.class);
+        doThrow(new ConsentRequiredException("Message", httpUrl.toString(), newSession))
+                .when(chain).proceed(request);
+
+        doReturn(404).when(response).code();
+        doReturn("sessionToken").when(request).header("Bridge-Session");
+
+        try {
+            interceptor.intercept(chain);
+            fail();
+        } catch (Throwable e) {
+            e.printStackTrace();
+            assertTrue(e instanceof ConsentRequiredException);
+        }
+
+        assertEquals(newSession, interceptor.getSession(signIn));
     }
 
     @Test

@@ -130,7 +130,6 @@ class UserSessionInterceptor implements Interceptor {
             // presumably, any exceptions thrown are from interceptors
             // particularly, AuthenticationHandler throws these, which we're interest in
         } catch (ConsentRequiredException e) {
-            signIn = recoverSignIn(request);
             if (signIn == null) {
                 // if this wasn't a sign in, check if we previously captured the sign in
                 signIn = sessionTokenMap.get(e.getSession().getSessionToken());
