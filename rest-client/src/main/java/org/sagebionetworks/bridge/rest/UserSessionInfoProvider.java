@@ -32,7 +32,7 @@ public class UserSessionInfoProvider {
      * @param signIn
      *         sign in credentials for a user
      * @return session info for the user, or null if the return value was not a 200
-     * @throws IOException
+     * @throws IOException problem while signing in
      */
     public UserSessionInfo retrieveSession(SignIn signIn) throws IOException {
         UserSessionInfo session = retrieveCachedSession(signIn);
