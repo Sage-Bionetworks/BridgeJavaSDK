@@ -152,7 +152,7 @@ public class ApiClientProvider {
             // Place authenticationHandler first in the chain of interceptors. AuthenticationHandler must come earlier
             // than userSessionInterceptor, so that userSessionInterceptor has access to authentication headers
             httpClientBuilder.interceptors().add(0, authenticationHandler);
-            httpClientBuilder.authenticator                    (authenticationHandler);
+            httpClientBuilder.authenticator(authenticationHandler);
         }
 
         Retrofit authenticatedRetrofit = retrofitBuilder.client(httpClientBuilder.build()).build();
