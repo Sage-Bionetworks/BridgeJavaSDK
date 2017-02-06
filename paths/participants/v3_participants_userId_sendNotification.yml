@@ -1,5 +1,5 @@
 post:
-    operationId: sendNotification
+    operationId: sendNotificationToParticipant
     summary: Send a push notification to a single participant
     description: |
         Send a push notification to an individual participant (assuming they have registered for push notifications). 
@@ -19,8 +19,8 @@ post:
           schema:
             $ref: ../../definitions/notification_message.yml
     responses:
-        201:
-            $ref: ../../responses/201_message.yml
+        202:
+            $ref: ../../responses/202_message.yml
         401:
             $ref: ../../responses/401.yml
         403:
