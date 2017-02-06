@@ -5,6 +5,12 @@ properties:
         type: array
         items:
             $ref: ../upload.yml
+    pageSize:
+        type: integer
+        description: maximum number of records in each returned page
+    offsetKey:
+        type: string
+        description: start key for next page 
     startTime:
         type: string
         format: date-time
@@ -19,5 +25,5 @@ properties:
     type:
         type: string
         readOnly: true
-        description: "DateTimeRangeResourceList"
+        description: "PagedResourceList"
         

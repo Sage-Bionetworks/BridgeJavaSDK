@@ -7,6 +7,9 @@ properties:
         type: string
         format: date-time
         description: ISO timestamp of when the data record was created, as reported by the submitting app
+    createdOnTimeZone:
+        type: string
+        description: The original timezone of the createdOn timestamp, expressed as a 4-digit string with sign. For example, -0800, +0900
     data:
         type: object
         description: JSON map with key value pairs representing the record's data.
