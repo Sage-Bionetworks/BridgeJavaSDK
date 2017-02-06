@@ -63,4 +63,14 @@ public class UserSessionInfoProvider {
 
         return sessionInterceptor.getSession(signIn);
     }
+
+    /**
+     * Removes a session from the cache. This should be called if a session returned by this instance turns out to be
+     * no longer valid.
+     *
+     * @param session the user's session
+     */
+    void purgeCachedSession(UserSessionInfo session) {
+        sessionInterceptor.removeSession(session);
+    }
 }
