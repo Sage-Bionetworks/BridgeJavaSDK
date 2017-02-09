@@ -11,6 +11,8 @@ import org.sagebionetworks.bridge.rest.exceptions.BadRequestException;
 import org.sagebionetworks.bridge.rest.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.rest.exceptions.ConcurrentModificationException;
 import org.sagebionetworks.bridge.rest.exceptions.ConsentRequiredException;
+import org.sagebionetworks.bridge.rest.exceptions.ConstraintViolationException;
+import org.sagebionetworks.bridge.rest.exceptions.EndpointNotFoundException;
 import org.sagebionetworks.bridge.rest.exceptions.EntityAlreadyExistsException;
 import org.sagebionetworks.bridge.rest.exceptions.EntityNotFoundException;
 import org.sagebionetworks.bridge.rest.exceptions.InvalidEntityException;
@@ -22,6 +24,7 @@ import org.sagebionetworks.bridge.rest.exceptions.UnsupportedVersionException;
 import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 
@@ -62,8 +65,7 @@ class ErrorResponseInterceptor implements Interceptor {
         }
     }
 
-    private void throwExceptionOnErrorStatus(String url, int statusCode, JsonElement node,
-                                              String message) {
+    private void throwExceptionOnErrorStatus(String url, int statusCode, JsonElement node, String message) {
         if (Strings.isNullOrEmpty(message)) {
             if (node != null && node.getAsJsonObject().get("message") != null) {
                 message = node.getAsJsonObject().get("message").getAsString();
@@ -72,41 +74,46 @@ class ErrorResponseInterceptor implements Interceptor {
                 message = "There has been an error on the server";
             }
         }
-
-        BridgeSDKException e;
-        if (statusCode == 401) {
-            e = new NotAuthenticatedException(message, url);
-        } else if (statusCode == 403) {
-            e = new UnauthorizedException(message, url);
-        } else if (statusCode == 404) {
-            e = new EntityNotFoundException(message, url);
-        } else if (statusCode == 410) {
-            e = new UnsupportedVersionException(message, url);
-        } else if (statusCode == 412) {
+        // This does not return an exception message, it returns session object.
+        if (statusCode == 412) {
             UserSessionInfo session = null;
             if (node != null) {
                 session = RestUtils.GSON.fromJson(node, UserSessionInfo.class);
             }
-            e = new ConsentRequiredException("Consent required.", url, session);
-        } else if (statusCode == 409 && message.contains("already exists")) {
-            e = new EntityAlreadyExistsException(message, url);
-        } else if (statusCode == 409 && message.contains("has the wrong version number")) {
-            e = new ConcurrentModificationException(message, url);
-        } else if (statusCode == 400 && message.contains("A published survey")) {
-            e = new PublishedSurveyException(message, url);
-        } else if (statusCode == 400) {
-            if (node != null && node.getAsJsonObject().get("errors") != null) {
-                Map<String, List<String>> errors = RestUtils.GSON.fromJson(node.getAsJsonObject().get("errors"),
-                        ERRORS_MAP_TYPE_TOKEN);
-                e = new InvalidEntityException(message, errors, url);
-            } else {
-                e = new BadRequestException(message, url);
-            }
-        } else if (statusCode == 501) {
-            e = new NotImplementedException(message, url);
-        } else {
-            e = new BridgeSDKException(message, statusCode, url);
+            throw new ConsentRequiredException("Consent required.", url, session);
         }
-        throw e;
+        String type = (node != null) ? node.getAsJsonObject().get("type").getAsString() : "Unknown";
+        switch(type) {
+            case "NotAuthenticatedException":
+                throw new NotAuthenticatedException(message, url);
+            case "UnauthorizedException":
+                throw new UnauthorizedException(message, url);
+            case "EntityNotFoundException":
+                throw new EntityNotFoundException(message, url);
+            case "EndpointNotFoundException":
+                throw new EndpointNotFoundException(message, url);
+            case "UnsupportedVersionException":
+                throw new UnsupportedVersionException(message, url);
+            case "EntityAlreadyExistsException":
+                throw new EntityAlreadyExistsException(message, url);
+            case "ConcurrentModificationException":
+                throw new ConcurrentModificationException(message, url);
+            case "ConstraintViolationException":
+                throw new ConstraintViolationException(message, url);
+            case "PublishedSurveyException":
+                throw new PublishedSurveyException(message, url);
+            case "InvalidEntityException":
+                Map<String, List<String>> errors = Maps.newHashMap();
+                if (node != null && node.getAsJsonObject().get("errors") != null) {
+                    errors = RestUtils.GSON.fromJson(node.getAsJsonObject().get("errors"), ERRORS_MAP_TYPE_TOKEN);
+                }
+                throw new InvalidEntityException(message, errors, url);
+            case "NotImplementedException":
+                throw new NotImplementedException(message, url);
+            case "BadRequestException":
+                throw new BadRequestException(message, url);
+            default:
+                throw new BridgeSDKException(message, statusCode, url);
+        }
     }
 }

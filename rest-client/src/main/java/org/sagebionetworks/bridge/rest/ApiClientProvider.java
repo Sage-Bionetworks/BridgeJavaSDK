@@ -1,12 +1,10 @@
 package org.sagebionetworks.bridge.rest;
 
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.sagebionetworks.bridge.rest.model.SignIn;
-import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;

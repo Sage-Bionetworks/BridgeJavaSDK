@@ -20,6 +20,7 @@ import org.sagebionetworks.bridge.rest.exceptions.BadRequestException;
 import org.sagebionetworks.bridge.rest.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.rest.exceptions.ConcurrentModificationException;
 import org.sagebionetworks.bridge.rest.exceptions.ConsentRequiredException;
+import org.sagebionetworks.bridge.rest.exceptions.EndpointNotFoundException;
 import org.sagebionetworks.bridge.rest.exceptions.EntityAlreadyExistsException;
 import org.sagebionetworks.bridge.rest.exceptions.EntityNotFoundException;
 import org.sagebionetworks.bridge.rest.exceptions.InvalidEntityException;
@@ -76,7 +77,8 @@ public class ErrorResponseInterceptorTest {
     @Test
     public void notImplementedException() throws Exception {
         doReturn(501).when(response).code();
-        doReturn("{\"message\":\"This service has not been implemented.\"}").when(body).string();
+        String json = Tests.unescapeJson("{'message':'This service has not been implemented.','type':'NotImplementedException'}");
+        doReturn(json).when(body).string();
         
         try {
             ErrorResponseInterceptor interceptor = new ErrorResponseInterceptor();
@@ -91,8 +93,8 @@ public class ErrorResponseInterceptorTest {
     @Test
     public void publishedSurvey400() throws Exception {
         doReturn(400).when(response).code();
-        doReturn("{\"message\":\"A published survey cannot be updated or deleted (only closed).\"}").when(body)
-                .string();
+        String json = Tests.unescapeJson("{'message':'A published survey cannot be updated or deleted (only closed).','type':'PublishedSurveyException'}");
+        doReturn(json).when(body).string();
 
         try {
             ErrorResponseInterceptor interceptor = new ErrorResponseInterceptor();
@@ -107,7 +109,8 @@ public class ErrorResponseInterceptorTest {
     @Test
     public void badRequest400() throws Exception {
         doReturn(400).when(response).code();
-        doReturn("{\"message\":\"Bad request\"}").when(body).string();
+        String json = Tests.unescapeJson("{'message':'Bad request','type':'BadRequestException'}");
+        doReturn(json).when(body).string();
 
         try {
             ErrorResponseInterceptor interceptor = new ErrorResponseInterceptor();
@@ -122,24 +125,25 @@ public class ErrorResponseInterceptorTest {
     @Test
     public void unrecognizedUrl400() throws Exception {
         // Play sends responses like these if you call an unrecognized URL.
-        doReturn(400).when(response).code();
-        doReturn("<html><body>Play returns HTML instead of JSON</body></html>").when(body).string();
-        doReturn("Play Framework does not recognize this URL").when(response).message();
+        doReturn(404).when(response).code();
+        String json = Tests.unescapeJson("{'message':'Endpoint not found.','type':'EndpointNotFoundException'}");
+        doReturn(json).when(body).string();
 
         try {
             ErrorResponseInterceptor interceptor = new ErrorResponseInterceptor();
             interceptor.intercept(chain);
             fail("Should have thrown exception");
-        } catch(BadRequestException e) {
-            assertEquals(400, e.getStatusCode());
-            assertEquals("Play Framework does not recognize this URL", e.getMessage());
+        } catch(EndpointNotFoundException e) {
+            assertEquals(404, e.getStatusCode());
+            assertEquals("Endpoint not found.", e.getMessage());
         }
     }
 
     @Test
     public void notAuthenticated401() throws Exception {
         doReturn(401).when(response).code();
-        doReturn("{\"message\":\"Not signed in.\"}").when(body).string();
+        String json = Tests.unescapeJson("{'message':'Not signed in.','type':'NotAuthenticatedException'}");
+        doReturn(json).when(body).string();
 
         try {
             ErrorResponseInterceptor interceptor = new ErrorResponseInterceptor();
@@ -154,7 +158,8 @@ public class ErrorResponseInterceptorTest {
     @Test
     public void unauthorized403() throws Exception {
         doReturn(403).when(response).code();
-        doReturn("{\"message\":\"Caller does not have permission to access this service.\"}").when(body).string();
+        String json = Tests.unescapeJson("{'message':'Caller does not have permission to access this service.','type':'UnauthorizedException'}");
+        doReturn(json).when(body).string();
 
         try {
             ErrorResponseInterceptor interceptor = new ErrorResponseInterceptor();
@@ -169,7 +174,8 @@ public class ErrorResponseInterceptorTest {
     @Test
     public void interceptEntityNotFoundException() throws IOException {
         doReturn(404).when(response).code();
-        doReturn("{\"message\":\"User not found.\"}").when(body).string();
+        String json = Tests.unescapeJson("{'message':'User not found.','type':'EntityNotFoundException'}");
+        doReturn(json).when(body).string();
         
         try {
             ErrorResponseInterceptor interceptor = new ErrorResponseInterceptor();
@@ -185,7 +191,7 @@ public class ErrorResponseInterceptorTest {
     public void interceptInvalidEntityException() throws Exception {
         String json = Tests.unescapeJson("{'errors':{'field2':['error message 3','error message 4'],"+
                 "'field1':['error message 1','error message 2']},'statusCode':400,'endpoint':"+
-                "'http://endpoint/','message':'General error message'}");
+                "'http://endpoint/','message':'General error message','type':'InvalidEntityException'}");
         
         doReturn(400).when(response).code();
         doReturn(json).when(body).string();
@@ -208,7 +214,8 @@ public class ErrorResponseInterceptorTest {
     @Test
     public void entityAlreadyExists409() throws Exception {
         doReturn(409).when(response).code();
-        doReturn("{\"message\":\"Survey already exists\"}").when(body).string();
+        String json = Tests.unescapeJson("{'message':'Survey already exists','type':'EntityAlreadyExistsException'}");
+        doReturn(json).when(body).string();
 
         try {
             ErrorResponseInterceptor interceptor = new ErrorResponseInterceptor();
@@ -223,7 +230,8 @@ public class ErrorResponseInterceptorTest {
     @Test
     public void concurrentModification409() throws Exception {
         doReturn(409).when(response).code();
-        doReturn("{\"message\":\"Survey has the wrong version number\"}").when(body).string();
+        String json = Tests.unescapeJson("{'message':'Survey has the wrong version number','type':'ConcurrentModificationException'}");
+        doReturn(json).when(body).string();
 
         try {
             ErrorResponseInterceptor interceptor = new ErrorResponseInterceptor();
@@ -238,7 +246,8 @@ public class ErrorResponseInterceptorTest {
     @Test
     public void unsupportedVersion410() throws Exception {
         doReturn(410).when(response).code();
-        doReturn("{\"message\":\"This app version is not supported. Please update.\"}").when(body).string();
+        String json = Tests.unescapeJson("{'message':'This app version is not supported. Please update.','type':'UnsupportedVersionException'}");
+        doReturn(json).when(body).string();
 
         try {
             ErrorResponseInterceptor interceptor = new ErrorResponseInterceptor();
@@ -270,7 +279,8 @@ public class ErrorResponseInterceptorTest {
     @Test
     public void serverError500() throws Exception {
         doReturn(500).when(response).code();
-        doReturn("{\"message\":\"Something went terribly wrong!\"}").when(body).string();
+        String json = Tests.unescapeJson("{'message':'Something went terribly wrong!','type':'BridgeServerException'}");
+        doReturn(json).when(body).string();
 
         try {
             ErrorResponseInterceptor interceptor = new ErrorResponseInterceptor();

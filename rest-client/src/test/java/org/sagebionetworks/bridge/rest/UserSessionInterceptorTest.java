@@ -123,7 +123,6 @@ public class UserSessionInterceptorTest {
             interceptor.intercept(chain);
             fail();
         } catch (Throwable e) {
-            e.printStackTrace();
             assertTrue(e instanceof ConsentRequiredException);
         }
 
