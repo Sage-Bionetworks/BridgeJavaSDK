@@ -1,6 +1,6 @@
 post:
-    operationId: createStudyAndUser
-    summary: Create a new study with given user list
+    operationId: createStudyAndUsers
+    summary: Create a new study with given study, user list; and assigning the given Synapse users as admins of the team/project
     tags:
         - Studies
         - _For Admins
