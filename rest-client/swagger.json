@@ -4051,8 +4051,8 @@
     },
     "/v3/studies/init": {
       "post": {
-        "operationId": "createStudyAndUser",
-        "summary": "Create a new study with given user list",
+        "operationId": "createStudyAndUsers",
+        "summary": "Create a new study with given study, user list; and assigning the given Synapse users as admins of the team/project",
         "tags": [
           "Studies",
           "_For Admins"
@@ -4409,7 +4409,7 @@
             "in": "body",
             "schema": {
               "type": "array",
-              "description": "A list of synapse user ids to add into new Project and Team",
+              "description": "A list of synapse user ids to add as admins into new Project and Team",
               "items": {
                 "type": "string"
               }
@@ -6574,16 +6574,21 @@
         },
         "healthCodeExportEnabled": {
           "type": "boolean",
-          "description": "**Can be edited by admins.** Should user health codes be exported as part of the participant roster? This identifies users in the public data set; this can only be set to true for certain studies where users expect to be identified by researchers.\n"
+          "description": "**Can only be set by an administrator.** Should user health codes be exported as part of the participant roster? This identifies users in the public data set; this can only be set to true for certain studies where users expect to be identified by researchers.\n"
         },
         "emailVerificationEnabled": {
           "type": "boolean",
-          "description": "**Can be edited by admins.** Should users be asked to validate that they control the email addresses they use to sign up for the study? True by default.\n"
+          "description": "**Can only be set by an administrator.** Should users be asked to validate that they control the email addresses they use to sign up for the study? True by default.\n"
         },
         "externalIdValidationEnabled": {
           "type": "boolean",
           "default": false,
-          "description": "Should external identifiers be validated? If this is false, then the external ID is treated as an unconstrained string. If this is true, the study designer will need to enter the list of valid codes into Bridge. Bridge will ensure that the following is true:\n\n* Accounts cannot be created without including an externalId;\n* When assigned, the ID will have to match one of the IDs entered into Bridge;\n* A given ID will be assigned to one and only one user;\n* Once assigned, it is not possible to change or remove the external ID from the user account.\n"
+          "description": "**Can only be set by an administrator.** Should external identifiers be validated? If this is false, then the external ID is treated as an unconstrained string. If this is true, the study designer will need to enter the list of valid codes into Bridge. Bridge will ensure that the following is true:\n\n* When assigned, the ID will have to match one of the IDs entered into Bridge;\n* A given ID will be assigned to one and only one user;\n* Once assigned, it is not possible to change or remove the external ID from the user account.\n"
+        },
+        "externalIdRequiredOnSignup": {
+          "type": "boolean",
+          "default": false,
+          "description": "**Can only be set by an administrator.** Should the external ID be required on sign up? If this is true and external ID validation is enabled, this study can support lab codes (where the username and password are auto-generated from the external ID and the user only needs to enter a code).\n"
         },
         "minSupportedAppVersions": {
           "type": "object",
