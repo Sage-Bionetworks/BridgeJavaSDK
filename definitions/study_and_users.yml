@@ -1,5 +1,5 @@
 description: |
-    The holder object for Study, a list of User and a list of admin id
+    The holder object for Study, a list of User and a list of admin IDs
 type: object
 required:
     - adminIds
@@ -8,7 +8,7 @@ required:
 properties:
     adminIds:
         type: array
-        description: A list of admin id.
+        description: A list of Synapse admin user IDs.
         items:
             type: string 
     study:

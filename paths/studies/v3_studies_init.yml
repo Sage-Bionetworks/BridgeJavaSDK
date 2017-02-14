@@ -1,6 +1,10 @@
 post:
     operationId: createStudyAndUsers
-    summary: Create a new study with given study, user list; and assigning the given Synapse users as admins of the team/project
+    summary: Create a new study with administrators and users
+    description: | 
+        Create a new study along with the access team and project in Synapse to receive data collected through Bridge. 
+        Assigns the Synapse users in the admin ID list to be administrators of the access team and project, 
+        and creates the users in the user IDs (users will receive an email confirmation from Synapse to complete account creation).
     tags:
         - Studies
         - _For Admins

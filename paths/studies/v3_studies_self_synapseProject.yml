@@ -17,10 +17,9 @@ post:
           in: body
           schema:
             type: array
-            description: A list of synapse user ids to add as admins into new Project and Team
+            description: A list of synapse user IDs to add as admins of the created project and access team
             items:
                 type: string
-
     responses:
         201:
             $ref: ../../responses/201_message.yml
