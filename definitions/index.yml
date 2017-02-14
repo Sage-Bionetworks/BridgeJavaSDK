@@ -133,6 +133,10 @@ StudyParticipant:
     $ref: ./study_participant.yml
 Subpopulation:
     $ref: ./subpopulation.yml
+SubscriptionRequest:
+    $ref: ./subscription_request.yml
+SubscriptionStatus:
+    $ref: ./subscription_status.yml
 Survey:
     $ref: ./survey.yml
 SurveyElement:
@@ -201,6 +205,8 @@ StudyConsentList:
     $ref: ./paged_resources/study_consent.yml
 SubpopulationList:
     $ref: ./paged_resources/subpopulation.yml
+SubscriptionStatusList:
+    $ref: ./paged_resources/subscription_status.yml
 SurveyList:
     $ref: ./paged_resources/survey.yml
 UploadList:
