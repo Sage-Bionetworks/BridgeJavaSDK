@@ -155,13 +155,6 @@
       "format": "date-time",
       "required": true
     },
-    "synapseUserId": {
-      "name": "synapseUserId",
-      "description": "synapse user id",
-      "required": true,
-      "in": "query",
-      "type": "string"
-    },
     "pageSize": {
       "name": "pageSize",
       "description": "maximum number of records in each returned page",
@@ -3937,6 +3930,45 @@
         }
       }
     },
+    "/v3/studies/init": {
+      "post": {
+        "operationId": "createStudyAndUser",
+        "summary": "Create a new study with given user list",
+        "tags": [
+          "Studies",
+          "_For Admins"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/StudyAndUsers"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/VersionHolder"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_admin"
+          }
+        }
+      }
+    },
     "/v3/studies/self": {
       "get": {
         "operationId": "getUsersStudy",
@@ -4253,7 +4285,16 @@
         ],
         "parameters": [
           {
-            "$ref": "#/parameters/synapseUserId"
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "type": "array",
+              "description": "A list of synapse user ids to add into new Project and Team",
+              "items": {
+                "type": "string"
+              }
+            }
           }
         ],
         "responses": {
@@ -6443,6 +6484,41 @@
           "type": "string",
           "readOnly": true,
           "description": "Study"
+        }
+      }
+    },
+    "StudyAndUsers": {
+      "description": "The holder object for Study, a list of User and a list of admin id\n",
+      "type": "object",
+      "required": [
+        "adminIds",
+        "study",
+        "users"
+      ],
+      "properties": {
+        "adminIds": {
+          "type": "array",
+          "description": "A list of admin id.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "study": {
+          "type": "string",
+          "description": "A label to show the user for this activity.",
+          "$ref": "#/definitions/Study"
+        },
+        "users": {
+          "type": "array",
+          "description": "A list of users in the new Study.",
+          "items": {
+            "$ref": "#/definitions/StudyParticipant"
+          }
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "StudyAndUsers"
         }
       }
     },
