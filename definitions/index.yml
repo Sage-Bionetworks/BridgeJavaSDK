@@ -123,6 +123,8 @@ SimpleScheduleStrategy:
     $ref: ./simple_schedule_strategy.yml
 Study:
     $ref: ./study.yml
+StudyAndUsers:
+    $ref: ./study_and_users.yml
 StudyConsent:
     $ref: ./study_consent.yml
 StudyIdentifier:

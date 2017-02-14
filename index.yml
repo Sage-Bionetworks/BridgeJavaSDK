@@ -130,12 +130,6 @@ parameters:
         type: string
         format: date-time
         required: true
-    synapseUserId:
-        name: synapseUserId
-        description: synapse user id
-        required: true
-        in: query
-        type: string
     pageSize:
         name: pageSize
         description: maximum number of records in each returned page

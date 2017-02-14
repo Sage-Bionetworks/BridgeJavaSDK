@@ -1,0 +1,23 @@
+post:
+    operationId: createStudyAndUser
+    summary: Create a new study with given user list
+    tags:
+        - Studies
+        - _For Admins
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - name: body
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/study_and_users.yml
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/version_holder.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml

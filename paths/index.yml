@@ -173,6 +173,8 @@
 # Studies
 /v3/studies:
     $ref: ./studies/v3_studies.yml
+/v3/studies/init:
+    $ref: ./studies/v3_studies_init.yml
 /v3/studies/self:
     $ref: ./studies/v3_studies_self.yml
 /v3/studies/{studyId}:
