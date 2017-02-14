@@ -62,7 +62,8 @@ class ErrorResponseInterceptor implements Interceptor {
         }
     }
 
-    private void throwExceptionOnErrorStatus(String url, int statusCode, JsonElement node, String message) {
+    private void throwExceptionOnErrorStatus(String url, int statusCode, JsonElement node,
+                                              String message) {
         if (Strings.isNullOrEmpty(message)) {
             if (node != null && node.getAsJsonObject().get("message") != null) {
                 message = node.getAsJsonObject().get("message").getAsString();

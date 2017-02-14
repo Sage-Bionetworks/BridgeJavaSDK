@@ -796,7 +796,7 @@
     },
     "/v3/participants/{userId}/sendNotification": {
       "post": {
-        "operationId": "sendNotification",
+        "operationId": "sendNotificationToParticipant",
         "summary": "Send a push notification to a single participant",
         "description": "Send a push notification to an individual participant (assuming they have registered for push notifications). \nDo not use this method to notify a group of participants; create a topic, ask your users to subscribe to that \ntopic, and send a message via that topic instead.\n",
         "tags": [
@@ -823,8 +823,8 @@
           }
         ],
         "responses": {
-          "201": {
-            "$ref": "#/responses/201_message"
+          "202": {
+            "$ref": "#/responses/202_message"
           },
           "401": {
             "$ref": "#/responses/401"
@@ -3102,6 +3102,86 @@
         }
       }
     },
+    "/v3/notifications/{guid}/subscriptions": {
+      "get": {
+        "operationId": "getTopicSubscriptions",
+        "summary": "Get subscription status for all topics using a device registration",
+        "description": "For every topic in the study, get a status object describing whether or not the caller is \nsubscribed to that topic.        \n",
+        "tags": [
+          "_For Consented Users"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/guid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SubscriptionStatusList"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
+          }
+        }
+      },
+      "post": {
+        "operationId": "subscribeToTopics",
+        "summary": "Subscribe to a set of the topics using a device registration",
+        "description": "Provide a registration GUID and a set of topic GUIDs. For every topic in the study, either subscribe \nor unsubscribe the registration GUID from the topic to bring the caller's subscription into line \nwith the set provided.\n",
+        "tags": [
+          "_For Consented Users"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/guid"
+          },
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/SubscriptionRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SubscriptionStatusList"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
+          }
+        }
+      }
+    },
     "/v3/topics": {
       "get": {
         "operationId": "getNotificationTopics",
@@ -3271,6 +3351,45 @@
           },
           "403": {
             "$ref": "#/responses/403_not_developer"
+          }
+        }
+      }
+    },
+    "/v3/topics/{guid}/sendNotification": {
+      "post": {
+        "operationId": "sendNotificationToTopic",
+        "summary": "Send a push notification to all topic subscribers",
+        "tags": [
+          "Notifications",
+          "_For Researchers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/guid"
+          },
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/NotificationMessage"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "$ref": "#/responses/202_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_researcher"
           }
         }
       }
@@ -6669,6 +6788,55 @@
         }
       }
     },
+    "SubscriptionRequest": {
+      "type": "object",
+      "description": "",
+      "required": [
+        "topicGuids"
+      ],
+      "properties": {
+        "topicGuids": {
+          "type": "array",
+          "description": "The topics to which the caller should be subscribed. If a topic is not in this list, and the \ncaller is currently subscribed to that topic, they will be unsubscribed from that topic.\n",
+          "items": {
+            "type": "string"
+          }
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "SubscriptionRequest"
+        }
+      }
+    },
+    "SubscriptionStatus": {
+      "type": "object",
+      "description": "A participant will receive one of these records for every topic in a study, indicating whether or not \nthe participant is subscribed to that topic. The list of topics can be used to show the user a UI to \nchange these subscriptions.\n",
+      "required": [
+        "topicGuid",
+        "topicName",
+        "subscribed"
+      ],
+      "properties": {
+        "topicGuid": {
+          "type": "string",
+          "readOnly": true
+        },
+        "topicName": {
+          "type": "string",
+          "readOnly": true
+        },
+        "subscribed": {
+          "type": "boolean",
+          "readOnly": true
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "SubscriptionStatus"
+        }
+      }
+    },
     "Survey": {
       "type": "object",
       "description": "The definition of a survey.",
@@ -7709,6 +7877,26 @@
         "total": {
           "type": "integer",
           "description": "The total number of records in the items list."
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "ResourceList"
+        }
+      }
+    },
+    "SubscriptionStatusList": {
+      "type": "object",
+      "readOnly": true,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SubscriptionStatus"
+          }
+        },
+        "total": {
+          "type": "integer"
         },
         "type": {
           "type": "string",
