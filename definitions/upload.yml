@@ -16,6 +16,9 @@ properties:
         type: integer
         format: int64
         description: The revision for the schema of this upload.
+    recordId:
+        type: string
+        description: The record ID of the upload in Synapse.
     contentLength:
         type: integer
         format: int64
