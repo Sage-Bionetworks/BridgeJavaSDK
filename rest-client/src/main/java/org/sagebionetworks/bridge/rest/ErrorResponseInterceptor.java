@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.sagebionetworks.bridge.rest.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.rest.exceptions.ConsentRequiredException;
 import org.sagebionetworks.bridge.rest.exceptions.InvalidEntityException;
@@ -29,6 +32,7 @@ import okhttp3.Response;
  */
 class ErrorResponseInterceptor implements Interceptor {
 
+    private static final Logger logger = LoggerFactory.getLogger(ErrorResponseInterceptor.class);
     private static final String EXCEPTION_PACKAGE = "org.sagebionetworks.bridge.rest.exceptions.";
     private static final Type ERRORS_MAP_TYPE_TOKEN 
         = new TypeToken<HashMap<String, ArrayList<String>>>() {}.getType();
@@ -93,14 +97,16 @@ class ErrorResponseInterceptor implements Interceptor {
     private void throwBridgeExceptionIfItExists(String type, String message, String url) {
         if (type != null && !"Unknown".equals(type)) {
             try {
+                
                 Class<? extends BridgeSDKException> clazz = (Class<? extends BridgeSDKException>) Class
                         .forName(EXCEPTION_PACKAGE + type);
                 Constructor<? extends BridgeSDKException> constructor = clazz.getConstructor(String.class, String.class);
-                BridgeSDKException e = constructor.newInstance(message, url);
-                throw e;
+                BridgeSDKException exception = constructor.newInstance(message, url);
+                throw exception;
+                
             } catch (NoSuchMethodException | ClassNotFoundException | InvocationTargetException | 
                     IllegalAccessException | InstantiationException e) {
-                // Not a known business exception... handle generically
+                logger.debug("Exception instantiating error payload's type: " + type, e);
             }
         }
     }
