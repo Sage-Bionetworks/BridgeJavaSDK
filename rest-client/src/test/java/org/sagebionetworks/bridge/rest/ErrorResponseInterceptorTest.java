@@ -326,4 +326,22 @@ public class ErrorResponseInterceptorTest {
             assertEquals("There has been an error on the server", e.getMessage());
         }
     }
+    
+    // branch coverage: Not sure if this is possible, but we should test for it.
+    @Test
+    public void unknownErrorInvalidBodyHTML() throws Exception {
+        // This might happen if the load balancer is overloaded.
+        doReturn(400).when(response).code();
+        doReturn("<!doctype html><html lang=\"en\"><head><title>The HTML5 Herald</title></head><body></body></html>").when(body).string();
+        doReturn(null).when(response).message();
+
+        try {
+            ErrorResponseInterceptor interceptor = new ErrorResponseInterceptor();
+            interceptor.intercept(chain);
+            fail("Should have thrown exception");
+        } catch(BridgeSDKException e) {
+            assertEquals(400, e.getStatusCode());
+            assertEquals("There has been an error on the server", e.getMessage());
+        }
+    }    
 }
