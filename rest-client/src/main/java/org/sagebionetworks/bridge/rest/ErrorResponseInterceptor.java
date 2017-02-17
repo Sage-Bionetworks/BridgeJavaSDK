@@ -1,26 +1,17 @@
 package org.sagebionetworks.bridge.rest;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.sagebionetworks.bridge.rest.exceptions.BadRequestException;
 import org.sagebionetworks.bridge.rest.exceptions.BridgeSDKException;
-import org.sagebionetworks.bridge.rest.exceptions.ConcurrentModificationException;
 import org.sagebionetworks.bridge.rest.exceptions.ConsentRequiredException;
-import org.sagebionetworks.bridge.rest.exceptions.ConstraintViolationException;
-import org.sagebionetworks.bridge.rest.exceptions.EndpointNotFoundException;
-import org.sagebionetworks.bridge.rest.exceptions.EntityAlreadyExistsException;
-import org.sagebionetworks.bridge.rest.exceptions.EntityNotFoundException;
 import org.sagebionetworks.bridge.rest.exceptions.InvalidEntityException;
-import org.sagebionetworks.bridge.rest.exceptions.NotAuthenticatedException;
-import org.sagebionetworks.bridge.rest.exceptions.NotImplementedException;
-import org.sagebionetworks.bridge.rest.exceptions.PublishedSurveyException;
-import org.sagebionetworks.bridge.rest.exceptions.UnauthorizedException;
-import org.sagebionetworks.bridge.rest.exceptions.UnsupportedVersionException;
 import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 
 import com.google.common.base.Strings;
@@ -38,6 +29,7 @@ import okhttp3.Response;
  */
 class ErrorResponseInterceptor implements Interceptor {
 
+    private static final String EXCEPTION_PACKAGE = "org.sagebionetworks.bridge.rest.exceptions.";
     private static final Type ERRORS_MAP_TYPE_TOKEN 
         = new TypeToken<HashMap<String, ArrayList<String>>>() {}.getType();
 
@@ -83,37 +75,33 @@ class ErrorResponseInterceptor implements Interceptor {
             throw new ConsentRequiredException("Consent required.", url, session);
         }
         String type = (node != null) ? node.getAsJsonObject().get("type").getAsString() : "Unknown";
-        switch(type) {
-            case "NotAuthenticatedException":
-                throw new NotAuthenticatedException(message, url);
-            case "UnauthorizedException":
-                throw new UnauthorizedException(message, url);
-            case "EntityNotFoundException":
-                throw new EntityNotFoundException(message, url);
-            case "EndpointNotFoundException":
-                throw new EndpointNotFoundException(message, url);
-            case "UnsupportedVersionException":
-                throw new UnsupportedVersionException(message, url);
-            case "EntityAlreadyExistsException":
-                throw new EntityAlreadyExistsException(message, url);
-            case "ConcurrentModificationException":
-                throw new ConcurrentModificationException(message, url);
-            case "ConstraintViolationException":
-                throw new ConstraintViolationException(message, url);
-            case "PublishedSurveyException":
-                throw new PublishedSurveyException(message, url);
-            case "InvalidEntityException":
-                Map<String, List<String>> errors = Maps.newHashMap();
-                if (node != null && node.getAsJsonObject().get("errors") != null) {
-                    errors = RestUtils.GSON.fromJson(node.getAsJsonObject().get("errors"), ERRORS_MAP_TYPE_TOKEN);
-                }
-                throw new InvalidEntityException(message, errors, url);
-            case "NotImplementedException":
-                throw new NotImplementedException(message, url);
-            case "BadRequestException":
-                throw new BadRequestException(message, url);
-            default:
-                throw new BridgeSDKException(message, statusCode, url);
+
+        if ("InvalidEntityException".equals(type)) {
+            Map<String, List<String>> errors = Maps.newHashMap();
+            if (node != null && node.getAsJsonObject().get("errors") != null) {
+                errors = RestUtils.GSON.fromJson(node.getAsJsonObject().get("errors"), ERRORS_MAP_TYPE_TOKEN);
+            }
+            throw new InvalidEntityException(message, errors, url);
+        }
+        
+        throwBridgeExceptionIfItExists(type, message, url);
+
+        throw new BridgeSDKException(message, statusCode, url);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void throwBridgeExceptionIfItExists(String type, String message, String url) {
+        if (type != null && !"Unknown".equals(type)) {
+            try {
+                Class<? extends BridgeSDKException> clazz = (Class<? extends BridgeSDKException>) Class
+                        .forName(EXCEPTION_PACKAGE + type);
+                Constructor<? extends BridgeSDKException> constructor = clazz.getConstructor(String.class, String.class);
+                BridgeSDKException e = constructor.newInstance(message, url);
+                throw e;
+            } catch (NoSuchMethodException | ClassNotFoundException | InvocationTargetException | 
+                    IllegalAccessException | InstantiationException e) {
+                // Not a known business exception... handle generically
+            }
         }
     }
 }
