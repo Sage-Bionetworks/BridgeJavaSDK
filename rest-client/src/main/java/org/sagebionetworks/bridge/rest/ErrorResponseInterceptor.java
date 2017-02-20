@@ -1,27 +1,24 @@
 package org.sagebionetworks.bridge.rest;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.sagebionetworks.bridge.rest.exceptions.BadRequestException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.sagebionetworks.bridge.rest.exceptions.BridgeSDKException;
-import org.sagebionetworks.bridge.rest.exceptions.ConcurrentModificationException;
 import org.sagebionetworks.bridge.rest.exceptions.ConsentRequiredException;
-import org.sagebionetworks.bridge.rest.exceptions.EntityAlreadyExistsException;
-import org.sagebionetworks.bridge.rest.exceptions.EntityNotFoundException;
 import org.sagebionetworks.bridge.rest.exceptions.InvalidEntityException;
-import org.sagebionetworks.bridge.rest.exceptions.NotAuthenticatedException;
-import org.sagebionetworks.bridge.rest.exceptions.NotImplementedException;
-import org.sagebionetworks.bridge.rest.exceptions.PublishedSurveyException;
-import org.sagebionetworks.bridge.rest.exceptions.UnauthorizedException;
-import org.sagebionetworks.bridge.rest.exceptions.UnsupportedVersionException;
 import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 
@@ -35,6 +32,8 @@ import okhttp3.Response;
  */
 class ErrorResponseInterceptor implements Interceptor {
 
+    private static final Logger logger = LoggerFactory.getLogger(ErrorResponseInterceptor.class);
+    private static final String EXCEPTION_PACKAGE = "org.sagebionetworks.bridge.rest.exceptions.";
     private static final Type ERRORS_MAP_TYPE_TOKEN 
         = new TypeToken<HashMap<String, ArrayList<String>>>() {}.getType();
 
@@ -62,8 +61,7 @@ class ErrorResponseInterceptor implements Interceptor {
         }
     }
 
-    private void throwExceptionOnErrorStatus(String url, int statusCode, JsonElement node,
-                                              String message) {
+    private void throwExceptionOnErrorStatus(String url, int statusCode, JsonElement node, String message) {
         if (Strings.isNullOrEmpty(message)) {
             if (node != null && node.getAsJsonObject().get("message") != null) {
                 message = node.getAsJsonObject().get("message").getAsString();
@@ -72,41 +70,44 @@ class ErrorResponseInterceptor implements Interceptor {
                 message = "There has been an error on the server";
             }
         }
-
-        BridgeSDKException e;
-        if (statusCode == 401) {
-            e = new NotAuthenticatedException(message, url);
-        } else if (statusCode == 403) {
-            e = new UnauthorizedException(message, url);
-        } else if (statusCode == 404) {
-            e = new EntityNotFoundException(message, url);
-        } else if (statusCode == 410) {
-            e = new UnsupportedVersionException(message, url);
-        } else if (statusCode == 412) {
+        // This does not return an exception message, it returns session object.
+        if (statusCode == 412) {
             UserSessionInfo session = null;
             if (node != null) {
                 session = RestUtils.GSON.fromJson(node, UserSessionInfo.class);
             }
-            e = new ConsentRequiredException("Consent required.", url, session);
-        } else if (statusCode == 409 && message.contains("already exists")) {
-            e = new EntityAlreadyExistsException(message, url);
-        } else if (statusCode == 409 && message.contains("has the wrong version number")) {
-            e = new ConcurrentModificationException(message, url);
-        } else if (statusCode == 400 && message.contains("A published survey")) {
-            e = new PublishedSurveyException(message, url);
-        } else if (statusCode == 400) {
-            if (node != null && node.getAsJsonObject().get("errors") != null) {
-                Map<String, List<String>> errors = RestUtils.GSON.fromJson(node.getAsJsonObject().get("errors"),
-                        ERRORS_MAP_TYPE_TOKEN);
-                e = new InvalidEntityException(message, errors, url);
-            } else {
-                e = new BadRequestException(message, url);
-            }
-        } else if (statusCode == 501) {
-            e = new NotImplementedException(message, url);
-        } else {
-            e = new BridgeSDKException(message, statusCode, url);
+            throw new ConsentRequiredException("Consent required.", url, session);
         }
-        throw e;
+        String type = (node != null) ? node.getAsJsonObject().get("type").getAsString() : "Unknown";
+
+        if ("InvalidEntityException".equals(type)) {
+            Map<String, List<String>> errors = Maps.newHashMap();
+            if (node != null && node.getAsJsonObject().get("errors") != null) {
+                errors = RestUtils.GSON.fromJson(node.getAsJsonObject().get("errors"), ERRORS_MAP_TYPE_TOKEN);
+            }
+            throw new InvalidEntityException(message, errors, url);
+        }
+        
+        throwBridgeExceptionIfItExists(type, message, url);
+
+        throw new BridgeSDKException(message, statusCode, url);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void throwBridgeExceptionIfItExists(String type, String message, String url) {
+        if (type != null && !"Unknown".equals(type)) {
+            try {
+                
+                Class<? extends BridgeSDKException> clazz = (Class<? extends BridgeSDKException>) Class
+                        .forName(EXCEPTION_PACKAGE + type);
+                Constructor<? extends BridgeSDKException> constructor = clazz.getConstructor(String.class, String.class);
+                BridgeSDKException exception = constructor.newInstance(message, url);
+                throw exception;
+                
+            } catch (NoSuchMethodException | ClassNotFoundException | InvocationTargetException | 
+                    IllegalAccessException | InstantiationException e) {
+                logger.debug("Exception instantiating error payload's type: " + type, e);
+            }
+        }
     }
 }
