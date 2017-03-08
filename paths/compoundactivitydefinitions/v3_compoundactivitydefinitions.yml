@@ -1,5 +1,5 @@
 get:
-    operationId: getAllCompoundActivityDefinitionsInStudy
+    operationId: getAllCompoundActivityDefinitions
     summary: List all compound activity definitions in the study
     tags: 
         - Compound Activity Definitions
