@@ -18,6 +18,12 @@
 /v3/activities:
     $ref: ./activities/v3_activities.yml
 
+# Compound Activity Definitions
+/v3/compoundactivitydefinitions:
+    $ref: ./compoundactivitydefinitions/v3_compoundactivitydefinitions.yml
+/v3/compoundactivitydefinitions/{taskId}:
+    $ref: ./compoundactivitydefinitions/v3_compoundactivitydefinitions_taskId.yml
+
 # Participants
 /v3/participants:
     $ref: ./participants/v3_participants.yml

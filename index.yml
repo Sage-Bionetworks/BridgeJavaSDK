@@ -28,6 +28,12 @@ parameters:
         required: true
         in: path
         type: string
+    taskId:
+        name: taskId
+        description: Task ID
+        required: true
+        in: path
+        type: string
     revision:
         name: revision
         description: Revision number

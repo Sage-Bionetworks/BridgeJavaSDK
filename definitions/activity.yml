@@ -18,6 +18,8 @@ properties:
             questions, or the average time it takes to complete the activity).
     guid:
         type: string
+    compoundActivity:
+        $ref: ./compound_activity.yml
     task:
         $ref: ./task_reference.yml
     survey:

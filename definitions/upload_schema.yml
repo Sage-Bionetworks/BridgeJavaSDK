@@ -9,6 +9,22 @@ required:
     - version
     - fieldDefinitions
 properties:
+    maxAppVersions:
+        type: object
+        description: |
+            A map of operating system names to minimum app versions. The user must send a `User-Agent` header
+            in a prescribed format, that declares the app version to be equal to or less than this
+            version number, in order to match.
+        additionalProperties:
+            type: integer
+    minAppVersions:
+        type: object
+        description: |
+            A map of operating system names to minimum app versions. The user must send a `User-Agent` header
+            in a prescribed format, that declares the app version to be equal to or greater than this
+            version number, in order to match.
+        additionalProperties:
+            type: integer
     name:
         type: string
         description: User-friendly schema name.

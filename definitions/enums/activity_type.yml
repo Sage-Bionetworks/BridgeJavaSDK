@@ -4,8 +4,10 @@ description: |
 
     |Type|Description|
     |---|---|
+    |compound|Activity represents multiple surveys or tasks.|
     |survey|Activity represents a survey. The activity should contain a survey stanza.|
     |task|Activity represents any other task. The activity should contain a task stanza.|
 enum:
+    - compound
     - survey
     - task
