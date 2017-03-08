@@ -37,6 +37,13 @@
       "in": "path",
       "type": "string"
     },
+    "taskId": {
+      "name": "taskId",
+      "description": "Task ID",
+      "required": true,
+      "in": "path",
+      "type": "string"
+    },
     "revision": {
       "name": "revision",
       "description": "Revision number",
@@ -473,6 +480,175 @@
           },
           "412": {
             "$ref": "#/responses/412"
+          }
+        }
+      }
+    },
+    "/v3/compoundactivitydefinitions": {
+      "get": {
+        "operationId": "getAllCompoundActivityDefinitionsInStudy",
+        "summary": "List all compound activity definitions in the study",
+        "tags": [
+          "Compound Activity Definitions",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/CompoundActivityDefinitionList"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createCompoundActivityDefinition",
+        "summary": "Create a compound activity definition",
+        "tags": [
+          "Compound Activity Definitions",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "CompoundActivityDefinition",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CompoundActivityDefinition"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/CompoundActivityDefinition"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
+          }
+        }
+      }
+    },
+    "/v3/compoundactivitydefinitions/{taskId}": {
+      "get": {
+        "operationId": "getCompoundActivityDefinition",
+        "summary": "Get a compound activity definition by ID",
+        "tags": [
+          "Compound Activity Definitions",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/taskId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/CompoundActivityDefinition"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer_worker"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteCompoundActivityDefinition",
+        "summary": "Delete a compound activity definition",
+        "tags": [
+          "Compound Activity Definitions",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/taskId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_admin"
+          }
+        }
+      },
+      "post": {
+        "operationId": "updateCompoundActivityDefinition",
+        "summary": "Update a compound activity definition",
+        "tags": [
+          "Compound Activity Definitions",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/taskId"
+          },
+          {
+            "name": "CompoundActivityDefinition",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CompoundActivityDefinition"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/CompoundActivityDefinition"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -4949,8 +5125,9 @@
     },
     "ActivityType": {
       "type": "string",
-      "description": "An activity represents either a survey or a task to be performed (not both).\n\n|Type|Description|\n|---|---|\n|survey|Activity represents a survey. The activity should contain a survey stanza.|\n|task|Activity represents any other task. The activity should contain a task stanza.|\n",
+      "description": "An activity represents either a survey or a task to be performed (not both).\n\n|Type|Description|\n|---|---|\n|compound|Activity represents multiple surveys or tasks.|\n|survey|Activity represents a survey. The activity should contain a survey stanza.|\n|task|Activity represents any other task. The activity should contain a task stanza.|\n",
       "enum": [
+        "compound",
         "survey",
         "task"
       ]
@@ -5275,6 +5452,9 @@
         "guid": {
           "type": "string"
         },
+        "compoundActivity": {
+          "$ref": "#/definitions/CompoundActivity"
+        },
         "task": {
           "$ref": "#/definitions/TaskReference"
         },
@@ -5347,6 +5527,71 @@
           "type": "string",
           "readOnly": true,
           "description": "CmsPublicKey"
+        }
+      }
+    },
+    "CompoundActivity": {
+      "type": "object",
+      "description": "A pointer to a compound activity, which represents multiple schemas or survey's worth of tasks for a user to perform. The task ID is used to uniquely identify the compound activity, and the activity can contain one or more schemas or surveys. When creating a Schedule Plan, you should leave the schema and survey lists empty, and the scheduler will automatically resolve the compound activity from a compound activity definition, using the task ID as the key.",
+      "required": [
+        "taskIdentifier"
+      ],
+      "properties": {
+        "schemaList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SchemaReference"
+          }
+        },
+        "surveyList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SurveyReference"
+          }
+        },
+        "taskIdentifier": {
+          "type": "string",
+          "description": "Task ID, used to uniquely identify the compound activity and to resolve the compound activity reference\nfrom the compound activity definition, where applicable.\n"
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "CompoundActivity"
+        }
+      }
+    },
+    "CompoundActivityDefinition": {
+      "type": "object",
+      "description": "A compound activity definition, which lives outside of but parallel to a schedule plan. Schedule plans contain compound activities references (compound activity objects with just a task ID and no schemas or surveys), and the scheduler will automatically resolve and populate the compound activity in returned scheduled activities.",
+      "required": [
+        "taskId"
+      ],
+      "properties": {
+        "schemaList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SchemaReference"
+          }
+        },
+        "surveyList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SurveyReference"
+          }
+        },
+        "taskId": {
+          "type": "string",
+          "description": "Task ID, used to uniquely identify the compound activity and to resolve the compound activity reference\nfrom the compound activity definition, where applicable.\n"
+        },
+        "version": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The optimistic locking version of the survey. This value must be submitted as \npart of the next update of the model. If it does not match the value on the server, \na 409 error (Conflict) will prevent the update from occurring.\n"
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "CompoundActivity"
         }
       }
     },
@@ -6359,6 +6604,29 @@
         }
       }
     },
+    "SchemaReference": {
+      "type": "object",
+      "description": "A pointer to an upload schema defined for this survey. This schema represents a particular task or activity that the participant should perform, and tells the app which schema ID and revision number to associate the data upload with. If the revision number is set to null when creating a schedule plan, then the reference is to the most recent revision for the given OS and app version. The specific revision number that should be used will be resolved when a [ScheduledActivity](#ScheduledActivity) is created for the participant).",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Schema ID"
+        },
+        "revision": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Schema revision number. Can be blank in a Schedule Plan if you want the Scheduler to automatically resolve\nto the latest revision for the user's app version.\n"
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "SchemaReference"
+        }
+      }
+    },
     "SharingScopeForm": {
       "type": "object",
       "required": [
@@ -7106,6 +7374,9 @@
           "type": "string",
           "description": "The identifier that defines a task on the client. Note that this value is conventional; \nit needs to be defined for a study but has no further meaning on the server. \n"
         },
+        "schema": {
+          "$ref": "#/definitions/SchemaReference"
+        },
         "type": {
           "type": "string",
           "readOnly": true,
@@ -7135,6 +7406,10 @@
           "type": "integer",
           "format": "int64",
           "description": "The revision for the schema of this upload."
+        },
+        "recordId": {
+          "type": "string",
+          "description": "The record ID of the upload in Synapse."
         },
         "contentLength": {
           "type": "integer",
@@ -7273,6 +7548,20 @@
         "fieldDefinitions"
       ],
       "properties": {
+        "maxAppVersions": {
+          "type": "object",
+          "description": "A map of operating system names to minimum app versions. The user must send a `User-Agent` header\nin a prescribed format, that declares the app version to be equal to or less than this\nversion number, in order to match.\n",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "minAppVersions": {
+          "type": "object",
+          "description": "A map of operating system names to minimum app versions. The user must send a `User-Agent` header\nin a prescribed format, that declares the app version to be equal to or greater than this\nversion number, in order to match.\n",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
         "name": {
           "type": "string",
           "description": "User-friendly schema name."
@@ -7611,6 +7900,27 @@
         "total": {
           "type": "integer",
           "description": "The total number of records that match the criteria (may exceed page size)"
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "ResourceList"
+        }
+      }
+    },
+    "CompoundActivityDefinitionList": {
+      "type": "object",
+      "readOnly": true,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CompoundActivityDefinition"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "description": "The total number of records in the list"
         },
         "type": {
           "type": "string",
