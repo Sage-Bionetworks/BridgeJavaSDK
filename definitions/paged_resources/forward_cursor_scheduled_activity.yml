@@ -14,6 +14,22 @@ properties:
         type: boolean
         readOnly: true
         description: True if there is a further page of records, false otherwise
+    scheduledOnStart:
+        type: string
+        format: date-time
+        readOnly: true
+        description: |
+            Activities returned are at or after the timestamp. If scheduledOnStart is 
+            provided, scheduledOnEnd must be provided, and vice versa. Default range is 
+            4 days in the future to 10 days in the past.
+    scheduledOnEnd:
+        type: string 
+        format: date-time
+        readOnly: true
+        description: |
+            Activities returned are at or before the timestamp. If scheduledOnStart is 
+            provided, scheduledOnEnd must be provided, and vice versa. Default range is 
+            4 days in the future to 10 days in the past.
     pageSize:
         type: integer
         readOnly: true
