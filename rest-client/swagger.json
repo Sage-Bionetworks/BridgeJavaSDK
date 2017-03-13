@@ -200,18 +200,18 @@
       "in": "path",
       "type": "string"
     },
-    "scheduledOnOrAfter": {
-      "name": "scheduledOnOrAfter",
+    "scheduledOnStart": {
+      "name": "scheduledOnStart",
       "in": "query",
-      "description": "Activities returned are at or after the timestamp. If scheduledOnOrAfter is \nprovided, scheduledOnOrBefore must be provided, and vice versa. Default range is \n4 days in the future to 10 days in the past.\n",
+      "description": "Activities returned are at or after the timestamp. If scheduledOnStart is \nprovided, scheduledOnOrBefore must be provided, and vice versa. Default range is \n4 days in the future to 10 days in the past.\n",
       "type": "string",
       "format": "date-time",
       "required": false
     },
-    "scheduledOnOrBefore": {
-      "name": "scheduledOnOrBefore",
+    "scheduledOnEnd": {
+      "name": "scheduledOnEnd",
       "in": "query",
-      "description": "Activities returned are at or before the timestamp. If scheduledOnOrBefore is \nprovided, scheduledOnOrAfter must be provided, and vice versa. Default range is \n4 days in the future to 10 days in the past.\n",
+      "description": "Activities returned are at or before the timestamp. If scheduledOnEnd is \nprovided, scheduledOnStart must be provided, and vice versa. Default range is \n4 days in the future to 10 days in the past.\n",
       "type": "string",
       "format": "date-time",
       "required": false
@@ -532,10 +532,10 @@
             "$ref": "#/parameters/activityGuid"
           },
           {
-            "$ref": "#/parameters/scheduledOnOrAfter"
+            "$ref": "#/parameters/scheduledOnStart"
           },
           {
-            "$ref": "#/parameters/scheduledOnOrBefore"
+            "$ref": "#/parameters/scheduledOnEnd"
           },
           {
             "$ref": "#/parameters/offsetBy"
@@ -1223,10 +1223,10 @@
             "$ref": "#/parameters/activityGuid"
           },
           {
-            "$ref": "#/parameters/scheduledOnOrAfter"
+            "$ref": "#/parameters/scheduledOnStart"
           },
           {
-            "$ref": "#/parameters/scheduledOnOrBefore"
+            "$ref": "#/parameters/scheduledOnEnd"
           },
           {
             "$ref": "#/parameters/offsetBy"
@@ -8244,6 +8244,18 @@
           "type": "boolean",
           "readOnly": true,
           "description": "True if there is a further page of records, false otherwise"
+        },
+        "scheduledOnStart": {
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "description": "Activities returned are at or after the timestamp. If scheduledOnStart is \nprovided, scheduledOnEnd must be provided, and vice versa. Default range is \n4 days in the future to 10 days in the past.\n"
+        },
+        "scheduledOnEnd": {
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "description": "Activities returned are at or before the timestamp. If scheduledOnStart is \nprovided, scheduledOnEnd must be provided, and vice versa. Default range is \n4 days in the future to 10 days in the past.\n"
         },
         "pageSize": {
           "type": "integer",
