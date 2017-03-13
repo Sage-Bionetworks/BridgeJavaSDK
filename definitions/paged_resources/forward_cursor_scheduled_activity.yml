@@ -1,0 +1,24 @@
+type: object
+readOnly: true
+properties:
+    items:
+        type: array
+        readOnly: true
+        items:
+            $ref: ../scheduled_activity.yml
+    offsetBy:
+        type: number
+        readOnly: true
+        description: A timestamp key for retrieving the next page of records.
+    hasNext:
+        type: boolean
+        readOnly: true
+        description: True if there is a further page of records, false otherwise
+    pageSize:
+        type: integer
+        readOnly: true
+        description: The page size submitted to the server
+    type:
+        type: string
+        readOnly: true
+        description: "ForwardCursorPagedResourceList"

@@ -17,6 +17,8 @@
 # Scheduled Activities
 /v3/activities:
     $ref: ./activities/v3_activities.yml
+/v3/activities/{activityGuid}:
+    $ref: ./activities/v3_activities_activityGuid.yml
 
 # Compound Activity Definitions
 /v3/compoundactivitydefinitions:
@@ -41,6 +43,8 @@
     $ref: ./participants/v3_participants_userId_requestInfo.yml
 /v3/participants/{userId}/activities:
     $ref: ./participants/v3_participants_userId_activities.yml
+/v3/participants/{userId}/activities/{activityGuid}:
+    $ref: ./participants/v3_participants_userId_activities_activityGuid.yml
 /v3/participants/{userId}/signOut:    
     $ref: ./participants/v3_participants_userId_signOut.yml
 /v3/participants/{userId}/requestResetPassword:
