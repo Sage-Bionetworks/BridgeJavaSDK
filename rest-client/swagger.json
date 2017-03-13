@@ -205,7 +205,7 @@
       "in": "query",
       "description": "Activities returned are at or after the timestamp. If scheduledOnOrAfter is \nprovided, scheduledOnOrBefore must be provided, and vice versa. Default range is \n4 days in the future to 10 days in the past.\n",
       "type": "string",
-      "format": "date",
+      "format": "date-time",
       "required": false
     },
     "scheduledOnOrBefore": {
@@ -213,7 +213,7 @@
       "in": "query",
       "description": "Activities returned are at or before the timestamp. If scheduledOnOrBefore is \nprovided, scheduledOnOrAfter must be provided, and vice versa. Default range is \n4 days in the future to 10 days in the past.\n",
       "type": "string",
-      "format": "date",
+      "format": "date-time",
       "required": false
     }
   },
