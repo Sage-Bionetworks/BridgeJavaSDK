@@ -1,5 +1,6 @@
 get:
     operationId: getParticipantActivities
+    deprecated: true
     summary: Get paged history of activities scheduled for a participant
     description: |
         Provides a view of all the activities that have been created for a participant. The state of these activities is 
