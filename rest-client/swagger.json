@@ -203,7 +203,7 @@
     "scheduledOnStart": {
       "name": "scheduledOnStart",
       "in": "query",
-      "description": "Activities returned are at or after the timestamp. If scheduledOnStart is \nprovided, scheduledOnOrBefore must be provided, and vice versa. Default range is \n4 days in the future to 10 days in the past.\n",
+      "description": "Activities returned are at or after the timestamp. If scheduledOnStart is \nprovided, scheduledOnEnd must be provided, and vice versa. Default range is \n4 days in the future to 10 days in the past.\n",
       "type": "string",
       "format": "date-time",
       "required": false
@@ -1128,6 +1128,7 @@
     "/v3/participants/{userId}/activities": {
       "get": {
         "operationId": "getParticipantActivities",
+        "deprecated": true,
         "summary": "Get paged history of activities scheduled for a participant",
         "description": "Provides a view of all the activities that have been created for a participant. The state of these activities is \nreturned without modification. No filtering is performed on the list of activities, which may have been assigned \ndue to different or changing filtering criteria. These records help to determine if a participant is currently active \nin the study (e.g. if there are no activities, the user has never asked for them them). Records are sorted first \nby the type of activity, and then by the date the activity was scheduled to start on.\n",
         "tags": [
