@@ -133,6 +133,11 @@ properties:
         default: false
         description: |
             **Can only be set by an administrator.** Should the external ID be required on sign up? If this is true and external ID validation is enabled, this study can support lab codes (where the username and password are auto-generated from the external ID and the user only needs to enter a code).
+    disableExport:
+        type: boolean
+        default: false
+        description: |
+            If set this field to true, Bridge Exporter will not export this study at all during exporting.
     minSupportedAppVersions:
         type: object
         description: |
