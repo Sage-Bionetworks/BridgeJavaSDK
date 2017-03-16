@@ -110,6 +110,18 @@ public class RestUtils {
     }
     
     /**
+     * Downcast an object to a specific subtype where GSON does not know the type during 
+     * deserialization. In that case, GSON uses a generic Map structure to hold the data.
+     * This can convert that generic representation into a specific type.
+     * @param object
+     * @param type
+     * @return
+     */
+    public static <T> T toType(Object object, Class<T> type) {
+        return GSON.fromJson(GSON.toJson(object), type);
+    }
+    
+    /**
      * Are all required consents signed?
      * @param session
      *      A UserSessionInfo object
