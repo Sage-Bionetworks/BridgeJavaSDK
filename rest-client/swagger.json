@@ -6725,7 +6725,7 @@
         },
         "clientData": {
           "type": "object",
-          "description": "An arbitrary object that will be serialized and stored as JSON using the Gson serialization \nmechanisms.\n"
+          "description": "An arbitrary object that will be serialized and stored as JSON using the GSON serialization \nmechanisms. In Java this field is an Object; since the type of the object is not known, \nthe rest-client includes a utility method:\n```\nMyCustomObject data = RestUtils.toType(\n    activity.getClientData(), MyCustomObject.class);\n```\n"
         },
         "status": {
           "$ref": "#/definitions/ScheduleStatus"
