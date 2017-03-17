@@ -172,6 +172,13 @@
       "default": 50,
       "maximum": 100
     },
+    "offsetBy": {
+      "name": "offsetBy",
+      "description": "next page start offset for pagination",
+      "in": "query",
+      "type": "number",
+      "required": false
+    },
     "offsetKey": {
       "name": "offsetKey",
       "description": "next page start key for pagination",
@@ -185,6 +192,29 @@
       "required": true,
       "in": "path",
       "type": "string"
+    },
+    "activityGuid": {
+      "name": "activityGuid",
+      "description": "Activity GUID",
+      "required": true,
+      "in": "path",
+      "type": "string"
+    },
+    "scheduledOnStart": {
+      "name": "scheduledOnStart",
+      "in": "query",
+      "description": "Activities returned are at or after the timestamp. If scheduledOnStart is \nprovided, scheduledOnEnd must be provided, and vice versa. Default range is \n4 days in the future to 10 days in the past.\n",
+      "type": "string",
+      "format": "date-time",
+      "required": false
+    },
+    "scheduledOnEnd": {
+      "name": "scheduledOnEnd",
+      "in": "query",
+      "description": "Activities returned are at or before the timestamp. If scheduledOnEnd is \nprovided, scheduledOnStart must be provided, and vice versa. Default range is \n4 days in the future to 10 days in the past.\n",
+      "type": "string",
+      "format": "date-time",
+      "required": false
     }
   },
   "paths": {
@@ -471,6 +501,55 @@
         "responses": {
           "200": {
             "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
+          }
+        }
+      }
+    },
+    "/v3/activities/{activityGuid}": {
+      "get": {
+        "operationId": "getActivityHistory",
+        "summary": "Get a history of activities",
+        "tags": [
+          "Activities",
+          "_For Consented Users"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/activityGuid"
+          },
+          {
+            "$ref": "#/parameters/scheduledOnStart"
+          },
+          {
+            "$ref": "#/parameters/scheduledOnEnd"
+          },
+          {
+            "$ref": "#/parameters/offsetBy"
+          },
+          {
+            "$ref": "#/parameters/pageSize"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ForwardCursorScheduledActivityList"
+            }
           },
           "401": {
             "$ref": "#/responses/401"
@@ -1049,6 +1128,7 @@
     "/v3/participants/{userId}/activities": {
       "get": {
         "operationId": "getParticipantActivities",
+        "deprecated": true,
         "summary": "Get paged history of activities scheduled for a participant",
         "description": "Provides a view of all the activities that have been created for a participant. The state of these activities is \nreturned without modification. No filtering is performed on the list of activities, which may have been assigned \ndue to different or changing filtering criteria. These records help to determine if a participant is currently active \nin the study (e.g. if there are no activities, the user has never asked for them them). Records are sorted first \nby the type of activity, and then by the date the activity was scheduled to start on.\n",
         "tags": [
@@ -1113,6 +1193,55 @@
         "responses": {
           "200": {
             "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_researcher"
+          }
+        }
+      }
+    },
+    "/v3/participants/{userId}/activities/{activityGuid}": {
+      "get": {
+        "operationId": "getParticipantActivityHistory",
+        "summary": "Get a study participant's history of activities",
+        "tags": [
+          "Participants",
+          "_For Researchers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/userId"
+          },
+          {
+            "$ref": "#/parameters/activityGuid"
+          },
+          {
+            "$ref": "#/parameters/scheduledOnStart"
+          },
+          {
+            "$ref": "#/parameters/scheduledOnEnd"
+          },
+          {
+            "$ref": "#/parameters/offsetBy"
+          },
+          {
+            "$ref": "#/parameters/pageSize"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ForwardCursorScheduledActivityList"
+            }
           },
           "401": {
             "$ref": "#/responses/401"
@@ -8093,6 +8222,51 @@
           "type": "string",
           "readOnly": true,
           "description": "ResourceList"
+        }
+      }
+    },
+    "ForwardCursorScheduledActivityList": {
+      "type": "object",
+      "readOnly": true,
+      "properties": {
+        "items": {
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/ScheduledActivity"
+          }
+        },
+        "offsetBy": {
+          "type": "number",
+          "readOnly": true,
+          "description": "A timestamp key for retrieving the next page of records."
+        },
+        "hasNext": {
+          "type": "boolean",
+          "readOnly": true,
+          "description": "True if there is a further page of records, false otherwise"
+        },
+        "scheduledOnStart": {
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "description": "Activities returned are at or after the timestamp. If scheduledOnStart is \nprovided, scheduledOnEnd must be provided, and vice versa. Default range is \n4 days in the future to 10 days in the past.\n"
+        },
+        "scheduledOnEnd": {
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "description": "Activities returned are at or before the timestamp. If scheduledOnStart is \nprovided, scheduledOnEnd must be provided, and vice versa. Default range is \n4 days in the future to 10 days in the past.\n"
+        },
+        "pageSize": {
+          "type": "integer",
+          "readOnly": true,
+          "description": "The page size submitted to the server"
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "ForwardCursorPagedResourceList"
         }
       }
     },
