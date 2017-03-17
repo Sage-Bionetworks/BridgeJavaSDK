@@ -3,7 +3,7 @@ post:
     summary: Withdraw all consents to research for this user, whether currently applicable or not  
     tags:
         - Consents
-        - _For Consented Users    
+        - _For Researchers
     security:
         - BridgeSecurity: []
     parameters:
