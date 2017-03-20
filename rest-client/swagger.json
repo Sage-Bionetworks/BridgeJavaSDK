@@ -6992,6 +6992,11 @@
           "default": false,
           "description": "**Can only be set by an administrator.** Should the external ID be required on sign up? If this is true and external ID validation is enabled, this study can support lab codes (where the username and password are auto-generated from the external ID and the user only needs to enter a code).\n"
         },
+        "disableExport": {
+          "type": "boolean",
+          "default": false,
+          "description": "If set this field to true, Bridge Exporter will not export this study at all during exporting.\n"
+        },
         "minSupportedAppVersions": {
           "type": "object",
           "description": "Minimum supported app versions (older versions will be blocked), keyed by the \nname of the operating system (we expect either \"Android\" or \"iPhone OS\" in the \nUser-Agent header of all requests sent to the server). Example: `{\"iPhone OS\":14,\"Android\":10}`\n",
