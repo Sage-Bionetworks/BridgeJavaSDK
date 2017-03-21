@@ -7,7 +7,7 @@ properties:
         items:
             $ref: ../scheduled_activity.yml
     offsetBy:
-        type: number
+        type: string
         readOnly: true
         description: A timestamp key for retrieving the next page of records.
     hasNext:

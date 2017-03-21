@@ -15,9 +15,7 @@ post:
         - $ref: ../../index.yml#/parameters/uploadId
     responses:
         200:
-            description: OK
-            schema:
-                $ref: ../../definitions/upload_session.yml
+            $ref: ../../responses/200_message.yml
         401:
             $ref: ../../responses/401.yml
         410:
