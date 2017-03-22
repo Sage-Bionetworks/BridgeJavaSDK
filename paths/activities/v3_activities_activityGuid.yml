@@ -10,7 +10,11 @@ get:
         - $ref: ../../index.yml#/parameters/activityGuid
         - $ref: ../../index.yml#/parameters/scheduledOnStart
         - $ref: ../../index.yml#/parameters/scheduledOnEnd
-        - $ref: ../../index.yml#/parameters/offsetBy
+        - name: offsetBy
+          description: next page start offset for pagination 
+          in: query
+          type: string
+          required: false        
         - $ref: ../../index.yml#/parameters/pageSize
     responses:
         200:
