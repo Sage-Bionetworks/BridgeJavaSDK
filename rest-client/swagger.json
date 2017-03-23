@@ -538,10 +538,14 @@
             "$ref": "#/parameters/scheduledOnEnd"
           },
           {
-            "$ref": "#/parameters/offsetBy"
+            "$ref": "#/parameters/pageSize"
           },
           {
-            "$ref": "#/parameters/pageSize"
+            "name": "offsetBy",
+            "description": "next page start offset for pagination",
+            "in": "query",
+            "type": "string",
+            "required": false
           }
         ],
         "responses": {
