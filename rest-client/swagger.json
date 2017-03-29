@@ -538,14 +538,14 @@
             "$ref": "#/parameters/scheduledOnEnd"
           },
           {
-            "$ref": "#/parameters/pageSize"
-          },
-          {
             "name": "offsetBy",
             "description": "next page start offset for pagination",
             "in": "query",
             "type": "string",
             "required": false
+          },
+          {
+            "$ref": "#/parameters/pageSize"
           }
         ],
         "responses": {
@@ -1358,6 +1358,7 @@
         "description": "This endpoint will withdraw the user from any and all signed consents in the study, and \nset their sharing status to \"no_sharing\". The user is withdrawn from all subpopulations \nin the study whether they currently apply to the user or not. Unless you have more \ncomplicated consent requirements (like an optional consent that can be signed or not), \nthis is the best approach to withdrawing a user from a study.\n",
         "tags": [
           "Participants",
+          "Consents",
           "_For Researchers"
         ],
         "security": [
@@ -1903,7 +1904,10 @@
         ],
         "responses": {
           "201": {
-            "$ref": "#/responses/201_message"
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/UserSessionInfo"
+            }
           },
           "401": {
             "$ref": "#/responses/401"
@@ -1940,7 +1944,10 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/200_message"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UserSessionInfo"
+            }
           },
           "401": {
             "$ref": "#/responses/401"
@@ -2163,7 +2170,10 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/200_message"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UserSessionInfo"
+            }
           },
           "401": {
             "$ref": "#/responses/401"
