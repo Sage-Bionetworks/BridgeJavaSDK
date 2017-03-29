@@ -538,14 +538,14 @@
             "$ref": "#/parameters/scheduledOnEnd"
           },
           {
+            "$ref": "#/parameters/pageSize"
+          },
+          {
             "name": "offsetBy",
             "description": "next page start offset for pagination",
             "in": "query",
             "type": "string",
             "required": false
-          },
-          {
-            "$ref": "#/parameters/pageSize"
           }
         ],
         "responses": {
@@ -5186,34 +5186,6 @@
           },
           "403": {
             "$ref": "#/responses/403_not_worker"
-          }
-        }
-      }
-    },
-    "/v3/instantExport": {
-      "post": {
-        "operationId": "requestInstantExport",
-        "summary": "Send AWS SQS message to export current study instantly",
-        "description": "Send AWS SQS message to the Bridge Exporter in order to instantly export current study from last export time to now.\n",
-        "tags": [
-          "Exporter",
-          "_For Developers",
-          "_For Researchers"
-        ],
-        "security": [
-          {
-            "BridgeSecurity": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/200_message"
-          },
-          "401": {
-            "$ref": "#/responses/401"
-          },
-          "403": {
-            "$ref": "#/responses/403_not_developer_researcher"
           }
         }
       }
