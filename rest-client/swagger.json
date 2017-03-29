@@ -538,7 +538,11 @@
             "$ref": "#/parameters/scheduledOnEnd"
           },
           {
-            "$ref": "#/parameters/offsetBy"
+            "name": "offsetBy",
+            "description": "next page start offset for pagination",
+            "in": "query",
+            "type": "string",
+            "required": false
           },
           {
             "$ref": "#/parameters/pageSize"
@@ -3797,10 +3801,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/UploadSession"
-            }
+            "$ref": "#/responses/200_message"
           },
           "401": {
             "$ref": "#/responses/401"
@@ -5185,6 +5186,34 @@
           },
           "403": {
             "$ref": "#/responses/403_not_worker"
+          }
+        }
+      }
+    },
+    "/v3/instantExport": {
+      "post": {
+        "operationId": "requestInstantExport",
+        "summary": "Send AWS SQS message to export current study instantly",
+        "description": "Send AWS SQS message to the Bridge Exporter in order to instantly export current study from last export time to now.\n",
+        "tags": [
+          "Exporter",
+          "_For Developers",
+          "_For Researchers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer_researcher"
           }
         }
       }
@@ -6723,6 +6752,10 @@
           "description": "Is this activity persistent? If so, it will never be removed from the list of activities; the client may \nwish to provide different UI for such a task.\n",
           "readOnly": true
         },
+        "clientData": {
+          "type": "object",
+          "description": "An arbitrary object that will be serialized and stored as JSON using the GSON serialization \nmechanisms. In Java this field is an Object; since the type of the object is not known, \nthe rest-client includes a utility method:\n```\nMyCustomObject data = RestUtils.toType(\n    activity.getClientData(), MyCustomObject.class);\n```\n"
+        },
         "status": {
           "$ref": "#/definitions/ScheduleStatus"
         },
@@ -8242,7 +8275,7 @@
           }
         },
         "offsetBy": {
-          "type": "number",
+          "type": "string",
           "readOnly": true,
           "description": "A timestamp key for retrieving the next page of records."
         },
