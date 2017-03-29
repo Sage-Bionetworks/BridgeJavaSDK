@@ -1130,52 +1130,6 @@
       }
     },
     "/v3/participants/{userId}/activities": {
-      "get": {
-        "operationId": "getParticipantActivities",
-        "deprecated": true,
-        "summary": "Get paged history of activities scheduled for a participant",
-        "description": "Provides a view of all the activities that have been created for a participant. The state of these activities is \nreturned without modification. No filtering is performed on the list of activities, which may have been assigned \ndue to different or changing filtering criteria. These records help to determine if a participant is currently active \nin the study (e.g. if there are no activities, the user has never asked for them them). Records are sorted first \nby the type of activity, and then by the date the activity was scheduled to start on.\n",
-        "tags": [
-          "Participants",
-          "_For Researchers"
-        ],
-        "security": [
-          {
-            "BridgeSecurity": []
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/userId"
-          },
-          {
-            "name": "offsetKey",
-            "in": "query",
-            "type": "string",
-            "description": "The identifier to use as the first record of the returned page of activities"
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "type": "integer",
-            "description": "The number of records to return in the query (defaults to 10)."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/ActivityList"
-            }
-          },
-          "401": {
-            "$ref": "#/responses/401"
-          },
-          "403": {
-            "$ref": "#/responses/403_not_researcher"
-          }
-        }
-      },
       "delete": {
         "operationId": "deleteParticipantActivities",
         "summary": "Delete all activities for a participant",
