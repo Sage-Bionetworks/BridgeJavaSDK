@@ -3,7 +3,7 @@ post:
     summary: Withdraw all consents to research for this user, whether currently applicable or not  
     tags:
         - Consents
-        - _For Consented Users    
+        - _For Consented Users
     security:
         - BridgeSecurity: []
     parameters:
@@ -14,6 +14,8 @@ post:
             $ref: ../../definitions/withdrawal.yml
     responses:
         200:
-            $ref: ../../responses/200_message.yml
+            description: OK
+            schema:
+                $ref: ../../definitions/user_session_info.yml
         401:
             $ref: ../../responses/401.yml

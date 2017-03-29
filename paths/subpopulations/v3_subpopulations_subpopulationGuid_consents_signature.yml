@@ -41,7 +41,9 @@ post:
             $ref: ../../definitions/consent_signature.yml
     responses:
         201:
-            $ref: ../../responses/201_message.yml
+            description: Created
+            schema:
+                $ref: ../../definitions/user_session_info.yml
         401:
             $ref: ../../responses/401.yml
     

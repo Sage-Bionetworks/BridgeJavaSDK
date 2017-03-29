@@ -9,6 +9,7 @@ post:
         this is the best approach to withdrawing a user from a study.
     tags:
         - Participants
+        - Consents
         - _For Researchers
     security:
         - BridgeSecurity: []
