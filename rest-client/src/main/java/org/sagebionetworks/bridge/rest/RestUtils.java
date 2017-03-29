@@ -113,9 +113,10 @@ public class RestUtils {
      * Downcast an object to a specific subtype where GSON does not know the type during 
      * deserialization. In that case, GSON uses a generic Map structure to hold the data.
      * This can convert that generic representation into a specific type.
-     * @param object
-     * @param type
-     * @return
+     * @param <T> the type to use 
+     * @param object - an object to cast to the supplied type
+     * @param type - the type to use when downcasting
+     * @return the object downcast to the supplied type
      */
     public static <T> T toType(Object object, Class<T> type) {
         return GSON.fromJson(GSON.toJson(object), type);
