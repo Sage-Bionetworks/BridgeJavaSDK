@@ -538,14 +538,14 @@
             "$ref": "#/parameters/scheduledOnEnd"
           },
           {
-            "$ref": "#/parameters/pageSize"
-          },
-          {
             "name": "offsetBy",
             "description": "next page start offset for pagination",
             "in": "query",
             "type": "string",
             "required": false
+          },
+          {
+            "$ref": "#/parameters/pageSize"
           }
         ],
         "responses": {
@@ -5084,6 +5084,47 @@
             "schema": {
               "$ref": "#/definitions/UploadList"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_admin"
+          }
+        }
+      }
+    },
+    "/v3/studies/{studyId}/users": {
+      "post": {
+        "operationId": "createUserWithStudyId",
+        "summary": "Create a new user to given study",
+        "tags": [
+          "Studies",
+          "Users",
+          "_For Admins"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/studyId"
+          },
+          {
+            "name": "SignUp",
+            "in": "body",
+            "description": "New user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SignUp"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/responses/201_message"
           },
           "401": {
             "$ref": "#/responses/401"
