@@ -4,6 +4,7 @@ get:
     tags: 
         - Schedules
         - _For Developers
+        - _For Researchers
     security:
         -   BridgeSecurity: []
     responses:
@@ -14,7 +15,7 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_developer.yml
+            $ref: ../../responses/403_not_developer_researcher.yml
 post:
     operationId: createSchedulePlan
     summary: Create a schedule plan
