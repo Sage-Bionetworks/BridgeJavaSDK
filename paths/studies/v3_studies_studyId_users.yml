@@ -1,6 +1,6 @@
 post:
-    operationId: createUserWithStudyId
-    summary: Create a new user to given study 
+    operationId: createUserInStudy
+    summary: Create a new user in a given study 
     tags:
         - Studies
         - Users
