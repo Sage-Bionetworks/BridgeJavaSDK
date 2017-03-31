@@ -221,6 +221,8 @@
     $ref: ./studies/v3_studies_studyId_reports_identifier.yml
 /v3/studies/{studyId}/uploads:
     $ref: ./studies/v3_studies_studyId_uploads.yml
+/v3/studies/{studyId}/users:
+    $ref: ./studies/v3_studies_studyId_users.yml
 
 # Cache Management
 /v3/cache:

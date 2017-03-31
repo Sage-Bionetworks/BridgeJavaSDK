@@ -1,0 +1,24 @@
+post:
+    operationId: createUserInStudy
+    summary: Create a new user in a given study 
+    tags:
+        - Studies
+        - Users
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - name: SignUp
+          in: body
+          description: New user 
+          required: true
+          schema:
+            $ref: ../../definitions/sign_up.yml
+    responses:
+        201:
+            $ref: ../../responses/201_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml
