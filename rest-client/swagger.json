@@ -1381,6 +1381,50 @@
         }
       }
     },
+    "/v3/participants/{userId}/consents/{subpopulationGuid}/withdraw": {
+      "post": {
+        "operationId": "withdrawParticipantFromSubpopulation",
+        "summary": "Withdraw the participant from the specified subpopulation",
+        "description": "This endpoint will withdraw the user from consent to participate in one subpopulation of \nthe study. \n",
+        "tags": [
+          "Participants",
+          "Consents",
+          "_For Researchers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/userId"
+          },
+          {
+            "$ref": "#/parameters/subpopulationGuid"
+          },
+          {
+            "name": "withdrawal",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Withdrawal"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_researcher"
+          }
+        }
+      }
+    },
     "/v3/participants/{userId}/reports/{identifier}": {
       "get": {
         "operationId": "getUsersParticipantReportRecords",
