@@ -101,8 +101,6 @@
 # Users
 /v3/users:
     $ref: ./users/v3_users.yml
-/v3/usersWithStudy/{studyId}:
-    $ref: ./users/v3_usersWithStudy.yml
 /v3/users/{userId}:
     $ref: ./users/v3_users_userId.yml
 /v3/users/self/emailData:
@@ -205,6 +203,8 @@
     $ref: ./studies/v3_studies_self_uploads.yml
 /v3/studies/self/synapseProject:
     $ref: ./studies/v3_studies_self_synapseProject.yml
+/v3/studies/{studyId}/users:
+    $ref: ./studies/v3_studies_studyId_users.yml
 
 # External IDs
 /v3/externalIds:

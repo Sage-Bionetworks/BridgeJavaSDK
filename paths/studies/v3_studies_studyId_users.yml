@@ -2,6 +2,7 @@ post:
     operationId: createUserWithStudyId
     summary: Create a new user to given study 
     tags:
+        - Studies
         - Users
         - _For Admins
     security:
