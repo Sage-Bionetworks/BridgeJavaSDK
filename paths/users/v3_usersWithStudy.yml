@@ -16,7 +16,7 @@ post:
             $ref: ../../definitions/sign_up.yml
     responses:
         201:
-            $ref: ../../responses/201.yml
+            $ref: ../../responses/201_message.yml
         401:
             $ref: ../../responses/401.yml
         403:
