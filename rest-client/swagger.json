@@ -4128,7 +4128,8 @@
         "summary": "Get schedule plans",
         "tags": [
           "Schedules",
-          "_For Developers"
+          "_For Developers",
+          "_For Researchers"
         ],
         "security": [
           {
@@ -4146,7 +4147,7 @@
             "$ref": "#/responses/401"
           },
           "403": {
-            "$ref": "#/responses/403_not_developer"
+            "$ref": "#/responses/403_not_developer_researcher"
           }
         }
       },
@@ -4750,7 +4751,8 @@
         "summary": "Get external IDs",
         "tags": [
           "External Identifiers",
-          "_For Developers"
+          "_For Developers",
+          "_For Researchers"
         ],
         "security": [
           {
@@ -4792,7 +4794,7 @@
             "$ref": "#/responses/401"
           },
           "403": {
-            "$ref": "#/responses/403_not_developer"
+            "$ref": "#/responses/403_not_developer_researcher"
           }
         }
       },
@@ -5092,6 +5094,47 @@
             "schema": {
               "$ref": "#/definitions/UploadList"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_admin"
+          }
+        }
+      }
+    },
+    "/v3/studies/{studyId}/users": {
+      "post": {
+        "operationId": "createUserInStudy",
+        "summary": "Create a new user in a given study",
+        "tags": [
+          "Studies",
+          "Users",
+          "_For Admins"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/studyId"
+          },
+          {
+            "name": "SignUp",
+            "in": "body",
+            "description": "New user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SignUp"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/responses/201_message"
           },
           "401": {
             "$ref": "#/responses/401"
