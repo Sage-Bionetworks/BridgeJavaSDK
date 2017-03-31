@@ -16,9 +16,7 @@ post:
             $ref: ../../definitions/sign_up.yml
     responses:
         201:
-            description: Created
-            schema:
-                $ref: ../../definitions/user_session_info.yml
+            $ref: ../../responses/201.yml
         401:
             $ref: ../../responses/401.yml
         403:
