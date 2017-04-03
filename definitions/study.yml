@@ -105,6 +105,9 @@ properties:
     resetPasswordTemplate:
         description: The template for emails delivered to users who ask to reset their passwords.
         $ref: ./email_template.yml
+    emailSignInTemplate:
+        description: The template for an email that will contain a token to generate a session on the server.
+        $ref: ./email_template.yml
     active:
         type: boolean
         readOnly: true
@@ -128,6 +131,11 @@ properties:
             * When assigned, the ID will have to match one of the IDs entered into Bridge;
             * A given ID will be assigned to one and only one user;
             * Once assigned, it is not possible to change or remove the external ID from the user account.
+    emailSignInEnabled:
+        type: boolean
+        default: false
+        description: |
+            **Can only be set by an administrator.** If enabled, the user will be able to trigger an email with contains a token which can be used to generate a server session, in lieu of a normal sign in process.
     externalIdRequiredOnSignup:
         type: boolean
         default: false
