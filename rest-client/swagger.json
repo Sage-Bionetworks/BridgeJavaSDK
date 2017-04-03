@@ -7018,6 +7018,10 @@
           "description": "The template for emails delivered to users who ask to reset their passwords.",
           "$ref": "#/definitions/EmailTemplate"
         },
+        "emailSignInTemplate": {
+          "description": "The template for an email that will contain a token to generate a session on the server.",
+          "$ref": "#/definitions/EmailTemplate"
+        },
         "active": {
           "type": "boolean",
           "readOnly": true
@@ -7038,6 +7042,11 @@
           "type": "boolean",
           "default": false,
           "description": "**Can only be set by an administrator.** Should external identifiers be validated? If this is false, then the external ID is treated as an unconstrained string. If this is true, the study designer will need to enter the list of valid codes into Bridge. Bridge will ensure that the following is true:\n\n* When assigned, the ID will have to match one of the IDs entered into Bridge;\n* A given ID will be assigned to one and only one user;\n* Once assigned, it is not possible to change or remove the external ID from the user account.\n"
+        },
+        "emailSignInEnabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "**Can only be set by an administrator.** If enabled, the user will be able to trigger an email with contains a token which can be used to generate a server session, in lieu of a normal sign in process.\n"
         },
         "externalIdRequiredOnSignup": {
           "type": "boolean",
