@@ -1130,52 +1130,6 @@
       }
     },
     "/v3/participants/{userId}/activities": {
-      "get": {
-        "operationId": "getParticipantActivities",
-        "deprecated": true,
-        "summary": "Get paged history of activities scheduled for a participant",
-        "description": "Provides a view of all the activities that have been created for a participant. The state of these activities is \nreturned without modification. No filtering is performed on the list of activities, which may have been assigned \ndue to different or changing filtering criteria. These records help to determine if a participant is currently active \nin the study (e.g. if there are no activities, the user has never asked for them them). Records are sorted first \nby the type of activity, and then by the date the activity was scheduled to start on.\n",
-        "tags": [
-          "Participants",
-          "_For Researchers"
-        ],
-        "security": [
-          {
-            "BridgeSecurity": []
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/userId"
-          },
-          {
-            "name": "offsetKey",
-            "in": "query",
-            "type": "string",
-            "description": "The identifier to use as the first record of the returned page of activities"
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "type": "integer",
-            "description": "The number of records to return in the query (defaults to 10)."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/ActivityList"
-            }
-          },
-          "401": {
-            "$ref": "#/responses/401"
-          },
-          "403": {
-            "$ref": "#/responses/403_not_researcher"
-          }
-        }
-      },
       "delete": {
         "operationId": "deleteParticipantActivities",
         "summary": "Delete all activities for a participant",
@@ -1358,6 +1312,7 @@
         "description": "This endpoint will withdraw the user from any and all signed consents in the study, and \nset their sharing status to \"no_sharing\". The user is withdrawn from all subpopulations \nin the study whether they currently apply to the user or not. Unless you have more \ncomplicated consent requirements (like an optional consent that can be signed or not), \nthis is the best approach to withdrawing a user from a study.\n",
         "tags": [
           "Participants",
+          "Consents",
           "_For Researchers"
         ],
         "security": [
@@ -1411,6 +1366,50 @@
           },
           {
             "$ref": "#/parameters/subpopulationGuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_researcher"
+          }
+        }
+      }
+    },
+    "/v3/participants/{userId}/consents/{subpopulationGuid}/withdraw": {
+      "post": {
+        "operationId": "withdrawParticipantFromSubpopulation",
+        "summary": "Withdraw the participant from the specified subpopulation",
+        "description": "This endpoint will withdraw the user from consent to participate in one subpopulation of \nthe study. \n",
+        "tags": [
+          "Participants",
+          "Consents",
+          "_For Researchers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/userId"
+          },
+          {
+            "$ref": "#/parameters/subpopulationGuid"
+          },
+          {
+            "name": "withdrawal",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Withdrawal"
+            }
           }
         ],
         "responses": {
@@ -1903,7 +1902,10 @@
         ],
         "responses": {
           "201": {
-            "$ref": "#/responses/201_message"
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/UserSessionInfo"
+            }
           },
           "401": {
             "$ref": "#/responses/401"
@@ -1940,7 +1942,10 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/200_message"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UserSessionInfo"
+            }
           },
           "401": {
             "$ref": "#/responses/401"
@@ -2163,7 +2168,10 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/200_message"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UserSessionInfo"
+            }
           },
           "401": {
             "$ref": "#/responses/401"
@@ -4120,7 +4128,8 @@
         "summary": "Get schedule plans",
         "tags": [
           "Schedules",
-          "_For Developers"
+          "_For Developers",
+          "_For Researchers"
         ],
         "security": [
           {
@@ -4138,7 +4147,7 @@
             "$ref": "#/responses/401"
           },
           "403": {
-            "$ref": "#/responses/403_not_developer"
+            "$ref": "#/responses/403_not_developer_researcher"
           }
         }
       },
@@ -4742,7 +4751,8 @@
         "summary": "Get external IDs",
         "tags": [
           "External Identifiers",
-          "_For Developers"
+          "_For Developers",
+          "_For Researchers"
         ],
         "security": [
           {
@@ -4784,7 +4794,7 @@
             "$ref": "#/responses/401"
           },
           "403": {
-            "$ref": "#/responses/403_not_developer"
+            "$ref": "#/responses/403_not_developer_researcher"
           }
         }
       },
@@ -5084,6 +5094,47 @@
             "schema": {
               "$ref": "#/definitions/UploadList"
             }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_admin"
+          }
+        }
+      }
+    },
+    "/v3/studies/{studyId}/users": {
+      "post": {
+        "operationId": "createUserInStudy",
+        "summary": "Create a new user in a given study",
+        "tags": [
+          "Studies",
+          "Users",
+          "_For Admins"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/studyId"
+          },
+          {
+            "name": "SignUp",
+            "in": "body",
+            "description": "New user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SignUp"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/responses/201_message"
           },
           "401": {
             "$ref": "#/responses/401"
