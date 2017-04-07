@@ -30,6 +30,20 @@
       "in": "path",
       "type": "string"
     },
+    "moduleId": {
+      "name": "moduleId",
+      "description": "Unique ID of the module.",
+      "required": true,
+      "in": "path",
+      "type": "string"
+    },
+    "moduleVersion": {
+      "name": "moduleVersion",
+      "description": "Module version.",
+      "required": true,
+      "in": "path",
+      "type": "integer"
+    },
     "schemaId": {
       "name": "schemaId",
       "description": "Upload schema ID",
@@ -1650,6 +1664,343 @@
           },
           "403": {
             "$ref": "#/responses/403_not_admin"
+          }
+        }
+      }
+    },
+    "/v3/sharedmodules/metadata": {
+      "get": {
+        "operationId": "queryAllMetadata",
+        "summary": "Queries module metadata using the set of given parameters.",
+        "tags": [
+          "Shared Modules",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "mostrecent",
+            "in": "query",
+            "type": "boolean",
+            "required": false,
+            "default": true,
+            "description": "True to get only the most recent versions. If combined with published=true, then this\nwill return the most recent published versions. Cannot be combined with where.\nDefaults to true.\n"
+          },
+          {
+            "name": "published",
+            "in": "query",
+            "type": "boolean",
+            "required": false,
+            "default": false,
+            "description": "True to get only published versions. False to get all versions. Defaults to false."
+          },
+          {
+            "name": "where",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "SQL-like where clause. Example, \"foo='bar'\""
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "Comma-delimited list of tags. If specified, only query results that match one or more\ntags (not necessarily all tags) are returned. If not specified, returns all query\nresults.\n"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SharedModuleMetadataList"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createMetadata",
+        "summary": "Creates the specified module metadata.",
+        "tags": [
+          "Shared Modules",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "SharedModuleMetadata",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SharedModuleMetadata"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SharedModuleMetadata"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
+          }
+        }
+      }
+    },
+    "/v3/sharedmodules/metadata/{moduleId}": {
+      "get": {
+        "operationId": "getMetadataByIdLatestVersion",
+        "summary": "Gets metadata for the latest version of the specified module.",
+        "tags": [
+          "Shared Modules",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/moduleId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SharedModuleMetadata"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
+          }
+        }
+      }
+    },
+    "/v3/sharedmodules/metadata/{moduleId}/versions": {
+      "get": {
+        "operationId": "queryMetadataById",
+        "summary": "Similar to queryAllMetadata, except this only queries on module versions of the specified ID.",
+        "tags": [
+          "Shared Modules",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/moduleId"
+          },
+          {
+            "name": "mostrecent",
+            "in": "query",
+            "type": "boolean",
+            "required": false,
+            "default": true,
+            "description": "True to get only the most recent versions. If combined with published=true, then this\nwill return the most recent published versions. Cannot be combined with where.\nDefaults to true.\n"
+          },
+          {
+            "name": "published",
+            "in": "query",
+            "type": "boolean",
+            "required": false,
+            "default": false,
+            "description": "True to get only published versions. False to get all versions. Defaults to false."
+          },
+          {
+            "name": "where",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "SQL-like where clause. Example, \"foo='bar'\""
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "Comma-delimited list of tags. If specified, only query results that match one or more\ntags (not necessarily all tags) are returned. If not specified, returns all query\nresults.\n"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SharedModuleMetadataList"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteMetadataByIdAllVersions",
+        "summary": "Deletes all metadata for module versions with the given ID.",
+        "tags": [
+          "Shared Modules",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/moduleId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
+          }
+        }
+      }
+    },
+    "/v3/sharedmodules/metadata/{moduleId}/versions/{moduleVersion}": {
+      "get": {
+        "operationId": "getMetadataByIdAndVersion",
+        "summary": "Gets metadata for the specified version of the specified module.",
+        "tags": [
+          "Shared Modules",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/moduleId"
+          },
+          {
+            "$ref": "#/parameters/moduleVersion"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SharedModuleMetadata"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
+          }
+        }
+      },
+      "post": {
+        "operationId": "updateMetadata",
+        "summary": "Updates metadata for the specified module version.",
+        "tags": [
+          "Shared Modules",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/moduleId"
+          },
+          {
+            "$ref": "#/parameters/moduleVersion"
+          },
+          {
+            "name": "SharedModuleMetadata",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SharedModuleMetadata"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SharedModuleMetadata"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteMetadataByIdAndVersion",
+        "summary": "Deletes metadata for the specified module ID and version.",
+        "tags": [
+          "Shared Modules",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/moduleId"
+          },
+          {
+            "$ref": "#/parameters/moduleVersion"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200_message"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
           }
         }
       }
@@ -5393,6 +5744,14 @@
         "study"
       ]
     },
+    "SharedModuleType": {
+      "type": "string",
+      "description": "Enum to tag shared module metadata as either a schema or a survey.",
+      "enum": [
+        "schema",
+        "survey"
+      ]
+    },
     "UploadStatus": {
       "type": "string",
       "description": "The status of the upload:\n\n|Status|Description|\n|---|---|\n|unknown|Upload status is unknown. This is generally used for older data formats (namely, Upload v1), which had a binary complete flag rather than an UploadStatus.|\n|requested|Initial state. Upload is requested. User needs to upload to specified URL and call uploadComplete.|\n|validation_in_progress|Client process has called uploadComplete. Upload validation is currently taking place.|\n|validation_failed|Upload validation has failed (see the validationMessageList for further details).|\n|succeeded|Upload has succeeded, including validation. Note that export to Synapse is a separate step.|\n",
@@ -6809,6 +7168,77 @@
           "type": "string",
           "readOnly": true,
           "description": "SchemaReference"
+        }
+      }
+    },
+    "SharedModuleMetadata": {
+      "type": "object",
+      "description": "Metadata for shared modules in the shared module library.",
+      "required": [
+        "id",
+        "name",
+        "version"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique ID of the module."
+        },
+        "licenseRestricted": {
+          "type": "boolean",
+          "description": "True if usage of this module is restricted by license or copyright."
+        },
+        "moduleType": {
+          "$ref": "#/definitions/SharedModuleType",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "description": "User-friendly module name."
+        },
+        "notes": {
+          "type": "string",
+          "description": "User-friendly descriptive notes for the module."
+        },
+        "os": {
+          "type": "string",
+          "description": "Which OS (iOS, Android, etc) this module applies to, if the module is OS-specific."
+        },
+        "published": {
+          "type": "boolean",
+          "description": "Flag that marks the module as published. A published module versions cannot be\nmodified. However, another version of the same module can be created for continued\nediting.\n"
+        },
+        "schemaId": {
+          "type": "string",
+          "description": "Schema ID, if this module is a schema."
+        },
+        "schemaRevision": {
+          "type": "integer",
+          "description": "Schema revision, if this module is a schema."
+        },
+        "surveyCreatedOn": {
+          "type": "string",
+          "description": "Survey created-on timestamp (as an ISO8601 timestamp), if this module is a survey."
+        },
+        "surveyGuid": {
+          "type": "string",
+          "description": "Survey GUID, if this module is a survey."
+        },
+        "tags": {
+          "type": "array",
+          "description": "An unordered list of tags, used for querying and filtering.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "version": {
+          "type": "integer",
+          "description": "Module version."
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "SharedModuleMetadata"
         }
       }
     },
@@ -8353,6 +8783,27 @@
         "total": {
           "type": "integer",
           "description": "The total number of records in the items list"
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "ResourceList"
+        }
+      }
+    },
+    "SharedModuleMetadataList": {
+      "type": "object",
+      "readOnly": true,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SharedModuleMetadata"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "description": "The total number of records in the list"
         },
         "type": {
           "type": "string",

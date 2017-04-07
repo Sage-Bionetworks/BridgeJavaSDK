@@ -33,7 +33,10 @@ public final class Config {
         ACCOUNT_EMAIL, 
         ACCOUNT_PASSWORD, 
         ADMIN_EMAIL, 
-        ADMIN_PASSWORD, 
+        ADMIN_PASSWORD,
+        API_DEVELOPER_EMAIL,
+        API_DEVELOPER_PASSWORD,
+        API_DEVELOPER_STUDY,
         APP_NAME,
         APP_VERSION,
         DEV_NAME,
@@ -43,7 +46,10 @@ public final class Config {
         LOG_LEVEL, 
         OS_NAME,
         OS_VERSION,
-        SDK_VERSION, 
+        SDK_VERSION,
+        SHARED_DEVELOPER_EMAIL,
+        SHARED_DEVELOPER_PASSWORD,
+        SHARED_DEVELOPER_STUDY,
         STUDY_IDENTIFIER;
 
         public String getPropertyName() {
@@ -187,8 +193,15 @@ public final class Config {
         return fromProperty(Props.LOG_LEVEL);
     }
 
-    private String fromProperty(Props prop) {
-        String value = config.getProperty(prop.getPropertyName());
+    /**
+     * Method to get any of the values that are defined in the bridge-sdk.properties configuration file.
+     *
+     * @param property
+     *         The property you are getting
+     * @return The value for the property
+     */
+    public String fromProperty(Props property) {
+        String value = config.getProperty(property.getPropertyName());
         return (value == null || value.trim().length() == 0) ? null : value.trim();
     }
 }

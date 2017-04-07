@@ -12,6 +12,7 @@ public class ConfigTest {
         Config config = new Config();
         assertEquals("5", config.getSdkVersion());
         assertEquals("testName", config.getAppName());
+        assertEquals("testName", config.fromProperty(Config.Props.APP_NAME));
         assertNotNull(config.getLogLevel());
     }
     
