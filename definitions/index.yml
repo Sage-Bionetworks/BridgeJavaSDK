@@ -22,6 +22,8 @@ Operator:
     $ref: ./enums/operator.yml
 ReportType:
     $ref: ./enums/report_type.yml
+SharedModuleType:
+    $ref: ./enums/shared_module_type.yml
 UploadStatus:
     $ref: ./enums/upload_status.yml
 UploadSchemaType:
@@ -119,6 +121,8 @@ ScheduledActivity:
     $ref: ./scheduled_activity.yml
 SchemaReference:
     $ref: ./schema_reference.yml
+SharedModuleMetadata:
+    $ref: ./shared_module_metadata.yml
 SharingScopeForm:
     $ref: ./sharing_scope_form.yml
 SignIn:
@@ -207,6 +211,8 @@ ForwardCursorScheduledActivityList:
     $ref: ./paged_resources/forward_cursor_scheduled_activity.yml
 SchedulePlanList:
     $ref: ./paged_resources/schedule_plan.yml
+SharedModuleMetadataList:
+    $ref: ./paged_resources/shared_module_metadata.yml
 StringList:
     $ref: ./paged_resources/string.yml
 StudyList:

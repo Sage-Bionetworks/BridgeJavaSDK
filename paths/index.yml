@@ -64,6 +64,16 @@
 /v3/participants/reports/{identifier}:
     $ref: ./participants/v3_participants_reports_identifier.yml
 
+# Shared Modules
+/v3/sharedmodules/metadata:
+    $ref: ./sharedmodules/v3_sharedmodules_metadata.yml
+/v3/sharedmodules/metadata/{moduleId}:
+    $ref: ./sharedmodules/v3_sharedmodules_metadata_id.yml
+/v3/sharedmodules/metadata/{moduleId}/versions:
+    $ref: ./sharedmodules/v3_sharedmodules_metadata_id_versions.yml
+/v3/sharedmodules/metadata/{moduleId}/versions/{moduleVersion}:
+    $ref: ./sharedmodules/v3_sharedmodules_metadata_id_versions_version.yml
+
 # Subpopulations
 /v3/subpopulations:
     $ref: ./subpopulations/v3_subpopulations.yml                             

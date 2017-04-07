@@ -22,6 +22,18 @@ parameters:
         required: true
         in: path
         type: string
+    moduleId:
+        name: moduleId
+        description: Unique ID of the module.
+        required: true
+        in: path
+        type: string
+    moduleVersion:
+        name: moduleVersion
+        description: Module version.
+        required: true
+        in: path
+        type: integer
     schemaId:
         name: schemaId
         description: Upload schema ID
