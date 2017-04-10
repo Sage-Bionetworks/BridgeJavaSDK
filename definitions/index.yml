@@ -121,6 +121,8 @@ ScheduledActivity:
     $ref: ./scheduled_activity.yml
 SchemaReference:
     $ref: ./schema_reference.yml
+SharedModuleImportStatus:
+    $ref: ./shared_module_import_status.yml
 SharedModuleMetadata:
     $ref: ./shared_module_metadata.yml
 SharingScopeForm:

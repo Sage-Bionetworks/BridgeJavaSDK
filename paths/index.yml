@@ -65,6 +65,12 @@
     $ref: ./participants/v3_participants_reports_identifier.yml
 
 # Shared Modules
+/v3/sharedmodules/{moduleId}/import:
+    $ref: ./sharedmodules/v3_sharedmodules_id_import.yml
+/v3/sharedmodules/{moduleId}/versions/{moduleVersion}/import:
+    $ref: ./sharedmodules/v3_sharedmodules_id_versions_version_import.yml
+
+# Shared Module Metadata
 /v3/sharedmodules/metadata:
     $ref: ./sharedmodules/v3_sharedmodules_metadata.yml
 /v3/sharedmodules/metadata/{moduleId}:
