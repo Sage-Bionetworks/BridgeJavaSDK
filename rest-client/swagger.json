@@ -1668,6 +1668,77 @@
         }
       }
     },
+    "/v3/sharedmodules/{moduleId}/import": {
+      "post": {
+        "operationId": "importModuleByIdLatestPublishedVersion",
+        "summary": "Imports the latest published version of a module into the current study.",
+        "tags": [
+          "Shared Modules",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/moduleId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SharedModuleImportStatus"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
+          }
+        }
+      }
+    },
+    "/v3/sharedmodules/{moduleId}/versions/{moduleVersion}/import": {
+      "post": {
+        "operationId": "importModuleByIdAndVersion",
+        "summary": "Imports a specific module version into the current study.",
+        "tags": [
+          "Shared Modules",
+          "_For Developers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/moduleId"
+          },
+          {
+            "$ref": "#/parameters/moduleVersion"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SharedModuleImportStatus"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_developer"
+          }
+        }
+      }
+    },
     "/v3/sharedmodules/metadata": {
       "get": {
         "operationId": "queryAllMetadata",
@@ -7168,6 +7239,37 @@
           "type": "string",
           "readOnly": true,
           "description": "SchemaReference"
+        }
+      }
+    },
+    "SharedModuleImportStatus": {
+      "type": "object",
+      "description": "This struct contains the results of importing a shared module into the local study, including\nwhat type of module it is, and its key params (schema ID/revision or survey GUID/createdOn) in\nthe local study.\n",
+      "properties": {
+        "moduleType": {
+          "$ref": "#/definitions/SharedModuleType",
+          "readOnly": true
+        },
+        "schemaId": {
+          "type": "string",
+          "description": "Schema ID, if this module is a schema."
+        },
+        "schemaRevision": {
+          "type": "integer",
+          "description": "Schema revision, if this module is a schema."
+        },
+        "surveyCreatedOn": {
+          "type": "string",
+          "description": "Survey created-on timestamp (as an ISO8601 timestamp), if this module is a survey."
+        },
+        "surveyGuid": {
+          "type": "string",
+          "description": "Survey GUID, if this module is a survey."
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "SharedModuleImportStatus"
         }
       }
     },
