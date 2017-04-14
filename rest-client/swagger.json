@@ -428,6 +428,98 @@
         }
       }
     },
+    "/v3/auth/email": {
+      "post": {
+        "operationId": "requestEmailSignIn",
+        "tags": [
+          "Authentication"
+        ],
+        "description": "Does not require authentication. Will send an email with a link that can be used to call \nthe server and generate a session. This link is intended to be intercepted by an app on \nthe phone, and redirected to a workflow in the app.\n",
+        "parameters": [
+          {
+            "name": "EmailSignInRequest",
+            "in": "body",
+            "description": "Information to trigger an email for sign in.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EmailSignInRequest"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "$ref": "#/responses/202_message"
+          },
+          "403": {
+            "description": "This feature has not been enabled for the study"
+          },
+          "404": {
+            "description": "Study not found",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded for requests to receive a sign in email",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          }
+        }
+      }
+    },
+    "/v3/auth/email/signIn": {
+      "post": {
+        "operationId": "signInViaEmail",
+        "tags": [
+          "Authentication"
+        ],
+        "description": "Does not require authentication. Using the token supplied via a link in an email, request \na session from the server. This form of authentication can also optionally change the \npassword on the account. Not enabled for all studies.\n",
+        "parameters": [
+          {
+            "name": "EmailSignIn",
+            "in": "body",
+            "description": "Information to authenticate with the server",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EmailSignIn"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UserSessionInfo"
+            }
+          },
+          "401": {
+            "description": "Authentication has failed",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          },
+          "404": {
+            "description": "Study or account does not exist",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
+          },
+          "423": {
+            "description": "Account has been disabled",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          }
+        }
+      }
+    },
     "/v3/activities": {
       "get": {
         "operationId": "getScheduledActivities",
@@ -6384,6 +6476,61 @@
           "type": "string",
           "readOnly": true,
           "description": "Email"
+        }
+      }
+    },
+    "EmailSignIn": {
+      "type": "object",
+      "description": "",
+      "required": [
+        "study",
+        "email",
+        "token"
+      ],
+      "properties": {
+        "study": {
+          "type": "string",
+          "description": "The identifier for the user's study."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the participant."
+        },
+        "token": {
+          "type": "string",
+          "description": "The token that was embedded in a link, sent in an email, that should be intercepted\nby the app in order to complete sign in.\n"
+        },
+        "password": {
+          "type": "string",
+          "description": "The account's password will be updated to this value if it is provided.\n"
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "EmailSignIn"
+        }
+      }
+    },
+    "EmailSignInRequest": {
+      "type": "object",
+      "description": "",
+      "required": [
+        "study",
+        "email"
+      ],
+      "properties": {
+        "study": {
+          "type": "string",
+          "description": "The identifier for the user's study."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the participant."
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "EmailSignInRequest"
         }
       }
     },
