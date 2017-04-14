@@ -3,6 +3,7 @@ package org.sagebionetworks.bridge.rest;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doReturn;
 
+import com.google.common.collect.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -12,8 +13,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.sagebionetworks.bridge.rest.model.ClientInfo;
 import org.sagebionetworks.bridge.rest.model.Environment;
 import org.sagebionetworks.bridge.rest.model.SignIn;
-
-import com.google.common.collect.Lists;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Config.class})
@@ -76,5 +75,20 @@ public class ClientManagerTest {
         assertEquals("ultimate", info.getOsVersion());
         assertEquals("BridgeJavaSDK", info.getSdkName());
         assertEquals((Integer)5, info.getSdkVersion());
+    }
+
+    @Test
+    public void testGetUrl() {
+        String localUrl = ClientManager.getUrl(Environment.LOCAL);
+        assertEquals("http://localhost:9000", localUrl);
+
+        String devUrl = ClientManager.getUrl(Environment.DEVELOP);
+        assertEquals("https://webservices-develop.sagebridge.org", devUrl);
+
+        String stagingUrl = ClientManager.getUrl(Environment.STAGING);
+        assertEquals("https://webservices-staging.sagebridge.org", stagingUrl);
+
+        String prodUrl = ClientManager.getUrl(Environment.PRODUCTION);
+        assertEquals("https://webservices.sagebridge.org", prodUrl);
     }
 }
