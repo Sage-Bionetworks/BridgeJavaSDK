@@ -8480,6 +8480,10 @@
             "$ref": "#/definitions/UploadFieldDefinition"
           }
         },
+        "published": {
+          "type": "boolean",
+          "description": "Flag indicating if this upload schema is published or not. If it is published, no one can update it. \nTo modify a published upload schema, user needs to copy this schema to a new one and then modify it.\n"
+        },
         "type": {
           "type": "string",
           "readOnly": true,
