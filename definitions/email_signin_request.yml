@@ -1,0 +1,16 @@
+type: object
+description: |
+required:
+    - study
+    - email
+properties:
+    study:
+        type: string
+        description: The identifier for the user's study.
+    email:
+        type: string
+        description: The email address of the participant.
+    type:
+        type: string
+        readOnly: true
+        description: "EmailSignInRequest"

@@ -1,0 +1,26 @@
+type: object
+description: |
+required:
+    - study
+    - email
+    - token
+properties:
+    study:
+        type: string
+        description: The identifier for the user's study.
+    email:
+        type: string
+        description: The email address of the participant.
+    token:
+        type: string
+        description: |
+            The token that was embedded in a link, sent in an email, that should be intercepted
+            by the app in order to complete sign in.
+    password:
+        type: string
+        description: |
+            The account's password will be updated to this value if it is provided.
+    type:
+        type: string
+        readOnly: true
+        description: "EmailSignIn"

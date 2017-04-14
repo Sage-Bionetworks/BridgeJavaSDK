@@ -1,0 +1,35 @@
+post:
+    operationId: signInViaEmail
+    tags: ["Authentication"]
+    description: |
+        Does not require authentication. Using the token supplied via a link in an email, request 
+        a session from the server. This form of authentication can also optionally change the 
+        password on the account. Not enabled for all studies.
+    parameters:
+        - name: EmailSignIn
+          in: body
+          description: Information to authenticate with the server
+          required: true
+          schema:
+                $ref: ../../definitions/email_signin.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/user_session_info.yml
+        401:
+            description: Authentication has failed
+            schema:
+                $ref: ../../definitions/message.yml
+        404:
+            description: Study or account does not exist
+            schema:
+                $ref: ../../definitions/message.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml
+        423:
+            description: Account has been disabled
+            schema:
+                $ref: ../../definitions/message.yml
