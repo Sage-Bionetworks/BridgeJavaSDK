@@ -6,12 +6,12 @@ import static com.google.common.base.Strings.isNullOrEmpty;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableMap;
+
 import org.sagebionetworks.bridge.rest.model.ClientInfo;
 import org.sagebionetworks.bridge.rest.model.Environment;
 import org.sagebionetworks.bridge.rest.model.SignIn;
-
-import com.google.common.base.Splitter;
-import com.google.common.collect.ImmutableMap;
 
 /**
  * <p>ClientManager provides support for configuring API classes using values set via a properties 
@@ -108,6 +108,10 @@ public class ClientManager {
     
     public final String getHostUrl() {
         return HOSTS.get(config.getEnvironment());
+    }
+
+    public static String getUrl(Environment env) {
+        return HOSTS.get(env);
     }
 
     /**
