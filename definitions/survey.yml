@@ -9,6 +9,12 @@ required:
 properties:
     guid:
         type: string
+    moduleId:
+        type: string
+        description: Module ID, if this survey was imported from a shared module.
+    moduleVersion:
+        type: integer
+        description: Module version, if this survey was imported from a shared module.
     name:
         type: string
         description: |

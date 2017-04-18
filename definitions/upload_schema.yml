@@ -25,6 +25,12 @@ properties:
             version number, in order to match.
         additionalProperties:
             type: integer
+    moduleId:
+        type: string
+        description: Module ID, if this schema was imported from a shared module.
+    moduleVersion:
+        type: integer
+        description: Module version, if this schema was imported from a shared module.
     name:
         type: string
         description: User-friendly schema name.
