@@ -8003,6 +8003,14 @@
         "guid": {
           "type": "string"
         },
+        "moduleId": {
+          "type": "string",
+          "description": "Module ID, if this survey was imported from a shared module."
+        },
+        "moduleVersion": {
+          "type": "integer",
+          "description": "Module version, if this survey was imported from a shared module."
+        },
         "name": {
           "type": "string",
           "description": "The name of this survey. The name can be changed after creation, and should not \nappear in the UI.\n"
@@ -8439,6 +8447,14 @@
           "additionalProperties": {
             "type": "integer"
           }
+        },
+        "moduleId": {
+          "type": "string",
+          "description": "Module ID, if this schema was imported from a shared module."
+        },
+        "moduleVersion": {
+          "type": "integer",
+          "description": "Module version, if this schema was imported from a shared module."
         },
         "name": {
           "type": "string",
