@@ -3,7 +3,7 @@ description: |
 
     Durations should be given as an integer value (not an ISO 8601 duration value). For the time being, a duration string is accepted if the duration is measured in the same time units required by the question. For example, if the question requires minutes, the duration string must be "PT120M", not "PT2H" or other equivalent values.
 
-    **UI hints:** numberfield, slider.
+    **UI hints:** numberfield, slider, select.
 required:
     - unit
     - dataType

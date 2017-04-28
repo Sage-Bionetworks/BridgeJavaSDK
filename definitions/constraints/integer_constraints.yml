@@ -2,7 +2,7 @@ description: |
     This type can be used to collect a number, or with a unit, it can be used to collect 
     a measure or a duration (e.g. "3 hours", or "180 pounds").
 
-    **UI hints:** numberfield, slider.
+    **UI hints:** numberfield, slider, select.
 required: 
     - dataType
 allOf:
