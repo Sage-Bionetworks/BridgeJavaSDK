@@ -6481,7 +6481,7 @@
     },
     "EmailSignIn": {
       "type": "object",
-      "description": "",
+      "description": "Using a token supplied in an email to the participant, authenticate with the server. The token \nremains valid, once sent, for a minute. This token will be sent as part of a link in an \nemail to the participant. This link should be intercepted by the installed app, which can \nextract the parameter in the link and use them to authenticate with the server using \nthis endpoint. (This feature must be enabled for your study.)\n",
       "required": [
         "study",
         "email",
@@ -6490,7 +6490,7 @@
       "properties": {
         "study": {
           "type": "string",
-          "description": "The identifier for the user's study."
+          "description": "The identifier of the participant's study."
         },
         "email": {
           "type": "string",
@@ -6502,7 +6502,7 @@
         },
         "password": {
           "type": "string",
-          "description": "The account's password will be updated to this value if it is provided.\n"
+          "description": "The account's password will be updated to this new password, if provided.\n"
         },
         "type": {
           "type": "string",
@@ -6513,7 +6513,7 @@
     },
     "EmailSignInRequest": {
       "type": "object",
-      "description": "",
+      "description": "Make a request to sign in through an email. This request will trigger the email to be sent \nto an existing account's email address (no more than once per minute). When the user clicks \non this link, the installed app should be registered to intercept and handle the link. The \nlink will include a token that can be sent to the server to authenticate, along with an \noptional password reset. (This feature must be enabled for your study.)\n",
       "required": [
         "study",
         "email"
@@ -6521,7 +6521,7 @@
       "properties": {
         "study": {
           "type": "string",
-          "description": "The identifier for the user's study."
+          "description": "The identifier for the participant's study."
         },
         "email": {
           "type": "string",
@@ -9332,7 +9332,7 @@
       ]
     },
     "IntegerConstraints": {
-      "description": "This type can be used to collect a number, or with a unit, it can be used to collect \na measure or a duration (e.g. \"3 hours\", or \"180 pounds\").\n\n**UI hints:** numberfield, slider.\n",
+      "description": "This type can be used to collect a number, or with a unit, it can be used to collect \na measure or a duration (e.g. \"3 hours\", or \"180 pounds\").\n\n**UI hints:** numberfield, slider, select.\n",
       "required": [
         "dataType"
       ],
@@ -9347,11 +9347,11 @@
             },
             "minValue": {
               "type": "integer",
-              "description": "Minimum valid value."
+              "description": "Minimum valid value. Required if UIHint is slider or select."
             },
             "maxValue": {
               "type": "integer",
-              "description": "Maximum valid value."
+              "description": "Maximum valid value. Required if UIHint is slider or select."
             },
             "step": {
               "type": "integer",
@@ -9363,7 +9363,7 @@
       ]
     },
     "DecimalConstraints": {
-      "description": "A floating point value.\n\n**UI hints:** numberfield, slider.\n",
+      "description": "A floating point value.\n\n**UI hints:** numberfield, slider, select.\n",
       "required": [
         "dataType"
       ],
@@ -9378,11 +9378,11 @@
             },
             "minValue": {
               "type": "number",
-              "description": "Minimum valid value."
+              "description": "Minimum valid value. Required if UIHint is slider or select."
             },
             "maxValue": {
               "type": "number",
-              "description": "Maximum valid value."
+              "description": "Maximum valid value. Required if UIHint is slider or select."
             },
             "step": {
               "type": "number",
@@ -9499,7 +9499,7 @@
       ]
     },
     "DurationConstraints": {
-      "description": "Deprecated. Use an integer value with a unit of measure instead.\n\nDurations should be given as an integer value (not an ISO 8601 duration value). For the time being, a duration string is accepted if the duration is measured in the same time units required by the question. For example, if the question requires minutes, the duration string must be \"PT120M\", not \"PT2H\" or other equivalent values.\n\n**UI hints:** numberfield, slider.\n",
+      "description": "Deprecated. Use an integer value with a unit of measure instead.\n\nDurations should be given as an integer value (not an ISO 8601 duration value). For the time being, a duration string is accepted if the duration is measured in the same time units required by the question. For example, if the question requires minutes, the duration string must be \"PT120M\", not \"PT2H\" or other equivalent values.\n\n**UI hints:** numberfield, slider, select.\n",
       "required": [
         "unit",
         "dataType"
@@ -9515,11 +9515,11 @@
             },
             "minValue": {
               "type": "integer",
-              "description": "Maximum valid value."
+              "description": "Maximum valid value. Required if UIHint is slider or select."
             },
             "maxValue": {
               "type": "integer",
-              "description": "Minimum valid value."
+              "description": "Minimum valid value. Required if UIHint is slider or select."
             },
             "step": {
               "type": "integer",
