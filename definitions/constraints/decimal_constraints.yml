@@ -11,10 +11,10 @@ allOf:
             $ref: ../enums/unit.yml
         minValue:
             type: number
-            description: Minimum valid value. 
+            description: Minimum valid value. Required if UIHint is slider or select.
         maxValue:
             type: number
-            description: Maximum valid value.
+            description: Maximum valid value. Required if UIHint is slider or select.
         step:
             type: number
             description: |
