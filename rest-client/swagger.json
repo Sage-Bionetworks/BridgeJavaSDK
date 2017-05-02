@@ -8040,6 +8040,10 @@
           "readOnly": true,
           "description": "The date and time when this version of the survey was last modified."
         },
+        "copyrightNotice": {
+          "type": "string",
+          "description": "A copyright notice identifying the owners of the published work.\n"
+        },
         "version": {
           "type": "integer",
           "format": "int64",
