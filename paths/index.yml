@@ -21,6 +21,8 @@
 # Scheduled Activities
 /v3/activities:
     $ref: ./activities/v3_activities.yml
+/v4/activities:
+    $ref: ./activities/v4_activities.yml
 /v3/activities/{activityGuid}:
     $ref: ./activities/v3_activities_activityGuid.yml
 

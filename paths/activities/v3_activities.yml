@@ -50,31 +50,3 @@ get:
             $ref: ../../responses/410.yml
         412:
             $ref: ../../responses/412.yml
-post:
-    operationId: updateScheduledActivities
-    summary: Update the status of one or more scheduled activities.
-    tags: 
-        - Activities
-        - _For Consented Users
-    security:
-        - BridgeSecurity: []
-    description: |
-        Submit one or more scheduled activities with updated startedOn or finishedOn timestamps. The 
-        only values needed in the JSON for each activity are the guid, startedOn and finishedOn fields.
-    parameters:
-        - name: ScheduledActivity
-          in: body
-          required: true
-          schema:
-              type: array
-              items:
-                  $ref: ../../definitions/scheduled_activity.yml
-    responses:
-        200:
-            $ref: ../../responses/200_message.yml
-        401:
-            $ref: ../../responses/401.yml
-        410:
-            $ref: ../../responses/410.yml
-        412:
-            $ref: ../../responses/412.yml
