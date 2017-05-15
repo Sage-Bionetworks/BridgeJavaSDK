@@ -592,7 +592,7 @@
             "BridgeSecurity": []
           }
         ],
-        "description": "Gets all activities in a given date range (inclusive), including expired, available, \nfinished, started, or scheduled activities for a user. The only activities that are \nnot returned are deleted activities (activities with a finishedOn timestamp but no \nstartedOn timestamp). The date range cannot exceed 15 days.\n",
+        "description": "Gets all activities in a given date range (from inclusive start time to excluded end time), \nincluding expired, available, finished, started, or scheduled activities for a user. The \nactivities are in the time range if their active window (from scheduled time to expiration \ntime) fall within the date range. The only activities that are not returned are deleted \nactivities (activities with a finishedOn timestamp but no startedOn timestamp). The date \nrange cannot exceed 15 days.\n",
         "parameters": [
           {
             "$ref": "#/parameters/startTime"
@@ -605,7 +605,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ScheduledActivityList"
+              "$ref": "#/definitions/ScheduledActivityListV4"
             }
           },
           "401": {
@@ -9039,6 +9039,38 @@
           "type": "string",
           "readOnly": true,
           "description": "ResourceList"
+        }
+      }
+    },
+    "ScheduledActivityListV4": {
+      "type": "object",
+      "readOnly": true,
+      "description": "The endpoint takes a startTime (inclusive) and endTime (exclusive) to form a time range (up to 15 days). Any activity that has an active time window (from its scheduled time to its expiration time) that falls on or after the start time, and before the end time, is included in the returned tasks.\n",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ScheduledActivity"
+          }
+        },
+        "startTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The startTime (inclusive) submitted to the server."
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The endTime value (exclusive) submitted to the server."
+        },
+        "total": {
+          "type": "integer",
+          "description": "The total number of records in the items list"
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "DateTimeRangeResourceList"
         }
       }
     },
