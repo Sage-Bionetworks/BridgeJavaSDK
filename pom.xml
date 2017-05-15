@@ -5,7 +5,7 @@
     <groupId>org.sagebionetworks.bridge</groupId>
     <artifactId>sdk-group</artifactId>
     <!-- Please use the maven versions plugin to manage this, e.g.`mvn versions:set -DnewVersion=0.8.1`-->
-    <version>0.12.52</version>
+    <version>0.12.54</version>
 
     <packaging>pom</packaging>
     <url>https://api.sagebridge.org</url>
@@ -27,6 +27,7 @@
         <joda-time.version>2.9.4</joda-time.version>
         <junit.version>4.11</junit.version>
         <logback.version>1.1.2</logback.version>
+        <maven-source-plugin>3.0.1</maven-source-plugin>
         <maven-compiler-plugin>3.1</maven-compiler-plugin>
         <maven-resources-plugin.version>2.6</maven-resources-plugin.version>
         <maven-s3-wagon.version>1.2.1</maven-s3-wagon.version>
@@ -62,7 +63,7 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
-            </dependency>        
+            </dependency>
             <dependency>
                 <groupId>com.squareup.retrofit2</groupId>
                 <artifactId>retrofit</artifactId>
@@ -87,13 +88,13 @@
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time</artifactId>
                 <version>${joda-time.version}</version>
-                <classifier>no-tzdb</classifier> 
+                <classifier>no-tzdb</classifier>
             </dependency>
             <dependency>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>${maven-resources-plugin.version}</version>
-            </dependency>            
+            </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
@@ -173,6 +174,16 @@
                         <source>1.7</source>
                         <target>1.7</target>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${javadoc.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source-plugin}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
