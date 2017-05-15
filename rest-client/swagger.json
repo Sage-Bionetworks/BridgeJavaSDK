@@ -577,6 +577,47 @@
             "$ref": "#/responses/412"
           }
         }
+      }
+    },
+    "/v4/activities": {
+      "get": {
+        "operationId": "getScheduledActivitiesByDateRange",
+        "summary": "Get a list of the participant's scheduled activities",
+        "tags": [
+          "Activities",
+          "_For Consented Users"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "description": "Gets all activities in a given date range (inclusive), including expired, available, \nfinished, started, or scheduled activities for a user. The only activities that are \nnot returned are deleted activities (activities with a finishedOn timestamp but no \nstartedOn timestamp). The date range cannot exceed 15 days.\n",
+        "parameters": [
+          {
+            "$ref": "#/parameters/startTime"
+          },
+          {
+            "$ref": "#/parameters/endTime"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ScheduledActivityListV4"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "410": {
+            "$ref": "#/responses/410"
+          },
+          "412": {
+            "$ref": "#/responses/412"
+          }
+        }
       },
       "post": {
         "operationId": "updateScheduledActivities",
@@ -8995,6 +9036,37 @@
           "type": "string",
           "readOnly": true,
           "description": "ResourceList"
+        }
+      }
+    },
+    "ScheduledActivityListV4": {
+      "type": "object",
+      "readOnly": true,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ScheduledActivity"
+          }
+        },
+        "startTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The startTime value submitted to the server"
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The endTime value submitted to the server"
+        },
+        "total": {
+          "type": "integer",
+          "description": "The total number of records in the items list"
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "DateTimeRangeResourceList"
         }
       }
     },
