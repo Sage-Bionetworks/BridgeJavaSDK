@@ -1,0 +1,22 @@
+type: object
+readOnly: true
+properties:
+    items:
+        type: array
+        items:
+            $ref: ../scheduled_activity.yml
+    startTime:
+        type: string
+        format: date-time
+        description: The startTime value submitted to the server
+    endTime:
+        type: string
+        format: date-time
+        description: The endTime value submitted to the server
+    total:
+        type: integer
+        description: The total number of records in the items list
+    type:
+        type: string
+        readOnly: true
+        description: "DateTimeRangeResourceList"

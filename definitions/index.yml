@@ -213,6 +213,8 @@ ScheduleList:
     $ref: ./paged_resources/schedule.yml
 ScheduledActivityList:
     $ref: ./paged_resources/scheduled_activity.yml
+ScheduledActivityListV4:
+    $ref: ./paged_resources/scheduled_activity_v4.yml
 ForwardCursorScheduledActivityList:
     $ref: ./paged_resources/forward_cursor_scheduled_activity.yml
 SchedulePlanList:

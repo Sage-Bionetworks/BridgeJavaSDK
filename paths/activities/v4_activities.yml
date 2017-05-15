@@ -18,7 +18,7 @@ get:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/paged_resources/scheduled_activity.yml
+                $ref: ../../definitions/paged_resources/scheduled_activity_v4.yml
         401:
             $ref: ../../responses/401.yml
         410:
