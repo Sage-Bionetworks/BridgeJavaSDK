@@ -31,7 +31,9 @@ post:
             $ref: ../../definitions/study.yml
     responses:
         200:
-            $ref: ../../responses/200_message.yml
+            description: OK
+            schema:
+                $ref: ../../definitions/version_holder.yml
         401:
             $ref: ../../responses/401.yml
         403:
