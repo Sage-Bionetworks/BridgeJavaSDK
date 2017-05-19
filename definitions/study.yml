@@ -141,6 +141,13 @@ properties:
         default: false
         description: |
             **Can only be set by an administrator.** Should the external ID be required on sign up? If this is true and external ID validation is enabled, this study can support lab codes (where the username and password are auto-generated from the external ID and the user only needs to enter a code).
+    accountLimit:
+        type: integer
+        default: 0
+        description: |
+            **Can only be set by an administrator.** If not zero, sets an upper-bound limit on the number 
+            of accounts that can be created for this study. Once this number is reached, no more sign 
+            ups or user creation can occur.
     disableExport:
         type: boolean
         default: false
