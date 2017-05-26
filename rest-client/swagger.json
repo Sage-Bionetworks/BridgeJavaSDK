@@ -592,7 +592,7 @@
             "BridgeSecurity": []
           }
         ],
-        "description": "Gets all activities in a given date range (from inclusive start time to excluded end time), \nincluding expired, available, finished, started, or scheduled activities for a user. The \nactivities are in the time range if their active window (from scheduled time to expiration \ntime) fall within the date range. The only activities that are not returned are deleted \nactivities (activities with a finishedOn timestamp but no startedOn timestamp). The date \nrange cannot exceed 15 days.\n",
+        "description": "Gets all activities in a given date range (from inclusive start time to excluded end time), \nincluding expired, available, finished, started, or scheduled activities for a user. The \nactivities are in the time range if their active window (from scheduled time to expiration \ntime) falls within the date range. The only activities that are not returned are deleted \nactivities (activities with a finishedOn timestamp but no startedOn timestamp). Scheduled \ntimes are returned in the timezone of the timestamps (the timezone must be the same for \nstartTime and endTime). The date range cannot exceed 15 days.\n",
         "parameters": [
           {
             "$ref": "#/parameters/startTime"
@@ -7775,6 +7775,11 @@
           "type": "boolean",
           "default": false,
           "description": "**Can only be set by an administrator.** Should the external ID be required on sign up? If this is true and external ID validation is enabled, this study can support lab codes (where the username and password are auto-generated from the external ID and the user only needs to enter a code).\n"
+        },
+        "accountLimit": {
+          "type": "integer",
+          "default": 0,
+          "description": "**Can only be set by an administrator.** If not zero, sets an upper-bound limit on the number \nof accounts that can be created for this study. Once this number is reached, no more sign \nups or user creation can occur.\n"
         },
         "disableExport": {
           "type": "boolean",
