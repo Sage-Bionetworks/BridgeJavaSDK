@@ -190,7 +190,8 @@
       "name": "offsetBy",
       "description": "next page start offset for pagination",
       "in": "query",
-      "type": "number",
+      "type": "integer",
+      "format": "int64",
       "default": 0,
       "required": false
     },
