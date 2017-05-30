@@ -162,6 +162,7 @@ parameters:
         description: next page start offset for pagination 
         in: query
         type: number
+        default: 0
         required: false
     offsetKey:
         name: offsetKey
@@ -200,6 +201,14 @@ parameters:
             4 days in the future to 10 days in the past.
         type: string 
         format: date-time
+        required: false
+    emailFilter:
+        name: emailFilter
+        description: |
+            A string (can be a substring of an email address) to filter returned records 
+            against.
+        in: query
+        type: string
         required: false
 paths:
     $ref: ./paths/index.yml
