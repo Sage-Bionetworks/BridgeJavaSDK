@@ -153,7 +153,7 @@ parameters:
         description: maximum number of records in each returned page
         in: query
         type: integer
-        format: int64
+        format: int32
         required: false
         default: 50
         maximum: 100
@@ -162,7 +162,7 @@ parameters:
         description: next page start offset for pagination 
         in: query
         type: integer
-        format: int64
+        format: int32
         default: 0
         required: false
     offsetKey:
