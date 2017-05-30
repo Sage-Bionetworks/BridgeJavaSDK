@@ -7,22 +7,9 @@ get:
     security:
         - BridgeSecurity: []
     parameters:
-        - name: offsetBy
-          type: integer
-          description: defaults to 0
-          required: false
-          in: query
-        - name: pageSize
-          type: integer
-          description: defaults to 50
-          minimum: 5
-          maximum: 100
-          required: false
-          in: query
-        - name: emailFilter
-          type: string
-          required: false
-          in: query
+        - $ref: ../../index.yml#/parameters/offsetBy
+        - $ref: ../../index.yml#/parameters/pageSize
+        - $ref: ../../index.yml#/parameters/emailFilter
         - $ref: ../../index.yml#/parameters/startDateOpt
         - $ref: ../../index.yml#/parameters/endDateOpt
     responses:
