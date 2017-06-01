@@ -181,7 +181,7 @@
       "description": "maximum number of records in each returned page",
       "in": "query",
       "type": "integer",
-      "format": "int64",
+      "format": "int32",
       "required": false,
       "default": 50,
       "maximum": 100
@@ -190,7 +190,9 @@
       "name": "offsetBy",
       "description": "next page start offset for pagination",
       "in": "query",
-      "type": "number",
+      "type": "integer",
+      "format": "int32",
+      "default": 0,
       "required": false
     },
     "offsetKey": {
@@ -228,6 +230,13 @@
       "description": "Activities returned are at or before the timestamp. If scheduledOnEnd is \nprovided, scheduledOnStart must be provided, and vice versa. Default range is \n4 days in the future to 10 days in the past.\n",
       "type": "string",
       "format": "date-time",
+      "required": false
+    },
+    "emailFilter": {
+      "name": "emailFilter",
+      "description": "A string (can be a substring of an email address) to filter returned records \nagainst.\n",
+      "in": "query",
+      "type": "string",
       "required": false
     }
   },
@@ -898,26 +907,13 @@
         ],
         "parameters": [
           {
-            "name": "offsetBy",
-            "type": "integer",
-            "description": "defaults to 0",
-            "required": false,
-            "in": "query"
+            "$ref": "#/parameters/offsetBy"
           },
           {
-            "name": "pageSize",
-            "type": "integer",
-            "description": "defaults to 50",
-            "minimum": 5,
-            "maximum": 100,
-            "required": false,
-            "in": "query"
+            "$ref": "#/parameters/pageSize"
           },
           {
-            "name": "emailFilter",
-            "type": "string",
-            "required": false,
-            "in": "query"
+            "$ref": "#/parameters/emailFilter"
           },
           {
             "$ref": "#/parameters/startDateOpt"
@@ -5165,7 +5161,8 @@
         "description": "Consents will be emailed from the support email address you provide. Amazon \nSES will ask the holder of that address to confirm this is OK.\n",
         "tags": [
           "Studies",
-          "_For Developers"
+          "_For Developers",
+          "_For Researchers"
         ],
         "security": [
           {
@@ -5183,7 +5180,7 @@
             "$ref": "#/responses/401"
           },
           "403": {
-            "$ref": "#/responses/403_not_developer"
+            "$ref": "#/responses/403_not_developer_researcher"
           }
         }
       }
@@ -5699,6 +5696,90 @@
           },
           "403": {
             "$ref": "#/responses/403_not_admin"
+          }
+        }
+      }
+    },
+    "/v3/studies/{studyId}/participants": {
+      "get": {
+        "operationId": "getParticipantsInStudy",
+        "summary": "Get a paged list of study participants for a study",
+        "tags": [
+          "_For Workers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/studyId"
+          },
+          {
+            "$ref": "#/parameters/offsetBy"
+          },
+          {
+            "$ref": "#/parameters/pageSize"
+          },
+          {
+            "$ref": "#/parameters/emailFilter"
+          },
+          {
+            "$ref": "#/parameters/startDateOpt"
+          },
+          {
+            "$ref": "#/parameters/endDateOpt"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/AccountSummaryList"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_worker"
+          }
+        }
+      }
+    },
+    "/v3/studies/{studyId}/participants/{userId}": {
+      "get": {
+        "operationId": "getParticipantInStudy",
+        "summary": "Get a study participant (user) record in a study",
+        "tags": [
+          "_For Workers"
+        ],
+        "security": [
+          {
+            "BridgeSecurity": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/studyId"
+          },
+          {
+            "$ref": "#/parameters/userId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/StudyParticipant"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403_not_worker"
           }
         }
       }
@@ -7775,6 +7856,11 @@
           "type": "boolean",
           "default": false,
           "description": "**Can only be set by an administrator.** Should the external ID be required on sign up? If this is true and external ID validation is enabled, this study can support lab codes (where the username and password are auto-generated from the external ID and the user only needs to enter a code).\n"
+        },
+        "accountLimit": {
+          "type": "integer",
+          "default": 0,
+          "description": "**Can only be set by an administrator.** If not zero, sets an upper-bound limit on the number \nof accounts that can be created for this study. Once this number is reached, no more sign \nups or user creation can occur.\n"
         },
         "disableExport": {
           "type": "boolean",
