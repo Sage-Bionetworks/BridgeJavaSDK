@@ -5,17 +5,23 @@ properties:
         type: array
         items:
             $ref: ../external_identifier.yml
+    offsetBy:
+        type: string
+        readOnly: true
+        description: A timestamp key for retrieving the next page of records.
     pageSize:
         type: integer
-    offsetKey:
-        type: string
+        readOnly: true
+        description: The page size submitted to the server
+    hasNext:
+        type: boolean
+        readOnly: true
+        description: True if there is a further page of records, false otherwise
     idFilter:
         type: string
     offsetFilter:
         type: string
-    total:
-        type: integer
     type:
         type: string
         readOnly: true
-        description: "PagedResourceList"
+        description: "ForwardCursorPagedResourceList"
