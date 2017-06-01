@@ -592,7 +592,7 @@
             "BridgeSecurity": []
           }
         ],
-        "description": "Gets all activities in a given date range (from inclusive start time to excluded end time), \nincluding expired, available, finished, started, or scheduled activities for a user. The \nactivities are in the time range if their active window (from scheduled time to expiration \ntime) fall within the date range. The only activities that are not returned are deleted \nactivities (activities with a finishedOn timestamp but no startedOn timestamp). The date \nrange cannot exceed 15 days.\n",
+        "description": "Gets all activities in a given date range (from inclusive start time to excluded end time), \nincluding expired, available, finished, started, or scheduled activities for a user. The \nactivities are in the time range if their active window (from scheduled time to expiration \ntime) falls within the date range. The only activities that are not returned are deleted \nactivities (activities with a finishedOn timestamp but no startedOn timestamp). Scheduled \ntimes are returned in the timezone of the timestamps (the timezone must be the same for \nstartTime and endTime). The date range cannot exceed 15 days.\n",
         "parameters": [
           {
             "$ref": "#/parameters/startTime"
@@ -8885,11 +8885,20 @@
             "$ref": "#/definitions/ExternalIdentifier"
           }
         },
-        "pageSize": {
-          "type": "integer"
+        "offsetBy": {
+          "type": "string",
+          "readOnly": true,
+          "description": "A timestamp key for retrieving the next page of records."
         },
-        "offsetKey": {
-          "type": "string"
+        "pageSize": {
+          "type": "integer",
+          "readOnly": true,
+          "description": "The page size submitted to the server"
+        },
+        "hasNext": {
+          "type": "boolean",
+          "readOnly": true,
+          "description": "True if there is a further page of records, false otherwise"
         },
         "idFilter": {
           "type": "string"
@@ -8897,13 +8906,10 @@
         "offsetFilter": {
           "type": "string"
         },
-        "total": {
-          "type": "integer"
-        },
         "type": {
           "type": "string",
           "readOnly": true,
-          "description": "PagedResourceList"
+          "description": "ForwardCursorPagedResourceList"
         }
       }
     },

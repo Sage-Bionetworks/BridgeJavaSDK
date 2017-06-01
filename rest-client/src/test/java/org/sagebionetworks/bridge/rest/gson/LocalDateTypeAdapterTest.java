@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
