@@ -2566,7 +2566,7 @@
             "$ref": "#/responses/401"
           },
           "403": {
-            "$ref": "#/responses/403_not_developer"
+            "$ref": "#/responses/403_not_developer_researcher"
           }
         }
       },
@@ -2624,7 +2624,7 @@
             "$ref": "#/responses/401"
           },
           "403": {
-            "$ref": "#/responses/403_not_developer"
+            "$ref": "#/responses/403_not_developer_researcher"
           }
         }
       }
@@ -2654,7 +2654,7 @@
             "$ref": "#/responses/401"
           },
           "403": {
-            "$ref": "#/responses/403_not_developer"
+            "$ref": "#/responses/403_not_developer_researcher"
           }
         }
       }
@@ -2689,7 +2689,7 @@
             "$ref": "#/responses/401"
           },
           "403": {
-            "$ref": "#/responses/403_not_developer"
+            "$ref": "#/responses/403_not_developer_researcher"
           }
         }
       }
