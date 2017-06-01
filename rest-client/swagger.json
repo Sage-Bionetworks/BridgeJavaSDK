@@ -8971,11 +8971,20 @@
             "$ref": "#/definitions/ExternalIdentifier"
           }
         },
-        "pageSize": {
-          "type": "integer"
+        "offsetBy": {
+          "type": "string",
+          "readOnly": true,
+          "description": "A timestamp key for retrieving the next page of records."
         },
-        "offsetKey": {
-          "type": "string"
+        "pageSize": {
+          "type": "integer",
+          "readOnly": true,
+          "description": "The page size submitted to the server"
+        },
+        "hasNext": {
+          "type": "boolean",
+          "readOnly": true,
+          "description": "True if there is a further page of records, false otherwise"
         },
         "idFilter": {
           "type": "string"
@@ -8983,13 +8992,10 @@
         "offsetFilter": {
           "type": "string"
         },
-        "total": {
-          "type": "integer"
-        },
         "type": {
           "type": "string",
           "readOnly": true,
-          "description": "PagedResourceList"
+          "description": "ForwardCursorPagedResourceList"
         }
       }
     },
