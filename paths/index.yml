@@ -245,6 +245,10 @@
     $ref: ./studies/v3_studies_studyId_uploads.yml
 /v3/studies/{studyId}/users:
     $ref: ./studies/v3_studies_studyId_users.yml
+/v3/studies/{studyId}/participants:
+    $ref: ./studies/v3_studies_studyId_participants.yml
+/v3/studies/{studyId}/participants/{userId}:
+    $ref: ./studies/v3_studies_studyId_participants_userId.yml
 
 # Cache Management
 /v3/cache:
