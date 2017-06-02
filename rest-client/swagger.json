@@ -2548,7 +2548,8 @@
         "deprecated": true,
         "tags": [
           "Consents",
-          "_For Developers"
+          "_For Developers",
+          "_For Researchers"
         ],
         "security": [
           {
@@ -2606,7 +2607,8 @@
         "deprecated": true,
         "tags": [
           "Consents",
-          "_For Developers"
+          "_For Developers",
+          "_For Researchers"
         ],
         "security": [
           {
@@ -2636,7 +2638,8 @@
         "deprecated": true,
         "tags": [
           "Consents",
-          "_For Developers"
+          "_For Developers",
+          "_For Researchers"
         ],
         "security": [
           {
@@ -2666,7 +2669,8 @@
         "deprecated": true,
         "tags": [
           "Consents",
-          "_For Developers"
+          "_For Developers",
+          "_For Researchers"
         ],
         "security": [
           {
@@ -8974,7 +8978,7 @@
         "offsetBy": {
           "type": "string",
           "readOnly": true,
-          "description": "A timestamp key for retrieving the next page of records."
+          "description": "The key that must be passed to the next call of getExternalIds() to move the cursor forward one more page"
         },
         "pageSize": {
           "type": "integer",
@@ -8987,9 +8991,10 @@
           "description": "True if there is a further page of records, false otherwise"
         },
         "idFilter": {
-          "type": "string"
+          "type": "string",
+          "description": "Case-sensitive string that must be found in an external identifier to return it in the results"
         },
-        "offsetFilter": {
+        "assignmentFilter": {
           "type": "string"
         },
         "type": {
