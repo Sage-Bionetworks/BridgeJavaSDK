@@ -4,7 +4,8 @@ get:
     deprecated: true
     tags:
         - Consents
-        - _For Developers    
+        - _For Developers
+        - _For Researchers
     security:
         - BridgeSecurity: []
     responses:

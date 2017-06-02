@@ -5,6 +5,7 @@ get:
     tags:
         - Consents
         - _For Developers
+        - _For Researchers
     security:
         - BridgeSecurity: []
     responses:
