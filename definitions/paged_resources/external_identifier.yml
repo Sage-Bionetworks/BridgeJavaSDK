@@ -8,7 +8,7 @@ properties:
     offsetBy:
         type: string
         readOnly: true
-        description: A timestamp key for retrieving the next page of records.
+        description: The key that must be passed to the next call of getExternalIds() to move the cursor forward one more page
     pageSize:
         type: integer
         readOnly: true
@@ -19,7 +19,8 @@ properties:
         description: True if there is a further page of records, false otherwise
     idFilter:
         type: string
-    offsetFilter:
+        description: Case-sensitive string that must be found in an external identifier to return it in the results
+    assignmentFilter:
         type: string
     type:
         type: string
