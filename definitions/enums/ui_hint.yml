@@ -9,7 +9,7 @@ description: |
     |combobox|An input that allows a user to enter free form text, or select from an enumerated list of answers. An alternative representation would be a set of radio buttons, with the last button selecting an "other" option with an associated text input control.|Question will always include an enumeration of answers to display.|
     |datepicker|A control that allows a user to select a date (with no time of day component).||
     |datetimepicker|A control that allows a user to select a time of day on a specific date. It should default to the current day and allow easy selection of a time of day today.||
-    |height|A control for entering a height value||
+    |height|A control for entering an adult or infant height value in a specified unit of measurement||
     |list|A control that shows a list, and allows for selection of zero or more elements. On some platforms, this is the same as a list of checkboxes (and in HTML can be rendered with a multiple select control).|Question will always include an enumeration of answers to display.|
     |multilinetext|A control for entering longer texts, at least showing multiple lines for input and possibly also providing additional controls (such as a simple WYSIWYG editor with cut-and-paste support or spell checking).||
     |numberfield|An input for entering numbers that includes "spinner" controls to increment or decrement a numeric value. The minimum and maximum values, as well as the amount the value is changed by these controls, should be defined by the minValue, maxValue, and step constraints of integer and decimal questions.||
@@ -19,7 +19,7 @@ description: |
     |textfield|A single line text field. Note that if there are set values for this textfield, but the user can essentially enter an "other" value as well, then the combobox hint with a set of enumerated values should be used.||
     |timepicker|An input for entering a time with no reference to the date of the time.||
     |toggle|A switch or toggle control to select a boolean state||
-    |weight|A control for entering a weight value||
+    |weight|A control for entering an adult or infant weight value in a specified unit of measurement||
 enum:
     - bloodpressure
     - checkbox
