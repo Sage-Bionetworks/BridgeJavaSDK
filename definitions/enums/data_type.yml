@@ -15,6 +15,9 @@ description: |
     |time|A time without a time zone component|
     |datetime|A specific date and time in a specific time zone|
     |duration|*Deprecated.* Use an integer value with a unit instead.|
+    |bloodpressure|Systolic and diastolic systemic arterial pressure|
+    |height|Height measurement|
+    |weight|Weight measurement
 
 enum:
     - duration
@@ -25,3 +28,6 @@ enum:
     - date
     - time
     - datetime
+    - bloodpressure
+    - height
+    - weight

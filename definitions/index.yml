@@ -259,3 +259,9 @@ TimeConstraints:
     $ref: ./constraints/time_constraints.yml
 DurationConstraints:
     $ref: ./constraints/duration_constraints.yml
+BloodPressureConstraints:
+    $ref: ./constraints/bloodpressure_constraints.yml
+HeightConstraints:
+    $ref: ./constraints/height_constraints.yml
+WeightConstraints:
+    $ref: ./constraints/weight_constraints.yml

@@ -39,6 +39,11 @@ description: |
     |cubic_centimeters|Cubic centimeters (cc)|
     |liters|Liters|
     |cubic_meters|Cubic meters (m<sup>3</sup>)|
+
+    ## Pressure measures
+    |Type|Description|
+    |---|---|
+    |millimeters_mercury|Millimeters of Mercury (mmHg)|
 enum:
     - seconds
     - minutes
@@ -65,3 +70,4 @@ enum:
     - cubic_centimeters
     - liters
     - cubic_meters
+    - millimeters_mercury
