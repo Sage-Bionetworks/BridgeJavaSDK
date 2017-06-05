@@ -20,6 +20,7 @@ import org.sagebionetworks.bridge.rest.gson.DateTimeTypeAdapter;
 import org.sagebionetworks.bridge.rest.gson.LocalDateTypeAdapter;
 import org.sagebionetworks.bridge.rest.gson.RuntimeTypeAdapterFactory;
 import org.sagebionetworks.bridge.rest.model.ABTestScheduleStrategy;
+import org.sagebionetworks.bridge.rest.model.BloodPressureConstraints;
 import org.sagebionetworks.bridge.rest.model.BooleanConstraints;
 import org.sagebionetworks.bridge.rest.model.ClientInfo;
 import org.sagebionetworks.bridge.rest.model.ConsentStatus;
@@ -29,6 +30,7 @@ import org.sagebionetworks.bridge.rest.model.DateConstraints;
 import org.sagebionetworks.bridge.rest.model.DateTimeConstraints;
 import org.sagebionetworks.bridge.rest.model.DecimalConstraints;
 import org.sagebionetworks.bridge.rest.model.DurationConstraints;
+import org.sagebionetworks.bridge.rest.model.HeightConstraints;
 import org.sagebionetworks.bridge.rest.model.IntegerConstraints;
 import org.sagebionetworks.bridge.rest.model.MultiValueConstraints;
 import org.sagebionetworks.bridge.rest.model.ScheduleStrategy;
@@ -42,6 +44,7 @@ import org.sagebionetworks.bridge.rest.model.TimeConstraints;
 import org.sagebionetworks.bridge.rest.model.UploadRequest;
 import org.sagebionetworks.bridge.rest.model.UploadSession;
 import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
+import org.sagebionetworks.bridge.rest.model.WeightConstraints;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
@@ -94,7 +97,10 @@ public class RestUtils {
             .registerSubtype(IntegerConstraints.class, IntegerConstraints.class.getSimpleName())
             .registerSubtype(MultiValueConstraints.class, MultiValueConstraints.class.getSimpleName())
             .registerSubtype(StringConstraints.class, StringConstraints.class.getSimpleName())
-            .registerSubtype(TimeConstraints.class, TimeConstraints.class.getSimpleName());
+            .registerSubtype(TimeConstraints.class, TimeConstraints.class.getSimpleName())
+            .registerSubtype(BloodPressureConstraints.class, BloodPressureConstraints.class.getSimpleName())
+            .registerSubtype(HeightConstraints.class, HeightConstraints.class.getSimpleName())
+            .registerSubtype(WeightConstraints.class, WeightConstraints.class.getSimpleName());
     
     public static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(byte[].class, new ByteArrayToBase64TypeAdapter())
