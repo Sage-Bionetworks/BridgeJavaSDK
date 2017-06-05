@@ -4,7 +4,7 @@ description: |
 
     |Hint|Description|Conditions|
     |---|---|---|
-    |bloodpressure|A control that allows a user to enter two blood pressure values: systolic and diastolic||
+    |bloodpressure|A control that allows a user to enter systolic and diastolic blood pressure values||
     |checkbox|A checkbox that can be used for a boolean value, or for selecting zero or more multiple values from an enumerated list.|Question will always include an enumeration of answers to display.|
     |combobox|An input that allows a user to enter free form text, or select from an enumerated list of answers. An alternative representation would be a set of radio buttons, with the last button selecting an "other" option with an associated text input control.|Question will always include an enumeration of answers to display.|
     |datepicker|A control that allows a user to select a date (with no time of day component).||

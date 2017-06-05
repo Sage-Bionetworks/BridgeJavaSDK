@@ -17,7 +17,7 @@ description: |
     |duration|*Deprecated.* Use an integer value with a unit instead.|
     |bloodpressure|Systolic and diastolic systemic arterial pressure|
     |height|Height measurement|
-    |weight|Weight measurement
+    |weight|Weight measurement|
 
 enum:
     - duration
