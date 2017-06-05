@@ -5906,7 +5906,7 @@
     },
     "DataType": {
       "type": "string",
-      "description": "The data type of the answer to a question. The actual value is always submitted in JSON \nas a string (so no type conversion occurs inadvertently during transfer); the data type \nindicates the intended type of the answer. Each data type has a unique \n[Constraints](#Constraints) object with constraints for that type.\n\n|Type|Description|\n|---|---|\n|string|A string value|\n|integer|An integer value|\n|decimal|A floating point value|\n|boolean|A boolean value (true or false)|\n|date|A date without a time or time zone component|\n|time|A time without a time zone component|\n|datetime|A specific date and time in a specific time zone|\n|duration|*Deprecated.* Use an integer value with a unit instead.|\n",
+      "description": "The data type of the answer to a question. The actual value is always submitted in JSON \nas a string (so no type conversion occurs inadvertently during transfer); the data type \nindicates the intended type of the answer. Each data type has a unique \n[Constraints](#Constraints) object with constraints for that type.\n\n|Type|Description|\n|---|---|\n|string|A string value|\n|integer|An integer value|\n|decimal|A floating point value|\n|boolean|A boolean value (true or false)|\n|date|A date without a time or time zone component|\n|time|A time without a time zone component|\n|datetime|A specific date and time in a specific time zone|\n|duration|*Deprecated.* Use an integer value with a unit instead.|\n|bloodpressure|Systolic and diastolic systemic arterial pressure|\n|height|Height measurement|\n|weight|Weight measurement|\n",
       "enum": [
         "duration",
         "string",
@@ -5915,7 +5915,10 @@
         "boolean",
         "date",
         "time",
-        "datetime"
+        "datetime",
+        "bloodpressure",
+        "height",
+        "weight"
       ]
     },
     "Environment": {
@@ -5958,7 +5961,7 @@
     },
     "Unit": {
       "type": "string",
-      "description": "The unit of measurement being used for a numeric value when it is expressing something like \na duration, weight, or length.\n\n## Duration\n|Type|Description|\n|---|---|\n|seconds|Seconds|\n|minutes|Minutes|\n|hours|Hours|\n|days|Days|\n|weeks|Weeks|\n|months|Months|\n|years|Years|\n\n## Imperial measures\n|Type|Description|\n|---|---|\n|inches|Inches|\n|feet|Feet|\n|yards|Yards|\n|miles|Miles|\n|ounces|Ounces|\n|pounds|Pounds|\n|pints|Pints|\n|quarts|Quarts|\n|gallons|Gallons|\n\n## Metric measures\n|Type|Description|\n|---|---|\n|centimeters|Centimeters|\n|meters|Meters|\n|kilometers|Kilometers|\n|grams|Grams|\n|kilograms|Kilgrams|\n|milliliters|Milliliters|\n|cubic_centimeters|Cubic centimeters (cc)|\n|liters|Liters|\n|cubic_meters|Cubic meters (m<sup>3</sup>)|\n",
+      "description": "The unit of measurement being used for a numeric value when it is expressing something like \na duration, weight, or length.\n\n## Duration\n|Type|Description|\n|---|---|\n|seconds|Seconds|\n|minutes|Minutes|\n|hours|Hours|\n|days|Days|\n|weeks|Weeks|\n|months|Months|\n|years|Years|\n\n## Imperial measures\n|Type|Description|\n|---|---|\n|inches|Inches|\n|feet|Feet|\n|yards|Yards|\n|miles|Miles|\n|ounces|Ounces|\n|pounds|Pounds|\n|pints|Pints|\n|quarts|Quarts|\n|gallons|Gallons|\n\n## Metric measures\n|Type|Description|\n|---|---|\n|centimeters|Centimeters|\n|meters|Meters|\n|kilometers|Kilometers|\n|grams|Grams|\n|kilograms|Kilgrams|\n|milliliters|Milliliters|\n|cubic_centimeters|Cubic centimeters (cc)|\n|liters|Liters|\n|cubic_meters|Cubic meters (m<sup>3</sup>)|\n\n## Pressure measures\n|Type|Description|\n|---|---|\n|millimeters_mercury|Millimeters of Mercury (mmHg)|\n",
       "enum": [
         "seconds",
         "minutes",
@@ -5984,7 +5987,8 @@
         "milliliters",
         "cubic_centimeters",
         "liters",
-        "cubic_meters"
+        "cubic_meters",
+        "millimeters_mercury"
       ]
     },
     "MimeType": {
@@ -5998,12 +6002,14 @@
     },
     "UIHint": {
       "type": "string",
-      "description": "A string \"hint\" to the user interface about the kind of user interface component that should be used to render the question (see values, above). The survey designer provides this hint, but the client application may ignore it or map it to a different set of controls, as desired. For a given data type, there is a defined subset of valid UI hints, which are detailed in the constraints model object documentation.\n\n|Hint|Description|Conditions|\n|---|---|---|\n|checkbox|A checkbox that can be used for a boolean value, or for selecting zero or more multiple values from an enumerated list.|Question will always include an enumeration of answers to display.|\n|combobox|An input that allows a user to enter free form text, or select from an enumerated list of answers. An alternative representation would be a set of radio buttons, with the last button selecting an \"other\" option with an associated text input control.|Question will always include an enumeration of answers to display.|\n|datepicker|A control that allows a user to select a date (with no time of day component).||\n|datetimepicker|A control that allows a user to select a time of day on a specific date. It should default to the current day and allow easy selection of a time of day today.||\n|list|A control that shows a list, and allows for selection of zero or more elements. On some platforms, this is the same as a list of checkboxes (and in HTML can be rendered with a multiple select control).|Question will always include an enumeration of answers to display.|\n|multilinetext|A control for entering longer texts, at least showing multiple lines for input and possibly also providing additional controls (such as a simple WYSIWYG editor with cut-and-paste support or spell checking).||\n|numberfield|An input for entering numbers that includes \"spinner\" controls to increment or decrement a numeric value. The minimum and maximum values, as well as the amount the value is changed by these controls, should be defined by the minValue, maxValue, and step constraints of integer and decimal questions.||\n|radiobutton|Two or more controls that allow for exclusive selection of one item from a list of choices.This can be achieved as well through a list where only one item may be selected.|Question will always include an enumeration of answers to display.|\n|select|A select or picker control for selection of one option from a list of options.|Question will always include an enumeration of answers to display.|\n|slider|A slider control for selection of a continuous value, like a decimal number, or a scale control for selection either of a discrete value such as an integer or a set of string values (where such values are ordered and make sense in this presentation, e.g. \"no pain\" to \"extremely painful\"). If used for an integer or decimal question, the minimum and maximum value constraints, as well as the step constraint, should be used to define the behavior of the slider. If used for an enumerated set of values, each discrete setting of the control (it should not slide continuously) should select a value from the list.|Question **must** include an enumeration of answers to display if the data type is not integer or decimal.|\n|textfield|A single line text field. Note that if there are set values for this textfield, but the user can essentially enter an \"other\" value as well, then the combobox hint with a set of enumerated values should be used.||\n|timepicker|An input for entering a time with no reference to the date of the time.||\n|toggle|A switch or toggle control to select a boolean state||\n",
+      "description": "A string \"hint\" to the user interface about the kind of user interface component that should be used to render the question (see values, above). The survey designer provides this hint, but the client application may ignore it or map it to a different set of controls, as desired. For a given data type, there is a defined subset of valid UI hints, which are detailed in the constraints model object documentation.\n\n|Hint|Description|Conditions|\n|---|---|---|\n|bloodpressure|A control that allows a user to enter systolic and diastolic blood pressure values||\n|checkbox|A checkbox that can be used for a boolean value, or for selecting zero or more multiple values from an enumerated list.|Question will always include an enumeration of answers to display.|\n|combobox|An input that allows a user to enter free form text, or select from an enumerated list of answers. An alternative representation would be a set of radio buttons, with the last button selecting an \"other\" option with an associated text input control.|Question will always include an enumeration of answers to display.|\n|datepicker|A control that allows a user to select a date (with no time of day component).||\n|datetimepicker|A control that allows a user to select a time of day on a specific date. It should default to the current day and allow easy selection of a time of day today.||\n|height|A control for entering a height value||\n|list|A control that shows a list, and allows for selection of zero or more elements. On some platforms, this is the same as a list of checkboxes (and in HTML can be rendered with a multiple select control).|Question will always include an enumeration of answers to display.|\n|multilinetext|A control for entering longer texts, at least showing multiple lines for input and possibly also providing additional controls (such as a simple WYSIWYG editor with cut-and-paste support or spell checking).||\n|numberfield|An input for entering numbers that includes \"spinner\" controls to increment or decrement a numeric value. The minimum and maximum values, as well as the amount the value is changed by these controls, should be defined by the minValue, maxValue, and step constraints of integer and decimal questions.||\n|radiobutton|Two or more controls that allow for exclusive selection of one item from a list of choices.This can be achieved as well through a list where only one item may be selected.|Question will always include an enumeration of answers to display.|\n|select|A select or picker control for selection of one option from a list of options.|Question will always include an enumeration of answers to display.|\n|slider|A slider control for selection of a continuous value, like a decimal number, or a scale control for selection either of a discrete value such as an integer or a set of string values (where such values are ordered and make sense in this presentation, e.g. \"no pain\" to \"extremely painful\"). If used for an integer or decimal question, the minimum and maximum value constraints, as well as the step constraint, should be used to define the behavior of the slider. If used for an enumerated set of values, each discrete setting of the control (it should not slide continuously) should select a value from the list.|Question **must** include an enumeration of answers to display if the data type is not integer or decimal.|\n|textfield|A single line text field. Note that if there are set values for this textfield, but the user can essentially enter an \"other\" value as well, then the combobox hint with a set of enumerated values should be used.||\n|timepicker|An input for entering a time with no reference to the date of the time.||\n|toggle|A switch or toggle control to select a boolean state||\n|weight|A control for entering a weight value||\n",
       "enum": [
+        "bloodpressure",
         "checkbox",
         "combobox",
         "datepicker",
         "datetimepicker",
+        "height",
         "list",
         "multilinetext",
         "numberfield",
@@ -6012,7 +6018,8 @@
         "slider",
         "textfield",
         "timepicker",
-        "toggle"
+        "toggle",
+        "weight"
       ]
     },
     "Operator": {
@@ -9702,6 +9709,68 @@
               "type": "integer",
               "default": 1,
               "description": "In increase or decrease in valid values, e.g. a step of 5 for a question that records weight \nto the nearest 5 pounds.\n"
+            }
+          }
+        }
+      ]
+    },
+    "BloodPressureConstraints": {
+      "description": "Systolic and diastolic systemic arterial pressure.\n\n**UI hints:** bloodpressure\n",
+      "required": [
+        "dataType"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraints"
+        },
+        {
+          "properties": {
+            "unit": {
+              "$ref": "#/definitions/Unit"
+            }
+          }
+        }
+      ]
+    },
+    "HeightConstraints": {
+      "description": "A floating point value.\n\n**UI hints:** weight.\n",
+      "required": [
+        "dataType"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraints"
+        },
+        {
+          "properties": {
+            "unit": {
+              "$ref": "#/definitions/Unit"
+            },
+            "isInfant": {
+              "type": "boolean",
+              "description": "Is this measurement for an infant?"
+            }
+          }
+        }
+      ]
+    },
+    "WeightConstraints": {
+      "description": "A floating point value.\n\n**UI hints:** weight.\n",
+      "required": [
+        "dataType"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/Constraints"
+        },
+        {
+          "properties": {
+            "unit": {
+              "$ref": "#/definitions/Unit"
+            },
+            "isInfant": {
+              "type": "boolean",
+              "description": "Is this measurement for an infant?"
             }
           }
         }
