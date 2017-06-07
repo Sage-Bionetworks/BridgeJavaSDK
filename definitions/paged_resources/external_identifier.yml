@@ -5,7 +5,7 @@ properties:
         type: array
         items:
             $ref: ../external_identifier.yml
-    offsetBy:
+    offsetKey:
         type: string
         readOnly: true
         description: The key that must be passed to the next call of getExternalIds() to move the cursor forward one more page
