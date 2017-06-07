@@ -37,4 +37,4 @@ properties:
     type:
         type: string
         readOnly: true
-        description: "ForwardCursorPagedResourceList"
+        description: "ScheduledActivityList"
