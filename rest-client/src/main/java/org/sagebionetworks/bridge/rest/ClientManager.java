@@ -85,7 +85,7 @@ public class ClientManager {
             ClientSupplier provider, String hostURL) {
         checkNotNull(HOSTS.get(config.getEnvironment()));
         
-        this.hostURL = (hostURL != null) ? hostURL : HOSTS.get(config.getEnvironment());
+        this.hostURL = hostURL;
         this.config = config;
         this.clientInfo = clientInfo;
         this.acceptLanguages = acceptLanguages;
@@ -132,7 +132,6 @@ public class ClientManager {
         private List<String> acceptLanguages;
         private SignIn signIn;
         private ClientSupplier supplier;
-        private String hostURL;
         
         /**
          * Provide a factory for the production of ApiClientProvider (useful only for testing, a 
@@ -199,17 +198,6 @@ public class ClientManager {
          */
         public Builder withSignIn(SignIn signIn) {
             this.signIn = signIn;
-            return this;
-        }
-        /**
-         * As an alternative to setting an environment, you can set a specific hostURL base URL 
-         * if you are using the SDK against a specific installation of the Bridge Server.
-         * @param hostUrl
-         *      An URL to a hostURL, e.g. "https://bridgeserver.org"
-         * @return builder
-         */
-        public Builder withHostUrl(String hostUrl) {
-            this.hostURL = hostUrl;
             return this;
         }
         private ClientInfo getDefaultClientInfo() {
@@ -279,6 +267,7 @@ public class ClientManager {
             if (this.supplier == null) {
                 this.supplier = SUPPLIER;
             }
+            String hostURL = (config.getHost() != null) ? config.getHost() : HOSTS.get(config.getEnvironment());
             return new ClientManager(config, info, acceptLanguages, signIn, supplier, hostURL);
         }
     }

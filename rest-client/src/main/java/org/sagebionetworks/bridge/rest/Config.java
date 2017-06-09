@@ -42,6 +42,7 @@ public final class Config {
         DEV_NAME,
         DEVICE_NAME,
         ENV, 
+        HOST,
         LANGUAGES,
         LOG_LEVEL, 
         OS_NAME,
@@ -191,6 +192,10 @@ public final class Config {
     
     public String getLogLevel() {
         return fromProperty(Props.LOG_LEVEL);
+    }
+    
+    public String getHost() {
+        return fromProperty(Props.HOST);
     }
 
     /**
