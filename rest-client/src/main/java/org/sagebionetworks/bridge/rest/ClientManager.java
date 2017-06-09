@@ -79,19 +79,20 @@ public class ClientManager {
     private final transient SignIn signIn;
     private final List<String> acceptLanguages;
     private final ApiClientProvider apiClientProvider;
+    private final String hostURL;
     
     private ClientManager(Config config, ClientInfo clientInfo, List<String> acceptLanguages, SignIn signIn,
-            ClientSupplier provider) {
+            ClientSupplier provider, String hostURL) {
         checkNotNull(HOSTS.get(config.getEnvironment()));
         
+        this.hostURL = (hostURL != null) ? hostURL : HOSTS.get(config.getEnvironment());
         this.config = config;
         this.clientInfo = clientInfo;
         this.acceptLanguages = acceptLanguages;
         this.signIn = signIn;
-        String hostUrl = HOSTS.get(config.getEnvironment());
         String userAgent = RestUtils.getUserAgent(clientInfo);
         String acceptLanguage = RestUtils.getAcceptLanguage(acceptLanguages);
-        this.apiClientProvider = provider.get(hostUrl, userAgent, acceptLanguage);
+        this.apiClientProvider = provider.get(hostURL, userAgent, acceptLanguage);
     }
 
     public final Config getConfig() {
@@ -107,7 +108,7 @@ public class ClientManager {
     }
     
     public final String getHostUrl() {
-        return HOSTS.get(config.getEnvironment());
+        return hostURL;
     }
 
     public static String getUrl(Environment env) {
@@ -131,6 +132,7 @@ public class ClientManager {
         private List<String> acceptLanguages;
         private SignIn signIn;
         private ClientSupplier supplier;
+        private String hostURL;
         
         /**
          * Provide a factory for the production of ApiClientProvider (useful only for testing, a 
@@ -197,6 +199,17 @@ public class ClientManager {
          */
         public Builder withSignIn(SignIn signIn) {
             this.signIn = signIn;
+            return this;
+        }
+        /**
+         * As an alternative to setting an environment, you can set a specific hostURL base URL 
+         * if you are using the SDK against a specific installation of the Bridge Server.
+         * @param hostUrl
+         *      An URL to a hostURL, e.g. "https://bridgeserver.org"
+         * @return builder
+         */
+        public Builder withHostUrl(String hostUrl) {
+            this.hostURL = hostUrl;
             return this;
         }
         private ClientInfo getDefaultClientInfo() {
@@ -266,7 +279,7 @@ public class ClientManager {
             if (this.supplier == null) {
                 this.supplier = SUPPLIER;
             }
-            return new ClientManager(config, info, acceptLanguages, signIn, supplier);
+            return new ClientManager(config, info, acceptLanguages, signIn, supplier, hostURL);
         }
     }
     

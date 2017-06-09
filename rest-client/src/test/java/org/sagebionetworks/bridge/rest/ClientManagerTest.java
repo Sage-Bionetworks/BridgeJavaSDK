@@ -91,4 +91,17 @@ public class ClientManagerTest {
         String prodUrl = ClientManager.getUrl(Environment.PRODUCTION);
         assertEquals("https://webservices.sagebridge.org", prodUrl);
     }
+    
+    @Test
+    public void canOverrideHostUrl() {
+        Config config = new Config();
+        config.set(Environment.PRODUCTION);
+        ClientManager manager = new ClientManager.Builder()
+                .withClientSupplier(supplier)
+                .withHostUrl("https://aws.bridgeserver.com")
+                .withConfig(config)
+                .build();
+        
+        assertEquals("https://aws.bridgeserver.com", manager.getHostUrl());
+    }
 }
