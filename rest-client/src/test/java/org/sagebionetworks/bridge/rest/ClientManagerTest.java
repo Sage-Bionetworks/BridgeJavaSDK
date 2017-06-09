@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import org.sagebionetworks.bridge.rest.Config.Props;
 import org.sagebionetworks.bridge.rest.model.ClientInfo;
 import org.sagebionetworks.bridge.rest.model.Environment;
 import org.sagebionetworks.bridge.rest.model.SignIn;
@@ -90,5 +91,18 @@ public class ClientManagerTest {
 
         String prodUrl = ClientManager.getUrl(Environment.PRODUCTION);
         assertEquals("https://webservices.sagebridge.org", prodUrl);
+    }
+    
+    @Test
+    public void canOverrideHostUrl() {
+        Config config = new Config();
+        config.set(Props.HOST, "https://aws.bridgeserver.com");
+        config.set(Environment.PRODUCTION);
+        ClientManager manager = new ClientManager.Builder()
+                .withClientSupplier(supplier)
+                .withConfig(config)
+                .build();
+        
+        assertEquals("https://aws.bridgeserver.com", manager.getHostUrl());
     }
 }

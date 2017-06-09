@@ -45,6 +45,10 @@ import org.sagebionetworks.bridge.rest.model.SignIn;
  *      
  *      <dt>STUDY_IDENTIFIER (study.identifier in properties file)</dt>
  *      <dd>The identifier of your study (not the name, but the ID).</dd>
+ *      
+ *      <dt>HOST</dt>
+ *      <dd>An alternative to setting the host server through the <code>Environment</code> 
+ *          constant, you can also set the service host directly (e.g. "https://bridge.deployment.com/").</dd>
  *  </dl> 
  * 
  * <p>Once you provide credentials (through configuration or programmatically), clients retrieved 
@@ -79,19 +83,20 @@ public class ClientManager {
     private final transient SignIn signIn;
     private final List<String> acceptLanguages;
     private final ApiClientProvider apiClientProvider;
+    private final String hostURL;
     
     private ClientManager(Config config, ClientInfo clientInfo, List<String> acceptLanguages, SignIn signIn,
-            ClientSupplier provider) {
+            ClientSupplier provider, String hostURL) {
         checkNotNull(HOSTS.get(config.getEnvironment()));
         
+        this.hostURL = hostURL;
         this.config = config;
         this.clientInfo = clientInfo;
         this.acceptLanguages = acceptLanguages;
         this.signIn = signIn;
-        String hostUrl = HOSTS.get(config.getEnvironment());
         String userAgent = RestUtils.getUserAgent(clientInfo);
         String acceptLanguage = RestUtils.getAcceptLanguage(acceptLanguages);
-        this.apiClientProvider = provider.get(hostUrl, userAgent, acceptLanguage);
+        this.apiClientProvider = provider.get(hostURL, userAgent, acceptLanguage);
     }
 
     public final Config getConfig() {
@@ -107,7 +112,7 @@ public class ClientManager {
     }
     
     public final String getHostUrl() {
-        return HOSTS.get(config.getEnvironment());
+        return hostURL;
     }
 
     public static String getUrl(Environment env) {
@@ -266,7 +271,8 @@ public class ClientManager {
             if (this.supplier == null) {
                 this.supplier = SUPPLIER;
             }
-            return new ClientManager(config, info, acceptLanguages, signIn, supplier);
+            String hostURL = (config.getHost() != null) ? config.getHost() : HOSTS.get(config.getEnvironment());
+            return new ClientManager(config, info, acceptLanguages, signIn, supplier, hostURL);
         }
     }
     
