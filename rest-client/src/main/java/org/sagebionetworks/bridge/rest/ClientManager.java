@@ -45,6 +45,10 @@ import org.sagebionetworks.bridge.rest.model.SignIn;
  *      
  *      <dt>STUDY_IDENTIFIER (study.identifier in properties file)</dt>
  *      <dd>The identifier of your study (not the name, but the ID).</dd>
+ *      
+ *      <dt>HOST</dt>
+ *      <dd>An alternative to setting the host server through the <code>Environment</code> 
+ *          constant, you can also set the service host directly (e.g. "https://bridge.deployment.com/").</dd>
  *  </dl> 
  * 
  * <p>Once you provide credentials (through configuration or programmatically), clients retrieved 
