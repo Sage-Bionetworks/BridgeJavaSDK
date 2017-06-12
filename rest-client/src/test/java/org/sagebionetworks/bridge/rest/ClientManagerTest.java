@@ -98,7 +98,9 @@ public class ClientManagerTest {
         Config config = new Config();
         config.set(Props.HOST, "https://aws.bridgeserver.com");
         config.set(Environment.PRODUCTION);
+        SignIn signIn = config.getAdminSignIn();
         ClientManager manager = new ClientManager.Builder()
+                .withSignIn(signIn)
                 .withClientSupplier(supplier)
                 .withConfig(config)
                 .build();
