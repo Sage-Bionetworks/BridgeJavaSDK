@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "20161028",
+    "version": "20170613",
     "title": "Bridge Server API"
   },
   "host": "webservices.sagebridge.org",
@@ -1130,18 +1130,16 @@
             "$ref": "#/parameters/userId"
           },
           {
-            "name": "startTime",
-            "in": "query",
-            "type": "string",
-            "format": "date-time",
-            "description": "Defaults to one day ago (24 hours)"
+            "$ref": "#/parameters/startTime"
           },
           {
-            "name": "endTime",
-            "in": "query",
-            "type": "string",
-            "format": "date-time",
-            "description": "Defaults to time stamp for time of request (\"now\")"
+            "$ref": "#/parameters/endTime"
+          },
+          {
+            "$ref": "#/parameters/pageSize"
+          },
+          {
+            "$ref": "#/parameters/offsetKey"
           }
         ],
         "responses": {
@@ -9418,14 +9416,15 @@
           "format": "date-time",
           "description": "The endTime value submitted to the server"
         },
-        "total": {
-          "type": "integer",
-          "description": "The total number of records that match the criteria (may exceed page size)"
+        "hasNext": {
+          "type": "boolean",
+          "readOnly": true,
+          "description": "True if there is a further page of records, false otherwise"
         },
         "type": {
           "type": "string",
           "readOnly": true,
-          "description": "PagedResourceList"
+          "description": "ForwardCursorPagedResourceList"
         }
       }
     },
