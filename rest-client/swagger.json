@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "20170613",
+    "version": "20161028",
     "title": "Bridge Server API"
   },
   "host": "webservices.sagebridge.org",
@@ -1115,7 +1115,7 @@
       "get": {
         "operationId": "getParticipantUploads",
         "summary": "Get a study participant's upload history",
-        "description": "Retrieve information about the uploads from a user. This is particularly useful during \ndevelopment to verify the mobile application is sending valid data back to the Bridge \nserver. The API can retrieve up to 2 days worth of upload records, defined by the \nstartTime and endTime timestamps (ISO 8601 format). startTime/endTime are optional and \nwill default to the last 24 hours of uploads. if the endTime is not provided, it will \nbe one day after the startTime. If the startTime is not provided, it will be one day \nbefore the endTime.\n",
+        "description": "Retrieve information about the uploads from a user. This is particularly useful during \ndevelopment to verify the mobile application is sending valid data back to the Bridge \nserver. The API can retrieve any number of days worth of upload records, defined by the \nstartTime and endTime timestamps (ISO 8601 format), and paginated using a pageSize and \noffsetKey value (null for the first page, but returned with subsequent requests to \nretrieve further pages in the time range). If the endTime is not provided, it will \nbe one day after the startTime. If the startTime is not provided, it will be one day \nbefore the endTime.\n",
         "tags": [
           "Participants",
           "_For Researchers"
