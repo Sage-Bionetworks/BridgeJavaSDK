@@ -1,0 +1,52 @@
+get:
+    operationId: getScheduledActivities
+    summary: Get a list of the participant's scheduled activities
+    tags: 
+        - Activities
+        - _For Consented Users
+    security:
+        -   BridgeSecurity: []
+    description: |
+        Gets all available, started, or scheduled activities for a user. Once an activity is 
+        finished, or expires (the time has passed for it to be started), it will be removed 
+        from the list of activities returned to the user.
+    parameters:
+        - name: offset
+          in: query
+          description: |
+                The user's time zone offset (e.g. +07:00). Scheduled activities will be 
+                returned in the timezone submitted at the time of the request. 
+          required: true
+          type: string
+        - name: daysAhead
+          in: query
+          required: true
+          description: |
+                Retrieve activities that are scheduled in the future for the indicated number 
+                of days past today.
+          type: integer
+          minimum: 0
+          maximum: 5
+        - name: minimumPerSchedule
+          in: query
+          description: |
+                 Force a look-ahead on repeating activities until at least the indicated number 
+                 of activities are scheduled (this is applied to the each schedule in the system 
+                 that applies to this user). The system will then return either the activities 
+                 for N days, or the minimum number of activities, whichever is the greatest in 
+                 number. This setting can help to expose infrequent tasks (weekly, monthly, 
+                 etc.) to users.
+          type: integer
+          minimum: 0
+          maximum: 5
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/scheduled_activity.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml

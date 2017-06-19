@@ -1,0 +1,10 @@
+type: object
+discriminator: type
+required:
+    - type
+properties:
+    dataType:
+        $ref: ../enums/data_type.yml
+    type:
+        type: string
+        readOnly: true

@@ -1,0 +1,45 @@
+get:
+    operationId: getPublicStudyReportRecords
+    summary: Get public study report records
+    description: |
+        Get public study report records (no authentication is needed, but index for the report must be marked as 
+        public or the server will return 404 for the report). Only study reports may be made public.
+    tags:
+        - Reports
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/identifier
+        - $ref: ../../index.yml#/parameters/startDate
+        - $ref: ../../index.yml#/parameters/endDate
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/report_data.yml
+post:
+    operationId: saveReportForStudy
+    summary: save report for a study
+    description: |
+         Save a report for a specified study with arbitrary report id given by wokers into bridgePF.
+    tags:
+        - Studies
+        - Reports
+        - _For Workers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/identifier
+        - name: body
+          description: Report data
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/report_data.yml
+    responses:
+        201:
+            $ref: ../../responses/201_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_worker.yml

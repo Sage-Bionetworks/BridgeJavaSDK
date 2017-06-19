@@ -1,0 +1,13 @@
+type: object
+description: A payload that contains a string array of data groups. 
+required:
+    - dataGroups
+properties:
+    dataGroups:
+        type: array
+        items:
+            type: string
+    type:
+        type: string
+        readOnly: true
+        description: "DataGroups"

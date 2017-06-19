@@ -1,0 +1,261 @@
+# Authentication
+/v3/auth/signIn:
+    $ref: ./auth/v3_auth_signIn.yml
+/v3/auth/signOut:
+    $ref: ./auth/v3_auth_signOut.yml
+/v3/auth/requestResetPassword:
+    $ref: ./auth/v3_auth_requestResetPassword.yml
+/v3/auth/resetPassword:
+    $ref: ./auth/v3_auth_resetPassword.yml
+/v3/auth/signUp:
+    $ref: ./auth/v3_auth_signUp.yml
+/v3/auth/verifyEmail:
+    $ref: ./auth/v3_auth_verifyEmail.yml
+/v3/auth/resendEmailVerification:
+    $ref: ./auth/v3_auth_resendEmailVerification.yml
+/v3/auth/email:
+    $ref: ./auth/v3_auth_email.yml
+/v3/auth/email/signIn:
+    $ref: ./auth/v3_auth_email_signIn.yml
+
+# Scheduled Activities
+/v3/activities:
+    $ref: ./activities/v3_activities.yml
+/v4/activities:
+    $ref: ./activities/v4_activities.yml
+/v3/activities/{activityGuid}:
+    $ref: ./activities/v3_activities_activityGuid.yml
+
+# Compound Activity Definitions
+/v3/compoundactivitydefinitions:
+    $ref: ./compoundactivitydefinitions/v3_compoundactivitydefinitions.yml
+/v3/compoundactivitydefinitions/{taskId}:
+    $ref: ./compoundactivitydefinitions/v3_compoundactivitydefinitions_taskId.yml
+
+# Participants
+/v3/participants:
+    $ref: ./participants/v3_participants.yml
+/v3/participants/self:
+    $ref: ./participants/v3_participants_self.yml
+/v3/participants/{userId}:
+    $ref: ./participants/v3_participants_userId.yml
+/v3/participants/{userId}/uploads:
+    $ref: ./participants/v3_participants_userId_uploads.yml
+/v3/participants/{userId}/notifications:
+    $ref: ./participants/v3_participants_userId_notifications.yml
+/v3/participants/{userId}/sendNotification:
+    $ref: ./participants/v3_participants_userId_sendNotification.yml
+/v3/participants/{userId}/requestInfo:
+    $ref: ./participants/v3_participants_userId_requestInfo.yml
+/v3/participants/{userId}/activities:
+    $ref: ./participants/v3_participants_userId_activities.yml
+/v3/participants/{userId}/activities/{activityGuid}:
+    $ref: ./participants/v3_participants_userId_activities_activityGuid.yml
+/v3/participants/{userId}/signOut:    
+    $ref: ./participants/v3_participants_userId_signOut.yml
+/v3/participants/{userId}/requestResetPassword:
+    $ref: ./participants/v3_participants_userId_requestResetPassword.yml
+/v3/participants/{userId}/resendEmailVerification:
+    $ref: ./participants/v3_participants_userId_resendEmailVerification.yml
+/v3/participants/{userId}/consents/withdraw:
+    $ref: ./participants/v3_participants_userId_consents_withdraw.yml
+/v3/participants/{userId}/consents/{subpopulationGuid}/resendConsent:
+    $ref: ./participants/v3_participants_userId_consents_guid_resendConsent.yml
+/v3/participants/{userId}/consents/{subpopulationGuid}/withdraw:
+    $ref: ./participants/v3_participants_userId_consents_guid_withdraw.yml
+/v3/participants/{userId}/reports/{identifier}:
+    $ref: ./participants/v3_participants_userId_reports_identifier.yml
+/v3/participants/{userId}/reports/{identifier}/{date}:
+    $ref: ./participants/v3_participants_userId_reports_identifier_date.yml
+/v3/participants/reports/{identifier}:
+    $ref: ./participants/v3_participants_reports_identifier.yml
+
+# Shared Modules
+/v3/sharedmodules/{moduleId}/import:
+    $ref: ./sharedmodules/v3_sharedmodules_id_import.yml
+/v3/sharedmodules/{moduleId}/versions/{moduleVersion}/import:
+    $ref: ./sharedmodules/v3_sharedmodules_id_versions_version_import.yml
+
+# Shared Module Metadata
+/v3/sharedmodules/metadata:
+    $ref: ./sharedmodules/v3_sharedmodules_metadata.yml
+/v3/sharedmodules/metadata/{moduleId}:
+    $ref: ./sharedmodules/v3_sharedmodules_metadata_id.yml
+/v3/sharedmodules/metadata/{moduleId}/versions:
+    $ref: ./sharedmodules/v3_sharedmodules_metadata_id_versions.yml
+/v3/sharedmodules/metadata/{moduleId}/versions/{moduleVersion}:
+    $ref: ./sharedmodules/v3_sharedmodules_metadata_id_versions_version.yml
+
+# Subpopulations
+/v3/subpopulations:
+    $ref: ./subpopulations/v3_subpopulations.yml                             
+/v3/subpopulations/{subpopulationGuid}:
+    $ref: ./subpopulations/v3_subpopulations_guid.yml                             
+/v3/subpopulations/{subpopulationGuid}/consents/signature:
+    $ref: ./subpopulations/v3_subpopulations_subpopulationGuid_consents_signature.yml
+/v3/subpopulations/{subpopulationGuid}/consents/signature/withdraw:
+    $ref: ./subpopulations/v3_subpopulations_subpopulationGuid_consents_signature_withdraw.yml
+/v3/subpopulations/{subpopulationGuid}/consents/signature/email:
+    $ref: ./subpopulations/v3_subpopulations_subpopulationGuid_consents_signature_email.yml
+
+# Consents
+/v3/consents:
+    $ref: ./consents/v3_consents.yml
+/v3/consents/recent:
+    $ref: ./consents/v3_consents_recent.yml
+/v3/consents/published:
+    $ref: ./consents/v3_consents_published.yml
+/v3/consents/{createdOn}:
+    $ref: ./consents/v3_consents_createdOn.yml
+/v3/consents/withdraw:
+    $ref: ./consents/v3_consents_withdraw.yml
+
+# Study Consents
+/v3/subpopulations/{subpopulationGuid}/consents:
+    $ref: ./study_consents/v3_subpopulations_subpopulationGuid_consents.yml
+/v3/subpopulations/{subpopulationGuid}/consents/recent:
+    $ref: ./study_consents/v3_subpopulations_subpopulationGuid_consents_recent.yml
+/v3/subpopulations/{subpopulationGuid}/consents/published:
+    $ref: ./study_consents/v3_subpopulations_subpopulationGuid_consents_published.yml
+/v3/subpopulations/{subpopulationGuid}/consents/{createdOn}:
+    $ref: ./study_consents/v3_subpopulations_subpopulationGuid_consents_createdOn.yml
+/v3/subpopulations/{subpopulationGuid}/consents/{createdOn}/publish:
+    $ref: ./study_consents/v3_subpopulations_subpopulationGuid_consents_createdOn_publish.yml
+
+# Users
+/v3/users:
+    $ref: ./users/v3_users.yml
+/v3/users/{userId}:
+    $ref: ./users/v3_users_userId.yml
+/v3/users/self/emailData:
+    $ref: ./users/v3_users_self_emailData.yml
+/v3/users/self/reports/{identifier}:
+    $ref: ./users/v3_users_self_reports_identifier.yml
+
+# Reports
+/v3/reports:
+    $ref: ./reports/v3_reports.yml
+/v3/reports/{identifier}:
+    $ref: ./reports/v3_reports_identifier.yml
+/v3/reports/{identifier}/index:
+    $ref: ./reports/v3_reports_identifier_index.yml
+/v3/reports/{identifier}/{date}:
+    $ref: ./reports/v3_reports_identifier_date.yml
+
+# Surveys
+/v3/surveys:
+    $ref: ./surveys/v3_surveys.yml
+/v3/surveys/recent:
+    $ref: ./surveys/v3_surveys.yml
+/v3/surveys/published:
+    $ref: ./surveys/v3_surveys_published.yml
+/v3/surveys/{surveyGuid}/revisions:
+    $ref: ./surveys/v3_surveys_surveyGuid_revisions.yml
+/v3/surveys/{surveyGuid}/revisions/recent:
+    $ref: ./surveys/v3_surveys_surveyGuid_revisions_recent.yml
+/v3/surveys/{surveyGuid}/revisions/published:
+    $ref: ./surveys/v3_surveys_surveyGuid_revisions_published.yml
+/v3/surveys/{surveyGuid}/revisions/{createdOn}:
+    $ref: ./surveys/v3_surveys_surveyGuid_revisions_createdOn.yml
+/v3/surveys/{surveyGuid}/revisions/{createdOn}/version:
+    $ref: ./surveys/v3_surveys_surveyGuid_revisions_createdOn_version.yml
+/v3/surveys/{surveyGuid}/revisions/{createdOn}/publish:
+    $ref: ./surveys/v3_surveys_surveyGuid_revisions_createdOn_publish.yml
+
+# Notifications
+/v3/notifications:
+    $ref: ./notifications/v3_notifications.yml
+/v3/notifications/{guid}:
+    $ref: ./notifications/v3_notifications_guid.yml
+/v3/notifications/{guid}/subscriptions:
+    $ref: ./notifications/v3_notifications_guid_subscriptions.yml
+/v3/topics:
+    $ref: ./topics/v3_topics.yml
+/v3/topics/{guid}:
+    $ref: ./topics/v3_topics_guid.yml
+/v3/topics/{guid}/sendNotification:
+    $ref: ./topics/v3_topics_guid_sendNotification.yml
+
+# Schedules
+/v4/schedules:
+    $ref: ./schedules/v4_schedules.yml
+
+# Uploads
+/v3/uploads:
+    $ref: ./uploads/v3_uploads.yml
+/v3/uploads/{uploadId}/complete:
+    $ref: ./uploads/v3_uploads_uploadId_complete.yml
+/v3/uploadstatuses/{uploadId}:
+    $ref: ./uploads/v3_uploadstatuses_uploadId.yml
+
+# Upload schemas
+/v3/uploadschemas:
+    $ref: ./uploadschemas/v3_uploadschemas.yml
+/v4/uploadschemas:
+    $ref: ./uploadschemas/v4_uploadschemas.yml
+/v4/uploadschemas/{schemaId}/revisions/{revision}:
+    $ref: ./uploadschemas/v4_uploadschemas_schemaId_revisions_revision.yml
+/v3/uploadschemas/{schemaId}:
+    $ref: ./uploadschemas/v3_uploadschemas_schemaId.yml
+/v3/uploadschemas/{schemaId}/recent:
+    $ref: ./uploadschemas/v3_uploadschemas_schemaId_recent.yml
+/v3/uploadschemas/{schemaId}/revisions/{revision}:
+    $ref: ./uploadschemas/v3_uploadschemas_schemaId_revisions_revision.yml
+
+# Schedule plans
+/v3/scheduleplans:
+    $ref: ./scheduleplans/v3_scheduleplans.yml
+/v3/scheduleplans/{schedulePlanGuid}:
+    $ref: ./scheduleplans/v3_scheduleplans_schedulePlanGuid.yml
+
+# Studies
+/v3/studies:
+    $ref: ./studies/v3_studies.yml
+/v3/studies/init:
+    $ref: ./studies/v3_studies_init.yml
+/v3/studies/self:
+    $ref: ./studies/v3_studies_self.yml
+/v3/studies/{studyId}:
+    $ref: ./studies/v3_studies_studyId.yml
+/v3/studies/self/publicKey:
+    $ref: ./studies/v3_studies_self_publicKey.yml
+/v3/studies/self/emailStatus:
+    $ref: ./studies/v3_studies_self_emailStatus.yml
+/v3/studies/self/verifyEmail:
+    $ref: ./studies/v3_studies_self_verifyEmail.yml
+/v3/studies/self/uploads:
+    $ref: ./studies/v3_studies_self_uploads.yml
+/v3/studies/self/synapseProject:
+    $ref: ./studies/v3_studies_self_synapseProject.yml
+
+# External IDs
+/v3/externalIds:
+    $ref: ./externalIds/v3_externalIds.yml
+
+# APIs for getting entities across studies
+/v3/studies/{studyId}/surveys/published:
+    $ref: ./studies/v3_studies_studyId_surveys_published.yml
+/v3/studies/{studyId}/uploadschemas/{schemaId}:
+    $ref: ./studies/v3_studies_studyId_uploadschemas_schemaId.yml
+/v3/studies/{studyId}/uploadschemas/{schemaId}/revisions/{revision}:
+    $ref: ./studies/v3_studies_studyId_uploadschemas_schemaId_revisions_revision.yml
+/v3/studies/{studyId}/reports/{identifier}:
+    $ref: ./studies/v3_studies_studyId_reports_identifier.yml
+/v3/studies/{studyId}/uploads:
+    $ref: ./studies/v3_studies_studyId_uploads.yml
+/v3/studies/{studyId}/users:
+    $ref: ./studies/v3_studies_studyId_users.yml
+/v3/studies/{studyId}/participants:
+    $ref: ./studies/v3_studies_studyId_participants.yml
+/v3/studies/{studyId}/participants/{userId}:
+    $ref: ./studies/v3_studies_studyId_participants_userId.yml
+
+# Cache Management
+/v3/cache:
+    $ref: ./cache/v3_cache.yml
+/v3/cache/{cacheKey}:
+    $ref: ./cache/v3_cache_cacheKey.yml
+
+# Exporter Status
+/v3/recordexportstatuses:
+    $ref: ./recordexportstatuses/v3_recordexportstatuses.yml

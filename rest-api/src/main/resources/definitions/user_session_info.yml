@@ -1,0 +1,39 @@
+readOnly: true
+allOf:
+    - $ref: ./abstract_study_participant.yml
+    - description: |
+        Information about the user and their session.
+    - type: object
+    - properties:
+        authenticated:
+            type: boolean
+            description: Is the user currently authenticated?
+        sessionToken:
+            type: string
+            description: The session token that must be returned to the server to access services requiring authentication.
+        environment:
+            $ref: ./enums/environment.yml
+        email:
+            type: string
+            description: The user's email.
+        dataSharing:
+            type: boolean
+            description: True if the sharing scope is anything other than "no_sharing".
+        signedMostRecentConsent:
+            type: boolean
+            description: True if all *required* consents have been signed and the versions signed are the most up-to-date versions of those consents.
+        consented:
+            type: boolean
+            description: True if all required consents have been signed.
+        consentStatuses:
+            type: object
+            description: |
+                A mapping from a subpopulation GUID to information about the participant's consent status 
+                in that subpopulation (whether consented or not). Only the subpopulations that currently apply 
+                to this user will have a ConsentStatus object in the map.
+            additionalProperties:
+                $ref: ../definitions/consent_status.yml
+        type:
+            type: string
+            readOnly: true
+            description: "UserSessionInfo"

@@ -1,0 +1,23 @@
+type: object
+required:
+    - id
+    - url
+    - expires
+properties:
+    id:
+        type: string
+        description: |
+            The upload ID. The client needs to use this ID to call Bridge when the upload is complete.
+    url:
+        type: string
+        description: |
+            A pre-signed URL for doing a PUT upload of the data. The URL will remain valid for 24 hours once created on the Bridge side.
+    expires:
+        type: string
+        format: date-time
+        description: |
+            The ISO 8601 date and time stamp at which this session will expire.
+    type:
+        type: string
+        readOnly: true
+        description: "UploadSession"

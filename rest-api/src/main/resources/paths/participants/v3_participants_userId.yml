@@ -1,0 +1,42 @@
+get:
+    operationId: getParticipant
+    summary: Get a study participant (user) record
+    tags:
+        - Participants
+        - _For Researchers    
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/study_participant.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_researcher.yml                
+post:
+    operationId: updateParticipant
+    summary: Update an existing study participant (user) record
+    tags:
+        - Participants
+        - _For Researchers    
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+        - name: StudyParticipant
+          in: body
+          description: Study participant 
+          required: true
+          schema:
+                $ref: ../../definitions/study_participant.yml
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_researcher.yml                

@@ -1,0 +1,11 @@
+type: string
+description: |
+    The status of the job that exports the data of this upload to Synapse. 
+
+    |Value|Description|
+    |---|---|
+    |not_exported|Record related to this upload has not been exported to Synapse.|
+    |succeeded|Record related to this upload has been exported to Synapse and is available to researchers.|
+enum:
+    - not_exported
+    - succeeded

@@ -1,0 +1,58 @@
+type: object
+required:
+    - uploadId
+    - schemaId
+    - schemaRevision
+    - status
+    - requestedOn
+properties:
+    uploadId:
+        type: string
+        description: The GUID assigned to this upoad.
+    schemaId:
+        type: string
+        description: The ID of the schema for this upload.
+    schemaRevision:
+        type: integer
+        format: int64
+        description: The revision for the schema of this upload.
+    recordId:
+        type: string
+        description: The record ID of the upload in Synapse.
+    contentLength:
+        type: integer
+        format: int64
+        description: |
+            The size of the object in bytes. A standard HTTP header. For more information, 
+            go to [http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13)
+    status:
+        $ref: ./enums/upload_status.yml
+    requestedOn:
+        type: string
+        format: date-time
+        description: |
+            The date and time (ISO 8601 format) that the client requested an URL to make an upload to the server.
+    completedOn:
+        type: string
+        format: date-time
+        description: |
+            The date and time (ISO 8601 format) that the upload was completed.
+    completedBy:
+        type: string
+        description: |
+            Currently the API has an endpoint for the client to call and mark an upload completed. 
+            However, there is also a process that detects uploads to S3 and marks the uploads 
+            complete. This field indicates which client completed the upload.
+        enum: [app, s3_worker]
+    validationMessageList:
+        type: array
+        description: |
+            An array of error messages if this upload did not pass validation.
+        items:
+            type: string
+    healthRecordExporterStatus:
+        $ref: ./enums/synapse_exporter_status.yml
+    type:
+        type: string
+        readOnly: true
+        description: "Upload"

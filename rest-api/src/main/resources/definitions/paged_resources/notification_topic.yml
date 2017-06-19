@@ -1,0 +1,13 @@
+type: object
+readOnly: true
+properties:
+    items:
+        type: array
+        items:
+            $ref: ../notification_topic.yml
+    total:
+        type: integer
+    type:
+        type: string
+        readOnly: true
+        description: "ResourceList"

@@ -1,0 +1,24 @@
+get:
+    operationId: getPublishedSurveyVersion
+    summary: Get most recently published revision of a survey
+    tags:
+        - Surveys
+        - _For Developers
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/surveyGuid
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/survey.yml                
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

@@ -1,0 +1,23 @@
+get:
+    operationId: getMostRecentSurveyVersion
+    summary: Get most recent revision of a survey
+    tags:
+        - Surveys
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/surveyGuid
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/survey.yml                
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml

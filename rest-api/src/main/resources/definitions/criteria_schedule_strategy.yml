@@ -1,0 +1,16 @@
+description: |
+    Contains a list of schedules, each of which is associated to a specific [Criteria](/#Criteria) object. 
+    Based on information submitted by the user and in the user's account settings, compare each 
+    schedule in order until one matches the criteria, and use that schedule to assign activities to the 
+    user.
+allOf:
+    - $ref: ./schedule_strategy.yml
+    - type: object
+    - required:
+        - scheduleCriteria
+    - properties:
+        scheduleCriteria:
+            type: array
+            description: The list of schedules and their criteria.
+            items:
+                $ref: ./schedule_criteria.yml

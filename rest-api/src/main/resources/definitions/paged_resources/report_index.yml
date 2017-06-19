@@ -1,0 +1,15 @@
+type: object
+readOnly: true
+properties:
+    items:
+        type: array
+        items:
+            $ref: ../report_index.yml
+    reportType:
+        $ref: ../enums/report_type.yml
+    total:
+        type: integer
+    type:
+        type: string
+        readOnly: true
+        description: "ReportTypeResourceList"

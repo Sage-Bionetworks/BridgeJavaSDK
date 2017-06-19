@@ -1,0 +1,43 @@
+type: object
+description: |
+    Some objects, like Subpopulations and the schedules in a CriteriaScheduleStrategy, are 
+    matched against user criteria in order to return the correct object. The criteria 
+    against which user information will be matched are described in the Criteria object. 
+    See [Customizing Content for Participants](/articles/filtering.html) for a 
+    fuller explanation. 
+properties:
+    language:
+        type: string
+        description: |
+            A two-letter language code. The the must declare an `Accept-Language` header with 
+            this language in order to match this object.
+    allOfGroups:
+        type: array
+        description: One or more data groups; the user must have all these data groups to match.
+        items:
+            type: string
+    noneOfGroups:
+        type: array
+        description: One or more data groups; the user must have none of these data groups to match.
+        items:
+            type: string
+    minAppVersions:
+        type: object
+        description: |
+            A map of operating system names to minimum app versions. The user must send a `User-Agent` header 
+            in a prescribed format, that declares the app version to be equal to or greater than this 
+            version number, in order to match.
+        additionalProperties:
+            type: integer
+    maxAppVersions:
+        type: object
+        description: |
+            A map of operating system names to minimum app versions. The user must send a `User-Agent` header 
+            in a prescribed format, that declares the app version to be equal to or less than this 
+            version number, in order to match.
+        additionalProperties:
+            type: integer
+    type:
+        type: string
+        readOnly: true
+        description: "Criteria"

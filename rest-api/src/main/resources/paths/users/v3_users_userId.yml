@@ -1,0 +1,21 @@
+delete:
+    operationId: deleteUser
+    summary: Delete a user
+    description: |
+        This is a heavyweight operation; it is better to disable a user account when possible. 
+        This endpoint exists mostly for tests and cases where governance dictates the deletion 
+        of as much user data as possible. 
+    tags:
+        - Users
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml

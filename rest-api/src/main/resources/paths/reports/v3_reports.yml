@@ -1,0 +1,21 @@
+get:
+    operationId: getReportIndices
+    summary: Get list of report indices for studies or participants
+    tags:
+        - Reports
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - name: type
+          in: query
+          description: Type (either study or participant) 
+          required: true
+          type: string
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/report_index.yml
+        401:
+            $ref: ../../responses/401.yml

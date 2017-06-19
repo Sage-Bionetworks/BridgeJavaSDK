@@ -1,0 +1,47 @@
+get:
+    operationId: getParticipants
+    summary: Get a paged list of study participants (users)
+    tags:
+        - Participants
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/offsetBy
+        - $ref: ../../index.yml#/parameters/pageSize
+        - $ref: ../../index.yml#/parameters/emailFilter
+        - $ref: ../../index.yml#/parameters/startDateOpt
+        - $ref: ../../index.yml#/parameters/endDateOpt
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/account_summary.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_researcher.yml
+post:
+    operationId: createParticipant
+    summary: Create a new study participant (user)
+    tags:
+        - Participants
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - name: SignUp
+          in: body
+          description: Sign up 
+          required: true
+          schema:
+                $ref: ../../definitions/sign_up.yml
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/identifier_holder.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_researcher.yml

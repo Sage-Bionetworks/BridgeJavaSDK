@@ -1,0 +1,60 @@
+get:
+    operationId: getSchedulePlan
+    summary: Get a schedule plan
+    tags: 
+        - Schedules
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/schedulePlanGuid
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/schedule_plan.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+post:
+    operationId: updateSchedulePlan
+    summary: Update a schedule plan
+    tags: 
+        - Schedules
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/schedulePlanGuid
+        - name: body
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/schedule_plan.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/guid_version_holder.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+delete:
+    operationId: deleteSchedulePlan
+    summary: Get a schedule plan
+    tags: 
+        - Schedules
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/schedulePlanGuid
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

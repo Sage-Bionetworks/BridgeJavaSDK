@@ -1,0 +1,21 @@
+post:
+    operationId: publishSurvey
+    summary: Publish a survey
+    tags:
+        - Surveys
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/surveyGuid
+        - $ref: ../../index.yml#/parameters/createdOn
+        - $ref: ../../index.yml#/parameters/newSchemaRev
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/guid_createdOn_version_holder.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

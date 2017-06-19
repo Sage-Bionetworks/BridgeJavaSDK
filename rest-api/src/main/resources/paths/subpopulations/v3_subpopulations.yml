@@ -1,0 +1,41 @@
+get:
+    operationId: getSubpopulations
+    summary: Get all subpopulations in this study
+    tags:
+        - Subpopulations
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/subpopulation.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+post:
+    operationId: createSubpopulation
+    summary: Create a new subpopulation
+    tags:
+        - Subpopulations
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - name: Subpopulation
+          in: body
+          description: New subpopulation 
+          required: true
+          schema:
+            $ref: ../../definitions/subpopulation.yml
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/guid_version_holder.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

@@ -1,0 +1,23 @@
+post:
+    operationId: createUploadSchema
+    summary: Create an upload schema
+    tags: 
+        - Upload Schemas
+        - _For Developers
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - name: UploadSchema
+          in: body
+          required: true
+          schema:
+            $ref: ../../definitions/upload_schema.yml
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/upload_schema.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

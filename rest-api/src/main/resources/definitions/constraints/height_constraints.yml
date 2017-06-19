@@ -1,0 +1,14 @@
+description: |
+    A floating point value.
+
+    **UI hints:** weight.
+required:
+    - dataType
+allOf:
+    - $ref: ./constraints.yml
+    - properties:
+        unit:
+            $ref: ../enums/unit.yml
+        isInfant:
+            type: boolean
+            description: Is this measurement for an infant?

@@ -5,7 +5,7 @@
     <parent>
         <artifactId>sdk-group</artifactId>
         <groupId>org.sagebionetworks.bridge</groupId>
-        <version>0.12.65</version>
+        <version>0.12.66</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -120,7 +120,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/swagger.json</inputSpec>
+                            <inputSpec>${project.basedir}/../rest-api/target/swagger.json</inputSpec>
                             <language>java</language>
                             <library>retrofit2</library>
                             <apiPackage>${package-directory}.api</apiPackage>

@@ -1,0 +1,62 @@
+get:
+    operationId: getStudy
+    summary: Get a study
+    tags: 
+        - Studies
+        - _For Admins
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/study.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml                
+post:
+    operationId: updateStudy
+    summary: Update a study
+    tags:
+        - Studies
+        - _For Admins
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - name: body
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/study.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/version_holder.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml            
+delete:
+    operationId: deleteStudy
+    summary: Delete a study
+    tags:
+        - Studies
+        - _For Admins
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - name: physical
+          description: Physically delete the study
+          default: false
+          required: false
+          in: query
+          type: boolean
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml

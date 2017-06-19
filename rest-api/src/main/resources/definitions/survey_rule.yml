@@ -1,0 +1,34 @@
+description: |
+    A constraint may have one or more rules in an array:
+    * Rules should be evaluated after a user answers a question, against the answer provided by the user;
+    * they should be evaluated until one matches (then further evaluation should be aborted);
+    * if a rule matches, the action for that rule should be followed (e.g. showing a different question than the next question in the list, or ending the survey);
+    * if a question allows multiple answers to be submitted, it matches the rule if any of the submitted answers match the rule;
+    * if there are no rules or no rule matches, proceed to the next question in the list.
+
+    Either `skipToTarget` or `endSurvey` should be supplied in the rule (but not both).
+type: object
+required:
+    - operator
+    - value
+properties:
+    operator:
+        $ref: ./enums/operator.yml
+    value:
+        type: string
+        description: The value submitted by the user (as a string).
+    skipTo:
+        type: string
+        description: |
+            The property will reference an identifier for a question in the survey. The user's next 
+            question should be that question, and progress through the survey should proceed from 
+            that question in the list. The target question should be after the current question in the 
+            survey.
+    endSurvey:
+        type: boolean
+        description: |
+            If the rule matches, immediately end the survey.
+    type:
+        type: string
+        readOnly: true
+        description: "SurveyRule"

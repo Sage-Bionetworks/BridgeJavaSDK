@@ -1,0 +1,24 @@
+delete:
+    operationId: deleteStudyReportRecord
+    summary: Delete a record for a specific day of a study report
+    tags:
+        - Reports
+        - _For Developers
+        - _For Workers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/identifier
+        - name: date
+          description: Date of records
+          required: true
+          in: path
+          type: string
+          format: date
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_worker.yml

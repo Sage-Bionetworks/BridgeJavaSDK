@@ -1,0 +1,23 @@
+get:
+    operationId: getParticipantsInStudy
+    summary: Get a paged list of study participants for a study
+    tags:
+        - _For Workers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/offsetBy
+        - $ref: ../../index.yml#/parameters/pageSize
+        - $ref: ../../index.yml#/parameters/emailFilter
+        - $ref: ../../index.yml#/parameters/startDateOpt
+        - $ref: ../../index.yml#/parameters/endDateOpt
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/account_summary.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_worker.yml
