@@ -16,6 +16,7 @@
     </organization>
 
     <modules>
+        <module>rest-api</module>
         <module>rest-client</module>
     </modules>
 

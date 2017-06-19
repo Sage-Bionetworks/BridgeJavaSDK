@@ -1,0 +1,42 @@
+get:
+    operationId: getAllConsents
+    summary: Get a list of all consents for this subpopulation
+    tags:
+        - Study Consents
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/subpopulationGuid
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/study_consent.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml                  
+post:
+    operationId: createConsent
+    summary: Add a new study consent version to this subpopulation
+    tags:
+        - Study Consents
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/subpopulationGuid
+        - name: Study consent
+          description: Study consent
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/study_consent.yml
+    responses:
+        201:
+            $ref: ../../responses/201_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml                  

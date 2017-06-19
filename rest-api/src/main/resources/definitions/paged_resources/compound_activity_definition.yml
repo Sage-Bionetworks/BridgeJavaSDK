@@ -1,0 +1,14 @@
+type: object
+readOnly: true
+properties:
+    items:
+        type: array
+        items:
+            $ref: ../compound_activity_definition.yml
+    total:
+        type: integer
+        description: The total number of records in the list
+    type:
+        type: string
+        readOnly: true
+        description: "ResourceList"

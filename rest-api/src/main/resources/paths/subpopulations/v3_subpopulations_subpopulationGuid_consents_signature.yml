@@ -1,0 +1,49 @@
+get:
+    operationId: getConsentSignature
+    summary: Get the participant's consent signature for the subpopulation 
+    description: |
+    tags:
+        - Consents
+        - _For Consented Users    
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/subpopulationGuid
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/consent_signature.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml
+post:
+    operationId: createConsentSignature
+    summary: Consent to this subpopulation by submitting a signature
+    description: |
+        Agree to the terms of participant represented by this subpopulation, by submitting a 
+        signature to the Bridge server.
+    tags:
+        - Consents
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/subpopulationGuid
+        - name: body
+          description: A consent signature
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/consent_signature.yml
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/user_session_info.yml
+        401:
+            $ref: ../../responses/401.yml
+    

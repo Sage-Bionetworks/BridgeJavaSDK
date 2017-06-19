@@ -1,0 +1,7 @@
+type: string
+description: This value should always be set to production.
+enum:
+    - local
+    - develop
+    - staging
+    - production

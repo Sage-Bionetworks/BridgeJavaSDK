@@ -1,0 +1,3 @@
+description: User has signed in, but is not consented
+schema:
+    $ref: ../definitions/user_session_info.yml

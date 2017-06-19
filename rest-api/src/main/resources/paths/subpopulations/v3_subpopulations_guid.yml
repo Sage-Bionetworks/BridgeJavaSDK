@@ -1,0 +1,74 @@
+get:
+    operationId: getSubpopulation
+    summary: Get a subpopulation
+    tags:
+        - Subpopulations
+        - _For Developers
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/subpopulationGuid
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/subpopulation.yml   
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher.yml
+post:
+    operationId: updateSubpopulation
+    summary: Update an existing subpopulation
+    tags:
+        - Subpopulations
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/subpopulationGuid
+        - name: Subpopulation
+          description: A subpopulation
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/subpopulation.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/guid_version_holder.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+delete:
+    operationId: deleteSubpopulation
+    summary: Delete a subpopulation
+    description: |
+        Delete a subpopulation unless it is a default subpopulation, which cannot be deleted. 
+        If this is a 
+    tags:
+        - Subpopulations
+        - _For Developers
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/subpopulationGuid
+        - in: query
+          name: physical
+          type: boolean
+          required: false
+          default: false
+          description: |
+            If an admin sets this query value to true, the subpopulation will be permanently
+            deleted from the database (used for testing).
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin_developer.yml

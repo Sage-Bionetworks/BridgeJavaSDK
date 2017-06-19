@@ -1,0 +1,41 @@
+get:
+    operationId: getMostRecentUploadSchemas
+    summary: Get most recent revision of all upload schemas
+    tags: 
+        - Upload Schemas
+        - _For Developers
+    security:
+        -   BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/upload_schema.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+post:
+    operationId: createOrUpdateUploadSchema
+    summary: Create or update an upload schema
+    deprecated: true
+    tags: 
+        - Upload Schemas
+        - _For Developers
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - name: UploadSchema
+          in: body
+          required: true
+          schema:
+            $ref: ../../definitions/upload_schema.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/upload_schema.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

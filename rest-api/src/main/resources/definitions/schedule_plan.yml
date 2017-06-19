@@ -1,0 +1,33 @@
+description: |
+    A schedule plan relates schedules to some specific strategies for using these schedules to create 
+    activities for participants.
+type: object
+required:
+    - guid
+    - label
+    - version
+    - strategy
+properties:
+    guid:
+        type: string
+    label:
+        type: string
+        description: The name of this schedule plan (not shown to users).
+    modifiedOn:
+        type: string
+        format: date-time
+        readOnly: true
+    strategy:
+        $ref: ./schedule_strategy.yml
+    version:
+        type: integer
+        format: int64
+        description: |
+            The optimistic locking version of the survey. This value must be submitted as 
+            part of the next update of the model. If it does not match the value on the server, 
+            a 409 error (Conflict) will prevent the update from occurring.
+    type:
+        type: string
+        readOnly: true
+        description: "SchedulePlan"
+    

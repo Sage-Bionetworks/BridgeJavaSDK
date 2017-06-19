@@ -1,0 +1,29 @@
+post:
+    operationId: withdrawParticipantFromStudy
+    summary: Withdraw the participant from the study entirely
+    description: |
+        This endpoint will withdraw the user from any and all signed consents in the study, and 
+        set their sharing status to "no_sharing". The user is withdrawn from all subpopulations 
+        in the study whether they currently apply to the user or not. Unless you have more 
+        complicated consent requirements (like an optional consent that can be signed or not), 
+        this is the best approach to withdrawing a user from a study.
+    tags:
+        - Participants
+        - Consents
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+        - name: withdrawal
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/withdrawal.yml
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_researcher.yml                

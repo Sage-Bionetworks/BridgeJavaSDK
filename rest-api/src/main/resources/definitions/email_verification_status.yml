@@ -1,0 +1,15 @@
+description: |
+    The status of the email address that will be used to send consents to users. 
+    The consents are sent on behalf of the study using the study's support email 
+    address, and our email provider (Amazon's SES) requires that the address holder 
+    confirm this is an allowed use of the address. 
+type: object
+required:
+    - status
+properties:
+    status:
+        $ref: ./enums/account_status.yml
+    type:
+        type: string
+        readOnly: true
+        description: "EmailVerificationStatus"

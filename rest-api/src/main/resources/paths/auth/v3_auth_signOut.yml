@@ -1,0 +1,13 @@
+post:
+    operationId: signOut
+    tags: 
+        - Authentication
+    security:
+        - BridgeSecurity: []
+    description: |
+        Delete the user's session on the server.
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml

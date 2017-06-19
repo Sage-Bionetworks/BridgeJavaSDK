@@ -1,0 +1,27 @@
+description: |
+    A question in the survey.
+allOf:
+    - $ref: ./survey_element.yml
+    - required:
+        - title
+        - prompt
+        - constraints
+        - uiHint
+    - properties:
+        title:
+            type: string
+            description: |
+                A title for this question. Although this is required, it may or may not be used in the 
+                interface. 
+        prompt:
+            type: string
+            description: |
+                The question proper.
+        promptDetail:
+            type: string
+            description: |
+                Sub-question text that provides further instructions or clarifications on how to answer.
+        uiHint:
+            $ref: ./enums/ui_hint.yml
+        constraints:
+            $ref: ./constraints/constraints.yml

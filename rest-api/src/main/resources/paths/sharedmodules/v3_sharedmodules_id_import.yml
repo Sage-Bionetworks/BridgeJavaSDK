@@ -1,0 +1,19 @@
+post:
+    operationId: importModuleByIdLatestPublishedVersion
+    summary: Imports the latest published version of a module into the current study.
+    tags:
+        - Shared Modules
+        - _For Developers
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/moduleId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/shared_module_import_status.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

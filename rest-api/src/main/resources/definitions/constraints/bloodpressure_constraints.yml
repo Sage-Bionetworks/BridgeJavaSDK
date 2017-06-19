@@ -1,0 +1,11 @@
+description: |
+    Systolic and diastolic systemic arterial pressure.
+    
+    **UI hints:** bloodpressure
+required:
+    - dataType
+allOf:
+    - $ref: ./constraints.yml
+    - properties:
+        unit:
+            $ref: ../enums/unit.yml

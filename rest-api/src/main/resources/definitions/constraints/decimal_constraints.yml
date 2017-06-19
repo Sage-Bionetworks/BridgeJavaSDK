@@ -1,0 +1,22 @@
+description: |
+    A floating point value.
+
+    **UI hints:** numberfield, slider, select.
+required:
+    - dataType
+allOf:
+    - $ref: ./constraints.yml
+    - properties:
+        unit:
+            $ref: ../enums/unit.yml
+        minValue:
+            type: number
+            description: Minimum valid value. Required if UIHint is slider or select.
+        maxValue:
+            type: number
+            description: Maximum valid value. Required if UIHint is slider or select.
+        step:
+            type: number
+            description: |
+                In increase or decrease in valid values, e.g. a step of 0.1 for a question that records
+                water drunk in tenths of a liter.

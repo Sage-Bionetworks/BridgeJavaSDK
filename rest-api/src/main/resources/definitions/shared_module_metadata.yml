@@ -1,0 +1,55 @@
+type: object
+description: Metadata for shared modules in the shared module library.
+required:
+    - id
+    - name
+    - version
+properties:
+    id:
+        type: string
+        description: Unique ID of the module.
+    licenseRestricted:
+        type: boolean
+        description: True if usage of this module is restricted by license or copyright.
+    moduleType:
+        $ref: ./enums/shared_module_type.yml
+        readOnly: true
+    name:
+        type: string
+        description: User-friendly module name.
+    notes:
+        type: string
+        description: User-friendly descriptive notes for the module.
+    os:
+        type: string
+        description: Which OS (iOS, Android, etc) this module applies to, if the module is OS-specific.
+    published:
+        type: boolean
+        description: |
+            Flag that marks the module as published. A published module versions cannot be
+            modified. However, another version of the same module can be created for continued
+            editing.
+    schemaId:
+        type: string
+        description: Schema ID, if this module is a schema.
+    schemaRevision:
+        type: integer
+        description: Schema revision, if this module is a schema.
+    surveyCreatedOn:
+        type: string
+        description: Survey created-on timestamp (as an ISO8601 timestamp), if this module is a survey.
+    surveyGuid:
+        type: string
+        description: Survey GUID, if this module is a survey.
+    tags:
+        type: array
+        description: An unordered list of tags, used for querying and filtering.
+        items:
+            type: string
+    version:
+        type: integer
+        description: Module version.
+    type:
+        type: string
+        readOnly: true
+        description: "SharedModuleMetadata"

@@ -1,0 +1,27 @@
+get:
+    operationId: getUploadStatus
+    summary: Get status of a single upload attempt
+    description: |
+        Caller must either be a participant getting a status of one of the participant's 
+        own uploads, or a reearcher.
+    tags:
+        - Uploads
+        - _For Consented Users
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/uploadId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/upload_validation_status.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml
+        403:
+            $ref: ../../responses/403_not_researcher.yml

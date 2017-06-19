@@ -1,0 +1,18 @@
+get:
+    operationId: getCacheKeys
+    summary: Get all the non-session Redis keys
+    tags:
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    responses:
+        # This is wrong (it's just an array of strings), but Swagger Java code generation does not create correct
+        # javadocs for a List<String> type, and that fails.
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/string.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml

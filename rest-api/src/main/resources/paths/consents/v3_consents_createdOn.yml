@@ -1,0 +1,21 @@
+get:
+    operationId: getDefaultConsentRevision
+    summary: Get specific revision of a study's default subpopulation 
+    deprecated: true
+    tags:
+        - Consents
+        - _For Developers
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/createdOn
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/study_consent.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher.yml

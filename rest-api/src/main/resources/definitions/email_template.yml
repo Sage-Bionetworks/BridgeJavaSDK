@@ -1,0 +1,39 @@
+type: object
+description: |
+    A template for one of the system emails that are sent (email verification and password reset 
+    emails). 
+    
+    In the templates, variable strings can be used to interpolate values from the study or the 
+    individual to which the email is being sent. **The body of the email template must have a 
+    ${url} variable,** this is where the link back to the Bridge server will be inserted in 
+    order to complete the required transaction.
+
+    |Template Variable|What it will be replaced with|
+    |---|---|
+    |${url}|Where the link back to the Bridge server will be inserted in order to complete the email verification/password reset|
+    |${studyName}|The name of the study|
+    |${sponsorName}|The sponsor of the study|
+    |${supportEmail}|The support email for the study|
+    |${technicalEmail}|The technical support email for the study|
+    |${account.givenName}|User's first name|
+    |${account.surname}|User's last name|
+    |${account.email}|User's email|
+
+    Your HTML will be sanitized to remove potential security issues like scripts, frames or embedded Flash objects.
+required:
+    - subject
+    - mimeType
+    - body
+properties:
+    subject:
+        type: string
+        description: The subject line of the email message (no markup allowed)
+    mimeType:
+        $ref: ./enums/mime_type.yml
+    body:
+        type: string
+        description: The body text of the email message (can be text or HTML, but the mimeType must be set appropriately)
+    type:
+        type: string
+        readOnly: true
+        description: "EmailTemplate"

@@ -1,0 +1,26 @@
+post:
+    operationId: updateUploadSchema
+    summary: Update an upload schema
+    tags: 
+        - Upload Schemas
+        - _For Developers
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/schemaId
+        - $ref: ../../index.yml#/parameters/revision
+        - name: UploadSchema
+          in: body
+          required: true
+          schema:
+            $ref: ../../definitions/upload_schema.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/upload_schema.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+    

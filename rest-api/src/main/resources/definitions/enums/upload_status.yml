@@ -1,0 +1,18 @@
+type: string
+description: |
+    The status of the upload:
+
+    |Status|Description|
+    |---|---|
+    |unknown|Upload status is unknown. This is generally used for older data formats (namely, Upload v1), which had a binary complete flag rather than an UploadStatus.|
+    |requested|Initial state. Upload is requested. User needs to upload to specified URL and call uploadComplete.|
+    |validation_in_progress|Client process has called uploadComplete. Upload validation is currently taking place.|
+    |validation_failed|Upload validation has failed (see the validationMessageList for further details).|
+    |succeeded|Upload has succeeded, including validation. Note that export to Synapse is a separate step.|
+enum:
+    - unknown
+    - requested
+    - validation_in_progress
+    - validation_failed
+    - duplicate
+    - succeeded

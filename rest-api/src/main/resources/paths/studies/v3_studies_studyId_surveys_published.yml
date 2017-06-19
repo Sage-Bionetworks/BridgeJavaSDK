@@ -1,0 +1,20 @@
+get:
+    operationId: getAllPublishedSurveysInStudy
+    summary: Get the published surveys in a study
+    tags: 
+        - Studies
+        - Surveys
+        - _For Workers
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/survey.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_worker.yml

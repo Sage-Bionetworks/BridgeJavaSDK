@@ -1,0 +1,27 @@
+get:
+    operationId: getConsent
+    summary: Get a specific consent revision
+    description: |
+        Get a specific revision of this subpopulation consent by its creation timestamp.
+    tags:
+        - Study Consents
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/subpopulationGuid
+        - name: createdOn
+          description: creation timestamp of the revision
+          type: string
+          format: date-time
+          in: path
+          required: true
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/study_consent.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml                  

@@ -1,0 +1,32 @@
+description: |
+    When creating an activity as part of a Schedule, you will need to supply a SurveyReference or a TaskReference in the activity. When these are returned, any survey reference that points to the "most recently published" survey will be resolved to a specific survey revision (the one most recently published).
+
+    Scheduled activities may be requested into the future by the client, and then cached. So if a survey is changed and published, it may be a few days before participants receive the updated survey.
+type: object
+required:
+    - label
+    - guid
+    - activityType
+properties:
+    label:
+        type: string
+        description: A label to show the user for this activity.
+    labelDetail:
+        type: string
+        description: |
+            Detail information for the activity (common uses have included indicating the number of 
+            questions, or the average time it takes to complete the activity).
+    guid:
+        type: string
+    compoundActivity:
+        $ref: ./compound_activity.yml
+    task:
+        $ref: ./task_reference.yml
+    survey:
+        $ref: ./survey_reference.yml
+    activityType:
+        $ref: ./enums/activity_type.yml
+    type:
+        type: string
+        readOnly: true
+        description: "Activity"

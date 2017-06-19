@@ -1,0 +1,69 @@
+get:
+    operationId: queryAllMetadata
+    summary: Queries module metadata using the set of given parameters.
+    tags:
+        - Shared Modules
+        - _For Developers
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - name: mostrecent
+          in: query
+          type: boolean
+          required: false
+          default: true
+          description: |
+              True to get only the most recent versions. If combined with published=true, then this
+              will return the most recent published versions. Cannot be combined with where.
+              Defaults to true.
+        - name: published
+          in: query
+          type: boolean
+          required: false
+          default: false
+          description: True to get only published versions. False to get all versions. Defaults to false.
+        - name: where
+          in: query
+          type: string
+          required: false
+          description: SQL-like where clause. Example, "foo='bar'"
+        - name: tags
+          in: query
+          type: string
+          required: false
+          description: |
+              Comma-delimited list of tags. If specified, only query results that match one or more
+              tags (not necessarily all tags) are returned. If not specified, returns all query
+              results.
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/shared_module_metadata.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+post:
+    operationId: createMetadata
+    summary: Creates the specified module metadata.
+    tags:
+        - Shared Modules
+        - _For Developers
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - name: SharedModuleMetadata
+          in: body
+          required: true
+          schema:
+            $ref: ../../definitions/shared_module_metadata.yml
+    responses:
+        201:
+            description: OK
+            schema:
+                $ref: ../../definitions/shared_module_metadata.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

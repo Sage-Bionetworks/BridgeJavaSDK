@@ -1,0 +1,77 @@
+get:
+    operationId: getSurvey
+    summary: Get a survey revision
+    tags:
+        - Surveys
+        - _For Consented Users
+        - _For Workers
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/surveyGuid
+        - $ref: ../../index.yml#/parameters/createdOn
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/survey.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml
+        403:
+            $ref: ../../responses/403_not_developer_worker.yml
+post:
+    operationId: updateSurvey
+    summary: Update a non-published survey revision
+    tags:
+        - Surveys
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/surveyGuid
+        - $ref: ../../index.yml#/parameters/createdOn
+        - name: Survey
+          in: body
+          description: Updated survey 
+          required: true
+          schema:
+            $ref: ../../definitions/survey.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/guid_createdOn_version_holder.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+delete:
+    operationId: deleteSurvey
+    summary: Delete a survey version
+    tags:
+        - Surveys
+        - _For Developers
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/surveyGuid
+        - $ref: ../../index.yml#/parameters/createdOn
+        - name: physical
+          description: Physically delete the survey (admins only)
+          default: false
+          required: false
+          in: query
+          type: boolean
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin_developer.yml

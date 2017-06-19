@@ -1,0 +1,17 @@
+get:
+    operationId: getPublishedSurveys
+    summary: Get the most recently published version of each survey
+    tags:
+        - Surveys
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/survey.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

@@ -1,0 +1,63 @@
+type: object
+discriminator: type
+properties:
+    firstName:
+        type: string
+        description: First name (given name) of the user.
+    lastName:
+        type: string
+        description: Last name (family name) of the user.
+    externalId:
+        type: string
+        description: |
+            An externally-assignable identifier a research partner can use to re-identify a user's data 
+            in the exported data set (this must be provided by the application, it is not created by Bridge). 
+            It is a string that can be set or updated to any value without constraints, unless Bridge is 
+            configured to manage the study's external IDs. Then the ID must be submitted on sign up, and cannot be 
+            modified afterward.
+    id:
+        type: string
+        readOnly: true
+        description: An ID assigned to this account by Bridge system. This ID is exposed in the API and is 
+            different from the health code assigned to the user's anonymized data. Bridge never exports this ID 
+            along with the health code from Bridge.  
+    notifyByEmail:
+        type: boolean
+        default: true
+        description: |
+            True if the user has consented to be contacted via email outside the application, false otherwise.
+    attributes:
+        type: object
+        additionalProperties:
+            type: string
+        description: |
+            A map of user profile attributes that have been set for this user (the attributes themselves 
+            must be specified in the study's configuration, and the values are stored encrypted in case they 
+            capture personally-identifying information).
+    sharingScope:
+        $ref: ./enums/sharing_scope.yml
+    createdOn:
+        type: string
+        format: date-time
+        readOnly: true
+        description: The date and time the account was created.
+    status:
+        $ref: ./enums/account_status.yml
+    roles:
+        type: array
+        items:
+            $ref: ./enums/role.yml
+    dataGroups:
+        type: array
+        description: |
+            The data groups set for this user. Data groups must be strings that are defined in the 
+            list of all valid data groups for the study, as part of the study object. 
+        items:
+            type: string
+    languages:
+        type: array
+        description: |
+            Two letter language codes to assign to this user (these are initially retrieved from the 
+            user's `Accept-Language` header and then persisted as part of account configuration). 
+        items:
+            type: string

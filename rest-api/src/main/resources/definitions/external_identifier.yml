@@ -1,0 +1,18 @@
+description: |
+    An external identifier assigned to a participant's account to allow external 
+    re-identification of the user by the study sponsor.
+type: object
+required:
+    - identifier
+properties:
+    identifier:
+        type: string
+        description: The external identifier.
+    assigned:
+        type: boolean
+        readOnly: true
+        description: If true, the identifier has been assigned to an account, otherwise false.
+    type:
+        type: string
+        readOnly: true
+        description: "ExternalIdentifier"

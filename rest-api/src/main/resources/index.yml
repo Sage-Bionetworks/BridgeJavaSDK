@@ -1,0 +1,219 @@
+swagger: '2.0'
+info:
+    version: "20161028"
+    title: Bridge Server API
+host: webservices.sagebridge.org
+basePath: /
+securityDefinitions:
+    BridgeSecurity:
+        type: apiKey
+        in: header
+        name: Bridge-Session
+schemes:
+    - https
+consumes:
+    - application/json
+produces:
+    - application/json
+parameters:
+    cacheKey:
+        name: cacheKey
+        description: Cache key
+        required: true
+        in: path
+        type: string
+    moduleId:
+        name: moduleId
+        description: Unique ID of the module.
+        required: true
+        in: path
+        type: string
+    moduleVersion:
+        name: moduleVersion
+        description: Module version.
+        required: true
+        in: path
+        type: integer
+    schemaId:
+        name: schemaId
+        description: Upload schema ID
+        required: true
+        in: path
+        type: string
+    taskId:
+        name: taskId
+        description: Task ID
+        required: true
+        in: path
+        type: string
+    revision:
+        name: revision
+        description: Revision number
+        required: true
+        in: path
+        type: integer
+        format: int64
+    schedulePlanGuid:
+        name: schedulePlanGuid
+        description: Schedule plan GUID
+        required: true
+        in: path
+        type: string
+    subpopulationGuid:
+        name: subpopulationGuid
+        description: Subpopulation GUID
+        required: true
+        in: path
+        type: string
+    studyId:
+        name: studyId
+        description: Study ID
+        required: true
+        in: path
+        type: string
+    uploadId:
+        name: uploadId
+        description: Upload ID
+        required: true
+        in: path
+        type: string
+    userId:
+        name: userId
+        description: User ID
+        required: true
+        in: path
+        type: string
+    surveyGuid:
+        name: surveyGuid
+        description: Survey GUID
+        required: true
+        in: path
+        type: string
+    createdOn:
+        name: createdOn
+        description: Created on timestamp (ISO 8601)
+        required: true
+        in: path
+        type: string
+        format: date-time
+    newSchemaRev:
+        name: newSchemaRev
+        description: Should a new schema revision be created?
+        required: false
+        in: query
+        type: boolean
+    identifier:
+        name: identifier
+        description: identifier
+        required: true
+        in: path
+        type: string
+    startDate:
+        name: startDate
+        in: query
+        description: The first day to include in reports that are returned
+        type: string
+        format: date 
+        required: true
+    endDate:
+        name: endDate
+        in: query
+        description: The last day to include in reports that are returned
+        type: string 
+        format: date
+        required: true
+    startDateOpt:
+        name: startDate
+        in: query
+        description: The first day to include in reports that are returned
+        type: string
+        format: date-time 
+        required: false
+    endDateOpt:
+        name: endDate
+        in: query
+        description: The last day to include in reports that are returned
+        type: string 
+        format: date-time
+        required: false
+    startTime:
+        name: startTime
+        in: query
+        type: string
+        format: date-time
+        required: true
+    endTime:
+        name: endTime
+        in: query
+        type: string
+        format: date-time
+        required: true
+    pageSize:
+        name: pageSize
+        description: maximum number of records in each returned page
+        in: query
+        type: integer
+        format: int32
+        required: false
+        default: 50
+        maximum: 100
+    offsetBy:
+        name: offsetBy
+        description: next page start offset for pagination 
+        in: query
+        type: integer
+        format: int32
+        default: 0
+        required: false
+    offsetKey:
+        name: offsetKey
+        description: next page start key for pagination 
+        in: query
+        type: string
+        required: false
+    guid:
+        name: guid
+        description: A guid
+        required: true
+        in: path
+        type: string
+    activityGuid:
+        name: activityGuid
+        description: Activity GUID
+        required: true
+        in: path
+        type: string
+    scheduledOnStart:
+        name: scheduledOnStart
+        in: query
+        description: |
+            Activities returned are at or after the timestamp. If scheduledOnStart is 
+            provided, scheduledOnEnd must be provided, and vice versa. Default range is 
+            4 days in the future to 10 days in the past.
+        type: string
+        format: date-time
+        required: false
+    scheduledOnEnd:
+        name: scheduledOnEnd
+        in: query
+        description: |
+            Activities returned are at or before the timestamp. If scheduledOnEnd is 
+            provided, scheduledOnStart must be provided, and vice versa. Default range is 
+            4 days in the future to 10 days in the past.
+        type: string 
+        format: date-time
+        required: false
+    emailFilter:
+        name: emailFilter
+        description: |
+            A string (can be a substring of an email address) to filter returned records 
+            against.
+        in: query
+        type: string
+        required: false
+paths:
+    $ref: ./paths/index.yml
+definitions:
+    $ref: ./definitions/index.yml
+responses:
+    $ref: ./responses/index.yml

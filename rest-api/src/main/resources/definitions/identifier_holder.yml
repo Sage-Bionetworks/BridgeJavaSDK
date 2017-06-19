@@ -1,0 +1,12 @@
+description: |
+    An object that holds an identifier for a created entity.
+type: object
+properties:
+    identifier:
+        type: string
+        readOnly: true
+        description: The identifier of the entity (added when the entity is created).
+    type:
+        type: string
+        readOnly: true
+        description: "IdentifierHolder"

@@ -1,0 +1,28 @@
+allOf:
+    - $ref: ./abstract_study_participant.yml
+    - description: |
+        The full record about a study participant.
+    - properties:
+        healthCode:
+            type: string
+            readOnly: true
+            description: |
+                Only included in studies that have been configured to return the health code, and only to researchers
+                through the researcher APIs.
+        email:
+            type: string
+            description: The user's email.
+        consentHistories:
+            type: object
+            readOnly: true
+            description: |
+                A complete historical record of all the user's consents and withdrawals of consent for all consent groups 
+                in the study.
+            additionalProperties:
+                type: array
+                items:
+                    $ref: ../definitions/user_consent_history.yml
+        type:
+            type: string
+            readOnly: true
+            description: "StudyParticipant"
