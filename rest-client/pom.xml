@@ -120,7 +120,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/../rest-api/target/swagger.json</inputSpec>
+                            <inputSpec>${project.basedir}/../rest-api/target/site/swagger.json</inputSpec>
                             <language>java</language>
                             <library>retrofit2</library>
                             <apiPackage>${package-directory}.api</apiPackage>

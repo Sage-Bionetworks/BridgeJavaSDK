@@ -9,7 +9,7 @@
 
     <groupId>org.sagebionetworks.bridge</groupId>
     <artifactId>rest-api</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <name>REST Swagger API</name>
     <url>http://maven.apache.org</url>
@@ -21,23 +21,38 @@
     <dependencies>
     </dependencies>
 
+    <distributionManagement>
+        <site>
+            <id>s3.site</id>
+            <url>s3://developer.sagebridge.org/${project.artifactId}/${project.version}</url>
+        </site>
+    </distributionManagement>
+
     <build>
+        <extensions>
+            <extension>
+                <groupId>org.kuali.maven.wagons</groupId>
+                <artifactId>maven-s3-wagon</artifactId>
+                <version>1.2.1</version>
+            </extension>
+        </extensions>
         <plugins>
             <plugin>
-              <artifactId>exec-maven-plugin</artifactId>
-              <groupId>org.codehaus.mojo</groupId>
-              <executions>
-                <execution>
-                  <phase>generate-sources</phase>
-                  <goals>
-                    <goal>exec</goal>
-                  </goals>
-                </execution>
-              </executions>
-              <configuration>
-                <executable>${basedir}/create-swagger.sh</executable>
-              </configuration>
-            </plugin>        
+                <artifactId>exec-maven-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <phase>site</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>${basedir}/create-swagger.sh</executable>
+                </configuration>
+            </plugin>
         </plugins>
-    </build>    
+    </build>
 </project>
