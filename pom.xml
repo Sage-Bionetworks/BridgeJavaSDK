@@ -138,7 +138,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
+    
     <profiles>
         <profile>
             <id>no-integration</id>
@@ -205,9 +205,14 @@
     </build>
 
     <distributionManagement>
+        <site>
+            <id>s3.site</id>
+            <url>s3://developer.sagebridge.org/${project.artifactId}/${project.version}</url>
+        </site>
         <repository>
             <id>s3.release</id>
             <url>s3://org-sagebridge-repo-maven-releases</url>
         </repository>
     </distributionManagement>
+
 </project>
