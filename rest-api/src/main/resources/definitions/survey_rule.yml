@@ -8,7 +8,7 @@ description: |
     of the submitted answers match the rule;
     * if there are no rules or no rule matches, proceed to the next question in the list.
  
-    One and only one action should be provided in the rule: `skipToTarget`, `endSurvey`, or `assignDataGroup`.
+    One and only one action should be provided in the rule: `skipTo`, `endSurvey`, or `assignDataGroup`.
 type: object
 required:
     - operator
