@@ -208,6 +208,14 @@
 /v3/scheduleplans/{schedulePlanGuid}:
     $ref: ./scheduleplans/v3_scheduleplans_schedulePlanGuid.yml
 
+# Activity events
+/v3/activityevents:
+    $ref: ./activityevents/v3_activityevents.yml
+/v3/activityevents/custom:
+    $ref: ./activityevents/v3_activityevents_custom.yml
+/v3/activityevents/{userId}:
+    $ref: ./activityevents/v3_activityevents_userId.yml
+
 # Studies
 /v3/studies:
     $ref: ./studies/v3_studies.yml
