@@ -45,6 +45,8 @@ AccountSummary:
     $ref: ./account_summary.yml
 Activity:
     $ref: ./activity.yml
+ActivityEvent:
+    $ref: ./activity_event.yml
 ClientInfo:
     $ref: ./client_info.yml
 CmsPublicKey:
@@ -61,6 +63,8 @@ Criteria:
     $ref: ./criteria.yml
 CriteriaScheduleStrategy:
     $ref: ./criteria_schedule_strategy.yml
+CustomActivityEventRequest:
+    $ref: ./custom_activity_event_request.yml
 DataGroups:
     $ref: ./data_groups.yml
 Email:
@@ -197,6 +201,8 @@ AccountSummaryList:
     $ref: ./paged_resources/account_summary.yml
 ActivityList:
     $ref: ./paged_resources/activity.yml
+ActivityEventList:
+    $ref: ./paged_resources/activity_event.yml
 CompoundActivityDefinitionList:
     $ref: ./paged_resources/compound_activity_definition.yml
 ExternalIdentifierList:
