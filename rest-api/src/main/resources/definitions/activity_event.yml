@@ -1,0 +1,17 @@
+description: |
+    Activity event for a participant, used for scheduling activities.
+type: object
+required:
+    - eventId
+properties:
+    eventId:
+        type: string
+        description: event identifier
+    answerValue:
+        type: string
+        description: answer value for a question event
+    timestamp:
+        type: integer
+        format: int64
+        readOnly: true
+        description: time event occured

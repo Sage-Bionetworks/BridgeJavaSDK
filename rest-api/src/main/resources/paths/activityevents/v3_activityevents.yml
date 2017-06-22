@@ -1,0 +1,12 @@
+get:
+    operationId: getSelfActivityEvents
+    summary: Get ActivityEvent
+    description: Gets all activity events for the current user.
+    tags: 
+        - ActivityEvents
+        - _For Consented Users
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/activity_event.yml

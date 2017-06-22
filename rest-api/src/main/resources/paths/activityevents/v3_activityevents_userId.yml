@@ -1,0 +1,16 @@
+get:
+    operationId: getActivityEvents
+    summary: Get ActivityEvent
+    tags: 
+        - ActivityEvents
+        - _For Researchers
+    parameters: 
+      - name: userId
+        type: string
+        required: true
+        in: path
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/activity_event.yml

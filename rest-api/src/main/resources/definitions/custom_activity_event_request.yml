@@ -1,0 +1,12 @@
+description: Request object for creating a Custom Activity Event.
+type: object
+required:
+    - eventKey
+properties:
+    eventKey:
+        type: string
+        description: identifier for the custom event
+    timestamp:
+        type: integer
+        format: int64
+        description: timestamp to record for event
