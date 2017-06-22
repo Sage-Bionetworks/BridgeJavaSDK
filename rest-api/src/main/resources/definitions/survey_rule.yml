@@ -1,12 +1,14 @@
 description: |
-    A constraint may have one or more rules in an array:
+    An information screen or question may have one or more rules in an array:
     * Rules should be evaluated after a user answers a question, against the answer provided by the user;
-    * they should be evaluated until one matches (then further evaluation should be aborted);
     * if a rule matches, the action for that rule should be followed (e.g. showing a different question than the next question in the list, or ending the survey);
-    * if a question allows multiple answers to be submitted, it matches the rule if any of the submitted answers match the rule;
+    * that rule will specify whether or not further rules in the list should be evaluated (navigation rules 
+    end evaluation, while other actions do not); 
+    * if a question allows multiple answers to be submitted, the rule expression matches the rule if any 
+    of the submitted answers match the rule;
     * if there are no rules or no rule matches, proceed to the next question in the list.
-
-    Either `skipToTarget` or `endSurvey` should be supplied in the rule (but not both).
+ 
+    One and only one action should be provided in the rule: `skipTo`, `endSurvey`, or `assignDataGroup`.
 type: object
 required:
     - operator
@@ -16,18 +18,30 @@ properties:
         $ref: ./enums/operator.yml
     value:
         type: string
-        description: The value submitted by the user (as a string).
+        description: |
+            The value against which the rule expression will be tested (always expressed as 
+            a string, regardless of the question's data type). For example, a rule with value="10", 
+            operator=eq, indicates that the survey rule expression will be true if the user's answer
+            is equal to 10.
     skipTo:
         type: string
         description: |
-            The property will reference an identifier for a question in the survey. The user's next 
-            question should be that question, and progress through the survey should proceed from 
-            that question in the list. The target question should be after the current question in the 
-            survey.
+            The property will reference an identifier for a question in the survey. If specified, and 
+            the rule's expression is true, stop evaluating survey rules and display that question 
+            next. Progress through the survey should proceed from that question in the list. The target 
+            question should be after the current question in the survey.
     endSurvey:
         type: boolean
         description: |
-            If the rule matches, immediately end the survey.
+            If specified, and the rule's expression is true, immediately stop evaluating rules and end 
+            the survey. The users existing answers to the survey should be sent to the server.
+    assignDataGroup:
+        type: string
+        description: |
+            If specified, the value is a data group that should be added to the survey taker if the 
+            rule expression is true, or removed if the rule expression is false. Survey rules 
+            that specify `assignDataGroup` do not end evaluation of rules in the list; the engine 
+            should proceed to evaluate and apply the next rule in the list.
     type:
         type: string
         readOnly: true

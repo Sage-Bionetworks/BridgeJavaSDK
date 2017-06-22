@@ -19,11 +19,12 @@ properties:
         type: string
         format: date-time
         description: The endTime value submitted to the server
-    total:
-        type: integer
-        description: The total number of records that match the criteria (may exceed page size)
+    hasNext:
+        type: boolean
+        readOnly: true
+        description: True if there is a further page of records, false otherwise
     type:
         type: string
         readOnly: true
-        description: "PagedResourceList"
+        description: "ForwardCursorPagedResourceList"
         

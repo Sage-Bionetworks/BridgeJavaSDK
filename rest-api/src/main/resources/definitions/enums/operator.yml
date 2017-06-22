@@ -9,6 +9,7 @@ description: |
     |le|less than or equal to|
     |ge|greater than or equal to|
     |de|user declines to answer this question (it is being skipped)|
+    |always|always do this action after showing the question or screen|
 enum:
     - eq
     - ne
@@ -17,3 +18,4 @@ enum:
     - le
     - ge
     - de
+    - always

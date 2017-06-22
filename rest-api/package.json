@@ -1,0 +1,10 @@
+{
+  "name": "rest-api",
+  "version": "0.0.1",
+  "description": "Build swagger using Swagger CLI",
+  "main": "index.js",
+  "engine": "node 6.6.0",
+  "devDependencies": {
+    "swagger-cli": "1.0.0-beta.2"
+  }
+}
