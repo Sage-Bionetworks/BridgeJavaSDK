@@ -1,0 +1,21 @@
+get:
+    operationId: getSchedules
+    summary: Get schedules for user
+    tags: 
+        - Schedules
+        - _For Consented Users
+    security:
+        -   BridgeSecurity: []
+    description: |
+        
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/schedule.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml

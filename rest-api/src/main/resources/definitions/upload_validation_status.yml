@@ -1,0 +1,20 @@
+type: object
+readOnly: true
+properties:
+    id:
+        type: string
+        description: The identifier for this upload.
+    messageList:
+        type: array
+        description: |
+            An array of error messages if failures occurred during validation.
+        items:
+            type: string
+    status:
+        $ref: ./enums/upload_status.yml
+    record:
+        $ref: ./health_data_record.yml
+    type:
+        type: string
+        readOnly: true
+        description: "UploadValidationStatus"

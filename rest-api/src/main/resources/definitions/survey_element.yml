@@ -1,0 +1,18 @@
+type: object
+description: A survey element (either an info screen or a question).
+discriminator: type 
+required:
+    - guid
+    - identifier
+    - type
+properties:
+    guid:
+        type: string
+        description: A unique GUID for this element of the survey
+    identifier:
+        type: string
+        description: |
+            A unique and easy-to-remember identifier, assigned by a researcher, that is maintained through 
+            later versions of the survey.
+    type:
+        type: string

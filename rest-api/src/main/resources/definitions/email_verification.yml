@@ -1,0 +1,14 @@
+description: |
+    A JSON payload to sent the email confirmation token (retrieved from the user's email) 
+    back to the Bridge server.
+type: object
+required:
+    - sptoken
+properties:
+    sptoken:
+        type: string
+        description: The token sent via email to the user that is needed to verify the email address is accessible to that user
+    type:
+        type: string
+        readOnly: true
+        description: "EmailVerification"

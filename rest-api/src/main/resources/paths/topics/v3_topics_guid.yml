@@ -1,0 +1,61 @@
+get:
+    operationId: getNotificationTopic
+    summary: Get a notification topic
+    tags: 
+        - Notifications
+        - _For Developers
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/notification_topic.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher.yml
+post:
+    operationId: updateNotificationTopic
+    summary: Update a notification topic
+    tags: 
+        - Notifications
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+        - name: body
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/notification_topic.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/guid_holder.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+delete:
+    operationId: deleteNotificationTopic
+    summary: Delete a notification topic
+    tags: 
+        - Notifications
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

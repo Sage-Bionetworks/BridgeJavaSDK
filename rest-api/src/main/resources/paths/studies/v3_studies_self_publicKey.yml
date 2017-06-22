@@ -1,0 +1,17 @@
+get:
+    operationId: getStudyPublicCsmKey
+    summary: Get the public key CMS block for this study
+    tags: 
+        - Studies
+        - _For Developers
+    security:
+        -   BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/cms_public_key.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

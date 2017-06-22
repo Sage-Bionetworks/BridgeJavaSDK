@@ -1,0 +1,30 @@
+description: |
+    Summary of a participant, used in APIs to search and retrieve participant accounts.  
+type: object
+readOnly: true
+properties:
+    firstName:
+        type: string
+        description: First (given) name of user.
+    lastName:
+        type: string
+        description: Last (family) name of user.
+    email:
+        type: string
+        description: Email address of user.
+    id: 
+        type: string
+        description: An identifier assigned to this user, used to retrieve a study participant record.
+    createdOn: 
+        type: string
+        format: date-time
+        readOnly: true
+        description: ISO 8601 date and time that the user account was created.
+    status:
+        $ref: ./enums/account_status.yml
+    studyIdentifier:
+        $ref: ./study_identifier.yml
+    type:
+        type: string
+        readOnly: true
+        description: "AccountSummary"

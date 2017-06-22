@@ -1,0 +1,84 @@
+type: object
+description: |
+    Represents the expected fields and types for a data upload. This is used to validate incoming 
+    uploads and to export data to Synapse. See [Bridge Upload Data Format](/articles/study_design/upload_data_format.html) for more details about uploads.
+required:
+    - name
+    - revision
+    - schemaId
+    - version
+    - fieldDefinitions
+properties:
+    maxAppVersions:
+        type: object
+        description: |
+            A map of operating system names to minimum app versions. The user must send a `User-Agent` header
+            in a prescribed format, that declares the app version to be equal to or less than this
+            version number, in order to match.
+        additionalProperties:
+            type: integer
+    minAppVersions:
+        type: object
+        description: |
+            A map of operating system names to minimum app versions. The user must send a `User-Agent` header
+            in a prescribed format, that declares the app version to be equal to or greater than this
+            version number, in order to match.
+        additionalProperties:
+            type: integer
+    moduleId:
+        type: string
+        description: Module ID, if this schema was imported from a shared module.
+    moduleVersion:
+        type: integer
+        description: Module version, if this schema was imported from a shared module.
+    name:
+        type: string
+        description: User-friendly schema name.
+    revision:
+        type: integer
+        format: int64
+        description: |
+            Revision number of the schema, used to distinguish versions of the same data format.
+            This should be blank when creating a schema, and it should be passed back to the server 
+            when updating. If the schema revision cannot be updated in a backwards-compatible fashion, 
+            the server will throw an exception. You will need to increment the revision number 
+            and create a new revision of the schema.
+    schemaId:
+        type: string
+        description: Unique identifier for the schema.
+    surveyGuid:
+        type: string
+        description: |
+            If this schema is created from a survey, this is the GUID of the survey it represents.
+    studyId:
+        type: string
+        description: |
+            **Only available through worker APIs.** The identifier of the study from which this schema was retrieved.
+    surveyCreatedOn:
+        type: string
+        format: date-time
+        description: |
+            If this schema is created from a survey, this is the createdOn timestamp 
+            (in ISO 8601 format) of the survey it represents.
+    schemaType:
+        $ref: ./enums/upload_schema_type.yml
+    version:
+        type: integer
+        format: int64
+        description: |
+            The optimistic locking version of the survey. This value must be submitted as 
+            part of the next update of the model. If it does not match the value on the server, 
+            a 409 error (Conflict) will prevent the update from occurring.
+    fieldDefinitions:
+        type: array
+        items:
+            $ref: ./upload_field_definition.yml
+    published:
+        type: boolean
+        description: |
+            Flag indicating if this upload schema is published or not. If it is published, no one can update it. 
+            To modify a published upload schema, user needs to copy this schema to a new one and then modify it.
+    type:
+        type: string
+        readOnly: true
+        description: "UploadSchema"

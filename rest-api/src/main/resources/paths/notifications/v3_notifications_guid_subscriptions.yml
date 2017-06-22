@@ -1,0 +1,53 @@
+get:
+    operationId: getTopicSubscriptions
+    summary: Get subscription status for all topics using a device registration
+    description: |
+        For every topic in the study, get a status object describing whether or not the caller is 
+        subscribed to that topic.        
+    tags:
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/subscription_status.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml
+post:
+    operationId: subscribeToTopics
+    summary: Subscribe to a set of the topics using a device registration
+    description: |
+        Provide a registration GUID and a set of topic GUIDs. For every topic in the study, either subscribe 
+        or unsubscribe the registration GUID from the topic to bring the caller's subscription into line 
+        with the set provided.
+    tags:
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+        - name: body
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/subscription_request.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/subscription_status.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml
+    

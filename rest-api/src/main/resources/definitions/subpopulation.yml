@@ -1,0 +1,81 @@
+type: object
+description: |
+    A subpopulation in the Bridge server is a group of people who, for the purposes of the study, must agree to a specific 
+    consent in order to participate in a study. (Some consents can be optional; these will not prevent participants from 
+    using Bridge.) For example, a study may have one consent for all participants and a further, optional consent to 
+    contribute genetic information. The user must sign the first consent, and may choose to sign the second consent; 
+    Bridge will track the status of all this and refuse data from a participant who has not signed all required consents.
+
+    * Users are assigned to one or more subpopulations on every request;
+    * Bridge verifies that the user has signed all their required consents;
+    * If they have, they are given access to the system. Their session will include detailed information about their consent status;
+    * If the user's consent is not complete, Bridge returns a 412 response (Precondition Not Met). The JSON in that response will 
+        include a [UserSessionInfo](#UserSessionInfo) object that contains a summary of the user's consent status.
+
+    **Note:** filtering on Bridge is **opt-in**: if a request does not include information like a `User-Agent` 
+    header, then all subpopulations may be assumed to apply to the caller.
+required:
+    - guid
+    - name
+    - criteria
+    - required
+    - defaultGroup
+    - version
+properties:
+    guid:
+        type: string
+        description: |
+            A unique auto-generated identifier for the subpopulation. Usually a GUID (but not always). Cannot be 
+            changed after creation. Used to retrieve the published consent for this subpopulation.
+    name:
+        type: string
+        description: The name of this subpopulation.
+    description:
+        type: string
+        description: The description of this subpopulation.
+    criteria:
+        $ref: ./criteria.yml
+        description: |
+            Optional selection criteria that can be used to determine if a user should be assigned to this 
+            subpopulation or not. If the user does not match a subpopulation, then that subpopulation and its 
+            requirements are invisible to that user. Otherwise the user is in the subpopulation and all its 
+            consent requirements apply.
+    required:
+        type: boolean
+        description: |
+            If true, participants must sign the consent associated with this subpopulation if they are identified 
+            as a member of this subpopulation. Users will receive a 412 response from Bridge if this condition is 
+            not met.
+    defaultGroup:
+        type: boolean
+        description: |
+            If true, this is the default subpopulation created for a study, and it cannot be deleted (although it can be changed, 
+            and even made optional or hidden through the use of criteria).
+    publishedConsentCreatedOn:
+        type: string
+        format: date-time
+        description: |
+            The creation date (ISO 8601 timestamp) of the version of the consent agreement for this subpopulation that is 
+            published, ie. that is presented to users for their signature. The subpopulation guid and this createdOn 
+            timestamp can be used to retrieve the consent document.
+    version:
+        type: integer
+        format: int64
+        description: | 
+            The optimistic locking version of the survey. This value must be submitted as 
+            part of the next update of the model. If it does not match the value on the server, 
+            a 409 error (Conflict) will prevent the update from occurring.
+    consentHTML:
+        type: string
+        description: |
+            The URL to retrieve an HTML version of the published and active version of the consent. This can be 
+            referenced in your mobile app, web site, etc. Publishing a new consent revision will update this document.
+    consentPDF:
+        type: string
+        description: |
+            The URL to retrieve a PDF version of the published and active version of the consent. This can be 
+            referenced in your mobile app, web site, etc. Publishing a new consent revision will update this document.
+    type:
+        type: string
+        readOnly: true
+        description: "Subpopulation"

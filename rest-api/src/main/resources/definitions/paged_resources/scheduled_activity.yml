@@ -1,0 +1,14 @@
+type: object
+readOnly: true
+properties:
+    items:
+        type: array
+        items:
+            $ref: ../scheduled_activity.yml
+    total:
+        type: integer
+        description: The total number of records in the items list
+    type:
+        type: string
+        readOnly: true
+        description: "ResourceList"

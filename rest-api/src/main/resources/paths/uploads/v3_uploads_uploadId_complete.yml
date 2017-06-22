@@ -1,0 +1,25 @@
+post:
+    operationId: completeUploadSession
+    summary: Notify Bridge an upload is complete
+    description: |
+        Notify Bridge an upload is complete. Either a consented user or a worker 
+        process can access this endpoing, but failure to have the worker role will 
+        be treated like a consent error. 
+    tags:
+        - Uploads
+        - _For Workers
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/uploadId
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml
+    

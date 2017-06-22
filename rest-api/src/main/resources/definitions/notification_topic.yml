@@ -1,0 +1,32 @@
+type: object
+required:
+    - name
+properties:
+    guid:
+        description: A unique GUID for this topic
+        type: string
+    name:
+        description: |
+            The name of this topic (visible to developers and researchers in design tools).
+        type: string
+    description:
+        description: |
+            Description of the purpose of this topic (visible to developers and researchers in 
+            design tools).
+        type: string
+    createdOn:
+        description: |
+            The date and time this topic was created.
+        type: string
+        format: date-time
+        readOnly: true
+    modifiedOn:
+        description: |
+            The date and time this topic was last modified.
+        type: string
+        format: date-time
+        readOnly: true
+    type:
+        type: string
+        readOnly: true
+        description: "NotificationTopic"

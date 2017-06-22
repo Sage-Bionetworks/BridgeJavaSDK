@@ -1,0 +1,33 @@
+type: string
+description: |
+    The data type of the answer to a question. The actual value is always submitted in JSON 
+    as a string (so no type conversion occurs inadvertently during transfer); the data type 
+    indicates the intended type of the answer. Each data type has a unique 
+    [Constraints](#Constraints) object with constraints for that type.
+
+    |Type|Description|
+    |---|---|
+    |string|A string value|
+    |integer|An integer value|
+    |decimal|A floating point value|
+    |boolean|A boolean value (true or false)|
+    |date|A date without a time or time zone component|
+    |time|A time without a time zone component|
+    |datetime|A specific date and time in a specific time zone|
+    |duration|*Deprecated.* Use an integer value with a unit instead.|
+    |bloodpressure|Systolic and diastolic systemic arterial pressure|
+    |height|Height measurement|
+    |weight|Weight measurement|
+
+enum:
+    - duration
+    - string
+    - integer
+    - decimal
+    - boolean
+    - date
+    - time
+    - datetime
+    - bloodpressure
+    - height
+    - weight

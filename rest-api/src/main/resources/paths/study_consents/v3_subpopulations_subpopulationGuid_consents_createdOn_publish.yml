@@ -1,0 +1,29 @@
+post:
+    operationId: publishConsent
+    summary: Publish a specific consent revision
+    description: |
+        Publish a specific revision of this subpopulation consent by its creation timestamp. This version of 
+        the consent will be presented to users in order to participate in this subpopulation. If users have 
+        signed any other revision of this consent, the `signedMostRecentConsent` flag in the consent status 
+        record for this consent (in the user's session) will be false. However, the user is still considered to 
+        be consented and will not be shut out of performing operations with a 412 response.
+    tags:
+        - Study Consents
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/subpopulationGuid
+        - name: createdOn
+          description: creation timestamp of the revision
+          type: string
+          format: date-time
+          in: path
+          required: true
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml                  

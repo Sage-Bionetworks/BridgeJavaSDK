@@ -1,0 +1,20 @@
+type: string
+description: |
+    Status of this activity.
+    
+    |Status|Description|
+    |---|---|
+    |scheduled|User should do this activity in the future.|
+    |available|User should do this activity now.|
+    |started|User has started this activity and sent a startedOn timestamp to the server.|
+    |deleted|User had delete the activity (set a finishedOn timestamp with no startedOn timestamp).|
+    |finished|User has finished the task (by sending a finishedOn timestamp to the server). The participant currently should not get these back from the server.|
+    |expired|The activity was not started by the user, but now should no longer be done. The participant currently should not get these back from the server.|
+enum:
+    - deleted
+    - finished
+    - started
+    - expired
+    - scheduled
+    - available
+readOnly: true

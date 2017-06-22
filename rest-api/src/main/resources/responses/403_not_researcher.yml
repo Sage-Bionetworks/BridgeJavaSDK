@@ -1,0 +1,4 @@
+description: |
+    User cannot access this service because they are not a researcher (no researcher role on account).
+schema:
+    $ref: ../definitions/message.yml

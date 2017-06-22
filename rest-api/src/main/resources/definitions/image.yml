@@ -1,0 +1,21 @@
+type: object
+required:
+    - source
+properties:
+    source:
+        type: string
+        description: |
+            An URL to an image. It is strongly recommended that the image be an SVG (vector graphics, 
+            re-scalable to the target device's screen size and resolution), **or** at least 600 by 400 
+            pixels in size, if not larger (some phones have screens of up to 800 or more pixels 
+            across the screen).
+    width:
+        type: integer
+        description: The width of the image in pixels. If image is present, this field is required.
+    height:
+        type: integer
+        description: The height of the image in pixels. If image is present, this field is required.
+    type:
+        type: string
+        readOnly: true
+        description: "Image"

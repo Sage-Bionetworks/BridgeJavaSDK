@@ -1,0 +1,21 @@
+post:
+    operationId: signUp
+    tags: ["Authentication"]
+    description: |
+        Depending on the configuration of the study, the user will normally be sent an email with a link 
+        to verify his or her email address before the account will be activated. If the user account 
+        does not exist, this method will still return 200 in order to prevent "account enumeration" 
+        security breaches.
+
+        Only basic credentials are necessary to sign up (email, password and study), but all the 
+        information that can be provided for a participant's account can be submitted as part of sign up.
+    parameters:
+        - name: SignUp
+          in: body
+          description: Sign up information 
+          required: true
+          schema:
+                $ref: ../../definitions/sign_up.yml
+    responses:
+        201:
+            $ref: ../../responses/201_message.yml

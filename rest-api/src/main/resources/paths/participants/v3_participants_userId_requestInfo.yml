@@ -1,0 +1,23 @@
+get:
+    operationId: getParticipantRequestInfo
+    summary: Get information about the last request made by this participant
+    description: |
+        Retrieves information about the user agent headers and participant settings that were in 
+        effect the last time this participant contacted the Bridge server. Also provides the last 
+        time activities were retrieved and uploads were sent back to the server.
+    tags:
+        - Participants
+        - _For Researchers    
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/request_info.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_researcher.yml                
