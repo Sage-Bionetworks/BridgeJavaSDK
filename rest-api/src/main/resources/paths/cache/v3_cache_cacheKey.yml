@@ -1,0 +1,16 @@
+delete:
+    operationId: deleteCacheKeys
+    summary: Get all the non-session Redis keys
+    tags:
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/cacheKey
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml

@@ -1,0 +1,24 @@
+post:
+    operationId: emailDataToUser
+    summary: Make user's data available for download
+    description: |
+        Asynchronously request the uploaded data for this user, in a given time range (inclusive). 
+        Bridge server will gather the user's data for the given time zone and email a secure link 
+        to the user's registered email address. 
+    tags:
+        - Users
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/startDate
+        - $ref: ../../index.yml#/parameters/endDate
+    responses:
+        202:
+            $ref: ../../responses/202_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml

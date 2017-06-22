@@ -1,0 +1,21 @@
+post:
+    operationId: withdrawAllConsents
+    summary: Withdraw all consents to research for this user, whether currently applicable or not  
+    tags:
+        - Consents
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - name: withdrawal
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/withdrawal.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/user_session_info.yml
+        401:
+            $ref: ../../responses/401.yml

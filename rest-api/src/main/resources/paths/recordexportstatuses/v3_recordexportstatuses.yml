@@ -1,0 +1,24 @@
+post:
+    operationId: updateRecordExportStatuses
+    summary: Updates the status of an export job
+    description: |
+         Updates the status of an export job on the health data records included in that job.
+    tags:
+        - Record Export Statuses
+        - _For Workers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - name: RecordExportStatusRequest
+          in: body
+          description: A record export status request  
+          required: true
+          schema:
+            $ref: ../../definitions/record_export_status_request.yml
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_worker.yml

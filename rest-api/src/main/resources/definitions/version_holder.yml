@@ -1,0 +1,13 @@
+description: |
+    An object that holds the version for a created or updated entity.
+type: object
+properties:
+    version:
+        type: integer
+        format: int64
+        readOnly: true
+        description: The optimistic locking version of the entity.
+    type:
+        type: string
+        readOnly: true
+        description: "VersionHolder"

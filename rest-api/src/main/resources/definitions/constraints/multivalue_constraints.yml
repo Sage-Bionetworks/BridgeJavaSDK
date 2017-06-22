@@ -1,0 +1,31 @@
+description: |
+    A common question type where the participant is given a list of options to choose from. The 
+    UI representation of this question depends in part on whether the participant can select 
+    multiple values, or add another value not included in the list:
+    
+    |uiHint|Description|
+    |---|---|
+    |checkbox, list|`allowMultiple` = true|
+    |combobox|`allowMultiple` = false, `allowOther` = true|
+    |radiobutton, select, slider|`allowMultiple` = false, `allowOther` = false|
+required:
+    - enumeration
+    - dataType
+allOf:
+    - $ref: ./constraints.yml
+    - properties:
+        allowOther:
+            type: boolean
+            description: |
+                True if the user should be able to enter another value besides those provided in the
+                enumeration, false otherwise.
+        allowMultiple:
+            type: boolean
+            description: |
+                Can multiple values be returned as an answer? True if the client should submit multiple
+                values, false otherwise.
+        enumeration:
+            type: array
+            description: The options presented for selection to the user.
+            items:
+                $ref: ../survey_question_option.yml

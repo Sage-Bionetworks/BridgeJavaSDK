@@ -1,0 +1,18 @@
+type: object
+required:
+    - subject
+    - message
+properties:
+    subject:
+        type: string
+        description: |
+            Very short rendition of the notification. For example, this value will be displayed on an 
+            Apple iWatch, where the message is shown for a short time only.
+    message:
+        type: string
+        description: |
+            Full notification message.
+    type:
+        type: string
+        readOnly: true
+        description: "NotificationMessage"

@@ -1,0 +1,23 @@
+type: object
+description: |
+    A participant will receive one of these records for every topic in a study, indicating whether or not 
+    the participant is subscribed to that topic. The list of topics can be used to show the user a UI to 
+    change these subscriptions.
+required:
+    - topicGuid
+    - topicName
+    - subscribed
+properties:
+    topicGuid:
+        type: string
+        readOnly: true
+    topicName:
+        type: string
+        readOnly: true
+    subscribed:
+        type: boolean
+        readOnly: true
+    type:
+        type: string
+        readOnly: true
+        description: "SubscriptionStatus"

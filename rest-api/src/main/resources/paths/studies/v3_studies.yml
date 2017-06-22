@@ -1,0 +1,46 @@
+get:
+    operationId: getStudies
+    summary: Get all studies
+    tags: 
+        - Studies
+        - _For Admins
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - name: summary
+          required: false
+          in: query
+          type: boolean
+          description: |
+            If true, anyone can call this endpoint and return a list of truncated study objects
+            (name and study identifier only). Otherwise, caller must be an admin.
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/study.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml                
+post:
+    operationId: createStudy
+    summary: Create a new study
+    tags:
+        - Studies
+        - _For Admins
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - name: body
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/study.yml
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/version_holder.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml

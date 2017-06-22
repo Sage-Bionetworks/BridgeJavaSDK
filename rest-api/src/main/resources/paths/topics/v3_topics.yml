@@ -1,0 +1,48 @@
+get:
+    operationId: getNotificationTopics
+    summary: Get all the notification topics in this study
+    description: |
+        Return all the topics defined for this study. Participants can be subscribed to topics if they 
+        register for notifications. Researchers can then send push notifications to those users through 
+        the user of a topic.
+    tags:
+        - Notifications
+        - _For Developers
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/notification_topic.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher.yml
+post:
+    operationId: createNotificationTopic
+    summary: Create a notification topic
+    description: |
+        Create a notification topic. No participant is initially subscribed to a topic when it is 
+        created; users must be given the means to subscribe to a topic in the application. 
+    tags:
+        - Notifications
+        - _For Developers
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - name: body
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/notification_topic.yml
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/guid_holder.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

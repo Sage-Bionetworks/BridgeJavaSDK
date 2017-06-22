@@ -1,0 +1,17 @@
+description: |
+    In a [CriteriaScheduleStrategy](#CriteriaScheduleStrategy), a list of ScheduleCriteria objects relate 
+    each schedule to a set of criteria that needs to match the user's request in order to select that 
+    schedule for the user.
+type: object
+required:
+    - criteria
+    - schedule
+properties:
+    criteria:
+        $ref: ./criteria.yml
+    schedule:
+        $ref: ./schedule.yml
+    type:
+        type: string
+        readOnly: true
+        description: "ScheduleCriteria"

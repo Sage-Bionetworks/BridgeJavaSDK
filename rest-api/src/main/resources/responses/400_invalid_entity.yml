@@ -1,0 +1,6 @@
+description: |
+    The submitted JSON payload has validation errors. It must be changed before it can be 
+    sucessfully re-submitted. Individual errors are provided in a map that is keyed to the 
+    JSON object structure. 
+schema:
+    $ref: ../definitions/invalid_entity.yml

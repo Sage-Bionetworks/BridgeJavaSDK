@@ -1,0 +1,22 @@
+description: Information to sign in to the Bridge server.
+type: object
+required:
+    - study
+    - email
+    - password
+properties:
+    study:
+        type: string
+        description: Study identifier of the participant's study
+    email:
+        type: string
+        description: User's email address
+    password:
+        type: string
+        format: password
+        description: User's password
+    type:
+        type: string
+        readOnly: true
+        description: "SignIn"
+        

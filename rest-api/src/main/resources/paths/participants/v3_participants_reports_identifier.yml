@@ -1,0 +1,47 @@
+post:
+    operationId: addParticipantReportRecordForWorker
+    summary: Add a participant report record
+    description: |
+        Endpoint for a worker to add a report record for a participant. Unlike other endpoints, 
+        the worker must provide the healthCode of the target user (this endpoint allows external 
+        processes working with data from Synapse to write reports back to Bridge). 
+    tags:
+        - Reports
+        - _For Workers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/identifier
+        - name: report data
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/report_data_for_worker.yml
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_worker.yml
+delete:
+    operationId: deleteParticipantReportIndex
+    summary: Delete a participant report index
+    description: |
+        Delete a participant report index. These indices can be shared between users so they 
+        are not normally deleted, but this endpoint allows the index identifiers to be deleted 
+        during testing.
+    tags:
+        - Reports
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/identifier
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml

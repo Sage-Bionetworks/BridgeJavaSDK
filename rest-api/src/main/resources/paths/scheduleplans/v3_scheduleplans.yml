@@ -1,0 +1,41 @@
+get:
+    operationId: getSchedulePlans
+    summary: Get schedule plans
+    tags: 
+        - Schedules
+        - _For Developers
+        - _For Researchers
+    security:
+        -   BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/schedule_plan.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher.yml
+post:
+    operationId: createSchedulePlan
+    summary: Create a schedule plan
+    tags: 
+        - Schedules
+        - _For Developers
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - name: body
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/schedule_plan.yml
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/guid_version_holder.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

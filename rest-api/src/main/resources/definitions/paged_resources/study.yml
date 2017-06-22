@@ -1,0 +1,14 @@
+type: object
+readOnly: true
+properties:
+    items:
+        type: array
+        items:
+            $ref: ../study.yml
+    total:
+        type: integer
+        description: The total number of records in the items list
+    type:
+        type: string
+        readOnly: true
+        description: "ResourceList"

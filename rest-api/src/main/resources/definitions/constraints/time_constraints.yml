@@ -1,0 +1,10 @@
+description: |
+    This is an ISO 8601 time value, in 24 hour time, milliseconds and seconds are optional, and there 
+    is no time zone for this value (e.g. 14:45:15.357). This represents a time of the day, regardless 
+    of where the user is, e.g. "I take my medications at 3:00pm every day, whether I'm in Chicago or Tokyo."
+
+    **UI hints:** timepicker.
+required:
+    - dataType
+allOf:
+    - $ref: ./constraints.yml

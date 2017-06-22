@@ -1,0 +1,37 @@
+get:
+    operationId: getAllDefaultConsentRevisions
+    summary: Get all revisions of the consent in a study's default subpopulation 
+    deprecated: true
+    tags:
+        - Consents
+        - _For Developers
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/study_consent.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher.yml
+post:
+    operationId: addNewDefaultConsentRevision
+    summary: Add new consent revision to the study's default subpopulation
+    deprecated: true
+    tags:
+        - Consents
+        - _For Developers    
+    security:
+        - BridgeSecurity: []
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/study_consent.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

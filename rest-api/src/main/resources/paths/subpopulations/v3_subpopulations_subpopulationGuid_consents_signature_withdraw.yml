@@ -1,0 +1,27 @@
+post:
+    operationId: withdrawConsentFromSubpopulation
+    summary: Withdraw participant from this subpopulation consent group 
+    description: |
+        This withdraws the user from only one subpopulation.
+    tags:
+        - Consents
+        - _For Consented Users    
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/subpopulationGuid
+        - name: withdrawal
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/withdrawal.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/user_session_info.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+       

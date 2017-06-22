@@ -1,0 +1,6 @@
+description: |
+    **UI hints:** checkbox, toggle.
+required:
+    - dataType
+allOf:
+    - $ref: ./constraints.yml

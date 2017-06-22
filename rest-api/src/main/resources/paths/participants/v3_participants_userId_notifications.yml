@@ -1,0 +1,24 @@
+get:
+    operationId: getParticipantPushNotificationRegistrations
+    summary: Get a study participant's push notification registrations
+    description: |
+        Get all of a study participant's registrations for push notifications. There can be more than one 
+        of these if the participant has downloaded and installed the app on more than one device. There must 
+        be at least one record in order to send a push notification to the user.
+    tags:
+        - Participants
+        - Notifications
+        - _For Researchers    
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/notification_registration.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_researcher.yml

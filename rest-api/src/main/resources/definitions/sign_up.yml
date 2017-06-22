@@ -1,0 +1,34 @@
+description: |
+    The information necessary to sign up for a Bridge study. **Only the study's ID, an email address, and a password 
+    are required to sign up for a study.** However, all the information of 
+    [AbstractStudyParticipant](#AbstractStudyParticipant) can be submitted at sign up. In some configurations of 
+    the server, for example, an `externalId` value must be submitted at the time of sign up.
+allOf:
+    - $ref: ./abstract_study_participant.yml
+    - type: object
+    - required:
+        - study
+        - email
+        - password
+    - properties:
+        study:
+            type: string
+            description: The study ID of the study the participant is joining.
+        email:
+            type: string
+            description: |
+                The user's email. Users can use the same email for different studies, but their account 
+                is identified by the email within a study.
+        password:
+            type: string
+            format: password
+            description: User's password.
+        consent:
+            type: boolean
+            description: |
+                **Create user API  for admins only.** Create this user consented to all required consents. 
+                For testing purposes only.
+        type:
+            type: string
+            readOnly: true
+            description: "SignUp"

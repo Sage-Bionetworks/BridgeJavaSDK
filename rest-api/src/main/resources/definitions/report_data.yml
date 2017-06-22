@@ -1,0 +1,20 @@
+description:
+    The JSON data for one time point of a report (curently a day expressed in the format YYYY-MM-DD). 
+    Data can be for a study as a whole or a report on a single participant depending on the endpoint 
+    that is used to persist the data in Bridge. 
+type: object
+required:
+    - date
+    - data
+properties:
+    date:
+        type: string
+        format: date
+        description: The date (YYYY-MM-DD) of the report data. 
+    data:
+        type: object
+        description: An arbitrary JSON object containing whatever data should be saved for a report.
+    type:
+        type: string
+        readOnly: true
+        description: "ReportData"

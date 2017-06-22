@@ -1,0 +1,17 @@
+post:
+    operationId: resendEmailVerification
+    tags: ["Authentication"]
+    description: |
+        Resend an email to the provided email address asking the address holder to verify their 
+        address. Whether the email address has been registered or not through sign up, this method
+        will return 200 in order to prevent "account enumeration" security breaches.
+    parameters:
+        - name: EmailVerification
+          in: body
+          description: Email address of participant
+          required: true
+          schema:
+                $ref: ../../definitions/email.yml
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml

@@ -1,0 +1,73 @@
+type: string
+description: |
+    The unit of measurement being used for a numeric value when it is expressing something like 
+    a duration, weight, or length.
+
+    ## Duration
+    |Type|Description|
+    |---|---|
+    |seconds|Seconds|
+    |minutes|Minutes|
+    |hours|Hours|
+    |days|Days|
+    |weeks|Weeks|
+    |months|Months|
+    |years|Years|
+
+    ## Imperial measures
+    |Type|Description|
+    |---|---|
+    |inches|Inches|
+    |feet|Feet|
+    |yards|Yards|
+    |miles|Miles|
+    |ounces|Ounces|
+    |pounds|Pounds|
+    |pints|Pints|
+    |quarts|Quarts|
+    |gallons|Gallons|
+
+    ## Metric measures
+    |Type|Description|
+    |---|---|
+    |centimeters|Centimeters|
+    |meters|Meters|
+    |kilometers|Kilometers|
+    |grams|Grams|
+    |kilograms|Kilgrams|
+    |milliliters|Milliliters|
+    |cubic_centimeters|Cubic centimeters (cc)|
+    |liters|Liters|
+    |cubic_meters|Cubic meters (m<sup>3</sup>)|
+
+    ## Pressure measures
+    |Type|Description|
+    |---|---|
+    |millimeters_mercury|Millimeters of Mercury (mmHg)|
+enum:
+    - seconds
+    - minutes
+    - hours
+    - days
+    - weeks
+    - months
+    - years
+    - inches
+    - feet
+    - yards
+    - miles
+    - ounces
+    - pounds
+    - pints
+    - quarts
+    - gallons
+    - centimeters
+    - meters
+    - kilometers
+    - grams
+    - kilograms
+    - milliliters
+    - cubic_centimeters
+    - liters
+    - cubic_meters
+    - millimeters_mercury

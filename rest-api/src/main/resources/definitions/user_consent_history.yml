@@ -1,0 +1,45 @@
+description: | 
+    A record of a complete consent (including both the dates of consent and withdrawal, if applicable);
+readOnly: true
+type: object
+properties:
+    subpopulationGuid:
+        type: string
+        description: The consent group that the participant agreed to participate in.
+    consentCreatedOn:
+        type: string
+        format: date-time
+        description: ISO 8601 date and time that the consent was created on.
+    name:
+        type: string
+        description: Full name as entered by the participant.
+    birthdate:
+        type: string
+        format: date
+        description: ISO 8601 date string (e.g. "YYYY-MM-DD").
+    imageData:
+        type: string
+        format: byte
+        description: The signature image in a base 64 encoding.
+    imageMimeType:
+        type: string
+        description: The IANA mime type indicator for the image (e.g. "image/png").
+    signedOn:
+        type: string
+        format: date-time
+        description: ISO 8601 date and time that the consent was signed by the user.
+    withdrewOn:
+        type: string
+        format: date-time
+        description: |
+            ISO 8601 date and time that the user withdrew the consent, if the user withdrew 
+            from the study (note that later consent records may re-enroll the user in the 
+            study; nothing prevents users from joining and quitting the study multiple times).
+    hasSignedActiveConsent:
+        type: boolean
+        description: |
+            True if the user signed the most recently published version of the consent, false otherwise.
+    type:
+        type: string
+        readOnly: true
+        description: "UserConsentHistory"
