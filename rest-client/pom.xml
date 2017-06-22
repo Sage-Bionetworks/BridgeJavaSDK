@@ -5,7 +5,7 @@
     <parent>
         <artifactId>sdk-group</artifactId>
         <groupId>org.sagebionetworks.bridge</groupId>
-        <version>0.12.65</version>
+        <version>0.12.68</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -77,19 +77,11 @@
         </dependency>
     </dependencies>
     
-    <distributionManagement>
-        <site>
-            <id>s3.site</id>
-            <url>s3://developer.sagebridge.org/${project.artifactId}/${project.version}</url>
-        </site>    
-    </distributionManagement>
-    
     <reporting>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${javadoc.version}</version>
                 <configuration>
                     <links>
                         <link>http://joda-time.sourceforge.net/apidocs/</link>
@@ -113,14 +105,13 @@
             <plugin>
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-codegen-maven-plugin</artifactId>
-                <version>2.2.1</version>
                 <executions>
                     <execution>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/swagger.json</inputSpec>
+                            <inputSpec>${project.basedir}/../rest-api/target/site/swagger.json</inputSpec>
                             <language>java</language>
                             <library>retrofit2</library>
                             <apiPackage>${package-directory}.api</apiPackage>
@@ -143,7 +134,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.7</version>
                 <executions>
                     <execution>
                         <id>add-source</id>

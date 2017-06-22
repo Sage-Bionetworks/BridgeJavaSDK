@@ -9,6 +9,14 @@ properties:
     guid:
         type: string
         description: A unique GUID for this element of the survey
+    rules:
+        type: array
+        description: |
+            Constraints can include one or more rules about how to progress through the elements of a 
+            survey (e.g. skipping some questions if they are not relevant to the participant, based on 
+            an answer to a question). See [Survey Rule](#SurveyRule) for more information.
+        items:
+            $ref: ./survey_rule.yml
     identifier:
         type: string
         description: |

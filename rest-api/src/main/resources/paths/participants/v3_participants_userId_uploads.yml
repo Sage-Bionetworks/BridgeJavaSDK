@@ -4,9 +4,10 @@ get:
     description: |
         Retrieve information about the uploads from a user. This is particularly useful during 
         development to verify the mobile application is sending valid data back to the Bridge 
-        server. The API can retrieve up to 2 days worth of upload records, defined by the 
-        startTime and endTime timestamps (ISO 8601 format). startTime/endTime are optional and 
-        will default to the last 24 hours of uploads. if the endTime is not provided, it will 
+        server. The API can retrieve any number of days worth of upload records, defined by the 
+        startTime and endTime timestamps (ISO 8601 format), and paginated using a pageSize and 
+        offsetKey value (null for the first page, but returned with subsequent requests to 
+        retrieve further pages in the time range). If the endTime is not provided, it will 
         be one day after the startTime. If the startTime is not provided, it will be one day 
         before the endTime.
     tags:
@@ -16,16 +17,10 @@ get:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/userId
-        - name: startTime
-          in: query
-          type: string
-          format: date-time
-          description: Defaults to one day ago (24 hours)
-        - name: endTime
-          in: query
-          type: string
-          format: date-time
-          description: Defaults to time stamp for time of request ("now")
+        - $ref: ../../index.yml#/parameters/startTime
+        - $ref: ../../index.yml#/parameters/endTime
+        - $ref: ../../index.yml#/parameters/pageSize
+        - $ref: ../../index.yml#/parameters/offsetKey
     responses:
         200:
             description: OK
