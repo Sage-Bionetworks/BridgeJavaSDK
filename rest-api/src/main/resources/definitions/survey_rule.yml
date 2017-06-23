@@ -41,7 +41,8 @@ properties:
             If specified, the value is a data group that should be added to the survey taker if the 
             rule expression is true, or removed if the rule expression is false. Survey rules 
             that specify `assignDataGroup` do not end evaluation of rules in the list; the engine 
-            should proceed to evaluate and apply the next rule in the list.
+            should proceed to evaluate and apply the next rule in the list. The changes to the user's 
+            data groups should not be applied if the user cancels the survey. 
     type:
         type: string
         readOnly: true

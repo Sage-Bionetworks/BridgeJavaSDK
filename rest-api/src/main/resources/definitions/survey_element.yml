@@ -9,12 +9,22 @@ properties:
     guid:
         type: string
         description: A unique GUID for this element of the survey
-    rules:
+    beforeRules:
         type: array
         description: |
-            Constraints can include one or more rules about how to progress through the elements of a 
+            Survey elements can include one or more rules about how to progress through the elements of a 
+            survey (e.g. skipping a question if the user has been assigned to a specific data group). These 
+            rules are evaluated before the current element and may prevent it from being displayed. See 
+            [Survey Rule](#SurveyRule) for more information.
+        items:
+            $ref: ./survey_rule.yml
+    afterRules:
+        type: array
+        description: |
+            Survey elements can include one or more rules about how to progress through the elements of a 
             survey (e.g. skipping some questions if they are not relevant to the participant, based on 
-            an answer to a question). See [Survey Rule](#SurveyRule) for more information.
+            an answer to a question). These rules are evaluated after the user answers the current 
+            survey question. See [Survey Rule](#SurveyRule) for more information.
         items:
             $ref: ./survey_rule.yml
     identifier:
