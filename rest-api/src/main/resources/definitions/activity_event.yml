@@ -11,7 +11,6 @@ properties:
         type: string
         description: answer value for a question event
     timestamp:
-        type: integer
-        format: int64
-        readOnly: true
-        description: time event occured
+        type: string
+        format: date-time
+        description: ISO 8601 date and time that the event occured

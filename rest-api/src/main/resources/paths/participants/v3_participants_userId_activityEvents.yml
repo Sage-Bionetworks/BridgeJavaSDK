@@ -1,10 +1,10 @@
 get:
     operationId: getActivityEvents
     summary: Get ActivityEvent
-    tags: 
+    tags:
         - ActivityEvents
         - _For Researchers
-    parameters: 
+    parameters:
       - name: userId
         type: string
         required: true
