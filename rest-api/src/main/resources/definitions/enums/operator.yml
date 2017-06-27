@@ -2,14 +2,16 @@ type: string
 description: |
     |Value|Operator meaning|
     |---|---|
-    |eq|equal to|
-    |ne|not equal to|
-    |lt|less than|
-    |gt|greater than|
-    |le|less than or equal to|
-    |ge|greater than or equal to|
+    |eq|answer is equal to value|
+    |ne|answer is not equal equal to value|
+    |lt|answer is less than value|
+    |gt|answer is greater than value|
+    |le|answer is less than or equal to value|
+    |ge|answer is greater than or equal to value|
     |de|user declines to answer this question (it is being skipped)|
     |always|always do this action after showing the question or screen|
+    |any|one of the members of a data group set must be assigned to the survey taker|
+    |all|all of the members of a data group set must be assigned to the survey taker|
 enum:
     - eq
     - ne
@@ -19,3 +21,5 @@ enum:
     - ge
     - de
     - always
+    - any
+    - all
