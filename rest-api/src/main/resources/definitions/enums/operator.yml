@@ -3,7 +3,7 @@ description: |
     |Value|Operator meaning|
     |---|---|
     |eq|answer is equal to value|
-    |ne|answer is not equal equal to value|
+    |ne|answer is not equal to value|
     |lt|answer is less than value|
     |gt|answer is greater than value|
     |le|answer is less than or equal to value|
