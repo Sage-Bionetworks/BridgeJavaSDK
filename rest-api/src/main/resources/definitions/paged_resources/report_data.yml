@@ -1,21 +1,13 @@
 type: object
 readOnly: true
-properties:
-    items:
-        type: array
+allOf:
+    - $ref: ./resource_list.yml
+    - properties:
         items:
-            $ref: ../report_data.yml
-    startDate:
-        type: string
-        format: date
-        description: The start date provided for filtering the content of this request.
-    endDate:
-        type: string
-        format: date
-        description: The end date provided for filtering the content of this request.
-    total:
-        type: integer
-    type:
-        type: string
-        readOnly: true
-        description: "DateRangeResourceList"
+            type: array
+            items:
+                $ref: ../report_data.yml
+        type:
+            type: string
+            readOnly: true
+            description: "DateRangeResourceList"

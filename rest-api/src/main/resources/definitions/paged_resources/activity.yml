@@ -1,20 +1,9 @@
 type: object
 readOnly: true
-properties:
-    items:
-        type: array
+allOf:
+    - $ref: './resource_list.yml'
+    - properties:
         items:
-            $ref: ../scheduled_activity.yml
-    offsetKey:
-        type: string
-        description: If present, the key that should be sent in the next request to page forward one page of records. If null, this is the final page of records
-    pageSize:
-        type: integer
-        description: The page size submitted to the server
-    total:
-        type: integer
-        description: The total number of records that match the criteria (may exceed page size)
-    type:
-        type: string
-        readOnly: true
-        description: "ResourceList"
+            type: array
+            items:
+                $ref: ../scheduled_activity.yml

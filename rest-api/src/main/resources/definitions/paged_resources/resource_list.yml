@@ -1,0 +1,16 @@
+type: object
+discriminator: items
+description: |
+    Any list returned from the Bridge server will be in a resource list payload. This 
+    consists of an items property with an array of the items being returned, and the 
+    request parameters that were submitted to the server to derive the list.
+properties:
+    requestParams:
+        type: object
+        description: Parameters submitted in the request to derive this list.
+        additionalProperties:
+            type: object
+    type:
+        type: string
+        readOnly: true
+        description: "ResourceList"

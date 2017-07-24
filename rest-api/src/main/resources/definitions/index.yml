@@ -193,6 +193,13 @@ Withdrawal:
     $ref: ./withdrawal.yml
 
 # Paged resources
+ResourceList:
+    $ref: ./paged_resources/resource_list.yml
+PagedResourceList:
+    $ref: ./paged_resources/paged_resource_list.yml
+ForwardCursorPagedResourceList:
+    $ref: ./paged_resources/forward_cursor_paged_resource_list.yml
+
 AccountSummaryList:
     $ref: ./paged_resources/account_summary.yml
 ActivityList:

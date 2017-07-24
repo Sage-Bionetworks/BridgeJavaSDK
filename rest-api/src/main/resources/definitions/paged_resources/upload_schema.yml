@@ -1,14 +1,13 @@
 type: object
 readOnly: true
-properties:
-    items:
-        type: array
+allOf:
+    - $ref: ./resource_list.yml
+    - properties:
         items:
-            $ref: ../upload_schema.yml
-    total:
-        type: integer
-        description: The total number of records in the list
-    type:
-        type: string
-        readOnly: true
-        description: "ResourceList"
+            type: array
+            items:
+                $ref: ../upload_schema.yml
+        type:
+            type: string
+            readOnly: true
+            description: "ResourceList"
