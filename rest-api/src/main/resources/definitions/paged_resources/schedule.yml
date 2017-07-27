@@ -7,3 +7,7 @@ allOf:
             type: array
             items:
                 $ref: ../schedule.yml
+        type:
+            type: string
+            readOnly: true
+            description: "ResourceList"

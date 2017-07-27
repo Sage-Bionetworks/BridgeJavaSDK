@@ -7,3 +7,7 @@ allOf:
             type: array
             items:
                 $ref: ../shared_module_metadata.yml
+        type:
+            type: string
+            readOnly: true
+            description: "ResourceList"

@@ -113,6 +113,8 @@ ReportIndex:
     $ref: ./report_index.yml
 RequestInfo:
     $ref: ./request_info.yml
+RequestParams:
+    $ref: ./request_params.yml
 Schedule:
     $ref: ./schedule.yml
 ScheduleCriteria:

@@ -1,0 +1,46 @@
+type: object
+description: |
+    Type-safe object that returns request parameters submitted for a request. Only the values that 
+    are submitted in a request will be returned, the rest will be null.
+properties:
+    pageSize:
+        type: integer
+        format: int32
+    total:
+        type: integer
+        format: int32
+    offsetBy:
+        type: integer
+        format: int32
+    offsetKey:
+        type: string
+    emailFilter:
+        type: string
+    startDate:
+        type: string
+        format: date
+    endDate:
+        type: string
+        format: date
+    startTime:
+        type: string
+        format: date-time
+    endTime:
+        type: string
+        format: date-time
+    scheduledOnStart:
+        type: string
+        format: date-time
+    scheduledOnEnd:
+        type: string
+        format: date-time
+    reportType:
+        $ref: ./enums/report_type.yml
+    idFilter:
+        type: string
+    assignmentFilter:
+        type: boolean
+    type:
+        type: string
+        readOnly: true
+        description: "RequestParams"

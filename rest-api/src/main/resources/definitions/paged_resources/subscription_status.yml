@@ -7,3 +7,7 @@ allOf:
             type: array
             items:
                 $ref: ../subscription_status.yml
+        type:
+            type: string
+            readOnly: true
+            description: "ResourceList"

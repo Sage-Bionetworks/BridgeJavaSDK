@@ -7,3 +7,7 @@ allOf:
             type: array
             items:
                 $ref: ../notification_registration.yml
+        type:
+            type: string
+            readOnly: true
+            description: "ResourceList"

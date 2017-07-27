@@ -7,3 +7,7 @@ allOf:
             type: array
             items:
                 $ref: ../compound_activity_definition.yml
+        type:
+            type: string
+            readOnly: true
+            description: "ResourceList"

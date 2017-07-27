@@ -51,6 +51,11 @@ properties:
         format: date-time
         description: |
             The last recorded time the participant signed in to the server.
+    uploadedOn:
+        type: string
+        format: date-time
+        description: |
+            The last recorded time the participant started an upload to the server.
     timeZone:
         type: string
         description: The user's time zone at the time of the last request.

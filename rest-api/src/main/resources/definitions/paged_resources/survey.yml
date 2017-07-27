@@ -7,3 +7,7 @@ allOf:
             type: array
             items:
                 $ref: ../survey.yml
+        type:
+            type: string
+            readOnly: true
+            description: "ResourceList"

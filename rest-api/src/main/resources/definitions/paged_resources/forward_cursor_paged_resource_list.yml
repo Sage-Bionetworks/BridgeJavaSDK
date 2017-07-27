@@ -6,11 +6,8 @@ description: |
     key to retrieve the next page of records is provided by the `offsetKey` value.
 properties:
     requestParams:
-        type: object
-        description: Parameters submitted in the request to derive this list.
-        additionalProperties:
-            type: object
-    offsetKey:
+        $ref: ../request_params.yml
+    nextPageOffsetKey:
         type: string
         description: |
             The offsetKey to be provided in the next request to get the next page of 
