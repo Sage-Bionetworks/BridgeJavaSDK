@@ -10,6 +10,7 @@ properties:
     answerValue:
         type: string
         description: answer value for a question event
+        readOnly: true
     timestamp:
         type: string
         format: date-time

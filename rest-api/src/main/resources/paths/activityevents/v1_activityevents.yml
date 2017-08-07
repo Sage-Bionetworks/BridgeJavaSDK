@@ -1,9 +1,8 @@
 get:
-    operationId: getSelfActivityEvents
+    operationId: getActivityEvents
     summary: Get ActivityEvent
     description: Gets all activity events for the current user.
     tags: 
-        - ActivityEvents
         - _For Consented Users
     responses:
         200:
@@ -13,7 +12,7 @@ get:
 post:
     operationId: createCustomActivityEvent
     summary: Create a study-specific ActivityEvent
-    description: Create a custom ActivityEvent record. The eventKey must be whitelisted on the Study.
+    description: Create a custom ActivityEvent record. The eventKey must be dfined in the study.
     tags:
         - ActivityEvents
         - _For Consented Users
