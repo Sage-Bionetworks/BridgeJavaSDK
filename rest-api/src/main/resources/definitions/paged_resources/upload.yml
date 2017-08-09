@@ -1,30 +1,9 @@
 type: object
 readOnly: true
-properties:
-    items:
-        type: array
+allOf:
+    - $ref: ./forward_cursor_paged_resource_list.yml
+    - properties:
         items:
-            $ref: ../upload.yml
-    pageSize:
-        type: integer
-        description: maximum number of records in each returned page
-    offsetKey:
-        type: string
-        description: start key for next page 
-    startTime:
-        type: string
-        format: date-time
-        description: The startTime value submitted to the server
-    endTime:
-        type: string
-        format: date-time
-        description: The endTime value submitted to the server
-    hasNext:
-        type: boolean
-        readOnly: true
-        description: True if there is a further page of records, false otherwise
-    type:
-        type: string
-        readOnly: true
-        description: "ForwardCursorPagedResourceList"
-        
+            type: array
+            items:
+                $ref: ../upload.yml

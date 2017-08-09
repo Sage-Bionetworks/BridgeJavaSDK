@@ -1,13 +1,13 @@
 type: object
 readOnly: true
-properties:
-    items:
-        type: array
+allOf:
+    - $ref: ./resource_list.yml
+    - properties:
         items:
-            $ref: ../subscription_status.yml
-    total:
-        type: integer
-    type:
-        type: string
-        readOnly: true
-        description: "ResourceList"
+            type: array
+            items:
+                $ref: ../subscription_status.yml
+        type:
+            type: string
+            readOnly: true
+            description: "ResourceList"

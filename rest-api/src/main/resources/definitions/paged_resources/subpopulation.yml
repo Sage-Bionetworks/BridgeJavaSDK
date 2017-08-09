@@ -1,14 +1,13 @@
 type: object
 readOnly: true
-properties:
-    items:
-        type: array
+allOf:
+    - $ref: ./resource_list.yml
+    - properties:
         items:
-            $ref: ../subpopulation.yml
-    total:
-        type: integer
-        description: The total number of records in the items list.
-    type:
-        type: string
-        readOnly: true
-        description: "ResourceList"
+            type: array
+            items:
+                $ref: ../subpopulation.yml
+        type:
+            type: string
+            readOnly: true
+            description: "ResourceList"

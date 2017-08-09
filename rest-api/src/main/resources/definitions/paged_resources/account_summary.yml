@@ -1,33 +1,10 @@
 type: object
 readOnly: true
 description: Payload returning a list of [AccountSummary](/#AccountSummary) records.
-properties:
-    items:
-        type: array
+allOf:
+    - $ref: ./paged_resource_list.yml
+    - properties:
         items:
-            $ref: ../account_summary.yml
-    offsetBy:
-        type: integer
-        format: int64
-        description: The offsetBy value submitted to the server.
-    pageSize:
-        type: integer
-        description: The page size submitted to the server.
-    emailFilter:
-        type: string
-        description: The email filter submitted to the server
-    startDate:
-        type: string 
-        format: date-time
-        description: The start date filter applied to the createdOn timestamp of the account.
-    endDate:
-        type: string 
-        format: date-time
-        description: The end date filter applied to the createdOn timestamp of the account.
-    total:
-        type: integer
-        description: The total number of records that match the criteria (may exceed page size).
-    type:
-        type: string
-        readOnly: true
-        description: "PagedResourceList"
+            type: array
+            items:
+                $ref: ../account_summary.yml

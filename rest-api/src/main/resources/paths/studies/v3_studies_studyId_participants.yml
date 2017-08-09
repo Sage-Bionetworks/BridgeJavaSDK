@@ -10,8 +10,8 @@ get:
         - $ref: ../../index.yml#/parameters/offsetBy
         - $ref: ../../index.yml#/parameters/pageSize
         - $ref: ../../index.yml#/parameters/emailFilter
-        - $ref: ../../index.yml#/parameters/startDateOpt
-        - $ref: ../../index.yml#/parameters/endDateOpt
+        - $ref: ../../index.yml#/parameters/startTimeOpt
+        - $ref: ../../index.yml#/parameters/endTimeOpt
     responses:
         200:
             description: OK

@@ -1,28 +1,9 @@
 type: object
 readOnly: true
-properties:
-    items:
-        type: array
+allOf:
+    - $ref: ./forward_cursor_paged_resource_list.yml
+    - properties:
         items:
-            $ref: ../external_identifier.yml
-    offsetKey:
-        type: string
-        readOnly: true
-        description: The key that must be passed to the next call of getExternalIds() to move the cursor forward one more page
-    pageSize:
-        type: integer
-        readOnly: true
-        description: The page size submitted to the server
-    hasNext:
-        type: boolean
-        readOnly: true
-        description: True if there is a further page of records, false otherwise
-    idFilter:
-        type: string
-        description: Case-sensitive string that must be found in an external identifier to return it in the results
-    assignmentFilter:
-        type: string
-    type:
-        type: string
-        readOnly: true
-        description: "ForwardCursorPagedResourceList"
+            type: array
+            items:
+                $ref: ../external_identifier.yml
