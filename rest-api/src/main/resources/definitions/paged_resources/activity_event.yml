@@ -5,9 +5,6 @@ properties:
         type: array
         items:
             $ref: ../activity_event.yml
-    total:
-        type: integer
-        description: The total number of records in the items list
     type:
         type: string
         readOnly: true
