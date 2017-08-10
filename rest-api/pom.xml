@@ -3,7 +3,7 @@
     <parent>
         <artifactId>sdk-group</artifactId>
         <groupId>org.sagebionetworks.bridge</groupId>
-        <version>0.13.0</version>
+        <version>0.13.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -32,7 +32,10 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <executable>${basedir}/create-swagger.sh</executable>
+                    <executable>sh</executable>
+                    <arguments>
+                        <argument>${basedir}/create-swagger.sh</argument>
+                    </arguments>
                 </configuration>
             </plugin>
         </plugins>

@@ -83,6 +83,14 @@ properties:
             task known to the application).
         items:
             type: string
+    activityEventKeys:
+        type: array
+        description: |
+            The enumerated activity event keys for timestamps that can be recorded for use when scheduling tasks. These
+            are provided through the UI to prevent errors when creating schedules. These form a whitelist for custom activity
+            events that may be recorded for a participant.
+        items:
+            type: string
     dataGroups:
         type: array
         description: |

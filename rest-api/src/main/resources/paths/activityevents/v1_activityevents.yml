@@ -1,0 +1,27 @@
+get:
+    operationId: getActivityEvents
+    summary: Get ActivityEvent
+    description: Gets all activity events for the current user.
+    tags: 
+        - _For Consented Users
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/activity_event.yml
+post:
+    operationId: createCustomActivityEvent
+    summary: Create a study-specific ActivityEvent
+    description: Create a custom ActivityEvent record. The eventKey must be dfined in the study.
+    tags:
+        - ActivityEvents
+        - _For Consented Users
+    parameters:
+        - name: body
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/custom_activity_event_request.yml
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
