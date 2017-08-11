@@ -23,5 +23,5 @@ post:
           schema:
             $ref: ../../definitions/custom_activity_event_request.yml
     responses:
-        200:
-            $ref: ../../responses/200_message.yml
+        201:
+            $ref: ../../responses/201_message.yml
