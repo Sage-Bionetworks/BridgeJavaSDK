@@ -25,6 +25,12 @@
     $ref: ./activities/v4_activities.yml
 /v3/activities/{activityGuid}:
     $ref: ./activities/v3_activities_activityGuid.yml
+/v4/activities/tasks/{taskId}:
+    $ref: ./activities/v4_activities_tasks_taskId.yml
+/v4/activities/surveys/{surveyGuid}:
+    $ref: ./activities/v4_activities_surveys_surveyGuid.yml
+/v4/activities/compoundactivities/{taskId}:
+    $ref: ./activities/v4_activities_compoundactivities_taskId.yml
 
 # Compound Activity Definitions
 /v3/compoundactivitydefinitions:
@@ -71,6 +77,12 @@
     $ref: ./participants/v3_participants_userId_activityEvents.yml
 /v3/participants/reports/{identifier}:
     $ref: ./participants/v3_participants_reports_identifier.yml
+/v3/participants/{userId}/activities/tasks/{taskId}:
+    $ref: ./participants/v3_participants_userId_activities_tasks_taskId.yml
+/v3/participants/{userId}/activities/surveys/{surveyGuid}:
+    $ref: ./participants/v3_participants_userId_activities_surveys_surveyGuid.yml
+/v3/participants/{userId}/activities/compoundactivities/{taskId}:
+    $ref: ./participants/v3_participants_userId_activities_compoundactivities_taskId.yml
 
 # Shared Modules
 /v3/sharedmodules/{moduleId}/import:

@@ -1,0 +1,25 @@
+get:
+    operationId: getSurveyHistory
+    summary: Get a history of surveys
+    tags:
+        - Activities
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/surveyGuid
+        - $ref: ../../index.yml#/parameters/scheduledOnStart
+        - $ref: ../../index.yml#/parameters/scheduledOnEnd
+        - $ref: ../../index.yml#/parameters/offsetKey
+        - $ref: ../../index.yml#/parameters/pageSize
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/forward_cursor_scheduled_activity.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml
