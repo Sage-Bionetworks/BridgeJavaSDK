@@ -19,7 +19,6 @@ properties:
         description: ISO 8601 date string (e.g. "YYYY-MM-DD").
     imageData:
         type: string
-        format: byte
         description: The signature image in a base 64 encoding.
     imageMimeType:
         type: string
