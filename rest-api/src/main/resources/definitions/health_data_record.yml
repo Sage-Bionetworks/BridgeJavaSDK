@@ -3,6 +3,11 @@ description: |
 readOnly: true
 type: object
 properties:
+    appVersion:
+        type: string
+        description: |
+            App version, as reported by the app. Generally in the form "version 1.0.0, build 2". Must be 48 chars or
+            less.
     createdOn:
         type: string
         format: date-time
@@ -21,6 +26,9 @@ properties:
         description: |
             Arbitrary JSON blob of record metadata, as submitted by the app. For 
             ResearchKit-based apps, this is info.json verbatim.
+    phoneInfo:
+        type: string
+        description: Phone info, for example "iPhone9,3" or "iPhone 5c (GSM)". Must be 48 chars or less.
     schemaId:
         type: string
         description: |

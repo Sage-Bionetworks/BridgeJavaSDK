@@ -1,0 +1,31 @@
+description: Used to submit health data to the synchronous health data API.
+type: object
+properties:
+    appVersion:
+        type: string
+        description: |
+            App version, as reported by the app. Generally in the form "version 1.0.0, build 2". Must be 48 chars or
+            less.
+    createdOn:
+        type: string
+        format: date-time
+        description: ISO timestamp of when the data record was created, as reported by the submitting app
+    data:
+        type: object
+        description: JSON map with key value pairs representing the record's data.
+    phoneInfo:
+        type: string
+        description: Phone info, for example "iPhone9,3" or "iPhone 5c (GSM)". Must be 48 chars or less.
+    schemaId:
+        type: string
+        description: |
+            [UploadSchema](#UploadSchema) ID for the record.
+    schemaRevision:
+        type: integer
+        format: int64
+        description: |
+            [UploadSchema](#UploadSchema) revision for the record.
+    type:
+        type: string
+        readOnly: true
+        description: "HealthDataSubmission"
