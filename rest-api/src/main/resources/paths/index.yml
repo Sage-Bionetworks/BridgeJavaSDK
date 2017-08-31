@@ -38,6 +38,10 @@
 /v3/compoundactivitydefinitions/{taskId}:
     $ref: ./compoundactivitydefinitions/v3_compoundactivitydefinitions_taskId.yml
 
+# Health Data
+/v3/healthdata:
+    $ref: ./healthdata/v3_healthdata.yml
+
 # Participants
 /v3/participants:
     $ref: ./participants/v3_participants.yml

@@ -89,6 +89,8 @@ GuidVersionHolder:
     $ref: ./guid_version_holder.yml
 HealthDataRecord:
     $ref: ./health_data_record.yml
+HealthDataSubmission:
+    $ref: ./health_data_submission.yml
 IdentifierHolder:
     $ref: ./identifier_holder.yml
 Image:
