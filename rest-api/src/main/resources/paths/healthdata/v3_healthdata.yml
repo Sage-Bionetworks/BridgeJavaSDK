@@ -1,8 +1,9 @@
 post:
     operationId: submitHealthData
-    summary: |
+    summary: Upload health data 
+    description: |
         Synchronous health data API. Used to submit small health data payloads (such as survey responses) without
-        incurring the overhead of creating a bunch of small files to upload to S3.
+        incurring the overhead of creating a bunch of small files to upload to S3.    
     tags:
         - Health Data
         - _For Consented Users
