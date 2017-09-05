@@ -1,0 +1,28 @@
+post:
+    operationId: submitHealthData
+    summary: |
+        Synchronous health data API. Used to submit small health data payloads (such as survey responses) without
+        incurring the overhead of creating a bunch of small files to upload to S3.
+    tags:
+        - Health Data
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - name: HealthDataSubmission
+          in: body
+          description: Health data submitted by the user
+          required: true
+          schema:
+            $ref: ../../definitions/health_data_submission.yml
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/health_data_record.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml
