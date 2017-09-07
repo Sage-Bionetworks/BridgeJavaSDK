@@ -6,7 +6,7 @@ post:
         the worker must provide the healthCode of the target user (this endpoint allows external 
         processes working with data from Synapse to write reports back to Bridge). 
     tags:
-        - Reports
+        - ParticipantReports
         - _For Workers
     security:
         - BridgeSecurity: []
@@ -32,7 +32,7 @@ delete:
         are not normally deleted, but this endpoint allows the index identifiers to be deleted 
         during testing.
     tags:
-        - Reports
+        - ParticipantReports
         - _For Admins
     security:
         - BridgeSecurity: []

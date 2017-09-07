@@ -1,7 +1,8 @@
 description:
-    The JSON data for one time point of a report (curently a day expressed in the format YYYY-MM-DD). 
-    Data can be for a study as a whole or a report on a single participant depending on the endpoint 
-    that is used to persist the data in Bridge. 
+    The JSON data for one time point of a report (either a local date in the format YYYY-MM-DD, or an 
+    ISO 8601 timestamp; report records should all use one or the other format consistently). Data can 
+    be for a study as a whole or a report on a single participant depending on the endpoint that is 
+    used to persist the data in Bridge. 
 type: object
 required:
     - date
@@ -9,8 +10,15 @@ required:
 properties:
     date:
         type: string
+        description: The date (whether local or an ISO timestamp) of the report data. 
+    localDate:
+        type: string
         format: date
-        description: The date (YYYY-MM-DD) of the report data. 
+        description: The date expressed as a LocalDate (YYYY-MM-DD)
+    dateTime:
+        type: string
+        format: date-time
+        description: The date expressed as an ISO 8601 timestamp.
     data:
         type: object
         description: An arbitrary JSON object containing whatever data should be saved for a report.
