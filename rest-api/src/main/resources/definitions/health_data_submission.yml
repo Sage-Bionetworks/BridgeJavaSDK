@@ -25,6 +25,15 @@ properties:
         format: int64
         description: |
             [UploadSchema](#UploadSchema) revision for the record.
+    surveyCreatedOn:
+        type: string
+        format: date-time
+        description: |
+            If the health data is a survey response, this is the createdOn timestamp that specifies the survey version.
+            The timestamp is in ISO8601 format.
+    surveyGuid:
+        type: string
+        description: If the health data is a survey response, this is the GUID that specifies the survey.
     type:
         type: string
         readOnly: true
