@@ -2,7 +2,7 @@ get:
     operationId: getUsersParticipantReportRecords
     summary: Get participant report records
     tags:
-        - Reports
+        - ParticipantReports
         - _For Researchers
     security:
         - BridgeSecurity: []
@@ -20,46 +20,3 @@ get:
             $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_researcher.yml
-post:
-    operationId: addParticipantReportRecord
-    summary: Add a participant report record
-    tags:
-        - Reports
-        - _For Developers
-    security:
-        - BridgeSecurity: []
-    parameters:
-        - $ref: ../../index.yml#/parameters/userId
-        - $ref: ../../index.yml#/parameters/identifier
-        - name: ReportData
-          required: true
-          in: body
-          schema:
-            $ref: ../../definitions/report_data.yml
-
-    responses:
-        201:
-            $ref: ../../responses/201_message.yml
-        401:
-            $ref: ../../responses/401.yml
-        403:
-            $ref: ../../responses/403_not_developer.yml            
-delete:
-    operationId: deleteAllParticipantReportRecords
-    summary: Delete a participant report (all records)
-    tags:
-        - Reports
-        - _For Developers
-        - _For Workers
-    security:
-        - BridgeSecurity: []
-    parameters:
-        - $ref: ../../index.yml#/parameters/userId
-        - $ref: ../../index.yml#/parameters/identifier
-    responses:
-        201:
-            $ref: ../../responses/200_message.yml
-        401:
-            $ref: ../../responses/401.yml
-        403:
-            $ref: ../../responses/403_not_developer_worker.yml
