@@ -1,0 +1,63 @@
+get:
+    operationId: getStudyReportRecordsV4
+    summary: Get study report records
+    tags:
+        - StudyReports
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/identifier
+        - $ref: ../../index.yml#/parameters/startTime
+        - $ref: ../../index.yml#/parameters/endTime
+        - $ref: ../../index.yml#/parameters/offsetKey
+        - $ref: ../../index.yml#/parameters/pageSize
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/forward_cursor_report_data.yml
+        401:
+            $ref: ../../responses/401.yml
+post:
+    operationId: addStudyReportRecord
+    summary: Add a record to a study report
+    tags:
+        - StudyReports
+        - _For Developers
+        - _For Workers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/identifier
+        - name: body
+          description: Report data
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/report_data.yml
+    responses:
+        201:
+            $ref: ../../responses/201_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_worker.yml
+delete:
+    operationId: deleteAllStudyReportRecords
+    summary: Delete a study report (all records)
+    tags:
+        - StudyReports
+        - _For Developers
+        - _For Workers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/identifier
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_worker.yml

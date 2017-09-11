@@ -1,8 +1,8 @@
 get:
-    operationId: getStudyReportIndices
-    summary: Get list of report indices for studies
+    operationId: getParticipantReportIndices
+    summary: Get list of report indices for participants
     tags:
-        - StudyReports
+        - ParticipantReports
         - _For Consented Users
     security:
         - BridgeSecurity: []

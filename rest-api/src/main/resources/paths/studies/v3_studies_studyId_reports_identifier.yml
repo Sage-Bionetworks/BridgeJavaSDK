@@ -5,7 +5,7 @@ get:
         Get public study report records (no authentication is needed, but index for the report must be marked as 
         public or the server will return 404 for the report). Only study reports may be made public.
     tags:
-        - Reports
+        - StudyReports
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
         - $ref: ../../index.yml#/parameters/identifier
@@ -17,13 +17,13 @@ get:
             schema:
                 $ref: ../../definitions/paged_resources/report_data.yml
 post:
-    operationId: saveReportForStudy
+    operationId: saveReportForWorker
     summary: save report for a study
     description: |
          Save a report for a specified study with arbitrary report id given by wokers into bridgePF.
     tags:
         - Studies
-        - Reports
+        - StudyReports
         - _For Workers
     security:
         - BridgeSecurity: []

@@ -224,6 +224,8 @@ NotificationTopicList:
     $ref: ./paged_resources/notification_topic.yml
 ReportDataList:
     $ref: ./paged_resources/report_data.yml
+ForwardCursorReportDataList:
+    $ref: ./paged_resources/forward_cursor_report_data.yml
 ReportIndexList:
     $ref: ./paged_resources/report_index.yml
 ScheduleList:
