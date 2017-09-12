@@ -45,6 +45,15 @@ properties:
             A version number used for optimistic locking of the object these keys represent; this value must be passed 
             back to the server on updates. If the version doesn't match the version in the database, an error will be 
             returned (409 Conflict) and the study will not be saved. 
+    excludeStudyIdInExport:
+        description: |
+            True if the Bridge Exporter should include the studyId prefix in the "originalTable" field in the
+            appVersion (now "Health Data Summary") table in Synapse. This is false for legacy studies for backwards
+            compatibility, but is true for all new studies being created.
+
+            This can only be changed by a Bridge admin. Care should be taken before changing this setting, as it may
+            partition the data in Synapse.
+        type: boolean
     minAgeOfConsent:
         type: integer
         default: 18
