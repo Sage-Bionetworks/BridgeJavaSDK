@@ -45,7 +45,12 @@ properties:
             A version number used for optimistic locking of the object these keys represent; this value must be passed 
             back to the server on updates. If the version doesn't match the version in the database, an error will be 
             returned (409 Conflict) and the study will not be saved. 
-    excludeStudyIdInExport:
+    minAgeOfConsent:
+        type: integer
+        default: 18
+        description: |
+            The minimum required age for participants in the study. If the user reports they are younger than this age, they will not be allowed to consent to the research.
+    studyIdExcludedInExport:
         description: |
             True if the Bridge Exporter should include the studyId prefix in the "originalTable" field in the
             appVersion (now "Health Data Summary") table in Synapse. This is false for legacy studies for backwards
@@ -54,11 +59,6 @@ properties:
             This can only be changed by a Bridge admin. Care should be taken before changing this setting, as it may
             partition the data in Synapse.
         type: boolean
-    minAgeOfConsent:
-        type: integer
-        default: 18
-        description: |
-            The minimum required age for participants in the study. If the user reports they are younger than this age, they will not be allowed to consent to the research.
     synapseDataAccessTeamId:
         type: integer
         format: int64
