@@ -28,6 +28,15 @@ properties:
         description: |
             An ISO 8601 duration, describing the period in days between tasks (it can be days, weeks, months or 
             even years, but should not be smaller than a day). If this is used, cronTrigger should not be used.
+    sequencePeriod:
+        type: string
+        description: |
+            A recurring schedule can specify a sequence in a crossover study design. The sequence starts 
+            from the triggering event, plus any delay, and continues until the end of the period. For example, 
+            if you have a recurring schedule that repeats daily, a `sequencePeriod` of 1 day (P1D) would 
+            generate one activity. If you set `sequencePeriod` to P2D, you will get two activities. Note that 
+            this is true regardless of whether or not there is a delay. Washout periods between sequences can 
+            be specified by delaying the execution of the next sequence.
     expires:
         type: string
         description: |
