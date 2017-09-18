@@ -1,0 +1,46 @@
+get:
+    operationId: getAppConfigs
+    summary: Get a list of the study's app configurations
+    tags:
+        - AppConfigs
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    description: |
+        Get all the app configuration objects for this study.
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/app_config.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+post:
+    operationId: createAppConfig
+    summary: Create a new app config
+    tags:
+        - AppConfigs
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    description: |
+        Create a new app configuration object. If you submit an existing app configuration to this 
+        endpoint, it will be copied.
+    parameters:
+        - name: AppConfig
+          in: body
+          description: Updated app configuration 
+          required: true
+          schema:
+              $ref: ../../definitions/app_config.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/guid_version_holder.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
