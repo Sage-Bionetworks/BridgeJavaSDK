@@ -4,6 +4,7 @@ get:
     tags: 
         - Studies
         - _For Admins
+        - _For Workers
     security:
         -   BridgeSecurity: []
     parameters:
@@ -14,7 +15,7 @@ get:
             schema:
                 $ref: ../../definitions/study.yml
         403:
-            $ref: ../../responses/403_not_admin.yml                
+            $ref: ../../responses/403_not_admin_worker.yml
 post:
     operationId: updateStudy
     summary: Update a study
