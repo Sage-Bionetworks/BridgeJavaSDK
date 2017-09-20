@@ -26,6 +26,16 @@ properties:
         description: |
             The email address for a technical contact who can coordinate with the Bridge Server team on technical 
             issues (client or server). This can be a comma-separated list of email addresses.
+    uploadMetadataFieldDefinitions:
+        type: array
+        description: |
+            Metadata fields can be configured for any study. This metadata will be implicitly added to every schema and
+            automatically added to every Synapse table.
+
+            All metadata field definitions are implicitly optional. The "required" field in metadata field definitions
+            is ignored.
+        items:
+            $ref: ./upload_field_definition.yml
     consentNotificationEmail:
         type: string
         description: |
