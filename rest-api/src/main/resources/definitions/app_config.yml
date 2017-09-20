@@ -2,6 +2,18 @@ description: |
     An app configuration object.
 type: object
 properties:
+    label:
+        type: string
+    createdOn:
+        type: string
+        format: date-time
+        readOnly: true
+        description: The date and time the app config was created.
+    modifiedOn:
+        type: string
+        format: date-time
+        readOnly: true
+        description: The date and time the app config was last modified.
     guid:
         type: string
     criteria:
