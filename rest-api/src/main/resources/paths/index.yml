@@ -280,6 +280,14 @@
 /v3/studies/{studyId}/participants/{userId}:
     $ref: ./studies/v3_studies_studyId_participants_userId.yml
 
+# AppConfig
+/v3/appconfigs:
+    $ref: ./appconfigs/v3_appconfigs.yml
+/v3/appconfigs/self:
+    $ref: ./appconfigs/v3_appconfigs_self.yml
+/v3/appconfigs/{guid}:
+    $ref: ./appconfigs/v3_appconfigs_guid.yml
+
 # Cache Management
 /v3/cache:
     $ref: ./cache/v3_cache.yml

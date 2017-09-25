@@ -1,0 +1,49 @@
+description: |
+    An app configuration object.
+type: object
+properties:
+    label:
+        type: string
+    createdOn:
+        type: string
+        format: date-time
+        readOnly: true
+        description: The date and time the app config was created.
+    modifiedOn:
+        type: string
+        format: date-time
+        readOnly: true
+        description: The date and time the app config was last modified.
+    guid:
+        type: string
+    criteria:
+        $ref: ./criteria.yml
+        description: |
+            Optional selection criteria that can be used to determine if an app should receive this configuration 
+            record or not. It is an error for a request to match more or less than one app config record. 
+    clientData:
+        type: object
+        description: |
+            An arbitrary object that will be serialized and stored as JSON using the GSON serialization 
+            mechanisms. In Java this field is an Object; since the type of the object is not known, 
+            the rest-client includes a utility method:
+            ```
+            MyCustomObject data = RestUtils.toType(
+                activity.getClientData(), MyCustomObject.class);
+            ```
+    surveyReferences:
+        type: array
+        items:
+            $ref: ./survey_reference.yml
+    schemaReferences:
+        type: array
+        items:
+            $ref: ./schema_reference.yml
+    version:
+        type: integer
+        format: int64
+        description: |
+            The optimistic locking version of the survey. This value must be submitted as 
+            part of the next update of the model. If it does not match the value on the server, 
+            a 409 error (Conflict) will prevent the update from occurring. It can also serve as a key 
+            to determine if a local cache of `AppConfig` needs to be updated.

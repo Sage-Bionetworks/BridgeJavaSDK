@@ -1,0 +1,70 @@
+get:
+    operationId: getAppConfig
+    summary: Get an app config
+    tags:
+        - AppConfigs
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    description: |
+        Get all the app configuration objects for this study.
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/app_config.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+post:
+    operationId: updateAppConfig
+    summary: Update an existing app config
+    tags:
+        - AppConfigs
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    description: |
+        Update an existing app configuration. If you submit an existing app configuration to this 
+        endpoint, it will be copied.
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+        - name: AppConfig
+          in: body
+          description: Updated app configuration 
+          required: true
+          schema:
+              $ref: ../../definitions/app_config.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/guid_version_holder.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+delete:
+    operationId: deleteAppConfig
+    summary: Delete an app config
+    tags:
+        - AppConfigs
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    description: |
+        Delete an existing configuration object.
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml

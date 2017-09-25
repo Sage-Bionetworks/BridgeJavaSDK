@@ -1,0 +1,11 @@
+type: object
+readOnly: true
+properties:
+    items:
+        type: array
+        items:
+            $ref: ../app_config.yml
+    type:
+        type: string
+        readOnly: true
+        description: "ResourceList"
