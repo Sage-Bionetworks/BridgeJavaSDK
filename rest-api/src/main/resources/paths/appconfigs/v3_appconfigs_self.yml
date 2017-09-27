@@ -17,5 +17,7 @@ get:
                 $ref: ../../definitions/app_config.yml
         401:
             $ref: ../../responses/401.yml
-        403:
-            $ref: ../../responses/403_not_developer.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml
