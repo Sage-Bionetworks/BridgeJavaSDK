@@ -1,5 +1,6 @@
 package org.sagebionetworks.bridge.rest;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.File;
@@ -70,10 +71,10 @@ import retrofit2.http.Url;
  */
 public class RestUtils {
     private static final Joiner JOINER = Joiner.on(",");
-    
     private static final Predicate<String> LANG_PREDICATE = Predicates.and(Predicates.notNull(),
             Predicates.containsPattern(".+"));
-    
+    private static final String BRIDGE_UPLOAD_MIME_TYPE = "application/zip";
+
     // It's unfortunate but we need to specify subtypes for GSON.
 
     private static final RuntimeTypeAdapterFactory<SurveyElement> surveyElementFactory = RuntimeTypeAdapterFactory  
@@ -223,10 +224,11 @@ public class RestUtils {
         }
         return JOINER.join(langs);
     }
-    
+
     /**
-     * Manages the conversation with the Bridge server and Amazon's S3 service to upload an encrypted zip 
-     * file to Bridge. 
+     * Manages the conversation with the Bridge server and Amazon's S3 service to upload an encrypted zip
+     * file to Bridge. This completes the upload in asynchronous mode and returns the UploadSession.
+     *
      * @param usersApi
      *      The ForConsentedUsersApi for the user making the upload
      * @param file
@@ -239,20 +241,63 @@ public class RestUtils {
     public static UploadSession upload(ForConsentedUsersApi usersApi, File file) throws IOException {
         checkNotNull(usersApi, "ForConsentedUsersApi cannot be null");
         checkNotNull(file, "File cannot be null");
+
+        UploadRequest request = makeUploadRequestForFile(file);
+        UploadSession session = usersApi.requestUploadSession(request).execute().body();
+        uploadToS3(file, session.getUrl());
+        usersApi.completeUploadSession(session.getId(), false).execute();
         
+        return session;
+    }
+
+    /**
+     * Creates an upload request for the given file. This method assumes the default content type of "application/zip".
+     *
+     * @param file
+     *         File to upload to Bridge
+     * @return the Bridge upload request
+     * @throws IOException
+     *         IOException if an issue occurs during upload. Callers are responsible for re-trying the upload
+     */
+    public static UploadRequest makeUploadRequestForFile(File file) throws IOException {
+        checkNotNull(file, "File cannot be null");
+
+        // File metadata
         long contentLength = file.length();
         byte[] fileBytes = Files.toByteArray(file);
         String contentMd5 = Base64.encodeBase64String(DigestUtils.md5(fileBytes));
-        
+
+        // Create and return request
         UploadRequest request = new UploadRequest();
         request.setName(file.getName());
         request.setContentLength(contentLength);
         request.setContentMd5(contentMd5);
-        request.setContentType("application/zip");
-        
-        UploadSession session = usersApi.requestUploadSession(request).execute().body();
-        
-        URI uri = URI.create(session.getUrl());
+        request.setContentType(BRIDGE_UPLOAD_MIME_TYPE);
+
+        return request;
+    }
+
+    /**
+     * Uploads the given file to the given S3 URL. This method assumes the default content type of "application/zip".
+     *
+     * @param file
+     *         File to upload to Bridge
+     * @param url
+     *         S3 URL to upload to, generally as returned by Bridge Upload Session
+     * @throws IOException
+     *         IOException if an issue occurs during upload. Callers are responsible for re-trying the upload
+     */
+    public static void uploadToS3(File file, String url) throws IOException {
+        checkNotNull(file, "File cannot be null");
+        checkNotNull(url, "url cannot be null");
+        checkArgument(!url.isEmpty(), "url cannot be empty");
+
+        // File metadata
+        byte[] fileBytes = Files.toByteArray(file);
+        String contentMd5 = Base64.encodeBase64String(DigestUtils.md5(fileBytes));
+
+        // Construct S3 client
+        URI uri = URI.create(url);
         String baseUrl = uri.getScheme()+"://"+uri.getHost()+"/";
 
         OkHttpClient client = new OkHttpClient.Builder()
@@ -268,12 +313,10 @@ public class RestUtils {
 
         S3Service s3service = retrofit.create(S3Service.class);
 
-        RequestBody body = RequestBody.create(MediaType.parse(request.getContentType()), file);
+        RequestBody body = RequestBody.create(MediaType.parse(BRIDGE_UPLOAD_MIME_TYPE), file);
 
-        s3service.uploadToS3(session.getUrl(), body, request.getContentMd5(), request.getContentType()).execute();
-        usersApi.completeUploadSession(session.getId()).execute();
-        
-        return session;
+        // Upload
+        s3service.uploadToS3(url, body, contentMd5, BRIDGE_UPLOAD_MIME_TYPE).execute();
     }
 
     /**
