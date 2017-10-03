@@ -3,7 +3,8 @@ post:
     tags: ["Authentication"]
     description: |
         Does not require authentication. Using the token supplied via a link in an email, request 
-        a session from the server. Not enabled for all studies.
+        a session from the server. This form of authentication can also optionally change the 
+        password on the account. Not enabled for all studies.
     parameters:
         - name: EmailSignIn
           in: body
