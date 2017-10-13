@@ -71,6 +71,9 @@ properties:
         description: The user's data groups at the time of this upload's submission.
         items:
             type: string
+    validationErrors:
+        type: string
+        description: Error messages related to upload validation. Only generated if UploadValidationStrictness is set to REPORT.
     version:
         type: integer
         format: int64
