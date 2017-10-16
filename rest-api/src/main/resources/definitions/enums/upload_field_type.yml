@@ -10,7 +10,11 @@ description: |
     |calendar_date|Date (no time of day)|
     |timestamp|Date &amp; Time (a timestamp)|
     |float|Decimal|
+    |inline_json_blob|Writes a small JSON blob inline into the health data table.|
     |int|Integer|
+    |large_text_attachment|A value that is written to Synapse as a LargeText (unbounded String), but stored in Bridge as an attachment.|
+    |multi_choice|A JSON array of strings, representing answers to a multiple choice question that allows multiple selections.|
+    |single_choice|A string representing the answer to a multiple choice question that allows only a single selection.|
     |string|String. When selected, `maxLength` and `unboundedText` can refine the field definition|
     |time_v2|Time of Day (no date or timezone)|
     |attachment_blob|Deprecated|
@@ -18,9 +22,6 @@ description: |
     |attachment_json_blob|Deprecated|
     |attachment_json_table|Deprecated|
     |duration_v2|Deprecated|
-    |inline_json_blob|Deprecated|
-    |multi_choice|Deprecated|
-    |single_choice|Deprecated|
 enum:
     - attachment_blob
     - attachment_csv
@@ -33,6 +34,7 @@ enum:
     - float
     - inline_json_blob
     - int
+    - large_text_attachment
     - multi_choice
     - single_choice
     - string
