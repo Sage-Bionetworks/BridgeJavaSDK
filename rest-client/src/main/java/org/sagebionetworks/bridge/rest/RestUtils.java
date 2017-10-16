@@ -58,6 +58,7 @@ import com.google.gson.GsonBuilder;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -74,6 +75,7 @@ public class RestUtils {
     private static final Predicate<String> LANG_PREDICATE = Predicates.and(Predicates.notNull(),
             Predicates.containsPattern(".+"));
     private static final String BRIDGE_UPLOAD_MIME_TYPE = "application/zip";
+    private static final String HTTP_METHOD_POST = "POST";
 
     // It's unfortunate but we need to specify subtypes for GSON.
 
