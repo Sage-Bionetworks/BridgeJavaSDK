@@ -2,6 +2,7 @@ package org.sagebionetworks.bridge.rest;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
@@ -162,6 +163,29 @@ public class UserSessionInfoProviderTest {
         
         assertEquals(userSessionInfo, provider.getSession());
         verify(authenticationApi).reauthenticate(any(ReauthenticateRequest.class));
+    }
+    
+    @Test
+    public void everythingGoesWrongOnAuthentication() throws Exception {
+        // Neither call works. 
+        doReturn(call2).when(authenticationApi).reauthenticate(any(ReauthenticateRequest.class));
+        doReturn(call2).when(authenticationApi).signIn(any(SignIn.class));
+        doThrow(new AuthenticationFailedException("message", "endpoint")).when(call2).execute();
+
+        doReturn(response).when(call).execute();
+        doReturn(userSessionInfo).when(response).body();
+        
+        userSessionInfo.setReauthToken("reauthToken");
+        provider.setSession(userSessionInfo);
+        
+        try {
+            provider.reauthenticate();
+            fail("This should have thrown an exception");
+        } catch(AuthenticationFailedException e) {
+            // Not clear if the framework will loop on this, however.
+        }
+        verify(authenticationApi, times(1)).reauthenticate(any(ReauthenticateRequest.class));
+        verify(authenticationApi, times(1)).signIn(any(SignIn.class));
     }
     
     @Test
