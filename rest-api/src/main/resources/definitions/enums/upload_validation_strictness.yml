@@ -1,0 +1,13 @@
+type: string
+description: |
+    Enumeration of upload validation strictness settings.
+
+    |Setting|Description|
+    |---|---|
+    |warning|The default setting, which is to log a warning into the Bridge Server logs.|
+    |report|In addition to logging a warning, this writes a validation message back into the health data record and exports that message to Synapse.|
+    |strict|Throws an error if validation fails.|
+enum:
+    - warning
+    - report
+    - strict

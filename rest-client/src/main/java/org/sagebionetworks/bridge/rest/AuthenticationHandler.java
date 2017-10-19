@@ -33,7 +33,7 @@ class AuthenticationHandler implements Interceptor, Authenticator {
     @Override
     public Request authenticate(Route route, Response response) throws IOException {
         // We received a 401 from the server... attempt to reauthenticate.
-        if (requiresAuth(response.request())) {
+        if (requiresAuth(response.request(), false)) {
             userSessionInfoProvider.reauthenticate();    
             // We should now be able to proceed with session headers.
             return addBridgeHeaders(response.request());
@@ -46,15 +46,15 @@ class AuthenticationHandler implements Interceptor, Authenticator {
         Request request = chain.request();
         
         // Basically, everything in the auth controller can skip a session token, except for sign out
-        if (requiresAuth(request)) {
+        if (requiresAuth(request, true)) {
             request = addBridgeHeaders(request);
         }
         return chain.proceed(request);
     }
     
-    private boolean requiresAuth(Request request) {
+    private boolean requiresAuth(Request request, boolean includeSignOut) {
         String url = request.url().toString();
-        return (!url.contains(AUTH_PATH) || url.endsWith(SIGN_OUT_PATH));
+        return (!url.contains(AUTH_PATH) || (includeSignOut && url.endsWith(SIGN_OUT_PATH)));
     }
 
     private Request addBridgeHeaders(Request request) throws IOException {

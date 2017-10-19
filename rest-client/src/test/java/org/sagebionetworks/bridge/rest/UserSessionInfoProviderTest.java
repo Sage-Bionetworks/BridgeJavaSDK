@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
@@ -16,6 +17,7 @@ import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.sagebionetworks.bridge.rest.api.AuthenticationApi;
+import org.sagebionetworks.bridge.rest.exceptions.AuthenticationFailedException;
 import org.sagebionetworks.bridge.rest.exceptions.ConsentRequiredException;
 import org.sagebionetworks.bridge.rest.exceptions.EntityNotFoundException;
 import org.sagebionetworks.bridge.rest.model.ReauthenticateRequest;
@@ -107,7 +109,7 @@ public class UserSessionInfoProviderTest {
     }
     
     @Test
-    public void failureToReauthenticateSignsIn() throws Exception {
+    public void failureToReauthenticate404SignsIn() throws Exception {
         doReturn(call2).when(authenticationApi).reauthenticate(any(ReauthenticateRequest.class));
         doThrow(new EntityNotFoundException("message", "endpoint")).when(call2).execute();
 
@@ -121,8 +123,27 @@ public class UserSessionInfoProviderTest {
         provider.reauthenticate();
         
         assertEquals(userSessionInfo, provider.getSession());
-        verify(authenticationApi).reauthenticate(any(ReauthenticateRequest.class));
-        verify(authenticationApi).signIn(signInCaptor.capture());
+        verify(authenticationApi, times(1)).reauthenticate(any(ReauthenticateRequest.class));
+        verify(authenticationApi, times(1)).signIn(signInCaptor.capture());
+    }
+    
+    @Test
+    public void failureToReauthenticate401SignsIn() throws Exception {
+        doReturn(call2).when(authenticationApi).reauthenticate(any(ReauthenticateRequest.class));
+        doThrow(new AuthenticationFailedException("", "endpoint")).when(call2).execute();
+
+        doReturn(call).when(authenticationApi).signIn(any(SignIn.class));
+        doReturn(response).when(call).execute();
+        doReturn(userSessionInfo).when(response).body();
+        
+        userSessionInfo.setReauthToken("reauthToken");
+        provider.setSession(userSessionInfo);
+        
+        provider.reauthenticate();
+        
+        assertEquals(userSessionInfo, provider.getSession());
+        verify(authenticationApi, times(1)).reauthenticate(any(ReauthenticateRequest.class));
+        verify(authenticationApi, times(1)).signIn(signInCaptor.capture());
     }
     
     @Test
@@ -153,5 +174,4 @@ public class UserSessionInfoProviderTest {
         assertEquals(userSessionInfo, provider.getSession());
         verify(authenticationApi).signIn(any(SignIn.class));
     }    
-    
 }

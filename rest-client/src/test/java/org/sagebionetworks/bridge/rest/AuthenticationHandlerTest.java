@@ -94,7 +94,7 @@ public class AuthenticationHandlerTest {
         when(userSessionInfoProvider.retrieveSession()).thenReturn(session);
         
         when(response.request()).thenReturn(request);
-        when(url.toString()).thenReturn("/v3/auth/signOut");
+        when(url.toString()).thenReturn("/v3/schedules");
         when(request.url()).thenReturn(url);
         when(request.newBuilder()).thenReturn(builder);
         when(builder.header(anyString(), anyString())).thenReturn(builder);
@@ -105,6 +105,23 @@ public class AuthenticationHandlerTest {
         assertNotNull(request);
         verify(userSessionInfoProvider).reauthenticate();
         verify(builder).header(HeaderInterceptor.BRIDGE_SESSION, "sessionToken");
+    }
+    
+    @Test
+    public void after401YouDoNotNeedSessionTokenToSignOut() throws Exception {
+        UserSessionInfo session = new UserSessionInfo().sessionToken("sessionToken");
+        when(userSessionInfoProvider.retrieveSession()).thenReturn(session);
+        
+        when(response.request()).thenReturn(request);
+        when(url.toString()).thenReturn("/v3/auth/signOut");
+        when(request.url()).thenReturn(url);
+        when(request.newBuilder()).thenReturn(builder);
+        when(builder.header(anyString(), anyString())).thenReturn(builder);
+        when(builder.build()).thenReturn(request);
+        
+        Request request = authHandler.authenticate(route, response);
+        
+        assertNull(request);
     }
     
     @Test

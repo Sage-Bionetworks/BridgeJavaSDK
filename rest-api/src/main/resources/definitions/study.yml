@@ -36,6 +36,8 @@ properties:
             is ignored.
         items:
             $ref: ./upload_field_definition.yml
+    uploadValidationStrictness:
+        $ref: ./enums/upload_validation_strictness.yml
     consentNotificationEmail:
         type: string
         description: |
