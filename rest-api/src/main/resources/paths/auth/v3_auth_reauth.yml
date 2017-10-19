@@ -1,16 +1,17 @@
 post:
-    operationId: signInViaEmail
+    operationId: reauthenticate
     tags: ["Authentication"]
     description: |
-        Does not require authentication. Using the token supplied via a link in an email, request 
-        a session from the server. Not enabled for all studies.
+        Using the reauthentication token supplied with a new session, request a new session from 
+        the server. Updates the session's timeout value, and issues a new reauthentication token. 
+        Reauthentication tokens can only be used one time. 
     parameters:
-        - name: EmailSignIn
+        - name: ReauthenticateRequest
           in: body
           description: Information to authenticate with the server
           required: true
           schema:
-                $ref: ../../definitions/email_signin.yml
+                $ref: ../../definitions/reauthenticate_request.yml
     responses:
         200:
             description: OK

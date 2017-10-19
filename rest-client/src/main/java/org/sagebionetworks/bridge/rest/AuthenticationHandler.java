@@ -1,96 +1,73 @@
 package org.sagebionetworks.bridge.rest;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.io.IOException;
 
-import com.google.common.base.Strings;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.sagebionetworks.bridge.rest.model.SignIn;
 import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
-
-import com.google.common.base.Preconditions;
 
 import okhttp3.Authenticator;
 import okhttp3.Interceptor;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.Route;
 
 /**
- * Authenticates a user with Bridge: retrieves session and attaches token to header.
+ * Intercepts authentication error responses and re-acquires a session. NOTE: This handler is not currently registered
+ * by the ApiClientProvider to handle authentication, because no integration test indicates that it is needed. When we
+ * detect a session is missing, we reauthenticate using the UserSessionInfoProvider. It may be that this is needed when
+ * a session times out on the server, if so, no test currently simulates this behavior.
  */
-class AuthenticationHandler implements Authenticator, Interceptor {
-    private static final Logger LOG = LoggerFactory.getLogger(AuthenticationHandler.class);
-    private static final int MAX_TRIES = 3;
+class AuthenticationHandler implements Interceptor, Authenticator {
 
-    private final SignIn signIn;
+    private static final String SIGN_OUT_PATH = "/signOut";
+    private static final String AUTH_PATH = "/auth/";
+    
     private final UserSessionInfoProvider userSessionInfoProvider;
 
-    private UserSessionInfo userSession;
-    private int tryCount;
-
-    /**
-     * @param signIn
-     *         credentials for the user
-     * @param userSessionInfoProvider
-     *         for retrieving the user's session
-     */
-    public AuthenticationHandler(SignIn signIn, UserSessionInfoProvider userSessionInfoProvider) {
-        Preconditions.checkNotNull(signIn);
-        Preconditions.checkNotNull(userSessionInfoProvider);
-        this.signIn = signIn;
+    public AuthenticationHandler(UserSessionInfoProvider userSessionInfoProvider) {
+        checkNotNull(userSessionInfoProvider);
         this.userSessionInfoProvider = userSessionInfoProvider;
     }
-
-
+    
     @Override
-    public okhttp3.Request authenticate(Route route, okhttp3.Response response) throws IOException {
-        // if we reach this part of the code, the server had returned a 401 and userSession is
-        // invalid
-        userSessionInfoProvider.purgeCachedSession(this.userSession);
-        this.userSession = null;
-
-        if (tryCount >= MAX_TRIES || !isValidSignIn(signIn)) {
-            LOG.info("Maximum retries reached");
-            this.tryCount = 0;
-
-            // returning null terminates the request chain and propagates the 401
-            return null;
+    public Request authenticate(Route route, Response response) throws IOException {
+        // We received a 401 from the server... attempt to reauthenticate.
+        if (requiresAuth(response.request(), false)) {
+            userSessionInfoProvider.reauthenticate();    
+            // We should now be able to proceed with session headers.
+            return addBridgeHeaders(response.request());
         }
-        tryCount++;
-
-        userSession = userSessionInfoProvider.retrieveSession(signIn);
-
-        // interceptor was already triggered for this request and failed to authenticate
-        // add headers again, now that we've retrieved a session again
-        return addBridgeHeaders(response.request());
-    }
-
-    private boolean isValidSignIn(SignIn signIn) {
-        return signIn != null && !Strings.isNullOrEmpty(signIn.getEmail()) && !Strings
-                .isNullOrEmpty(signIn.getPassword());
+        return null;
     }
 
     @Override
-    public okhttp3.Response intercept(Chain chain) throws IOException {
-        okhttp3.Response response = chain.proceed(addBridgeHeaders(chain.request()));
-
-        // if we reach this part of the code, we didn't get a 401 and the authenticator did its job
-        this.tryCount = 0;
-
-        return response;
+    public Response intercept(Chain chain) throws IOException {
+        Request request = chain.request();
+        
+        // Basically, everything in the auth controller can skip a session token, except for sign out
+        if (requiresAuth(request, true)) {
+            request = addBridgeHeaders(request);
+        }
+        return chain.proceed(request);
+    }
+    
+    private boolean requiresAuth(Request request, boolean includeSignOut) {
+        String url = request.url().toString();
+        return (!url.contains(AUTH_PATH) || (includeSignOut && url.endsWith(SIGN_OUT_PATH)));
     }
 
-    private okhttp3.Request addBridgeHeaders(okhttp3.Request request) throws IOException {
+    private Request addBridgeHeaders(Request request) throws IOException {
         String sessionToken = getSessionToken();
-
         if (sessionToken == null) {
             return request;
         }
-        return request.newBuilder().header("Bridge-Session", sessionToken).build();
+        return request.newBuilder().header(HeaderInterceptor.BRIDGE_SESSION, sessionToken).build();
     }
 
     // allow tests to inspect current session token
-    String getSessionToken() {
-        return this.userSession == null ? null : this.userSession.getSessionToken();
+    private String getSessionToken() throws IOException {
+        UserSessionInfo session = this.userSessionInfoProvider.retrieveSession();
+        return (session == null) ? null : session.getSessionToken();
     }
 }

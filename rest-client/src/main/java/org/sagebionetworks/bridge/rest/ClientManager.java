@@ -12,6 +12,7 @@ import com.google.common.collect.ImmutableMap;
 import org.sagebionetworks.bridge.rest.model.ClientInfo;
 import org.sagebionetworks.bridge.rest.model.Environment;
 import org.sagebionetworks.bridge.rest.model.SignIn;
+import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 
 /**
  * <p>ClientManager provides support for configuring API classes using values set via a properties 
@@ -99,6 +100,10 @@ public class ClientManager {
         this.apiClientProvider = provider.get(hostURL, userAgent, acceptLanguage);
     }
 
+    public final UserSessionInfo getSessionOfClients() {
+        return apiClientProvider.getUserSessionInfoProvider(signIn).getSession();
+    }
+    
     public final Config getConfig() {
         return config;
     }
@@ -118,7 +123,7 @@ public class ClientManager {
     public static String getUrl(Environment env) {
         return HOSTS.get(env);
     }
-
+    
     /**
      * @param <T>
      *         One of the Api classes in the org.sagebionetworks.bridge.rest.api package.
@@ -128,6 +133,10 @@ public class ClientManager {
      */
     public <T> T getClient(Class<T> service) {
         return apiClientProvider.getClient(service, signIn);
+    }
+    
+    public <T> T getUnauthenticatedClient(Class<T> service) {
+        return apiClientProvider.getClient(service);
     }
     
     public final static class Builder {

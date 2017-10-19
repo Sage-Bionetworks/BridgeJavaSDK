@@ -9,6 +9,10 @@ import okhttp3.Request.Builder;
  * Attaches headers that are common to all Bridge HTTP requests.
  */
 class HeaderInterceptor implements Interceptor {
+    public static final String BRIDGE_SESSION = "Bridge-Session";
+    public static final String ACCEPT_LANGUAGE = "Accept-Language";
+    public static final String USER_AGENT = "User-Agent";
+    
     private final String userAgent;
     private final String acceptLanguage;
 
@@ -25,10 +29,10 @@ class HeaderInterceptor implements Interceptor {
     public okhttp3.Response intercept(Chain chain) throws IOException {
         Builder builder = chain.request().newBuilder();
         if (userAgent != null) {
-            builder.header("User-Agent", userAgent);    
+            builder.header(USER_AGENT, userAgent);    
         }
         if (acceptLanguage != null) {
-            builder.header("Accept-Language", acceptLanguage);
+            builder.header(ACCEPT_LANGUAGE, acceptLanguage);
         }
         return chain.proceed(builder.build());
     }
