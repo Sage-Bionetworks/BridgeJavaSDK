@@ -10,7 +10,7 @@ post:
           description: Information to authenticate with the server
           required: true
           schema:
-                $ref: ../../definitions/email_signin.yml
+                $ref: ../../definitions/sign_in.yml
     responses:
         200:
             description: OK

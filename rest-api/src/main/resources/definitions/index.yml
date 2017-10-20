@@ -73,8 +73,6 @@ DataGroups:
     $ref: ./data_groups.yml
 Email:
     $ref: ./email.yml
-EmailSignIn:
-    $ref: ./email_signin.yml
 EmailSignInRequest:
     $ref: ./email_signin_request.yml
 EmailTemplate:
