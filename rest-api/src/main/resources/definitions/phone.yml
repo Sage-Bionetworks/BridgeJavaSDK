@@ -1,0 +1,21 @@
+type: object
+description: The user's phone number.
+required:
+    - number
+    - regionCode
+properties:
+    number:
+        type: string
+        description: The phone number (can be formatted in any way that's useful for end users).
+    regionCode:
+        type: string
+        description: CLDR two-letter region code describing the region in which the phone number was issued.
+    nationalFormat:
+        type: string
+        description: |
+          The phone number formatted in the commonly accepted national format of the region code. 
+          This value is read-only.
+    type:
+        type: string
+        readOnly: true
+        description: "Phone"

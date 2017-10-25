@@ -41,6 +41,14 @@ properties:
         format: date-time
         readOnly: true
         description: The date and time the account was created.
+    phone:
+        $ref: ./phone.yml
+    emailVerified:
+        type: boolean
+        description: Has the user verified that they have control of this email address?
+    phoneVerified:
+        type: boolean
+        description: Has the user verified that they have control of this phone number?
     status:
         $ref: ./enums/account_status.yml
     roles:
