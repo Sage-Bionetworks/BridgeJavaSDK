@@ -41,7 +41,7 @@ public class ApiClientProvider {
 
     // To build the ClientManager on this class, we need to have access to the session that is persisted
     // by the HTTP interceptors.
-    UserSessionInfoProvider getUserSessionInfoProvider(SignIn signIn) {
+    public UserSessionInfoProvider getUserSessionInfoProvider(SignIn signIn) {
         return sessionProviders.get(signIn);
     }
     
