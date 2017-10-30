@@ -1,13 +1,16 @@
 package org.sagebionetworks.bridge.rest;
 
-import java.lang.ref.WeakReference;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import org.sagebionetworks.bridge.rest.api.AuthenticationApi;
 import org.sagebionetworks.bridge.rest.model.SignIn;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
+
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -15,58 +18,36 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Base class for creating clients that are correctly configured to communicate with the
  * Bridge server. This class has been designed so that different authentication credentials
- * can be used for different clients retrieved from this provider.
+ * can be used for different clients retrieved from this provider, but note that the core 
+ * features of the client (user agent, accepted languages) are configured once for all clients. 
  */
 public class ApiClientProvider {
-
-    private final OkHttpClient unauthenticatedOkHttpClient;
-    private final Retrofit.Builder retrofitBuilder;
-    private final UserSessionInfoProvider userSessionInfoProvider;
-    private final Map<SignIn, WeakReference<Retrofit>> authenticatedRetrofits;
-    private final Map<SignIn, Map<Class<?>, WeakReference<?>>> authenticatedClients;
+    
+    private static final Interceptor WARNING_INTERCEPTOR = new WarningHeaderInterceptor();
+    private static final Interceptor ERROR_INTERCEPTOR = new ErrorResponseInterceptor();
+    private static final Interceptor LOGGING_INTERCEPTOR = new LoggingInterceptor();
+    
+    private final String baseUrl;
+    private final String userAgent;
+    private final String acceptLanguage;
+    private final Map<SignIn,UserSessionInfoProvider> sessionProviders;
 
     public ApiClientProvider(String baseUrl, String userAgent, String acceptLanguage) {
-        this(baseUrl, userAgent, acceptLanguage, null);
+        this.baseUrl = baseUrl;
+        this.userAgent = userAgent;
+        this.acceptLanguage = acceptLanguage;
+        this.sessionProviders = Maps.newHashMap();
     }
 
-    // allow unit tests to inject a UserSessionInfoProvider
-    ApiClientProvider(String baseUrl, String userAgent, String acceptLanguage, UserSessionInfoProvider
-            userSessionInfoProvider) {
-        authenticatedRetrofits = Maps.newHashMap();
-        authenticatedClients = Maps.newHashMap();
-
-        UserSessionInterceptor sessionInterceptor = new UserSessionInterceptor();
-
-        // Devo may take up to 2 minutes to boot up. Need to set timeouts accordingly so that integration tests succeed
-        // May want to make it possible to configure this value when creating the ApiClientProvider.
-        unauthenticatedOkHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(2, TimeUnit.MINUTES)
-                .readTimeout(2, TimeUnit.MINUTES)
-                .writeTimeout(2, TimeUnit.MINUTES)
-                .addInterceptor(sessionInterceptor)
-                .addInterceptor(new HeaderInterceptor(userAgent, acceptLanguage))
-                .addInterceptor(new WarningHeaderInterceptor())
-                .addInterceptor(new ErrorResponseInterceptor())
-                .addInterceptor(new LoggingInterceptor()).build();
-
-        retrofitBuilder = new Retrofit.Builder().baseUrl(baseUrl)
-                .client(unauthenticatedOkHttpClient)
-                .addConverterFactory(GsonConverterFactory.create(RestUtils.GSON));
-
-        this.userSessionInfoProvider = userSessionInfoProvider != null ? userSessionInfoProvider
-                : new UserSessionInfoProvider(getAuthenticatedRetrofit(null), sessionInterceptor);
+    // To build the ClientManager on this class, we need to have access to the session that is persisted
+    // by the HTTP interceptors.
+    public UserSessionInfoProvider getUserSessionInfoProvider(SignIn signIn) {
+        return sessionProviders.get(signIn);
     }
-
+    
     /**
-     * @return user session info provider backing this instance
-     */
-    public UserSessionInfoProvider getUserSessionInfoProvider() {
-        return userSessionInfoProvider;
-    }
-
-    /**
-     * Creates an unauthenticated client.
-     *
+     * Create an unauthenticated client (this client cannot authenticate automatically, and is only used for 
+     * public APIs not requiring a server user to access). 
      * @param <T>
      *         One of the Api classes in the org.sagebionetworks.bridge.rest.api package.
      * @param service
@@ -74,7 +55,10 @@ public class ApiClientProvider {
      * @return service client
      */
     public <T> T getClient(Class<T> service) {
-        return getClientImpl(service, null);
+        checkNotNull(service);
+        
+        Retrofit client = getRetrofit(getHttpClientBuilder().build());
+        return client.create(service);
     }
 
     /**
@@ -87,83 +71,57 @@ public class ApiClientProvider {
      * @return service client that is authenticated with the user's credentials
      */
     public <T> T getClient(Class<T> service, SignIn signIn) {
-        Preconditions.checkNotNull(signIn);
+        checkNotNull(service);
+        checkNotNull(signIn);
 
-        return getClientImpl(service, signIn);
-    }
-
-    @SuppressWarnings("unchecked")
-    private <T> T getClientImpl(Class<T> service, SignIn signIn) {
         SignIn internalSignIn = RestUtils.makeInternalCopy(signIn);
-
-        Map<Class<?>, WeakReference<?>> userClients = authenticatedClients.get(internalSignIn);
-        if (userClients == null) {
-            userClients = Maps.newHashMap();
-            authenticatedClients.put(internalSignIn, userClients);
-        }
-
-        T authenticateClient = null;
-        WeakReference<?> clientReference = userClients.get(service);
-
-        if (clientReference != null) {
-            authenticateClient = (T) clientReference.get();
-        }
-
-        if (authenticateClient == null) {
-            authenticateClient = getAuthenticatedRetrofit(internalSignIn).create(service);
-            userClients.put(service, new WeakReference<>(authenticateClient));
-        }
-
-        return authenticateClient;
-    }
-
-    private Retrofit getAuthenticatedRetrofit(SignIn signIn) {
-        Retrofit authenticatedRetrofit = null;
-        SignIn internalSignIn = RestUtils.makeInternalCopy(signIn);
-
-        WeakReference<Retrofit> authenticatedRetrofitReference = authenticatedRetrofits.get(internalSignIn);
-        if (authenticatedRetrofitReference != null) {
-            authenticatedRetrofit = authenticatedRetrofitReference.get();
-        }
-
-        if (authenticatedRetrofit == null) {
-            authenticatedRetrofit = createAuthenticatedRetrofit(internalSignIn, null);
-        }
-
-        return authenticatedRetrofit;
-    }
-
-    // default access to allow tests to inject retrofit
-    Retrofit createAuthenticatedRetrofit(SignIn signIn, AuthenticationHandler handler) {
-        SignIn internalSignIn = RestUtils.makeInternalCopy(signIn);
-
-        OkHttpClient.Builder httpClientBuilder = unauthenticatedOkHttpClient.newBuilder();
-
-        if (internalSignIn != null) {
-            AuthenticationHandler authenticationHandler = handler;
-            // this is the normal code path (only tests will inject a handler)
-            if (authenticationHandler == null) {
-                authenticationHandler = new AuthenticationHandler(internalSignIn,
-                        userSessionInfoProvider
-                );
+        
+        // Do not allow more than one session provider to be created for a signIn.
+        UserSessionInfoProvider sessionProvider = null;
+        synchronized(this) {
+            sessionProvider = sessionProviders.get(internalSignIn);
+            if (sessionProvider == null) {
+                sessionProvider = new UserSessionInfoProvider(getClient(AuthenticationApi.class), internalSignIn);
+                sessionProviders.put(internalSignIn, sessionProvider);
             }
-            // Place authenticationHandler first in the chain of interceptors. AuthenticationHandler must come earlier
-            // than userSessionInterceptor, so that userSessionInterceptor has access to authentication headers
-            httpClientBuilder.interceptors().add(0, authenticationHandler);
-            httpClientBuilder.authenticator(authenticationHandler);
         }
+        
+        UserSessionInterceptor sessionInterceptor = new UserSessionInterceptor(sessionProvider);
+        AuthenticationHandler authenticationHandler = new AuthenticationHandler(sessionProvider);
 
-        Retrofit authenticatedRetrofit = retrofitBuilder.client(httpClientBuilder.build()).build();
-        authenticatedRetrofits.put(internalSignIn,
-                new WeakReference<>(authenticatedRetrofit));
+        OkHttpClient.Builder httpClientBuilder = getHttpClientBuilder(sessionInterceptor, authenticationHandler);
+        httpClientBuilder.authenticator(authenticationHandler);
+        Retrofit retrofit = getRetrofit(httpClientBuilder.build());
+        T authenticatingClient = retrofit.create(service);
 
-        return authenticatedRetrofit;
-
+        return authenticatingClient;
     }
-
+    
+    OkHttpClient.Builder getHttpClientBuilder(Interceptor... interceptors) {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder()
+            .connectTimeout(2, TimeUnit.MINUTES)
+            .readTimeout(2, TimeUnit.MINUTES)
+            .writeTimeout(2, TimeUnit.MINUTES);
+        for (Interceptor interceptor : interceptors) {
+            builder.addInterceptor(interceptor);
+        }
+        return builder
+            .addInterceptor(new HeaderInterceptor(userAgent, acceptLanguage))
+            .addInterceptor(WARNING_INTERCEPTOR)
+            .addInterceptor(ERROR_INTERCEPTOR)
+            .addInterceptor(LOGGING_INTERCEPTOR);
+    }
+    
     // allow test access to retrofit builder
-    Retrofit.Builder getRetrofitBuilder() {
-        return retrofitBuilder;
+    Retrofit getRetrofit(OkHttpClient client) {
+        return getRetrofitBuilder()
+            .baseUrl(baseUrl)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create(RestUtils.GSON))
+            .build();
     }
 
+    Retrofit.Builder getRetrofitBuilder() {
+        return new Retrofit.Builder();
+    }
 }

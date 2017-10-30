@@ -1,5 +1,9 @@
 package org.sagebionetworks.bridge.rest;
 
+import static org.sagebionetworks.bridge.rest.HeaderInterceptor.ACCEPT_LANGUAGE;
+import static org.sagebionetworks.bridge.rest.HeaderInterceptor.BRIDGE_SESSION;
+import static org.sagebionetworks.bridge.rest.HeaderInterceptor.USER_AGENT;
+
 import java.io.IOException;
 
 import org.slf4j.Logger;
@@ -16,25 +20,34 @@ import okio.Buffer;
  * set to DEBUG).
  */
 class LoggingInterceptor implements Interceptor {
-
     private static final Logger logger = LoggerFactory.getLogger(LoggingInterceptor.class);
-    
+
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
         if (logger.isDebugEnabled()) {
-            if ("POST".equals(request.method())) {
-                logger.debug(request.method() + " " + request.url().toString() + "\n    "
-                        + redactPasswords(requestBodyToString(request)));
+            // Build one logging statement that is all the headers, content of one request, this is much easier to
+            // follow in the logs.
+            StringBuilder sb = new StringBuilder();
+            sb.append(request.method()+" "+request.url().toString());
+            if (request.header(USER_AGENT) != null) {
+                sb.append("\n    "+USER_AGENT + ": " + request.header(USER_AGENT));
+            }
+            if (request.header(ACCEPT_LANGUAGE) != null) {
+                sb.append("\n    "+ACCEPT_LANGUAGE + ": " + request.header(ACCEPT_LANGUAGE));
+            }
+            if (request.header(BRIDGE_SESSION) != null) {
+                sb.append("\n    "+BRIDGE_SESSION + ": " + request.header(BRIDGE_SESSION));
             } else {
-                logger.debug(request.method()+" "+request.url().toString());
+                sb.append("\n    "+BRIDGE_SESSION + ": <NONE>");
             }
-            if (request.header("User-Agent") != null) {
-                logger.debug("User-Agent: " + request.header("User-Agent"));    
+            if ("POST".equals(request.method())) {
+                String body = requestBodyToString(request);
+                if (body.length() > 0) {
+                    sb.append("\n    "+redactPasswords(body));
+                }
             }
-            if (request.header("Accept-Language") != null) {
-                logger.debug("Accept-Language: " + request.header("Accept-Language"));    
-            }
+            logger.debug(sb.toString());
         }
         Response response = chain.proceed(request);
         if (logger.isDebugEnabled()) {

@@ -28,6 +28,8 @@ UploadStatus:
     $ref: ./enums/upload_status.yml
 UploadSchemaType:
     $ref: ./enums/upload_schema_type.yml
+UploadValidationStrictness:
+    $ref: ./enums/upload_validation_strictness.yml
 SynapseExporterStatus:
     $ref: ./enums/synapse_exporter_status.yml
 ScheduleStatus:
@@ -111,6 +113,10 @@ PasswordPolicy:
     $ref: ./password_policy.yml
 PasswordReset:
     $ref: ./password_reset.yml
+Phone:
+    $ref: ./phone.yml
+ReauthenticateRequest:
+    $ref: ./reauthenticate_request.yml
 RecordExportStatusRequest:
     $ref: ./record_export_status_request.yml
 ReportData:

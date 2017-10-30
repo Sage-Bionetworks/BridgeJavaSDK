@@ -21,10 +21,6 @@ properties:
         description: |
             The token that was embedded in a link, sent in an email, that should be intercepted
             by the app in order to complete sign in.
-    password:
-        type: string
-        description: |
-            The account's password will be updated to this new password, if provided.
     type:
         type: string
         readOnly: true
