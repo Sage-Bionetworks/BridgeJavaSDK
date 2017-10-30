@@ -113,6 +113,8 @@ PasswordPolicy:
     $ref: ./password_policy.yml
 PasswordReset:
     $ref: ./password_reset.yml
+Phone:
+    $ref: ./phone.yml
 ReauthenticateRequest:
     $ref: ./reauthenticate_request.yml
 RecordExportStatusRequest:
