@@ -18,7 +18,7 @@ import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
  * a session doesn't exist (hasn't been captured), it authenticates. The authentication causes the interceptor to 
  * capture the session, then you can return it.
  */
-class UserSessionInfoProvider {
+public class UserSessionInfoProvider {
     private static final Logger LOG = LoggerFactory.getLogger(UserSessionInfoProvider.class);
 
     private final AuthenticationApi authenticationApi;
@@ -33,7 +33,7 @@ class UserSessionInfoProvider {
         this.signIn = signIn;
     }
     
-    synchronized UserSessionInfo getSession() {
+    public synchronized UserSessionInfo getSession() {
         return session;
     }
     
@@ -44,7 +44,7 @@ class UserSessionInfoProvider {
      * @return session info for the user
      * @throws IOException problem while signing in
      */
-    synchronized UserSessionInfo retrieveSession() throws IOException {
+    public synchronized UserSessionInfo retrieveSession() throws IOException {
         if (session != null) {
             return session;
         }
