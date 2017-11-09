@@ -115,6 +115,8 @@ PasswordReset:
     $ref: ./password_reset.yml
 Phone:
     $ref: ./phone.yml
+PhoneSignInRequest:
+    $ref: ./phone_signin_request.yml
 ReauthenticateRequest:
     $ref: ./reauthenticate_request.yml
 RecordExportStatusRequest:
