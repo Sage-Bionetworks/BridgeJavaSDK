@@ -3,7 +3,6 @@ description: |
 type: object
 required:
     - name
-    - shortName
     - sponsorName
     - supportEmail
     - technicalEmail
