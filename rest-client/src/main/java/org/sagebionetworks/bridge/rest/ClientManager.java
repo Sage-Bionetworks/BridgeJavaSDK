@@ -101,7 +101,8 @@ public class ClientManager {
     }
 
     public final UserSessionInfo getSessionOfClients() {
-        return apiClientProvider.getUserSessionInfoProvider(signIn).getSession();
+        UserSessionInfoProvider provider = apiClientProvider.getUserSessionInfoProvider(signIn);
+        return (provider == null) ? null : provider.getSession();
     }
     
     public final Config getConfig() {
@@ -228,8 +229,6 @@ public class ClientManager {
             }
             checkNotNull(signIn, "Sign in must be supplied to ClientManager builder.");
             checkNotNull(signIn.getStudy(), "Sign in must have a study identifier.");
-            checkNotNull(signIn.getEmail(), "Sign in must specify an email address.");
-            checkNotNull(signIn.getPassword(), "Sign in must specify a password.");
             if (this.config == null) {
                 this.config = new Config();
             }
