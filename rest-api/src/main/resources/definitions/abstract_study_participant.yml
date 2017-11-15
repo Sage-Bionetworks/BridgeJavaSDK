@@ -41,8 +41,6 @@ properties:
         format: date-time
         readOnly: true
         description: The date and time the account was created.
-    phone:
-        $ref: ./phone.yml
     emailVerified:
         type: boolean
         description: Has the user verified that they have control of this email address?

@@ -11,6 +11,8 @@ properties:
     email:
         type: string
         description: User's email address
+    phone:
+        $ref: ./phone.yml
     password:
         type: string
         format: password

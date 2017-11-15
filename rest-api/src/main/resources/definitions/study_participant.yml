@@ -12,6 +12,8 @@ allOf:
         email:
             type: string
             description: The user's email.
+        phone:
+            $ref: ./phone.yml
         consentHistories:
             type: object
             readOnly: true

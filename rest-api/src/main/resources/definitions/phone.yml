@@ -12,6 +12,7 @@ properties:
         description: CLDR two-letter region code describing the region in which the phone number was issued.
     nationalFormat:
         type: string
+        readOnly: true
         description: |
           The phone number formatted in the commonly accepted national format of the region code. 
           This value is read-only.
