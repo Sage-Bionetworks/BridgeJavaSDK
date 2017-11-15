@@ -5,7 +5,7 @@ description: |
     be included in a subsequent request to the server to authenticate,
 required:
     - study
-    - email
+    - phone
 properties:
     study:
         type: string
