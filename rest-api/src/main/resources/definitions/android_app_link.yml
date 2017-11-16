@@ -1,0 +1,18 @@
+type: object
+required:
+    - namespage
+    - package_name
+    - sha256_cert_fingerprints
+properties:
+    namespace:
+        type: string
+    package_name:
+        type: string
+    sha256_cert_fingerprints:
+        type: array
+        items:
+            type: string
+    type:
+        type: string
+        readOnly: true
+        description: "AndroidAppLink"
