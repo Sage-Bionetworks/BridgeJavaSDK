@@ -19,6 +19,8 @@ allOf:
             description: |
                 The user's email. Users can use the same email for different studies, but their account 
                 is identified by the email within a study.
+        phone:
+            $ref: ./phone.yml
         password:
             type: string
             format: password

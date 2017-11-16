@@ -19,6 +19,10 @@
     $ref: ./auth/v3_auth_email.yml
 /v3/auth/email/signIn:
     $ref: ./auth/v3_auth_email_signIn.yml
+/v3/auth/phone:
+    $ref: ./auth/v3_auth_phone.yml
+/v3/auth/phone/signIn:
+    $ref: ./auth/v3_auth_phone_signIn.yml
 
 # Scheduled Activities
 /v3/activities:

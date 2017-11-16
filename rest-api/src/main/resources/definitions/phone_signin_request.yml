@@ -1,0 +1,18 @@
+type: object
+description: |
+    Make a request to sign in using an SMS message. This request will trigger a message to be sent 
+    to an existing account's phone number. The SMS message will include a numeric token that must 
+    be included in a subsequent request to the server to authenticate,
+required:
+    - study
+    - phone
+properties:
+    study:
+        type: string
+        description: The identifier for the participant's study.
+    phone:
+        $ref: ./phone.yml
+    type:
+        type: string
+        readOnly: true
+        description: "PhoneSignInRequest"

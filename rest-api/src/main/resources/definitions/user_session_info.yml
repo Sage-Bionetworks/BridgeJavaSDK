@@ -23,6 +23,8 @@ allOf:
         email:
             type: string
             description: The user's email.
+        phone:
+            $ref: ./phone.yml
         dataSharing:
             type: boolean
             description: True if the sharing scope is anything other than "no_sharing".

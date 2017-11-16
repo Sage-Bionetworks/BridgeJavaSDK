@@ -13,6 +13,9 @@ properties:
     name:
         type: string
         description: A label for the study. This will be shown to users in emails and other contexts.
+    shortName:
+        type: string
+        description: A very short label (10 characters or less) for SMS messages and any other highly constrainted contexts.
     sponsorName:
         type: string
         description: The name of the institution or organization that is conducting the study. 
