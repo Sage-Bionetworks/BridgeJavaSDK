@@ -198,6 +198,13 @@ properties:
             User-Agent header of all requests sent to the server). Example: `{"iPhone OS":14,"Android":10}`
         additionalProperties:
             type: integer
+
+    oauthProviders:
+        type: object
+        description: |
+            The metadata to contact OAuth providers for the Authorization Code Grant Flow.
+        additionalProperties:
+            $ref: ./oauth_provider.yml
     pushNotificationARNs:
         type: object
         description: |

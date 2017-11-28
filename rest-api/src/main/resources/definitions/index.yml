@@ -109,6 +109,8 @@ NotificationRegistration:
     $ref: ./notification_registration.yml
 NotificationTopic:
     $ref: ./notification_topic.yml
+OAuthProvider:
+    $ref: ./oauth_provider.yml
 PasswordPolicy:
     $ref: ./password_policy.yml
 PasswordReset:
