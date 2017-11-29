@@ -1,0 +1,25 @@
+type: object
+required:
+    - clientId
+    - secret
+    - endpoint
+    - callbackUrl
+properties:
+    clientId:
+        type: string
+        description: The client ID of the app.
+    secret:
+        type: string
+        description: The secret token that the server must provide.
+    endpoint:
+        type: string
+        description: The URL to send an authorization token to to retrieve access and refresh tokens.
+    callbackUrl:
+        type: string
+        description: |
+            The callback URL that the client provides to retrieve the authorization token. This must match
+            that callback URL exactly.
+    type:
+        type: string
+        readOnly: true
+        description: "OAuthProvider"
