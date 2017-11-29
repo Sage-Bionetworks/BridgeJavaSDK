@@ -1,0 +1,15 @@
+type: object
+required:
+    - appID
+    - paths
+properties:
+    appID:
+        type: string
+    paths:
+        type: array
+        items:
+            type: string
+    type:
+        type: string
+        readOnly: true
+        description: "AppleAppLink"
