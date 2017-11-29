@@ -214,6 +214,20 @@ properties:
             in SNS (currently this must be done by a Bridge administrator).
         additionalProperties:
             type: string
+    appleAppLinks:
+        type: array
+        description: |
+            The entries this study contributes to the `/.well-known/apple-app-site-association` file 
+            to enable universal links for iOS apps that use this study as the data store.
+        items:
+            $ref: ./apple_app_link.yml
+    androidAppLinks:
+        type: array
+        description: |
+            The entries this study contributes to the `/.well-known/assetlinks.json` file 
+            to enable app links for Android apps that use this study as the data store.
+        items:
+            $ref: ./android_app_link.yml
     type:
         type: string
         readOnly: true

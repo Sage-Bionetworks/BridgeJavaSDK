@@ -49,8 +49,12 @@ Activity:
     $ref: ./activity.yml
 ActivityEvent:
     $ref: ./activity_event.yml
+AndroidAppLink:
+    $ref: ./android_app_link.yml
 AppConfig:
     $ref: ./app_config.yml
+AppleAppLink:
+    $ref: ./apple_app_link.yml
 ClientInfo:
     $ref: ./client_info.yml
 CmsPublicKey:
