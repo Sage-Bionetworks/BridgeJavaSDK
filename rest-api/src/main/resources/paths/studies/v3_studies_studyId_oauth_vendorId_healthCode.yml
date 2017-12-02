@@ -1,0 +1,22 @@
+get:
+    operationId: getHealthCodesGrantingOAuthAccess
+    summary: |
+        Get the access grant for a given account as specified by a health code. If 
+        there is no grant, a 404 will be returned.
+    tags:
+        - _For Workers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/vendorId
+        - $ref: ../../index.yml#/parameters/healthCode
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/oauth_access_token.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_worker.yml        

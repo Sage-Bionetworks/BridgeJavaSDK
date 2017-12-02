@@ -1,0 +1,31 @@
+post:
+    operationId: requestOAuthAccessToken
+    summary: Request an access token from a given OAuth 2.0 provider.
+    description: |
+        Request an access token from a given OAuth 2.0 provider. The vendor ID must be defined 
+        for the study. The authorization token is optional. If the server can, a request without an 
+        authorization token will be refreshed with the provider and the access token will be returned. 
+        If a grant has never been given or this request fails to get a valid grant, a 404 will be 
+        returned. 
+    tags:
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/vendorId
+        - name: body
+          required: true
+          in: body
+          schema:
+              $ref: ../../definitions/oauth_authorization_token.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/oauth_access_token.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml
