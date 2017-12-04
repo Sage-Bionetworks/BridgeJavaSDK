@@ -1,5 +1,5 @@
 get:
-    operationId: getHealthCodesGrantingOAuthAccess
+    operationId: getOAuthAccessToken
     summary: |
         Get the access grant for a given account as specified by a health code. If 
         there is no grant, a 404 will be returned.
