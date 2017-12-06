@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-    version: "0.13.25"
+    version: "0.13.26"
     title: Bridge Server API
 host: webservices.sagebridge.org
 basePath: /
@@ -216,4 +216,4 @@ paths:
 definitions:
     $ref: ./definitions/index.yml
 responses:
-    $ref: ./responses/index.yml
+    $ref: ./responses/index.ymlI
