@@ -23,6 +23,10 @@
     $ref: ./auth/v3_auth_phone.yml
 /v3/auth/phone/signIn:
     $ref: ./auth/v3_auth_phone_signIn.yml
+/v4/auth/signIn:
+    $ref: ./auth/v4_auth_signIn.yml
+/v4/auth/reauth:
+    $ref: ./auth/v4_auth_reauth.yml
 
 # Scheduled Activities
 /v3/activities:

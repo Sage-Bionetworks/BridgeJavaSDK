@@ -1,5 +1,5 @@
 post:
-    operationId: reauthenticate
+    operationId: reauthenticateV4
     tags: ["Authentication"]
     description: |
         Using the reauthentication token supplied with a new session, request a new session from 
@@ -21,8 +21,12 @@ post:
             description: Authentication has failed
             schema:
                 $ref: ../../definitions/message.yml
+        403:
+            description: Credentials are correct, but user cannot establish a session because they have not verified their email address or phone number.
+            schema:
+                $ref: ../../definitions/message.yml
         404:
-            description: Study doesn't exist, credentials incorrect, user does not exist, or email/phone have not been verified.
+            description: Study or account does not exist
             schema:
                 $ref: ../../definitions/message.yml
         410:
