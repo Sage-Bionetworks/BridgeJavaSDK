@@ -216,4 +216,4 @@ paths:
 definitions:
     $ref: ./definitions/index.yml
 responses:
-    $ref: ./responses/index.ymlI
+    $ref: ./responses/index.yml
