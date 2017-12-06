@@ -211,6 +211,18 @@ parameters:
         in: query
         type: string
         required: false
+    vendorId:
+        name: vendorId
+        description: OAuth 2.0 provider ID
+        required: true
+        in: path
+        type: string
+    healthCode:
+        name: healthCode
+        description: User health code
+        required: true
+        in: path
+        type: string
 paths:
     $ref: ./paths/index.yml
 definitions:

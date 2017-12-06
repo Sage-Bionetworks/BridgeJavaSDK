@@ -1,0 +1,27 @@
+type: object
+required:
+    - vendorId
+    - accessToken
+    - expiresOn
+properties:
+    vendorId:
+        type: string
+        readOnly: true
+        description: The Bridge-assigned vendor ID.
+    accessToken:
+        type: string
+        readOnly: true
+        description: The access token.
+    expiresOn:
+        type: string
+        format: date-time
+        readOnly: true
+        description: The ISO 8601 timestamp of when this access token will expire.
+    providerUserId:
+        type: string
+        readOnly: true
+        description: The provider's ID for this user.
+    type:
+        type: string
+        readOnly: true
+        description: "OAuthAccessToken"
