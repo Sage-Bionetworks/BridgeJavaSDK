@@ -199,7 +199,7 @@ properties:
         additionalProperties:
             type: integer
 
-    oauthProviders:
+    oAuthProviders:
         type: object
         description: |
             The metadata to contact OAuth providers for the Authorization Code Grant Flow.
