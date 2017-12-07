@@ -1,5 +1,5 @@
 post:
-    operationId: signIn
+    operationId: signInV4
     tags: ["Authentication"]
     description: |
         Send user credentials to authenticate with the Bridge server. Whether the server returns 
@@ -31,8 +31,12 @@ post:
             description: OK
             schema:
                 $ref: ../../definitions/user_session_info.yml
+        403:
+            description: Credentials are correct, but user cannot establish a session because they have not verified their email address or phone number.
+            schema:
+                $ref: ../../definitions/message.yml
         404:
-            description: Study doesn't exist, credentials incorrect, user does not exist, or email/phone have not been verified.
+            description: Credentials incorrect or the user does not exist
             schema:
                 $ref: ../../definitions/message.yml
         410:
