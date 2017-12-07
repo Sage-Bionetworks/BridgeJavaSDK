@@ -113,6 +113,10 @@ NotificationRegistration:
     $ref: ./notification_registration.yml
 NotificationTopic:
     $ref: ./notification_topic.yml
+OAuthAccessToken:
+    $ref: ./oauth_access_token.yml
+OAuthAuthorizationToken:
+    $ref: ./oauth_authorization_token.yml
 OAuthProvider:
     $ref: ./oauth_provider.yml
 PasswordPolicy:
@@ -253,6 +257,8 @@ ScheduledActivityListV4:
     $ref: ./paged_resources/scheduled_activity_v4.yml
 ForwardCursorScheduledActivityList:
     $ref: ./paged_resources/forward_cursor_scheduled_activity.yml
+ForwardCursorStringList:
+    $ref: ./paged_resources/paged_string.yml
 SchedulePlanList:
     $ref: ./paged_resources/schedule_plan.yml
 SharedModuleMetadataList:

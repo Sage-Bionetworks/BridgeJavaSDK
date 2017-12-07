@@ -198,7 +198,6 @@ properties:
             User-Agent header of all requests sent to the server). Example: `{"iPhone OS":14,"Android":10}`
         additionalProperties:
             type: integer
-
     oAuthProviders:
         type: object
         description: |

@@ -3,7 +3,7 @@ discriminator: items
 description: |
     One page of records from a source that only allows you to fetch the next page of 
     resources (no random access via an index to anywhere in the set of records). The 
-    key to retrieve the next page of records is provided by the `offsetKey` value.
+    key to retrieve the next page of records is provided by the `nextPageOffsetKey` value.
 properties:
     requestParams:
         $ref: ../request_params.yml

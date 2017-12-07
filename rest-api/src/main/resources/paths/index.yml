@@ -25,6 +25,8 @@
     $ref: ./auth/v3_auth_phone_signIn.yml
 /v4/auth/signIn:
     $ref: ./auth/v4_auth_signIn.yml
+/v3/oauth/{vendorId}:
+    $ref: ./oauth/v3_oauth_vendorId.yml
 
 # Scheduled Activities
 /v3/activities:
@@ -287,6 +289,10 @@
     $ref: ./studies/v3_studies_studyId_participants.yml
 /v3/studies/{studyId}/participants/{userId}:
     $ref: ./studies/v3_studies_studyId_participants_userId.yml
+/v3/studies/{studyId}/oauth/{vendorId}:
+    $ref: ./studies/v3_studies_studyId_oauth_vendorId.yml
+/v3/studies/{studyId}/oauth/{vendorId}/{healthCode}:
+    $ref: ./studies/v3_studies_studyId_oauth_vendorId_healthCode.yml
 
 # AppConfig
 /v3/appconfigs:
