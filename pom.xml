@@ -5,7 +5,7 @@
     <groupId>org.sagebionetworks.bridge</groupId>
     <artifactId>sdk-group</artifactId>
     <!-- Please use the maven versions plugin to manage this, e.g.`mvn versions:set -DnewVersion=0.8.1`-->
-    <version>0.13.22</version>
+    <version>0.13.27</version>
 
     <packaging>pom</packaging>
     <url>https://api.sagebridge.org</url>
@@ -146,8 +146,7 @@
     <profiles>
         <profile>
             <id>no-integration</id>
-            <!--this way of separating unit/integration tests by class name is simple, but probably not conducive to
-            separating code coverage reports by unit vs integration tests-->
+            <!--this way of separating unit/integration tests by class name is simple, but probably not conducive to separating code coverage reports by unit vs integration tests-->
             <activation>
                 <property>
                     <!--profile activated by default unless system property of 'integration' is true-->

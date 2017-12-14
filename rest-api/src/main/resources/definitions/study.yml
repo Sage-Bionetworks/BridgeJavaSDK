@@ -198,6 +198,12 @@ properties:
             User-Agent header of all requests sent to the server). Example: `{"iPhone OS":14,"Android":10}`
         additionalProperties:
             type: integer
+    oAuthProviders:
+        type: object
+        description: |
+            The metadata to contact OAuth providers for the Authorization Code Grant Flow.
+        additionalProperties:
+            $ref: ./oauth_provider.yml
     pushNotificationARNs:
         type: object
         description: |
@@ -207,6 +213,20 @@ properties:
             in SNS (currently this must be done by a Bridge administrator).
         additionalProperties:
             type: string
+    appleAppLinks:
+        type: array
+        description: |
+            The entries this study contributes to the `/.well-known/apple-app-site-association` file 
+            to enable universal links for iOS apps that use this study as the data store.
+        items:
+            $ref: ./apple_app_link.yml
+    androidAppLinks:
+        type: array
+        description: |
+            The entries this study contributes to the `/.well-known/assetlinks.json` file 
+            to enable app links for Android apps that use this study as the data store.
+        items:
+            $ref: ./android_app_link.yml
     type:
         type: string
         readOnly: true
