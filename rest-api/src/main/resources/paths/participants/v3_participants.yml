@@ -10,6 +10,7 @@ get:
         - $ref: ../../index.yml#/parameters/offsetBy
         - $ref: ../../index.yml#/parameters/pageSize
         - $ref: ../../index.yml#/parameters/emailFilter
+        - $ref: ../../index.yml#/parameters/phoneFilter
         - $ref: ../../index.yml#/parameters/startTimeOpt
         - $ref: ../../index.yml#/parameters/endTimeOpt
     responses:

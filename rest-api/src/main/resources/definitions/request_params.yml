@@ -23,6 +23,8 @@ properties:
     pageSize:
         type: integer
         format: int32
+    phoneFilter:
+        type: string
     reportType:
         $ref: ./enums/report_type.yml
     scheduledOnStart:
