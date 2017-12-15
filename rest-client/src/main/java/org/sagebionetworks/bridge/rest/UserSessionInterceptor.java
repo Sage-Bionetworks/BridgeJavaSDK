@@ -1,7 +1,9 @@
 package org.sagebionetworks.bridge.rest;
 
 import java.io.IOException;
+import java.util.List;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonSyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,8 +23,36 @@ import okio.Buffer;
 class UserSessionInterceptor implements Interceptor {
     private static final Logger LOG = LoggerFactory.getLogger(UserSessionInterceptor.class);
 
-    public static final String SIGN_OUT_PATH = "/signOut";
-    public static final String AUTH_PATH = "/auth/";
+    private static class ResponseMatcher {
+        private final int[] statuses;
+        private final String method;
+        private final String pathSegment;
+        ResponseMatcher(String method, String pathSegment, int... statuses) {
+            this.statuses = statuses;
+            this.method = method.toLowerCase();
+            this.pathSegment = pathSegment.toLowerCase();
+        }
+        boolean responseMatches(Response response) {
+            Request request = response.request();
+            return statusCorrect(response.code()) &&
+                   request.method().toLowerCase().equals(method) && 
+                   request.url().toString().toLowerCase().contains(pathSegment); 
+        }
+        boolean statusCorrect(int responseStatus) {
+            for (int status : statuses) {
+                if (responseStatus == status) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+    
+    public static final List<ResponseMatcher> SIGNOUT_PATHS = ImmutableList.of(
+            new ResponseMatcher("POST", "/signOut", 200));
+    public static final List<ResponseMatcher> SESSION_PATHS = ImmutableList.of(
+            new ResponseMatcher("POST", "/auth/", 200, 412),
+            new ResponseMatcher("POST", "/v3/participants/self", 200));
 
     private UserSessionInfoProvider userSessionInfoProvider;
 
@@ -36,13 +66,9 @@ class UserSessionInterceptor implements Interceptor {
         try {
             Response response = chain.proceed(request);
             
-            String url = request.url().toString();
-            // Don't bother trying to parse a session if it doesn't match at least these criteria
-            boolean isOkAuthPath = (url.contains(AUTH_PATH) && response.code() == 200) || isParticipantUpdate(response);
-            
-            if (url.endsWith(SIGN_OUT_PATH)) {
+            if (testResponse(response, SIGNOUT_PATHS)) {
                 userSessionInfoProvider.setSession(null);
-            } else if (isOkAuthPath) {
+            } else if (testResponse(response, SESSION_PATHS)) {
                 String bodyString = response.body().string();
                 UserSessionInfo tempSession = getUserSessionInfo(bodyString);
                 if (tempSession != null) {
@@ -72,10 +98,13 @@ class UserSessionInterceptor implements Interceptor {
         return new Buffer();
     }
     
-    private boolean isParticipantUpdate(Response response) {
-        return response.code() == 200 && 
-               response.request().url().toString().contains("/v3/participants/self") && 
-               "POST".equals(response.request().method().toUpperCase());
+    private boolean testResponse(Response response, List<ResponseMatcher> matchers) {
+        for (ResponseMatcher matcher : matchers) {
+            if (matcher.responseMatches(response)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private UserSessionInfo getUserSessionInfo(String bodyString) {
