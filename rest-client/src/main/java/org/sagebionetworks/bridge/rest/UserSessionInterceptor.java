@@ -38,7 +38,7 @@ class UserSessionInterceptor implements Interceptor {
             
             String url = request.url().toString();
             // Don't bother trying to parse a session if it doesn't match at least these criteria
-            boolean isOkAuthPath = (url.contains(AUTH_PATH) && response.code() == 200);
+            boolean isOkAuthPath = (url.contains(AUTH_PATH) && response.code() == 200) || isParticipantUpdate(response);
             
             if (url.endsWith(SIGN_OUT_PATH)) {
                 userSessionInfoProvider.setSession(null);
@@ -70,6 +70,12 @@ class UserSessionInterceptor implements Interceptor {
 
     protected Buffer createBuffer() {
         return new Buffer();
+    }
+    
+    private boolean isParticipantUpdate(Response response) {
+        return response.code() == 200 && 
+               response.request().url().toString().contains("/v3/participants/self") && 
+               "POST".equals(response.request().method().toUpperCase());
     }
 
     private UserSessionInfo getUserSessionInfo(String bodyString) {
