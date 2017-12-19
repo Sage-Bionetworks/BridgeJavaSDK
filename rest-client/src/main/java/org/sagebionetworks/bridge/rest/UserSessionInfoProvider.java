@@ -22,7 +22,9 @@ public class UserSessionInfoProvider {
     private static final Logger LOG = LoggerFactory.getLogger(UserSessionInfoProvider.class);
 
     private final AuthenticationApi authenticationApi;
-    private final SignIn signIn;
+    private final String studyId;
+    private final String email;
+    private final String password;
     private UserSessionInfo session;
 
     UserSessionInfoProvider(AuthenticationApi authenticationApi, SignIn signIn) {
@@ -30,9 +32,23 @@ public class UserSessionInfoProvider {
         checkNotNull(signIn);
         
         this.authenticationApi = authenticationApi;
-        this.signIn = signIn;
+        this.studyId = checkNotNull(signIn.getStudy());
+        this.email = checkNotNull(signIn.getEmail());
+        this.password = checkNotNull(signIn.getPassword());
+        this.session = null;
     }
-    
+
+    UserSessionInfoProvider(AuthenticationApi authenticationApi, String studyId, UserSessionInfo session) {
+        checkNotNull(authenticationApi);
+        checkNotNull(session);
+
+        this.authenticationApi = authenticationApi;
+        this.studyId = studyId;
+        this.email = checkNotNull(session.getEmail());
+        this.session = session;
+        this.password = null;
+    }
+
     public synchronized UserSessionInfo getSession() {
         return session;
     }
@@ -68,8 +84,8 @@ public class UserSessionInfoProvider {
         if (session == null || session.getReauthToken() == null) {
             signIn();
         } else {
-            ReauthenticateRequest request = new ReauthenticateRequest().email(session.getEmail())
-                    .reauthToken(session.getReauthToken()).study(signIn.getStudy());
+            ReauthenticateRequest request = new ReauthenticateRequest().email(email)
+                    .reauthToken(session.getReauthToken()).study(studyId);
             try {
                 UserSessionInfo newSession = authenticationApi.reauthenticate(request).execute().body();
                 setSession(newSession);
@@ -85,7 +101,12 @@ public class UserSessionInfoProvider {
     }
     
     private void signIn() throws IOException {
+        if (password == null) {
+            LOG.warn("Could not signIn, no password provided");
+            return;
+        }
         try {
+            SignIn signIn = new SignIn().study(studyId).email(email).password(password);
             UserSessionInfo newSession = authenticationApi.signIn(signIn).execute().body();
             setSession(newSession); 
         } catch(ConsentRequiredException e) {
