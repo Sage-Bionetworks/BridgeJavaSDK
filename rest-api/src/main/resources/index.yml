@@ -206,8 +206,14 @@ parameters:
     emailFilter:
         name: emailFilter
         description: |
-            A string (can be a substring of an email address) to filter returned records 
-            against.
+            A string (can be a substring of an email address) to filter returned records against.
+        in: query
+        type: string
+        required: false
+    phoneFilter:
+        name: phoneFilter
+        description: |
+            A string (can be a substring of a phone number) to filter returned records against.
         in: query
         type: string
         required: false
