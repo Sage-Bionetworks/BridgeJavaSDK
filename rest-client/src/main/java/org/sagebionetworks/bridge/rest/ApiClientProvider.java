@@ -98,17 +98,19 @@ public class ApiClientProvider {
     }
 
     public static class Builder {
-        private String baseUrl;
-        private String userAgent;
-        private String acceptLanguage;
-        private String study;
-        private String email;
+        private final String baseUrl;
+        private final String userAgent;
+        private final String acceptLanguage;
+        private final String study;
+        private final Retrofit unauthenticatedRetrofit;
+        private final AuthenticationApi authenticationApi;
 
+        private String email;
         private String password;
         private UserSessionInfo session;
 
         /**
-         * Creates a builder for accessing services associated with an environment, study, and participant.
+         * Creates a builder for accessing services associated with an environment and study.
          *
          * @param baseUrl base url for Bridge service
          * @param userAgent
@@ -118,20 +120,32 @@ public class ApiClientProvider {
          *         preferred
          * @param study
          *         study identifier
-         * @param email
-         *         email of participant
+
          */
-        public Builder(String baseUrl, String userAgent, String acceptLanguage, String study, String email) {
+        public Builder(String baseUrl, String userAgent, String acceptLanguage, String study) {
             checkState(!Strings.isNullOrEmpty(baseUrl));
             checkState(!Strings.isNullOrEmpty(userAgent));
             checkState(!Strings.isNullOrEmpty(study));
-            checkState(!Strings.isNullOrEmpty(email));
 
             this.baseUrl = baseUrl;
             this.userAgent = userAgent;
             this.acceptLanguage = acceptLanguage;
             this.study = study;
+            unauthenticatedRetrofit= getRetrofit(getHttpClientBuilder().build());
+            authenticationApi = unauthenticatedRetrofit.create(AuthenticationApi.class);
+        }
+
+        public AuthenticationApi getAuthenticationApi() {
+            return authenticationApi;
+        }
+
+        /**
+         * @param email participant's email
+         * @return this builder, for chaining operations
+         */
+        public Builder withEmail(String email) {
             this.email = email;
+            return this;
         }
 
         /**
@@ -152,15 +166,24 @@ public class ApiClientProvider {
             return this;
         }
 
+        /**
+         * Builds an ApiClientProvider. The credentials and/or session are cleared out when build() is called, and can
+         * be
+         * set again to build another ApiClientProvider for a different.
+         *
+         * @return instance of ApiClientProvider tied to a participant
+         */
         public ApiClientProvider build() {
+            checkState(!Strings.isNullOrEmpty(email), "email cannot be null or empty");
             checkState(!Strings.isNullOrEmpty(password) || session != null,
                     "requires at least one of password or session");
 
-            Retrofit unauthenticatedRetrofit = getRetrofit(getHttpClientBuilder().build());
-
-            AuthenticationApi authenticationApi = unauthenticatedRetrofit.create(AuthenticationApi.class);
             UserSessionInfoProvider sessionProvider =
                     new UserSessionInfoProvider(authenticationApi, study, email, password, session);
+
+            email = null;
+            password = null;
+            session = null;
 
             UserSessionInterceptor sessionInterceptor = new UserSessionInterceptor(sessionProvider);
             AuthenticationHandler authenticationHandler = new AuthenticationHandler(sessionProvider);

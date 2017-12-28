@@ -24,7 +24,8 @@ public class ApiClientProviderTest {
     public void before() {
         signIn = new SignIn().email("email@email.com").password("password").study("test-study");
         provider = spy(
-                new ApiClientProvider.Builder(BASE_URL, USER_AGENT, "en, fr", signIn.getStudy(), signIn.getEmail())
+                new ApiClientProvider.Builder(BASE_URL, USER_AGENT, "en, fr", signIn.getStudy())
+                        .withEmail(signIn.getEmail())
                         .withPassword(signIn.getPassword()).build());
     }
     

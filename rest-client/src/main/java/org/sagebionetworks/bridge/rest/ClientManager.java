@@ -88,7 +88,8 @@ public class ClientManager {
         String acceptLanguage = RestUtils.getAcceptLanguage(acceptLanguages);
 
         this.apiClientProvider = new ApiClientProvider.Builder(hostURL, userAgent, acceptLanguage,
-                config.getStudyIdentifier(), signIn.getEmail())
+                config.getStudyIdentifier())
+                .withEmail(signIn.getEmail())
                 .withPassword(signIn.getPassword()).build();
     }
 
