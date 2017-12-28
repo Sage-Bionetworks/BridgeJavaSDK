@@ -4,6 +4,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.spy;
 
+import java.util.Arrays;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.sagebionetworks.bridge.rest.api.AuthenticationApi;
@@ -21,18 +23,17 @@ public class ApiClientProviderTest {
     @Before
     public void before() {
         signIn = new SignIn().email("email@email.com").password("password").study("test-study");
-        provider = spy(new ApiClientProvider(BASE_URL, USER_AGENT, "en, fr"));
+        provider = spy(
+                new ApiClientProvider.Builder(BASE_URL, USER_AGENT, "en, fr", signIn.getStudy(), signIn.getEmail())
+                        .withPassword(signIn.getPassword()).build());
     }
     
     @Test
     public void test() {
-        UserSessionInfoProvider sessionProvider = provider.getUserSessionInfoProvider(signIn);
-        assertNull(sessionProvider);
-        
         AuthenticationApi authApi = provider.getClient(AuthenticationApi.class, signIn);
         assertNotNull(authApi);
-        
-        sessionProvider = provider.getUserSessionInfoProvider(signIn);
+
+        UserSessionInfoProvider sessionProvider = provider.getUserSessionInfoProvider();
         assertNotNull(sessionProvider);
     }
     

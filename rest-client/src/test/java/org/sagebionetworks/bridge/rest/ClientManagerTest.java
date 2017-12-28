@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -17,13 +18,11 @@ import org.sagebionetworks.bridge.rest.model.SignIn;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Config.class})
+@PowerMockIgnore("javax.net.ssl.*") // prevent failures around default TrustManager
 public class ClientManagerTest {
 
     @Mock
     Config config;
-    
-    @Mock
-    ClientManager.ClientSupplier supplier;
     
     @Test
     public void testInitFromConfig() {
@@ -44,8 +43,7 @@ public class ClientManagerTest {
         doReturn(Environment.PRODUCTION).when(config).getEnvironment();
         doReturn("debug").when(config).getLogLevel();
         
-        ClientManager manager = new ClientManager.Builder().withConfig(config)
-                .withClientSupplier(supplier).build();
+        ClientManager manager = new ClientManager.Builder().withConfig(config).build();
         
         assertEquals("study-identifier", manager.getConfig().getStudyIdentifier());
         assertEquals("1", manager.getConfig().getSdkVersion());
@@ -62,7 +60,7 @@ public class ClientManagerTest {
         SignIn signIn = new SignIn().study("study-identifier").email("account@email.com")
                 .password("account-password");
         
-        ClientManager manager = new ClientManager.Builder().withSignIn(signIn).withClientSupplier(supplier).build();
+        ClientManager manager = new ClientManager.Builder().withSignIn(signIn).build();
         
         // These values are set in the test bridge-sdk.properties file, and we want to verify they
         // are used to construct the clientInfo object, so this doesn't have to be hard-wired into
@@ -101,7 +99,6 @@ public class ClientManagerTest {
         SignIn signIn = config.getAdminSignIn();
         ClientManager manager = new ClientManager.Builder()
                 .withSignIn(signIn)
-                .withClientSupplier(supplier)
                 .withConfig(config)
                 .build();
         

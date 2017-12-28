@@ -1,9 +1,11 @@
 package org.sagebionetworks.bridge.rest;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import java.io.IOException;
 
+import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,26 +29,19 @@ public class UserSessionInfoProvider {
     private final String password;
     private UserSessionInfo session;
 
-    UserSessionInfoProvider(AuthenticationApi authenticationApi, SignIn signIn) {
+    UserSessionInfoProvider(AuthenticationApi authenticationApi, String studyId, String email, String password,
+            UserSessionInfo session) {
         checkNotNull(authenticationApi);
-        checkNotNull(signIn);
-        
-        this.authenticationApi = authenticationApi;
-        this.studyId = checkNotNull(signIn.getStudy());
-        this.email = checkNotNull(signIn.getEmail());
-        this.password = checkNotNull(signIn.getPassword());
-        this.session = null;
-    }
-
-    UserSessionInfoProvider(AuthenticationApi authenticationApi, String studyId, UserSessionInfo session) {
-        checkNotNull(authenticationApi);
-        checkNotNull(session);
+        checkNotNull(studyId);
+        checkNotNull(email);
+        checkState(!Strings.isNullOrEmpty(password) || session != null,
+                "requires at least one of password or session");
 
         this.authenticationApi = authenticationApi;
         this.studyId = studyId;
-        this.email = checkNotNull(session.getEmail());
+        this.email = email;
         this.session = session;
-        this.password = null;
+        this.password = password;
     }
 
     public synchronized UserSessionInfo getSession() {
