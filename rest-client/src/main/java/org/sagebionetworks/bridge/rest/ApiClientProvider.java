@@ -38,18 +38,23 @@ public class ApiClientProvider {
         this.userSessionInfoProvider = userSessionInfoProvider;
 
         this.unauthenticatedServices = CacheBuilder.newBuilder()
-                .build(new CacheLoader<Class<?>, Object>() {
-                    @Override public Object load(Class<?> serviceClass) {
-                        return unauthenticatedRetrofit.create(serviceClass);
-                    }
-                });
+                .build(new RetrofitServiceLoader(unauthenticatedRetrofit));
 
         this.authenticatedServices = CacheBuilder.newBuilder()
-                .build(new CacheLoader<Class<?>, Object>() {
-                    @Override public Object load(Class<?> serviceClass) {
-                        return authenticatedRetrofit.create(serviceClass);
-                    }
-                });
+                .build(new RetrofitServiceLoader(authenticatedRetrofit));
+    }
+
+    private static class RetrofitServiceLoader extends CacheLoader<Class<?>, Object> {
+        private final Retrofit retrofit;
+
+        RetrofitServiceLoader(Retrofit retrofit) {
+            this.retrofit = retrofit;
+        }
+
+        @SuppressWarnings("NullableProblems") // superclass uses nullity-analysis annotations which we are not using
+        @Override public Object load(Class<?> serviceClass)  {
+            return retrofit.create(serviceClass);
+        }
     }
 
     // To build the ClientManager on this class, we need to have access to the session that is persisted
