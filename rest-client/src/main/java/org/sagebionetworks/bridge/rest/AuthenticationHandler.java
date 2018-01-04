@@ -14,7 +14,7 @@ import okhttp3.Route;
 
 /**
  * Intercepts authentication error responses and re-acquires a session. NOTE: This handler is not currently registered
- * by the ApiClientProvider to handle authentication, because no integration test indicates that it is needed. When we
+ * by the AuthenticatedClientProvider to handle authentication, because no integration test indicates that it is needed. When we
  * detect a session is missing, we reauthenticate using the UserSessionInfoProvider. It may be that this is needed when
  * a session times out on the server, if so, no test currently simulates this behavior.
  */

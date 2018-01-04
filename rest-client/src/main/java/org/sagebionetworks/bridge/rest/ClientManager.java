@@ -73,7 +73,7 @@ public class ClientManager {
     private final ClientInfo clientInfo;
     private final transient SignIn signIn;
     private final List<String> acceptLanguages;
-    private final ApiClientProvider apiClientProvider;
+    private final ApiClientProvider.AuthenticatedClientProvider authenticatedClientProvider;
     private final String hostURL;
     
     private ClientManager(Config config, ClientInfo clientInfo, List<String> acceptLanguages, SignIn signIn, String hostURL) {
@@ -87,14 +87,15 @@ public class ClientManager {
         String userAgent = RestUtils.getUserAgent(clientInfo);
         String acceptLanguage = RestUtils.getAcceptLanguage(acceptLanguages);
 
-        this.apiClientProvider = new ApiClientProvider.Builder(hostURL, userAgent, acceptLanguage,
-                config.getStudyIdentifier())
-                .withEmail(signIn.getEmail())
-                .withPassword(signIn.getPassword()).build();
+        this.authenticatedClientProvider =
+                new ApiClientProvider(hostURL, userAgent, acceptLanguage, config.getStudyIdentifier())
+                        .getAuthenticatedClientProviderBuilder()
+                        .withEmail(signIn.getEmail())
+                        .withPassword(signIn.getPassword()).build();
     }
 
     public final UserSessionInfo getSessionOfClients() {
-        UserSessionInfoProvider provider = apiClientProvider.getUserSessionInfoProvider();
+        UserSessionInfoProvider provider = authenticatedClientProvider.getUserSessionInfoProvider();
         return (provider == null) ? null : provider.getSession();
     }
     
@@ -126,13 +127,9 @@ public class ClientManager {
      * @return service client
      */
     public <T> T getClient(Class<T> service) {
-        return apiClientProvider.getClient(service, signIn);
+        return authenticatedClientProvider.getClient(service);
     }
-    
-    public <T> T getUnauthenticatedClient(Class<T> service) {
-        return apiClientProvider.getClient(service);
-    }
-    
+
     public final static class Builder {
         private Config config;
         private ClientInfo clientInfo;
