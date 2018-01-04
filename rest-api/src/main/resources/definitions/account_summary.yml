@@ -12,6 +12,8 @@ properties:
     email:
         type: string
         description: Email address of user.
+    phone:
+        $ref: ./phone.yml
     id: 
         type: string
         description: An identifier assigned to this user, used to retrieve a study participant record.

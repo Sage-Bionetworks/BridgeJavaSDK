@@ -3,12 +3,12 @@ description: |
     this API provides a way to store a consent under a phone number. 
 type: object
 required:
-    - study
+    - studyId
     - phone
     - subpopGuid
     - consentSignature
 properties:
-    study:
+    studyId:
         type: string
         description: The study identifier for the study the user is consenting to participate in.
     subpopGuid:
