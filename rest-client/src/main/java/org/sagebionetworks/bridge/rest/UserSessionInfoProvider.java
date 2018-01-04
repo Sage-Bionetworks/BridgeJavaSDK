@@ -88,7 +88,7 @@ public class UserSessionInfoProvider {
                 setSession(e.getSession());
             } catch(Exception e) {
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("reauth failed, signing in again");
+                    LOG.debug("Reauth failed, signing in again", e);
                 }
                 signIn();
             }
@@ -96,7 +96,7 @@ public class UserSessionInfoProvider {
     }
     
     private void signIn() throws IOException {
-        if (password == null) {
+        if (Strings.isNullOrEmpty(password)) {
             LOG.warn("Could not signIn, no password provided");
             return;
         }
