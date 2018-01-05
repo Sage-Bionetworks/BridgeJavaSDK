@@ -1,0 +1,23 @@
+post:
+    operationId: submitIntentToParticipate
+    summary: |
+        Send a consent signature to Bridge before the user has signed up to the server. The consent is 
+        stored and an SMS message will be sent out with the install link for the application on a given 
+        platform. After the user signs up, their consent will be recorded and no 412 status will be 
+        returned to the user from the APIs.
+    tags: 
+        - Consents
+        - IntentToParticipate
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - name: IntentToParticipate
+          in: body
+          required: true
+          schema:
+            $ref: ../definitions/intent_to_participate.yml
+    responses:
+        202:
+            description: Accepted
+            schema:
+                $ref: ../definitions/message.yml

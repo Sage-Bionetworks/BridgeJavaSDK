@@ -52,6 +52,10 @@
 /v3/healthdata:
     $ref: ./healthdata/v3_healthdata.yml
 
+# Intent to participate
+/v3/itp:
+    $ref: ./itp.yml
+
 # Participants
 /v3/participants:
     $ref: ./participants/v3_participants.yml
