@@ -71,10 +71,12 @@ public class UserSessionInterceptorTest {
     public void returnsHttpSession() throws IOException {
         doReturn(request).when(chain).request();
         doReturn(response).when(chain).proceed(request);
+        doReturn(request).when(response).request();
         doReturn(200).when(response).code();
         doReturn(JSON).when(responseBody).contentType();
         
         doReturn(url).when(request).url();
+        doReturn("POST").when(request).method();
         doReturn("/v3/auth/signIn").when(url).toString();
         doReturn(responseBody).when(response).body();
         doReturn("{\"sessionToken\":\"asdf\"}").when(responseBody).string();
@@ -106,22 +108,68 @@ public class UserSessionInterceptorTest {
     public void doesNothing() throws IOException {
         doReturn(request).when(chain).request();
         doReturn(response).when(chain).proceed(request);
+        doReturn(request).when(response).request();
         doReturn(url).when(request).url();
         doReturn("/v3/activityevents").when(url).toString();
         doReturn(200).when(response).code();
-        
+        doReturn("GET").when(request).method();
+
         interceptor.intercept(chain);
         
         verify(userSessionInfoProvider, never()).setSession(any(UserSessionInfo.class));
     }
+    
+    @Test
+    public void capturesSessionOfParticipantSelfUpdate() throws IOException {
+        doReturn(request).when(chain).request();
+        doReturn(response).when(chain).proceed(request);
+        doReturn(request).when(response).request();
+        doReturn(url).when(request).url();
+        doReturn("/v3/participants/self").when(url).toString();
+        doReturn(200).when(response).code();
+        doReturn("POST").when(request).method();
+        
+        doReturn(responseBody).when(response).body();
+        doReturn("{\"sessionToken\":\"asdf\"}").when(responseBody).string();
+        
+        doReturn(responseBuilder).when(response).newBuilder();
+        doReturn(responseBuilder).when(responseBuilder).body(any(ResponseBody.class));
 
+        interceptor.intercept(chain);
+        
+        verify(userSessionInfoProvider).setSession(any(UserSessionInfo.class));
+    }
+
+    @Test
+    public void badStringCaseWorks() throws IOException {
+        doReturn(request).when(chain).request();
+        doReturn(response).when(chain).proceed(request);
+        doReturn(request).when(response).request();
+        doReturn(url).when(request).url();
+        doReturn("/V3/PARTICIPANTS/SELF").when(url).toString();
+        doReturn(200).when(response).code();
+        doReturn("post").when(request).method();
+        
+        doReturn(responseBody).when(response).body();
+        doReturn("{\"sessionToken\":\"asdf\"}").when(responseBody).string();
+        
+        doReturn(responseBuilder).when(response).newBuilder();
+        doReturn(responseBuilder).when(responseBuilder).body(any(ResponseBody.class));
+
+        interceptor.intercept(chain);
+        
+        verify(userSessionInfoProvider).setSession(any(UserSessionInfo.class));
+    }
+    
     @Test
     public void removesSession() throws IOException {
         doReturn(request).when(chain).request();
         doReturn(response).when(chain).proceed(request);
+        doReturn(request).when(response).request();
         doReturn(url).when(request).url();
         doReturn("/v3/auth/signOut").when(url).toString();
         doReturn(200).when(response).code();
+        doReturn("POST").when(request).method();
         
         UserSessionInfo session = new UserSessionInfo();
         userSessionInfoProvider.setSession(session);

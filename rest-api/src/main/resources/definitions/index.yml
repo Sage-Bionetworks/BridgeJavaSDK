@@ -103,6 +103,8 @@ IdentifierHolder:
     $ref: ./identifier_holder.yml
 Image:
     $ref: ./image.yml
+IntentToParticipate:
+    $ref: ./intent_to_participate.yml
 InvalidEntity:
     $ref: ./invalid_entity.yml
 Message:
