@@ -75,6 +75,8 @@ CustomActivityEventRequest:
     $ref: ./custom_activity_event_request.yml
 DataGroups:
     $ref: ./data_groups.yml
+DateRange:
+    $ref: ./date_range.yml
 Email:
     $ref: ./email.yml
 EmailSignIn:
