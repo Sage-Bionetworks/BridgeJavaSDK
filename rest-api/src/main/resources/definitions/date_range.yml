@@ -1,0 +1,12 @@
+description: |
+    Model object representing a date range, which includes start date and end date as calendar dates (YYYY-MM-DD).
+type: object
+properties:
+    startDate:
+        type: string
+        format: date
+        description: Start date of the date range (YYYY-MM-DD).
+    endDate:
+        type: string
+        format: date
+        description: Start date of the date range (YYYY-MM-DD).
