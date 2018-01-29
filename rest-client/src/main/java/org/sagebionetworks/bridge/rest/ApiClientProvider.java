@@ -83,6 +83,12 @@ public class ApiClientProvider {
         return (T) unauthenticatedServices.getUnchecked(service);
     }
 
+    /**
+     * Get an instance of the Authentication API client.
+     *
+     * Basically a convenience wrapper for getClient(AuthenticationApi.class).
+     * @return authentication API
+     */
     public AuthenticationApi getAuthenticationApi() {
         return authenticationApi;
     }
@@ -111,6 +117,9 @@ public class ApiClientProvider {
                 .build();
     }
 
+    /**
+     * Loader (basically a factory) for Retrofit service instances.
+     */
     static class RetrofitServiceLoader extends CacheLoader<Class<?>, Object> {
        private final Retrofit retrofit;
 
@@ -124,13 +133,17 @@ public class ApiClientProvider {
        }
    }
 
+    /**
+     * Returns a builder for authenticated access to this study.
+     *
+     * @return builder for creating authenticated clients
+     */
     public AuthenticatedClientProviderBuilder getAuthenticatedClientProviderBuilder() {
         return new AuthenticatedClientProviderBuilder();
    }
 
     /**
-     * Base class for creating authenticated clients that are correctly configured to communicate with the
-     * Bridge server.
+     * Base class for creating authenticated clients that are correctly configured to communicate with a Bridge study.
      */
     public class AuthenticatedClientProvider {
 
@@ -165,9 +178,11 @@ public class ApiClientProvider {
             //noinspection unchecked
             return (T) authenticatedServices.getUnchecked(service);
         }
-
     }
 
+    /**
+     * Builder for AuthenticatedClientProvider. Configure the builder with credentials for a user
+     */
     public class AuthenticatedClientProviderBuilder {
         private String email;
         private String password;
