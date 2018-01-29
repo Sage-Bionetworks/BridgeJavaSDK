@@ -2,13 +2,15 @@ post:
     operationId: signUp
     tags: ["Authentication"]
     description: |
-        Depending on the configuration of the study, the user will normally be sent an email with a link 
-        to verify his or her email address before the account will be activated. If the user account 
-        does not exist, this method will still return 200 in order to prevent "account enumeration" 
-        security breaches.
+        If a study uses email addresses to identify account holders, the user will normally be sent 
+        an email with a link to verify his or her email address before the account will be activated. 
+        If an account exists with the given email or phone number, this method will still return 201 
+        in order to prevent "account enumeration" security breaches. When this happens, an "account 
+        already exists" email will be sent to the account holder, notifying them that another attempt 
+        was made to create an account with their email or phone number.
 
-        Only basic credentials are necessary to sign up (email, password and study), but all the 
-        information that can be provided for a participant's account can be submitted as part of sign up.
+        Only basic credentials are necessary to sign up (email or phone number, and study), but all the 
+        information that can be provided for a participant's account, can be submitted as part of sign up.
     parameters:
         - name: SignUp
           in: body
