@@ -14,16 +14,17 @@ import okhttp3.Route;
 
 /**
  * Intercepts authentication error responses and re-acquires a session. NOTE: This handler is not currently registered
- * by the ApiClientProvider to handle authentication, because no integration test indicates that it is needed. When we
+ * by the AuthenticatedClientProvider to handle authentication, because no integration test indicates that it is needed. When we
  * detect a session is missing, we reauthenticate using the UserSessionInfoProvider. It may be that this is needed when
  * a session times out on the server, if so, no test currently simulates this behavior.
  */
 class AuthenticationHandler implements Interceptor, Authenticator {
-
+    private static final int MAX_TRIES = 1;
     private static final String SIGN_OUT_PATH = "/signOut";
     private static final String AUTH_PATH = "/auth/";
     
     private final UserSessionInfoProvider userSessionInfoProvider;
+    private int tryCount;
 
     public AuthenticationHandler(UserSessionInfoProvider userSessionInfoProvider) {
         checkNotNull(userSessionInfoProvider);
@@ -32,13 +33,15 @@ class AuthenticationHandler implements Interceptor, Authenticator {
     
     @Override
     public Request authenticate(Route route, Response response) throws IOException {
-        // We received a 401 from the server... attempt to reauthenticate.
-        if (requiresAuth(response.request(), false)) {
-            userSessionInfoProvider.reauthenticate();    
-            // We should now be able to proceed with session headers.
-            return addBridgeHeaders(response.request());
+        if (tryCount >= MAX_TRIES || !requiresAuth(response.request(), false)) {
+            tryCount = 0;
+            return null;
         }
-        return null;
+        // We received a 401 from the server... attempt to reauthenticate.
+        tryCount++;
+        userSessionInfoProvider.reauthenticate();
+        // We should now be able to proceed with session headers.
+        return addBridgeHeaders(response.request());
     }
 
     @Override

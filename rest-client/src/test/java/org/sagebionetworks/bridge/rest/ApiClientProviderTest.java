@@ -15,24 +15,24 @@ public class ApiClientProviderTest {
     private static final String USER_AGENT = "Cardio Health/1 (Unknown iPhone; iOS/9.0.2) BridgeSDK/4";
     
     private SignIn signIn;
-    
-    private ApiClientProvider provider;
+    private ApiClientProvider.AuthenticatedClientProvider provider;
     
     @Before
     public void before() {
         signIn = new SignIn().email("email@email.com").password("password").study("test-study");
-        provider = spy(new ApiClientProvider(BASE_URL, USER_AGENT, "en, fr"));
+        provider = spy(
+                new ApiClientProvider(BASE_URL, USER_AGENT, "en, fr", signIn.getStudy())
+                        .getAuthenticatedClientProviderBuilder()
+                        .withEmail(signIn.getEmail())
+                        .withPassword(signIn.getPassword()).build());
     }
     
     @Test
     public void test() {
-        UserSessionInfoProvider sessionProvider = provider.getUserSessionInfoProvider(signIn);
-        assertNull(sessionProvider);
-        
-        AuthenticationApi authApi = provider.getClient(AuthenticationApi.class, signIn);
+        AuthenticationApi authApi = provider.getClient(AuthenticationApi.class);
         assertNotNull(authApi);
-        
-        sessionProvider = provider.getUserSessionInfoProvider(signIn);
+
+        UserSessionInfoProvider sessionProvider = provider.getUserSessionInfoProvider();
         assertNotNull(sessionProvider);
     }
     

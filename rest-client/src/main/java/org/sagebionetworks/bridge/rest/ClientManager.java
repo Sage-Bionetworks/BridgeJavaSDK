@@ -59,11 +59,7 @@ import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
  * <code>Environment</code>.</p>
  */
 public class ClientManager {
-    
-    static interface ClientSupplier {
-        ApiClientProvider get(String hostUrl, String userAgent, String acceptLanguage);
-    }
-    
+
     private static final Splitter SPLITTER = Splitter.on(',').trimResults().omitEmptyStrings();
     
     private static final Map<Environment,String> HOSTS = new ImmutableMap.Builder<Environment,String>()
@@ -73,21 +69,14 @@ public class ClientManager {
             .put(Environment.PRODUCTION,"https://webservices.sagebridge.org")
             .build();
     
-    private static final ClientSupplier SUPPLIER = new ClientSupplier() {
-        @Override public ApiClientProvider get(String hostUrl, String userAgent, String acceptLanguage) {
-            return new ApiClientProvider(hostUrl, userAgent, acceptLanguage);
-        }
-    };
-    
     private final Config config;
     private final ClientInfo clientInfo;
     private final transient SignIn signIn;
     private final List<String> acceptLanguages;
-    private final ApiClientProvider apiClientProvider;
+    private final ApiClientProvider.AuthenticatedClientProvider authenticatedClientProvider;
     private final String hostURL;
     
-    private ClientManager(Config config, ClientInfo clientInfo, List<String> acceptLanguages, SignIn signIn,
-            ClientSupplier provider, String hostURL) {
+    private ClientManager(Config config, ClientInfo clientInfo, List<String> acceptLanguages, SignIn signIn, String hostURL) {
         checkNotNull(HOSTS.get(config.getEnvironment()));
         
         this.hostURL = hostURL;
@@ -97,11 +86,16 @@ public class ClientManager {
         this.signIn = signIn;
         String userAgent = RestUtils.getUserAgent(clientInfo);
         String acceptLanguage = RestUtils.getAcceptLanguage(acceptLanguages);
-        this.apiClientProvider = provider.get(hostURL, userAgent, acceptLanguage);
+
+        this.authenticatedClientProvider =
+                new ApiClientProvider(hostURL, userAgent, acceptLanguage, config.getStudyIdentifier())
+                        .getAuthenticatedClientProviderBuilder()
+                        .withEmail(signIn.getEmail())
+                        .withPassword(signIn.getPassword()).build();
     }
 
     public final UserSessionInfo getSessionOfClients() {
-        UserSessionInfoProvider provider = apiClientProvider.getUserSessionInfoProvider(signIn);
+        UserSessionInfoProvider provider = authenticatedClientProvider.getUserSessionInfoProvider();
         return (provider == null) ? null : provider.getSession();
     }
     
@@ -133,32 +127,15 @@ public class ClientManager {
      * @return service client
      */
     public <T> T getClient(Class<T> service) {
-        return apiClientProvider.getClient(service, signIn);
+        return authenticatedClientProvider.getClient(service);
     }
-    
-    public <T> T getUnauthenticatedClient(Class<T> service) {
-        return apiClientProvider.getClient(service);
-    }
-    
+
     public final static class Builder {
         private Config config;
         private ClientInfo clientInfo;
         private List<String> acceptLanguages;
         private SignIn signIn;
-        private ClientSupplier supplier;
-        
-        /**
-         * Provide a factory for the production of ApiClientProvider (useful only for testing, a 
-         * reasonable default factory is used without setting this).
-         * @param supplier
-         *      a factory to build ApiClientProvider
-         * @return builder
-         */
-        Builder withClientSupplier(ClientSupplier supplier) {
-            this.supplier = supplier;
-            return this;
-        }
-        
+
         /**
          * Provide a configuration object for this ClientManager. A default configuration
          * is created if none is provided.
@@ -276,11 +253,9 @@ public class ClientManager {
                     info.setOsVersion(config.getOsVersion());
                 }
             }
-            if (this.supplier == null) {
-                this.supplier = SUPPLIER;
-            }
+
             String hostURL = (config.getHost() != null) ? config.getHost() : HOSTS.get(config.getEnvironment());
-            return new ClientManager(config, info, acceptLanguages, signIn, supplier, hostURL);
+            return new ClientManager(config, info, acceptLanguages, signIn, hostURL);
         }
     }
     
