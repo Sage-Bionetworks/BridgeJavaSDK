@@ -1,53 +1,75 @@
 package org.sagebionetworks.bridge.rest;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import org.sagebionetworks.bridge.rest.api.AuthenticationApi;
-import org.sagebionetworks.bridge.rest.model.SignIn;
-
-import com.google.common.collect.Maps;
-
+import com.google.common.base.Strings;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import org.sagebionetworks.bridge.rest.api.AuthenticationApi;
+import org.sagebionetworks.bridge.rest.model.ClientInfo;
+import org.sagebionetworks.bridge.rest.model.SignIn;
+import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
+
 /**
  * Base class for creating clients that are correctly configured to communicate with the
- * Bridge server. This class has been designed so that different authentication credentials
- * can be used for different clients retrieved from this provider, but note that the core 
- * features of the client (user agent, accepted languages) are configured once for all clients. 
+ * Bridge server.
  */
 public class ApiClientProvider {
-    
     private static final Interceptor WARNING_INTERCEPTOR = new WarningHeaderInterceptor();
     private static final Interceptor ERROR_INTERCEPTOR = new ErrorResponseInterceptor();
     private static final Interceptor LOGGING_INTERCEPTOR = new LoggingInterceptor();
-    
+
     private final String baseUrl;
     private final String userAgent;
     private final String acceptLanguage;
-    private final Map<SignIn,UserSessionInfoProvider> sessionProviders;
+    private final String study;
+    private final Retrofit unauthenticatedRetrofit;
+    private final LoadingCache<Class<?>, ?> unauthenticatedServices;
 
-    public ApiClientProvider(String baseUrl, String userAgent, String acceptLanguage) {
+    private final AuthenticationApi authenticationApi;
+
+    /**
+     * Creates a builder for accessing services associated with an environment and study.
+     *
+     * @param baseUrl base url for Bridge service
+     * @param userAgent
+     *         user-agent string in Bridge's expected format, see {@link RestUtils#getUserAgent(ClientInfo)}
+     * @param acceptLanguage
+     *         optional comma-separated list of preferred languages for this client (most to least
+     *         preferred
+     * @param study
+     *         study identifier
+
+     */
+    public ApiClientProvider(String baseUrl, String userAgent, String acceptLanguage, String study) {
+        checkState(!Strings.isNullOrEmpty(baseUrl));
+        checkState(!Strings.isNullOrEmpty(userAgent));
+        checkState(!Strings.isNullOrEmpty(study));
+
         this.baseUrl = baseUrl;
         this.userAgent = userAgent;
         this.acceptLanguage = acceptLanguage;
-        this.sessionProviders = Maps.newHashMap();
+        this.study = study;
+
+        unauthenticatedRetrofit= getRetrofit(getHttpClientBuilder().build());
+        this.unauthenticatedServices = CacheBuilder.newBuilder()
+                .build(new RetrofitServiceLoader(unauthenticatedRetrofit));
+        authenticationApi = getClient(AuthenticationApi.class);
     }
 
-    // To build the ClientManager on this class, we need to have access to the session that is persisted
-    // by the HTTP interceptors.
-    public UserSessionInfoProvider getUserSessionInfoProvider(SignIn signIn) {
-        return sessionProviders.get(signIn);
-    }
-    
     /**
-     * Create an unauthenticated client (this client cannot authenticate automatically, and is only used for 
-     * public APIs not requiring a server user to access). 
+     * Create an unauthenticated client (this client cannot authenticate automatically, and is only used for
+     * public APIs not requiring a server user to access).
+     *
      * @param <T>
      *         One of the Api classes in the org.sagebionetworks.bridge.rest.api package.
      * @param service
@@ -56,72 +78,170 @@ public class ApiClientProvider {
      */
     public <T> T getClient(Class<T> service) {
         checkNotNull(service);
-        
-        Retrofit client = getRetrofit(getHttpClientBuilder().build());
-        return client.create(service);
+
+        //noinspection unchecked
+        return (T) unauthenticatedServices.getUnchecked(service);
     }
 
     /**
-     * @param <T>
-     *         One of the Api classes in the org.sagebionetworks.bridge.rest.api package.
-     * @param service
-     *         Class representing the service
-     * @param signIn
-     *         credentials for the user, or null for an unauthenticated client
-     * @return service client that is authenticated with the user's credentials
+     * Get an instance of the Authentication API client.
+     *
+     * Basically a convenience wrapper for getClient(AuthenticationApi.class).
+     * @return authentication API
      */
-    public <T> T getClient(Class<T> service, SignIn signIn) {
-        checkNotNull(service);
-        checkNotNull(signIn);
-
-        SignIn internalSignIn = RestUtils.makeInternalCopy(signIn);
-        
-        // Do not allow more than one session provider to be created for a signIn.
-        UserSessionInfoProvider sessionProvider = null;
-        synchronized(this) {
-            sessionProvider = sessionProviders.get(internalSignIn);
-            if (sessionProvider == null) {
-                sessionProvider = new UserSessionInfoProvider(getClient(AuthenticationApi.class), internalSignIn);
-                sessionProviders.put(internalSignIn, sessionProvider);
-            }
-        }
-        
-        UserSessionInterceptor sessionInterceptor = new UserSessionInterceptor(sessionProvider);
-        AuthenticationHandler authenticationHandler = new AuthenticationHandler(sessionProvider);
-
-        OkHttpClient.Builder httpClientBuilder = getHttpClientBuilder(sessionInterceptor, authenticationHandler);
-        httpClientBuilder.authenticator(authenticationHandler);
-        Retrofit retrofit = getRetrofit(httpClientBuilder.build());
-        T authenticatingClient = retrofit.create(service);
-
-        return authenticatingClient;
+    public AuthenticationApi getAuthenticationApi() {
+        return authenticationApi;
     }
-    
+
+
     OkHttpClient.Builder getHttpClientBuilder(Interceptor... interceptors) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
-            .connectTimeout(2, TimeUnit.MINUTES)
-            .readTimeout(2, TimeUnit.MINUTES)
-            .writeTimeout(2, TimeUnit.MINUTES);
+                .connectTimeout(2, TimeUnit.MINUTES)
+                .readTimeout(2, TimeUnit.MINUTES)
+                .writeTimeout(2, TimeUnit.MINUTES);
         for (Interceptor interceptor : interceptors) {
             builder.addInterceptor(interceptor);
         }
         return builder
-            .addInterceptor(new HeaderInterceptor(userAgent, acceptLanguage))
-            .addInterceptor(WARNING_INTERCEPTOR)
-            .addInterceptor(ERROR_INTERCEPTOR)
-            .addInterceptor(LOGGING_INTERCEPTOR);
-    }
-    
-    // allow test access to retrofit builder
-    Retrofit getRetrofit(OkHttpClient client) {
-        return getRetrofitBuilder()
-            .baseUrl(baseUrl)
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create(RestUtils.GSON))
-            .build();
+                .addInterceptor(new HeaderInterceptor(userAgent, acceptLanguage))
+                .addInterceptor(WARNING_INTERCEPTOR)
+                .addInterceptor(ERROR_INTERCEPTOR)
+                .addInterceptor(LOGGING_INTERCEPTOR);
     }
 
-    Retrofit.Builder getRetrofitBuilder() {
-        return new Retrofit.Builder();
+    Retrofit getRetrofit(OkHttpClient client) {
+        return new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(RestUtils.GSON))
+                .build();
+    }
+
+    /**
+     * Loader (basically a factory) for Retrofit service instances.
+     */
+    static class RetrofitServiceLoader extends CacheLoader<Class<?>, Object> {
+       private final Retrofit retrofit;
+
+       RetrofitServiceLoader(Retrofit retrofit) {
+           this.retrofit = retrofit;
+       }
+
+       @SuppressWarnings("NullableProblems") // superclass uses nullity-analysis annotations which we are not using
+       @Override public Object load(Class<?> serviceClass)  {
+           return retrofit.create(serviceClass);
+       }
+   }
+
+    /**
+     * Returns a builder for authenticated access to this study.
+     *
+     * @return builder for creating authenticated clients
+     */
+    public AuthenticatedClientProviderBuilder getAuthenticatedClientProviderBuilder() {
+        return new AuthenticatedClientProviderBuilder();
+   }
+
+    /**
+     * Base class for creating authenticated clients that are correctly configured to communicate with a Bridge study.
+     */
+    public class AuthenticatedClientProvider {
+
+        private final UserSessionInfoProvider userSessionInfoProvider;
+        private final LoadingCache<Class<?>, ?> authenticatedServices;
+
+        private AuthenticatedClientProvider(final UserSessionInfoProvider userSessionInfoProvider,
+                final Retrofit authenticatedRetrofit) {
+            this.userSessionInfoProvider = userSessionInfoProvider;
+
+            this.authenticatedServices = CacheBuilder.newBuilder()
+                    .build(new RetrofitServiceLoader(authenticatedRetrofit));
+        }
+
+        // To build the ClientManager on this class, we need to have access to the session that is persisted
+        // by the HTTP interceptors.
+        public UserSessionInfoProvider getUserSessionInfoProvider() {
+            return userSessionInfoProvider;
+        }
+
+
+        /**
+         * @param <T>
+         *         One of the Api classes in the org.sagebionetworks.bridge.rest.api package.
+         * @param service
+         *         Class representing the service
+         * @return service client that is authenticated with the user's credentials
+         */
+        public <T> T getClient(Class<T> service) {
+            checkNotNull(service);
+
+            //noinspection unchecked
+            return (T) authenticatedServices.getUnchecked(service);
+        }
+    }
+
+    /**
+     * Builder for AuthenticatedClientProvider. Configure the builder with credentials for a user
+     */
+    public class AuthenticatedClientProviderBuilder {
+        private String email;
+        private String password;
+        private UserSessionInfo session;
+        /**
+         * @param email participant's email
+         * @return this builder, for chaining operations
+         */
+        public AuthenticatedClientProviderBuilder withEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        /**
+         * @param password participant's password, if available
+         * @return this builder, for chaining operations
+         */
+        public AuthenticatedClientProviderBuilder withPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        /**
+         * @param session participant's last active session, if available
+         * @return this builder, for chaining operations
+         */
+        public AuthenticatedClientProviderBuilder withSession(UserSessionInfo session) {
+            this.session = session;
+            return this;
+        }
+
+        /**
+         * Builds an AuthenticatedClientProvider. The credentials and/or session are cleared out when build() is called, and can
+         * be
+         * set again to build another AuthenticatedClientProvider for a different.
+         *
+         * @return instance of AuthenticatedClientProvider tied to a participant
+         */
+        public AuthenticatedClientProvider build() {
+            checkState(!Strings.isNullOrEmpty(email), "email cannot be null or empty");
+            checkState(!Strings.isNullOrEmpty(password) || session != null,
+                    "requires at least one of password or session");
+
+            UserSessionInfoProvider sessionProvider =
+                    new UserSessionInfoProvider(authenticationApi, study, email, password, session);
+
+            email = null;
+            password = null;
+            session = null;
+
+            UserSessionInterceptor sessionInterceptor = new UserSessionInterceptor(sessionProvider);
+            AuthenticationHandler authenticationHandler = new AuthenticationHandler(sessionProvider);
+
+            OkHttpClient.Builder httpClientBuilder = getHttpClientBuilder(sessionInterceptor, authenticationHandler);
+            httpClientBuilder.authenticator(authenticationHandler);
+
+            Retrofit authenticatedRetrofit = getRetrofit(httpClientBuilder.build());
+
+            return new AuthenticatedClientProvider(sessionProvider, authenticatedRetrofit);
+        }
     }
 }

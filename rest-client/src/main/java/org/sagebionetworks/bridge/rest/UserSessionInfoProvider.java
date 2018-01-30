@@ -1,9 +1,11 @@
 package org.sagebionetworks.bridge.rest;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import java.io.IOException;
 
+import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,17 +24,26 @@ public class UserSessionInfoProvider {
     private static final Logger LOG = LoggerFactory.getLogger(UserSessionInfoProvider.class);
 
     private final AuthenticationApi authenticationApi;
-    private final SignIn signIn;
+    private final String studyId;
+    private final String email;
+    private final String password;
     private UserSessionInfo session;
 
-    UserSessionInfoProvider(AuthenticationApi authenticationApi, SignIn signIn) {
+    UserSessionInfoProvider(AuthenticationApi authenticationApi, String studyId, String email, String password,
+            UserSessionInfo session) {
         checkNotNull(authenticationApi);
-        checkNotNull(signIn);
-        
+        checkNotNull(studyId);
+        checkNotNull(email);
+        checkState(!Strings.isNullOrEmpty(password) || session != null,
+                "requires at least one of password or session");
+
         this.authenticationApi = authenticationApi;
-        this.signIn = signIn;
+        this.studyId = studyId;
+        this.email = email;
+        this.session = session;
+        this.password = password;
     }
-    
+
     public synchronized UserSessionInfo getSession() {
         return session;
     }
@@ -68,8 +79,8 @@ public class UserSessionInfoProvider {
         if (session == null || session.getReauthToken() == null) {
             signIn();
         } else {
-            ReauthenticateRequest request = new ReauthenticateRequest().email(session.getEmail())
-                    .reauthToken(session.getReauthToken()).study(signIn.getStudy());
+            ReauthenticateRequest request = new ReauthenticateRequest().email(email)
+                    .reauthToken(session.getReauthToken()).study(studyId);
             try {
                 UserSessionInfo newSession = authenticationApi.reauthenticate(request).execute().body();
                 setSession(newSession);
@@ -77,7 +88,7 @@ public class UserSessionInfoProvider {
                 setSession(e.getSession());
             } catch(Exception e) {
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("reauth failed, signing in again");
+                    LOG.debug("Reauth failed, signing in again", e);
                 }
                 signIn();
             }
@@ -85,7 +96,12 @@ public class UserSessionInfoProvider {
     }
     
     private void signIn() throws IOException {
+        if (Strings.isNullOrEmpty(password)) {
+            LOG.warn("Could not signIn, no password provided");
+            return;
+        }
         try {
+            SignIn signIn = new SignIn().study(studyId).email(email).password(password);
             UserSessionInfo newSession = authenticationApi.signInV4(signIn).execute().body();
             setSession(newSession); 
         } catch(ConsentRequiredException e) {
