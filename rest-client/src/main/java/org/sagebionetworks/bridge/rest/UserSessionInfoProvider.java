@@ -102,7 +102,7 @@ public class UserSessionInfoProvider {
         }
         try {
             SignIn signIn = new SignIn().study(studyId).email(email).password(password);
-            UserSessionInfo newSession = authenticationApi.signIn(signIn).execute().body();
+            UserSessionInfo newSession = authenticationApi.signInV4(signIn).execute().body();
             setSession(newSession); 
         } catch(ConsentRequiredException e) {
             setSession(e.getSession());
