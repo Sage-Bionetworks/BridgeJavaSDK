@@ -81,14 +81,14 @@ public class UserSessionInfoProviderTest {
     }
     
     @Test
-    public void retrieveSessionWithouSessionSignsInAgain() throws Exception {
-        doReturn(call).when(authenticationApi).signIn(any(SignIn.class));
+    public void retrieveSessionWithoutSessionSignsInAgain() throws Exception {
+        doReturn(call).when(authenticationApi).signInV4(any(SignIn.class));
         doReturn(response).when(call).execute();
         doReturn(userSessionInfo).when(response).body();
         
         UserSessionInfo retrieved = provider.retrieveSession();
         assertEquals(userSessionInfo, retrieved);
-        verify(authenticationApi).signIn(any(SignIn.class));
+        verify(authenticationApi).signInV4(any(SignIn.class));
     }
     
     @Test
@@ -114,7 +114,7 @@ public class UserSessionInfoProviderTest {
         doReturn(call2).when(authenticationApi).reauthenticate(any(ReauthenticateRequest.class));
         doThrow(new EntityNotFoundException("message", "endpoint")).when(call2).execute();
 
-        doReturn(call).when(authenticationApi).signIn(any(SignIn.class));
+        doReturn(call).when(authenticationApi).signInV4(any(SignIn.class));
         doReturn(response).when(call).execute();
         doReturn(userSessionInfo).when(response).body();
         
@@ -125,7 +125,7 @@ public class UserSessionInfoProviderTest {
         
         assertEquals(userSessionInfo, provider.getSession());
         verify(authenticationApi, times(1)).reauthenticate(any(ReauthenticateRequest.class));
-        verify(authenticationApi, times(1)).signIn(signInCaptor.capture());
+        verify(authenticationApi, times(1)).signInV4(signInCaptor.capture());
     }
     
     @Test
@@ -133,7 +133,7 @@ public class UserSessionInfoProviderTest {
         doReturn(call2).when(authenticationApi).reauthenticate(any(ReauthenticateRequest.class));
         doThrow(new AuthenticationFailedException("", "endpoint")).when(call2).execute();
 
-        doReturn(call).when(authenticationApi).signIn(any(SignIn.class));
+        doReturn(call).when(authenticationApi).signInV4(any(SignIn.class));
         doReturn(response).when(call).execute();
         doReturn(userSessionInfo).when(response).body();
         
@@ -144,7 +144,7 @@ public class UserSessionInfoProviderTest {
         
         assertEquals(userSessionInfo, provider.getSession());
         verify(authenticationApi, times(1)).reauthenticate(any(ReauthenticateRequest.class));
-        verify(authenticationApi, times(1)).signIn(signInCaptor.capture());
+        verify(authenticationApi, times(1)).signInV4(signInCaptor.capture());
     }
     
     @Test
@@ -169,7 +169,7 @@ public class UserSessionInfoProviderTest {
     public void everythingGoesWrongOnAuthentication() throws Exception {
         // Neither call works. 
         doReturn(call2).when(authenticationApi).reauthenticate(any(ReauthenticateRequest.class));
-        doReturn(call2).when(authenticationApi).signIn(any(SignIn.class));
+        doReturn(call2).when(authenticationApi).signInV4(any(SignIn.class));
         doThrow(new AuthenticationFailedException("message", "endpoint")).when(call2).execute();
 
         doReturn(response).when(call).execute();
@@ -185,17 +185,17 @@ public class UserSessionInfoProviderTest {
             // Not clear if the framework will loop on this, however.
         }
         verify(authenticationApi, times(1)).reauthenticate(any(ReauthenticateRequest.class));
-        verify(authenticationApi, times(1)).signIn(any(SignIn.class));
+        verify(authenticationApi, times(1)).signInV4(any(SignIn.class));
     }
     
     @Test
     public void consentRequiredOnSignsIn() throws Exception {
-        doReturn(call2).when(authenticationApi).signIn(any(SignIn.class));
+        doReturn(call2).when(authenticationApi).signInV4(any(SignIn.class));
         doThrow(new ConsentRequiredException("message", "endpoint", userSessionInfo)).when(call2).execute();
 
         provider.reauthenticate();
         
         assertEquals(userSessionInfo, provider.getSession());
-        verify(authenticationApi).signIn(any(SignIn.class));
+        verify(authenticationApi).signInV4(any(SignIn.class));
     }    
 }
