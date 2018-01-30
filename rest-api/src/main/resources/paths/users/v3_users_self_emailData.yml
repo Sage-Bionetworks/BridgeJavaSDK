@@ -11,8 +11,12 @@ post:
     security:
         - BridgeSecurity: []
     parameters:
-        - $ref: ../../index.yml#/parameters/startDate
-        - $ref: ../../index.yml#/parameters/endDate
+        - name: DateRange
+          in: body
+          description: start- and endDate of the request.
+          required: true
+          schema:
+            $ref: ../../definitions/date_range.yml
     responses:
         202:
             $ref: ../../responses/202_message.yml
