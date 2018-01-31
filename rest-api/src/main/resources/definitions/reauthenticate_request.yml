@@ -5,12 +5,13 @@ description: |
     token can only be used once. 
 required:
     - study
-    - email
     - reauthToken
 properties:
     study:
         type: string
         description: The identifier of the participant's study.
+    phone:
+        $ref: ./phone.yml
     email:
         type: string
         description: The email address of the participant.

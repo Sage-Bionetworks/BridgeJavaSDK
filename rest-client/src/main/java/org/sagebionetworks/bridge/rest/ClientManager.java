@@ -90,6 +90,7 @@ public class ClientManager {
         this.authenticatedClientProvider =
                 new ApiClientProvider(hostURL, userAgent, acceptLanguage, config.getStudyIdentifier())
                         .getAuthenticatedClientProviderBuilder()
+                        .withPhone(signIn.getPhone())
                         .withEmail(signIn.getEmail())
                         .withPassword(signIn.getPassword()).build();
     }

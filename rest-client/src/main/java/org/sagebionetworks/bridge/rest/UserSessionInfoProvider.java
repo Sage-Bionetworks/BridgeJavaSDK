@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import org.sagebionetworks.bridge.rest.api.AuthenticationApi;
 import org.sagebionetworks.bridge.rest.exceptions.ConsentRequiredException;
+import org.sagebionetworks.bridge.rest.model.Phone;
 import org.sagebionetworks.bridge.rest.model.ReauthenticateRequest;
 import org.sagebionetworks.bridge.rest.model.SignIn;
 import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
@@ -26,20 +27,20 @@ public class UserSessionInfoProvider {
     private final AuthenticationApi authenticationApi;
     private final String studyId;
     private final String email;
+    private final Phone phone;
     private final String password;
     private UserSessionInfo session;
 
-    UserSessionInfoProvider(AuthenticationApi authenticationApi, String studyId, String email, String password,
+    UserSessionInfoProvider(AuthenticationApi authenticationApi, String studyId, String email, Phone phone, String password,
             UserSessionInfo session) {
         checkNotNull(authenticationApi);
         checkNotNull(studyId);
-        checkNotNull(email);
-        checkState(!Strings.isNullOrEmpty(password) || session != null,
-                "requires at least one of password or session");
+        checkState(email != null || phone != null, "requires either email or phone");
 
         this.authenticationApi = authenticationApi;
         this.studyId = studyId;
         this.email = email;
+        this.phone = phone;
         this.session = session;
         this.password = password;
     }
@@ -79,7 +80,7 @@ public class UserSessionInfoProvider {
         if (session == null || session.getReauthToken() == null) {
             signIn();
         } else {
-            ReauthenticateRequest request = new ReauthenticateRequest().email(email)
+            ReauthenticateRequest request = new ReauthenticateRequest().email(email).phone(phone)
                     .reauthToken(session.getReauthToken()).study(studyId);
             try {
                 UserSessionInfo newSession = authenticationApi.reauthenticate(request).execute().body();
@@ -101,7 +102,7 @@ public class UserSessionInfoProvider {
             return;
         }
         try {
-            SignIn signIn = new SignIn().study(studyId).email(email).password(password);
+            SignIn signIn = new SignIn().study(studyId).email(email).phone(phone).password(password);
             UserSessionInfo newSession = authenticationApi.signInV4(signIn).execute().body();
             setSession(newSession); 
         } catch(ConsentRequiredException e) {

@@ -16,6 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import org.sagebionetworks.bridge.rest.api.AuthenticationApi;
 import org.sagebionetworks.bridge.rest.model.ClientInfo;
+import org.sagebionetworks.bridge.rest.model.Phone;
 import org.sagebionetworks.bridge.rest.model.SignIn;
 import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 
@@ -184,10 +185,19 @@ public class ApiClientProvider {
      * Builder for AuthenticatedClientProvider. Configure the builder with credentials for a user
      */
     public class AuthenticatedClientProviderBuilder {
+        private Phone phone;
         private String email;
         private String password;
         private UserSessionInfo session;
         /**
+         * @param phone participant's phone
+         * @return this builder, for chaining operations
+         */
+        public AuthenticatedClientProviderBuilder withPhone(Phone phone) {
+            this.phone = phone;
+            return this;
+        }
+       /**
          * @param email participant's email
          * @return this builder, for chaining operations
          */
@@ -222,14 +232,13 @@ public class ApiClientProvider {
          * @return instance of AuthenticatedClientProvider tied to a participant
          */
         public AuthenticatedClientProvider build() {
-            checkState(!Strings.isNullOrEmpty(email), "email cannot be null or empty");
-            checkState(!Strings.isNullOrEmpty(password) || session != null,
-                    "requires at least one of password or session");
+            checkState(email != null || phone != null, "requires either email or phone");
 
             UserSessionInfoProvider sessionProvider =
-                    new UserSessionInfoProvider(authenticationApi, study, email, password, session);
+                    new UserSessionInfoProvider(authenticationApi, study, email, phone, password, session);
 
             email = null;
+            phone = null;
             password = null;
             session = null;
 
