@@ -64,8 +64,8 @@ public class UserSessionInfoProviderTest {
         
         signIn = new SignIn().email("email@email.com").password("password").study("test-study");
         
-        provider = new UserSessionInfoProvider(authenticationApi, signIn.getStudy(), signIn.getEmail(), signIn
-                .getPassword(), null);
+        provider = new UserSessionInfoProvider(authenticationApi, signIn.getStudy(), signIn.getEmail(),
+                signIn.getPhone(), signIn.getPassword(), null);
     }
     
     @Test
