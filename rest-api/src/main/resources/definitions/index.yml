@@ -103,6 +103,8 @@ HealthDataSubmission:
     $ref: ./health_data_submission.yml
 IdentifierHolder:
     $ref: ./identifier_holder.yml
+IdentifierUpdate:
+    $ref: ./identifier_update.yml
 Image:
     $ref: ./image.yml
 IntentToParticipate:
@@ -131,8 +133,6 @@ Phone:
     $ref: ./phone.yml
 PhoneSignInRequest:
     $ref: ./phone_signin_request.yml
-ReauthenticateRequest:
-    $ref: ./reauthenticate_request.yml
 RecordExportStatusRequest:
     $ref: ./record_export_status_request.yml
 ReportData:

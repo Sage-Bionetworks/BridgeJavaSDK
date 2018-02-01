@@ -6,12 +6,12 @@ post:
         the server. Updates the session's timeout value, and issues a new reauthentication token. 
         Reauthentication tokens can only be used one time. 
     parameters:
-        - name: ReauthenticateRequest
+        - name: SignIn
           in: body
           description: Information to authenticate with the server
           required: true
           schema:
-                $ref: ../../definitions/reauthenticate_request.yml
+                $ref: ../../definitions/sign_in.yml
     responses:
         200:
             description: OK

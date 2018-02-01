@@ -1,0 +1,27 @@
+post:
+    operationId: updateUsersIdentifiers
+    tags:
+        - Participants
+        - _For Consented Users
+    description: |
+        Allows the caller to add additional identifier fields to an account (email, phone). Once set, 
+        these fields cannot currently be changed. The caller must be authenticated to make this call, 
+        *and* must provide a valid sign in object for either authentication or reauthentication.
+    parameters:
+        - name: UpdateIdentifier
+          in: body
+          description: Information to authenticate and update an account identifier
+          required: true
+          schema:
+                $ref: ../../definitions/identifier_update.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/user_session_info.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml

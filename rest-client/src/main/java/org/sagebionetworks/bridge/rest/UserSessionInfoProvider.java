@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.sagebionetworks.bridge.rest.api.AuthenticationApi;
 import org.sagebionetworks.bridge.rest.exceptions.ConsentRequiredException;
 import org.sagebionetworks.bridge.rest.model.Phone;
-import org.sagebionetworks.bridge.rest.model.ReauthenticateRequest;
 import org.sagebionetworks.bridge.rest.model.SignIn;
 import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 
@@ -80,7 +79,7 @@ public class UserSessionInfoProvider {
         if (session == null || session.getReauthToken() == null) {
             signIn();
         } else {
-            ReauthenticateRequest request = new ReauthenticateRequest().email(email).phone(phone)
+            SignIn request = new SignIn().email(email).phone(phone)
                     .reauthToken(session.getReauthToken()).study(studyId);
             try {
                 UserSessionInfo newSession = authenticationApi.reauthenticate(request).execute().body();

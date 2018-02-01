@@ -21,7 +21,6 @@ import org.sagebionetworks.bridge.rest.api.AuthenticationApi;
 import org.sagebionetworks.bridge.rest.exceptions.AuthenticationFailedException;
 import org.sagebionetworks.bridge.rest.exceptions.ConsentRequiredException;
 import org.sagebionetworks.bridge.rest.exceptions.EntityNotFoundException;
-import org.sagebionetworks.bridge.rest.model.ReauthenticateRequest;
 import org.sagebionetworks.bridge.rest.model.SignIn;
 import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 
@@ -45,7 +44,7 @@ public class UserSessionInfoProviderTest {
     Response<UserSessionInfo> response;
     
     @Captor
-    ArgumentCaptor<ReauthenticateRequest> reauthenticateRequestCaptor;
+    ArgumentCaptor<SignIn> reauthenticateRequestCaptor;
 
     @Captor
     ArgumentCaptor<SignIn> signInCaptor;
@@ -94,7 +93,7 @@ public class UserSessionInfoProviderTest {
     
     @Test
     public void reauthenticate() throws Exception {
-        doReturn(call).when(authenticationApi).reauthenticate(any(ReauthenticateRequest.class));
+        doReturn(call).when(authenticationApi).reauthenticate(any(SignIn.class));
         doReturn(response).when(call).execute();
         doReturn(userSessionInfo).when(response).body();
         
@@ -104,7 +103,7 @@ public class UserSessionInfoProviderTest {
         provider.reauthenticate();
         
         verify(authenticationApi).reauthenticate(reauthenticateRequestCaptor.capture());
-        ReauthenticateRequest reauthRequest = reauthenticateRequestCaptor.getValue();
+        SignIn reauthRequest = reauthenticateRequestCaptor.getValue();
         assertEquals("reauthToken", reauthRequest.getReauthToken());
         assertEquals(signIn.getStudy(), reauthRequest.getStudy());
         assertEquals(signIn.getEmail(), reauthRequest.getEmail());
@@ -112,7 +111,7 @@ public class UserSessionInfoProviderTest {
     
     @Test
     public void failureToReauthenticate404SignsIn() throws Exception {
-        doReturn(call2).when(authenticationApi).reauthenticate(any(ReauthenticateRequest.class));
+        doReturn(call2).when(authenticationApi).reauthenticate(any(SignIn.class));
         doThrow(new EntityNotFoundException("message", "endpoint")).when(call2).execute();
 
         doReturn(call).when(authenticationApi).signInV4(any(SignIn.class));
@@ -125,13 +124,13 @@ public class UserSessionInfoProviderTest {
         provider.reauthenticate();
         
         assertEquals(userSessionInfo, provider.getSession());
-        verify(authenticationApi, times(1)).reauthenticate(any(ReauthenticateRequest.class));
+        verify(authenticationApi, times(1)).reauthenticate(any(SignIn.class));
         verify(authenticationApi, times(1)).signInV4(signInCaptor.capture());
     }
     
     @Test
     public void failureToReauthenticate401SignsIn() throws Exception {
-        doReturn(call2).when(authenticationApi).reauthenticate(any(ReauthenticateRequest.class));
+        doReturn(call2).when(authenticationApi).reauthenticate(any(SignIn.class));
         doThrow(new AuthenticationFailedException("", "endpoint")).when(call2).execute();
 
         doReturn(call).when(authenticationApi).signInV4(any(SignIn.class));
@@ -144,13 +143,13 @@ public class UserSessionInfoProviderTest {
         provider.reauthenticate();
         
         assertEquals(userSessionInfo, provider.getSession());
-        verify(authenticationApi, times(1)).reauthenticate(any(ReauthenticateRequest.class));
+        verify(authenticationApi, times(1)).reauthenticate(any(SignIn.class));
         verify(authenticationApi, times(1)).signInV4(signInCaptor.capture());
     }
     
     @Test
     public void consentRequiredOnReauthenticate() throws Exception {
-        doReturn(call2).when(authenticationApi).reauthenticate(any(ReauthenticateRequest.class));
+        doReturn(call2).when(authenticationApi).reauthenticate(any(SignIn.class));
         doThrow(new ConsentRequiredException("message", "endpoint", userSessionInfo)).when(call2).execute();
 
         doReturn(call).when(authenticationApi).signIn(any(SignIn.class));
@@ -163,13 +162,13 @@ public class UserSessionInfoProviderTest {
         provider.reauthenticate();
         
         assertEquals(userSessionInfo, provider.getSession());
-        verify(authenticationApi).reauthenticate(any(ReauthenticateRequest.class));
+        verify(authenticationApi).reauthenticate(any(SignIn.class));
     }
     
     @Test
     public void everythingGoesWrongOnAuthentication() throws Exception {
         // Neither call works. 
-        doReturn(call2).when(authenticationApi).reauthenticate(any(ReauthenticateRequest.class));
+        doReturn(call2).when(authenticationApi).reauthenticate(any(SignIn.class));
         doReturn(call2).when(authenticationApi).signInV4(any(SignIn.class));
         doThrow(new AuthenticationFailedException("message", "endpoint")).when(call2).execute();
 
@@ -185,7 +184,7 @@ public class UserSessionInfoProviderTest {
         } catch(AuthenticationFailedException e) {
             // Not clear if the framework will loop on this, however.
         }
-        verify(authenticationApi, times(1)).reauthenticate(any(ReauthenticateRequest.class));
+        verify(authenticationApi, times(1)).reauthenticate(any(SignIn.class));
         verify(authenticationApi, times(1)).signInV4(any(SignIn.class));
     }
     
