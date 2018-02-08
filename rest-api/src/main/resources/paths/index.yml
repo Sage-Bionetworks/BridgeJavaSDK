@@ -61,6 +61,8 @@
     $ref: ./participants/v3_participants.yml
 /v3/participants/self:
     $ref: ./participants/v3_participants_self.yml
+/v3/participants/self/identifiers:
+    $ref: ./participants/v3_participants_self_identifiers.yml
 /v3/participants/reports:
     $ref: ./participants/v3_participants_reports.yml
 /v3/participants/{userId}:

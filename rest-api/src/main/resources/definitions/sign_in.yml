@@ -1,9 +1,11 @@
-description: Information to sign in to the Bridge server.
+description: |
+    Information to sign in to the Bridge server. For a successful sign in, this object must 
+    include an *identifier* (either email or phone number) and a *secret* (either password or 
+    a reauthToken). Depending on the credentials supplied, there are currently different 
+    server endpoints to call. The study identifier is always required.
 type: object
 required:
     - study
-    - email
-    - password
 properties:
     study:
         type: string
@@ -17,6 +19,12 @@ properties:
         type: string
         format: password
         description: User's password
+    reauthToken:
+        type: string
+        description: |
+            The token sent with a new session to reauthenticate with the server. This removes the 
+            need for a client app to store the user's password. The reauth token is rotated each 
+            time the caller authenticates or reauthenticates.
     type:
         type: string
         readOnly: true
