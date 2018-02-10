@@ -293,6 +293,7 @@ public class ApiClientProvider {
             UserSessionInfoProvider sessionProvider =
                     new UserSessionInfoProvider(authenticationApi, study, email, phone, password, session);
 
+            // reset credentials so same builder can be reused
             email = null;
             phone = null;
             password = null;
@@ -301,6 +302,7 @@ public class ApiClientProvider {
             UserSessionInterceptor sessionInterceptor = new UserSessionInterceptor(sessionProvider);
             AuthenticationHandler authenticationHandler = new AuthenticationHandler(sessionProvider);
 
+            // put auth related interceptors first
             applicationInterceptors.add(0, sessionInterceptor);
             applicationInterceptors.add(1, authenticationHandler);
 
