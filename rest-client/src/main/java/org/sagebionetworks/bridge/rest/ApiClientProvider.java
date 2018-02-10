@@ -3,6 +3,9 @@ package org.sagebionetworks.bridge.rest;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Strings;
@@ -17,7 +20,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import org.sagebionetworks.bridge.rest.api.AuthenticationApi;
 import org.sagebionetworks.bridge.rest.model.ClientInfo;
 import org.sagebionetworks.bridge.rest.model.Phone;
-import org.sagebionetworks.bridge.rest.model.SignIn;
 import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 
 /**
@@ -35,7 +37,6 @@ public class ApiClientProvider {
     private final String study;
     private final Retrofit unauthenticatedRetrofit;
     private final LoadingCache<Class<?>, ?> unauthenticatedServices;
-
     private final AuthenticationApi authenticationApi;
 
     /**
@@ -49,19 +50,45 @@ public class ApiClientProvider {
      *         preferred
      * @param study
      *         study identifier
-
      */
     public ApiClientProvider(String baseUrl, String userAgent, String acceptLanguage, String study) {
+        this(baseUrl, userAgent, acceptLanguage, study, Collections.<Interceptor>emptyList(),
+                Collections.<Interceptor>emptyList());
+    }
+
+    /**
+     * Creates a builder for accessing services associated with an environment and study.
+     *
+     * @param baseUrl base url for Bridge service
+     * @param userAgent
+     *         user-agent string in Bridge's expected format, see {@link RestUtils#getUserAgent(ClientInfo)}
+     * @param acceptLanguage
+     *         optional comma-separated list of preferred languages for this client (most to least
+     *         preferred
+     * @param study
+     *         study identifier
+     * @param networkInterceptors
+     *         additional network applicationInterceptors
+     * @param applicationInterceptors
+     *         additional application applicationInterceptors
+     */
+    public ApiClientProvider(String baseUrl, String userAgent, String acceptLanguage, String study,
+            List<Interceptor> networkInterceptors, List<Interceptor> applicationInterceptors) {
         checkState(!Strings.isNullOrEmpty(baseUrl));
         checkState(!Strings.isNullOrEmpty(userAgent));
         checkState(!Strings.isNullOrEmpty(study));
+        checkNotNull(networkInterceptors);
+        checkNotNull(applicationInterceptors);
 
         this.baseUrl = baseUrl;
         this.userAgent = userAgent;
         this.acceptLanguage = acceptLanguage;
         this.study = study;
-
-        unauthenticatedRetrofit= getRetrofit(getHttpClientBuilder().build());
+        this.unauthenticatedRetrofit = getRetrofit(
+                getHttpClientBuilder(
+                        networkInterceptors,
+                        applicationInterceptors)
+                        .build());
         this.unauthenticatedServices = CacheBuilder.newBuilder()
                 .build(new RetrofitServiceLoader(unauthenticatedRetrofit));
         authenticationApi = getClient(AuthenticationApi.class);
@@ -95,12 +122,16 @@ public class ApiClientProvider {
     }
 
 
-    OkHttpClient.Builder getHttpClientBuilder(Interceptor... interceptors) {
+    OkHttpClient.Builder getHttpClientBuilder(List<Interceptor> networkInterceptors,
+            List<Interceptor> applicationInterceptors) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .connectTimeout(2, TimeUnit.MINUTES)
                 .readTimeout(2, TimeUnit.MINUTES)
                 .writeTimeout(2, TimeUnit.MINUTES);
-        for (Interceptor interceptor : interceptors) {
+        for (Interceptor interceptor : networkInterceptors) {
+            builder.addNetworkInterceptor(interceptor);
+        }
+        for (Interceptor interceptor : applicationInterceptors) {
             builder.addInterceptor(interceptor);
         }
         return builder
@@ -160,7 +191,7 @@ public class ApiClientProvider {
         }
 
         // To build the ClientManager on this class, we need to have access to the session that is persisted
-        // by the HTTP interceptors.
+        // by the HTTP applicationInterceptors.
         public UserSessionInfoProvider getUserSessionInfoProvider() {
             return userSessionInfoProvider;
         }
@@ -189,6 +220,13 @@ public class ApiClientProvider {
         private String email;
         private String password;
         private UserSessionInfo session;
+        private List<Interceptor> networkInterceptors;
+        private List<Interceptor> applicationInterceptors;
+
+        private AuthenticatedClientProviderBuilder() {
+            networkInterceptors = Collections.emptyList();
+            applicationInterceptors = Collections.emptyList();
+        }
         /**
          * @param phone participant's phone
          * @return this builder, for chaining operations
@@ -203,6 +241,24 @@ public class ApiClientProvider {
          */
         public AuthenticatedClientProviderBuilder withEmail(String email) {
             this.email = email;
+            return this;
+        }
+
+        /**
+         * @param networkInterceptors additional interceptors for the authenticated client
+         * @return this builder, for chaining operations
+         */
+        public AuthenticatedClientProviderBuilder withNetworkInterceptors(Interceptor... networkInterceptors) {
+            this.applicationInterceptors = Arrays.asList(networkInterceptors);
+            return this;
+        }
+
+        /**
+         * @param applicationInterceptor additional applicationInterceptors for the authenticated client
+         * @return this builder, for chaining operations
+         */
+        public AuthenticatedClientProviderBuilder withApplicationInterceptors(Interceptor... applicationInterceptor) {
+            this.applicationInterceptors = Arrays.asList(applicationInterceptor);
             return this;
         }
 
@@ -245,7 +301,10 @@ public class ApiClientProvider {
             UserSessionInterceptor sessionInterceptor = new UserSessionInterceptor(sessionProvider);
             AuthenticationHandler authenticationHandler = new AuthenticationHandler(sessionProvider);
 
-            OkHttpClient.Builder httpClientBuilder = getHttpClientBuilder(sessionInterceptor, authenticationHandler);
+            applicationInterceptors.add(0, sessionInterceptor);
+            applicationInterceptors.add(1, authenticationHandler);
+
+            OkHttpClient.Builder httpClientBuilder = getHttpClientBuilder(networkInterceptors, applicationInterceptors);
             httpClientBuilder.authenticator(authenticationHandler);
 
             Retrofit authenticatedRetrofit = getRetrofit(httpClientBuilder.build());
