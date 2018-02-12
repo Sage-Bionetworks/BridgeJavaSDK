@@ -12,6 +12,7 @@ import com.google.common.base.Strings;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.Lists;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -224,8 +225,8 @@ public class ApiClientProvider {
         private List<Interceptor> applicationInterceptors;
 
         private AuthenticatedClientProviderBuilder() {
-            networkInterceptors = Collections.emptyList();
-            applicationInterceptors = Collections.emptyList();
+            networkInterceptors = Lists.newArrayList();
+            applicationInterceptors = Lists.newArrayList();
         }
         /**
          * @param phone participant's phone
