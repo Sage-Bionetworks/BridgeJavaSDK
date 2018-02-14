@@ -11,6 +11,8 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.Route;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Intercepts authentication error responses and re-acquires a session. NOTE: This handler is not currently registered
@@ -19,6 +21,8 @@ import okhttp3.Route;
  * a session times out on the server, if so, no test currently simulates this behavior.
  */
 class AuthenticationHandler implements Interceptor, Authenticator {
+    private static final Logger LOG = LoggerFactory.getLogger(AuthenticationHandler.class);
+
     private static final int MAX_TRIES = 1;
     private static final String SIGN_OUT_PATH = "/signOut";
     private static final String AUTH_PATH = "/auth/";
@@ -37,6 +41,9 @@ class AuthenticationHandler implements Interceptor, Authenticator {
             tryCount = 0;
             return null;
         }
+        
+        LOG.debug("Received 401, automatically attempting authentication, tryCount: " + tryCount);
+
         // We received a 401 from the server... attempt to reauthenticate.
         tryCount++;
         userSessionInfoProvider.reauthenticate();
