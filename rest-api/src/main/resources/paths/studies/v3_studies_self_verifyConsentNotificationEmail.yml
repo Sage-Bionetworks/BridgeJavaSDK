@@ -1,0 +1,25 @@
+post:
+    operationId: verifyConsentNotificationEmail
+    summary: Verifies the consent notification email
+    description: |
+        Verifies the consent notification email for the study. Since this comes in from an email with a token, you
+        don't need to be authenticated. The token itself knows what study this is for.
+    tags: 
+        - Studies
+        - _For Developers
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - name: EmailVerification
+          in: body
+          description: Email verification token
+          required: true
+          schema:
+                $ref: ../../definitions/email_verification.yml
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
