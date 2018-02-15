@@ -263,10 +263,14 @@
     $ref: ./studies/v3_studies_self.yml
 /v3/studies/{studyId}:
     $ref: ./studies/v3_studies_studyId.yml
+/v3/studies/{studyId}/emails/verify:
+    $ref: ./studies/v3_studies_studyId_emails_verify.yml
 /v3/studies/self/publicKey:
     $ref: ./studies/v3_studies_self_publicKey.yml
 /v3/studies/self/emailStatus:
     $ref: ./studies/v3_studies_self_emailStatus.yml
+/v3/studies/self/emails/resendVerify:
+    $ref: ./studies/v3_studies_self_emails_resendVerify.yml
 /v3/studies/self/verifyEmail:
     $ref: ./studies/v3_studies_self_verifyEmail.yml
 /v3/studies/self/uploads:
