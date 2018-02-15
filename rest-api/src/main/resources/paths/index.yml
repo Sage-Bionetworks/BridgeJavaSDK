@@ -276,7 +276,6 @@
 /v3/studies/self/synapseProject:
     $ref: ./studies/v3_studies_self_synapseProject.yml
 
-
 # External IDs
 /v3/externalIds:
     $ref: ./externalIds/v3_externalIds.yml
