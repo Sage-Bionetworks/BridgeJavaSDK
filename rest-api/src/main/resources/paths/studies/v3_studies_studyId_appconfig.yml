@@ -1,0 +1,16 @@
+get:
+    operationId: getAppConfig
+    summary: |
+        Get the app config for the current version of the app (as determined by the User-Agent string). Does not require authentication.
+    tags:
+        - Studies
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/app_config.yml
