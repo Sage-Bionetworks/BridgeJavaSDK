@@ -24,7 +24,7 @@ post:
           # Our version of Swagger doesn't support enums in query parameters, so we have to list out enum values
           # manually. Unfortunately, there is no compile-time validation of this, and the JavaSDK is generated as a
           # String.
-          enum: [CONSENT_NOTIFICATION]
+          enum: [consent_notification]
     responses:
         200:
             $ref: ../../responses/200_message.yml
