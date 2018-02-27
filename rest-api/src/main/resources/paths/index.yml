@@ -263,8 +263,6 @@
     $ref: ./studies/v3_studies_self.yml
 /v3/studies/{studyId}:
     $ref: ./studies/v3_studies_studyId.yml
-/v3/studies/{studyId}/appconfig:
-    $ref: ./studies/v3_studies_studyId_appconfig.yml
 /v3/studies/{studyId}/emails/verify:
     $ref: ./studies/v3_studies_studyId_emails_verify.yml
 /v3/studies/{studyId}/appconfig:
