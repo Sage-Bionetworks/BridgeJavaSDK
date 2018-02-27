@@ -1,0 +1,27 @@
+post:
+    operationId: resendVerifyEmail
+    summary: Resends the verification email for the study's email.
+    description: |
+        Resends the verification email for the current study's email.
+    tags: 
+        - Studies
+        - _For Developers
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - name: type
+          description: Type of email that should resend email verification.
+          required: true
+          in: query
+          type: string
+          # Our version of Swagger doesn't support enums in query parameters, so we have to list out enum values
+          # manually. Unfortunately, there is no compile-time validation of this, and the JavaSDK is generated as a
+          # String.
+          enum: [consent_notification]
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
