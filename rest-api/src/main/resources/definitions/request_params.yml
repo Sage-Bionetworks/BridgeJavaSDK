@@ -42,6 +42,8 @@ properties:
     total:
         type: integer
         format: int32
+    summary:
+        type: boolean
     type:
         type: string
         readOnly: true

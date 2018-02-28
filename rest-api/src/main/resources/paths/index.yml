@@ -265,6 +265,8 @@
     $ref: ./studies/v3_studies_studyId.yml
 /v3/studies/{studyId}/emails/verify:
     $ref: ./studies/v3_studies_studyId_emails_verify.yml
+/v3/studies/{studyId}/appconfig:
+    $ref: ./studies/v3_studies_studyId_appconfig.yml
 /v3/studies/self/publicKey:
     $ref: ./studies/v3_studies_self_publicKey.yml
 /v3/studies/self/emailStatus:
@@ -307,8 +309,6 @@
 # AppConfig
 /v3/appconfigs:
     $ref: ./appconfigs/v3_appconfigs.yml
-/v3/appconfigs/self:
-    $ref: ./appconfigs/v3_appconfigs_self.yml
 /v3/appconfigs/{guid}:
     $ref: ./appconfigs/v3_appconfigs_guid.yml
 
