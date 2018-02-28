@@ -29,7 +29,7 @@ class LoggingInterceptor implements Interceptor {
             // Build one logging statement that is all the headers, content of one request, this is much easier to
             // follow in the logs.
             StringBuilder sb = new StringBuilder();
-            sb.append(request.method()+" "+request.url().toString());
+            sb.append("REQUEST: " + request.method()+" "+request.url().toString());
             if (request.header(USER_AGENT) != null) {
                 sb.append("\n    "+USER_AGENT + ": " + request.header(USER_AGENT));
             }
@@ -44,7 +44,7 @@ class LoggingInterceptor implements Interceptor {
             if ("POST".equals(request.method())) {
                 String body = requestBodyToString(request);
                 if (body.length() > 0) {
-                    sb.append("\n    "+redactPasswords(body));
+                    sb.append("\n    BODY: "+redactPasswords(body));
                 }
             }
             logger.debug(sb.toString());
@@ -57,7 +57,12 @@ class LoggingInterceptor implements Interceptor {
             Response newResponse = response.newBuilder()
                     .body(ResponseBody.create(body.contentType(), bodyString.getBytes())).build();
 
-            logger.debug(response.code()+" RESPONSE: "+redactPasswords(bodyString));
+            StringBuilder sb = new StringBuilder();
+            sb.append("RESPONSE: " + response.request().method()+" "+request.url().toString());
+            sb.append("\n    CODE: "+response.code());
+            sb.append("\n    BODY: "+redactPasswords(bodyString));
+
+            logger.debug(sb.toString());
             return newResponse;
         }
         return response;

@@ -12,6 +12,7 @@ import com.google.common.base.Strings;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -39,6 +40,8 @@ public class ApiClientProvider {
     private final Retrofit unauthenticatedRetrofit;
     private final LoadingCache<Class<?>, ?> unauthenticatedServices;
     private final AuthenticationApi authenticationApi;
+    private final ImmutableList<Interceptor> networkInterceptors;
+    private final ImmutableList<Interceptor> applicationInterceptors;
 
     /**
      * Creates a builder for accessing services associated with an environment and study.
@@ -93,6 +96,9 @@ public class ApiClientProvider {
         this.unauthenticatedServices = CacheBuilder.newBuilder()
                 .build(new RetrofitServiceLoader(unauthenticatedRetrofit));
         authenticationApi = getClient(AuthenticationApi.class);
+
+        this.networkInterceptors = ImmutableList.copyOf(networkInterceptors);
+        this.applicationInterceptors = ImmutableList.copyOf(networkInterceptors);
     }
 
     /**
@@ -221,12 +227,8 @@ public class ApiClientProvider {
         private String email;
         private String password;
         private UserSessionInfo session;
-        private List<Interceptor> networkInterceptors;
-        private List<Interceptor> applicationInterceptors;
 
         private AuthenticatedClientProviderBuilder() {
-            networkInterceptors = Lists.newArrayList();
-            applicationInterceptors = Lists.newArrayList();
         }
         /**
          * @param phone participant's phone
@@ -242,24 +244,6 @@ public class ApiClientProvider {
          */
         public AuthenticatedClientProviderBuilder withEmail(String email) {
             this.email = email;
-            return this;
-        }
-
-        /**
-         * @param networkInterceptors additional interceptors for the authenticated client
-         * @return this builder, for chaining operations
-         */
-        public AuthenticatedClientProviderBuilder withNetworkInterceptors(Interceptor... networkInterceptors) {
-            this.applicationInterceptors = Arrays.asList(networkInterceptors);
-            return this;
-        }
-
-        /**
-         * @param applicationInterceptor additional applicationInterceptors for the authenticated client
-         * @return this builder, for chaining operations
-         */
-        public AuthenticatedClientProviderBuilder withApplicationInterceptors(Interceptor... applicationInterceptor) {
-            this.applicationInterceptors = Arrays.asList(applicationInterceptor);
             return this;
         }
 
@@ -304,10 +288,13 @@ public class ApiClientProvider {
             AuthenticationHandler authenticationHandler = new AuthenticationHandler(sessionProvider);
 
             // put auth related interceptors first
-            applicationInterceptors.add(0, sessionInterceptor);
-            applicationInterceptors.add(1, authenticationHandler);
+            List<Interceptor> applicationInterceptorsWithAuth = Lists.newArrayList();
+            applicationInterceptorsWithAuth.add(sessionInterceptor);
+            applicationInterceptorsWithAuth.add(authenticationHandler);
+            applicationInterceptorsWithAuth.addAll(applicationInterceptors);
 
-            OkHttpClient.Builder httpClientBuilder = getHttpClientBuilder(networkInterceptors, applicationInterceptors);
+            OkHttpClient.Builder httpClientBuilder = getHttpClientBuilder(networkInterceptors,
+                    applicationInterceptorsWithAuth);
             httpClientBuilder.authenticator(authenticationHandler);
 
             Retrofit authenticatedRetrofit = getRetrofit(httpClientBuilder.build());

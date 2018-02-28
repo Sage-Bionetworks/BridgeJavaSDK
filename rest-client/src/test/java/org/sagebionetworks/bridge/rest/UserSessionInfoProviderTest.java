@@ -9,6 +9,8 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.io.IOException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -164,15 +166,44 @@ public class UserSessionInfoProviderTest {
         assertEquals(userSessionInfo, provider.getSession());
         verify(authenticationApi).reauthenticate(any(SignIn.class));
     }
+
+    @Test
+    public void reauthenticationFailsWithNoCredentialsAllowingSignIn() throws IOException {
+
+        signIn = new SignIn().email("email@email.com").study("test-study");
+
+        provider = new UserSessionInfoProvider(authenticationApi, signIn.getStudy(), signIn.getEmail(),
+                signIn.getPhone(), signIn.getPassword(), null);
+
+        doReturn(call).when(authenticationApi).reauthenticate(any(SignIn.class));
+        AuthenticationFailedException e1 = new AuthenticationFailedException("message", "endpoint");
+        doThrow(e1).when(call).execute();
+
+        userSessionInfo.setReauthToken("reauthToken");
+        provider.setSession(userSessionInfo);
+
+        try {
+            provider.reauthenticate();
+            fail("This should have thrown an exception");
+        } catch(AuthenticationFailedException e) {
+            assertEquals(e1, e);
+            // Not clear if the framework will loop on this, however.
+        }
+
+        verify(authenticationApi, times(1)).reauthenticate(any(SignIn.class));
+    }
     
     @Test
     public void everythingGoesWrongOnAuthentication() throws Exception {
         // Neither call works. 
-        doReturn(call2).when(authenticationApi).reauthenticate(any(SignIn.class));
-        doReturn(call2).when(authenticationApi).signInV4(any(SignIn.class));
-        doThrow(new AuthenticationFailedException("message", "endpoint")).when(call2).execute();
+        doReturn(call).when(authenticationApi).reauthenticate(any(SignIn.class));
+        AuthenticationFailedException e1 = new AuthenticationFailedException("message", "endpoint");
+        doThrow(e1).when(call).execute();
 
-        doReturn(response).when(call).execute();
+        doReturn(call2).when(authenticationApi).signInV4(any(SignIn.class));
+        AuthenticationFailedException e2 = new AuthenticationFailedException("message", "endpoint");
+        doThrow(e2).when(call2).execute();
+
         doReturn(userSessionInfo).when(response).body();
         
         userSessionInfo.setReauthToken("reauthToken");
@@ -182,6 +213,8 @@ public class UserSessionInfoProviderTest {
             provider.reauthenticate();
             fail("This should have thrown an exception");
         } catch(AuthenticationFailedException e) {
+            assertEquals(e1, e);
+            assertEquals(e2, e.getCause());
             // Not clear if the framework will loop on this, however.
         }
         verify(authenticationApi, times(1)).reauthenticate(any(SignIn.class));
