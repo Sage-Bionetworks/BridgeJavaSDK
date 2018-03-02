@@ -22,6 +22,18 @@ parameters:
         required: true
         in: path
         type: string
+    consents:
+        name: consents
+        description: Should consent histories be included with this participant record?
+        required: false
+        in: query
+        type: boolean
+    externalId:
+        name: externalId
+        description: User's external ID
+        required: true
+        in: path
+        type: string
     moduleId:
         name: moduleId
         description: Unique ID of the module.

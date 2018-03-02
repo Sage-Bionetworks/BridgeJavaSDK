@@ -67,6 +67,10 @@
     $ref: ./participants/v3_participants_reports.yml
 /v3/participants/{userId}:
     $ref: ./participants/v3_participants_userId.yml
+/v3/participants/externalId:{externalId}:
+    $ref: ./participants/v3_participants_externalId.yml
+/v3/participants/healthCode:{healthCode}:
+    $ref: ./participants/v3_participants_healthCode.yml
 /v3/participants/{userId}/uploads:
     $ref: ./participants/v3_participants_userId_uploads.yml
 /v3/participants/{userId}/notifications:
@@ -301,6 +305,10 @@
     $ref: ./studies/v3_studies_studyId_participants.yml
 /v3/studies/{studyId}/participants/{userId}:
     $ref: ./studies/v3_studies_studyId_participants_userId.yml
+/v3/studies/{studyId}/participants/healthCode:{healthCode}:
+    $ref: ./studies/v3_studies_studyId_participants_healthCode.yml
+/v3/studies/{studyId}/participants/externalId:{externalId}:
+    $ref: ./studies/v3_studies_studyId_participants_externalId.yml
 /v3/studies/{studyId}/oauth/{vendorId}:
     $ref: ./studies/v3_studies_studyId_oauth_vendorId.yml
 /v3/studies/{studyId}/oauth/{vendorId}/{healthCode}:

@@ -1,13 +1,13 @@
 get:
-    operationId: getParticipantInStudyById
-    summary: Get a study participant (user) record in a study
+    operationId: getParticipantByExternalId
+    summary: Get a study participant (user) record using the external ID of the account
     tags:
-        - _For Workers
+        - Participants
+        - _For Researchers    
     security:
         - BridgeSecurity: []
     parameters:
-        - $ref: ../../index.yml#/parameters/studyId
-        - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/externalId
         - $ref: ../../index.yml#/parameters/consents
     responses:
         200:
@@ -17,4 +17,4 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_worker.yml        
+            $ref: ../../responses/403_not_researcher.yml
