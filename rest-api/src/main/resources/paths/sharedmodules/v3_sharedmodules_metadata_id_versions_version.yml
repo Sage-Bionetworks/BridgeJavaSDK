@@ -3,6 +3,7 @@ get:
     summary: Gets metadata for the specified version of the specified module.
     tags:
         - Shared Modules
+        - Public
         - _For Developers
     security:
         -   BridgeSecurity: []

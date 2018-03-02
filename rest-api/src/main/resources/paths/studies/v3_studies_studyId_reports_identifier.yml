@@ -6,6 +6,7 @@ get:
         public or the server will return 404 for the report). Only study reports may be made public.
     tags:
         - StudyReports
+        - Public
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
         - $ref: ../../index.yml#/parameters/identifier

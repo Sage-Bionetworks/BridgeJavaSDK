@@ -3,6 +3,7 @@ get:
     summary: Similar to queryAllMetadata, except this only queries on module versions of the specified ID.
     tags:
         - Shared Modules
+        - Public
         - _For Developers
     security:
         -   BridgeSecurity: []
