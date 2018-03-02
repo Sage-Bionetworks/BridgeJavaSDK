@@ -3,6 +3,7 @@ get:
     summary: Queries module metadata using the set of given parameters.
     tags:
         - Shared Modules
+        - Public
         - _For Developers
     security:
         -   BridgeSecurity: []

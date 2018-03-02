@@ -1,8 +1,10 @@
 get:
     operationId: getStudies
     summary: Get all studies
+        The summary must be true if this call is made without authentication.
     tags: 
         - Studies
+        - Public
         - _For Admins
     security:
         -   BridgeSecurity: []
