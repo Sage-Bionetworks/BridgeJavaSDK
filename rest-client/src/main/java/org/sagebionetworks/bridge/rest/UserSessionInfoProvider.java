@@ -8,8 +8,11 @@ import java.io.IOException;
 import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.corba.Bridge;
 
 import org.sagebionetworks.bridge.rest.api.AuthenticationApi;
+import org.sagebionetworks.bridge.rest.exceptions.AuthenticationFailedException;
+import org.sagebionetworks.bridge.rest.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.rest.exceptions.ConsentRequiredException;
 import org.sagebionetworks.bridge.rest.model.Phone;
 import org.sagebionetworks.bridge.rest.model.SignIn;
@@ -85,28 +88,48 @@ public class UserSessionInfoProvider {
                 UserSessionInfo newSession = authenticationApi.reauthenticate(request).execute().body();
                 setSession(newSession);
             } catch(ConsentRequiredException e) {
+                // successful authentication
                 setSession(e.getSession());
-            } catch(Exception e) {
+            } catch(BridgeSDKException reauthException) {
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("Reauth failed, signing in again", e);
+                    LOG.debug("Reauth failed, signing in again", reauthException);
                 }
-                signIn();
+
+                boolean signInAttempted;
+                try {
+                     signInAttempted = signIn();
+                } catch (BridgeSDKException signInException) {
+                    try {
+                        signInException.initCause(reauthException);
+                    } catch (IllegalStateException t) {
+                        // should not happen, since cause should not have been set before
+                        LOG.debug("Unable to set cause on: ", signInException);
+                    }
+                    throw signInException;
+                }
+
+                // if we never try to sign in, propagate exception from reauth
+                if (!signInAttempted) {
+                    throw reauthException;
+                }
             }
         }
     }
     
-    private void signIn() throws IOException {
+    private boolean signIn() throws IOException {
         if (Strings.isNullOrEmpty(password)) {
             LOG.warn("Could not signIn, no password provided");
-            return;
+            return false;
         }
         try {
             SignIn signIn = new SignIn().study(studyId).email(email).phone(phone).password(password);
             UserSessionInfo newSession = authenticationApi.signInV4(signIn).execute().body();
             setSession(newSession); 
         } catch(ConsentRequiredException e) {
+            // successful authentication
             setSession(e.getSession());
         }
+        return true;
     }
     
     private String debugString(String token) {
