@@ -1,5 +1,5 @@
 get:
-    operationId: getParticipant
+    operationId: getParticipantById
     summary: Get a study participant (user) record
     tags:
         - Participants
@@ -8,6 +8,7 @@ get:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/consents
     responses:
         200:
             description: OK
