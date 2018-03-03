@@ -98,7 +98,7 @@ public class ApiClientProvider {
         authenticationApi = getClient(AuthenticationApi.class);
 
         this.networkInterceptors = ImmutableList.copyOf(networkInterceptors);
-        this.applicationInterceptors = ImmutableList.copyOf(networkInterceptors);
+        this.applicationInterceptors = ImmutableList.copyOf(applicationInterceptors);
     }
 
     /**
