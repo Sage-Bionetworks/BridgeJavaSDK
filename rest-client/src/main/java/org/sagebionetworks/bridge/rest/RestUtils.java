@@ -198,20 +198,47 @@ public class RestUtils {
         if (info == null) {
             return null;
         }
-        List<String> stanzas = Lists.newArrayListWithCapacity(3);
-        if (isNotBlank(info.getAppName()) && info.getAppVersion() != null) {
-            stanzas.add(String.format("%s/%s", info.getAppName(), info.getAppVersion()));
+        // Send what is available. The server can handle all meaningful combinations.
+        StringBuilder sb = new StringBuilder();
+        if (isNotBlank(info.getAppName()) || info.getAppVersion() != null) {
+            if (isNotBlank(info.getAppName())) {
+                sb.append(info.getAppName());
+            }
+            if (info.getAppVersion() != null) {
+                sb.append("/");
+                sb.append(info.getAppVersion());
+            }
         }
-        if (isNotBlank(info.getDeviceName()) && isNotBlank(info.getOsName()) && isNotBlank(info.getOsVersion())) {
-            stanzas.add(String.format("(%s; %s/%s)", info.getDeviceName(), info.getOsName(), info.getOsVersion()));
+        if (isNotBlank(info.getDeviceName()) || isNotBlank(info.getOsName()) || isNotBlank(info.getOsVersion())) {
+            sb.append(" (");
+            // Only include device name if there's also os, this is one ambiguity we cannot parse.
+            if (isNotBlank(info.getDeviceName())) {
+                sb.append(info.getDeviceName());
+                sb.append("; ");
+            }
+            if (isNotBlank(info.getOsName())) {
+                sb.append(info.getOsName());
+            }
+            if (isNotBlank(info.getOsVersion())) {
+                sb.append("/");
+                sb.append(info.getOsVersion());
+            }
+            sb.append(")");
         }
-        if (!stanzas.isEmpty() && isNotBlank(info.getSdkName()) && info.getSdkVersion() != null) {
-            stanzas.add(String.format("%s/%s", info.getSdkName(), info.getSdkVersion()));    
+        if (isNotBlank(info.getSdkName()) || info.getSdkVersion() != null) {
+            sb.append(" ");
+            if (isNotBlank(info.getSdkName())) {
+                sb.append(info.getSdkName());
+            }
+            if (info.getSdkVersion() != null) {
+                sb.append("/");
+                sb.append(info.getSdkVersion());
+            }
         }
-        if (stanzas.isEmpty()) {
+        if ("".equals(sb.toString())) {
             return null;
         }
-        return Joiner.on(" ").join(stanzas);
+        return sb.toString();
     }
     
     public static String getAcceptLanguage(List<String> langs) {

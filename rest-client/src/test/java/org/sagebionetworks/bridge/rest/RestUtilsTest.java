@@ -71,7 +71,7 @@ public class RestUtilsTest {
         clientInfo.setSdkName("BridgeJavaSDK");
         clientInfo.setSdkVersion(3);
         String userAgent = RestUtils.getUserAgent(clientInfo);
-        assertEquals("AppName/1 BridgeJavaSDK/3", userAgent);
+        assertEquals("AppName/1 (iPhone OS/2.0.0) BridgeJavaSDK/3", userAgent);
         
         clientInfo = new ClientInfo();
         clientInfo.setAppName("AppName");
@@ -82,7 +82,7 @@ public class RestUtilsTest {
         clientInfo.setSdkName("BridgeJavaSDK");
         clientInfo.setSdkVersion(3);
         userAgent = RestUtils.getUserAgent(clientInfo);
-        assertEquals("AppName/1 BridgeJavaSDK/3", userAgent);
+        assertEquals("AppName/1 (Device Name; /2.0.0) BridgeJavaSDK/3", userAgent);
         
         clientInfo = new ClientInfo();
         clientInfo.setAppName("AppName");
@@ -93,7 +93,7 @@ public class RestUtilsTest {
         clientInfo.setSdkName("BridgeJavaSDK");
         clientInfo.setSdkVersion(3);
         userAgent = RestUtils.getUserAgent(clientInfo);
-        assertEquals("AppName/1 BridgeJavaSDK/3", userAgent);
+        assertEquals("AppName/1 (Device Name; iPhone OS) BridgeJavaSDK/3", userAgent);
     }
     
     @Test
