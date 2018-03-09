@@ -46,74 +46,56 @@ public class RestUtilsTest {
     }
     
     @Test
-    public void userAgentWithFullClientInfo() {
-        ClientInfo clientInfo = new ClientInfo();
-        clientInfo.setAppName("AppName");
-        clientInfo.setAppVersion(1);
-        clientInfo.setDeviceName("Device Name");
-        clientInfo.setOsName("iPhone OS");
-        clientInfo.setOsVersion("2.0.0");
-        clientInfo.setSdkName("BridgeJavaSDK");
-        clientInfo.setSdkVersion(3);
+    public void userAgentFormatting() {
+        assertInfo("appName", new ClientInfo().appName("appName"));
+        assertInfo("/2", new ClientInfo().appVersion(2));
+        assertInfo("appName/2", new ClientInfo().appName("appName").appVersion(2));
         
-        String userAgent = RestUtils.getUserAgent(clientInfo);
-        assertEquals("AppName/1 (Device Name; iPhone OS/2.0.0) BridgeJavaSDK/3", userAgent);
+        assertInfo("appName/2 sdkName", new ClientInfo().appName("appName").appVersion(2).sdkName("sdkName"));
+        assertInfo("appName/2 /4", new ClientInfo().appName("appName").appVersion(2).sdkVersion(4));
+        assertInfo("appName/2 sdkName/4",
+                new ClientInfo().appName("appName").appVersion(2).sdkName("sdkName").sdkVersion(4));
+        
+        assertInfo("appName (osName)", new ClientInfo().appName("appName").osName("osName"));
+        assertInfo("appName (/osVersion)", new ClientInfo().appName("appName").osVersion("osVersion"));
+        assertInfo("appName (osName/osVersion)",
+                new ClientInfo().appName("appName").osName("osName").osVersion("osVersion"));
+        
+        assertInfo("appName (deviceName; osName)",
+                new ClientInfo().appName("appName").deviceName("deviceName").osName("osName"));
+        assertInfo("appName (deviceName; /osVersion)",
+                new ClientInfo().appName("appName").deviceName("deviceName").osVersion("osVersion"));
+        assertInfo("appName (deviceName; osName/osVersion)",
+                new ClientInfo().appName("appName").deviceName("deviceName").osName("osName").osVersion("osVersion"));
+        
+        assertInfo("appName (osName) sdkName", new ClientInfo().appName("appName").osName("osName").sdkName("sdkName"));
+        assertInfo("appName (osName) /4", new ClientInfo().appName("appName").osName("osName").sdkVersion(4));
+        assertInfo("appName (osName) sdkName/4",
+                new ClientInfo().appName("appName").osName("osName").sdkName("sdkName").sdkVersion(4));
+        assertInfo("appName (deviceName; osName/osVersion) sdkName/4", new ClientInfo().appName("appName")
+                .deviceName("deviceName").osName("osName").osVersion("osVersion").sdkName("sdkName").sdkVersion(4));
+        
+        // Other examples from prior versions of this test.
+        assertInfo("AppName/1 (Device Name; iPhone OS/2.0.0) BridgeJavaSDK/3", new ClientInfo().appName("AppName").appVersion(1).deviceName("Device Name")
+                .osName("iPhone OS").osVersion("2.0.0").sdkName("BridgeJavaSDK").sdkVersion(3));
+        
+        assertInfo("AppName/1 (iPhone OS/2.0.0) BridgeJavaSDK/3", new ClientInfo().appName("AppName").appVersion(1)
+                .osName("iPhone OS").osVersion("2.0.0").sdkName("BridgeJavaSDK").sdkVersion(3));
+        
+        assertInfo("AppName/1 (Device Name; /2.0.0) BridgeJavaSDK/3", new ClientInfo().appName("AppName")
+                .appVersion(1).deviceName("Device Name").osVersion("2.0.0").sdkName("BridgeJavaSDK").sdkVersion(3));
+        
+        assertInfo("AppName/1 (Device Name; iPhone OS) BridgeJavaSDK/3", new ClientInfo().appName("AppName")
+                .appVersion(1).deviceName("Device Name").osName("iPhone OS").sdkName("BridgeJavaSDK").sdkVersion(3));
+        
+        assertInfo("AppName/1 BridgeJavaSDK/3",
+                new ClientInfo().appName("AppName").appVersion(1).sdkName("BridgeJavaSDK").sdkVersion(3));
+        
+        assertInfo("AppName/1", new ClientInfo().appName("AppName").appVersion(1));
     }
     
-    @Test
-    public void userAgentWithSomeDeviceInfo() {
-        ClientInfo clientInfo = new ClientInfo();
-        clientInfo.setAppName("AppName");
-        clientInfo.setAppVersion(1);
-        //no device name
-        clientInfo.setOsName("iPhone OS");
-        clientInfo.setOsVersion("2.0.0");
-        clientInfo.setSdkName("BridgeJavaSDK");
-        clientInfo.setSdkVersion(3);
-        String userAgent = RestUtils.getUserAgent(clientInfo);
-        assertEquals("AppName/1 (iPhone OS/2.0.0) BridgeJavaSDK/3", userAgent);
-        
-        clientInfo = new ClientInfo();
-        clientInfo.setAppName("AppName");
-        clientInfo.setAppVersion(1);
-        clientInfo.setDeviceName("Device Name");
-        //no OS name
-        clientInfo.setOsVersion("2.0.0");
-        clientInfo.setSdkName("BridgeJavaSDK");
-        clientInfo.setSdkVersion(3);
-        userAgent = RestUtils.getUserAgent(clientInfo);
-        assertEquals("AppName/1 (Device Name; /2.0.0) BridgeJavaSDK/3", userAgent);
-        
-        clientInfo = new ClientInfo();
-        clientInfo.setAppName("AppName");
-        clientInfo.setAppVersion(1);
-        clientInfo.setDeviceName("Device Name");
-        clientInfo.setOsName("iPhone OS");
-        //no OS version
-        clientInfo.setSdkName("BridgeJavaSDK");
-        clientInfo.setSdkVersion(3);
-        userAgent = RestUtils.getUserAgent(clientInfo);
-        assertEquals("AppName/1 (Device Name; iPhone OS) BridgeJavaSDK/3", userAgent);
-    }
-    
-    @Test
-    public void userAgentWithAppInfoAndSdk() {
-        ClientInfo clientInfo = new ClientInfo();
-        clientInfo.setAppName("AppName");
-        clientInfo.setAppVersion(1);
-        clientInfo.setSdkName("BridgeJavaSDK");
-        clientInfo.setSdkVersion(3);
-        
-        assertEquals("AppName/1 BridgeJavaSDK/3", RestUtils.getUserAgent(clientInfo));
-    }
-    
-    @Test
-    public void userAgentWithAppInfo() {
-        ClientInfo clientInfo = new ClientInfo();
-        clientInfo.setAppName("AppName");
-        clientInfo.setAppVersion(1);
-        
-        assertEquals("AppName/1", RestUtils.getUserAgent(clientInfo));
+    private void assertInfo(String expected, ClientInfo info) {
+        assertEquals(expected, RestUtils.getUserAgent(info));
     }
     
     @Test
