@@ -230,5 +230,37 @@ public class UserSessionInfoProviderTest {
         
         assertEquals(userSessionInfo, provider.getSession());
         verify(authenticationApi).signInV4(any(SignIn.class));
-    }    
+    }
+
+    @Test
+    public void mergeReauthToken_A() {
+        String reauthToken = "reauthToken";
+        String sessionToken = "sessionToken";
+        UserSessionInfo userSessionInfo = new UserSessionInfo()
+                .sessionToken(sessionToken)
+                .reauthToken(reauthToken);
+
+
+        String newSessionToken = "newSessionToken";
+        UserSessionInfo newUserSessionInfo = new UserSessionInfo()
+                .sessionToken(newSessionToken);
+
+
+        UserSessionInfoProvider.mergeReauthToken(userSessionInfo, newUserSessionInfo);
+
+        assertEquals(sessionToken, userSessionInfo.getSessionToken()); // check old session token
+        assertEquals(newSessionToken, newUserSessionInfo.getSessionToken()); // check this isn't the old session
+        assertEquals(reauthToken, newUserSessionInfo.getReauthToken()); // check new session has old reauth token
+
+        String newReauthToken = "newReauthToken";
+        String evenNewerSessionToken = "evenNewerSessionToken";
+        UserSessionInfo evenNewerSession = new UserSessionInfo()
+                .sessionToken(evenNewerSessionToken)
+                .reauthToken(newReauthToken);
+
+        UserSessionInfoProvider.mergeReauthToken(newUserSessionInfo, evenNewerSession);
+
+        assertEquals(evenNewerSessionToken, evenNewerSession.getSessionToken());
+        assertEquals(newReauthToken, evenNewerSession.getReauthToken()); // check we wrote a new reauth token
+    }
 }
