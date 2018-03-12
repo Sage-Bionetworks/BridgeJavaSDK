@@ -1,5 +1,6 @@
 package org.sagebionetworks.bridge.rest;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.anyString;
@@ -67,8 +68,12 @@ public class AuthenticationHandlerTest {
         when(request.newBuilder()).thenReturn(builder);
         when(builder.header(anyString(), anyString())).thenReturn(builder);
         when(builder.build()).thenReturn(request);
-        
+
+        authHandler.tryCount.set(5);
+
         authHandler.intercept(chain);
+
+        assertEquals(0, authHandler.tryCount.get().intValue());
 
         verify(builder).header(HeaderInterceptor.BRIDGE_SESSION, "sessionToken");
     }
