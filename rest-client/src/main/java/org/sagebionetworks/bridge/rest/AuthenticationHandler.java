@@ -3,10 +3,6 @@ package org.sagebionetworks.bridge.rest;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.function.Supplier;
-
-import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 
 import com.google.common.annotations.VisibleForTesting;
 import okhttp3.Authenticator;
@@ -16,6 +12,8 @@ import okhttp3.Response;
 import okhttp3.Route;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 
 /**
  * Intercepts authentication error responses and re-acquires a session. NOTE: This handler is not currently registered
