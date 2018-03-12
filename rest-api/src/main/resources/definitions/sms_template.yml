@@ -1,0 +1,29 @@
+type: object
+description: |
+    A template for one of the system SMS messages that are sent. This message, after template 
+    variable values are interpolated into the string, cannot be more than 160 characters in length.
+    
+    In the templates, variable strings can be used to interpolate values from the study. Specific 
+    messages may require specific template variables in order to be functional. The current list 
+    of template variables includes:
+
+    |Template Variable|What it will be replaced with|
+    |---|---|
+    |${url}|Where the link back to the Bridge server will be inserted in order to complete the email verification/password reset|
+    |${token}|The token in an SMS message to be entered back into the application|
+    |${studyName}|The name of the study|
+    |${studyShortName}|The short name of the study. If not provided, will default to "Bridge"|
+    |${sponsorName}|The sponsor of the study|
+    |${supportEmail}|The support email for the study|
+    |${technicalEmail}|The technical support email for the study|
+required:
+    - message
+properties:
+    message:
+        type: string
+        description: |
+          The message to send (only text and template variables allowed). 
+    type:
+        type: string
+        readOnly: true
+        description: "SmsTemplate"

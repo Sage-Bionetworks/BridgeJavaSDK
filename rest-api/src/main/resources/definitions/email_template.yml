@@ -11,13 +11,12 @@ description: |
     |Template Variable|What it will be replaced with|
     |---|---|
     |${url}|Where the link back to the Bridge server will be inserted in order to complete the email verification/password reset|
+    |${token}|The token in an SMS message to be entered back into the application|
     |${studyName}|The name of the study|
+    |${studyShortName}|The short name of the study|
     |${sponsorName}|The sponsor of the study|
     |${supportEmail}|The support email for the study|
     |${technicalEmail}|The technical support email for the study|
-    |${account.givenName}|User's first name|
-    |${account.surname}|User's last name|
-    |${account.email}|User's email|
 
     Your HTML will be sanitized to remove potential security issues like scripts, frames or embedded Flash objects.
 required:

@@ -242,6 +242,20 @@ properties:
             to enable app links for Android apps that use this study as the data store.
         items:
             $ref: ./android_app_link.yml
+    resetPasswordSmsTemplate:
+        $ref: ./sms_template.yml
+        description: Message sent to user with a link to a page where password can be reset. Template variable ${url} is required (depending on whether you wish to promp the user to reset a password or sign in using this account, or both).
+    phoneSignInSmsTemplate:
+        $ref: ./sms_template.yml
+        description: Message sent to user with a code to validate through the application. Template variable ${token} is required.
+    appInstallLinkSmsTemplate:
+        $ref: ./sms_template.yml
+        description: Message directing the user to an appstore link to download your app. Template variable ${url} is required.
+    verifyPhoneSmsTemplate:
+        $ref: ./sms_template.yml
+        description: Message sent to user with a code to verify a phone number through the application. Template variable ${token} is required.
+    accountExistsSmsTemplate:
+        $ref: ./sms_template.yml
     type:
         type: string
         readOnly: true
