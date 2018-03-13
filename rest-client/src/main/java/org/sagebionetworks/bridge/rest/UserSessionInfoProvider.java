@@ -8,10 +8,8 @@ import java.io.IOException;
 import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.corba.Bridge;
 
 import org.sagebionetworks.bridge.rest.api.AuthenticationApi;
-import org.sagebionetworks.bridge.rest.exceptions.AuthenticationFailedException;
 import org.sagebionetworks.bridge.rest.exceptions.BridgeSDKException;
 import org.sagebionetworks.bridge.rest.exceptions.ConsentRequiredException;
 import org.sagebionetworks.bridge.rest.model.Phone;
@@ -70,12 +68,33 @@ public class UserSessionInfoProvider {
         return session;
     }
     
-    synchronized void setSession(UserSessionInfo session) {
+    synchronized void setSession(UserSessionInfo newSession) {
         if (LOG.isDebugEnabled()) {
-            String token = (session==null) ? "null" : session.getSessionToken();
+            String token = (newSession==null) ? "null" : newSession.getSessionToken();
             LOG.debug(debugString(token));
         }
-        this.session = session;
+
+        mergeReauthToken(this.session, newSession);
+        this.session = newSession;
+    }
+
+    /**
+     * The server is only guaranteed to send the reauth token on sign in, it is not sent in all UserSessionInfo
+     * responses for security reasons. If the previous  session contains a token and the new session does not, copy
+     * over the token from the previous session
+     *
+     * @param previousSession
+     *         older session
+     * @param session
+     *         new session, with reauthToken copied over from previousSession if the new session did not have
+     *         a reauth token
+     */
+    public static void mergeReauthToken(final UserSessionInfo previousSession, final UserSessionInfo session) {
+        if (session != null && session.getReauthToken() == null) {
+            if (previousSession != null) {
+                session.setReauthToken(previousSession.getReauthToken());
+            }
+        }
     }
     
     synchronized void reauthenticate() throws IOException {

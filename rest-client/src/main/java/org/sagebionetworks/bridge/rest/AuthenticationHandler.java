@@ -4,8 +4,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.IOException;
 
-import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
-
+import com.google.common.annotations.VisibleForTesting;
 import okhttp3.Authenticator;
 import okhttp3.Interceptor;
 import okhttp3.Request;
@@ -13,6 +12,8 @@ import okhttp3.Response;
 import okhttp3.Route;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 
 /**
  * Intercepts authentication error responses and re-acquires a session. NOTE: This handler is not currently registered
@@ -28,24 +29,32 @@ class AuthenticationHandler implements Interceptor, Authenticator {
     private static final String AUTH_PATH = "/auth/";
     
     private final UserSessionInfoProvider userSessionInfoProvider;
-    private int tryCount;
+    @VisibleForTesting
+    final ThreadLocal<Integer> tryCount;
 
     public AuthenticationHandler(UserSessionInfoProvider userSessionInfoProvider) {
         checkNotNull(userSessionInfoProvider);
         this.userSessionInfoProvider = userSessionInfoProvider;
+        this.tryCount = new ThreadLocal<Integer>() {
+            @Override
+            protected Integer initialValue()
+            {
+                return 0;
+            }
+        };
     }
     
     @Override
     public Request authenticate(Route route, Response response) throws IOException {
-        if (tryCount >= MAX_TRIES || !requiresAuth(response.request(), false)) {
-            tryCount = 0;
+        if (tryCount.get() >= MAX_TRIES || !requiresAuth(response.request(), false)) {
+            tryCount.set(0);
             return null;
         }
         
         LOG.debug("Received 401, automatically attempting authentication, tryCount: " + tryCount);
 
         // We received a 401 from the server... attempt to reauthenticate.
-        tryCount++;
+        tryCount.set(tryCount.get() + 1);
         userSessionInfoProvider.reauthenticate();
         // We should now be able to proceed with session headers.
         return addBridgeHeaders(response.request());
@@ -54,6 +63,7 @@ class AuthenticationHandler implements Interceptor, Authenticator {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
+        this.tryCount.set(0);
         
         // Basically, everything in the auth controller can skip a session token, except for sign out
         if (requiresAuth(request, true)) {
