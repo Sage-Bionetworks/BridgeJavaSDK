@@ -256,6 +256,7 @@ properties:
         description: Message sent to user with a code to verify a phone number through the application. Template variable ${token} is required.
     accountExistsSmsTemplate:
         $ref: ./sms_template.yml
+        description: Message sent to user if the user tries to sign up with an existing phone number. Template variable ${passwordResetUrl} or ${token} is required.
     type:
         type: string
         readOnly: true

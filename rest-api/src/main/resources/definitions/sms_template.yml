@@ -1,21 +1,61 @@
 type: object
 description: |
-    A template for one of the system SMS messages that are sent. This message, after template 
+    A template for one of the system SMS messages sent by Bridge. This message, after template 
     variable values are interpolated into the string, cannot be more than 160 characters in length.
-    
-    In the templates, variable strings can be used to interpolate values from the study. Specific 
-    messages may require specific template variables in order to be functional. The current list 
-    of template variables includes:
+
+    In the templates, variable strings can be used to interpolate the following values:
+
+    **All templates**
 
     |Template Variable|What it will be replaced with|
-    |---|---|
-    |${url}|Where the link back to the Bridge server will be inserted in order to complete the email verification/password reset|
-    |${token}|The token in an SMS message to be entered back into the application|
-    |${studyName}|The name of the study|
-    |${studyShortName}|The short name of the study. If not provided, will default to "Bridge"|
-    |${sponsorName}|The sponsor of the study|
-    |${supportEmail}|The support email for the study|
-    |${technicalEmail}|The technical support email for the study|
+    |studyName|The full name of the study|
+    |studyShortName|The short name of the study (ten letters or less)|
+    |studyId|The identifier of the study|
+    |sponsorName|The name of the study sponsor|
+    |supportEmail|The support email of the study|
+    |technicalEmail|The technical support email of the study|
+    |consentEmail|The consent administration email of the study|
+    |host|The host server (e.g. `https://ws.sagebridge.org`|
+
+    **Account exists SMS message**
+    *You can include a link to reset the account's password, or a token to sign in via the SMS 
+    message, if supported by the study, or both.*
+
+    |Template Variable|What it will be replaced with|
+    |resetPasswordUrl|The URL that must be loaded in a web browser to enter a new password|
+    |resetPasswordExpirationPeriod|The period (e.g. "2 hours") until the link expires|
+    |token|The token that must be captured and sent back to the server to sign in|
+    |phoneSignInExpirationPeriod|The period (e.g. "2 hours") until the token expires|
+    |sptoken|The token to send back to the server to validate a legitimate password reset (also included in links)|
+
+    **Password reset SMS message**
+    *${resetPasswordUrl} is required to be in the template.*
+
+    |Template Variable|What it will be replaced with|
+    |resetPasswordUrl|The URL that must be loaded in a web browser to enter a new password|
+    |resetPasswordExpirationPeriod|The period (e.g. "2 hours") until the link expires|
+    |sptoken|The token to send back to the server to validate a legitimate password reset (also included in links)|
+
+    **Sign in SMS message**
+    *${token} is required to be in the template.*
+
+    |Template Variable|What it will be replaced with|
+    |token|The token that must be captured and sent back to the server to sign in|
+    |phoneSignInExpirationPeriod|The period (e.g. "2 hours") until the token expires|
+
+    **Phone number verification SMS message**
+    *${token} is required to be in the template.*
+
+    |Template Variable|What it will be replaced with|
+    |token|The token that must be captured and sent back to validate a phone number|
+    |phoneVerificationExpirationPeriod|The period (e.g. "2 hours") until the token expires|
+
+    **Install app SMS message**
+    *${appInstallUrl} is required to be in the template.*
+
+    |Template Variable|What it will be replaced with|
+    |appInstallUrl|The URL selected for this request and returned as the link to download and install the app for this study|
+
 required:
     - message
 properties:

@@ -1,22 +1,68 @@
 type: object
 description: |
-    A template for one of the system emails that are sent (email verification and password reset 
-    emails). 
-    
-    In the templates, variable strings can be used to interpolate values from the study or the 
-    individual to which the email is being sent. **The body of the email template must have a 
-    ${url} variable,** this is where the link back to the Bridge server will be inserted in 
-    order to complete the required transaction.
+    A template for one of the system emails sent by Bridge.
+
+    In the templates, variable strings can be used to interpolate the following values:
+
+    **All templates**
 
     |Template Variable|What it will be replaced with|
-    |---|---|
-    |${url}|Where the link back to the Bridge server will be inserted in order to complete the email verification/password reset|
-    |${token}|The token in an SMS message to be entered back into the application|
-    |${studyName}|The name of the study|
-    |${studyShortName}|The short name of the study|
-    |${sponsorName}|The sponsor of the study|
-    |${supportEmail}|The support email for the study|
-    |${technicalEmail}|The technical support email for the study|
+    |studyName|The full name of the study|
+    |studyShortName|The short name of the study (ten letters or less)|
+    |studyId|The identifier of the study|
+    |sponsorName|The name of the study sponsor|
+    |supportEmail|The support email of the study|
+    |technicalEmail|The technical support email of the study|
+    |consentEmail|The consent administration email of the study|
+    |host|The host server (e.g. `https://ws.sagebridge.org`|
+
+    **Email address verification email**
+    *Either ${url} or ${emailVerificationUrl} is required to be in the template.*
+
+    |Template Variable|What it will be replaced with|
+    |emailVerificationUrl|The URL used to verify an email address|
+    |emailVerificationExpirationPeriod|The period (e.g. "2 hours") until the link expires|
+    |sptoken|The token to send back to the server to validate an email addres (also included in links)|
+    |url|Deprecated in favor of `emailVerificationUrl`|
+
+    **Password reset email**
+    *Either ${url} or ${resetPasswordUrl} is required to be in the template.*
+
+    |Template Variable|What it will be replaced with|
+    |resetPasswordUrl|The URL that must be loaded in a web browser to enter a new password|
+    |resetPasswordExpirationPeriod|The period (e.g. "2 hours") until the link expires|
+    |sptoken|The token to send back to the server to validate a legitimate password reset (also included in links)|
+    |url|Deprecated in favor of `resetPasswordUrl`|
+    |shortUrl|Deprecated in favor of `resetPasswordUrl`|
+    |expirationWindow|Deprecated in favor of `resetPasswordExpirationPeriod`|
+
+    **Email sign in**
+    *Either ${url} or ${emailSignInUrl} is required to be in the template.*
+
+    |Template Variable|What it will be replaced with|
+    |emailSignInUrl|The URL that must be intercepted by the application to sign in via email|
+    |emailSignInExpirationPeriod|The period (e.g. "2 hours") until the link expires|
+    |email|The email address of the account signing in (also included in links)|
+    |token|The token to send back to the server to validate a legitimate sign in (also included in links)|
+    |url|Deprecated in favor of `emailSignInUrl`|
+    |shorUrl|Deprecated in favor of `emailSignInUrl`
+
+    **Account exists email**
+    *You can include a link to reset the account's password, or a link to sign in via email 
+    if supported by the study, or both.*
+
+    |Template Variable|What it will be replaced with|
+    |resetPasswordUrl|The URL that must be loaded in a web browser to enter a new password|
+    |resetPasswordExpirationPeriod|The period (e.g. "2 hours") until the link expires|
+    |emailSignInUrl|The URL that must be intercepted by the application to sign in via email|
+    |emailSignInExpirationPeriod|The period (e.g. "2 hours") until the link expires|
+    |sptoken|The token that must be sent back to the server to change a password|
+    |email|The email address of the account that exists|
+    |token|The token that must be sent back to the server to sign in via email|
+    |url|Deprecated in favor of `resetPasswordUrl`|
+    |shortUrl|Deprecated in favor of `resetPasswordUrl`|
+    |expirationPeriod|Deprecated in favor of `resetPasswordExpirationPeriod`|
+    |expirationWindow|Deprecated in favor of `resetPasswordExpirationPeriod`|
 
     Your HTML will be sanitized to remove potential security issues like scripts, frames or embedded Flash objects.
 required:
