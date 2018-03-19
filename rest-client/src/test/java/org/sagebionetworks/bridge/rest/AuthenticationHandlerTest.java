@@ -1,13 +1,23 @@
 package org.sagebionetworks.bridge.rest;
 
+import static org.hamcrest.CoreMatchers.any;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.powermock.api.mockito.PowerMockito.doReturn;
+import static org.powermock.api.mockito.PowerMockito.spy;
 
+import java.util.Arrays;
+import java.util.Collections;
+
+import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -143,5 +153,80 @@ public class AuthenticationHandlerTest {
         assertNull(request);
         verify(userSessionInfoProvider, never()).reauthenticate();
         verify(builder, never()).header(HeaderInterceptor.BRIDGE_SESSION, "sessionToken");
-    }    
+    }
+
+    @Test
+    public void authenticateDoesNotCallReauthIfSessionHasChanged() throws Exception {
+        UserSessionInfo session = new UserSessionInfo().sessionToken("sessionToken");
+        when(userSessionInfoProvider.retrieveSession()).thenReturn(session);
+        when(userSessionInfoProvider.getSession()).thenReturn(session);
+
+
+        when(response.request()).thenReturn(request);
+        when(url.toString()).thenReturn("/v3/schedules");
+        when(request.url()).thenReturn(url);
+        when(request.newBuilder()).thenReturn(builder);
+        when(builder.header(anyString(), anyString())).thenReturn(builder);
+        when(builder.build()).thenReturn(request);
+
+        AuthenticationHandler spyAuthHandler = spy(authHandler);
+        doReturn(true).when(spyAuthHandler).doesSessionHaveTokenAndIsItDifferentFromRequest(request, session);
+
+        Request request = spyAuthHandler.authenticate(route, response);
+
+        assertNotNull(request);
+        verify(userSessionInfoProvider, never()).reauthenticate();
+        verify(builder).header(HeaderInterceptor.BRIDGE_SESSION, "sessionToken");
+    }
+
+    @Test
+    public void isRequestUsingOldSession_SameSessionToken() {
+        Request request = mock(Request.class);
+        when(request.headers(HeaderInterceptor.BRIDGE_SESSION)).thenReturn(Arrays.asList("sessionToken"));
+        UserSessionInfo session = mock(UserSessionInfo.class);
+        when(session.getSessionToken()).thenReturn("sessionToken");
+
+        assertFalse(authHandler.doesSessionHaveTokenAndIsItDifferentFromRequest(request,session));
+    }
+
+    @Test
+    public void isRequestUsingOldSession_NoSessionToken() {
+        Request request = mock(Request.class);
+        when(request.headers(HeaderInterceptor.BRIDGE_SESSION)).thenReturn(Arrays.asList("sessionToken"));
+        UserSessionInfo session = mock(UserSessionInfo.class);
+
+        assertFalse(authHandler.doesSessionHaveTokenAndIsItDifferentFromRequest(request,null));
+        assertFalse(authHandler.doesSessionHaveTokenAndIsItDifferentFromRequest(request,session));
+
+    }
+
+    @Test
+    public void isRequestUsingOldSession_NullHeaders() {
+        Request request = mock(Request.class);
+        when(request.headers(HeaderInterceptor.BRIDGE_SESSION)).thenReturn(null);
+        UserSessionInfo session = mock(UserSessionInfo.class);
+        when(session.getSessionToken()).thenReturn("newSessionToken");
+
+        assertTrue(authHandler.doesSessionHaveTokenAndIsItDifferentFromRequest(request,session));
+    }
+
+    @Test
+    public void isRequestUsingOldSession_NoTokenInHeaders() {
+        Request request = mock(Request.class);
+        when(request.headers(HeaderInterceptor.BRIDGE_SESSION)).thenReturn(Collections.<String>emptyList());
+        UserSessionInfo session = mock(UserSessionInfo.class);
+        when(session.getSessionToken()).thenReturn("newSessionToken");
+
+        assertTrue(authHandler.doesSessionHaveTokenAndIsItDifferentFromRequest(request,session));
+    }
+
+    @Test
+    public void isRequestUsingOldSession_DifferentSessionToken() {
+        Request request = mock(Request.class);
+        when(request.headers(HeaderInterceptor.BRIDGE_SESSION)).thenReturn(Arrays.asList("sessionToken"));
+        UserSessionInfo session = mock(UserSessionInfo.class);
+        when(session.getSessionToken()).thenReturn("newSessionToken");
+
+        assertTrue(authHandler.doesSessionHaveTokenAndIsItDifferentFromRequest(request,session));
+    }
 }

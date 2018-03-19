@@ -6,10 +6,12 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -44,6 +46,9 @@ public class UserSessionInfoProviderTest {
     
     @Mock
     Response<UserSessionInfo> response;
+
+    @Mock
+    UserSessionInfoProvider.UserSessionInfoChangeListener changeListener;
     
     @Captor
     ArgumentCaptor<SignIn> reauthenticateRequestCaptor;
@@ -66,7 +71,7 @@ public class UserSessionInfoProviderTest {
         signIn = new SignIn().email("email@email.com").password("password").study("test-study");
         
         provider = new UserSessionInfoProvider(authenticationApi, signIn.getStudy(), signIn.getEmail(),
-                signIn.getPhone(), signIn.getPassword(), null);
+                signIn.getPhone(), signIn.getPassword(), null, Arrays.asList(changeListener));
     }
     
     @Test
@@ -101,14 +106,21 @@ public class UserSessionInfoProviderTest {
         
         userSessionInfo.setReauthToken("reauthToken");
         provider.setSession(userSessionInfo);
-        
+
         provider.reauthenticate();
-        
+
         verify(authenticationApi).reauthenticate(reauthenticateRequestCaptor.capture());
+
         SignIn reauthRequest = reauthenticateRequestCaptor.getValue();
         assertEquals("reauthToken", reauthRequest.getReauthToken());
         assertEquals(signIn.getStudy(), reauthRequest.getStudy());
         assertEquals(signIn.getEmail(), reauthRequest.getEmail());
+    }
+
+    @Test
+    public void setSessionCallsChangeListener() {
+        provider.setSession(userSessionInfo);
+        verify(changeListener).onChange(userSessionInfo);
     }
     
     @Test
@@ -173,7 +185,7 @@ public class UserSessionInfoProviderTest {
         signIn = new SignIn().email("email@email.com").study("test-study");
 
         provider = new UserSessionInfoProvider(authenticationApi, signIn.getStudy(), signIn.getEmail(),
-                signIn.getPhone(), signIn.getPassword(), null);
+                signIn.getPhone(), signIn.getPassword(), null, Arrays.asList(changeListener));
 
         doReturn(call).when(authenticationApi).reauthenticate(any(SignIn.class));
         AuthenticationFailedException e1 = new AuthenticationFailedException("message", "endpoint");
