@@ -228,10 +228,19 @@ public class ApiClientProvider {
         private String email;
         private String password;
         private UserSessionInfo session;
-        private List<UserSessionInfoProvider.UserSessionInfoChangeListener> changeListeners;
+        private final List<UserSessionInfoProvider.UserSessionInfoChangeListener> changeListeners = new ArrayList<>();
 
         private AuthenticatedClientProviderBuilder() {
         }
+        /**
+         * @param changeListener UserSessionInfo change listener
+         */
+        public AuthenticatedClientProviderBuilder addUserSessionInfoChangeListener(
+                UserSessionInfoProvider.UserSessionInfoChangeListener changeListener) {
+            changeListeners.add(changeListener);
+            return this;
+        }
+
         /**
          * @param phone participant's phone
          * @return this builder, for chaining operations
@@ -276,10 +285,7 @@ public class ApiClientProvider {
          */
         public AuthenticatedClientProvider build() {
             checkState(email != null || phone != null, "requires either email or phone");
-
-            if (changeListeners == null) {
-                changeListeners = new ArrayList<>();
-            }
+            
             UserSessionInfoProvider sessionProvider =
                     new UserSessionInfoProvider(authenticationApi, study, email, phone, password, session, changeListeners);
             // reset credentials so same builder can be reused
