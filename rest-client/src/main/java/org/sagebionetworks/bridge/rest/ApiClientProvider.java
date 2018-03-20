@@ -3,6 +3,7 @@ package org.sagebionetworks.bridge.rest;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -227,6 +228,7 @@ public class ApiClientProvider {
         private String email;
         private String password;
         private UserSessionInfo session;
+        private List<UserSessionInfoProvider.UserSessionInfoChangeListener> changeListeners;
 
         private AuthenticatedClientProviderBuilder() {
         }
@@ -275,9 +277,11 @@ public class ApiClientProvider {
         public AuthenticatedClientProvider build() {
             checkState(email != null || phone != null, "requires either email or phone");
 
+            if (changeListeners == null) {
+                changeListeners = new ArrayList<>();
+            }
             UserSessionInfoProvider sessionProvider =
-                    new UserSessionInfoProvider(authenticationApi, study, email, phone, password, session);
-
+                    new UserSessionInfoProvider(authenticationApi, study, email, phone, password, session, changeListeners);
             // reset credentials so same builder can be reused
             email = null;
             phone = null;
