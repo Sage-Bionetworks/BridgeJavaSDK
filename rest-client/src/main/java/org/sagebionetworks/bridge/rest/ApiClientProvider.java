@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.net.SocketFactory;
+
 import com.google.common.base.Strings;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -41,6 +43,7 @@ public class ApiClientProvider {
     private final Retrofit unauthenticatedRetrofit;
     private final LoadingCache<Class<?>, ?> unauthenticatedServices;
     private final AuthenticationApi authenticationApi;
+    private final SocketFactory socketFactory;
     private final ImmutableList<Interceptor> networkInterceptors;
     private final ImmutableList<Interceptor> applicationInterceptors;
 
@@ -57,7 +60,7 @@ public class ApiClientProvider {
      *         study identifier
      */
     public ApiClientProvider(String baseUrl, String userAgent, String acceptLanguage, String study) {
-        this(baseUrl, userAgent, acceptLanguage, study, Collections.<Interceptor>emptyList(),
+        this(baseUrl, userAgent, acceptLanguage, study, null, Collections.<Interceptor>emptyList(),
                 Collections.<Interceptor>emptyList());
     }
 
@@ -72,13 +75,16 @@ public class ApiClientProvider {
      *         preferred
      * @param study
      *         study identifier
+     * @param socketFactory
+     *         factory for creating sockets
      * @param networkInterceptors
      *         additional network applicationInterceptors
      * @param applicationInterceptors
      *         additional application applicationInterceptors
      */
     public ApiClientProvider(String baseUrl, String userAgent, String acceptLanguage, String study,
-            List<Interceptor> networkInterceptors, List<Interceptor> applicationInterceptors) {
+            SocketFactory socketFactory, List<Interceptor> networkInterceptors,
+            List<Interceptor> applicationInterceptors) {
         checkState(!Strings.isNullOrEmpty(baseUrl));
         checkState(!Strings.isNullOrEmpty(userAgent));
         checkState(!Strings.isNullOrEmpty(study));
@@ -89,6 +95,7 @@ public class ApiClientProvider {
         this.userAgent = userAgent;
         this.acceptLanguage = acceptLanguage;
         this.study = study;
+        this.socketFactory = socketFactory;
         this.unauthenticatedRetrofit = getRetrofit(
                 getHttpClientBuilder(
                         networkInterceptors,
@@ -136,6 +143,10 @@ public class ApiClientProvider {
                 .connectTimeout(2, TimeUnit.MINUTES)
                 .readTimeout(2, TimeUnit.MINUTES)
                 .writeTimeout(2, TimeUnit.MINUTES);
+
+        if (socketFactory != null) {
+            builder.socketFactory(socketFactory);
+        }
         for (Interceptor interceptor : networkInterceptors) {
             builder.addNetworkInterceptor(interceptor);
         }
@@ -285,7 +296,7 @@ public class ApiClientProvider {
          */
         public AuthenticatedClientProvider build() {
             checkState(email != null || phone != null, "requires either email or phone");
-            
+
             UserSessionInfoProvider sessionProvider =
                     new UserSessionInfoProvider(authenticationApi, study, email, phone, password, session, changeListeners);
             // reset credentials so same builder can be reused
