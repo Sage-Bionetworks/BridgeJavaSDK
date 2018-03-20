@@ -76,7 +76,9 @@ public class ApiClientProvider {
      * @param study
      *         study identifier
      * @param socketFactory
-     *         factory for creating sockets
+     *         optional factory to customize how OkHttp creates sockets. This is used on Android to associate a
+     *         socket with statistics for the current thread, as required by Android O. If no factory is passed, the
+     *         result is OkHttp's default behavior
      * @param networkInterceptors
      *         additional network applicationInterceptors
      * @param applicationInterceptors
