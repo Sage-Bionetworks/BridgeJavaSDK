@@ -85,7 +85,11 @@ public class UserSessionInfoProvider {
         mergeReauthToken(this.session, newSession);
         this.session = newSession;
         for(UserSessionInfoChangeListener listener : changeListeners) {
-            listener.onChange(this.session);
+            try {
+                listener.onChange(this.session);
+            } catch(Exception e) {
+                LOG.error("Exception while calling UserSessionInfoChangeListener", e);
+            }
         }
     }
 
