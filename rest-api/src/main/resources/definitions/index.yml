@@ -77,16 +77,12 @@ DataGroups:
     $ref: ./data_groups.yml
 DateRange:
     $ref: ./date_range.yml
-Email:
-    $ref: ./email.yml
 EmailSignIn:
     $ref: ./email_signin.yml
 EmailSignInRequest:
     $ref: ./email_signin_request.yml
 EmailTemplate:
     $ref: ./email_template.yml
-EmailVerification:
-    $ref: ./email_verification.yml
 EmailVerificationStatus:
     $ref: ./email_verification_status.yml
 ExternalIdentifier:
@@ -101,6 +97,8 @@ HealthDataRecord:
     $ref: ./health_data_record.yml
 HealthDataSubmission:
     $ref: ./health_data_submission.yml
+Identifier:
+    $ref: ./identifier.yml
 IdentifierHolder:
     $ref: ./identifier_holder.yml
 IdentifierUpdate:
@@ -221,6 +219,8 @@ UserProfile:
     $ref: ./user_profile.yml
 UserSessionInfo:
     $ref: ./user_session_info.yml
+Verification:
+    $ref: ./verification.yml
 VersionHolder:
     $ref: ./version_holder.yml
 Withdrawal:

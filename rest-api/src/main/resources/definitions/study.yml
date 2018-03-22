@@ -167,7 +167,18 @@ properties:
     emailVerificationEnabled:
         type: boolean
         description: |
-            **Can only be set by an administrator.** Should users be asked to validate that they control the email addresses they use to sign up for the study? True by default.
+            **Can only be set by an administrator.** Should users be asked to validate that they control the email addresses they use to sign up for the study? True by default.  (Using an email address to send a 
+            sign in link will also verify it.)
+    autoVerificationPhoneSuppressed:
+        type: boolean
+        description: |
+            **Can only be set by an administrator.** Should the system send a confirmation SMS message on sign 
+            up if phone verification is enabled?
+    phoneVerificationEnabled:
+        type: boolean
+        description: |
+            **Can only be set by an administrator.** Should phone numbers be inactive until they are explicitly
+            confirmed with a confirmation step? (Using a phone number to sign in will also verify it.)
     externalIdValidationEnabled:
         type: boolean
         default: false
