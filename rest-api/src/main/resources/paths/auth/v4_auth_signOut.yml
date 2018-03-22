@@ -5,9 +5,12 @@ post:
     security:
         - BridgeSecurity: []
     description: |
-        Delete the user's session on the server.
+        Delete the user's session on the server. If the client does not provide the 
+        Bridge-Session header, the endpoint returns 400 (Bad Request).
     responses:
         200:
             $ref: ../../responses/200_message.yml
+        400:
+            $ref: ../../responses/400_message.yml
         401:
             $ref: ../../responses/401.yml
