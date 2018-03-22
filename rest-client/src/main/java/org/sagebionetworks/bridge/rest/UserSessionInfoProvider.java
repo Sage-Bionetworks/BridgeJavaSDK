@@ -4,8 +4,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,15 +26,20 @@ import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 public class UserSessionInfoProvider {
     private static final Logger LOG = LoggerFactory.getLogger(UserSessionInfoProvider.class);
 
+    public interface UserSessionInfoChangeListener {
+        void onChange(UserSessionInfo userSessionInfo);
+    }
+
     private final AuthenticationApi authenticationApi;
     private final String studyId;
     private final String email;
     private final Phone phone;
     private final String password;
-    private UserSessionInfo session;
+    private final List<UserSessionInfoChangeListener> changeListeners;
+    private volatile UserSessionInfo session;
 
     UserSessionInfoProvider(AuthenticationApi authenticationApi, String studyId, String email, Phone phone, String password,
-            UserSessionInfo session) {
+            UserSessionInfo session, List<UserSessionInfoChangeListener> changeListeners) {
         checkNotNull(authenticationApi);
         checkNotNull(studyId);
         checkState(email != null || phone != null, "requires either email or phone");
@@ -43,6 +50,7 @@ public class UserSessionInfoProvider {
         this.phone = phone;
         this.session = session;
         this.password = password;
+        this.changeListeners = ImmutableList.copyOf(changeListeners);
     }
 
     public synchronized UserSessionInfo getSession() {
@@ -68,7 +76,7 @@ public class UserSessionInfoProvider {
         return session;
     }
     
-    synchronized void setSession(UserSessionInfo newSession) {
+    synchronized void setSession(final UserSessionInfo newSession) {
         if (LOG.isDebugEnabled()) {
             String token = (newSession==null) ? "null" : newSession.getSessionToken();
             LOG.debug(debugString(token));
@@ -76,6 +84,13 @@ public class UserSessionInfoProvider {
 
         mergeReauthToken(this.session, newSession);
         this.session = newSession;
+        for(UserSessionInfoChangeListener listener : changeListeners) {
+            try {
+                listener.onChange(this.session);
+            } catch(Exception e) {
+                LOG.error("Exception while calling UserSessionInfoChangeListener", e);
+            }
+        }
     }
 
     /**
