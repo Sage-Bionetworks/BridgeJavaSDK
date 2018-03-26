@@ -174,11 +174,6 @@ properties:
         description: |
             **Can only be set by an administrator.** Should the system send a confirmation SMS message on sign 
             up if phone verification is enabled?
-    phoneVerificationEnabled:
-        type: boolean
-        description: |
-            **Can only be set by an administrator.** Should phone numbers be inactive until they are explicitly
-            confirmed with a confirmation step? (Using a phone number to sign in will also verify it.)
     externalIdValidationEnabled:
         type: boolean
         default: false
