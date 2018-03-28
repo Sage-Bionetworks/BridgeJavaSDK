@@ -169,6 +169,8 @@ SignUp:
     $ref: ./sign_up.yml
 SimpleScheduleStrategy:
     $ref: ./simple_schedule_strategy.yml
+SmsTemplate:
+    $ref: ./sms_template.yml
 Study:
     $ref: ./study.yml
 StudyAndUsers:

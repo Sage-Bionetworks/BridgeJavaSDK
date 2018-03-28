@@ -3,6 +3,7 @@ package org.sagebionetworks.bridge.rest;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.google.common.annotations.VisibleForTesting;
 import okhttp3.Authenticator;
@@ -45,8 +46,9 @@ class AuthenticationHandler implements Interceptor, Authenticator {
     }
     
     @Override
-    public Request authenticate(Route route, Response response) throws IOException {
-        if (tryCount.get() >= MAX_TRIES || !requiresAuth(response.request(), false)) {
+    public synchronized Request authenticate(Route route, Response response) throws IOException {
+        Request request = response.request();
+        if (tryCount.get() >= MAX_TRIES || !requiresAuth(request, false)) {
             tryCount.set(0);
             return null;
         }
@@ -55,9 +57,37 @@ class AuthenticationHandler implements Interceptor, Authenticator {
 
         // We received a 401 from the server... attempt to reauthenticate.
         tryCount.set(tryCount.get() + 1);
-        userSessionInfoProvider.reauthenticate();
+
+        if (!doesSessionHaveTokenAndIsItDifferentFromRequest(request, userSessionInfoProvider.getSession())) {
+            // don't reauthenticate, because the 401 response was not for the current session
+            userSessionInfoProvider.reauthenticate();
+        }
+
         // We should now be able to proceed with session headers.
-        return addBridgeHeaders(response.request());
+        return addBridgeHeaders(request);
+    }
+
+    boolean doesSessionHaveTokenAndIsItDifferentFromRequest(Request request, UserSessionInfo session) {
+        if (session == null) {
+            return false;
+        }
+
+        String sessionToken = session.getSessionToken();
+        if (sessionToken == null) {
+            return false;
+        }
+
+        List<String> sessionHeader = request.headers(HeaderInterceptor.BRIDGE_SESSION);
+        if (sessionHeader == null || sessionHeader.isEmpty()) {
+            // session contains a token, but it is not used by the request
+            return true;
+        }
+
+        if (sessionHeader.contains(sessionToken)) {
+            return false; // request uses this session's token
+        } else {
+            return true; // request contains tokens, but not this session's token
+        }
     }
 
     @Override
