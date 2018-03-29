@@ -247,6 +247,7 @@ public class ApiClientProvider {
         }
         /**
          * @param changeListener UserSessionInfo change listener
+         * @return this builder, for chaining operations
          */
         public AuthenticatedClientProviderBuilder addUserSessionInfoChangeListener(
                 UserSessionInfoProvider.UserSessionInfoChangeListener changeListener) {

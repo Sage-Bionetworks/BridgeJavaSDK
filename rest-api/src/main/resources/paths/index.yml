@@ -11,8 +11,12 @@
     $ref: ./auth/v3_auth_signUp.yml
 /v3/auth/verifyEmail:
     $ref: ./auth/v3_auth_verifyEmail.yml
+/v3/auth/verifyPhone:
+    $ref: ./auth/v3_auth_verifyPhone.yml
 /v3/auth/resendEmailVerification:
     $ref: ./auth/v3_auth_resendEmailVerification.yml
+/v3/auth/resendPhoneVerification:
+    $ref: ./auth/v3_auth_resendPhoneVerification.yml
 /v3/auth/email:
     $ref: ./auth/v3_auth_email.yml
 /v3/auth/email/signIn:
@@ -89,6 +93,8 @@
     $ref: ./participants/v3_participants_userId_requestResetPassword.yml
 /v3/participants/{userId}/resendEmailVerification:
     $ref: ./participants/v3_participants_userId_resendEmailVerification.yml
+/v3/participants/{userId}/resendPhoneVerification:
+    $ref: ./participants/v3_participants_userId_resendPhoneVerification.yml
 /v3/participants/{userId}/consents/withdraw:
     $ref: ./participants/v3_participants_userId_consents_withdraw.yml
 /v3/participants/{userId}/consents/{subpopulationGuid}/resendConsent:

@@ -1,10 +1,9 @@
 post:
-    operationId: verifyEmail
+    operationId: verifyPhone
     tags: ["Authentication"]
     description: |
-        An email will be sent to the user with a link that when opened, will confirm the validity of 
-        this email address. For more control over the experience, the client could intercept this 
-        link, extract the sptoken, and complete this verification call itself.
+        Using the sptoken extracted from a link in an SMS message, or entered by the user as seen in 
+        an SMS message, call this method to confirm the validity of the phone number.
     parameters:
         - name: Verification
           in: body

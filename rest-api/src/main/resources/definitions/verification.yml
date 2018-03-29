@@ -1,0 +1,13 @@
+description: |
+    A JSON payload to sent the email or phone verification token back to the bridge server.
+type: object
+required:
+    - sptoken
+properties:
+    sptoken:
+        type: string
+        description: The token sent via email or SMS message to the user
+    type:
+        type: string
+        readOnly: true
+        description: "Verification"

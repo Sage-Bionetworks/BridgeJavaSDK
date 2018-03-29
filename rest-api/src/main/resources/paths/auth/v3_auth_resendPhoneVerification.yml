@@ -1,14 +1,14 @@
 post:
-    operationId: resendEmailVerification
+    operationId: resendPhoneVerification
     tags: ["Authentication"]
     description: |
-        Resend an email to the provided email address asking the address holder to verify their 
-        address. Whether the email address has been registered or not through sign up, this method
+        Resend an SMS message to the provided phone number asking the recipient to verify their 
+        phone number. Whether the phone has been registered or not through sign up, this method
         will return 200 in order to prevent "account enumeration" security breaches.
     parameters:
         - name: Identifier
           in: body
-          description: Email address of participant (phone number is ignored).
+          description: Phone number of participant (email address is ignored).
           required: true
           schema:
                 $ref: ../../definitions/identifier.yml
