@@ -1,17 +1,18 @@
 get:
-    operationId: getAllPublishedSurveys
-    summary: Get the published surveys in a study
+    operationId: getActivityEventsForParticipant
+    summary: Get activity event records for participant
     tags: 
         - _For Workers
     security:
         -   BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
     responses:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/paged_resources/survey.yml
+                $ref: ../../definitions/paged_resources/activity_event.yml
         401:
             $ref: ../../responses/401.yml
         403:

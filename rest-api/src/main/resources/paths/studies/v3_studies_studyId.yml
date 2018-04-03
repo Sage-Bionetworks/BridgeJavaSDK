@@ -2,7 +2,6 @@ get:
     operationId: getStudy
     summary: Get a study
     tags: 
-        - Studies
         - _For Admins
         - _For Workers
     security:
@@ -20,7 +19,6 @@ post:
     operationId: updateStudy
     summary: Update a study
     tags:
-        - Studies
         - _For Admins
     security:
         -   BridgeSecurity: []
@@ -42,7 +40,6 @@ delete:
     operationId: deleteStudy
     summary: Delete a study
     tags:
-        - Studies
         - _For Admins
     security:
         -   BridgeSecurity: []

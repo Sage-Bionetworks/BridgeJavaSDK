@@ -1,5 +1,5 @@
 get:
-    operationId: getParticipantInStudyById
+    operationId: getParticipantById
     summary: Get a study participant (user) record in a study
     tags:
         - _For Workers

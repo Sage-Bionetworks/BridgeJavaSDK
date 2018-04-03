@@ -2,8 +2,6 @@ post:
     operationId: createUserInStudy
     summary: Create a new user in a given study 
     tags:
-        - Studies
-        - Users
         - _For Admins
     security:
         - BridgeSecurity: []

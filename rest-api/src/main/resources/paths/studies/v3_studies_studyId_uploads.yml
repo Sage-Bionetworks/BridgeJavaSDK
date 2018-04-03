@@ -1,9 +1,7 @@
 get:
-    operationId: getUploadsInStudy
+    operationId: getUploads
     summary: Get uploads for a specified study
     tags: 
-        - Studies
-        - Uploads
         - _For Workers
     security:
         -   BridgeSecurity: []

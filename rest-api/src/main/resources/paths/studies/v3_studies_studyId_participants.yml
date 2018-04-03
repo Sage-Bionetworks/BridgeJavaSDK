@@ -1,5 +1,5 @@
 get:
-    operationId: getParticipantsInStudy
+    operationId: getParticipants
     summary: Get a paged list of study participants for a study
     tags:
         - _For Workers

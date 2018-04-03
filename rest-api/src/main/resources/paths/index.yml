@@ -117,6 +117,8 @@
     $ref: ./participants/v3_participants_userId_activities_compoundactivities_taskId.yml
 /v4/participants/{userId}/reports/{identifier}:
     $ref: ./participants/v4_participants_userId_reports_identifier.yml
+/v3/participants/{userId}/sendSmsMessage:
+    $ref: ./participants/v3_participants_userId_sendSmsMessage.yml
 
 # Shared Modules
 /v3/sharedmodules/{moduleId}/import:
@@ -277,6 +279,8 @@
     $ref: ./studies/v3_studies_studyId_emails_verify.yml
 /v3/studies/{studyId}/appconfig:
     $ref: ./studies/v3_studies_studyId_appconfig.yml
+/v3/studies/{studyId}/scheduleplans:
+    $ref: ./studies/v3_studies_studyId_scheduleplans.yml
 /v3/studies/self/publicKey:
     $ref: ./studies/v3_studies_self_publicKey.yml
 /v3/studies/self/emailStatus:
@@ -315,6 +319,19 @@
     $ref: ./studies/v3_studies_studyId_participants_healthCode.yml
 /v3/studies/{studyId}/participants/externalId:{externalId}:
     $ref: ./studies/v3_studies_studyId_participants_externalId.yml
+/v3/studies/{studyId}/participants/{userId}/sendSmsMessage:
+    $ref: ./studies/v3_studies_studyId_participants_userId_sendSmsMessage.yml
+/v3/studies/{studyId}/participants/{userId}/activityEvents:
+    $ref: ./studies/v3_studies_studyId_participants_userId_activityEvents.yml
+/v3/studies/{studyId}/participants/{userId}/activities/{activityGuid}:
+    $ref: ./studies/v3_studies_studyId_participants_userId_activities_activityGuid.yml
+/v3/studies/{studyId}/participants/{userId}/activities/tasks/{taskId}:
+    $ref: ./studies/v3_studies_studyId_participants_userId_activities_tasks_taskId.yml
+/v3/studies/{studyId}/participants/{userId}/activities/surveys/{surveyGuid}:
+    $ref: ./studies/v3_studies_studyId_participants_userId_activities_surveys_surveyGuid.yml
+/v3/studies/{studyId}/participants/{userId}/activities/compoundactivities/{taskId}:
+    $ref: ./studies/v3_studies_studyId_participants_userId_activities_compoundactivities_taskId.yml
+
 /v3/studies/{studyId}/oauth/{vendorId}:
     $ref: ./studies/v3_studies_studyId_oauth_vendorId.yml
 /v3/studies/{studyId}/oauth/{vendorId}/{healthCode}:

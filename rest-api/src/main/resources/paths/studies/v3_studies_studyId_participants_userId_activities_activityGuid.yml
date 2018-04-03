@@ -1,0 +1,24 @@
+get:
+    operationId: getParticipantActivityHistory
+    summary: Get a study participant's history of activities
+    tags:
+        - _For Workers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/activityGuid
+        - $ref: ../../index.yml#/parameters/scheduledOnStart
+        - $ref: ../../index.yml#/parameters/scheduledOnEnd
+        - $ref: ../../index.yml#/parameters/offsetKey
+        - $ref: ../../index.yml#/parameters/pageSize
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/forward_cursor_scheduled_activity.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_worker.yml

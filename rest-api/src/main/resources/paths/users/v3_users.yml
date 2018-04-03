@@ -2,7 +2,6 @@ post:
     operationId: createUser
     summary: Create a new user
     tags:
-        - Users
         - _For Admins
     security:
         - BridgeSecurity: []
