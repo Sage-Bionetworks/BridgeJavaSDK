@@ -6,7 +6,6 @@ post:
         the worker must provide the healthCode of the target user (this endpoint allows external 
         processes working with data from Synapse to write reports back to Bridge). 
     tags:
-        - ParticipantReports
         - _For Workers
     security:
         - BridgeSecurity: []

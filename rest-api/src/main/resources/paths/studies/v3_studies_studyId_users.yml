@@ -1,5 +1,5 @@
 post:
-    operationId: createUser
+    operationId: createUserInStudy
     summary: Create a new user in a given study 
     tags:
         - _For Admins
