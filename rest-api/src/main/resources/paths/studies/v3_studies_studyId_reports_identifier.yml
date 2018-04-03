@@ -18,13 +18,11 @@ get:
             schema:
                 $ref: ../../definitions/paged_resources/report_data.yml
 post:
-    operationId: saveReportForWorker
+    operationId: saveReport
     summary: save report for a study
     description: |
          Save a report for a specified study with arbitrary report id given by wokers into bridgePF.
     tags:
-        - Studies
-        - StudyReports
         - _For Workers
     security:
         - BridgeSecurity: []

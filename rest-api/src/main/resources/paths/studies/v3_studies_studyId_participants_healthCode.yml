@@ -1,5 +1,5 @@
 get:
-    operationId: getParticipantInStudyByHealthCode
+    operationId: getParticipantByHealthCode
     summary: Get a study participant (user) record in a study using the account's health code.
     tags:
         - _For Workers

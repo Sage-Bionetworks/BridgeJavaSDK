@@ -1,9 +1,7 @@
 get:
-    operationId: getSchemaRevisionInStudy
+    operationId: getSchemaRevision
     summary: Get a schema revision from a study
     tags: 
-        - Studies
-        - Surveys
         - _For Workers
     security:
         - BridgeSecurity: []

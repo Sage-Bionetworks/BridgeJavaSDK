@@ -2,7 +2,6 @@ delete:
     operationId: deleteAllRevisionsOfUploadSchema
     summary: Delete all revisions of an upload schema
     tags: 
-        - Upload Schemas
         - _For Admins
     security:
         -   BridgeSecurity: []

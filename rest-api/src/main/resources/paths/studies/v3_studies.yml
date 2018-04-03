@@ -27,7 +27,6 @@ post:
     operationId: createStudy
     summary: Create a new study
     tags:
-        - Studies
         - _For Admins
     security:
         -   BridgeSecurity: []

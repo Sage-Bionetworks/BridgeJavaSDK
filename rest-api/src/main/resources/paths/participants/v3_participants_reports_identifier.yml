@@ -1,5 +1,5 @@
 post:
-    operationId: addParticipantReportRecordForWorker
+    operationId: addParticipantReportRecord
     summary: Add a participant report record
     description: |
         Endpoint for a worker to add a report record for a participant. Unlike other endpoints, 
@@ -32,7 +32,6 @@ delete:
         are not normally deleted, but this endpoint allows the index identifiers to be deleted 
         during testing.
     tags:
-        - ParticipantReports
         - _For Admins
     security:
         - BridgeSecurity: []

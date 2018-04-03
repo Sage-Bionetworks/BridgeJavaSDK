@@ -1,6 +1,6 @@
 get:
-    operationId: getAllPublishedSurveys
-    summary: Get the published surveys in a study
+    operationId: getSchedulePlans
+    summary: Get schedule plans
     tags: 
         - _For Workers
     security:
@@ -11,7 +11,7 @@ get:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/paged_resources/survey.yml
+                $ref: ../../definitions/paged_resources/schedule_plan.yml
         401:
             $ref: ../../responses/401.yml
         403:

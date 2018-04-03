@@ -51,7 +51,6 @@ delete:
     operationId: deleteAppConfig
     summary: Delete an app config
     tags:
-        - AppConfigs
         - _For Admins
     security:
         - BridgeSecurity: []
