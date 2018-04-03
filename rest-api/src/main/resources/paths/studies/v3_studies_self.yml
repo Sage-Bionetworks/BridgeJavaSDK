@@ -1,6 +1,8 @@
 get:
     operationId: getUsersStudy
     summary: Get a study
+    description: |
+        Get the study of the currently signed in user account.
     tags: 
         - Studies
         - _For Developers
@@ -18,6 +20,9 @@ get:
 post:
     operationId: updateUsersStudy
     summary: Update a study
+    description: |
+        Update the study of the currently signed in developer account. This API only works for Developers 
+        (administrators should use the ForAdminsApi.updateStudy() API).
     tags:
         - Studies
         - _For Developers
