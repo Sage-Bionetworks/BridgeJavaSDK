@@ -241,6 +241,10 @@
     $ref: ./uploads/v3_uploads_uploadId_complete.yml
 /v3/uploadstatuses/{uploadId}:
     $ref: ./uploads/v3_uploadstatuses_uploadId.yml
+/v3/uploads/{uploadId}:
+    $ref: ./uploads/v3_uploads_uploadId.yml
+/v3/uploads/recordId:{recordId}:
+    $ref: ./uploads/v3_uploads_recordId.yml
 
 # Upload schemas
 /v3/uploadschemas:
