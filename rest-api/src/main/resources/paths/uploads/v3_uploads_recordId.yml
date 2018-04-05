@@ -3,8 +3,8 @@ get:
     summary: Get an upload record by the health data record ID
     tags:
         - Uploads
-        - _For Developers
         - _For Researchers
+        - _For Admins
     security:
         - BridgeSecurity: []
     parameters:
