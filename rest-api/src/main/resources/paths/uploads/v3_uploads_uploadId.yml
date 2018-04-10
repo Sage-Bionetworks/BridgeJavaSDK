@@ -3,7 +3,6 @@ get:
     summary: Get an upload by ID
     tags:
         - Uploads
-        - _For Researchers
         - _For Admins
     security:
         - BridgeSecurity: []
@@ -17,5 +16,5 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_admin_researcher.yml
+            $ref: ../../responses/403_not_admin.yml
     
