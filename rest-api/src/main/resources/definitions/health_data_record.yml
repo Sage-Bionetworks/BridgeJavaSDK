@@ -1,5 +1,6 @@
 description: |
-     See [Bridge Upload Data Format](/articles/study_design/upload_data_format.html) for details about this model object.
+     See [Bridge Upload Data Format](/articles/study_design/upload_data_format.html) for details about this model object. Only researchers and administrators can retrieve this full record through 
+     an upload record in the API.
 readOnly: true
 type: object
 properties:

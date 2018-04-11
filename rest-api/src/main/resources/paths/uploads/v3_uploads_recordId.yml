@@ -1,0 +1,20 @@
+get:
+    operationId: getUploadByRecordId
+    summary: Get an upload record by the health data record ID
+    tags:
+        - Uploads
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/recordId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/upload.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml
+    

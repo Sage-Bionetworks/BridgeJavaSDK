@@ -83,6 +83,12 @@ parameters:
         required: true
         in: path
         type: string
+    recordId:
+        name: recordId
+        description: Health data record ID
+        required: true
+        in: path
+        type: string
     uploadId:
         name: uploadId
         description: Upload ID

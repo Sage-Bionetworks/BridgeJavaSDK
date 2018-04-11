@@ -19,6 +19,8 @@ properties:
     recordId:
         type: string
         description: The record ID of the upload in Synapse.
+    healthData:
+        $ref: ./health_data_record.yml
     contentLength:
         type: integer
         format: int64
