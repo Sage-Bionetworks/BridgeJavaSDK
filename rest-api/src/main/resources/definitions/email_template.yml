@@ -7,6 +7,7 @@ description: |
     **All templates**
 
     |Template Variable|What it will be replaced with|
+    |---|---|
     |studyName|The full name of the study|
     |studyShortName|The short name of the study (ten letters or less)|
     |studyId|The identifier of the study|
@@ -20,6 +21,7 @@ description: |
     *Either ${url} or ${emailVerificationUrl} is required to be in the template.*
 
     |Template Variable|What it will be replaced with|
+    |---|---|
     |emailVerificationUrl|The URL used to verify an email address|
     |emailVerificationExpirationPeriod|The period (e.g. "2 hours") until the link expires|
     |sptoken|The token to send back to the server to validate an email addres (also included in links)|
@@ -29,6 +31,7 @@ description: |
     *Either ${url} or ${resetPasswordUrl} is required to be in the template.*
 
     |Template Variable|What it will be replaced with|
+    |---|---|
     |resetPasswordUrl|The URL that must be loaded in a web browser to enter a new password|
     |resetPasswordExpirationPeriod|The period (e.g. "2 hours") until the link expires|
     |sptoken|The token to send back to the server to validate a legitimate password reset (also included in links)|
@@ -40,6 +43,7 @@ description: |
     *Either ${url} or ${emailSignInUrl} is required to be in the template.*
 
     |Template Variable|What it will be replaced with|
+    |---|---|
     |emailSignInUrl|The URL that must be intercepted by the application to sign in via email|
     |emailSignInExpirationPeriod|The period (e.g. "2 hours") until the link expires|
     |email|The email address of the account signing in (also included in links)|
@@ -48,10 +52,10 @@ description: |
     |shorUrl|Deprecated in favor of `emailSignInUrl`
 
     **Account exists email**
-    *You can include a link to reset the account's password, or a link to sign in via email 
-    if supported by the study, or both.*
+    *You can include a link to reset the account's password, or a link to sign in via email if supported by the study, or both.*
 
     |Template Variable|What it will be replaced with|
+    |---|---|
     |resetPasswordUrl|The URL that must be loaded in a web browser to enter a new password|
     |resetPasswordExpirationPeriod|The period (e.g. "2 hours") until the link expires|
     |emailSignInUrl|The URL that must be intercepted by the application to sign in via email|
