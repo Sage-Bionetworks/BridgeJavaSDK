@@ -1,8 +1,6 @@
 type: object
 description: |
-    A template for one of the system SMS messages sent by Bridge. This message, after template 
-
-    In the templates, variable strings can be used to interpolate the following values:
+    A template for one of the system SMS messages sent by Bridge. This message, after template variable values are interpolated into the string, cannot be more than 160 characters in length. In the templates, variable strings can be used to interpolate the following values:
 
     **All templates**
 
