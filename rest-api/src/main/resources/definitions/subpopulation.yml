@@ -7,8 +7,7 @@ description: |
     * If they have, they are given access to the system. Their session will include detailed information about their consent status;
     * If the user's consent is not complete, Bridge returns a 412 response (Precondition Not Met). The JSON in that response will include a [UserSessionInfo](#UserSessionInfo) object that contains a summary of the user's consent status.
 
-    **Note:** filtering on Bridge is **opt-in**: if a request does not include information like a `User-Agent` 
-    header, then all subpopulations may be assumed to apply to the caller.
+    **Note:** filtering on Bridge is **opt-in**: if a request does not include information like a `User-Agent` header, then all subpopulations may be assumed to apply to the caller.
 required:
     - guid
     - name
@@ -31,6 +30,11 @@ properties:
         $ref: ./criteria.yml
         description: |
             Optional selection criteria that can be used to determine if a user should be assigned to this subpopulation or not. If the user does not match a subpopulation, then that subpopulation and its requirements are invisible to that user. Otherwise the user is in the subpopulation and all its consent requirements apply.
+    autoSendConsentSuppressed:
+        type: boolean
+        default: false
+        description: |
+            Should the user automatically be sent (via email or SMS) a copy of the consent when they sign it?
     required:
         type: boolean
         description: |
