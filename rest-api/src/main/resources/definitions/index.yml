@@ -123,6 +123,10 @@ OAuthAuthorizationToken:
     $ref: ./oauth_authorization_token.yml
 OAuthProvider:
     $ref: ./oauth_provider.yml
+Password:
+    $ref: ./password.yml
+PasswordGeneration:
+    $ref: ./password_generation.yml
 PasswordPolicy:
     $ref: ./password_policy.yml
 PasswordReset:

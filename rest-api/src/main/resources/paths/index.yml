@@ -31,6 +31,8 @@
     $ref: ./auth/v4_auth_signIn.yml
 /v4/auth/signOut:
     $ref: ./auth/v4_auth_signOut.yml
+/v3/auth/password:
+    $ref: ./auth/v3_auth_password.yml
 
 # Scheduled Activities
 /v3/activities:
