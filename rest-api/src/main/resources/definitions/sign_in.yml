@@ -15,6 +15,9 @@ properties:
         description: User's email address
     phone:
         $ref: ./phone.yml
+    externalId:
+        type: string
+        description: The external ID associated with this study participant
     password:
         type: string
         format: password
