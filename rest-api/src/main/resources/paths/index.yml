@@ -31,8 +31,6 @@
     $ref: ./auth/v4_auth_signIn.yml
 /v4/auth/signOut:
     $ref: ./auth/v4_auth_signOut.yml
-/v3/auth/password:
-    $ref: ./auth/v3_auth_password.yml
 
 # Scheduled Activities
 /v3/activities:
@@ -303,6 +301,8 @@
 # External IDs
 /v3/externalIds:
     $ref: ./externalIds/v3_externalIds.yml
+/v3/externalIds/{externalId}/password:
+    $ref: ./externalIds/v3_externalIds_externalId_password.yml
 
 # APIs for getting entities across studies
 /v3/studies/{studyId}/surveys/published:
