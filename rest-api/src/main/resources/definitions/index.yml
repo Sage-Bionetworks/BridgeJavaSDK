@@ -87,6 +87,8 @@ EmailVerificationStatus:
     $ref: ./email_verification_status.yml
 ExternalIdentifier:
     $ref: ./external_identifier.yml
+GeneratedPassword:
+    $ref: ./generated_password.yml
 GuidCreatedOnVersionHolder:
     $ref: ./guid_createdOn_version_holder.yml
 GuidHolder:

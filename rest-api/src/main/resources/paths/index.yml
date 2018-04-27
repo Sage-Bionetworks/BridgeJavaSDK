@@ -301,6 +301,8 @@
 # External IDs
 /v3/externalIds:
     $ref: ./externalIds/v3_externalIds.yml
+/v3/externalIds/{externalId}/password:
+    $ref: ./externalIds/v3_externalIds_externalId_password.yml
 
 # APIs for getting entities across studies
 /v3/studies/{studyId}/surveys/published:
