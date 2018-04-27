@@ -1,13 +1,8 @@
 description: |
-    Description of an activity (such as a task or survey) the study would like the participant to perform. 
-    A scheduled activity will contain a reference to a task or survey, but not both, and the activityType 
-    will reflect which property exists on the activity (e.g. if a task is defined, the activityType will be 
-    "task"). 
+    Description of an activity (such as a task or survey) the study would like the participant to perform. A scheduled activity will contain a reference to a task, a survey, a compound task (which can include any combination of tasks and surveys), and the activityType will reflect which property exists on the scheduled activity object (e.g. if a task is defined, the activityType will be "task"). 
 type: object
 required:
     - guid
-    - startedOn
-    - finishedOn
 properties:
     guid:
         type: string
@@ -16,27 +11,25 @@ properties:
         readOnly: true
     startedOn:
         type: string
-        description: This field is filled out by the client to persist the fact that a task has been started.
+        description: This field is filled out by the client to persist the fact that a task has been started. Started on is always reported in UTC, regardless of the time zone being used to 
+        express the scheduling window (scheduledOn to expiresOn).
         format: date-time
     finishedOn:
         type: string
         description: |
-            This field is filled out by the client to persist the fact that a task has been finished. To delete a task, 
-            simply mark startedOn and finishedOn with the same timestamp.
+            This field is filled out by the client to persist the fact that a task has been finished. To delete a task, record a finishedOn timestamp and leave the startedOn field blank. Finished on is always reported in UTC, regardless of the time zone being used to express the scheduling window (scheduledOn to expiresOn).
         format: date-time
     scheduledOn:
         type: string
         format: date-time
         description: |
-            The time at which the activity should be made available to the participant. It's fine to show the activity 
-            before this, but the user should not be able to start it until this time has passed.
+            The time at which the activity should be made available to the participant. It's fine to show the activity before this, but the user should not be able to start it until this time has passed. Time will be expressed in the time zone sent to the server to request the scheduled activities.
         readOnly: true
     expiresOn:
         type: string
         format: date-time
         description: |
-            The time after which this task should no longer be made available to the participant. It will also no longer be 
-            returned from the server API. 
+            The time after which this task should no longer be made available to the participant. It will also no longer be returned from the server API. Time will be expressed in the time zone sent to the server to request the scheduled activities.
         readOnly: true
     activity:
         $ref: ./activity.yml 
@@ -44,15 +37,12 @@ properties:
     persistent:
         type: boolean
         description: |
-            Is this activity persistent? If so, it will never be removed from the list of activities; the client may 
-            wish to provide different UI for such a task.
+            Is this activity persistent? If so, it will never be removed from the list of activities; the client may wish to provide different UI for such a task.
         readOnly: true
     clientData:
         type: object
         description: |
-            An arbitrary object that will be serialized and stored as JSON using the GSON serialization 
-            mechanisms. In Java this field is an Object; since the type of the object is not known, 
-            the rest-client includes a utility method:
+            An arbitrary object that will be serialized and stored as JSON using the GSON serialization mechanisms. In Java this field is an Object; since the type of the object is not known, the rest-client includes a utility method:
             ```
             MyCustomObject data = RestUtils.toType(
                 activity.getClientData(), MyCustomObject.class);
