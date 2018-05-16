@@ -24,11 +24,16 @@ get:
           required: false
           default: false
           description: True to get only published versions. False to get all versions. Defaults to false.
-        - name: where
+        - name: name
           in: query
           type: string
           required: false
-          description: SQL-like where clause. Example, "foo='bar'"
+          description: String to match anywhere in the name field of the shared module record.
+        - name: notes
+          in: query
+          type: string
+          required: false
+          description: String to match anywhere in the notes field of the shared module record.
         - name: tags
           in: query
           type: string
