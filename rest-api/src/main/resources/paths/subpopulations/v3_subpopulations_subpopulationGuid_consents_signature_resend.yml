@@ -1,6 +1,8 @@
 post:
-    operationId: emailConsentAgreement
-    summary: Email the consent agreement to the participant's email address
+    operationId: resendConsentAgreement
+    summary: Email or SMS the consent agreement to the participant
+    description: |
+        Although this method is to "resend" a consent agreement, if you have the automatic delivery of a signed consent disabled, this may be the method through which a user requests the consent for the first time, should they wish to retrieve a signed copy.
     tags:
         - Consents
         - _For Consented Users
