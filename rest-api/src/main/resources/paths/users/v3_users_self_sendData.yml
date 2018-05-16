@@ -1,10 +1,8 @@
 post:
-    operationId: emailDataToUser
-    summary: Make user's data available for download
+    operationId: sendDataToUser
+    summary: Make user's data available for download via email or an SMS message
     description: |
-        Asynchronously request the uploaded data for this user, in a given time range (inclusive). 
-        Bridge server will gather the user's data for the given time zone and email a secure link 
-        to the user's registered email address. 
+        Asynchronously request the uploaded data for this user, in a given time range (inclusive). Bridge server will gather the user's data for the given time zone and either email or SMS a secure link to the user's registered email address.
     tags:
         - Users
         - _For Consented Users
@@ -13,7 +11,7 @@ post:
     parameters:
         - name: DateRange
           in: body
-          description: start- and endDate of the request.
+          description: startDate and endDate of the request.
           required: true
           schema:
             $ref: ../../definitions/date_range.yml
