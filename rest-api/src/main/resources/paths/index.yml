@@ -145,8 +145,8 @@
     $ref: ./subpopulations/v3_subpopulations_subpopulationGuid_consents_signature.yml
 /v3/subpopulations/{subpopulationGuid}/consents/signature/withdraw:
     $ref: ./subpopulations/v3_subpopulations_subpopulationGuid_consents_signature_withdraw.yml
-/v3/subpopulations/{subpopulationGuid}/consents/signature/resend:
-    $ref: ./subpopulations/v3_subpopulations_subpopulationGuid_consents_signature_resend.yml
+/v3/subpopulations/{subpopulationGuid}/consents/signature/email:
+    $ref: ./subpopulations/v3_subpopulations_subpopulationGuid_consents_signature_email.yml
 
 # Consents
 /v3/consents:
@@ -177,8 +177,8 @@
     $ref: ./users/v3_users.yml
 /v3/users/{userId}:
     $ref: ./users/v3_users_userId.yml
-/v3/users/self/sendData:
-    $ref: ./users/v3_users_self_sendData.yml
+/v3/users/self/emailData:
+    $ref: ./users/v3_users_self_emailData.yml
 /v3/users/self/reports/{identifier}:
     $ref: ./users/v3_users_self_reports_identifier.yml
 /v4/users/self/reports/{identifier}:
