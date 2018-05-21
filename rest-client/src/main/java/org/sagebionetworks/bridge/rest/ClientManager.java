@@ -71,7 +71,6 @@ public class ClientManager {
     
     private final Config config;
     private final ClientInfo clientInfo;
-    private final transient SignIn signIn;
     private final List<String> acceptLanguages;
     private final ApiClientProvider.AuthenticatedClientProvider authenticatedClientProvider;
     private final String hostURL;
