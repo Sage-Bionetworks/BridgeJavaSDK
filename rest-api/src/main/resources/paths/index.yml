@@ -63,6 +63,8 @@
 # Participants
 /v3/participants:
     $ref: ./participants/v3_participants.yml
+/v3/participants/search:
+    $ref: ./participants/v3_participants_search.yml
 /v3/participants/self:
     $ref: ./participants/v3_participants_self.yml
 /v3/participants/self/identifiers:
@@ -197,8 +199,6 @@
     $ref: ./reports/v4_reports_identifier.yml
 
 # Surveys
-/v3/surveys:
-    $ref: ./surveys/v3_surveys.yml
 /v3/surveys/recent:
     $ref: ./surveys/v3_surveys.yml
 /v3/surveys/published:
@@ -319,6 +319,8 @@
     $ref: ./studies/v3_studies_studyId_users.yml
 /v3/studies/{studyId}/participants:
     $ref: ./studies/v3_studies_studyId_participants.yml
+/v3/studies/{studyId}/participants/search:
+    $ref: ./studies/v3_studies_studyId_participants_search.yml
 /v3/studies/{studyId}/participants/{userId}:
     $ref: ./studies/v3_studies_studyId_participants_userId.yml
 /v3/studies/{studyId}/participants/healthCode:{healthCode}:

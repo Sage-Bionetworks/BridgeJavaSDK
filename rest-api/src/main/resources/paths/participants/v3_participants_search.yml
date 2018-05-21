@@ -1,0 +1,24 @@
+post:
+    operationId: searchAccountSummaries
+    summary: Search for account summaries (participants)
+    tags:
+        - Participants
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - name: AccountSummarySearch
+          in: body
+          description: Account summary search parameters
+          required: true
+          schema:
+                $ref: ../../definitions/account_summary_search.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/account_summary.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_researcher.yml

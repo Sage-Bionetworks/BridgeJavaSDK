@@ -1,0 +1,46 @@
+description: |
+    Search criteria to retrieve account summaries of study participants
+type: object
+properties:
+    pageSize:
+        description: maximum number of records in each returned page
+        type: integer
+        format: int32
+        default: 50
+        maximum: 100
+    offsetBy:
+        description: next page start offset for pagination 
+        type: integer
+        format: int32
+        default: 0
+    emailFilter:
+        description: return records that have email addresses that match this substring
+        type: string
+    phoneFilter:
+        description: return records that have phone numbers that match this substring
+        type: string
+    allOfGroups:
+        description: return records that have all of these data groups
+        type: array
+        items:
+            type: string
+    noneOfGroups:
+        description: return records that have none of these data groups
+        type: array
+        items:
+            type: string
+    language:
+        description: return records that have this record as a declared language
+        type: string
+    startTime:
+        description: return record created on or after this day
+        type: string
+        format: date-time
+    endTime:
+        description: return record on or before this day
+        type: string
+        format: date-time
+    type:
+        type: string
+        readOnly: true
+        description: "AccountSummarySearch"

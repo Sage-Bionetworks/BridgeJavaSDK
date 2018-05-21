@@ -16,11 +16,14 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import org.sagebionetworks.bridge.rest.api.ForConsentedUsersApi;
+import org.sagebionetworks.bridge.rest.api.ForWorkersApi;
+import org.sagebionetworks.bridge.rest.api.ParticipantsApi;
 import org.sagebionetworks.bridge.rest.gson.ByteArrayToBase64TypeAdapter;
 import org.sagebionetworks.bridge.rest.gson.DateTimeTypeAdapter;
 import org.sagebionetworks.bridge.rest.gson.LocalDateTypeAdapter;
 import org.sagebionetworks.bridge.rest.gson.RuntimeTypeAdapterFactory;
 import org.sagebionetworks.bridge.rest.model.ABTestScheduleStrategy;
+import org.sagebionetworks.bridge.rest.model.AccountSummaryList;
 import org.sagebionetworks.bridge.rest.model.BloodPressureConstraints;
 import org.sagebionetworks.bridge.rest.model.BooleanConstraints;
 import org.sagebionetworks.bridge.rest.model.ClientInfo;
@@ -143,7 +146,7 @@ public class RestUtils {
             return false;
         }
         for (ConsentStatus status : statuses.values()) {
-            if (isTrue(status.getRequired()) && !isTrue(status.getConsented())) {
+            if (isTrue(status.isRequired()) && !isTrue(status.isConsented())) {
                 return false;
             }
         }
@@ -165,7 +168,7 @@ public class RestUtils {
             return false;
         }
         for (ConsentStatus status : statuses.values()) {
-            if (isTrue(status.getRequired()) && !isTrue(status.getSignedMostRecentConsent())) {
+            if (isTrue(status.isRequired()) && !isTrue(status.isSignedMostRecentConsent())) {
                 return false;
             }
         }
@@ -344,7 +347,7 @@ public class RestUtils {
         // Upload
         s3service.uploadToS3(url, body, contentMd5, BRIDGE_UPLOAD_MIME_TYPE).execute();
     }
-
+    
     /**
      * Makes a defensive copy of SignIn for internal use.
      * <br>
