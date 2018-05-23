@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
-
 import org.sagebionetworks.bridge.rest.model.ClientInfo;
 import org.sagebionetworks.bridge.rest.model.ConsentStatus;
 import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
@@ -19,6 +18,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 public class RestUtilsTest {
+    
     @Test
     public void lastWorksWithNull() {
         assertNull(RestUtils.last(null));

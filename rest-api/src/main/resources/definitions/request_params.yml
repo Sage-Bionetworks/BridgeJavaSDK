@@ -1,49 +1,77 @@
 type: object
 description: |
-    Type-safe object that returns request parameters submitted for a request. Only the values that 
-    are submitted in a request will be returned, the rest will be null.
+    Type-safe object that returns request parameters submitted for a request. Only the values that are submitted in a request will be returned, the rest will be null.
 properties:
+    allOfGroups:
+        type: array
+        readOnly: true
+        items:
+            type: string
     assignmentFilter:
         type: boolean
+        readOnly: true
     emailFilter:
         type: string
+        readOnly: true
     endDate:
         type: string
         format: date
+        readOnly: true
     endTime:
         type: string
         format: date-time
+        readOnly: true
     idFilter:
         type: string
+        readOnly: true
+    language:
+        type: string
+        readOnly: true
+    noneOfGroups:
+        type: array
+        readOnly: true
+        items:
+            type: string
     offsetBy:
         type: integer
         format: int32
+        readOnly: true
     offsetKey:
         type: string
+        readOnly: true
     pageSize:
         type: integer
         format: int32
+        readOnly: true
     phoneFilter:
         type: string
+        readOnly: true
     reportType:
         $ref: ./enums/report_type.yml
+        readOnly: true
     scheduledOnStart:
         type: string
         format: date-time
+        readOnly: true
     scheduledOnEnd:
         type: string
         format: date-time
+        readOnly: true
     startDate:
         type: string
         format: date
+        readOnly: true
     startTime:
         type: string
         format: date-time
+        readOnly: true
     total:
         type: integer
         format: int32
+        readOnly: true
     summary:
         type: boolean
+        readOnly: true
     type:
         type: string
         readOnly: true

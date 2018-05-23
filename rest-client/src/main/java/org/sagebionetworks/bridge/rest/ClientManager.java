@@ -71,7 +71,6 @@ public class ClientManager {
     
     private final Config config;
     private final ClientInfo clientInfo;
-    private final transient SignIn signIn;
     private final List<String> acceptLanguages;
     private final ApiClientProvider.AuthenticatedClientProvider authenticatedClientProvider;
     private final String hostURL;
@@ -83,7 +82,6 @@ public class ClientManager {
         this.config = config;
         this.clientInfo = clientInfo;
         this.acceptLanguages = acceptLanguages;
-        this.signIn = signIn;
         String userAgent = RestUtils.getUserAgent(clientInfo);
         String acceptLanguage = RestUtils.getAcceptLanguage(acceptLanguages);
 

@@ -1,6 +1,5 @@
 package org.sagebionetworks.bridge.rest;
 
-import static org.hamcrest.CoreMatchers.any;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -17,7 +16,6 @@ import static org.powermock.api.mockito.PowerMockito.spy;
 import java.util.Arrays;
 import java.util.Collections;
 
-import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

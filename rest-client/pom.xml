@@ -5,7 +5,7 @@
     <parent>
         <artifactId>sdk-group</artifactId>
         <groupId>org.sagebionetworks.bridge</groupId>
-        <version>0.15.18</version>
+        <version>0.15.19</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -107,6 +107,7 @@
                 <artifactId>swagger-codegen-maven-plugin</artifactId>
                 <executions>
                     <execution>
+                        <phase>generate-sources</phase>
                         <goals>
                             <goal>generate</goal>
                         </goals>
@@ -117,7 +118,9 @@
                             <apiPackage>${package-directory}.api</apiPackage>
                             <modelPackage>${package-directory}.model</modelPackage>
                             <invokerPackage>${package-directory}.utils</invokerPackage>
-                            <configOptions></configOptions>
+                            <configOptions>
+                                <dateLibrary>joda</dateLibrary>
+                            </configOptions>
                             <output>${project.build.directory}/swagger</output>
                             <addCompileSourceRoot>false</addCompileSourceRoot>
                             <environmentVariables>

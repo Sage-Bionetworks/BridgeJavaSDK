@@ -45,6 +45,8 @@ AbstractStudyParticipant:
     $ref: ./abstract_study_participant.yml
 AccountSummary:
     $ref: ./account_summary.yml
+AccountSummarySearch:
+    $ref: ./account_summary_search.yml
 Activity:
     $ref: ./activity.yml
 ActivityEvent:

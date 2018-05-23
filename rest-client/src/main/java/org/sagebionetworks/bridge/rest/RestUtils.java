@@ -143,7 +143,7 @@ public class RestUtils {
             return false;
         }
         for (ConsentStatus status : statuses.values()) {
-            if (isTrue(status.getRequired()) && !isTrue(status.getConsented())) {
+            if (isTrue(status.isRequired()) && !isTrue(status.isConsented())) {
                 return false;
             }
         }
@@ -165,7 +165,7 @@ public class RestUtils {
             return false;
         }
         for (ConsentStatus status : statuses.values()) {
-            if (isTrue(status.getRequired()) && !isTrue(status.getSignedMostRecentConsent())) {
+            if (isTrue(status.isRequired()) && !isTrue(status.isSignedMostRecentConsent())) {
                 return false;
             }
         }
@@ -344,7 +344,7 @@ public class RestUtils {
         // Upload
         s3service.uploadToS3(url, body, contentMd5, BRIDGE_UPLOAD_MIME_TYPE).execute();
     }
-
+    
     /**
      * Makes a defensive copy of SignIn for internal use.
      * <br>

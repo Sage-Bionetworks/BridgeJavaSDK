@@ -1,6 +1,7 @@
 get:
     operationId: getParticipants
     summary: Get a paged list of study participants for a study
+    deprecated: true
     tags:
         - _For Workers
     security:

@@ -3,7 +3,7 @@ description: |
     using this object for a call.
 type: object
 required:
-    - studyIdentifier
+    - study
 properties:
     email:
         type: string
