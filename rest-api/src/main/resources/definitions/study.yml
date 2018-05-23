@@ -29,6 +29,9 @@ properties:
     consentNotificationEmailVerified:
         description: True if the consent notification email is verified. False if not.
         type: boolean
+    participantIpLockingEnabled:
+        description: True if sessions for unprivileged participant accounts should be locked to an IP address. (Privileged account sessions are _always_ locked to an IP address.)
+        type: boolean
     sponsorName:
         type: string
         description: The name of the institution or organization that is conducting the study. 
