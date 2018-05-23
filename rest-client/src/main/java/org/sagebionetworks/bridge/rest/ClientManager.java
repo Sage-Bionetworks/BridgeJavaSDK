@@ -82,7 +82,6 @@ public class ClientManager {
         this.config = config;
         this.clientInfo = clientInfo;
         this.acceptLanguages = acceptLanguages;
-        this.signIn = signIn;
         String userAgent = RestUtils.getUserAgent(clientInfo);
         String acceptLanguage = RestUtils.getAcceptLanguage(acceptLanguages);
 

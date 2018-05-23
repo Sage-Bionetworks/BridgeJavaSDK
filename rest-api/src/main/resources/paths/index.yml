@@ -199,7 +199,7 @@
     $ref: ./reports/v4_reports_identifier.yml
 
 # Surveys
-/v3/surveys/recent:
+/v3/surveys:
     $ref: ./surveys/v3_surveys.yml
 /v3/surveys/published:
     $ref: ./surveys/v3_surveys_published.yml
