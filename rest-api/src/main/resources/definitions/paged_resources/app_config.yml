@@ -1,5 +1,7 @@
 type: object
 readOnly: true
+required:
+    - items
 properties:
     items:
         type: array

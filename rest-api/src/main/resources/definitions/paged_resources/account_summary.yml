@@ -3,6 +3,8 @@ readOnly: true
 description: Payload returning a list of [AccountSummary](/#AccountSummary) records.
 allOf:
     - $ref: ./paged_resource_list.yml
+    - required:
+        - items
     - properties:
         items:
             type: array

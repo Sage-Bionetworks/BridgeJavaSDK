@@ -2,6 +2,8 @@ type: object
 readOnly: true
 allOf:
     - $ref: './resource_list.yml'
+    - required:
+        - items
     - properties:
         items:
             type: array

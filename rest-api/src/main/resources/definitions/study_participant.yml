@@ -2,6 +2,8 @@ allOf:
     - $ref: ./abstract_study_participant.yml
     - description: |
         The full record about a study participant.
+    - required:
+        - consentHistories
     - properties:
         healthCode:
             type: string

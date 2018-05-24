@@ -5,6 +5,7 @@ required:
     - schemaRevision
     - status
     - requestedOn
+    - validationMessageList
 properties:
     uploadId:
         type: string

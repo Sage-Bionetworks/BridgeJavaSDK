@@ -1,5 +1,7 @@
 type: object
 readOnly: true
+required:
+    - messageList
 properties:
     id:
         type: string

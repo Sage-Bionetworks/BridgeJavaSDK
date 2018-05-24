@@ -1,5 +1,9 @@
 type: object
 discriminator: type
+required:
+    - roles
+    - dataGroups
+    - languages
 properties:
     firstName:
         type: string

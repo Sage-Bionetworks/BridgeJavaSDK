@@ -4,6 +4,8 @@ description: A compound activity definition, which lives outside of but parallel
     and the scheduler will automatically resolve and populate the compound activity in returned scheduled activities.
 required:
     - taskId
+    - schemaList
+    - surveyList
 properties:
     schemaList:
         type: array
