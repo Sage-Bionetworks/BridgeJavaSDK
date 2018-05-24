@@ -9,6 +9,7 @@ required:
     - identifier
     - consentNotificationEmail
     - version
+    - userProfileAttributes
 properties:
     name:
         type: string

@@ -5,6 +5,11 @@ description: |
     against which user information will be matched are described in the Criteria object. 
     See [Customizing Content for Participants](/articles/filtering.html) for a 
     fuller explanation. 
+required:
+    - allOfGroups
+    - noneOfGroups
+    - minAppVersions
+    - maxAppVersions
 properties:
     language:
         type: string

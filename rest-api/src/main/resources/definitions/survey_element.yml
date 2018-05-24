@@ -5,6 +5,8 @@ required:
     - guid
     - identifier
     - type
+    - beforeRules
+    - afterRules
 properties:
     guid:
         type: string
