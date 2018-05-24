@@ -6,6 +6,8 @@ description: A pointer to a compound activity, which represents multiple schemas
     as the key.
 required:
     - taskIdentifier
+    - schemaList
+    - surveyList
 properties:
     schemaList:
         type: array

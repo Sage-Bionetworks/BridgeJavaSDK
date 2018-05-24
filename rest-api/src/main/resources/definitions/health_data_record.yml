@@ -3,6 +3,8 @@ description: |
      an upload record in the API.
 readOnly: true
 type: object
+required:
+    - userDataGroups
 properties:
     appVersion:
         type: string

@@ -1,6 +1,9 @@
 description: |
     An app configuration object.
 type: object
+required:
+    - surveyReferences
+    - schemaReferences
 properties:
     label:
         type: string

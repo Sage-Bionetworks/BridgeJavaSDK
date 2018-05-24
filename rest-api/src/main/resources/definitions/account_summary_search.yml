@@ -1,6 +1,9 @@
 description: |
     Search criteria to retrieve account summaries of study participants
 type: object
+required:
+    - allOfGroups
+    - noneOfGroups
 properties:
     pageSize:
         description: maximum number of records in each returned page

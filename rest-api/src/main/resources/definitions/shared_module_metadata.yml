@@ -4,6 +4,7 @@ required:
     - id
     - name
     - version
+    - tags
 properties:
     id:
         type: string

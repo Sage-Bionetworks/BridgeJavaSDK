@@ -9,6 +9,13 @@ required:
     - identifier
     - consentNotificationEmail
     - version
+    - userProfileAttributes
+    - uploadMetadataFieldDefinitions
+    - taskIdentifiers
+    - activityEventKeys
+    - dataGroups
+    - appleAppLinks
+    - androidAppLinks
 properties:
     name:
         type: string
