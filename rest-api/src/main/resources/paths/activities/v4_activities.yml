@@ -7,15 +7,7 @@ get:
     security:
         -   BridgeSecurity: []
     description: |
-        Gets all activities in a given date range (from inclusive start time to excluded end time), 
-        including expired, available, finished, started, or scheduled activities for a user. The 
-        activities that are returned have an activity window (from scheduled time to expiration time) 
-        that overlaps with some portion of the time range window specified by the call. Put 
-        differently, the activity's scheduled activity period ends within, starts within, or spans 
-        across the time range window specified by the call. The only activities that are not returned 
-        are deleted activities (activities with a finishedOn timestamp but no startedOn timestamp). 
-        Scheduled times are returned in the timezone of the timestamps (the timezone must be the same 
-        for startTime and endTime). The date range cannot exceed 15 days.
+        Get all scheduled activities in a given date range (from inclusive `startTime` to excluded `endTime`, up to 15 days), in one or more pages of results. An activity is included in the results if its scheduling window (`scheduledOn` to `expiresOn`) overlaps with the time range indicated by the request. The `startedOn` and `finishedOn` timestamps, if they exist for an activity, have no impact on whether it is included in this search query with the exception of deleted activities. These will not be returned in this query, and they are indicated by setting a `finishedOn` timestamp but no `startedOn` timestamp. **Persistent** activities will only ever return the current, active instance of that activity (you cannot retrieve the sequence of finished persistent activity instances, because this sequence is unbounded). 
     parameters:
         - $ref: ../../index.yml#/parameters/startTime
         - $ref: ../../index.yml#/parameters/endTime

@@ -187,6 +187,12 @@ properties:
         default: false
         description: |
             **Can only be set by an administrator.** Should the external ID be required on sign up? If this is true and external ID validation is enabled, this study can support lab codes (where the username and password are auto-generated from the external ID and the user only needs to enter a code).
+    verifyChannelOnSignInEnabled:
+        type: boolean
+        default: true
+        description: |
+            **Can only be changed by an administrator.** Should the the credential that is submitted during sign-in 
+            be verified? This is always true (with the exception of legacy studies) and should not be changed.
     accountLimit:
         type: integer
         default: 0
