@@ -8,7 +8,6 @@ properties:
         type: string
     schedulePlanGuid:
         type: string
-        readOnly: true
     startedOn:
         type: string
         format: date-time
@@ -20,23 +19,19 @@ properties:
     scheduledOn:
         type: string
         format: date-time
-        readOnly: true
         description: |
             The time at which the activity should be made available to the participant. It's fine to show the activity before this, but the user should not be able to start it until this time has passed. Time will be expressed in the time zone sent to the server to request the scheduled activities.
     expiresOn:
         type: string
         format: date-time
-        readOnly: true
         description: |
             The time after which this task should no longer be made available to the participant. It will also no longer be returned from the server API. Time will be expressed in the time zone sent to the server to request the scheduled activities.
     activity:
         $ref: ./activity.yml 
-        readOnly: true
     persistent:
         type: boolean
         description: |
             Is this activity persistent? If so, it will never be removed from the list of activities; the client may wish to provide different UI for such a task.
-        readOnly: true
     clientData:
         type: object
         description: |
