@@ -19,6 +19,8 @@ properties:
         description: The date and time the app config was last modified.
     guid:
         type: string
+    deleted:
+        type: boolean
     criteria:
         $ref: ./criteria.yml
         description: |

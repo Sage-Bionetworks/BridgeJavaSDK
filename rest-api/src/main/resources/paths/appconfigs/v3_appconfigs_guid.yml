@@ -51,6 +51,8 @@ delete:
     operationId: deleteAppConfig
     summary: Delete an app config
     tags:
+        - AppConfigs
+        - _For Developers
         - _For Admins
     security:
         - BridgeSecurity: []
@@ -58,6 +60,12 @@ delete:
         Delete an existing configuration object.
     parameters:
         - $ref: ../../index.yml#/parameters/guid
+        - name: physical
+          description: Physically delete the app config (administrators only; this is always false for developers)
+          default: false
+          required: false
+          in: query
+          type: boolean
     responses:
         200:
             description: OK
@@ -66,4 +74,4 @@ delete:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_admin.yml
+            $ref: ../../responses/403_not_admin_developer.yml

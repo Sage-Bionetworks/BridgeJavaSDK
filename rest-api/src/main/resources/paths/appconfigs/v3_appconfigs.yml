@@ -8,6 +8,12 @@ get:
         - BridgeSecurity: []
     description: |
         Get all the app configuration objects for this study.
+    parameters:
+        - name: includeDeleted
+          in: query
+          type: boolean
+          default: false
+          description: Should deleted app configs be returned in results?
     responses:
         200:
             description: OK
