@@ -21,6 +21,7 @@ properties:
         type: string
     deleted:
         type: boolean
+        description: Has this app config been logically deleted (an admin can restore it)?
     criteria:
         $ref: ./criteria.yml
         description: |
