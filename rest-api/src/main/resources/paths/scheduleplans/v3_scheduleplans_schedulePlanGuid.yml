@@ -4,6 +4,7 @@ get:
     tags: 
         - Schedules
         - _For Developers
+        - _For Admins
     security:
         - BridgeSecurity: []
     parameters:
@@ -47,14 +48,21 @@ delete:
     tags: 
         - Schedules
         - _For Developers
+        - _For Admins
     security:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/schedulePlanGuid
+        - name: physical
+          description: Physically delete the schedule plan (administrators only; this is always false for developers)
+          default: false
+          required: false
+          in: query
+          type: boolean
     responses:
         200:
             $ref: ../../responses/200_message.yml
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_developer.yml
+            $ref: ../../responses/403_not_admin_developer.yml
