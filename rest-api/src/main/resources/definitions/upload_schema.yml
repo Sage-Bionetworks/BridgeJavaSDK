@@ -64,6 +64,8 @@ properties:
             (in ISO 8601 format) of the survey it represents.
     schemaType:
         $ref: ./enums/upload_schema_type.yml
+    deleted:
+        type: boolean
     version:
         type: integer
         format: int64
