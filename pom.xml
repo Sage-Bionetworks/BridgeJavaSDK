@@ -195,19 +195,19 @@
                     <version>${maven-source-plugin.version}</version>
                 </plugin>
                 <plugin>
-               	    <groupId>org.codehaus.mojo</groupId>
-               	    <artifactId>build-helper-maven-plugin</artifactId>
-               	    <version>${build-helper-maven-plugin.version}</version>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>${build-helper-maven-plugin.version}</version>
                 </plugin>
                 <plugin>
-	            <groupId>io.swagger</groupId>
-    	            <artifactId>swagger-codegen-maven-plugin</artifactId>
-        	        <version>${swagger-codegen-maven-plugin.version}</version>
+                    <groupId>io.swagger</groupId>
+                    <artifactId>swagger-codegen-maven-plugin</artifactId>
+                    <version>${swagger-codegen-maven-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
-	                <artifactId>exec-maven-plugin</artifactId>
-        	        <version>${exec-maven-plugin.version}</version>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>${exec-maven-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
