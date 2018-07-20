@@ -41,7 +41,7 @@
         <surefire.version>2.18.1</surefire.version>
         <swagger-annotations.version>1.5.18</swagger-annotations.version>
         <swagger-codegen-maven-plugin.version>2.3.1</swagger-codegen-maven-plugin.version>
-
+        <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
         <package-directory>org.sagebionetworks.bridge.rest</package-directory>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -195,19 +195,24 @@
                     <version>${maven-source-plugin.version}</version>
                 </plugin>
                 <plugin>
-                	<groupId>org.codehaus.mojo</groupId>
-                	<artifactId>build-helper-maven-plugin</artifactId>
-                	<version>${build-helper-maven-plugin.version}</version>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>${build-helper-maven-plugin.version}</version>
                 </plugin>
                 <plugin>
-	                <groupId>io.swagger</groupId>
-    	            <artifactId>swagger-codegen-maven-plugin</artifactId>
-        	        <version>${swagger-codegen-maven-plugin.version}</version>
+                    <groupId>io.swagger</groupId>
+                    <artifactId>swagger-codegen-maven-plugin</artifactId>
+                    <version>${swagger-codegen-maven-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
-	                <artifactId>exec-maven-plugin</artifactId>
-        	        <version>${exec-maven-plugin.version}</version>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>${exec-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>${maven-site-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
