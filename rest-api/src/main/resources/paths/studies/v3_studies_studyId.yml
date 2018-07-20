@@ -40,6 +40,7 @@ delete:
     operationId: deleteStudy
     summary: Delete a study
     tags:
+        - _For Developers
         - _For Admins
     security:
         -   BridgeSecurity: []
@@ -57,4 +58,4 @@ delete:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_admin.yml
+            $ref: ../../responses/403_not_admin_developer.yml
