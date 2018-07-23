@@ -7,6 +7,11 @@ get:
         -   BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
+        - name: includeDeleted
+          in: query
+          type: boolean
+          default: false
+          description: Should deleted schedule plans be returned in results?
     responses:
         200:
             description: OK
