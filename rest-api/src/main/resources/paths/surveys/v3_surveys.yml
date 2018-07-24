@@ -6,6 +6,12 @@ get:
         - _For Developers
     security:
         - BridgeSecurity: []
+    parameters:
+        - name: includeDeleted
+          in: query
+          type: boolean
+          default: false
+          description: Should deleted surveys be returned in results?
     responses:
         200:
             description: OK
