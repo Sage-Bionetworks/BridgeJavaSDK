@@ -109,9 +109,7 @@ class AuthenticationHandler implements Interceptor, Authenticator {
             return true;
         }
         if (includeSignOut) {
-            if (url.endsWith(SIGN_OUT_PATH) || url.endsWith(CHANGE_STUDY_PATH)) {
-                return true;
-            }
+            return (url.endsWith(SIGN_OUT_PATH) || url.endsWith(CHANGE_STUDY_PATH));
         }
         return false;
     }
