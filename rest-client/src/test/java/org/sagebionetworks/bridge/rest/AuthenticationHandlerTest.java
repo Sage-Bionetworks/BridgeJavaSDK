@@ -87,6 +87,25 @@ public class AuthenticationHandlerTest {
     }
     
     @Test
+    public void interceptRequiringAuthAddsHeaderToChangeStudy() throws Exception {
+        UserSessionInfo session = new UserSessionInfo().sessionToken("sessionToken");
+        when(userSessionInfoProvider.retrieveSession()).thenReturn(session);
+        
+        when(chain.request()).thenReturn(request);
+        when(chain.proceed(request)).thenReturn(response);
+        when(url.toString()).thenReturn("/v3/auth/admin/study");
+        when(request.url()).thenReturn(url);
+        when(request.newBuilder()).thenReturn(builder);
+        when(builder.header(anyString(), anyString())).thenReturn(builder);
+        when(builder.build()).thenReturn(request);
+
+        authHandler.intercept(chain);
+
+        verify(builder).header(HeaderInterceptor.BRIDGE_SESSION, "sessionToken");
+    }
+
+    
+    @Test
     public void interceptNoAuthDoesNotAddHeader() throws Exception {
         UserSessionInfo session = new UserSessionInfo().sessionToken("sessionToken");
         when(userSessionInfoProvider.retrieveSession()).thenReturn(session);
