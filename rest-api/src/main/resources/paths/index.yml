@@ -32,6 +32,12 @@
 /v4/auth/signOut:
     $ref: ./auth/v4_auth_signOut.yml
 
+# Admin authentication methods
+/v3/auth/admin/signIn:
+    $ref: ./auth/v3_auth_admin_signIn.yml
+/v3/auth/admin/study:
+    $ref: ./auth/v3_auth_admin_study.yml
+
 # Scheduled Activities
 /v3/activities:
     $ref: ./activities/v3_activities.yml
