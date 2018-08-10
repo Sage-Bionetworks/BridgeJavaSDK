@@ -4,7 +4,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -130,8 +129,9 @@ public class ApiClientProvider {
 
     /**
      * Get an instance of the Authentication API client.
-     *
+     * <p>
      * Basically a convenience wrapper for getClient(AuthenticationApi.class).
+     *
      * @return authentication API
      */
     public AuthenticationApi getAuthenticationApi() {
@@ -174,17 +174,18 @@ public class ApiClientProvider {
      * Loader (basically a factory) for Retrofit service instances.
      */
     static class RetrofitServiceLoader extends CacheLoader<Class<?>, Object> {
-       private final Retrofit retrofit;
+        private final Retrofit retrofit;
 
-       RetrofitServiceLoader(Retrofit retrofit) {
-           this.retrofit = retrofit;
-       }
+        RetrofitServiceLoader(Retrofit retrofit) {
+            this.retrofit = retrofit;
+        }
 
-       @SuppressWarnings("NullableProblems") // superclass uses nullity-analysis annotations which we are not using
-       @Override public Object load(Class<?> serviceClass)  {
-           return retrofit.create(serviceClass);
-       }
-   }
+        @SuppressWarnings("NullableProblems") // superclass uses nullity-analysis annotations which we are not using
+        @Override
+        public Object load(Class<?> serviceClass) {
+            return retrofit.create(serviceClass);
+        }
+    }
 
     /**
      * Returns a builder for authenticated access to this study.
@@ -193,7 +194,7 @@ public class ApiClientProvider {
      */
     public AuthenticatedClientProviderBuilder getAuthenticatedClientProviderBuilder() {
         return new AuthenticatedClientProviderBuilder();
-   }
+    }
 
     /**
      * Base class for creating authenticated clients that are correctly configured to communicate with a Bridge study.
@@ -204,7 +205,7 @@ public class ApiClientProvider {
         private final LoadingCache<Class<?>, ?> authenticatedServices;
 
         private AuthenticatedClientProvider(final UserSessionInfoProvider userSessionInfoProvider,
-                final Retrofit authenticatedRetrofit) {
+                                            final Retrofit authenticatedRetrofit) {
             this.userSessionInfoProvider = userSessionInfoProvider;
 
             this.authenticatedServices = CacheBuilder.newBuilder()
@@ -239,12 +240,14 @@ public class ApiClientProvider {
     public class AuthenticatedClientProviderBuilder {
         private Phone phone;
         private String email;
+        private String externalId;
         private String password;
         private UserSessionInfo session;
         private final List<UserSessionInfoProvider.UserSessionInfoChangeListener> changeListeners = new ArrayList<>();
 
         private AuthenticatedClientProviderBuilder() {
         }
+
         /**
          * @param changeListener UserSessionInfo change listener
          * @return this builder, for chaining operations
@@ -263,12 +266,22 @@ public class ApiClientProvider {
             this.phone = phone;
             return this;
         }
-       /**
+
+        /**
          * @param email participant's email
          * @return this builder, for chaining operations
          */
         public AuthenticatedClientProviderBuilder withEmail(String email) {
             this.email = email;
+            return this;
+        }
+
+        /**
+         * @param externalId participant's externalId
+         * @return this builder, for chaining operations
+         */
+        public AuthenticatedClientProviderBuilder withExternalId(String externalId) {
+            this.externalId = externalId;
             return this;
         }
 
@@ -298,13 +311,17 @@ public class ApiClientProvider {
          * @return instance of AuthenticatedClientProvider tied to a participant
          */
         public AuthenticatedClientProvider build() {
-            checkState(email != null || phone != null, "requires either email or phone");
+            checkState(!Strings.isNullOrEmpty(email) || phone != null || !Strings.isNullOrEmpty(externalId),
+                    "requires email, phone or external ID");
 
             UserSessionInfoProvider sessionProvider =
-                    new UserSessionInfoProvider(authenticationApi, study, email, phone, password, session, changeListeners);
+                    new UserSessionInfoProvider(authenticationApi, study, email, phone, externalId, password, session,
+                            changeListeners);
             // reset credentials so same builder can be reused
             email = null;
             phone = null;
+            externalId = null;
+
             password = null;
             session = null;
 
