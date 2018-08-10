@@ -19,8 +19,8 @@ import org.sagebionetworks.bridge.rest.model.SignIn;
 import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 
 /**
- * Retrieves session information for a Bridge user. It either gets it from the user session interceptor, or if 
- * a session doesn't exist (hasn't been captured), it authenticates. The authentication causes the interceptor to 
+ * Retrieves session information for a Bridge user. It either gets it from the user session interceptor, or if
+ * a session doesn't exist (hasn't been captured), it authenticates. The authentication causes the interceptor to
  * capture the session, then you can return it.
  */
 public class UserSessionInfoProvider {
@@ -34,20 +34,26 @@ public class UserSessionInfoProvider {
     private final String studyId;
     private final String email;
     private final Phone phone;
+    private final String externalId;
     private final String password;
     private final List<UserSessionInfoChangeListener> changeListeners;
     private volatile UserSessionInfo session;
 
-    UserSessionInfoProvider(AuthenticationApi authenticationApi, String studyId, String email, Phone phone, String password,
-            UserSessionInfo session, List<UserSessionInfoChangeListener> changeListeners) {
+    UserSessionInfoProvider(AuthenticationApi authenticationApi, String studyId, String email, Phone phone,
+                            String externalId, String password, UserSessionInfo session,
+                            List<UserSessionInfoChangeListener> changeListeners) {
         checkNotNull(authenticationApi);
         checkNotNull(studyId);
-        checkState(email != null || phone != null, "requires either email or phone");
+        checkState(!Strings.isNullOrEmpty(email) || phone != null || !Strings.isNullOrEmpty(externalId),
+                "requires email, phone or externalId");
 
         this.authenticationApi = authenticationApi;
         this.studyId = studyId;
+
         this.email = email;
         this.phone = phone;
+        this.externalId = externalId;
+
         this.session = session;
         this.password = password;
         this.changeListeners = ImmutableList.copyOf(changeListeners);
@@ -56,9 +62,9 @@ public class UserSessionInfoProvider {
     public synchronized UserSessionInfo getSession() {
         return session;
     }
-    
+
     /**
-     * Retrieves a session. If a session hasn't been captured by an interceptor, this provider will attempt 
+     * Retrieves a session. If a session hasn't been captured by an interceptor, this provider will attempt
      * to retrieve it by signing in.
      *
      * @return session info for the user
@@ -70,24 +76,24 @@ public class UserSessionInfoProvider {
         }
         // There's no session, so our only option is to sign in again.
         if (LOG.isDebugEnabled()) {
-            LOG.debug(debugString("null")+ " signing in");
+            LOG.debug(debugString("null") + " signing in");
         }
         signIn();
         return session;
     }
-    
+
     synchronized void setSession(final UserSessionInfo newSession) {
         if (LOG.isDebugEnabled()) {
-            String token = (newSession==null) ? "null" : newSession.getSessionToken();
+            String token = (newSession == null) ? "null" : newSession.getSessionToken();
             LOG.debug(debugString(token));
         }
 
         mergeReauthToken(this.session, newSession);
         this.session = newSession;
-        for(UserSessionInfoChangeListener listener : changeListeners) {
+        for (UserSessionInfoChangeListener listener : changeListeners) {
             try {
                 listener.onChange(this.session);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 LOG.error("Exception while calling UserSessionInfoChangeListener", e);
             }
         }
@@ -111,27 +117,27 @@ public class UserSessionInfoProvider {
             }
         }
     }
-    
+
     synchronized void reauthenticate() throws IOException {
         if (session == null || session.getReauthToken() == null) {
             signIn();
         } else {
-            SignIn request = new SignIn().email(email).phone(phone)
+            SignIn request = new SignIn().email(email).phone(phone).externalId(externalId)
                     .reauthToken(session.getReauthToken()).study(studyId);
             try {
                 UserSessionInfo newSession = authenticationApi.reauthenticate(request).execute().body();
                 setSession(newSession);
-            } catch(ConsentRequiredException e) {
+            } catch (ConsentRequiredException e) {
                 // successful authentication
                 setSession(e.getSession());
-            } catch(BridgeSDKException reauthException) {
+            } catch (BridgeSDKException reauthException) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Reauth failed, signing in again", reauthException);
                 }
 
                 boolean signInAttempted;
                 try {
-                     signInAttempted = signIn();
+                    signInAttempted = signIn();
                 } catch (BridgeSDKException signInException) {
                     try {
                         signInException.initCause(reauthException);
@@ -149,24 +155,25 @@ public class UserSessionInfoProvider {
             }
         }
     }
-    
+
     private boolean signIn() throws IOException {
         if (Strings.isNullOrEmpty(password)) {
             LOG.warn("Could not signIn, no password provided");
             return false;
         }
         try {
-            SignIn signIn = new SignIn().study(studyId).email(email).phone(phone).password(password);
+            SignIn signIn = new SignIn().study(studyId).email(email).phone(phone).externalId(externalId)
+                    .password(password);
             UserSessionInfo newSession = authenticationApi.signInV4(signIn).execute().body();
-            setSession(newSession); 
-        } catch(ConsentRequiredException e) {
+            setSession(newSession);
+        } catch (ConsentRequiredException e) {
             // successful authentication
             setSession(e.getSession());
         }
         return true;
     }
-    
+
     private String debugString(String token) {
-        return "userSessionInfoProvider["+this.hashCode()+"].session="+token;
+        return "userSessionInfoProvider[" + this.hashCode() + "].session=" + token;
     }
 }

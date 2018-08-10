@@ -70,7 +70,8 @@ public class UserSessionInfoProviderTest {
         signIn = new SignIn().email("email@email.com").password("password").study("test-study");
         
         provider = new UserSessionInfoProvider(authenticationApi, signIn.getStudy(), signIn.getEmail(),
-                signIn.getPhone(), signIn.getPassword(), null, Arrays.asList(changeListener));
+                signIn.getPhone(), signIn.getExternalId(), signIn.getPassword(), null,
+                Arrays.asList(changeListener));
     }
     
     @Test
@@ -184,7 +185,8 @@ public class UserSessionInfoProviderTest {
         signIn = new SignIn().email("email@email.com").study("test-study");
 
         provider = new UserSessionInfoProvider(authenticationApi, signIn.getStudy(), signIn.getEmail(),
-                signIn.getPhone(), signIn.getPassword(), null, Arrays.asList(changeListener));
+                signIn.getPhone(), signIn.getExternalId(), signIn.getPassword(), null,
+                Arrays.asList(changeListener));
 
         doReturn(call).when(authenticationApi).reauthenticate(any(SignIn.class));
         AuthenticationFailedException e1 = new AuthenticationFailedException("message", "endpoint");
