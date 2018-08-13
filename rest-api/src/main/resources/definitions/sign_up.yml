@@ -21,9 +21,6 @@ allOf:
                 is identified by the email within a study.
         phone:
             $ref: ./phone.yml
-        externalId:
-            type: string
-            description: The external ID associated with this study participant
         password:
             type: string
             format: password
