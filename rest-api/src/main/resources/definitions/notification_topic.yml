@@ -26,6 +26,11 @@ properties:
         type: string
         format: date-time
         readOnly: true
+    criteria:
+        $ref: ./criteria.yml
+        description: |
+            If a topic has criteria, users can be automatically subscribed and unsubscribed when their criteria context
+            changes.
     type:
         type: string
         readOnly: true
