@@ -1,8 +1,9 @@
 description:
-    The JSON data for one time point of a report (either a local date in the format YYYY-MM-DD, or an 
-    ISO 8601 timestamp; report records should all use one or the other format consistently). Data can 
-    be for a study as a whole or a report on a single participant depending on the endpoint that is 
-    used to persist the data in Bridge. 
+    The JSON data for one time point of a report (either a local date in the format YYYY-MM-DD, or an ISO 8601 timestamp; report records should all use one or the other format consistently). 
+
+    The `date` property can be used to submit either a local date or timestamp, and the value will be returned in the `date` property as well as the `localDate` or `dateTime` property depending on the format. You can also alternative submit `localDate` or `dateTime` (but never both), and you'll get back the value in that property as well as the `date` property.
+    
+    Data can be for a study as a whole, or a report on a single participant, depending on the endpoint that is used to persist the data in Bridge. 
 type: object
 required:
     - date
