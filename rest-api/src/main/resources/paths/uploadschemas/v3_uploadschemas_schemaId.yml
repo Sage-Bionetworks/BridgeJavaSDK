@@ -23,7 +23,7 @@ get:
         403:
             $ref: ../../responses/403_not_developer.yml
 delete:
-    operationId: deleteAllRevisionsOfUploadSchemaInStudy
+    operationId: deleteAllRevisionsOfUploadSchema
     summary: Delete all revisions of an upload schema
     tags: 
         - Upload Schemas
@@ -38,7 +38,7 @@ delete:
           default: false
           required: false
           in: query
-          type: boolean        
+          type: boolean
     responses:
         200:
             $ref: ../../responses/200_message.yml

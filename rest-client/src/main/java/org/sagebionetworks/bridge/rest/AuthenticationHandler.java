@@ -27,6 +27,7 @@ class AuthenticationHandler implements Interceptor, Authenticator {
 
     private static final int MAX_TRIES = 1;
     private static final String SIGN_OUT_PATH = "/signOut";
+    private static final String CHANGE_STUDY_PATH = "/admin/study";
     private static final String AUTH_PATH = "/auth/";
     
     private final UserSessionInfoProvider userSessionInfoProvider;
@@ -104,7 +105,13 @@ class AuthenticationHandler implements Interceptor, Authenticator {
     
     private boolean requiresAuth(Request request, boolean includeSignOut) {
         String url = request.url().toString();
-        return (!url.contains(AUTH_PATH) || (includeSignOut && url.endsWith(SIGN_OUT_PATH)));
+        if (!url.contains(AUTH_PATH)) {
+            return true;
+        }
+        if (includeSignOut) {
+            return (url.endsWith(SIGN_OUT_PATH) || url.endsWith(CHANGE_STUDY_PATH));
+        }
+        return false;
     }
 
     private Request addBridgeHeaders(Request request) throws IOException {

@@ -4,7 +4,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -17,6 +16,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import okhttp3.Authenticator;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -130,8 +130,9 @@ public class ApiClientProvider {
 
     /**
      * Get an instance of the Authentication API client.
-     *
+     * <p>
      * Basically a convenience wrapper for getClient(AuthenticationApi.class).
+     *
      * @return authentication API
      */
     public AuthenticationApi getAuthenticationApi() {
@@ -139,12 +140,31 @@ public class ApiClientProvider {
     }
 
 
+    /**
+     * This provides a OkHttpClient.Builder to be used as a base for Bridge calls. Override to adjust OkHttpClient
+     * properties. ApiClientProvider will add Bridge specific configurations.
+     * <p>
+     * Note that you should use the constructor to specify socket factory, interceptors, and network interceptors. Any
+     * interceptors and network interceptors added in this method will be overwritten. If an Authenticator is set for
+     * origin servers, it will also be overwritten.
+     *
+     * @return base http client builder
+     */
+    protected OkHttpClient.Builder getHttpClientBuilder() {
+        return new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS);
+    }
+
     OkHttpClient.Builder getHttpClientBuilder(List<Interceptor> networkInterceptors,
             List<Interceptor> applicationInterceptors) {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder()
-                .connectTimeout(2, TimeUnit.MINUTES)
-                .readTimeout(2, TimeUnit.MINUTES)
-                .writeTimeout(2, TimeUnit.MINUTES);
+        OkHttpClient.Builder builder = getHttpClientBuilder();
+
+        // reset these because we need to manage them in this class
+        builder.networkInterceptors().clear();
+        builder.interceptors().clear();
+        builder.authenticator(Authenticator.NONE);
 
         if (socketFactory != null) {
             builder.socketFactory(socketFactory);
@@ -174,17 +194,18 @@ public class ApiClientProvider {
      * Loader (basically a factory) for Retrofit service instances.
      */
     static class RetrofitServiceLoader extends CacheLoader<Class<?>, Object> {
-       private final Retrofit retrofit;
+        private final Retrofit retrofit;
 
-       RetrofitServiceLoader(Retrofit retrofit) {
-           this.retrofit = retrofit;
-       }
+        RetrofitServiceLoader(Retrofit retrofit) {
+            this.retrofit = retrofit;
+        }
 
-       @SuppressWarnings("NullableProblems") // superclass uses nullity-analysis annotations which we are not using
-       @Override public Object load(Class<?> serviceClass)  {
-           return retrofit.create(serviceClass);
-       }
-   }
+        @SuppressWarnings("NullableProblems") // superclass uses nullity-analysis annotations which we are not using
+        @Override
+        public Object load(Class<?> serviceClass) {
+            return retrofit.create(serviceClass);
+        }
+    }
 
     /**
      * Returns a builder for authenticated access to this study.
@@ -193,7 +214,7 @@ public class ApiClientProvider {
      */
     public AuthenticatedClientProviderBuilder getAuthenticatedClientProviderBuilder() {
         return new AuthenticatedClientProviderBuilder();
-   }
+    }
 
     /**
      * Base class for creating authenticated clients that are correctly configured to communicate with a Bridge study.
@@ -204,7 +225,7 @@ public class ApiClientProvider {
         private final LoadingCache<Class<?>, ?> authenticatedServices;
 
         private AuthenticatedClientProvider(final UserSessionInfoProvider userSessionInfoProvider,
-                final Retrofit authenticatedRetrofit) {
+                                            final Retrofit authenticatedRetrofit) {
             this.userSessionInfoProvider = userSessionInfoProvider;
 
             this.authenticatedServices = CacheBuilder.newBuilder()
@@ -239,12 +260,14 @@ public class ApiClientProvider {
     public class AuthenticatedClientProviderBuilder {
         private Phone phone;
         private String email;
+        private String externalId;
         private String password;
         private UserSessionInfo session;
         private final List<UserSessionInfoProvider.UserSessionInfoChangeListener> changeListeners = new ArrayList<>();
 
         private AuthenticatedClientProviderBuilder() {
         }
+
         /**
          * @param changeListener UserSessionInfo change listener
          * @return this builder, for chaining operations
@@ -263,12 +286,22 @@ public class ApiClientProvider {
             this.phone = phone;
             return this;
         }
-       /**
+
+        /**
          * @param email participant's email
          * @return this builder, for chaining operations
          */
         public AuthenticatedClientProviderBuilder withEmail(String email) {
             this.email = email;
+            return this;
+        }
+
+        /**
+         * @param externalId participant's externalId
+         * @return this builder, for chaining operations
+         */
+        public AuthenticatedClientProviderBuilder withExternalId(String externalId) {
+            this.externalId = externalId;
             return this;
         }
 
@@ -298,13 +331,17 @@ public class ApiClientProvider {
          * @return instance of AuthenticatedClientProvider tied to a participant
          */
         public AuthenticatedClientProvider build() {
-            checkState(email != null || phone != null, "requires either email or phone");
+            checkState(!Strings.isNullOrEmpty(email) || phone != null || !Strings.isNullOrEmpty(externalId),
+                    "requires email, phone or external ID");
 
             UserSessionInfoProvider sessionProvider =
-                    new UserSessionInfoProvider(authenticationApi, study, email, phone, password, session, changeListeners);
+                    new UserSessionInfoProvider(authenticationApi, study, email, phone, externalId, password, session,
+                            changeListeners);
             // reset credentials so same builder can be reused
             email = null;
             phone = null;
+            externalId = null;
+
             password = null;
             session = null;
 

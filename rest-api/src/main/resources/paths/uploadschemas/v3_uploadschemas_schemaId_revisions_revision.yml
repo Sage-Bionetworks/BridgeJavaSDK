@@ -31,6 +31,12 @@ delete:
     parameters:
         - $ref: ../../index.yml#/parameters/schemaId
         - $ref: ../../index.yml#/parameters/revision
+        - name: physical
+          description: Physically delete the upload schema (administrators only; this is always false for developers)
+          default: false
+          required: false
+          in: query
+          type: boolean
     responses:
         200:
             $ref: ../../responses/200_message.yml

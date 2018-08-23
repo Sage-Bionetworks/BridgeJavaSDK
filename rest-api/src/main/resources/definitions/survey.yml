@@ -51,6 +51,9 @@ properties:
         type: string
         description: |
             A copyright notice identifying the owners of the published work.
+    deleted:
+        type: boolean
+        description: Has this survey been logically deleted (an admin can restore it)?
     version:
         type: integer
         format: int64

@@ -2,7 +2,10 @@ sudo: false
 language: java
 jdk: openjdk7
 script: 
-  - mvn deploy site site:deploy
-branches:
-  only:
-    - develop
+  - mvn verify
+
+deploy:
+  provider: script
+  script: mvn deploy site site:deploy
+  on:
+    branch: develop
