@@ -9,6 +9,11 @@ properties:
         description: |
             The name of this topic (visible to developers and researchers in design tools).
         type: string
+    shortName:
+        description: |
+            Short name for the topic, used as the display name for the topic in SNS. This also appears in SMS
+            notifications. Must be 10 characters or less.
+        type: string
     description:
         description: |
             Description of the purpose of this topic (visible to developers and researchers in 
