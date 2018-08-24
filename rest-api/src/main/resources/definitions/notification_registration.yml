@@ -5,6 +5,14 @@ required:
 properties:
     guid:
         type: string
+    protocol:
+        $ref: ./enums/notification_protocol.yml
+    endpoint:
+        description: |
+            The endpoint that should be registered for the notification. For "sms" protocol, this is the participant's
+            verified phone number in string form. For "application" protocol, this is the endpointARN generated when the
+            user's device is registered for a specific platform (using a platformARN).
+        type: string
     deviceId:
         description: |
             This should be either the device token retrieved from the iOS operation system, or the 
