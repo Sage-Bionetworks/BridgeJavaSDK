@@ -16,6 +16,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import okhttp3.Authenticator;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -139,12 +140,31 @@ public class ApiClientProvider {
     }
 
 
+    /**
+     * This provides a OkHttpClient.Builder to be used as a base for Bridge calls. Override to adjust OkHttpClient
+     * properties. ApiClientProvider will add Bridge specific configurations.
+     * <p>
+     * Note that you should use the constructor to specify socket factory, interceptors, and network interceptors. Any
+     * interceptors and network interceptors added in this method will be overwritten. If an Authenticator is set for
+     * origin servers, it will also be overwritten.
+     *
+     * @return base http client builder
+     */
+    protected OkHttpClient.Builder getHttpClientBuilder() {
+        return new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS);
+    }
+
     OkHttpClient.Builder getHttpClientBuilder(List<Interceptor> networkInterceptors,
             List<Interceptor> applicationInterceptors) {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder()
-                .connectTimeout(2, TimeUnit.MINUTES)
-                .readTimeout(2, TimeUnit.MINUTES)
-                .writeTimeout(2, TimeUnit.MINUTES);
+        OkHttpClient.Builder builder = getHttpClientBuilder();
+
+        // reset these because we need to manage them in this class
+        builder.networkInterceptors().clear();
+        builder.interceptors().clear();
+        builder.authenticator(Authenticator.NONE);
 
         if (socketFactory != null) {
             builder.socketFactory(socketFactory);
