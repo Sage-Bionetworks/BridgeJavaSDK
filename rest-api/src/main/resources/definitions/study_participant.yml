@@ -26,6 +26,12 @@ allOf:
                 type: array
                 items:
                     $ref: ../definitions/user_consent_history.yml
+        consented:
+            description: |
+                True if the user has consented to all required consents, based on the user's most recent request info
+                (client info, languages, data groups). May be null if this object was not constructed with consent
+                histories, or if consent status is indeterminate.
+            type: boolean
         timeZone:
             type: string
             description: User's original time zone, as measured by the timezone used to request activities, as a string offset in ISO8601 format.

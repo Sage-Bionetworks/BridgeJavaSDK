@@ -6,6 +6,8 @@ DataType:
     $ref: ./enums/data_type.yml
 Environment:
     $ref: ./enums/environment.yml
+NotificationProtocol:
+    $ref: ./enums/notification_protocol.yml
 ScheduleType:
     $ref: ./enums/schedule_type.yml
 Role:
