@@ -60,12 +60,7 @@ delete:
         Delete an existing configuration object.
     parameters:
         - $ref: ../../index.yml#/parameters/guid
-        - name: physical
-          description: Physically delete the app config (administrators only; this is always false for developers)
-          default: false
-          required: false
-          in: query
-          type: boolean
+        - $ref: ../../index.yml#/parameters/physical
     responses:
         200:
             description: OK

@@ -53,12 +53,7 @@ delete:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/schedulePlanGuid
-        - name: physical
-          description: Physically delete the schedule plan (administrators only; this is always false for developers)
-          default: false
-          required: false
-          in: query
-          type: boolean
+        - $ref: ../../index.yml#/parameters/physical
     responses:
         200:
             $ref: ../../responses/200_message.yml
