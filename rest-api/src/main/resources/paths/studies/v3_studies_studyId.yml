@@ -20,6 +20,7 @@ post:
     summary: Update a study
     tags:
         - _For Admins
+        - _For Developers
     security:
         -   BridgeSecurity: []
     parameters:
@@ -40,7 +41,6 @@ delete:
     operationId: deleteStudy
     summary: Delete a study
     tags:
-        - _For Developers
         - _For Admins
     security:
         -   BridgeSecurity: []
