@@ -31,6 +31,8 @@ properties:
         type: string
         format: date-time
         readOnly: true
+    deleted:
+        type: boolean
     criteria:
         $ref: ./criteria.yml
         description: |

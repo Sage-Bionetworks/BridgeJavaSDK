@@ -57,14 +57,7 @@ delete:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/subpopulationGuid
-        - in: query
-          name: physical
-          type: boolean
-          required: false
-          default: false
-          description: |
-            If an admin sets this query value to true, the subpopulation will be permanently
-            deleted from the database (used for testing).
+        - $ref: ../../index.yml#/parameters/physical
     responses:
         200:
             $ref: ../../responses/200_message.yml

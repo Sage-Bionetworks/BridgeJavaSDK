@@ -48,14 +48,16 @@ delete:
     tags: 
         - Notifications
         - _For Developers
+        - _For Admins
     security:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/guid
+        - $ref: ../../index.yml#/parameters/physical
     responses:
         200:
             $ref: ../../responses/200_message.yml
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_developer.yml
+            $ref: ../../responses/403_not_admin_developer.yml
