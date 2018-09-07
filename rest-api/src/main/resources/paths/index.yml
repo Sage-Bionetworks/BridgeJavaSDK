@@ -313,8 +313,6 @@
 # APIs for getting entities across studies
 /v3/studies/{studyId}/surveys/published:
     $ref: ./studies/v3_studies_studyId_surveys_published.yml
-/v3/studies/{studyId}/uploadschemas/{schemaId}:
-    $ref: ./studies/v3_studies_studyId_uploadschemas_schemaId.yml
 /v3/studies/{studyId}/uploadschemas/{schemaId}/revisions/{revision}:
     $ref: ./studies/v3_studies_studyId_uploadschemas_schemaId_revisions_revision.yml
 /v3/studies/{studyId}/reports/{identifier}:
