@@ -7,11 +7,7 @@ get:
     security:
         - BridgeSecurity: []
     parameters:
-        - name: includeDeleted
-          in: query
-          type: boolean
-          default: false
-          description: Should deleted items be returned in results?
+        - $ref: ../../index.yml#/parameters/includeDeleted
     responses:
         200:
             description: OK
