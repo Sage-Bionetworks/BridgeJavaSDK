@@ -20,6 +20,7 @@ post:
     summary: Update a study
     tags:
         - _For Admins
+        - _For Developers
     security:
         -   BridgeSecurity: []
     parameters:
@@ -40,18 +41,12 @@ delete:
     operationId: deleteStudy
     summary: Delete a study
     tags:
-        - _For Developers
         - _For Admins
     security:
         -   BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
-        - name: physical
-          description: Physically delete the study
-          default: false
-          required: false
-          in: query
-          type: boolean
+        - $ref: ../../index.yml#/parameters/physical
     responses:
         200:
             $ref: ../../responses/200_message.yml
