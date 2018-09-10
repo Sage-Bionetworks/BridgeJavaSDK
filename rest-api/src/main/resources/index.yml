@@ -247,6 +247,20 @@ parameters:
         required: true
         in: path
         type: string
+    physical:
+        name: physical
+        description: Physically delete this resource? (administrators only; this is always false for developers)
+        default: false
+        required: false
+        in: query
+        type: boolean
+    includeDeleted:
+        name: includeDeleted
+        description: Should deleted items be returned in results?
+        required: false
+        in: query
+        default: false
+        type: boolean
 paths:
     $ref: ./paths/index.yml
 definitions:

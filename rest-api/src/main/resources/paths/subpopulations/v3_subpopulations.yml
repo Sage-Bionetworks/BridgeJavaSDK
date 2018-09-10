@@ -6,6 +6,8 @@ get:
         - _For Developers
     security:
         - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/includeDeleted
     responses:
         200:
             description: OK
