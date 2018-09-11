@@ -1,0 +1,20 @@
+post:
+    operationId: createSmsRegistration
+    summary: Create an SMS notification registration for the given user.
+    description: |
+        This is a researcher API to backfill SMS notification registrations for a user. We generally prefer the app
+        register notifications, but sometimes the work can't be done on time, so we want study developers to have the
+        option of backfilling these.
+    tags:
+        - _Internal
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        201:
+            $ref: ../../responses/201_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_researcher.yml

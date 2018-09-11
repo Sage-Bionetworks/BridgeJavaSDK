@@ -87,6 +87,8 @@
     $ref: ./participants/v3_participants_userId_uploads.yml
 /v3/participants/{userId}/notifications:
     $ref: ./participants/v3_participants_userId_notifications.yml
+/v3/participants/{userId}/notifications/sms:
+    $ref: ./participants/v3_participants_userId_notifications_sms.yml
 /v3/participants/{userId}/sendNotification:
     $ref: ./participants/v3_participants_userId_sendNotification.yml
 /v3/participants/{userId}/requestInfo:
