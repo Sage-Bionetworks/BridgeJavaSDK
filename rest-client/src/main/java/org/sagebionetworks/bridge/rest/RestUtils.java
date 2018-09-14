@@ -271,7 +271,7 @@ public class RestUtils {
         UploadRequest request = makeUploadRequestForFile(file);
         UploadSession session = usersApi.requestUploadSession(request).execute().body();
         uploadToS3(file, session.getUrl());
-        usersApi.completeUploadSession(session.getId(), false).execute();
+        usersApi.completeUploadSession(session.getId(), false, false).execute();
         
         return session;
     }
