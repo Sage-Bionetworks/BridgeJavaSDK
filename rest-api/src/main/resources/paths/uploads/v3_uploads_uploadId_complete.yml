@@ -24,6 +24,14 @@ post:
           required: false
           in: query
           type: boolean
+        - name: redrive
+          description: |
+              True if this API call should allow completing uploads that are already complete. This is to allow
+              redrives and backfills.
+          default: false
+          required: false
+          in: query
+          type: boolean
     responses:
         200:
             description: OK
