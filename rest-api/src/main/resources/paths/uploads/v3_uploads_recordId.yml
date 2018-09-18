@@ -4,6 +4,7 @@ get:
     tags:
         - Uploads
         - _For Admins
+        - _For Workers
     security:
         - BridgeSecurity: []
     parameters:
