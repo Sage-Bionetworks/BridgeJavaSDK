@@ -47,6 +47,9 @@ properties:
         description: An unordered list of tags, used for querying and filtering.
         items:
             type: string
+    deleted:
+        type: boolean
+        description: Has this shared module metadata been logically deleted (an admin can restore it)?
     version:
         type: integer
         description: Module version.
