@@ -261,6 +261,40 @@ parameters:
         in: query
         default: false
         type: boolean
+    mostrecent:
+        name: mostrecent
+        in: query
+        type: boolean
+        required: false
+        default: true
+        description: |
+            True to get only the most recent versions. If combined with published=true, then this will return the most recent published versions. Cannot be combined with where. Defaults to true.
+    name:
+        name: name
+        in: query
+        type: string
+        required: false
+        description: String to match anywhere in the name field of the shared module record.
+    notes:
+        name: notes
+        in: query
+        type: string
+        required: false
+        description: String to match anywhere in the notes field of the shared module record.
+    published:
+        name: published
+        in: query
+        type: boolean
+        required: false
+        default: false
+        description: Should the shared module record be published?
+    tags:
+        name: tags
+        in: query
+        type: string
+        required: false
+        description: |
+              Comma-delimited list of tags. If specified, only query results that match one or more tags (not necessarily all tags) are returned. If not specified, returns all query results.
 paths:
     $ref: ./paths/index.yml
 definitions:

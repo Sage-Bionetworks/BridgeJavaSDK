@@ -9,39 +9,12 @@ get:
         -   BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/moduleId
-        - name: mostrecent
-          in: query
-          type: boolean
-          required: false
-          default: true
-          description: |
-              True to get only the most recent versions. If combined with published=true, then this
-              will return the most recent published versions. Cannot be combined with where.
-              Defaults to true.
-        - name: published
-          in: query
-          type: boolean
-          required: false
-          default: false
-          description: True to get only published versions. False to get all versions. Defaults to false.
-        - name: name
-          in: query
-          type: string
-          required: false
-          description: String to match anywhere in the name field of the shared module record.
-        - name: notes
-          in: query
-          type: string
-          required: false
-          description: String to match anywhere in the notes field of the shared module record.
-        - name: tags
-          in: query
-          type: string
-          required: false
-          description: |
-              Comma-delimited list of tags. If specified, only query results that match one or more
-              tags (not necessarily all tags) are returned. If not specified, returns all query
-              results.
+        - $ref: ../../index.yml#/parameters/mostrecent
+        - $ref: ../../index.yml#/parameters/published
+        - $ref: ../../index.yml#/parameters/name
+        - $ref: ../../index.yml#/parameters/notes
+        - $ref: ../../index.yml#/parameters/tags
+        - $ref: ../../index.yml#/parameters/includeDeleted
     responses:
         200:
             description: OK
@@ -57,10 +30,12 @@ delete:
     tags:
         - Shared Modules
         - _For Developers
+        - _For Admins
     security:
         -   BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/moduleId
+        - $ref: ../../index.yml#/parameters/physical
     responses:
         200:
             $ref: ../../responses/200_message.yml
