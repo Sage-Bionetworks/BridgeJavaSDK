@@ -17,7 +17,6 @@ description: |
 type: object
 required:
     - name
-    - birthdate
     - scope
 properties:
     name:
