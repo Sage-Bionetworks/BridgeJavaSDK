@@ -32,6 +32,11 @@ properties:
     phoneInfo:
         type: string
         description: Phone info, for example "iPhone9,3" or "iPhone 5c (GSM)". Must be 48 chars or less.
+    rawDataAttachmentId:
+        type: string
+        description: |
+            Attachment ID (S3 key) that contains the raw data. This is the unencrypted zip file for uploads, or JSON
+            blob for directly submitted records
     schemaId:
         type: string
         description: |
