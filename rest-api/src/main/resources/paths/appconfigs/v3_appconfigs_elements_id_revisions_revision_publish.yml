@@ -1,0 +1,22 @@
+post:
+    operationId: publishAppConfigElement
+    summary: Publish a revision an app config element
+    tags:
+        - AppConfigs
+        - _For Developers    
+    security:
+        - BridgeSecurity: []
+    description: |
+        Publish a revision an app config element.
+    parameters:
+        - $ref: ../../index.yml#/parameters/id
+        - $ref: ../../index.yml#/parameters/revision
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/version_holder.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

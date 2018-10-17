@@ -1,0 +1,21 @@
+get:
+    operationId: getMostRecentlyPublishedAppConfigElement
+    summary: Get most recently published app config element
+    tags:
+        - AppConfigs
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    description: |
+        Get most recently published app config element.
+    parameters:
+        - $ref: ../../index.yml#/parameters/id
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/app_config_element.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

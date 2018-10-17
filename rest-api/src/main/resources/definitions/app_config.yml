@@ -49,7 +49,7 @@ properties:
         type: integer
         format: int64
         description: |
-            The optimistic locking version of the survey. This value must be submitted as 
+            The optimistic locking version of the app config. This value must be submitted as 
             part of the next update of the model. If it does not match the value on the server, 
             a 409 error (Conflict) will prevent the update from occurring. It can also serve as a key 
             to determine if a local cache of `AppConfig` needs to be updated.
