@@ -1,0 +1,49 @@
+get:
+    operationId: getMostRecentAppConfigElements
+    summary: Get a list of the most recent revision of each app configuration element in the study
+    tags:
+        - AppConfigs
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    description: |
+        Get a list of the app configuration elements in the study, returning the highest revision 
+        number for each element in the study. This revision may or may not be published.
+    parameters:
+        - $ref: ../../index.yml#/parameters/includeDeleted
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/app_config_element.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+post:
+    operationId: createAppConfigElement
+    summary: Create a new app config element
+    tags:
+        - AppConfigs
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    description: |
+        Create a new app configuration element. If you submit an existing app configuration 
+        element to this endpoint, it will be copied.
+    parameters:
+        - name: AppConfigElement
+          in: body
+          description: New app configuration element
+          required: true
+          schema:
+              $ref: ../../definitions/app_config_element.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/version_holder.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

@@ -1,0 +1,45 @@
+get:
+    operationId: getAllAppConfigElementRevisions
+    summary: Get all revisions for an app config element
+    tags:
+        - AppConfigs
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    description: |
+        Get all revisions for an app config element.
+    parameters:
+        - $ref: ../../index.yml#/parameters/id
+        - $ref: ../../index.yml#/parameters/includeDeleted
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/app_config_element.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+delete:
+    operationId: deleteAllAppConfigElementRevisions
+    summary: Delete all revisions of an app config element
+    tags:
+        - AppConfigs
+        - _For Developers
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    description: |
+        Delete all revisions of an app config element.
+    parameters:
+        - $ref: ../../index.yml#/parameters/id
+        - $ref: ../../index.yml#/parameters/physical
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin_developer.yml

@@ -24,6 +24,9 @@ properties:
     idFilter:
         type: string
         readOnly: true
+    includeDeleted:
+        type: boolean
+        readOnly: true
     language:
         type: string
         readOnly: true

@@ -57,6 +57,8 @@ AndroidAppLink:
     $ref: ./android_app_link.yml
 AppConfig:
     $ref: ./app_config.yml
+AppConfigElement:
+    $ref: ./app_config_element.yml
 AppleAppLink:
     $ref: ./apple_app_link.yml
 ClientInfo:
@@ -247,6 +249,8 @@ ActivityEventList:
     $ref: ./paged_resources/activity_event.yml
 AppConfigList:
     $ref: ./paged_resources/app_config.yml
+AppConfigElementList:
+    $ref: ./paged_resources/app_config_element.yml
 CompoundActivityDefinitionList:
     $ref: ./paged_resources/compound_activity_definition.yml
 ExternalIdentifierList:

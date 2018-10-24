@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-    version: "0.13.28"
+    version: "0.16.16"
     title: Bridge Server API
 host: webservices.sagebridge.org
 basePath: /
@@ -288,6 +288,12 @@ parameters:
         required: false
         default: false
         description: Should the shared module record be published?
+    id:
+        name: id
+        in: path
+        type: string
+        required: true
+        description: An identifier
     tags:
         name: tags
         in: query

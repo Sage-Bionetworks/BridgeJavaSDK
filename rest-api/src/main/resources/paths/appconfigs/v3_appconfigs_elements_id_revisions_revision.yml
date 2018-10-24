@@ -1,55 +1,56 @@
 get:
-    operationId: getAppConfig
-    summary: Get an app config
+    operationId: getAppConfigElement
+    summary: Get an app config element
     tags:
         - AppConfigs
         - _For Developers
     security:
         - BridgeSecurity: []
     description: |
-        Get an app configuration object for this study.
+        Get an app configuration element for this study.
     parameters:
-        - $ref: ../../index.yml#/parameters/guid
+        - $ref: ../../index.yml#/parameters/id
+        - $ref: ../../index.yml#/parameters/revision
     responses:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/app_config.yml
+                $ref: ../../definitions/app_config_element.yml
         401:
             $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_developer.yml
 post:
-    operationId: updateAppConfig
-    summary: Update an existing app config
+    operationId: updateAppConfigElement
+    summary: Update an existing app config element
     tags:
         - AppConfigs
         - _For Developers
     security:
         - BridgeSecurity: []
     description: |
-        Update an existing app configuration. If you submit an existing app configuration to this 
-        endpoint, it will be copied.
+        Update an existing app configuration element.
     parameters:
-        - $ref: ../../index.yml#/parameters/guid
-        - name: AppConfig
+        - $ref: ../../index.yml#/parameters/id
+        - $ref: ../../index.yml#/parameters/revision
+        - name: AppConfigElement
           in: body
-          description: Updated app configuration 
+          description: Updated app configuration element
           required: true
           schema:
-              $ref: ../../definitions/app_config.yml
+              $ref: ../../definitions/app_config_element.yml
     responses:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/guid_version_holder.yml
+                $ref: ../../definitions/version_holder.yml
         401:
             $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_developer.yml
 delete:
-    operationId: deleteAppConfig
-    summary: Delete an app config
+    operationId: deleteAppConfigElement
+    summary: Delete an app config element
     tags:
         - AppConfigs
         - _For Developers
@@ -57,9 +58,10 @@ delete:
     security:
         - BridgeSecurity: []
     description: |
-        Delete an existing configuration object.
+        Delete an existing configuration element.
     parameters:
-        - $ref: ../../index.yml#/parameters/guid
+        - $ref: ../../index.yml#/parameters/id
+        - $ref: ../../index.yml#/parameters/revision
         - $ref: ../../index.yml#/parameters/physical
     responses:
         200:

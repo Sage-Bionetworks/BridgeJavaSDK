@@ -33,7 +33,7 @@ post:
     parameters:
         - name: AppConfig
           in: body
-          description: Updated app configuration 
+          description: New app configuration 
           required: true
           schema:
               $ref: ../../definitions/app_config.yml
