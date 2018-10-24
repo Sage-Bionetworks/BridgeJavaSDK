@@ -1,0 +1,32 @@
+type: object
+description: Represents an SMS message that we sent to a phone number.
+required:
+    - phoneNumber
+    - sentOn
+    - messageBody
+    - messageId
+    - smsType
+    - studyId
+properties:
+    phoneNumber:
+        type: string
+        description: The phone number receiving this message, formatted in E.164 international format.
+    sentOn:
+        type: string
+        format: date-time
+        description: Timestamp in ISO8601 format when we sent the message.
+    messageBody:
+        type: string
+        description: The message content we sent.
+    messageId:
+        type: string
+        description: Message ID, as determined by the SMS provider.
+    smsType:
+        $ref: ./enums/sms_type.yml
+    studyId:
+        type: string
+        description: The study whose behalf we sent the message.
+    type:
+        type: string
+        readOnly: true
+        description: "SmsMessage"
