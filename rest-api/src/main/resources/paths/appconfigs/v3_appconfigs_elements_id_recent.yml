@@ -1,21 +1,20 @@
-post:
-    operationId: publishAppConfigElement
-    summary: Publish a revision an app config element
+get:
+    operationId: getMostRecentAppConfigElement
+    summary: Get most recent app config element
     tags:
         - AppConfigs
-        - _For Developers    
+        - _For Developers
     security:
         - BridgeSecurity: []
     description: |
-        Publish a revision an app config element.
+        Get most recently app config element.
     parameters:
         - $ref: ../../index.yml#/parameters/id
-        - $ref: ../../index.yml#/parameters/revision
     responses:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/version_holder.yml
+                $ref: ../../definitions/app_config_element.yml
         401:
             $ref: ../../responses/401.yml
         403:

@@ -360,12 +360,10 @@
     $ref: ./appconfigs/v3_appconfigs_elements.yml
 /v3/appconfigs/elements/{id}:
     $ref: ./appconfigs/v3_appconfigs_elements_id.yml
-/v3/appconfigs/elements/{id}/published:
-    $ref: ./appconfigs/v3_appconfigs_elements_id_published.yml
+/v3/appconfigs/elements/{id}/recent:
+    $ref: ./appconfigs/v3_appconfigs_elements_id_recent.yml
 /v3/appconfigs/elements/{id}/revisions/{revision}:
     $ref: ./appconfigs/v3_appconfigs_elements_id_revisions_revision.yml
-/v3/appconfigs/elements/{id}/revisions/{revision}/publish:
-    $ref: ./appconfigs/v3_appconfigs_elements_id_revisions_revision_publish.yml
 
 # Cache Management
 /v3/cache:

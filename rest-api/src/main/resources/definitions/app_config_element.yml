@@ -16,10 +16,6 @@ properties:
         format: int64
         description: |
             Revision number of the app config element, used to distinguish revisions of the element. Each revision will also have an optimistic locking `version` which should always be passed back as is when updating a specific revision of the element.
-    published:
-        type: boolean
-        description: |
-            Has this app config element been published? If so, it can no longer be changed at this revision.
     deleted:
         type: boolean
         description: |
