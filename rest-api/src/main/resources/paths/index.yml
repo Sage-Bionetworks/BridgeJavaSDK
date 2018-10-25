@@ -83,6 +83,8 @@
     $ref: ./participants/v3_participants_externalId.yml
 /v3/participants/healthCode:{healthCode}:
     $ref: ./participants/v3_participants_healthCode.yml
+/v3/participants/{userId}/sms/recent:
+    $ref: ./participants/v3_participants_userId_sms_recent.yml
 /v3/participants/{userId}/uploads:
     $ref: ./participants/v3_participants_userId_uploads.yml
 /v3/participants/{userId}/notifications:

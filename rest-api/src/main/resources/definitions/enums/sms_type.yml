@@ -1,0 +1,11 @@
+type: string
+description: |
+    Represents whether an SMS message is a transactional or a promotional message.
+
+    |Type|Description|
+    |---|---|
+    |promotional|Promotional messages are anything other than transactional messages. This includes things like reminders, notifications, and newsletters.|
+    |transactional|Transactional messages are messages related to account workflow (sign-in, verification) or messages required by governance (consent).|
+enum:
+    - promotional
+    - transactional
