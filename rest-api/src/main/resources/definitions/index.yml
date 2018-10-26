@@ -10,6 +10,8 @@ NotificationProtocol:
     $ref: ./enums/notification_protocol.yml
 ScheduleType:
     $ref: ./enums/schedule_type.yml
+SmsType:
+    $ref: ./enums/sms_type.yml
 Role:
     $ref: ./enums/role.yml
 ActivityType:
@@ -177,6 +179,8 @@ SignUp:
     $ref: ./sign_up.yml
 SimpleScheduleStrategy:
     $ref: ./simple_schedule_strategy.yml
+SmsMessage:
+    $ref: ./sms_message.yml
 SmsTemplate:
     $ref: ./sms_template.yml
 Study:
