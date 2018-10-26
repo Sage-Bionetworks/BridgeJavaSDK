@@ -69,6 +69,8 @@ CompoundActivity:
     $ref: ./compound_activity.yml
 CompoundActivityDefinition:
     $ref: ./compound_activity_definition.yml
+ConfigReference:
+    $ref: ./config_reference.yml
 ConsentSignature:
     $ref: ./consent_signature.yml
 ConsentStatus:

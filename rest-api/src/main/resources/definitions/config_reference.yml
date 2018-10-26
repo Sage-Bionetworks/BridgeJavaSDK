@@ -1,0 +1,17 @@
+type: object
+description: A pointer to a configuration element.
+required:
+    - id
+    - revision
+properties:
+    id:
+        type: string
+        description: Schema ID
+    revision:
+        type: integer
+        format: int64
+        description: Revision number
+    type:
+        type: string
+        readOnly: true
+        description: "ConfigReference"
