@@ -36,6 +36,13 @@ properties:
     consentNotificationEmailVerified:
         description: True if the consent notification email is verified. False if not.
         type: boolean
+    installLinks:
+        type: object
+        description: |
+            A map between operating system names, and a link to send via SMS to acquire the study's app. This can be
+            either to an app store, or an intermediate web page that will route to a final app or appstore.
+        additionalProperties:
+            type: string
     participantIpLockingEnabled:
         description: True if sessions for unprivileged participant accounts should be locked to an IP address. (Privileged account sessions are _always_ locked to an IP address.)
         type: boolean
