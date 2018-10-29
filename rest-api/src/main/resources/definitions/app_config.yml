@@ -45,6 +45,17 @@ properties:
         type: array
         items:
             $ref: ./schema_reference.yml
+    configReferences:
+        type: array
+        items:
+            $ref: ./config_reference.yml
+    configElements:
+        type: object
+        description: |
+            A map of app config element IDs to the app config element JSON of a specific app config 
+            element revision (the revision given in the configReferences map).
+        additionalProperties:
+            type: object
     version:
         type: integer
         format: int64
@@ -53,3 +64,7 @@ properties:
             part of the next update of the model. If it does not match the value on the server, 
             a 409 error (Conflict) will prevent the update from occurring. It can also serve as a key 
             to determine if a local cache of `AppConfig` needs to be updated.
+    type:
+        type: string
+        readOnly: true
+        description: "AppConfig"
