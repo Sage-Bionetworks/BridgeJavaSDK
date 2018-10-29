@@ -15,6 +15,11 @@ properties:
         type: string
         format: date-time
         description: Timestamp in ISO8601 format when we sent the message.
+    healthCode:
+        type: string
+        description: |
+            Health code of the participant that received the message, if the participant had an account at the time the
+            message was sent.
     messageBody:
         type: string
         description: The message content we sent.
