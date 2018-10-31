@@ -335,6 +335,8 @@
     $ref: ./studies/v3_studies_studyId_participants_healthCode.yml
 /v3/studies/{studyId}/participants/externalId:{externalId}:
     $ref: ./studies/v3_studies_studyId_participants_externalId.yml
+/v3/studies/{studyId}/participants/{userId}/reports/{reportId}:
+    $ref: ./studies/v3_studies_studyId_participants_userId_reports_reportId.yml
 /v3/studies/{studyId}/participants/{userId}/sendSmsMessage:
     $ref: ./studies/v3_studies_studyId_participants_userId_sendSmsMessage.yml
 /v3/studies/{studyId}/participants/{userId}/activityEvents:
@@ -347,6 +349,8 @@
     $ref: ./studies/v3_studies_studyId_participants_userId_activities_surveys_surveyGuid.yml
 /v3/studies/{studyId}/participants/{userId}/activities/compoundactivities/{taskId}:
     $ref: ./studies/v3_studies_studyId_participants_userId_activities_compoundactivities_taskId.yml
+/v4/studies/{studyId}/participants/{userId}/reports/{reportId}:
+    $ref: ./studies/v4_studies_studyId_participants_userId_reports_reportId.yml
 
 /v3/studies/{studyId}/oauth/{vendorId}:
     $ref: ./studies/v3_studies_studyId_oauth_vendorId.yml

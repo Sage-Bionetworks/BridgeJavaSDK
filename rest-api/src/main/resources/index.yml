@@ -46,6 +46,12 @@ parameters:
         required: true
         in: path
         type: integer
+    reportId:
+        name: reportId
+        description: Report ID
+        required: true
+        in: path
+        type: string
     schemaId:
         name: schemaId
         description: Upload schema ID

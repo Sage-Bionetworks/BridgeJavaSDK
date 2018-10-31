@@ -15,6 +15,10 @@ properties:
         type: string
         format: date
         description: The date (YYYY-MM-DD) of the report data. 
+    dateTime:
+        type: string
+        format: date-time
+        description: The date expressed as an ISO 8601 timestamp.
     data:
         type: object
         description: An arbitrary JSON object containing whatever data should be saved for a report.
