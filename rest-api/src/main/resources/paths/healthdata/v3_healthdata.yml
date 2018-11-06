@@ -1,3 +1,28 @@
+get:
+    operationId: getHealthDataByCreatedOn
+    summary: Get health data records by createdOn date range.
+    description: |
+        Gets a list of health data records for the current user, between the specified createdOn times (inclusive). The
+        createdOn date range cannot be more than 15 days.
+    tags:
+        - Health Data
+        - _For Consented Users
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/createdOnStart
+        - $ref: ../../index.yml#/parameters/createdOnEnd
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/health_data_record.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml
 post:
     operationId: submitHealthData
     summary: Upload health data 
