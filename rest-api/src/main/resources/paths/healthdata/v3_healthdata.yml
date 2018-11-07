@@ -5,8 +5,7 @@ get:
         Gets a list of health data records for the current user, between the specified createdOn times (inclusive). The
         createdOn date range cannot be more than 15 days.
     tags:
-        - Health Data
-        - _For Consented Users
+        - _Internal
     security:
         -   BridgeSecurity: []
     parameters:
