@@ -120,6 +120,20 @@ parameters:
         in: path
         type: string
         format: date-time
+    createdOnStart:
+        name: createdOnStart
+        description: Start time (ISO 8601) for a createdOn date-time range
+        required: false
+        in: query
+        type: string
+        format: date-time
+    createdOnEnd:
+        name: createdOnEnd
+        description: End time (ISO 8601) for a createdOn date-time range
+        required: false
+        in: query
+        type: string
+        format: date-time
     newSchemaRev:
         name: newSchemaRev
         description: Should a new schema revision be created?

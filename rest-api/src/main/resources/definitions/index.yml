@@ -263,6 +263,8 @@ CompoundActivityDefinitionList:
     $ref: ./paged_resources/compound_activity_definition.yml
 ExternalIdentifierList:
     $ref: ./paged_resources/external_identifier.yml
+HealthDataRecordList:
+    $ref: ./paged_resources/health_data_record.yml
 NotificationRegistrationList:
     $ref: ./paged_resources/notification_registration.yml
 NotificationTopicList:
