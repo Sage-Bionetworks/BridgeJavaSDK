@@ -1,0 +1,15 @@
+type: object
+readOnly: true
+allOf:
+    - $ref: './resource_list.yml'
+    - required:
+        - items
+    - properties:
+        items:
+            type: array
+            items:
+                $ref: ../substudy.yml
+        type:
+            type: string
+            readOnly: true
+            description: "ResourceList"

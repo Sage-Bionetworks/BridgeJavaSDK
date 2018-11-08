@@ -1,0 +1,43 @@
+get:
+    operationId: getSubstudies
+    summary: Get a list of the sub-studies in this study (groups contributing participants to the study)
+    tags:
+        - Substudies
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/includeDeleted
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/substudy.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml
+post:
+    operationId: createSubstudy
+    summary: Create a new substudy
+    tags:
+        - Substudies
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - name: Substudy
+          in: body
+          description: New sub-study
+          required: true
+          schema:
+              $ref: ../../definitions/substudy.yml
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/version_holder.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml

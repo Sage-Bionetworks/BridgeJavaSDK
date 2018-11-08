@@ -39,8 +39,8 @@ post:
           schema:
               $ref: ../../definitions/app_config_element.yml
     responses:
-        200:
-            description: OK
+        201:
+            description: Created
             schema:
                 $ref: ../../definitions/version_holder.yml
         401:

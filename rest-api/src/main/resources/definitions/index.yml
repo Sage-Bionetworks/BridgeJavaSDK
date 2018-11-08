@@ -199,6 +199,8 @@ SubscriptionRequest:
     $ref: ./subscription_request.yml
 SubscriptionStatus:
     $ref: ./subscription_status.yml
+Substudy:
+    $ref: ./substudy.yml
 Survey:
     $ref: ./survey.yml
 SurveyElement:
@@ -295,6 +297,8 @@ SubpopulationList:
     $ref: ./paged_resources/subpopulation.yml
 SubscriptionStatusList:
     $ref: ./paged_resources/subscription_status.yml
+SubstudyList:
+    $ref: ./paged_resources/substudy.yml
 SurveyList:
     $ref: ./paged_resources/survey.yml
 UploadList:

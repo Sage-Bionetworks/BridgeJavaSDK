@@ -351,11 +351,16 @@
     $ref: ./studies/v3_studies_studyId_participants_userId_activities_compoundactivities_taskId.yml
 /v4/studies/{studyId}/participants/{userId}/reports/{reportId}:
     $ref: ./studies/v4_studies_studyId_participants_userId_reports_reportId.yml
-
 /v3/studies/{studyId}/oauth/{vendorId}:
     $ref: ./studies/v3_studies_studyId_oauth_vendorId.yml
 /v3/studies/{studyId}/oauth/{vendorId}/{healthCode}:
     $ref: ./studies/v3_studies_studyId_oauth_vendorId_healthCode.yml
+
+# Sub-studies
+/v3/substudies:
+    $ref: ./substudies/v3_substudies.yml
+/v3/substudies/{id}:
+    $ref: ./substudies/v3_substudies_id.yml
 
 # AppConfig
 /v3/appconfigs:
