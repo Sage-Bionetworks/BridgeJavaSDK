@@ -1,0 +1,26 @@
+post:
+    operationId: submitHealthDataForParticipant
+    summary: Upload health data for the given user
+    description: |
+        Allows a developer to submit health data on behalf of the participant. This is generally used for backfills.
+    tags:
+        - _Internal
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+        - name: HealthDataSubmission
+          in: body
+          description: Health data submitted on behalf of the user
+          required: true
+          schema:
+            $ref: ../../definitions/health_data_submission.yml
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/health_data_record.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_researcher.yml
