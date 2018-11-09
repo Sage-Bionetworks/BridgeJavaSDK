@@ -1,0 +1,70 @@
+get:
+    operationId: getSubstudy
+    summary: Get a sub-study
+    tags:
+        - Substudies
+        - _For Admin
+    security:
+        - BridgeSecurity: []
+    description: |
+        Get an app configuration element for this study.
+    parameters:
+        - $ref: ../../index.yml#/parameters/id
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/substudy.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml
+post:
+    operationId: updateSubstudy
+    summary: Update an existing sub-study
+    tags:
+        - Substudies
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    description: |
+        Update an existing sub-study
+    parameters:
+        - $ref: ../../index.yml#/parameters/id
+        - name: Substudy
+          in: body
+          description: Updated sub-study
+          required: true
+          schema:
+              $ref: ../../definitions/substudy.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/version_holder.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml
+delete:
+    operationId: deleteSubstudy
+    summary: Delete a sub-study
+    tags:
+        - Substudies
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    description: |
+        Delete an existing sub-study
+    parameters:
+        - $ref: ../../index.yml#/parameters/id
+        - $ref: ../../index.yml#/parameters/physical
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml
