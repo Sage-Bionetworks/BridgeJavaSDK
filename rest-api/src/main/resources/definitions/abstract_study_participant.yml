@@ -77,3 +77,8 @@ properties:
             user's `Accept-Language` header and then persisted as part of account configuration). 
         items:
             type: string
+    substudyIds:
+        type: array
+        description: The substudies this participant is associated to.
+        items:
+            type: string
