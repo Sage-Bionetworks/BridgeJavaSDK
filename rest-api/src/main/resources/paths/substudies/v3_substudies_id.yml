@@ -3,7 +3,7 @@ get:
     summary: Get a sub-study
     tags:
         - Substudies
-        - _For Admin
+        - _For Admins
     security:
         - BridgeSecurity: []
     description: |
