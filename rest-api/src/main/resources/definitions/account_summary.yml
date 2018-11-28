@@ -26,6 +26,11 @@ properties:
         $ref: ./enums/account_status.yml
     studyIdentifier:
         $ref: ./study_identifier.yml
+    substudyIds:
+        type: array
+        description: The substudies this participant is associated to.
+        items:
+            type: string
     type:
         type: string
         readOnly: true
