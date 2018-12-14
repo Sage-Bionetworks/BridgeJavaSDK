@@ -82,3 +82,8 @@ properties:
         description: The substudies this participant is associated to.
         items:
             type: string
+    externalIds:
+        type: object
+        description: The exernal IDs this participant is associated to, mapped to the substudy that issued the external ID. Typically a user signs up with the external ID, and is assigned to that substudy as a result.
+        additionalProperties:
+            type: string
