@@ -321,8 +321,6 @@
     $ref: ./externalIds/v4_externalids.yml
 /v4/externalids/{externalId}:
     $ref: ./externalIds/v4_externalids_externalId.yml
-/v4/externalids/{externalId}/password:
-    $ref: ./externalIds/v4_externalids_externalId_password.yml
 
 # APIs for getting entities across studies
 /v3/studies/{studyId}/surveys/published:
