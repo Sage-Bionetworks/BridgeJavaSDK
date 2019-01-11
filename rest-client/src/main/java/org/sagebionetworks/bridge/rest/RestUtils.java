@@ -34,6 +34,7 @@ import org.sagebionetworks.bridge.rest.model.DurationConstraints;
 import org.sagebionetworks.bridge.rest.model.HeightConstraints;
 import org.sagebionetworks.bridge.rest.model.IntegerConstraints;
 import org.sagebionetworks.bridge.rest.model.MultiValueConstraints;
+import org.sagebionetworks.bridge.rest.model.PostalCodeConstraints;
 import org.sagebionetworks.bridge.rest.model.ScheduleStrategy;
 import org.sagebionetworks.bridge.rest.model.SignIn;
 import org.sagebionetworks.bridge.rest.model.SimpleScheduleStrategy;
@@ -46,6 +47,7 @@ import org.sagebionetworks.bridge.rest.model.UploadRequest;
 import org.sagebionetworks.bridge.rest.model.UploadSession;
 import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 import org.sagebionetworks.bridge.rest.model.WeightConstraints;
+import org.sagebionetworks.bridge.rest.model.YearMonthConstraints;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
@@ -100,7 +102,9 @@ public class RestUtils {
             .registerSubtype(TimeConstraints.class, TimeConstraints.class.getSimpleName())
             .registerSubtype(BloodPressureConstraints.class, BloodPressureConstraints.class.getSimpleName())
             .registerSubtype(HeightConstraints.class, HeightConstraints.class.getSimpleName())
-            .registerSubtype(WeightConstraints.class, WeightConstraints.class.getSimpleName());
+            .registerSubtype(WeightConstraints.class, WeightConstraints.class.getSimpleName())
+            .registerSubtype(YearMonthConstraints.class, YearMonthConstraints.class.getSimpleName())
+            .registerSubtype(PostalCodeConstraints.class, PostalCodeConstraints.class.getSimpleName());
     
     public static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(byte[].class, new ByteArrayToBase64TypeAdapter())

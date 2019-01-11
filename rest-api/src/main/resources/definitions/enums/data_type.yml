@@ -18,6 +18,8 @@ description: |
     |bloodpressure|Systolic and diastolic systemic arterial pressure|
     |height|Height measurement|
     |weight|Weight measurement|
+    |yearmonth|Year and month value ("YYYY-MM")|
+    |postalcode|Partial postal code|
 
 enum:
     - duration
@@ -31,3 +33,5 @@ enum:
     - bloodpressure
     - height
     - weight
+    - yearmonth
+    - postalcode

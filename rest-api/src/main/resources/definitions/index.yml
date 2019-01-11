@@ -2,6 +2,8 @@ SharingScope:
     $ref: ./enums/sharing_scope.yml
 AccountStatus:
     $ref: ./enums/account_status.yml
+CountryCode:
+    $ref: ./enums/country_code.yml
 DataType:
     $ref: ./enums/data_type.yml
 Environment:
@@ -325,6 +327,10 @@ DateTimeConstraints:
     $ref: ./constraints/datetime_constraints.yml
 DateConstraints:
     $ref: ./constraints/date_constraints.yml
+PostalCodeConstraints:
+    $ref: ./constraints/postalcode_constraints.yml
+YearMonthConstraints:
+    $ref: ./constraints/yearmonth_constraints.yml
 TimeConstraints:
     $ref: ./constraints/time_constraints.yml
 DurationConstraints:

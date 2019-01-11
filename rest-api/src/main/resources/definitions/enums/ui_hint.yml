@@ -20,6 +20,8 @@ description: |
     |timepicker|An input for entering a time with no reference to the date of the time.||
     |toggle|A switch or toggle control to select a boolean state||
     |weight|A control for entering an adult or infant weight value in a specified unit of measurement||
+    |yearmonth|A control for entering a year and month. This is often a custom UI control.||
+    |postalcode|A control for entering a partial postal code. For example, to enter the first three digits of a US zip code, the control might have an input like ___XX.||
 enum:
     - bloodpressure
     - checkbox
@@ -37,3 +39,5 @@ enum:
     - timepicker
     - toggle
     - weight
+    - yearmonth
+    - postalcode
