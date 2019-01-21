@@ -4,8 +4,7 @@ properties:
     appVersion:
         type: string
         description: |
-            App version, as reported by the app. Generally in the form "version 1.0.0, build 2". Must be 48 chars or
-            less.
+            App version, as reported by the app. Generally in the form "version 1.0.0, build 2". Must be 48 chars or less.
     createdOn:
         type: string
         format: date-time
@@ -16,8 +15,7 @@ properties:
     metadata:
         type: object
         description: |
-            JSON map with key value pairs representing metadata for this health data record, as submitted by the app.
-            This corresponds with the uploadMetadataFieldDefinitions configured in the study.
+            JSON map with key value pairs representing metadata for this health data record, as submitted by the app. This corresponds with the uploadMetadataFieldDefinitions configured in the study.
     phoneInfo:
         type: string
         description: Phone info, for example "iPhone9,3" or "iPhone 5c (GSM)". Must be 48 chars or less.
@@ -34,8 +32,7 @@ properties:
         type: string
         format: date-time
         description: |
-            If the health data is a survey response, this is the createdOn timestamp that specifies the survey version.
-            The timestamp is in ISO8601 format.
+            If the health data is a survey response, this is the createdOn timestamp that specifies the survey version. The timestamp is in ISO8601 format.
     surveyGuid:
         type: string
         description: If the health data is a survey response, this is the GUID that specifies the survey.

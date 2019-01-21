@@ -1,9 +1,6 @@
 type: object
-description: A pointer to a compound activity, which represents multiple schemas or survey's worth of tasks for a user
-    to perform. The task ID is used to uniquely identify the compound activity, and the activity can contain one or
-    more schemas or surveys. When creating a Schedule Plan, you should leave the schema and survey lists empty, and the
-    scheduler will automatically resolve the compound activity from a compound activity definition, using the task ID
-    as the key.
+description: |
+    A pointer to a compound activity, which represents multiple schemas or survey's worth of tasks for a user to perform. The task ID is used to uniquely identify the compound activity, and the activity can contain one or more schemas or surveys. When creating a Schedule Plan, you should leave the schema and survey lists empty, and the scheduler will automatically resolve the compound activity from a compound activity definition, using the task ID as the key.
 required:
     - taskIdentifier
     - schemaList
@@ -20,8 +17,7 @@ properties:
     taskIdentifier:
         type: string
         description: |
-            Task ID, used to uniquely identify the compound activity and to resolve the compound activity reference
-            from the compound activity definition, where applicable.
+            Task ID, used to uniquely identify the compound activity and to resolve the compound activity reference from the compound activity definition, where applicable.
     type:
         type: string
         readOnly: true

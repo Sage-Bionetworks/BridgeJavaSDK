@@ -1,6 +1,5 @@
 description: |
-    An external identifier assigned to a participant's account to allow external 
-    re-identification of the user by the study sponsor.
+    An external identifier assigned to a participant's account to allow external re-identification of the user by the study sponsor.
 type: object
 required:
     - identifier

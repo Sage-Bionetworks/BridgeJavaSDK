@@ -1,6 +1,5 @@
 description: |
-    A payload sending back the status of an export of one or more health data records to Synapse. 
-    Used to trace the upload of data to the Synapse data repository. 
+    A payload sending back the status of an export of one or more health data records to Synapse. Used to trace the upload of data to the Synapse data repository. 
 type: object
 required:
     - recordIds

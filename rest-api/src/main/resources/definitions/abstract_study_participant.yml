@@ -14,17 +14,12 @@ properties:
     externalId:
         type: string
         description: |
-            An externally-assignable identifier a research partner can use to re-identify a user's data 
-            in the exported data set (this must be provided by the application, it is not created by Bridge). 
-            It is a string that can be set or updated to any value without constraints, unless Bridge is 
-            configured to manage the study's external IDs. Then the ID must be submitted on sign up, and cannot be 
-            modified afterward.
+            An externally-assignable identifier a research partner can use to re-identify a user's data in the exported data set (this must be provided by the application, it is not created by Bridge). It is a string that can be set or updated to any value without constraints, unless Bridge is configured to manage the study's external IDs. Then the ID must be submitted on sign up, and cannot be modified afterward.
     id:
         type: string
         readOnly: true
-        description: An ID assigned to this account by Bridge system. This ID is exposed in the API and is 
-            different from the health code assigned to the user's anonymized data. Bridge never exports this ID 
-            along with the health code from Bridge.  
+        description: |
+            An ID assigned to this account by Bridge system. This ID is exposed in the API and is different from the health code assigned to the user's anonymized data. Bridge never exports this ID along with the health code from Bridge.  
     notifyByEmail:
         type: boolean
         default: true
@@ -35,9 +30,7 @@ properties:
         additionalProperties:
             type: string
         description: |
-            A map of user profile attributes that have been set for this user (the attributes themselves 
-            must be specified in the study's configuration, and the values are stored encrypted in case they 
-            capture personally-identifying information).
+            A map of user profile attributes that have been set for this user (the attributes themselves must be specified in the study's configuration, and the values are stored encrypted in case they capture personally-identifying information).
     sharingScope:
         $ref: ./enums/sharing_scope.yml
     createdOn:
@@ -60,21 +53,18 @@ properties:
     dataGroups:
         type: array
         description: |
-            The data groups set for this user. Data groups must be strings that are defined in the 
-            list of all valid data groups for the study, as part of the study object. 
+            The data groups set for this user. Data groups must be strings that are defined in the list of all valid data groups for the study, as part of the study object. 
         items:
             type: string
     clientData:
         type: object
         description: |
-            Client data for a user should be in a syntactically valid JSON format. It will be returned 
-            as is to the client (as JSON).
+            Client data for a user should be in a syntactically valid JSON format. It will be returned as is to the client (as JSON).
         additionalProperties: true
     languages:
         type: array
         description: |
-            Two letter language codes to assign to this user (these are initially retrieved from the 
-            user's `Accept-Language` header and then persisted as part of account configuration). 
+            Two letter language codes to assign to this user (these are initially retrieved from the user's `Accept-Language` header and then persisted as part of account configuration). 
         items:
             type: string
     substudyIds:
