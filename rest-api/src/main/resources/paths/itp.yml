@@ -7,7 +7,7 @@ post:
         returned to the user from the APIs.
     tags: 
         - Consents
-        - IntentToParticipate
+        - Intent To Participate
         - Public
     security:
         -   BridgeSecurity: []
