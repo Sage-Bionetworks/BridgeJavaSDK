@@ -1,9 +1,9 @@
 get:
     operationId: getAppConfig
     summary: |
-        Get the app config for the current version of the app making the request. Although this call uses Bridge's common filtering 
-        framework (see https://developer.sagebridge.org/articles/study_design.html#filtering), the request does not require 
-        authentication, so only User-Agent and Accept-Language filtering criteria are used.
+        Get the app config for the current version of the app making the request. 
+    description: |
+        Although this call uses Bridge's common filtering framework (see https://developer.sagebridge.org/articles/study_design.html#filtering), the request does not require authentication, so only User-Agent and Accept-Language filtering criteria are used.
     tags:
         - Studies
         - Public
