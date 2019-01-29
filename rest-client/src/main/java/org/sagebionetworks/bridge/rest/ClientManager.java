@@ -90,6 +90,7 @@ public class ClientManager {
                         .getAuthenticatedClientProviderBuilder()
                         .withPhone(signIn.getPhone())
                         .withEmail(signIn.getEmail())
+                        .withExternalId(signIn.getExternalId())
                         .withPassword(signIn.getPassword()).build();
     }
 
