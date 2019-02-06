@@ -9,8 +9,7 @@ allOf:
             type: string
             readOnly: true
             description: |
-                Only included in studies that have been configured to return the health code, and only to researchers
-                through the researcher APIs.
+                Only included in studies that have been configured to return the health code, and only to researchers through the researcher APIs.
         email:
             type: string
             description: The user's email.
@@ -20,17 +19,14 @@ allOf:
             type: object
             readOnly: true
             description: |
-                A complete historical record of all the user's consents and withdrawals of consent for all consent groups 
-                in the study.
+                A complete historical record of all the user's consents and withdrawals of consent for all consent groups in the study.
             additionalProperties:
                 type: array
                 items:
                     $ref: ../definitions/user_consent_history.yml
         consented:
             description: |
-                True if the user has consented to all required consents, based on the user's most recent request info
-                (client info, languages, data groups). May be null if this object was not constructed with consent
-                histories, or if consent status is indeterminate.
+                True if the user has consented to all required consents, based on the user's most recent request info (client info, languages, data groups). May be null if this object was not constructed with consent histories, or if consent status is indeterminate.
             type: boolean
         timeZone:
             type: string

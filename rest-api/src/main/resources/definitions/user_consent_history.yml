@@ -31,9 +31,7 @@ properties:
         type: string
         format: date-time
         description: |
-            ISO 8601 date and time that the user withdrew the consent, if the user withdrew 
-            from the study (note that later consent records may re-enroll the user in the 
-            study; nothing prevents users from joining and quitting the study multiple times).
+            ISO 8601 date and time that the user withdrew the consent, if the user withdrew from the study (note that later consent records may re-enroll the user in the study; nothing prevents users from joining and quitting the study multiple times).
     hasSignedActiveConsent:
         type: boolean
         description: |

@@ -1,7 +1,6 @@
 type: object
 description: |
-    Represents the expected fields and types for a data upload. This is used to validate incoming 
-    uploads and to export data to Synapse. See [Bridge Upload Data Format](/articles/study_design/upload_data_format.html) for more details about uploads.
+    Represents the expected fields and types for a data upload. This is used to validate incoming uploads and to export data to Synapse. See [Bridge Upload Data Format](/articles/study_design/upload_data_format.html) for more details about uploads.
 required:
     - name
     - revision
@@ -14,17 +13,13 @@ properties:
     maxAppVersions:
         type: object
         description: |
-            A map of operating system names to minimum app versions. The user must send a `User-Agent` header
-            in a prescribed format, that declares the app version to be equal to or less than this
-            version number, in order to match.
+            A map of operating system names to minimum app versions. The user must send a `User-Agent` header in a prescribed format, that declares the app version to be equal to or less than this version number, in order to match.
         additionalProperties:
             type: integer
     minAppVersions:
         type: object
         description: |
-            A map of operating system names to minimum app versions. The user must send a `User-Agent` header
-            in a prescribed format, that declares the app version to be equal to or greater than this
-            version number, in order to match.
+            A map of operating system names to minimum app versions. The user must send a `User-Agent` header in a prescribed format, that declares the app version to be equal to or greater than this version number, in order to match.
         additionalProperties:
             type: integer
     moduleId:
@@ -40,11 +35,7 @@ properties:
         type: integer
         format: int64
         description: |
-            Revision number of the schema, used to distinguish versions of the same data format.
-            This should be blank when creating a schema, and it should be passed back to the server 
-            when updating. If the schema revision cannot be updated in a backwards-compatible fashion, 
-            the server will throw an exception. You will need to increment the revision number 
-            and create a new revision of the schema.
+            Revision number of the schema, used to distinguish versions of the same data format. This should be blank when creating a schema, and it should be passed back to the server when updating. If the schema revision cannot be updated in a backwards-compatible fashion, the server will throw an exception. You will need to increment the revision number and create a new revision of the schema.
     schemaId:
         type: string
         description: Unique identifier for the schema.
@@ -70,9 +61,7 @@ properties:
         type: integer
         format: int64
         description: |
-            The optimistic locking version of the survey. This value must be submitted as 
-            part of the next update of the model. If it does not match the value on the server, 
-            a 409 error (Conflict) will prevent the update from occurring.
+            The optimistic locking version of the survey. This value must be submitted as part of the next update of the model. If it does not match the value on the server, a 409 error (Conflict) will prevent the update from occurring.
     fieldDefinitions:
         type: array
         items:

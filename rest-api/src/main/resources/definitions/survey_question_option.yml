@@ -14,14 +14,11 @@ properties:
     value:
         type: string
         description: |
-            The value to submit when this option is selected. The value is always a string, but should 
-            be convertible to the data type of the question's constraints. If no value is provided, than 
-            the label should be sent as the answer to the surver.
+            The value to submit when this option is selected. The value is always a string, but should be convertible to the data type of the question's constraints. If no value is provided, than the label should be sent as the answer to the surver.
     image:
         $ref: ./image.yml
         description: |
-            An optional Image element describing an image to show for this option. It should be shown 
-            along with the label (which will still be required).
+            An optional Image element describing an image to show for this option. It should be shown along with the label (which will still be required).
     type:
         type: string
         readOnly: true

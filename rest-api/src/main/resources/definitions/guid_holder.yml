@@ -1,6 +1,5 @@
 description: |
-    An object that provides the GUID for a newly created entity. This object is returned 
-    from create and update endpoints rather than an entire entity.
+    An object that provides the GUID for a newly created entity. This object is returned from create and update endpoints rather than an entire entity.
 type: object
 properties:
     guid:

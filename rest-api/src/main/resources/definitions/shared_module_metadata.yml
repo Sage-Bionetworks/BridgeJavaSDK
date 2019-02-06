@@ -27,9 +27,7 @@ properties:
     published:
         type: boolean
         description: |
-            Flag that marks the module as published. A published module versions cannot be
-            modified. However, another version of the same module can be created for continued
-            editing.
+            Flag that marks the module as published. A published module versions cannot be modified. However, another version of the same module can be created for continued editing.
     schemaId:
         type: string
         description: Schema ID, if this module is a schema.
