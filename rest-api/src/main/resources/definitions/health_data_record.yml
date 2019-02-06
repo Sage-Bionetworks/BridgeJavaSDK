@@ -79,6 +79,13 @@ properties:
         description: The user's data groups at the time of this upload's submission.
         items:
             type: string
+    userSubstudyMemberships:
+        type: object
+        description: |
+            A map where the keys are the substudy IDs assigned to the user at the time that user generated this 
+            health data, and the values are the external IDs that were assigned to the user for each substudy (if no external ID was assigned, the value will be an empty string).
+        additionalProperties:
+            type: string
     validationErrors:
         type: string
         description: Error messages related to upload validation. Only generated if UploadValidationStrictness is set to REPORT.
