@@ -7,6 +7,9 @@ properties:
     identifier:
         type: string
         description: The external identifier.
+    substudyId:
+        type: string
+        description: The substudy ID of the associated substudy for external ID
     assigned:
         type: boolean
         readOnly: true
