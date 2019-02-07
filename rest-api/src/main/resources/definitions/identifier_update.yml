@@ -1,9 +1,6 @@
 type: object
 description: |
-    An update to the key identifier fields of an account (email or phone number). To update these fields, the 
-    caller must submit authentication credentials, either sign in credentials or the reauthToken that was 
-    sent on sign in. This is to prevent the account from being hijacked through the hijacking of a user's 
-    session token.
+    An update to the key identifier fields of an account (email or phone number). To update these fields, the caller must submit authentication credentials, either sign in credentials or the reauthToken that was sent on sign in. This is to prevent the account from being hijacked through the hijacking of a user's session token.
 required:
     - signIn
 properties:
@@ -12,18 +9,15 @@ properties:
     emailUpdate:
         type: string
         description: |
-            An email address to add to the account. Will only be added if the account does not already 
-            have an email address.
+            An email address to add to the account. Will only be added if the account does not already have an email address.
     phoneUpdate:
         $ref: ./phone.yml
         description: |
-            A phone number to add to the account. Will only be added if the account does not already 
-            have a phone number.
+            A phone number to add to the account. Will only be added if the account does not already have a phone number.
     externalIdUpdate:
         type: string
         description: |
-            An external ID to add to the account. The external ID must be associated to a substudy the 
-            account has not yet been associated to.
+            An external ID to add to the account. The external ID must be associated to a substudy the account has not yet been associated to.
     type:
         type: string
         readOnly: true

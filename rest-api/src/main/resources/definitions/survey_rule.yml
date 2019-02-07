@@ -1,5 +1,6 @@
 description: |
     An information screen or question may have one or more rules in an array:
+
     * Rules are evaluated before the screen is display, and afterward after the user answers a question, or triggers navigation away from the screen through a `next` or `decline to answer` response;
     * Rules are evaluated against the user's answer to the question (using the `value` property) or against  the user's assigned data groups (using the `dataGroups` property);
     * If a rule matches, the action for that rule should be followed (e.g. showing a different question than the next question in the list, or ending the survey);
@@ -7,8 +8,7 @@ description: |
     * If a question allows multiple answers to be submitted, the rule expression matches the rule if *any* of the submitted answers match the rule;
     * If there are no rules, or no rule matches, proceed to the next question in the list.
  
-    One and only one action should be provided in the rule: `skipTo`, `endSurvey`, `assignDataGroup`,
-    `displayIf`, or `displayOnly`.
+    One and only one action should be provided in the rule: `skipTo`, `endSurvey`, `assignDataGroup`, `displayIf`, or `displayOnly`.
 type: object
 required:
     - operator
@@ -29,39 +29,27 @@ properties:
         items:
             type: string
         description: |
-            Some operators will test a set of data groups against the user's set of data groups. 
-            The operators `any` and `all` make a comparison of the sets in this property against 
-            the user's data groups.
+            Some operators will test a set of data groups against the user's set of data groups. The operators `any` and `all` make a comparison of the sets in this property against the user's data groups.
     skipTo:
         type: string
         description: |
-            The property will reference an identifier for a question in the survey. If specified, and 
-            the rule's expression is true, stop evaluating survey rules and display that question 
-            next. Progress through the survey should proceed from that question in the list. The target 
-            question should be after the current question in the survey.
+            The property will reference an identifier for a question in the survey. If specified, and the rule's expression is true, stop evaluating survey rules and display that question next. Progress through the survey should proceed from that question in the list. The target question should be after the current question in the survey.
     endSurvey:
         type: boolean
         description: |
-            If specified, and the rule's expression is true, immediately stop evaluating rules and end 
-            the survey. The users existing answers to the survey should be sent to the server.
+            If specified, and the rule's expression is true, immediately stop evaluating rules and end the survey. The users existing answers to the survey should be sent to the server.
     displayIf:
         type: boolean
         description: |
-            **Before rules only.** If the rule expression is true, display this question or information 
-            screen.
+            **Before rules only.** If the rule expression is true, display this question or information screen.
     displayUnless:
         type: boolean
         description: |
-            **Before rules only.** If the rule expression is true, do not display this question or 
-            information. Put differently, show the screen unless the expression is true.
+            **Before rules only.** If the rule expression is true, do not display this question or information. Put differently, show the screen unless the expression is true.
     assignDataGroup:
         type: string
         description: |
-            If specified, the value is a data group that should be added to the survey taker if the 
-            rule expression is true, or removed if the rule expression is false. Survey rules 
-            that specify `assignDataGroup` do not end evaluation of rules in the list; the engine 
-            should proceed to evaluate and apply the next rule in the list. The changes to the user's 
-            data groups should not be applied if the user cancels the survey. 
+            If specified, the value is a data group that should be added to the survey taker if the rule expression is true, or removed if the rule expression is false. Survey rules that specify `assignDataGroup` do not end evaluation of rules in the list; the engine should proceed to evaluate and apply the next rule in the list. The changes to the user's data groups should not be applied if the user cancels the survey. 
     type:
         type: string
         readOnly: true

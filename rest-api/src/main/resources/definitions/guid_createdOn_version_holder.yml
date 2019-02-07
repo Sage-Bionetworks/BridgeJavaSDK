@@ -1,6 +1,5 @@
 description: |
-    An object that describes the keys and optimistic lock values of a Survey. This object
-    is returned from create and update endpoints rather than an entire survey.
+    An object that describes the keys and optimistic lock values of a Survey. This object is returned from create and update endpoints rather than an entire survey.
 type: object
 properties:
     guid:
@@ -17,9 +16,7 @@ properties:
         format: int64
         readOnly: true
         description: |
-            The optimistic locking version of the survey. This value must be submitted as 
-            part of the next update of the model. If it does not match the value on the server, 
-            a 409 error (Conflict) will prevent the update from occurring.
+            The optimistic locking version of the survey. This value must be submitted as part of the next update of the model. If it does not match the value on the server, a 409 error (Conflict) will prevent the update from occurring.
     type:
         type: string
         readOnly: true

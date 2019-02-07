@@ -11,8 +11,7 @@ allOf:
         title:
             type: string
             description: |
-                A title for this question. Although this is required, it may or may not be used in the 
-                interface. 
+                A title for this question. Although this is required, it may or may not be used in the interface. 
         prompt:
             type: string
             description: |

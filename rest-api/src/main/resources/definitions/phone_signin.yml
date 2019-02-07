@@ -1,7 +1,6 @@
 type: object
 description: |
-    Using a token supplied in an SMS message authenticate with the server. The token 
-    remains valid, once sent, for 5 minutes. 
+    Using a token supplied in an SMS message authenticate with the server. The token remains valid, once sent, for 5 minutes. 
 required:
     - study
     - phone
@@ -15,8 +14,7 @@ properties:
     token:
         type: string
         description: |
-            The token that was sent to the user via SMS, that needs to be entered into the application 
-            so it can be sent back to authenticate.
+            The token that was sent to the user via SMS, that needs to be entered into the application so it can be sent back to authenticate.
     type:
         type: string
         readOnly: true

@@ -1,6 +1,5 @@
 description: |
-    A description of the participant's consent status in a particular subpopulation (consent group). This 
-    object is never used to update state on the server (all fields are read only). 
+    A description of the participant's consent status in a particular subpopulation (consent group). This object is never used to update state on the server (all fields are read only). 
 type: object
 readOnly: true
 properties:
@@ -13,14 +12,14 @@ properties:
     required:
         type: boolean
         description: |
-            Is this consent required? If required, the user must consent to it before being given 
-            access to the server (until signed, a 412 response is returned for most participant endpoints).
+            Is this consent required? If required, the user must consent to it before being given access to the server (until signed, a 412 response is returned for most participant endpoints).
     consented:
         type: boolean
         description: Has the participant consented to this consent agreement?
     signedMostRecentConsent:
         type: boolean
-        description: Was the consent to participate made against the most recently published version of this consent?
+        description: |
+            Was the consent to participate made against the most recently published version of this consent?
     type:
         type: string
         readOnly: true

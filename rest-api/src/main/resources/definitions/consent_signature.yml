@@ -1,13 +1,9 @@
 description: |
-    To consent to participation in a subpopulation (also known as a consent group), participants submit 
-    their electronic signature. This can include an image of their actual signature. 
+    To consent to participation in a subpopulation (also known as a consent group), participants submit their electronic signature. This can include an image of their actual signature. 
 
-    At the time of consent, participants also submit a decision on how widely they will share their 
-    medical information with researchers (see the scope property of the ConsentSignature JSON object, below).
+    At the time of consent, participants also submit a decision on how widely they will share their medical information with researchers (see the scope property of the ConsentSignature JSON object, below).
 
-    How you describe to participants the choice to share research data is important if they are to correctly 
-    understand the consequences of this decision. We suggest that applications present the following 
-    language to users when making this choice:
+    How you describe to participants the choice to share research data is important if they are to correctly understand the consequences of this decision. We suggest that applications present the following language to users when making this choice:
 
     * **Option #1:** No data sharing. I do not agree to share my coded data (without my name) at this time;
     * **Option #2:** I agree to share my coded data (without my name) with researchers at the sponsor institution, and their partners, in order to conduct this study;
@@ -28,12 +24,12 @@ properties:
         description: The participant's date of birth in ISO 8601 format (YYYY-MM-DD).
     imageData:
         type: string
-        description: Base 64 encoded image of the participant's signature. If `imageData` is supplied, 
-            `imageMimeType` must also be supplied.
+        description: |
+            Base 64 encoded image of the participant's signature. If `imageData` is supplied, `imageMimeType` must also be supplied.
     imageMimeType:
         type: string
-        description: Mime type of this image (e.g. "image/png"). If `imageData` is supplied, `imageMimeType` 
-            must also be supplied.
+        description: |
+            Mime type of this image (e.g. "image/png"). If `imageData` is supplied, `imageMimeType` must also be supplied.
     scope:
         $ref: ./enums/sharing_scope.yml
     type:

@@ -1,6 +1,5 @@
 description: |
-    Payload object for an email address or phone number. You do not provide both identifiers when 
-    using this object for a call.
+    Payload object for an email address or phone number. You do not provide both identifiers when using this object for a call.
 type: object
 required:
     - study

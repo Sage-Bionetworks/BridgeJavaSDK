@@ -37,7 +37,4 @@ properties:
         type: integer
         format: int64
         description: |
-            The optimistic locking version of the app config element. This value must be submitted as 
-            part of the next update of the model. If it does not match the value on the server, 
-            a 409 error (Conflict) will prevent the update from occurring. It can also serve as a key 
-            to determine if a local cache of this `AppConfigElement` revision needs to be updated.
+            The optimistic locking version of the app config element. This value must be submitted as part of the next update of the model. If it does not match the value on the server, a 409 error (Conflict) will prevent the update from occurring. It can also serve as a key to determine if a local cache of this `AppConfigElement` revision needs to be updated.

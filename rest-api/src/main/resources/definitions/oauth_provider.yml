@@ -17,8 +17,7 @@ properties:
     callbackUrl:
         type: string
         description: |
-            The callback URL that the client provides to retrieve the authorization token. This must match
-            that callback URL exactly.
+            The callback URL that the client provides to retrieve the authorization token. This must match that callback URL exactly.
     type:
         type: string
         readOnly: true

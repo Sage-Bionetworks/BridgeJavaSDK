@@ -3,9 +3,7 @@ properties:
     authToken:
         type: string
         description: |
-          The OAuth 2.0 authorization token returned from the provider, which must be submitted 
-          to the Bridge server in order to retrieve an access token. This token is optional, but 
-          if provided, Bridge server will always renew the access token with the OAuth provider.
+            The OAuth 2.0 authorization token returned from the provider, which must be submitted to the Bridge server in order to retrieve an access token. This token is optional, but if provided, Bridge server will always renew the access token with the OAuth provider.
     type:
         type: string
         readOnly: true
