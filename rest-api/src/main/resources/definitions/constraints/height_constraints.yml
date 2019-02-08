@@ -9,6 +9,6 @@ allOf:
     - properties:
         unit:
             $ref: ../enums/unit.yml
-        isInfant:
+        forInfant:
             type: boolean
             description: Is this measurement for an infant?
