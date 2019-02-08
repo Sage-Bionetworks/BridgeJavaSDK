@@ -1,6 +1,5 @@
 description: |
-     See [Bridge Upload Data Format](/articles/study_design/upload_data_format.html) for details about this model object. Only researchers and administrators can retrieve this full record through 
-     an upload record in the API.
+    See [Bridge Upload Data Format](/articles/study_design/upload_data_format.html) for details about this model object. Only researchers and administrators can retrieve this full record through an upload record in the API.
 readOnly: true
 type: object
 required:
@@ -9,8 +8,7 @@ properties:
     appVersion:
         type: string
         description: |
-            App version, as reported by the app. Generally in the form "version 1.0.0, build 2". Must be 48 chars or
-            less.
+            App version, as reported by the app. Generally in the form "version 1.0.0, build 2". Must be 48 chars or less.
     createdOn:
         type: string
         format: date-time
@@ -27,16 +25,14 @@ properties:
     metadata:
         type: object
         description: |
-            Arbitrary JSON blob of record metadata, as submitted by the app. For 
-            ResearchKit-based apps, this is info.json verbatim.
+            Arbitrary JSON blob of record metadata, as submitted by the app. For ResearchKit-based apps, this is info.json verbatim.
     phoneInfo:
         type: string
         description: Phone info, for example "iPhone9,3" or "iPhone 5c (GSM)". Must be 48 chars or less.
     rawDataAttachmentId:
         type: string
         description: |
-            Attachment ID (S3 key) that contains the raw data. This is the unencrypted zip file for uploads, or JSON
-            blob for directly submitted records
+            Attachment ID (S3 key) that contains the raw data. This is the unencrypted zip file for uploads, or JSON blob for directly submitted records
     schemaId:
         type: string
         description: |
@@ -53,8 +49,7 @@ properties:
         type: string
         format: date
         description: |
-            Calendar date in YYYY-MM-DD format representing when the server received the upload, 
-            using the server's local time zone (US Pacific timezone).
+            Calendar date in YYYY-MM-DD format representing when the server received the upload, using the server's local time zone (US Pacific timezone).
     uploadId:
         type: string
         description: The upload GUID of the upload this record is processed from.
@@ -65,8 +60,7 @@ properties:
     userMetadata:
         type: object
         description: |
-            JSON map with key value pairs representing metadata for this health data record, as submitted by the app.
-            This corresponds with the uploadMetadataFieldDefinitions configured in the study.
+            JSON map with key value pairs representing metadata for this health data record, as submitted by the app. This corresponds with the uploadMetadataFieldDefinitions configured in the study.
     userSharingScope:
         type: string
         description: The user's sharing scope at the time of this upload's submission.
@@ -86,10 +80,7 @@ properties:
         type: integer
         format: int64
         description: |
-            A version number issued for optimistic locking of record updates. Should not be 
-            set when creating a new health data record. When updating a record retrieved from 
-            the API, the object will have the version attribute and this must match the last 
-            value issued by the service or an update will fail.
+            A version number issued for optimistic locking of record updates. Should not be set when creating a new health data record. When updating a record retrieved from the API, the object will have the version attribute and this must match the last value issued by the service or an update will fail.
     synapseExporterStatus:
         $ref: ./enums/synapse_exporter_status.yml
     type:

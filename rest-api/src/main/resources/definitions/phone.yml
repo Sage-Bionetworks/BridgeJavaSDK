@@ -14,8 +14,7 @@ properties:
         type: string
         readOnly: true
         description: |
-          The phone number formatted in the commonly accepted national format of the region code. 
-          This value is read-only.
+            The phone number formatted in the commonly accepted national format of the region code. This value is read-only.
     type:
         type: string
         readOnly: true

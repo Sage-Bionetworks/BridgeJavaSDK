@@ -1,0 +1,18 @@
+delete:
+    operationId: deleteExternalId
+    summary: Delete an external ID
+    tags: 
+        - External Identifiers
+        - _For Developers
+        - _For Researchers
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/externalId
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher.yml

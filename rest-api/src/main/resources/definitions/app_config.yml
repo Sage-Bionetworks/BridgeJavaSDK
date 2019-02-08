@@ -25,14 +25,11 @@ properties:
     criteria:
         $ref: ./criteria.yml
         description: |
-            Optional selection criteria that can be used to determine if an app should receive this configuration 
-            record or not. It is an error for a request to match more or less than one app config record. 
+            Optional selection criteria that can be used to determine if an app should receive this configuration record or not. It is an error for a request to match more or less than one app config record. 
     clientData:
         type: object
         description: |
-            An arbitrary object that will be serialized and stored as JSON using the GSON serialization 
-            mechanisms. In Java this field is an Object; since the type of the object is not known, 
-            the rest-client includes a utility method:
+            An arbitrary object that will be serialized and stored as JSON using the GSON serialization mechanisms. In Java this field is an Object; since the type of the object is not known, the rest-client includes a utility method:
             ```
             MyCustomObject data = RestUtils.toType(
                 activity.getClientData(), MyCustomObject.class);
@@ -52,18 +49,14 @@ properties:
     configElements:
         type: object
         description: |
-            A map of app config element IDs to the app config element JSON of a specific app config 
-            element revision (the revision given in the configReferences map).
+            A map of app config element IDs to the app config element JSON of a specific app config element revision (the revision given in the configReferences map).
         additionalProperties:
             type: object
     version:
         type: integer
         format: int64
         description: |
-            The optimistic locking version of the app config. This value must be submitted as 
-            part of the next update of the model. If it does not match the value on the server, 
-            a 409 error (Conflict) will prevent the update from occurring. It can also serve as a key 
-            to determine if a local cache of `AppConfig` needs to be updated.
+            The optimistic locking version of the app config. This value must be submitted as part of the next update of the model. If it does not match the value on the server, a 409 error (Conflict) will prevent the update from occurring. It can also serve as a key to determine if a local cache of `AppConfig` needs to be updated.
     type:
         type: string
         readOnly: true

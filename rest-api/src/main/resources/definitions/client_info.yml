@@ -1,6 +1,5 @@
 description:
-    Describes the content of the `User-Agent` field in the format that is accepted and 
-    understandable to the Bridge server (see [REST API getting started](/articles/rest.html)).
+    Describes the content of the `User-Agent` field in the format that is accepted and understandable to the Bridge server (see [REST API getting started](/articles/rest.html)).
 type: object
 readOnly: true
 properties:
@@ -10,8 +9,7 @@ properties:
     appVersion:
         type: integer
         description: |
-            The version of the application (must be a number, and should increase with every 
-            new release of the application).
+            The version of the application (must be a number, and should increase with every new release of the application).
     deviceName:
         type: string
         description: Information about the device (e.g. "Unknown iPhone").

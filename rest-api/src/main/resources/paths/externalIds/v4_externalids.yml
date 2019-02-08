@@ -32,48 +32,24 @@ get:
         403:
             $ref: ../../responses/403_not_developer_researcher.yml
 post:
-    operationId: addExternalIds
-    summary: Add external IDs to the study
+    operationId: createExternalId
+    summary: Add external ID to the study
     tags:
         - External Identifiers
         - _For Developers
+        - _For Researchers
     security:
         -   BridgeSecurity: []
     parameters:
-        - name: body
-          in: body
-          schema:
-            type: array
-            items: 
-                type: string
-          required: true
+      - name: ExternalIdentifier
+        in: body
+        required: true
+        schema:
+          $ref: ../../definitions/external_identifier.yml
     responses:
         201:
             $ref: ../../responses/201_message.yml
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_developer.yml
-delete:
-    operationId: deleteExternalIds
-    summary: Delete one or more external IDs
-    tags: 
-        - External Identifiers
-        - _For Developers
-    security:
-        -   BridgeSecurity: []
-    parameters:
-        - name: externalId
-          in: query
-          type: array
-          items:
-            type: string
-          collectionFormat: multi
-          required: true
-    responses:
-        200:
-            $ref: ../../responses/200_message.yml
-        401:
-            $ref: ../../responses/401.yml
-        403:
-            $ref: ../../responses/403_not_developer.yml
+            $ref: ../../responses/403_not_developer_researcher.yml

@@ -18,21 +18,16 @@ properties:
     name:
         type: string
         description: |
-            The name of this survey. The name can be changed after creation, and should not 
-            appear in the UI.
+            The name of this survey. The name can be changed after creation, and should not appear in the UI.
     identifier:
         type: string
         description: |
-            A private name for the survey, only visible to researchers, used to identify 
-            the survey on export. It is recommended (but not required) that this identifier 
-            be unique for this survey type within this study.
+            A private name for the survey, only visible to researchers, used to identify the survey on export. It is recommended (but not required) that this identifier be unique for this survey type within this study.
     published:
         type: boolean
         readOnly: true
         description: |
-            True if this survey revision has been published, and is accessible to users through scheduling. 
-            More than one version of a survey may be published; it is most common to return the most recently 
-            published version to users.
+            True if this survey revision has been published, and is accessible to users through scheduling. More than one version of a survey may be published; it is most common to return the most recently published version to users.
     schemaRevision:
         type: integer
         format: int64
@@ -58,15 +53,11 @@ properties:
         type: integer
         format: int64
         description: |
-            The version of this survey as used to implement optimistic locking. This must 
-            be passed back to the server on an update, unmodified, in order for the update 
-            to succeed. If the survey has been concurrently modified, the update will throw 
-            an error.
+            The version of this survey as used to implement optimistic locking. This must be passed back to the server on an update, unmodified, in order for the update to succeed. If the survey has been concurrently modified, the update will throw an error.
     elements:
         type: array
         description: |
-            An ordered collection of SurveyElement sub-types (in the order they will appear in 
-            the survey).
+            An ordered collection of SurveyElement sub-types (in the order they will appear in the survey).
         items:
             discriminator: type
             $ref: ./survey_element.yml

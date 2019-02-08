@@ -14,10 +14,7 @@ allOf:
         reauthToken:
             type: string
             description: |
-                A token, supplied when a new session is returned, that can be used to refresh the
-                session at a later time. The API to reauthenticate with the token will refresh your 
-                session token and reset the session's timeout value. The reauthentication token can 
-                only be used one time. 
+                A token, supplied when a new session is returned, that can be used to refresh the session at a later time. The API to reauthenticate with the token will refresh your session token and reset the session's timeout value. The reauthentication token can only be used one time. 
         environment:
             $ref: ./enums/environment.yml
         email:
@@ -37,9 +34,7 @@ allOf:
         consentStatuses:
             type: object
             description: |
-                A mapping from a subpopulation GUID to information about the participant's consent status 
-                in that subpopulation (whether consented or not). Only the subpopulations that currently apply 
-                to this user will have a ConsentStatus object in the map.
+                A mapping from a subpopulation GUID to information about the participant's consent status in that subpopulation (whether consented or not). Only the subpopulations that currently apply to this user will have a ConsentStatus object in the map.
             additionalProperties:
                 $ref: ../definitions/consent_status.yml
         type:
