@@ -1,0 +1,27 @@
+description: |
+    A year and month without a date or time (e.g. "2016-07").
+
+    **UI hints:** yearmonth.
+required:
+    - dataType
+allOf:
+    - $ref: ./constraints.yml
+    - properties:
+        allowFuture:
+            type: boolean
+            default: false
+            description: |
+              Should this question allow answers in the future? If the current date falls 
+              in a month after the indicated month, it is considered to be in the future.
+        earliestValue:
+            type: string
+            description: |
+              ISO 8601 year and month value ("YYYY-MM") that is the earliest value that may be set 
+              for this question.  If allowFuture is false, that constraint should also be applied 
+              regardless of earliest/latestValue constraints.
+        latestValue:
+            type: string
+            description: |
+              ISO 8601 year and month value ("YYYY-MM") that is the earliest value that may be set 
+              for this question. If allowFuture is false, that constraint should also be applied
+              regardless of earliest/latestValue constraints.

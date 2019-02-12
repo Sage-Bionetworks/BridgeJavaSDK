@@ -1,0 +1,15 @@
+type: string
+description: |
+    The country code of origin of a postal code (ISO 3166-1 alpha-2 format). Bridge only expects 
+    US postal codes at this time. Note that this value is specified by the server, it is not 
+    provided by the client. That is because, depending on the country of origin, there may be 
+    specific rules that need to be applied by the client to ensure the participant's anonymity.
+
+    |Type|Description|
+    |---|---|
+    |ca|Canada|
+    |us|United States|
+
+enum:
+    - ca
+    - us
