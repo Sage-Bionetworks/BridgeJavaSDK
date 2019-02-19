@@ -2,8 +2,7 @@ get:
     operationId: getParticipantReportRecordsV4
     summary: Get a participant report
     description: |
-        Get the records for a specific participant report. Participants can get reports for their own 
-        account. Note that this call does not require consent, but does require authentication. 
+        Get the records for a specific participant report. Participants can get reports for their own account. Note that this call does not require consent, but does require authentication. 
     tags:
         - Users
         - ParticipantReports
@@ -44,7 +43,7 @@ post:
               $ref: ../../definitions/report_data.yml
     responses:
         200:
-            description: Report records for the participant
+            description: OK
             schema:
                 $ref: ../../definitions/message.yml
         401:
