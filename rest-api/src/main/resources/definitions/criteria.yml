@@ -4,6 +4,8 @@ description: |
 required:
     - allOfGroups
     - noneOfGroups
+    - allOfSubstudyIds
+    - noneOfSubstudyIds
     - minAppVersions
     - maxAppVersions
 properties:
@@ -19,6 +21,16 @@ properties:
     noneOfGroups:
         type: array
         description: One or more data groups; the user must have none of these data groups to match.
+        items:
+            type: string
+    allOfSubstudyIds:
+        type: array
+        description: One or more substudy IDs; the user must be assigned to all these substudies to match.
+        items:
+            type: string
+    noneOfSubstudyIds:
+        type: array
+        description: One or more data groups; the user must not be assigned to any of these substudies to match.
         items:
             type: string
     minAppVersions:
