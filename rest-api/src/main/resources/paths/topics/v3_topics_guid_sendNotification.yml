@@ -3,7 +3,7 @@ post:
     summary: Send a push notification to all topic subscribers
     tags: 
         - Notifications
-        - _For Researchers
+        - _For Admins
     security:
         - BridgeSecurity: []
     parameters:
