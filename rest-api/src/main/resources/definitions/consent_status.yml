@@ -13,9 +13,14 @@ properties:
         type: boolean
         description: |
             Is this consent required? If required, the user must consent to it before being given access to the server (until signed, a 412 response is returned for most participant endpoints).
+    signedOn:
+        type: string
+        format: date-time
+        readOnly: true
+        description: The date and time the referenced consent was signed and agreed to by the participant. If there is a signedOn value, consented will be equal to true.
     consented:
         type: boolean
-        description: Has the participant consented to this consent agreement?
+        description: Has the participant consented to this consent agreement? If the user has signed this consent, there should be a signedOn timestamp value.
     signedMostRecentConsent:
         type: boolean
         description: |
