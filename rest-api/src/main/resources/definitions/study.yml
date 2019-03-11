@@ -146,6 +146,9 @@ properties:
         description: |
             The template for an email that will be sent if a user tries to sign up for a study more than once. It provides a means for the user to reset their password, if needed.
         $ref: ./email_template.yml
+    appInstallLinkTemplate:
+        $ref: ./email_template.yml
+        description: The template for an email that will be sent if the user submits an intent to participate, directing the user to an appstore link to download your app. Template variable ${appInstallUrl} is required.
     active:
         type: boolean
         readOnly: true
@@ -249,7 +252,7 @@ properties:
         description: Message sent to user with a code to validate through the application. Template variable ${token} is required.
     appInstallLinkSmsTemplate:
         $ref: ./sms_template.yml
-        description: Message directing the user to an appstore link to download your app. Template variable ${url} is required.
+        description: Message sent to the user after submitting an intent to participate, directing the user to an appstore link to download your app. Template variable ${appInstallUrl} is required.
     verifyPhoneSmsTemplate:
         $ref: ./sms_template.yml
         description: Message sent to user with a code to verify a phone number through the application. Template variable ${token} is required.
