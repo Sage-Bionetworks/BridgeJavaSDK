@@ -4,6 +4,7 @@ get:
     tags: 
         - Upload Schemas
         - _For Developers
+        - _For Researchers
     security:
         -   BridgeSecurity: []
     parameters:

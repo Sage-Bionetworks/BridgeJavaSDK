@@ -4,7 +4,6 @@ get:
     tags: 
         - Notifications
         - _For Developers
-        - _For Researchers
     security:
         - BridgeSecurity: []
     parameters:
