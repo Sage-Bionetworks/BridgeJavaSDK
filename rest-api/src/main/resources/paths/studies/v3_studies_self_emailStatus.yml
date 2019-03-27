@@ -7,7 +7,6 @@ get:
     tags: 
         - Studies
         - _For Developers
-        - _For Researchers
     security:
         -   BridgeSecurity: []
     responses:
