@@ -1,5 +1,5 @@
 description: |
-    For studies that wish to orchestrate an agreement to participate prior to signing up for a study, this API provides a way to store a consent under a phone number. 
+    For studies that wish to orchestrate an agreement to participate prior to signing up for a study, this API provides a way to store a consent under a phone number or email address. The user must submit a phone number *or* an email address (not both) as part of this submission, the same credential that will be used to sign up for the study. On first sign in, instead of receiving a 412 response, this user will be consented with this intent to participate record.
 type: object
 required:
     - studyId
@@ -9,16 +9,18 @@ required:
 properties:
     studyId:
         type: string
-        description: The study identifier for the study the user is consenting to participate in.
+        description: The identifier for the study in which the user consents to participate.
     subpopGuid:
         type: string
-        description: The subpopulation that the user is consenting to.
+        description: The specific subpopulation sent in the study to which the user consents to participate.
     osName:
         type: string
         description: |
             The operating system name under which the install link can be retrieved. OS name is not required, and in that event, an install link under the key "Universal" will be sent to the user.
     phone:
         $ref: ./phone.yml
+    email:
+        type: string
     consentSignature:
         $ref: ./consent_signature.yml
     type:

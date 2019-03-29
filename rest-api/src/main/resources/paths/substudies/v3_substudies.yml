@@ -4,6 +4,7 @@ get:
     tags:
         - Substudies
         - _For Admins
+        - _For Developers
     security:
         - BridgeSecurity: []
     parameters:
