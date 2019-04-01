@@ -1,5 +1,6 @@
 description: |
-    An identifier to retrieve a series of report data (e.g. "three-week-report"). A separate list of these are maintained for study and participant reports.
+    An identifier to retrieve a series of report data (e.g. "three-week-report"). A separate list of these 
+    are maintained for study and participant reports.
 type: object
 required:
     - identifier
@@ -7,6 +8,11 @@ properties:
     identifier:
         type: string
         description: The report identifier.
+    substudyIds:
+        type: array
+        description: The substudies these report records are associated to.
+        items:
+            type: string
     public:
         type: boolean
         description: |
