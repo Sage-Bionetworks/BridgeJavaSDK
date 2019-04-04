@@ -14,6 +14,7 @@ type: object
 required:
     - name
     - scope
+    - signedOn
 properties:
     name:
         type: string
@@ -30,6 +31,16 @@ properties:
         type: string
         description: |
             Mime type of this image (e.g. "image/png"). If `imageData` is supplied, `imageMimeType` must also be supplied.
+    signedOn:
+        type: string
+        format: date-time
+        readOnly: true
+        description: The date and time the referenced consent was signed and agreed to by the participant.
+    withdrewOn:
+        type: string
+        format: date-time
+        readOnly: true
+        description: The date and time the participant withdrew consent (can be blank).
     scope:
         $ref: ./enums/sharing_scope.yml
     type:
