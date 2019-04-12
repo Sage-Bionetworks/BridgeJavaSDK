@@ -53,7 +53,9 @@ class UserSessionInterceptor implements Interceptor {
     public static final List<ResponseMatcher> SESSION_PATHS = ImmutableList.of(
             new ResponseMatcher("POST", "/auth/", 200, 412),
             new ResponseMatcher("POST", "/v3/participants/self", 200),
-            new ResponseMatcher("POST", "/v3/participants/self/identifiers", 200));
+            new ResponseMatcher("POST", "/v3/participants/self/identifiers", 200),
+            new ResponseMatcher("POST", "/consents/signature/withdraw", 200),
+            new ResponseMatcher("POST", "/consents/signature", 201));
 
     private UserSessionInfoProvider userSessionInfoProvider;
 
