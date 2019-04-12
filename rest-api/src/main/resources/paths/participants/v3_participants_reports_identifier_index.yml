@@ -1,0 +1,19 @@
+get:
+    operationId: getParticipantReportIndex
+    summary: Get a single report index for participant reports
+    tags:
+        - ParticipantReports
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/identifier
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/report_index.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_researcher.yml

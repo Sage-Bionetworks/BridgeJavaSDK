@@ -48,6 +48,16 @@ properties:
         format: date-time
         description: |
             The creation date (ISO 8601 timestamp) of the version of the consent agreement for this subpopulation that is published, ie. that is presented to users for their signature. The subpopulation guid and this createdOn timestamp can be used to retrieve the consent document.
+    dataGroupsAssignedWhileConsented:
+        type: array
+        description: The data groups that will be assigned to a participant who consents to membership in this subpopulation. If the participant withdraws from this subpopulation, the data groups will be removed from their account.
+        items:
+            type: string
+    substudyIdsAssignedOnConsent:
+        type: array
+        description: The substudies this participant is associated to when they consent to membership in this subpopulation. This association is permanent (even if the participant withdraws from the subpopulation, they are still part of the substudy, visible to substudy research administrations, and so forth).
+        items:
+            type: string
     version:
         type: integer
         format: int64
