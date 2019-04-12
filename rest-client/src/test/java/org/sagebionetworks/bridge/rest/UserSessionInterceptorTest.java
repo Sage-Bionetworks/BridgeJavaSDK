@@ -160,6 +160,48 @@ public class UserSessionInterceptorTest {
         
         verify(userSessionInfoProvider).setSession(any(UserSessionInfo.class));
     }
+    
+    @Test
+    public void capturesSessionOfConsentCreation() throws IOException {
+        doReturn(request).when(chain).request();
+        doReturn(response).when(chain).proceed(request);
+        doReturn(request).when(response).request();
+        doReturn(url).when(request).url();
+        doReturn("/v3/subpopulations/53956397-28a1-41e5-b3a5-1f71e3e3a1b7/consents/signature").when(url).toString();
+        doReturn(201).when(response).code();
+        doReturn("POST").when(request).method();
+        
+        doReturn(responseBody).when(response).body();
+        doReturn("{\"sessionToken\":\"asdf\"}").when(responseBody).string();
+        
+        doReturn(responseBuilder).when(response).newBuilder();
+        doReturn(responseBuilder).when(responseBuilder).body(any(ResponseBody.class));
+
+        interceptor.intercept(chain);
+        
+        verify(userSessionInfoProvider).setSession(any(UserSessionInfo.class));
+    }
+    
+    @Test
+    public void capturesSessionOfConsentWithdrawal() throws IOException {
+        doReturn(request).when(chain).request();
+        doReturn(response).when(chain).proceed(request);
+        doReturn(request).when(response).request();
+        doReturn(url).when(request).url();
+        doReturn("/v3/subpopulations/53956397-28a1-41e5-b3a5-1f71e3e3a1b7/consents/signature/withdraw").when(url).toString();
+        doReturn(200).when(response).code();
+        doReturn("POST").when(request).method();
+        
+        doReturn(responseBody).when(response).body();
+        doReturn("{\"sessionToken\":\"asdf\"}").when(responseBody).string();
+        
+        doReturn(responseBuilder).when(response).newBuilder();
+        doReturn(responseBuilder).when(responseBuilder).body(any(ResponseBody.class));
+
+        interceptor.intercept(chain);
+        
+        verify(userSessionInfoProvider).setSession(any(UserSessionInfo.class));
+    }
 
     @Test
     public void badStringCaseWorks() throws IOException {
