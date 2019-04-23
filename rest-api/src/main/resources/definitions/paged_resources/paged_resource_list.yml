@@ -1,5 +1,4 @@
 type: object
-discriminator: items
 properties:
     requestParams:
         $ref: ../request_params.yml

@@ -1,5 +1,5 @@
 get:
-    operationId: getAppConfig
+    operationId: getAppConfigForStudy
     summary: |
         Get the app config for the current version of the app making the request. 
     description: |

@@ -1,5 +1,5 @@
 get:
-    operationId: getActivityEvents
+    operationId: getActivityEventsForParticipant
     summary: Get ActivityEvent
     tags:
         - ActivityEvents

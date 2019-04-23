@@ -1,5 +1,5 @@
 get:
-    operationId: getSchedulePlans
+    operationId: getSchedulePlansForStudy
     summary: Get schedule plans
     tags: 
         - _For Workers

@@ -23,7 +23,7 @@ get:
         403:
             $ref: ../../responses/403_not_researcher.yml
 post:
-    operationId: addParticipantReportRecord
+    operationId: addParticipantReportRecordV4
     summary: Add a participant report record
     tags:
         - ParticipantReports

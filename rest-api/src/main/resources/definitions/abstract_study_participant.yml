@@ -1,5 +1,4 @@
 type: object
-discriminator: type
 required:
     - roles
     - dataGroups

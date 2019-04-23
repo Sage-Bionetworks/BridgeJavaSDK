@@ -1,9 +1,13 @@
 type: object
-discriminator: items
 description: |
-    Any list returned from the Bridge server will be in a resource list payload. This 
-    consists of an items property with an array of the items being returned, and the 
-    request parameters that were submitted to the server to derive the list.
+    Lists from the Bridge server will be returned in a list payload that includes an `items` 
+    property with the list of objects, and a `requestParams` object that includes the values 
+    that were submitted to the server to generate the list. This list is an unpaged and 
+    complete list of all indicated items on the server.
 properties:
     requestParams:
         $ref: ../request_params.yml
+    type:
+        type: string
+        readOnly: true
+        description: "ResourceList"        
