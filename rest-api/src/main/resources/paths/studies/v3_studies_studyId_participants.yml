@@ -1,5 +1,5 @@
 get:
-    operationId: getParticipants
+    operationId: getParticipantsForStudy
     summary: Get a paged list of study participants for a study
     deprecated: true
     tags:

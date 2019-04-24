@@ -1,5 +1,5 @@
 post:
-    operationId: verifyEmail
+    operationId: verifyEmailForStudy
     summary: Verifies the study's email
     description: |
         Verifies the study's email. Since this comes in from an email with a token, you don't need to be authenticated.

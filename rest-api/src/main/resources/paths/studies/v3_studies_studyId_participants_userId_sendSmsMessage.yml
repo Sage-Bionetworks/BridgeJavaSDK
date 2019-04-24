@@ -1,5 +1,5 @@
 post:
-    operationId: sendSmsMessageToParticipant
+    operationId: sendSmsMessageToParticipantForStudy
     summary: Send an SMS message to a single participant
     description: |
         Send an SMS message to an individual participant (assuming they have a verified phone number). Do not use this method to notify a group of participants; create a topic, ask your users to subscribe to that topic, and send a message via that topic instead.

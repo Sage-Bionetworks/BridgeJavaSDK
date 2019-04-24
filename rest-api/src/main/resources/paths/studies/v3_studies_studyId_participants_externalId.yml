@@ -1,5 +1,5 @@
 get:
-    operationId: getParticipantByExternalId
+    operationId: getParticipantByExternalIdForStudy
     summary: Get a study participant (user) record in a study using the account's external ID.
     tags:
         - _For Workers
