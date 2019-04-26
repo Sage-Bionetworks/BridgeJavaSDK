@@ -8,6 +8,12 @@ post:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/userId
+        - name: deleteReauthToken
+          description: Should sign out also delete any extant reauthentication tokens?
+          required: false
+          default: true
+          in: query
+          type: boolean
     responses:
         200:
             $ref: ../../responses/200_message.yml
