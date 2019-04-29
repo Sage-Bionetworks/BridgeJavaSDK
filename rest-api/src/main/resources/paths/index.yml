@@ -133,8 +133,6 @@
     $ref: ./participants/v3_participants_userId_activities_compoundactivities_taskId.yml
 /v4/participants/{userId}/reports/{identifier}:
     $ref: ./participants/v4_participants_userId_reports_identifier.yml
-/v3/participants/{userId}/sendSmsMessage:
-    $ref: ./participants/v3_participants_userId_sendSmsMessage.yml
 
 # Shared Modules
 /v3/sharedmodules/{moduleId}/import:
