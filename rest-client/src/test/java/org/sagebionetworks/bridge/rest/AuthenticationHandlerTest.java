@@ -66,7 +66,8 @@ public class AuthenticationHandlerTest {
 
     @Test
     public void interceptRequiringAuthAddsHeader() throws Exception {
-        UserSessionInfo session = new UserSessionInfo().sessionToken("sessionToken");
+        UserSessionInfo session = new UserSessionInfo();
+        Tests.setVariableValueInObject(session, "sessionToken", "sessionToken");
         when(userSessionInfoProvider.retrieveSession()).thenReturn(session);
         
         when(chain.request()).thenReturn(request);
@@ -88,7 +89,8 @@ public class AuthenticationHandlerTest {
     
     @Test
     public void interceptRequiringAuthAddsHeaderToChangeStudy() throws Exception {
-        UserSessionInfo session = new UserSessionInfo().sessionToken("sessionToken");
+        UserSessionInfo session = new UserSessionInfo();
+        Tests.setVariableValueInObject(session, "sessionToken", "sessionToken");
         when(userSessionInfoProvider.retrieveSession()).thenReturn(session);
         
         when(chain.request()).thenReturn(request);
@@ -107,7 +109,8 @@ public class AuthenticationHandlerTest {
     
     @Test
     public void interceptNoAuthDoesNotAddHeader() throws Exception {
-        UserSessionInfo session = new UserSessionInfo().sessionToken("sessionToken");
+        UserSessionInfo session = new UserSessionInfo();
+        Tests.setVariableValueInObject(session, "sessionToken", "sessionToken");
         when(userSessionInfoProvider.retrieveSession()).thenReturn(session);
         
         when(chain.request()).thenReturn(request);
@@ -122,7 +125,8 @@ public class AuthenticationHandlerTest {
 
     @Test
     public void authenticateRequiringAuthAddsHeader() throws Exception {
-        UserSessionInfo session = new UserSessionInfo().sessionToken("sessionToken");
+        UserSessionInfo session = new UserSessionInfo();
+        Tests.setVariableValueInObject(session, "sessionToken", "sessionToken");
         when(userSessionInfoProvider.retrieveSession()).thenReturn(session);
         
         when(response.request()).thenReturn(request);
@@ -141,7 +145,8 @@ public class AuthenticationHandlerTest {
     
     @Test
     public void after401YouDoNotNeedSessionTokenToSignOut() throws Exception {
-        UserSessionInfo session = new UserSessionInfo().sessionToken("sessionToken");
+        UserSessionInfo session = new UserSessionInfo();
+        Tests.setVariableValueInObject(session, "sessionToken", "sessionToken");
         when(userSessionInfoProvider.retrieveSession()).thenReturn(session);
         
         when(response.request()).thenReturn(request);
@@ -158,7 +163,8 @@ public class AuthenticationHandlerTest {
     
     @Test
     public void authenticateNoAuthDoesNotAddHeader() throws Exception {
-        UserSessionInfo session = new UserSessionInfo().sessionToken("sessionToken");
+        UserSessionInfo session = new UserSessionInfo();
+        Tests.setVariableValueInObject(session, "sessionToken", "sessionToken");
         when(userSessionInfoProvider.retrieveSession()).thenReturn(session);
         
         when(response.request()).thenReturn(request);
@@ -174,7 +180,8 @@ public class AuthenticationHandlerTest {
 
     @Test
     public void authenticateDoesNotCallReauthIfSessionHasChanged() throws Exception {
-        UserSessionInfo session = new UserSessionInfo().sessionToken("sessionToken");
+        UserSessionInfo session = new UserSessionInfo();
+        Tests.setVariableValueInObject(session, "sessionToken", "sessionToken");
         when(userSessionInfoProvider.retrieveSession()).thenReturn(session);
         when(userSessionInfoProvider.getSession()).thenReturn(session);
 

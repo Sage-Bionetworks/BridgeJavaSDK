@@ -17,7 +17,7 @@ post:
         - ActivityEvents
         - _For Consented Users
     parameters:
-        - name: body
+        - name: CustomActivityEventRequest
           required: true
           in: body
           schema:

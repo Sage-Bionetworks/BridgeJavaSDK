@@ -29,7 +29,7 @@ post:
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
         - $ref: ../../index.yml#/parameters/identifier
-        - name: body
+        - name: ReportData
           description: Report data
           required: true
           in: body

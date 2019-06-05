@@ -9,7 +9,7 @@ post:
     security:
         - BridgeSecurity: []
     parameters:
-        - name: body
+        - name: String[]
           required: true
           in: body
           schema:

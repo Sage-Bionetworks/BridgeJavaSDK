@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.sagebionetworks.bridge.rest.Tests.setVariableValueInObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -199,25 +200,28 @@ public class RestUtilsTest {
     
     private ConsentStatus requiredConsent(String guid, boolean isConsented, boolean isRecent) {
         ConsentStatus status = new ConsentStatus();
-        status.setSubpopulationGuid(guid);
-        status.setConsented(isConsented);
-        status.setRequired(true);
-        status.setSignedMostRecentConsent(isRecent);
+        setVariableValueInObject(status, "subpopulationGuid", guid);
+        setVariableValueInObject(status, "consented", isConsented);
+        setVariableValueInObject(status, "required", true);
+        setVariableValueInObject(status, "signedMostRecentConsent", isRecent);
         return status;
     }
     
     private ConsentStatus optConsent(String guid, boolean isConsented, boolean isRecent) {
         ConsentStatus status = new ConsentStatus();
-        status.setSubpopulationGuid(guid);
-        status.setConsented(isConsented);
-        status.setRequired(false);
-        status.setSignedMostRecentConsent(isRecent);
+        setVariableValueInObject(status, "subpopulationGuid", guid);
+        setVariableValueInObject(status, "consented", isConsented);
+        setVariableValueInObject(status, "required", false);
+        setVariableValueInObject(status, "signedMostRecentConsent", isRecent);
         return status;
     }
     
     private UserSessionInfo session(Map<String,ConsentStatus> statuses) {
         UserSessionInfo session = new UserSessionInfo();
-        session.setConsentStatuses(statuses);
+        try {
+            Tests.setVariableValueInObject(session, "consentStatuses", statuses);    
+        } catch(Exception e) {
+        }
         return session;
     }
     

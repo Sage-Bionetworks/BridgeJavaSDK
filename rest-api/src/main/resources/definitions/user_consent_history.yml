@@ -5,35 +5,44 @@ type: object
 properties:
     subpopulationGuid:
         type: string
+        readOnly: true
         description: The consent group that the participant agreed to participate in.
     consentCreatedOn:
         type: string
+        readOnly: true
         format: date-time
         description: ISO 8601 date and time that the consent was created on.
     name:
         type: string
+        readOnly: true
         description: Full name as entered by the participant.
     birthdate:
         type: string
+        readOnly: true
         format: date
         description: ISO 8601 date string (e.g. "YYYY-MM-DD").
     imageData:
         type: string
+        readOnly: true
         description: The signature image in a base 64 encoding.
     imageMimeType:
         type: string
+        readOnly: true
         description: The IANA mime type indicator for the image (e.g. "image/png").
     signedOn:
         type: string
+        readOnly: true
         format: date-time
         description: ISO 8601 date and time that the consent was signed by the user.
     withdrewOn:
         type: string
+        readOnly: true
         format: date-time
         description: |
             ISO 8601 date and time that the user withdrew the consent, if the user withdrew from the study (note that later consent records may re-enroll the user in the study; nothing prevents users from joining and quitting the study multiple times).
     hasSignedActiveConsent:
         type: boolean
+        readOnly: true
         description: |
             True if the user signed the most recently published version of the consent, false otherwise.
     type:

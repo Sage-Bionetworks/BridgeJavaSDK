@@ -33,7 +33,7 @@ post:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/subpopulationGuid
-        - name: body
+        - name: ConsentSignature
           description: A consent signature
           required: true
           in: body

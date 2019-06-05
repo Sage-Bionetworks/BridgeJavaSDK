@@ -5,6 +5,7 @@ required:
 properties:
     identifier:
         type: string
+        readOnly: true
         description: The study's identifier (unique to the study).
     type:
         type: string

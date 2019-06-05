@@ -27,7 +27,7 @@ post:
     security:
         -   BridgeSecurity: []
     parameters:
-        - name: body
+        - name: SchedulePlan
           required: true
           in: body
           schema:

@@ -8,7 +8,7 @@ post:
     security:
         -   BridgeSecurity: []
     parameters:
-        - name: body
+        - name: StudyAndUsers
           required: true
           in: body
           schema:

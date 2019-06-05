@@ -9,6 +9,7 @@ allOf:
     - properties:
         items:
             type: array
+            readOnly: true
             items:
                 $ref: ../scheduled_activity.yml
         type:
