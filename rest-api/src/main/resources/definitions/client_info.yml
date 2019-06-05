@@ -30,3 +30,4 @@ properties:
         type: string
         readOnly: true
         description: "ClientInfo"
+        x-nullable: false

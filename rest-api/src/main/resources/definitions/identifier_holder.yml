@@ -6,7 +6,9 @@ properties:
         type: string
         readOnly: true
         description: The identifier of the entity (added when the entity is created).
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "IdentifierHolder"
+        x-nullable: false

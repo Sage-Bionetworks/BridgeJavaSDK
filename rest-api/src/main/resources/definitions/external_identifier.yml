@@ -3,18 +3,23 @@ description: |
 type: object
 required:
     - identifier
+    - substudyId
 properties:
     identifier:
         type: string
         description: The external identifier.
+        x-nullable:  false
     substudyId:
         type: string
         description: The substudy ID of the associated substudy for external ID
+        x-nullable:  false
     assigned:
         type: boolean
         readOnly: true
         description: If true, the identifier has been assigned to an account, otherwise false.
+        x-nullable:  false
     type:
         type: string
         readOnly: true
         description: "ExternalIdentifier"
+        x-nullable:  false

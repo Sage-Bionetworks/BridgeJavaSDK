@@ -6,7 +6,9 @@ properties:
         type: string
         readOnly: true
         description: The guid of the newly created entity.
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "GuidHolder"
+        x-nullable: false

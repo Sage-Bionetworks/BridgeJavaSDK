@@ -10,20 +10,25 @@ properties:
         type: array
         items:
             $ref: ./schema_reference.yml
+        x-nullable: false
     surveyList:
         type: array
         items:
             $ref: ./survey_reference.yml
+        x-nullable: false
     taskId:
         type: string
         description: |
             Task ID, used to uniquely identify the compound activity and to resolve the compound activity reference from the compound activity definition, where applicable.
+        x-nullable: false
     version:
         type: integer
         format: int64
         description: |
             The optimistic locking version of the survey. This value must be submitted as part of the next update of the model. If it does not match the value on the server, a 409 error (Conflict) will prevent the update from occurring.
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "CompoundActivityDefinition"
+        x-nullable: false

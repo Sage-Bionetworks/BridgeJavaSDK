@@ -65,7 +65,9 @@ properties:
         type: string
         description: |
           The message to send (only text and template variables allowed). 
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "SmsTemplate"
+        x-nullable: false

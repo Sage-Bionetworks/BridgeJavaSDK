@@ -6,9 +6,11 @@ required:
 properties:
     guid:
         type: string
+        x-nullable: false
     schedulePlanGuid:
         type: string
         readOnly: true
+        x-nullable: false
     startedOn:
         type: string
         format: date-time
@@ -23,6 +25,7 @@ properties:
         readOnly: true
         description: |
             The time at which the activity should be made available to the participant. It's fine to show the activity before this, but the user should not be able to start it until this time has passed. Time will be expressed in the time zone sent to the server to request the scheduled activities.
+        x-nullable: false
     expiresOn:
         type: string
         format: date-time
@@ -32,11 +35,13 @@ properties:
     activity:
         $ref: ./activity.yml 
         readOnly: true
+        x-nullable: false
     persistent:
         type: boolean
         description: |
             Is this activity persistent? If so, it will never be removed from the list of activities; the client may wish to provide different UI for such a task.
         readOnly: true
+        x-nullable: false
     clientData:
         type: object
         description: |
@@ -47,7 +52,9 @@ properties:
             ```
     status:
         $ref: ./enums/schedule_status.yml
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "ScheduledActivity"
+        x-nullable: false

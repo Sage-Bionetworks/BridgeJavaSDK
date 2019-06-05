@@ -1,12 +1,7 @@
 description: |
-    A strategy that divides users into groups according to a percentage scheme, assigning each 
-    group a different [Schedule](/#Schedule). The combined set of schedule groups should have 
-    percentages that add up to 100%. After the initial assignment, new users joining the study 
-    will be randomly assigned to one of the groups in proportion to their percentage 
-    representation in the study. 
+    A strategy that divides users into groups according to a percentage scheme, assigning each group a different [Schedule](/#Schedule). The combined set of schedule groups should have percentages that add up to 100%. After the initial assignment, new users joining the study will be randomly assigned to one of the groups in proportion to their percentage representation in the study. 
 
-    Note that this assignment is truly random, so in small populations the percentages may diverge 
-    from those specified in the schedule plan.
+    Note that this assignment is truly random, so in small populations the percentages may diverge from those specified in the schedule plan.
 allOf:
     - $ref: ./schedule_strategy.yml
     - type: object
@@ -17,3 +12,4 @@ allOf:
             type: array
             items:
                 $ref: ./ab_test_group.yml
+            x-nullable: false

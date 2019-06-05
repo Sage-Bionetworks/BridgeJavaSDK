@@ -1,9 +1,6 @@
 description: |
     Search criteria to retrieve account summaries of study participants
 type: object
-required:
-    - allOfGroups
-    - noneOfGroups
 properties:
     pageSize:
         description: maximum number of records in each returned page
@@ -27,14 +24,17 @@ properties:
         type: array
         items:
             type: string
+        x-nullable: false
     noneOfGroups:
         description: return records that have none of these data groups
         type: array
         items:
             type: string
+        x-nullable: false
     language:
         description: return records that have this record as a declared language
         type: string
+        x-nullable: false
     startTime:
         description: return record created on or after this day
         type: string
@@ -47,3 +47,4 @@ properties:
         type: string
         readOnly: true
         description: "AccountSummarySearch"
+        x-nullable: false

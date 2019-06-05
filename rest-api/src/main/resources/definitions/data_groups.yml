@@ -7,7 +7,9 @@ properties:
         type: array
         items:
             type: string
+        x-nullable:  false
     type:
         type: string
         readOnly: true
         description: "DataGroups"
+        x-nullable:  false

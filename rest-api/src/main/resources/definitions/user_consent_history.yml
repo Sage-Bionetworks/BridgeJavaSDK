@@ -7,15 +7,18 @@ properties:
         type: string
         readOnly: true
         description: The consent group that the participant agreed to participate in.
+        x-nullable: false
     consentCreatedOn:
         type: string
         readOnly: true
         format: date-time
         description: ISO 8601 date and time that the consent was created on.
+        x-nullable: false
     name:
         type: string
         readOnly: true
         description: Full name as entered by the participant.
+        x-nullable: false
     birthdate:
         type: string
         readOnly: true
@@ -34,6 +37,7 @@ properties:
         readOnly: true
         format: date-time
         description: ISO 8601 date and time that the consent was signed by the user.
+        x-nullable: false
     withdrewOn:
         type: string
         readOnly: true
@@ -45,7 +49,9 @@ properties:
         readOnly: true
         description: |
             True if the user signed the most recently published version of the consent, false otherwise.
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "UserConsentHistory"
+        x-nullable: false

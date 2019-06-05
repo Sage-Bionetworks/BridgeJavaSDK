@@ -17,6 +17,7 @@ required:
 properties:
     operator:
         $ref: ./enums/operator.yml
+        x-nullable: false
     value:
         type: string
         description: |
@@ -30,6 +31,7 @@ properties:
             type: string
         description: |
             Some operators will test a set of data groups against the user's set of data groups. The operators `any` and `all` make a comparison of the sets in this property against the user's data groups.
+        x-nullable: false
     skipTo:
         type: string
         description: |
@@ -38,14 +40,17 @@ properties:
         type: boolean
         description: |
             If specified, and the rule's expression is true, immediately stop evaluating rules and end the survey. The users existing answers to the survey should be sent to the server.
+        x-nullable: false
     displayIf:
         type: boolean
         description: |
             **Before rules only.** If the rule expression is true, display this question or information screen.
+        x-nullable: false
     displayUnless:
         type: boolean
         description: |
             **Before rules only.** If the rule expression is true, do not display this question or information. Put differently, show the screen unless the expression is true.
+        x-nullable: false
     assignDataGroup:
         type: string
         description: |
@@ -54,3 +59,4 @@ properties:
         type: string
         readOnly: true
         description: "SurveyRule"
+        x-nullable: false

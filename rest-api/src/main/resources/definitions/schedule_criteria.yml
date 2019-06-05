@@ -7,9 +7,12 @@ required:
 properties:
     criteria:
         $ref: ./criteria.yml
+        x-nullable: false
     schedule:
         $ref: ./schedule.yml
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "ScheduleCriteria"
+        x-nullable: false

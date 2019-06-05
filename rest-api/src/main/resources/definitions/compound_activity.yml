@@ -10,15 +10,20 @@ properties:
         type: array
         items:
             $ref: ./schema_reference.yml
+        x-nullable: false
     surveyList:
         type: array
         items:
             $ref: ./survey_reference.yml
+        x-nullable: false
     taskIdentifier:
         type: string
         description: |
             Task ID, used to uniquely identify the compound activity and to resolve the compound activity reference from the compound activity definition, where applicable.
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "CompoundActivity"
+        x-nullable: false
+

@@ -14,11 +14,11 @@ type: object
 required:
     - name
     - scope
-    - signedOn
 properties:
     name:
         type: string
         description: The participant's name.
+        x-nullable: false
     birthdate:
         type: string
         format: date
@@ -36,6 +36,7 @@ properties:
         format: date-time
         readOnly: true
         description: The date and time the referenced consent was signed and agreed to by the participant.
+        x-nullable: false
     withdrewOn:
         type: string
         format: date-time
@@ -43,8 +44,10 @@ properties:
         description: The date and time the participant withdrew consent (can be blank).
     scope:
         $ref: ./enums/sharing_scope.yml
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "ConsentSignature"
+        x-nullable: false
     

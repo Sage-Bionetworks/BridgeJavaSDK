@@ -7,6 +7,7 @@ properties:
     label:
         type: string
         description: The text to show in the UI (must be plain text).
+        x-nullable: false
     detail:
         type: string
         description: |
@@ -23,3 +24,4 @@ properties:
         type: string
         readOnly: true
         description: "SurveyQuestionOption"
+        x-nullable: false

@@ -7,19 +7,24 @@ properties:
     identifier:
         type: string
         description: The survey identifier.
+        x-nullable: false
     guid:
         type: string
         description: The survey guid
+        x-nullable: false
     createdOn:
         type: string
         format: date-time
         description: |
             The createdOn timestamp of the version of the survey. This can be null, which indicates the most recently published version of the study should be used.
+        x-nullable: false
     href:
         type: string
         readOnly: true
         description: An URL to retrieve the survey.
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "SurveyReference"
+        x-nullable: false

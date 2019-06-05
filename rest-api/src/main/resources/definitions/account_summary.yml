@@ -22,24 +22,30 @@ properties:
         type: string
         readOnly: true
         description: An identifier assigned to this user, used to retrieve a study participant record.
+        x-nullable: false
     createdOn: 
         type: string
         format: date-time
         readOnly: true
         description: ISO 8601 date and time that the user account was created.
+        x-nullable: false
     status:
         $ref: ./enums/account_status.yml
         readOnly: true
+        x-nullable: false
     studyIdentifier:
         $ref: ./study_identifier.yml
         readOnly: true
+        x-nullable: false
     substudyIds:
         type: array
         readOnly: true
         description: The substudies this participant is associated to.
         items:
             type: string
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "AccountSummary"
+        x-nullable: false

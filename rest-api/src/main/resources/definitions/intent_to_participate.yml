@@ -3,16 +3,17 @@ description: |
 type: object
 required:
     - studyId
-    - phone
     - subpopGuid
     - consentSignature
 properties:
     studyId:
         type: string
         description: The identifier for the study in which the user consents to participate.
+        x-nullable: false
     subpopGuid:
         type: string
         description: The specific subpopulation sent in the study to which the user consents to participate.
+        x-nullable: false
     osName:
         type: string
         description: |
@@ -23,7 +24,9 @@ properties:
         type: string
     consentSignature:
         $ref: ./consent_signature.yml
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "IntentToParticipate"
+        x-nullable: false

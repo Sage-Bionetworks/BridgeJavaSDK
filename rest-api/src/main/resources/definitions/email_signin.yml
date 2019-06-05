@@ -20,3 +20,4 @@ properties:
         type: string
         readOnly: true
         description: "EmailSignIn"
+        x-nullable:  false

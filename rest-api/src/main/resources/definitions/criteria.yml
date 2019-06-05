@@ -1,13 +1,6 @@
 type: object
 description: |
     Some objects, like Subpopulations and the schedules in a CriteriaScheduleStrategy, are matched against user criteria in order to return the correct object. The criteria against which user information will be matched are described in the Criteria object. See [Customizing Content for Participants](/articles/filtering.html) for a fuller explanation. 
-required:
-    - allOfGroups
-    - noneOfGroups
-    - allOfSubstudyIds
-    - noneOfSubstudyIds
-    - minAppVersions
-    - maxAppVersions
 properties:
     language:
         type: string
@@ -18,34 +11,41 @@ properties:
         description: One or more data groups; the user must have all these data groups to match.
         items:
             type: string
+        x-nullable: false
     noneOfGroups:
         type: array
         description: One or more data groups; the user must have none of these data groups to match.
         items:
             type: string
+        x-nullable: false
     allOfSubstudyIds:
         type: array
         description: One or more substudy IDs; the user must be assigned to all these substudies to match.
         items:
             type: string
+        x-nullable: false
     noneOfSubstudyIds:
         type: array
         description: One or more substudy IDs; the user cannot be assigned to any of these substudies for the associated object to match.
         items:
             type: string
+        x-nullable: false
     minAppVersions:
         type: object
         description: |
             A map of operating system names to minimum app versions. The user must send a `User-Agent` header in a prescribed format, that declares the app version to be equal to or greater than this version number, in order to match.
         additionalProperties:
             type: integer
+        x-nullable: false
     maxAppVersions:
         type: object
         description: |
             A map of operating system names to minimum app versions. The user must send a `User-Agent` header in a prescribed format, that declares the app version to be equal to or less than this version number, in order to match.
         additionalProperties:
             type: integer
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "Criteria"
+        x-nullable: false

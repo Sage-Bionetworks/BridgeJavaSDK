@@ -7,15 +7,18 @@ properties:
         type: string
         readOnly: true
         description: The name of the subpopulation.
+        x-nullable: false
     subpopulationGuid:
         type: string
         readOnly: true
         description: The GUID for the subpopulation of this consent.
+        x-nullable: false
     required:
         type: boolean
         readOnly: true
         description: |
             Is this consent required? If required, the user must consent to it before being given access to the server (until signed, a 412 response is returned for most participant endpoints).
+        x-nullable: false
     signedOn:
         type: string
         format: date-time
@@ -29,8 +32,10 @@ properties:
         type: boolean
         readOnly: true
         description: |
-            Was the consent to participate made against the most recently published version of this consent?
+            Was the consent to participate made against the most recently published version of this consent? If there's no signature this will be false (not null).
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "ConsentStatus"
+        x-nullable: false

@@ -3,10 +3,12 @@ description: |
 type: object
 required:
     - eventId
+    - timestamp
 properties:
     eventId:
         type: string
         description: event identifier
+        x-nullable: false
     answerValue:
         type: string
         description: answer value for a question event
@@ -15,3 +17,4 @@ properties:
         type: string
         format: date-time
         description: ISO 8601 date and time that the event occured
+        x-nullable: false

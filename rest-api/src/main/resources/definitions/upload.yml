@@ -11,6 +11,7 @@ properties:
         type: string
         readOnly: true
         description: The GUID assigned to this upoad.
+        x-nullable: false
     schemaId:
         type: string
         readOnly: true
@@ -36,12 +37,14 @@ properties:
     status:
         $ref: ./enums/upload_status.yml
         readOnly: true
+        x-nullable: false
     requestedOn:
         type: string
         readOnly: true
         format: date-time
         description: |
             The date and time (ISO 8601 format) that the client requested an URL to make an upload to the server.
+        x-nullable: false
     completedOn:
         type: string
         readOnly: true
@@ -61,10 +64,13 @@ properties:
             An array of error messages if this upload did not pass validation.
         items:
             type: string
+        x-nullable: false
     healthRecordExporterStatus:
         $ref: ./enums/synapse_exporter_status.yml
         readOnly: true
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "Upload"
+        x-nullable: false

@@ -1,8 +1,6 @@
 type: object
 description: |
-    A list of these groups define the way schedules are allocated in an ABTestScheduleStrategy 
-    (each schedule associated to a percentage). See [ABTestScheduleStrategy](#ABTestScheduleStrategy) 
-    for details. 
+    A list of these groups define the way schedules are allocated in an ABTestScheduleStrategy (each schedule associated to a percentage). See [ABTestScheduleStrategy](#ABTestScheduleStrategy) for details. 
 required:
     - percentage
     - schedule
@@ -10,10 +8,13 @@ properties:
     percentage:
         type: integer
         description: The percentage of users to assign to this schedule.
+        x-nullable: false
     schedule:
         description: The schedule to assign to these users.
         $ref: ./schedule.yml
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "ABTestGroup"
+        x-nullable: false

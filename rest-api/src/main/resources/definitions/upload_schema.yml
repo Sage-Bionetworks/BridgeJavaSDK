@@ -16,12 +16,14 @@ properties:
             A map of operating system names to minimum app versions. The user must send a `User-Agent` header in a prescribed format, that declares the app version to be equal to or less than this version number, in order to match.
         additionalProperties:
             type: integer
+        x-nullable: false
     minAppVersions:
         type: object
         description: |
             A map of operating system names to minimum app versions. The user must send a `User-Agent` header in a prescribed format, that declares the app version to be equal to or greater than this version number, in order to match.
         additionalProperties:
             type: integer
+        x-nullable: false
     moduleId:
         type: string
         description: Module ID, if this schema was imported from a shared module.
@@ -31,11 +33,13 @@ properties:
     name:
         type: string
         description: User-friendly schema name.
+        x-nullable: false
     revision:
         type: integer
         format: int64
         description: |
             Revision number of the schema, used to distinguish versions of the same data format. This should be blank when creating a schema, and it should be passed back to the server when updating. If the schema revision cannot be updated in a backwards-compatible fashion, the server will throw an exception. You will need to increment the revision number and create a new revision of the schema.
+        x-nullable: false
     schemaId:
         type: string
         description: Unique identifier for the schema.
@@ -47,6 +51,7 @@ properties:
         type: string
         description: |
             **Only available through worker APIs.** The identifier of the study from which this schema was retrieved.
+        x-nullable: false
     surveyCreatedOn:
         type: string
         format: date-time
@@ -55,18 +60,23 @@ properties:
             (in ISO 8601 format) of the survey it represents.
     schemaType:
         $ref: ./enums/upload_schema_type.yml
+        x-nullable: false
     deleted:
         type: boolean
+        x-nullable: false
     version:
         type: integer
         format: int64
         description: |
             The optimistic locking version of the survey. This value must be submitted as part of the next update of the model. If it does not match the value on the server, a 409 error (Conflict) will prevent the update from occurring.
+        x-nullable: false
     fieldDefinitions:
         type: array
         items:
             $ref: ./upload_field_definition.yml
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "UploadSchema"
+        x-nullable: false

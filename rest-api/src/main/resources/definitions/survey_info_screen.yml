@@ -6,14 +6,15 @@ allOf:
     - required:
         - title
         - prompt
-        - type
     - properties:
         title:
             type: string
             description: A title for this screen.
+            x-nullable: false
         prompt:
             type: string
             description: The main instructions or information text for the user
+            x-nullable: false
         promptDetail:
             type: string
             description: |

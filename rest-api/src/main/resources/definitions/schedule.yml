@@ -11,8 +11,10 @@ properties:
     label:
         type: string
         description: A label to describe this schedule.
+        x-nullable: false
     scheduleType:
         $ref: ./enums/schedule_type.yml
+        x-nullable: false
     eventId:
         type: string
         description: |
@@ -54,17 +56,21 @@ properties:
             type: string
             description: |
                 24hr time value(s) without a time zone (e.g. "14:30"). **Each time value will create a separate task, one for each activity in the schedule.**
+        x-nullable: false
     persistent:
         type: boolean
         description: True if schedule type is persistent. (This is here for legacy reasons.)
+        x-nullable: false
     activities:
         type: array
         description: |
             One or more activities that should be done by a participant on this schedule. Each activity will generate a separate task. See Activity.
         items:
             $ref: ./activity.yml
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "Schedule"
+        x-nullable: false
     

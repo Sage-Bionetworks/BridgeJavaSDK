@@ -7,3 +7,4 @@ description: |
 properties:
     type:
         type: string
+        x-nullable: false
