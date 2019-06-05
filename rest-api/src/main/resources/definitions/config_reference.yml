@@ -11,3 +11,7 @@ properties:
         type: integer
         format: int64
         description: Revision number
+    type:
+        type: string
+        readOnly: true
+        description: "ConfigReference"
