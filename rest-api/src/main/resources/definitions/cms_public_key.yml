@@ -8,6 +8,7 @@ required:
 properties:
     publicKey:
         type: string
+        readOnly: true
         description: |
             Base 64 encoded version of the public key for CMS encryption of upload data.    
     type:

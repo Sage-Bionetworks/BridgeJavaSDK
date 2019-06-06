@@ -28,7 +28,7 @@ post:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/schedulePlanGuid
-        - name: body
+        - name: SchedulePlan
           required: true
           in: body
           schema:

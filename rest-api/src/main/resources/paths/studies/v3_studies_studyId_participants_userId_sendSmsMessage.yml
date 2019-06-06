@@ -10,7 +10,7 @@ post:
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
         - $ref: ../../index.yml#/parameters/userId
-        - name: body
+        - name: SmsTemplate
           required: true
           in: body
           schema:

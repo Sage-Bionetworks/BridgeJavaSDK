@@ -8,6 +8,8 @@ import java.util.List;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.gson.JsonObject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -88,8 +90,7 @@ public class UserSessionInfoProvider {
             LOG.debug(debugString(token));
         }
 
-        mergeReauthToken(this.session, newSession);
-        this.session = newSession;
+        this.session = mergeReauthToken(this.session, newSession);
         for (UserSessionInfoChangeListener listener : changeListeners) {
             try {
                 listener.onChange(this.session);
@@ -101,7 +102,7 @@ public class UserSessionInfoProvider {
 
     /**
      * The server is only guaranteed to send the reauth token on sign in, it is not sent in all UserSessionInfo
-     * responses for security reasons. If the previous  session contains a token and the new session does not, copy
+     * responses for security reasons. If the previous session contains a token and the new session does not, copy
      * over the token from the previous session
      *
      * @param previousSession
@@ -109,13 +110,17 @@ public class UserSessionInfoProvider {
      * @param session
      *         new session, with reauthToken copied over from previousSession if the new session did not have
      *         a reauth token
+     * @return the merged session
      */
-    public static void mergeReauthToken(final UserSessionInfo previousSession, final UserSessionInfo session) {
+    static UserSessionInfo mergeReauthToken(final UserSessionInfo previousSession, final UserSessionInfo session) {
         if (session != null && session.getReauthToken() == null) {
             if (previousSession != null) {
-                session.setReauthToken(previousSession.getReauthToken());
+                JsonObject el = (JsonObject)RestUtils.GSON.toJsonTree(session);
+                el.addProperty("reauthToken", previousSession.getReauthToken());
+                return RestUtils.toType(el, UserSessionInfo.class);
             }
         }
+        return session;
     }
 
     synchronized void reauthenticate() throws IOException {

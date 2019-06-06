@@ -7,5 +7,6 @@ allOf:
     - properties:
         items:
             type: array
+            readOnly: true
             items:
                 $ref: ../upload.yml

@@ -34,7 +34,7 @@ post:
     security:
         -   BridgeSecurity: []
     parameters:
-        - name: body
+        - name: NotificationRegistration
           required: true
           in: body
           schema:

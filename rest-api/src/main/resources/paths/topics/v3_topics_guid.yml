@@ -27,7 +27,7 @@ post:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/guid
-        - name: body
+        - name: NotificationTopic
           required: true
           in: body
           schema:

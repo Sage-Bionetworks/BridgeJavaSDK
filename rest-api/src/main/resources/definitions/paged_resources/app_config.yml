@@ -1,13 +1,12 @@
 type: object
 readOnly: true
-required:
-    - items
-properties:
-    items:
-        type: array
+allOf:
+    - $ref: ./resource_list.yml
+    - required:
+        - items
+    - properties:
         items:
-            $ref: ../app_config.yml
-    type:
-        type: string
-        readOnly: true
-        description: "ResourceList"
+            type: array
+            readOnly: true
+            items:
+                $ref: ../app_config.yml

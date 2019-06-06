@@ -7,9 +7,6 @@ allOf:
     - properties:
         items:
             type: array
+            readOnly: true
             items:
                 $ref: ../app_config_element.yml
-        type:
-            type: string
-            readOnly: true
-            description: "ResourceList"

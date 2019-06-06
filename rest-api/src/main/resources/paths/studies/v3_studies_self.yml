@@ -29,7 +29,7 @@ post:
     security:
         -   BridgeSecurity: []
     parameters:
-        - name: body
+        - name: Study
           required: true
           in: body
           schema:

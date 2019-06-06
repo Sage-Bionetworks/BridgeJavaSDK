@@ -2,6 +2,7 @@ type: object
 properties:
     requestParams:
         $ref: ../request_params.yml
+        readOnly: true
     total:
         type: integer
         readOnly: true

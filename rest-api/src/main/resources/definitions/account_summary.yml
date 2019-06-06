@@ -5,17 +5,22 @@ readOnly: true
 properties:
     firstName:
         type: string
+        readOnly: true
         description: First (given) name of user.
     lastName:
         type: string
+        readOnly: true
         description: Last (family) name of user.
     email:
         type: string
+        readOnly: true
         description: Email address of user.
     phone:
         $ref: ./phone.yml
+        readOnly: true
     id: 
         type: string
+        readOnly: true
         description: An identifier assigned to this user, used to retrieve a study participant record.
     createdOn: 
         type: string
@@ -24,10 +29,13 @@ properties:
         description: ISO 8601 date and time that the user account was created.
     status:
         $ref: ./enums/account_status.yml
+        readOnly: true
     studyIdentifier:
         $ref: ./study_identifier.yml
+        readOnly: true
     substudyIds:
         type: array
+        readOnly: true
         description: The substudies this participant is associated to.
         items:
             type: string
