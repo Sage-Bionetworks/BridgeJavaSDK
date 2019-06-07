@@ -6,6 +6,7 @@ required:
 properties:
     status:
         $ref: ./enums/account_status.yml
+        readOnly: true
     type:
         type: string
         readOnly: true

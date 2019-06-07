@@ -1,5 +1,4 @@
 type: object
-discriminator: items
 description: |
     One page of records from a source that only allows you to fetch the next page of 
     resources (no random access via an index to anywhere in the set of records). The 
@@ -7,13 +6,16 @@ description: |
 properties:
     requestParams:
         $ref: ../request_params.yml
+        readOnly: true
     nextPageOffsetKey:
         type: string
+        readOnly: true
         description: |
             The offsetKey to be provided in the next request to get the next page of 
             resources.
     hasNext:
         type: boolean
+        readOnly: true
         description: true if there is a further page of resources, false otherwise.
     type:
         type: string

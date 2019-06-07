@@ -1,5 +1,5 @@
 get:
-    operationId: getParticipantActivityHistory
+    operationId: getParticipantActivityHistoryForStudy
     summary: Get a study participant's history of activities
     tags:
         - _For Workers

@@ -25,7 +25,7 @@ post:
         -   BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
-        - name: body
+        - name: Study
           required: true
           in: body
           schema:

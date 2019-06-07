@@ -35,7 +35,7 @@ post:
         -   BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/guid
-        - name: body
+        - name: NotificationRegistration
           required: true
           in: body
           schema:

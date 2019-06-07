@@ -1,5 +1,5 @@
 get:
-    operationId: getParticipantTaskHistory
+    operationId: getParticipantTaskHistoryForStudy
     summary: Get a study participant's history of a task
     tags:
         - _For Workers

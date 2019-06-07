@@ -6,7 +6,6 @@
 .project
 .settings
 target
-package-lock.json
 'SDK Notes'
 bin
 

@@ -62,10 +62,10 @@ public class UserSessionInfoProviderTest {
     UserSessionInfoProvider provider;
     
     @Before
-    public void before() {
-        userSessionInfo = new UserSessionInfo()
-                .email("email@email.com")
-                .sessionToken("sessionToken");
+    public void before() throws Exception {
+        userSessionInfo = new UserSessionInfo();
+        Tests.setVariableValueInObject(userSessionInfo, "email", "email@email.com");
+        Tests.setVariableValueInObject(userSessionInfo, "sessionToken", "sessionToken");
         
         signIn = new SignIn().email("email@email.com").password("password").study("test-study");
         
@@ -104,7 +104,7 @@ public class UserSessionInfoProviderTest {
         doReturn(response).when(call).execute();
         doReturn(userSessionInfo).when(response).body();
         
-        userSessionInfo.setReauthToken("reauthToken");
+        Tests.setVariableValueInObject(userSessionInfo, "reauthToken", "reauthToken");
         provider.setSession(userSessionInfo);
 
         provider.reauthenticate();
@@ -132,7 +132,7 @@ public class UserSessionInfoProviderTest {
         doReturn(response).when(call).execute();
         doReturn(userSessionInfo).when(response).body();
         
-        userSessionInfo.setReauthToken("reauthToken");
+        Tests.setVariableValueInObject(userSessionInfo, "reauthToken", "reauthToken");
         provider.setSession(userSessionInfo);
         
         provider.reauthenticate();
@@ -151,7 +151,7 @@ public class UserSessionInfoProviderTest {
         doReturn(response).when(call).execute();
         doReturn(userSessionInfo).when(response).body();
         
-        userSessionInfo.setReauthToken("reauthToken");
+        Tests.setVariableValueInObject(userSessionInfo, "reauthToken", "reauthToken");
         provider.setSession(userSessionInfo);
         
         provider.reauthenticate();
@@ -170,7 +170,7 @@ public class UserSessionInfoProviderTest {
         doReturn(response).when(call).execute();
         doReturn(userSessionInfo).when(response).body();
         
-        userSessionInfo.setReauthToken("reauthToken");
+        Tests.setVariableValueInObject(userSessionInfo, "reauthToken", "reauthToken");
         provider.setSession(userSessionInfo);
         
         provider.reauthenticate();
@@ -180,7 +180,7 @@ public class UserSessionInfoProviderTest {
     }
 
     @Test
-    public void reauthenticationFailsWithNoCredentialsAllowingSignIn() throws IOException {
+    public void reauthenticationFailsWithNoCredentialsAllowingSignIn() throws Exception {
 
         signIn = new SignIn().email("email@email.com").study("test-study");
 
@@ -192,7 +192,7 @@ public class UserSessionInfoProviderTest {
         AuthenticationFailedException e1 = new AuthenticationFailedException("message", "endpoint");
         doThrow(e1).when(call).execute();
 
-        userSessionInfo.setReauthToken("reauthToken");
+        Tests.setVariableValueInObject(userSessionInfo, "reauthToken", "reauthToken");
         provider.setSession(userSessionInfo);
 
         try {
@@ -219,7 +219,7 @@ public class UserSessionInfoProviderTest {
 
         doReturn(userSessionInfo).when(response).body();
         
-        userSessionInfo.setReauthToken("reauthToken");
+        Tests.setVariableValueInObject(userSessionInfo, "reauthToken", "reauthToken");
         provider.setSession(userSessionInfo);
         
         try {
@@ -246,20 +246,18 @@ public class UserSessionInfoProviderTest {
     }
 
     @Test
-    public void mergeReauthToken_A() {
+    public void mergeReauthToken_A() throws Exception {
         String reauthToken = "reauthToken";
         String sessionToken = "sessionToken";
-        UserSessionInfo userSessionInfo = new UserSessionInfo()
-                .sessionToken(sessionToken)
-                .reauthToken(reauthToken);
-
+        UserSessionInfo userSessionInfo = new UserSessionInfo();
+        Tests.setVariableValueInObject(userSessionInfo, "sessionToken", sessionToken);
+        Tests.setVariableValueInObject(userSessionInfo, "reauthToken", reauthToken);
 
         String newSessionToken = "newSessionToken";
-        UserSessionInfo newUserSessionInfo = new UserSessionInfo()
-                .sessionToken(newSessionToken);
+        UserSessionInfo newUserSessionInfo = new UserSessionInfo();
+        Tests.setVariableValueInObject(newUserSessionInfo, "sessionToken", newSessionToken);
 
-
-        UserSessionInfoProvider.mergeReauthToken(userSessionInfo, newUserSessionInfo);
+        newUserSessionInfo = UserSessionInfoProvider.mergeReauthToken(userSessionInfo, newUserSessionInfo);
 
         assertEquals(sessionToken, userSessionInfo.getSessionToken()); // check old session token
         assertEquals(newSessionToken, newUserSessionInfo.getSessionToken()); // check this isn't the old session
@@ -267,11 +265,11 @@ public class UserSessionInfoProviderTest {
 
         String newReauthToken = "newReauthToken";
         String evenNewerSessionToken = "evenNewerSessionToken";
-        UserSessionInfo evenNewerSession = new UserSessionInfo()
-                .sessionToken(evenNewerSessionToken)
-                .reauthToken(newReauthToken);
+        UserSessionInfo evenNewerSession = new UserSessionInfo();
+        Tests.setVariableValueInObject(evenNewerSession, "sessionToken", evenNewerSessionToken);
+        Tests.setVariableValueInObject(evenNewerSession, "reauthToken", newReauthToken);
 
-        UserSessionInfoProvider.mergeReauthToken(newUserSessionInfo, evenNewerSession);
+        evenNewerSession = UserSessionInfoProvider.mergeReauthToken(newUserSessionInfo, evenNewerSession);
 
         assertEquals(evenNewerSessionToken, evenNewerSession.getSessionToken());
         assertEquals(newReauthToken, evenNewerSession.getReauthToken()); // check we wrote a new reauth token

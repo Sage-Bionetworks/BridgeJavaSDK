@@ -1,5 +1,5 @@
 get:
-    operationId: getActivityEventsForParticipant
+    operationId: getActivityEventsForParticipantAndStudy
     summary: Get activity event records for participant
     tags: 
         - _For Workers

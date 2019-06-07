@@ -17,48 +17,57 @@ required:
 properties:
     userId:
         type: string
+        readOnly: true
         description: The user's account ID.
     clientInfo:
         $ref: ./client_info.yml
+        readOnly: true
         description: |
             The `User-Agent` string from the last request as parsed for the purpose of applying filtering criteria.
     userAgent:
         type: string
+        readOnly: true
         description: |
             The `User-Agent` header exactly as it was sent to the server, whether it is parseable by the Bridge server or not. 
     languages:
         type: array
+        readOnly: true
         description: |
             The language or languages sent in the user's `Accept-Language` header and persisted as part of the participant's account configuration, as they were set at the time of the last request.
         items:
             type: string
     userDataGroups:
         type: array
+        readOnly: true
         description: The data groups assigned to this participant at the time of the last request.
         items:
             type: string
     activitiesAccessedOn:
         type: string
+        readOnly: true
         format: date-time
         description: |
             The last recorded time the participant's application requested scheduled activities from the server.
     signedInOn:
         type: string
+        readOnly: true
         format: date-time
         description: |
             The last recorded time the participant signed in to the server.
     uploadedOn:
         type: string
+        readOnly: true
         format: date-time
         description: |
             The last recorded time the participant started an upload to the server.
     timeZone:
         type: string
+        readOnly: true
         description: The user's time zone at the time of the last request.
     studyIdentifier:
         $ref: ./study_identifier.yml
     type:
         type: string
         readOnly: true
-        description: "ClientInfo"
+        description: "RequestInfo"
     

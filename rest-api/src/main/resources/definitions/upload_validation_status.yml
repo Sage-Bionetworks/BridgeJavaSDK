@@ -5,17 +5,21 @@ required:
 properties:
     id:
         type: string
+        readOnly: true
         description: The identifier for this upload.
     messageList:
         type: array
+        readOnly: true
         description: |
             An array of error messages if failures occurred during validation.
         items:
             type: string
     status:
         $ref: ./enums/upload_status.yml
+        readOnly: true
     record:
         $ref: ./health_data_record.yml
+        readOnly: true
     type:
         type: string
         readOnly: true

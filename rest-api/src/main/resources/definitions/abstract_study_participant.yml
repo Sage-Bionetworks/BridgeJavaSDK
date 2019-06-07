@@ -1,5 +1,5 @@
 type: object
-discriminator: type
+description: Common fields for the SignUp and StudyParticipant payloads. This is an abstract class that cannot be used directly through the API.
 required:
     - roles
     - dataGroups

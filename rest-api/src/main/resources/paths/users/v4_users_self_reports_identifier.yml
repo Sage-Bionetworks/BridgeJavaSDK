@@ -36,7 +36,7 @@ post:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/identifier
-        - name: body
+        - name: ReportData
           required: true
           in: body
           schema:

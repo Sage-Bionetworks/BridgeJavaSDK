@@ -7,74 +7,93 @@ required:
 properties:
     appVersion:
         type: string
+        readOnly: true
         description: |
             App version, as reported by the app. Generally in the form "version 1.0.0, build 2". Must be 48 chars or less.
     createdOn:
         type: string
+        readOnly: true
         format: date-time
         description: ISO timestamp of when the data record was created, as reported by the submitting app
     createdOnTimeZone:
         type: string
+        readOnly: true
         description: The original timezone of the createdOn timestamp, expressed as a 4-digit string with sign. For example, -0800, +0900
     data:
         type: object
+        readOnly: true
         description: JSON map with key value pairs representing the record's data.
     id:
         type: string
+        readOnly: true
         description: A unique GUID for this record.
     metadata:
         type: object
+        readOnly: true
         description: |
             Arbitrary JSON blob of record metadata, as submitted by the app. For ResearchKit-based apps, this is info.json verbatim.
     phoneInfo:
         type: string
+        readOnly: true
         description: Phone info, for example "iPhone9,3" or "iPhone 5c (GSM)". Must be 48 chars or less.
     rawDataAttachmentId:
         type: string
+        readOnly: true
         description: |
             Attachment ID (S3 key) that contains the raw data. This is the unencrypted zip file for uploads, or JSON blob for directly submitted records
     schemaId:
         type: string
+        readOnly: true
         description: |
             [UploadSchema](#UploadSchema) ID for the record.
     schemaRevision:
         type: integer
+        readOnly: true
         format: int64
         description: |
             [UploadSchema](#UploadSchema) revision for the record.
     studyId:
         type: string
         description: Study that this record lives in.
+        readOnly: true
     uploadDate:
         type: string
         format: date
+        readOnly: true
         description: |
             Calendar date in YYYY-MM-DD format representing when the server received the upload, using the server's local time zone (US Pacific timezone).
     uploadId:
         type: string
+        readOnly: true
         description: The upload GUID of the upload this record is processed from.
     uploadedOn:
         type: string
+        readOnly: true
         format: date-time
         description: The date and time of the upload.
     userMetadata:
         type: object
+        readOnly: true
         description: |
             JSON map with key value pairs representing metadata for this health data record, as submitted by the app. This corresponds with the uploadMetadataFieldDefinitions configured in the study.
     userSharingScope:
         type: string
+        readOnly: true
         description: The user's sharing scope at the time of this upload's submission.
         $ref: ./enums/sharing_scope.yml
     userExternalId:
         type: string
+        readOnly: true
         description: The user's external ID at the time of this upload's submission.
     userDataGroups:
         type: array
+        readOnly: true
         description: The user's data groups at the time of this upload's submission.
         items:
             type: string
     userSubstudyMemberships:
         type: object
+        readOnly: true
         description: |
             A map where the keys are the substudy IDs assigned to the user at the time that user generated this 
             health data, and the values are the external IDs that were assigned to the user for each substudy (if no external ID was assigned, the value will be an empty string).
@@ -82,14 +101,17 @@ properties:
             type: string
     validationErrors:
         type: string
+        readOnly: true
         description: Error messages related to upload validation. Only generated if UploadValidationStrictness is set to REPORT.
     version:
         type: integer
+        readOnly: true
         format: int64
         description: |
             A version number issued for optimistic locking of record updates. Should not be set when creating a new health data record. When updating a record retrieved from the API, the object will have the version attribute and this must match the last value issued by the service or an update will fail.
     synapseExporterStatus:
         $ref: ./enums/synapse_exporter_status.yml
+        readOnly: true
     type:
         type: string
         readOnly: true

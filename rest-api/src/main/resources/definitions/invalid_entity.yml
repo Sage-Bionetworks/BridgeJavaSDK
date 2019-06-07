@@ -5,9 +5,11 @@ readOnly: true
 properties:
     message:
         type: string
+        readOnly: true
         description: A message that will include all validation error messages for this object.
     errors:
         type: object
+        readOnly: true
         description: |
             Errors broken down by the part of the JSON payload that generated them. The keys are "paths" representing fragments of the JSON (expressed in JavaScript object/array notation), and the values are string arrays of one or more errors for that element of the JSON. An example makes this clearer:
 

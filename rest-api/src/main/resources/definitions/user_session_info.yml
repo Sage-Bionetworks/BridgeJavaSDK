@@ -1,38 +1,134 @@
 readOnly: true
 allOf:
-    - $ref: ./abstract_study_participant.yml
     - description: |
-        Information about the user and their session.
+        Information about the user and their session. This information cannot be updated; to update a user's record, use the StudyParticipant record and APIs.
     - type: object
     - properties:
+        firstName:
+            type: string
+            readOnly: true
+            description: First name (given name) of the user.
+        lastName:
+            type: string
+            readOnly: true
+            description: Last name (family name) of the user.
+        externalId:
+            type: string
+            readOnly: true
+            description: |
+                An externally-assignable identifier a research partner can use to re-identify a user's data in the exported data set (this must be provided by the application, it is not created by Bridge). It is a string that can be set or updated to any value without constraints, unless Bridge is configured to manage the study's external IDs. Then the ID must be submitted on sign up, and cannot be modified afterward.
+        id:
+            type: string
+            readOnly: true
+            description: |
+                An ID assigned to this account by Bridge system. This ID is exposed in the API and is different from the health code assigned to the user's anonymized data. Bridge never exports this ID along with the health code from Bridge.  
+        notifyByEmail:
+            type: boolean
+            readOnly: true
+            default: true
+            description: |
+                True if the user has consented to be contacted via email outside the application, false otherwise.
+        attributes:
+            type: object
+            readOnly: true
+            additionalProperties:
+                type: string
+            description: |
+                A map of user profile attributes that have been set for this user (the attributes themselves must be specified in the study's configuration, and the values are stored encrypted in case they capture personally-identifying information).
+        sharingScope:
+            $ref: ./enums/sharing_scope.yml
+            readOnly: true
+        createdOn:
+            type: string
+            format: date-time
+            readOnly: true
+            description: The date and time the account was created.
+        emailVerified:
+            type: boolean
+            readOnly: true
+            description: Has the user verified that they have control of this email address?
+        phoneVerified:
+            type: boolean
+            readOnly: true
+            description: Has the user verified that they have control of this phone number?
+        status:
+            $ref: ./enums/account_status.yml
+            readOnly: true
+        roles:
+            type: array
+            readOnly: true
+            items:
+                $ref: ./enums/role.yml
+        dataGroups:
+            type: array
+            readOnly: true
+            description: |
+                The data groups set for this user. Data groups must be strings that are defined in the list of all valid data groups for the study, as part of the study object. 
+            items:
+                type: string
+        clientData:
+            type: object
+            readOnly: true
+            description: |
+                Client data for a user should be in a syntactically valid JSON format. It will be returned as is to the client (as JSON).
+            additionalProperties: true
+        languages:
+            type: array
+            readOnly: true
+            description: |
+                Two letter language codes to assign to this user (these are initially retrieved from the user's `Accept-Language` header and then persisted as part of account configuration). 
+            items:
+                type: string
+        substudyIds:
+            type: array
+            readOnly: true
+            description: The substudies this participant is associated to.
+            items:
+                type: string
+        externalIds:
+            type: object
+            readOnly: true
+            description: The exernal IDs this participant is associated to, mapped to the substudy that issued the external ID. Typically a user signs up with the external ID, and is assigned to that substudy as a result.
+            additionalProperties:
+                type: string
         authenticated:
             type: boolean
+            readOnly: true
             description: Is the user currently authenticated?
         sessionToken:
             type: string
+            readOnly: true
             description: The session token that must be returned to the server to access services requiring authentication.
         reauthToken:
             type: string
+            readOnly: true
             description: |
                 A token, supplied when a new session is returned, that can be used to refresh the session at a later time. The API to reauthenticate with the token will refresh your session token and reset the session's timeout value. The reauthentication token can only be used one time. 
         environment:
             $ref: ./enums/environment.yml
+            readOnly: true
         email:
             type: string
+            readOnly: true
             description: The user's email.
         phone:
             $ref: ./phone.yml
+            readOnly: true
         dataSharing:
             type: boolean
+            readOnly: true
             description: True if the sharing scope is anything other than "no_sharing".
         signedMostRecentConsent:
             type: boolean
+            readOnly: true
             description: True if all *required* consents have been signed and the versions signed are the most up-to-date versions of those consents.
         consented:
             type: boolean
+            readOnly: true
             description: True if all required consents have been signed.
         consentStatuses:
             type: object
+            readOnly: true
             description: |
                 A mapping from a subpopulation GUID to information about the participant's consent status in that subpopulation (whether consented or not). Only the subpopulations that currently apply to this user will have a ConsentStatus object in the map.
             additionalProperties:
