@@ -22,6 +22,8 @@ properties:
         type: string
     consentSignature:
         $ref: ./consent_signature.yml
+    scope:
+        $ref: ./enums/sharing_scope.yml
     type:
         type: string
         readOnly: true

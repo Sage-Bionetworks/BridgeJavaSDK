@@ -30,4 +30,5 @@ properties:
         x-nullable: false
     type:
         type: string
+        readOnly: true
         x-nullable: false
