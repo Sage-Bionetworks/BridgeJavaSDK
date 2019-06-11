@@ -7,9 +7,13 @@ properties:
     eventKey:
         type: string
         description: identifier for the custom event
-        x-nullable:  false
     timestamp:
         type: string
         format: date-time
         description:  ISO 8601 date and time to record for event
-        x-nullable:  false
+    type:
+        type: string
+        readOnly: true
+        description: "CustomActivityEventRequest"
+        x-nullable: false
+    

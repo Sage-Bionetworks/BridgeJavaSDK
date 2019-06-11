@@ -5,7 +5,6 @@ required:
     - id
     - data
     - revision
-    - version
 properties:
     id:
         type: string

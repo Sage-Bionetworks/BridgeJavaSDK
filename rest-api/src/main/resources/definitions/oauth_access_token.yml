@@ -1,8 +1,4 @@
 type: object
-required:
-    - vendorId
-    - accessToken
-    - expiresOn
 properties:
     vendorId:
         type: string

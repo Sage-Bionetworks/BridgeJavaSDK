@@ -1,5 +1,9 @@
 description: Used to submit health data to the synchronous health data API.
 type: object
+required:
+    - appVersion
+    - data
+    - phoneInfo
 properties:
     appVersion:
         type: string

@@ -13,6 +13,7 @@ properties:
     licenseRestricted:
         type: boolean
         description: True if usage of this module is restricted by license or copyright.
+        x-nullable: false
     moduleType:
         $ref: ./enums/shared_module_type.yml
         readOnly: true

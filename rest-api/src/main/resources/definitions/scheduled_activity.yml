@@ -1,8 +1,6 @@
 description: |
     Description of an activity (such as a task or survey) the study would like the participant to perform. A scheduled activity will contain a reference to a task, a survey, a compound task (which can include any combination of tasks and surveys), and the activityType will reflect which property exists on the scheduled activity object (e.g. if a task is defined, the activityType will be "task"). 
 type: object
-required:
-    - guid
 properties:
     guid:
         type: string

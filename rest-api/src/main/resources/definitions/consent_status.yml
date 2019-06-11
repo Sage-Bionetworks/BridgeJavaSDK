@@ -1,7 +1,6 @@
 description: |
     A description of the participant's consent status in a particular subpopulation (consent group). This object is never used to update state on the server (all fields are read only). 
 type: object
-readOnly: true
 properties:
     name:
         type: string

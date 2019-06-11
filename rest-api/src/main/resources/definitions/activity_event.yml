@@ -18,3 +18,8 @@ properties:
         format: date-time
         description: ISO 8601 date and time that the event occured
         x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "ActivityEvent"
+        x-nullable: false        

@@ -37,3 +37,8 @@ properties:
         description: |
             The optimistic locking version of the sub-study. This value must be submitted as part of the next update of the model. If it does not match the value on the server, a 409 error (Conflict) will prevent the update from occurring. It can also serve as a key to determine if a local cache of this `Substudy` revision needs to be updated.
         x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "Substudy"
+        x-nullable: false

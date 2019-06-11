@@ -3,8 +3,6 @@ description: |
 type: object
 required:
     - label
-    - surveyReferences
-    - schemaReferences
 properties:
     label:
         type: string
