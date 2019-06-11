@@ -5,21 +5,23 @@ required:
     - id
     - data
     - revision
-    - version
 properties:
     id:
         type: string
         description: |
             The identifier for this app config element. All revisions of this element will have the same id.
+        x-nullable: false
     revision:
         type: integer
         format: int64
         description: |
             Revision number of the app config element, used to distinguish revisions of the element. Each revision will also have an optimistic locking `version` which should always be passed back as is when updating a specific revision of the element.
+        x-nullable: false
     deleted:
         type: boolean
         description: |
             Has this app config element been logically deleted (an admin can restore it)?
+        x-nullable: false
     data:
         type: object
         description: The JSON data of this element.
@@ -28,13 +30,21 @@ properties:
         format: date-time
         readOnly: true
         description: The date and time the app config was created.
+        x-nullable: false
     modifiedOn:
         type: string
         format: date-time
         readOnly: true
         description: The date and time the app config was last modified.
+        x-nullable: false
     version:
         type: integer
         format: int64
         description: |
             The optimistic locking version of the app config element. This value must be submitted as part of the next update of the model. If it does not match the value on the server, a 409 error (Conflict) will prevent the update from occurring. It can also serve as a key to determine if a local cache of this `AppConfigElement` revision needs to be updated.
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "AppConfigElement"
+        x-nullable: false

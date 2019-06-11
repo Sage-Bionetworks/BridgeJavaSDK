@@ -2,8 +2,6 @@ description: |
     A year and month without a date or time (e.g. "2016-07").
 
     **UI hints:** yearmonth.
-required:
-    - dataType
 allOf:
     - $ref: ./constraints.yml
     - properties:

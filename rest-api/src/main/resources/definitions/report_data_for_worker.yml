@@ -2,13 +2,13 @@ description:
     The JSON data to submit a report record for a point in time (curently a day expressed in the format YYYY-MM-DD). This object includes a healthCode because worker processes, as they produce records for a participant report, may be working from anonymized data. 
 type: object
 required:
-    - date
     - data
 properties:
     healthCode:
         type: string
         description: |
             The health code of the person for whom this data is being created.
+        x-nullable: false
     date:
         type: string
         format: date
@@ -20,12 +20,15 @@ properties:
     data:
         type: object
         description: An arbitrary JSON object containing whatever data should be saved for a report.
+        x-nullable: false
     substudyIds:
         type: array
         description: The substudies this report record is associated to (these are set with the first record that is submitted and that creates a report index, and cannot be changed afterward unless the user is a study-wide user not associated to any specific substudy.
         items:
             type: string
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "ReportData"
+        x-nullable: false

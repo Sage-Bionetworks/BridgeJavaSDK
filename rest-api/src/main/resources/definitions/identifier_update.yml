@@ -22,3 +22,4 @@ properties:
         type: string
         readOnly: true
         description: "IdentifierUpdate"
+        x-nullable: false

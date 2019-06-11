@@ -8,17 +8,12 @@ description: |
 
     This information is cached but not persisted; it is not guaranteed to be present for all active users.
 type: object
-readOnly: true
-required:
-    - userId
-    - studyIdentifier
-    - languages
-    - userDataGroups
 properties:
     userId:
         type: string
         readOnly: true
         description: The user's account ID.
+        x-nullable: false
     clientInfo:
         $ref: ./client_info.yml
         readOnly: true
@@ -64,10 +59,9 @@ properties:
         type: string
         readOnly: true
         description: The user's time zone at the time of the last request.
-    studyIdentifier:
-        $ref: ./study_identifier.yml
     type:
         type: string
         readOnly: true
         description: "RequestInfo"
+        x-nullable: false
     

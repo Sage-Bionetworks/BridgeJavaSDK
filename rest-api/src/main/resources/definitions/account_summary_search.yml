@@ -1,9 +1,6 @@
 description: |
-    Search criteria to retrieve account summaries of study participants
+    Search criteria to retrieve account summaries of study participants. This payload is sent to the server but is never returned via the API.
 type: object
-required:
-    - allOfGroups
-    - noneOfGroups
 properties:
     pageSize:
         description: maximum number of records in each returned page
@@ -47,3 +44,4 @@ properties:
         type: string
         readOnly: true
         description: "AccountSummarySearch"
+        x-nullable: false

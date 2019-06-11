@@ -7,17 +7,18 @@ description: |
     **Note:** calls that return lists of these study consents do not populate the `documentContent` property. You must retrieve an individual study consent to get the content of the consent.
 required:
     - subpopulationGuid
-    - createdOn
     - documentContent
 properties:
     subpopulationGuid:
         type: string
         description: The guid of the subpopulation to which this consent belongs.
+        x-nullable: false
     createdOn:
         type: string
         format: date-time
         description: |
             The time the document was created on the server. Each update of the consent document creates a new revision at a new `createdOn` timestamp.
+        x-nullable: false
     documentContent:
         type: string
         description: |
@@ -31,7 +32,9 @@ properties:
             |${sponsorName}|The name of the sponsor for this study (the institution or research team name)|
 
             The signature block will be appended to the end of your consent document. **It is not possible to remove or change the signature block at this time.**
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "StudyConsent"
+        x-nullable: false

@@ -1,9 +1,5 @@
 type: object
 description: Common fields for the SignUp and StudyParticipant payloads. This is an abstract class that cannot be used directly through the API.
-required:
-    - roles
-    - dataGroups
-    - languages
 properties:
     firstName:
         type: string
@@ -20,42 +16,52 @@ properties:
         readOnly: true
         description: |
             An ID assigned to this account by Bridge system. This ID is exposed in the API and is different from the health code assigned to the user's anonymized data. Bridge never exports this ID along with the health code from Bridge.  
+        x-nullable: false
     notifyByEmail:
         type: boolean
         default: true
         description: |
             True if the user has consented to be contacted via email outside the application, false otherwise.
+        x-nullable: false
     attributes:
         type: object
         additionalProperties:
             type: string
         description: |
             A map of user profile attributes that have been set for this user (the attributes themselves must be specified in the study's configuration, and the values are stored encrypted in case they capture personally-identifying information).
+        x-nullable: false
     sharingScope:
         $ref: ./enums/sharing_scope.yml
+        x-nullable: false
     createdOn:
         type: string
         format: date-time
         readOnly: true
         description: The date and time the account was created.
+        x-nullable: false
     emailVerified:
         type: boolean
         description: Has the user verified that they have control of this email address?
+        x-nullable: false
     phoneVerified:
         type: boolean
         description: Has the user verified that they have control of this phone number?
+        x-nullable: false
     status:
         $ref: ./enums/account_status.yml
+        x-nullable: false
     roles:
         type: array
         items:
             $ref: ./enums/role.yml
+        x-nullable: false
     dataGroups:
         type: array
         description: |
             The data groups set for this user. Data groups must be strings that are defined in the list of all valid data groups for the study, as part of the study object. 
         items:
             type: string
+        x-nullable: false
     clientData:
         type: object
         description: |
@@ -67,13 +73,16 @@ properties:
             Two letter language codes to assign to this user (these are initially retrieved from the user's `Accept-Language` header and then persisted as part of account configuration). 
         items:
             type: string
+        x-nullable: false
     substudyIds:
         type: array
         description: The substudies this participant is associated to.
         items:
             type: string
+        x-nullable: false
     externalIds:
         type: object
         description: The exernal IDs this participant is associated to, mapped to the substudy that issued the external ID. Typically a user signs up with the external ID, and is assigned to that substudy as a result.
         additionalProperties:
             type: string
+        x-nullable: false

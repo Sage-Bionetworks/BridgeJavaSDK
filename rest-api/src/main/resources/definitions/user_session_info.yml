@@ -22,12 +22,14 @@ allOf:
             readOnly: true
             description: |
                 An ID assigned to this account by Bridge system. This ID is exposed in the API and is different from the health code assigned to the user's anonymized data. Bridge never exports this ID along with the health code from Bridge.  
+            x-nullable: false
         notifyByEmail:
             type: boolean
             readOnly: true
             default: true
             description: |
                 True if the user has consented to be contacted via email outside the application, false otherwise.
+            x-nullable: false
         attributes:
             type: object
             readOnly: true
@@ -35,30 +37,37 @@ allOf:
                 type: string
             description: |
                 A map of user profile attributes that have been set for this user (the attributes themselves must be specified in the study's configuration, and the values are stored encrypted in case they capture personally-identifying information).
+            x-nullable: false
         sharingScope:
             $ref: ./enums/sharing_scope.yml
             readOnly: true
+            x-nullable: false
         createdOn:
             type: string
             format: date-time
             readOnly: true
             description: The date and time the account was created.
+            x-nullable: false
         emailVerified:
             type: boolean
             readOnly: true
             description: Has the user verified that they have control of this email address?
+            x-nullable: false
         phoneVerified:
             type: boolean
             readOnly: true
             description: Has the user verified that they have control of this phone number?
+            x-nullable: false
         status:
             $ref: ./enums/account_status.yml
             readOnly: true
+            x-nullable: false
         roles:
             type: array
             readOnly: true
             items:
                 $ref: ./enums/role.yml
+            x-nullable: false
         dataGroups:
             type: array
             readOnly: true
@@ -66,6 +75,7 @@ allOf:
                 The data groups set for this user. Data groups must be strings that are defined in the list of all valid data groups for the study, as part of the study object. 
             items:
                 type: string
+            x-nullable: false
         clientData:
             type: object
             readOnly: true
@@ -79,26 +89,31 @@ allOf:
                 Two letter language codes to assign to this user (these are initially retrieved from the user's `Accept-Language` header and then persisted as part of account configuration). 
             items:
                 type: string
+            x-nullable: false
         substudyIds:
             type: array
             readOnly: true
             description: The substudies this participant is associated to.
             items:
                 type: string
+            x-nullable: false
         externalIds:
             type: object
             readOnly: true
             description: The exernal IDs this participant is associated to, mapped to the substudy that issued the external ID. Typically a user signs up with the external ID, and is assigned to that substudy as a result.
             additionalProperties:
                 type: string
+            x-nullable: false
         authenticated:
             type: boolean
             readOnly: true
             description: Is the user currently authenticated?
+            x-nullable: false
         sessionToken:
             type: string
             readOnly: true
             description: The session token that must be returned to the server to access services requiring authentication.
+            x-nullable: false
         reauthToken:
             type: string
             readOnly: true
@@ -107,6 +122,7 @@ allOf:
         environment:
             $ref: ./enums/environment.yml
             readOnly: true
+            x-nullable: false
         email:
             type: string
             readOnly: true
@@ -118,14 +134,17 @@ allOf:
             type: boolean
             readOnly: true
             description: True if the sharing scope is anything other than "no_sharing".
+            x-nullable: false
         signedMostRecentConsent:
             type: boolean
             readOnly: true
             description: True if all *required* consents have been signed and the versions signed are the most up-to-date versions of those consents.
+            x-nullable: false
         consented:
             type: boolean
             readOnly: true
             description: True if all required consents have been signed.
+            x-nullable: false
         consentStatuses:
             type: object
             readOnly: true
@@ -133,7 +152,9 @@ allOf:
                 A mapping from a subpopulation GUID to information about the participant's consent status in that subpopulation (whether consented or not). Only the subpopulations that currently apply to this user will have a ConsentStatus object in the map.
             additionalProperties:
                 $ref: ../definitions/consent_status.yml
+            x-nullable: false
         type:
             type: string
             readOnly: true
             description: "UserSessionInfo"
+            x-nullable: false

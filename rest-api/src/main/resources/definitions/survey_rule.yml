@@ -12,11 +12,10 @@ description: |
 type: object
 required:
     - operator
-    - value
-    - dataGroups
 properties:
     operator:
         $ref: ./enums/operator.yml
+        x-nullable: false
     value:
         type: string
         description: |
@@ -30,6 +29,7 @@ properties:
             type: string
         description: |
             Some operators will test a set of data groups against the user's set of data groups. The operators `any` and `all` make a comparison of the sets in this property against the user's data groups.
+        x-nullable: false
     skipTo:
         type: string
         description: |
@@ -54,3 +54,4 @@ properties:
         type: string
         readOnly: true
         description: "SurveyRule"
+        x-nullable: false

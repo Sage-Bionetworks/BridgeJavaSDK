@@ -9,25 +9,36 @@ properties:
     id:
         type: string
         description: The identifier for this sub-study.
+        x-nullable: false
     name:
         type: string
         description: The name of the sub-study.
+        x-nullable: false
     deleted:
         type: boolean
         description: |
             Has this sub-study been logically deleted (an admin can restore it)?
+        x-nullable: false
     createdOn:
         type: string
         format: date-time
         readOnly: true
         description: The date and time the app config was created.
+        x-nullable: false
     modifiedOn:
         type: string
         format: date-time
         readOnly: true
         description: The date and time the app config was last modified.
+        x-nullable: false
     version:
         type: integer
         format: int64
         description: |
             The optimistic locking version of the sub-study. This value must be submitted as part of the next update of the model. If it does not match the value on the server, a 409 error (Conflict) will prevent the update from occurring. It can also serve as a key to determine if a local cache of this `Substudy` revision needs to be updated.
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "Substudy"
+        x-nullable: false

@@ -9,12 +9,15 @@ properties:
     name:
         type: string
         description: Field name. A schema cannot contain fields with the same name.
+        x-nullable: false
     required:
         type: boolean
         default: true
         description: Whether this field is required.
+        x-nullable: false
     type:
         $ref: ./enums/upload_field_type.yml
+        x-nullable: false
     allowOtherChoices:
         type: boolean
         description: |
@@ -41,6 +44,7 @@ properties:
             For schemas generated from surveys, this list will be the "value" in the survey question option, or the "label" if value is not specified.
         items:
             type: string
+        x-nullable: false
     unboundedText:
         type: boolean
         description: |

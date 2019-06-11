@@ -2,8 +2,6 @@ description: |
     A floating point value.
 
     **UI hints:** weight.
-required:
-    - dataType
 allOf:
     - $ref: ./constraints.yml
     - properties:

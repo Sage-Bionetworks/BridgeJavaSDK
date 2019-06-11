@@ -77,12 +77,16 @@ properties:
     subject:
         type: string
         description: The subject line of the email message (no markup allowed)
+        x-nullable:  false
     mimeType:
         $ref: ./enums/mime_type.yml
+        x-nullable:  false
     body:
         type: string
         description: The body text of the email message (can be text or HTML, but the mimeType must be set appropriately)
+        x-nullable:  false
     type:
         type: string
         readOnly: true
         description: "EmailTemplate"
+        x-nullable:  false

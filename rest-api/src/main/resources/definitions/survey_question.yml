@@ -12,15 +12,19 @@ allOf:
             type: string
             description: |
                 A title for this question. Although this is required, it may or may not be used in the interface. 
+            x-nullable: false
         prompt:
             type: string
             description: |
                 The question proper.
+            x-nullable: false
         promptDetail:
             type: string
             description: |
                 Sub-question text that provides further instructions or clarifications on how to answer.
         uiHint:
             $ref: ./enums/ui_hint.yml
+            x-nullable: false
         constraints:
             $ref: ./constraints/constraints.yml
+            x-nullable: false

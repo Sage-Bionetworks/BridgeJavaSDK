@@ -1,5 +1,4 @@
-description: |
-    A JSON payload to sent the email or phone verification token back to the bridge server.
+description: A payload to sent the email or phone verification token back to the bridge server.
 type: object
 required:
     - sptoken
@@ -11,3 +10,4 @@ properties:
         type: string
         readOnly: true
         description: "Verification"
+        x-nullable: false

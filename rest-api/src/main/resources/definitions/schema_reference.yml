@@ -7,6 +7,7 @@ properties:
     id:
         type: string
         description: Schema ID
+        x-nullable: false
     revision:
         type: integer
         format: int64
@@ -16,3 +17,4 @@ properties:
         type: string
         readOnly: true
         description: "SchemaReference"
+        x-nullable: false

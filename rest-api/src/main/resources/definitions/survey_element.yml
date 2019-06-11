@@ -4,28 +4,30 @@ discriminator: type
 required:
     - guid
     - identifier
-    - type
-    - beforeRules
-    - afterRules
 properties:
     guid:
         type: string
         description: A unique GUID for this element of the survey
+        x-nullable: false
     beforeRules:
         type: array
         description: |
             Survey elements can include one or more rules about how to progress through the elements of a survey (e.g. skipping a question if the user has been assigned to a specific data group). These rules are evaluated before the current element and may prevent it from being displayed. See [Survey Rule](#SurveyRule) for more information.
         items:
             $ref: ./survey_rule.yml
+        x-nullable: false
     afterRules:
         type: array
         description: |
             Survey elements can include one or more rules about how to progress through the elements of a survey (e.g. skipping some questions if they are not relevant to the participant, based on an answer to a question). These rules are evaluated after the user answers the current survey question. See [Survey Rule](#SurveyRule) for more information.
         items:
             $ref: ./survey_rule.yml
+        x-nullable: false
     identifier:
         type: string
         description: |
             A unique and easy-to-remember identifier, assigned by a researcher, that is maintained through later versions of the survey.
+        x-nullable: false
     type:
         type: string
+        x-nullable: false

@@ -1,12 +1,12 @@
 description: |
     Payload returned with a 400 error when an entity submitted to the server is invalid.
 type: object
-readOnly: true
 properties:
     message:
         type: string
         readOnly: true
         description: A message that will include all validation error messages for this object.
+        x-nullable: false
     errors:
         type: object
         readOnly: true
@@ -33,3 +33,4 @@ properties:
             type: array
             items:
                 type: string
+        x-nullable: false

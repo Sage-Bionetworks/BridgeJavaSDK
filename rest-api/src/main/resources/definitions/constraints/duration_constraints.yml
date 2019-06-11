@@ -6,7 +6,6 @@ description: |
     **UI hints:** numberfield, slider, select.
 required:
     - unit
-    - dataType
 allOf:
     - $ref: ./constraints.yml
     - properties:

@@ -12,7 +12,9 @@ properties:
     study:
         type: string  
         description: String identifier if the participant's study.
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "Identifier"
+        x-nullable: false

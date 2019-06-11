@@ -1,9 +1,8 @@
 type: object
 discriminator: type
-required:
-    - type
 description: |
     This is an interface for several implementations. See [scheduling](/articles/scheduling.html) for further information on creating schedules.
 properties:
     type:
         type: string
+        x-nullable: false

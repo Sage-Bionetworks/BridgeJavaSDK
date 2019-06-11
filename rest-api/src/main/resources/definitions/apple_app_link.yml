@@ -5,11 +5,14 @@ required:
 properties:
     appID:
         type: string
+        x-nullable: false
     paths:
         type: array
         items:
             type: string
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "AppleAppLink"
+        x-nullable: false

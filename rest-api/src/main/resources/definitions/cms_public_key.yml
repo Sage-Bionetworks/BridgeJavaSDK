@@ -3,16 +3,15 @@ description: |
     study. Each study has a different CMS public key.
 type: object
 readOnly: true
-required:
-    - publicKey
 properties:
     publicKey:
         type: string
         readOnly: true
-        description: |
-            Base 64 encoded version of the public key for CMS encryption of upload data.    
+        description: Base 64 encoded version of the public key for CMS encryption of upload data.    
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "CmsPublicKey"
+        x-nullable: false
 

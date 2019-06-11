@@ -5,6 +5,7 @@ properties:
     moduleType:
         $ref: ./enums/shared_module_type.yml
         readOnly: true
+        x-nullable: false
     schemaId:
         type: string
         description: Schema ID, if this module is a schema.
@@ -21,3 +22,4 @@ properties:
         type: string
         readOnly: true
         description: "SharedModuleImportStatus"
+        x-nullable: false

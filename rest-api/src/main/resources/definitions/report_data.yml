@@ -6,7 +6,6 @@ description:
     Data can be for a study as a whole, or a report on a single participant, depending on the endpoint that is used to persist the data in Bridge. 
 type: object
 required:
-    - date
     - data
 properties:
     date:
@@ -23,12 +22,15 @@ properties:
     data:
         type: object
         description: An arbitrary JSON object containing whatever data should be saved for a report.
+        x-nullable: false
     substudyIds:
         type: array
         description: The substudies this report record is associated to (these are set with the first record that is submitted and that creates a report index, and cannot be changed afterward unless the user is a study-wide user not associated to any specific substudy.
         items:
             type: string
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "ReportData"
+        x-nullable: false

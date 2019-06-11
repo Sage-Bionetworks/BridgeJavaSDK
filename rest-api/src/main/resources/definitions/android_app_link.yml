@@ -6,13 +6,17 @@ required:
 properties:
     namespace:
         type: string
+        x-nullable: false
     package_name:
         type: string
+        x-nullable: false
     sha256_cert_fingerprints:
         type: array
         items:
             type: string
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "AndroidAppLink"
+        x-nullable: false

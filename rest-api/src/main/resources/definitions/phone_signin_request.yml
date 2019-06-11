@@ -14,3 +14,5 @@ properties:
         type: string
         readOnly: true
         description: "PhoneSignInRequest"
+        x-nullable: false
+

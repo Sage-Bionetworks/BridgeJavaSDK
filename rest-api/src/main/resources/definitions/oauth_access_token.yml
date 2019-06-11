@@ -1,27 +1,28 @@
 type: object
-required:
-    - vendorId
-    - accessToken
-    - expiresOn
 properties:
     vendorId:
         type: string
         readOnly: true
         description: The Bridge-assigned vendor ID.
+        x-nullable: false
     accessToken:
         type: string
         readOnly: true
         description: The access token.
+        x-nullable: false
     expiresOn:
         type: string
         format: date-time
         readOnly: true
         description: The ISO 8601 timestamp of when this access token will expire.
+        x-nullable: false
     providerUserId:
         type: string
         readOnly: true
         description: The provider's ID for this user.
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "OAuthAccessToken"
+        x-nullable: false

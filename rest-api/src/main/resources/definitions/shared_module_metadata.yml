@@ -9,15 +9,19 @@ properties:
     id:
         type: string
         description: Unique ID of the module.
+        x-nullable: false
     licenseRestricted:
         type: boolean
         description: True if usage of this module is restricted by license or copyright.
+        x-nullable: false
     moduleType:
         $ref: ./enums/shared_module_type.yml
         readOnly: true
+        x-nullable: false
     name:
         type: string
         description: User-friendly module name.
+        x-nullable: false
     notes:
         type: string
         description: User-friendly descriptive notes for the module.
@@ -28,6 +32,7 @@ properties:
         type: boolean
         description: |
             Flag that marks the module as published. A published module versions cannot be modified. However, another version of the same module can be created for continued editing.
+        x-nullable: false
     schemaId:
         type: string
         description: Schema ID, if this module is a schema.
@@ -45,13 +50,17 @@ properties:
         description: An unordered list of tags, used for querying and filtering.
         items:
             type: string
+        x-nullable: false
     deleted:
         type: boolean
         description: Has this shared module metadata been logically deleted (an admin can restore it)?
+        x-nullable: false
     version:
         type: integer
         description: Module version.
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "SharedModuleMetadata"
+        x-nullable: false

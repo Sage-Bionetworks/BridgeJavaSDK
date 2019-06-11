@@ -10,9 +10,12 @@ properties:
         description: One or more [HealthDataRecord](#HealthDataRecord) IDS.
         items:
             type: string
+        x-nullable: false
     synapseExporterStatus:
         $ref: ./enums/synapse_exporter_status.yml
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "RecordExportStatusRequest"
+        x-nullable: false

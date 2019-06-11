@@ -1,13 +1,13 @@
 description: A typesafe representation of a study's string identifier
 type: object
-required:
-    - identifier
 properties:
     identifier:
         type: string
         readOnly: true
         description: The study's identifier (unique to the study).
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "StudyIdentifier"
+        x-nullable: false

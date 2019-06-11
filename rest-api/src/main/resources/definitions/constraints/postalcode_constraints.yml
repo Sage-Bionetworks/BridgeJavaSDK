@@ -4,14 +4,10 @@ description: |
     * Canada (CA) - The first three characters of a Canadian postal code describe a sorting area of about 7,000 households. No specific guidance is given, but collecting the first 3 characters has been deemed reasonable. 
     * United States (US) - collect only the first three digits of a zip code. Some 3 digit codes describe areas of 20,000 or less people; for these exceptional codes, substitute the value "000" instead before submitting to the server. If the survey constraints indicate that a US zip code is required, the `sparseZipCodePrefixes` array will be included in the constraint, with a list of these special partial zip codes. They are provided by the server so they can be updated based on new census information without having to update the survey or the client.
 
-    One way to protect the anonymity of the user is to limit the combination of partially identifying 
-    information that is asked for in a survey. For example do no ask for a specific birthdate in a survey 
-    where the information will be submitted to the server. This makes a partial postal code significantly 
-    less useful for reidentification.
+    One way to protect the anonymity of the user is to limit the combination of partially identifying information that is asked for in a survey. For example do no ask for a specific birthdate in a survey where the information will be submitted to the server. This makes a partial postal code significantly less useful for reidentification.
 
     **UI hints:** postalcode.
 required:
-    - dataType
     - countryCode
 allOf:
     - $ref: ./constraints.yml
@@ -20,8 +16,9 @@ allOf:
             $ref: ../enums/country_code.yml
         sparseZipCodePrefixes:
             type: array
+            readOnly: true
+            x-nullable: false
             items:
                 type: string
-            readOnly: true
             description: |
                 Some 3 digit codes describe areas of 20,000 or less people; for these exceptional codes, which can more easily be used to reidentify participants, substitute the value "000" instead before submitting the survey answer to the server. If the survey constraints indicate that a US zip code is required, the `sparseZipCodePrefixes` array will be included in the constraint, with a list of these special partial zip codes.

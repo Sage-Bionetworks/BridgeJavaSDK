@@ -1,36 +1,37 @@
 type: object
 description: Represents an SMS message that we sent to a phone number.
-required:
-    - phoneNumber
-    - sentOn
-    - messageBody
-    - messageId
-    - smsType
-    - studyId
 properties:
     phoneNumber:
         type: string
         description: The phone number receiving this message, formatted in E.164 international format.
+        x-nullable: false
     sentOn:
         type: string
         format: date-time
         description: Timestamp in ISO8601 format when we sent the message.
+        x-nullable: false
     healthCode:
         type: string
         description: |
             Health code of the participant that received the message, if the participant had an account at the time the message was sent.
+        x-nullable: false
     messageBody:
         type: string
         description: The message content we sent.
+        x-nullable: false
     messageId:
         type: string
         description: Message ID, as determined by the SMS provider.
+        x-nullable: false
     smsType:
         $ref: ./enums/sms_type.yml
+        x-nullable: false
     studyId:
         type: string
         description: The study whose behalf we sent the message.
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "SmsMessage"
+        x-nullable: false

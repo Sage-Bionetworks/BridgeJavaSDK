@@ -1,7 +1,5 @@
 description: |
     **UI hints:** datetimepicker.
-required:
-    - dataType
 allOf:
     - $ref: ./constraints.yml
     - properties:

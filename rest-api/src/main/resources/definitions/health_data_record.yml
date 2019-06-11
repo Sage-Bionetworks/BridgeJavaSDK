@@ -10,37 +10,45 @@ properties:
         readOnly: true
         description: |
             App version, as reported by the app. Generally in the form "version 1.0.0, build 2". Must be 48 chars or less.
+        x-nullable: false
     createdOn:
         type: string
         readOnly: true
         format: date-time
         description: ISO timestamp of when the data record was created, as reported by the submitting app
+        x-nullable: false
     createdOnTimeZone:
         type: string
         readOnly: true
         description: The original timezone of the createdOn timestamp, expressed as a 4-digit string with sign. For example, -0800, +0900
+        x-nullable: false
     data:
         type: object
         readOnly: true
         description: JSON map with key value pairs representing the record's data.
+        x-nullable: false
     id:
         type: string
         readOnly: true
         description: A unique GUID for this record.
+        x-nullable: false
     metadata:
         type: object
         readOnly: true
         description: |
             Arbitrary JSON blob of record metadata, as submitted by the app. For ResearchKit-based apps, this is info.json verbatim.
+        x-nullable: false
     phoneInfo:
         type: string
         readOnly: true
         description: Phone info, for example "iPhone9,3" or "iPhone 5c (GSM)". Must be 48 chars or less.
+        x-nullable: false
     rawDataAttachmentId:
         type: string
         readOnly: true
         description: |
             Attachment ID (S3 key) that contains the raw data. This is the unencrypted zip file for uploads, or JSON blob for directly submitted records
+        x-nullable: false
     schemaId:
         type: string
         readOnly: true
@@ -56,31 +64,37 @@ properties:
         type: string
         description: Study that this record lives in.
         readOnly: true
+        x-nullable: false
     uploadDate:
         type: string
         format: date
         readOnly: true
         description: |
             Calendar date in YYYY-MM-DD format representing when the server received the upload, using the server's local time zone (US Pacific timezone).
+        x-nullable: false
     uploadId:
         type: string
         readOnly: true
         description: The upload GUID of the upload this record is processed from.
+        x-nullable: false
     uploadedOn:
         type: string
         readOnly: true
         format: date-time
         description: The date and time of the upload.
+        x-nullable: false
     userMetadata:
         type: object
         readOnly: true
         description: |
             JSON map with key value pairs representing metadata for this health data record, as submitted by the app. This corresponds with the uploadMetadataFieldDefinitions configured in the study.
+        x-nullable: false
     userSharingScope:
         type: string
         readOnly: true
         description: The user's sharing scope at the time of this upload's submission.
         $ref: ./enums/sharing_scope.yml
+        x-nullable: false
     userExternalId:
         type: string
         readOnly: true
@@ -91,6 +105,7 @@ properties:
         description: The user's data groups at the time of this upload's submission.
         items:
             type: string
+        x-nullable: false
     userSubstudyMemberships:
         type: object
         readOnly: true
@@ -99,20 +114,25 @@ properties:
             health data, and the values are the external IDs that were assigned to the user for each substudy (if no external ID was assigned, the value will be an empty string).
         additionalProperties:
             type: string
+        x-nullable: false
     validationErrors:
         type: string
         readOnly: true
         description: Error messages related to upload validation. Only generated if UploadValidationStrictness is set to REPORT.
+        x-nullable: false
     version:
         type: integer
         readOnly: true
         format: int64
         description: |
             A version number issued for optimistic locking of record updates. Should not be set when creating a new health data record. When updating a record retrieved from the API, the object will have the version attribute and this must match the last value issued by the service or an update will fail.
+        x-nullable: false
     synapseExporterStatus:
         $ref: ./enums/synapse_exporter_status.yml
         readOnly: true
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "HealthDataRecord"
+        x-nullable: false

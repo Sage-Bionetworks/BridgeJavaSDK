@@ -1,18 +1,22 @@
 type: object
 required:
     - name
+    - shortName
 properties:
     guid:
         description: A unique GUID for this topic
         type: string
+        x-nullable: false
     name:
         description: |
             The name of this topic (visible to developers and researchers in design tools).
         type: string
+        x-nullable: false
     shortName:
         description: |
             Short name for the topic, used as the display name for the topic in SNS. This also appears in SMS notifications. Must be 10 characters or less.
         type: string
+        x-nullable: false
     description:
         description: |
             Description of the purpose of this topic (visible to developers and researchers in design tools).
@@ -23,19 +27,24 @@ properties:
         type: string
         format: date-time
         readOnly: true
+        x-nullable: false
     modifiedOn:
         description: |
             The date and time this topic was last modified.
         type: string
         format: date-time
         readOnly: true
+        x-nullable: false
     deleted:
         type: boolean
+        x-nullable: false
     criteria:
         $ref: ./criteria.yml
         description: |
             If a topic has criteria, users can be automatically subscribed and unsubscribed when their criteria context changes.
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "NotificationTopic"
+        x-nullable: false

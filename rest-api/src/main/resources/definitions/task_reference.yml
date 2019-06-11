@@ -8,9 +8,11 @@ properties:
         type: string
         description: |
             The identifier that defines a task on the client. Note that this value is conventional; it needs to be defined for a study but has no further meaning on the server. 
+        x-nullable: false
     schema:
         $ref: ./schema_reference.yml
     type:
         type: string
         readOnly: true
         description: "TaskReference"
+        x-nullable: false

@@ -20,9 +20,11 @@ properties:
         type: string
         description: |
             A unique auto-generated identifier for the subpopulation. Usually a GUID (but not always). Cannot be changed after creation. Used to retrieve the published consent for this subpopulation.
+        x-nullable: false
     name:
         type: string
         description: The name of this subpopulation.
+        x-nullable: false
     description:
         type: string
         description: The description of this subpopulation.
@@ -30,48 +32,59 @@ properties:
         $ref: ./criteria.yml
         description: |
             Optional selection criteria that can be used to determine if a user should be assigned to this subpopulation or not. If the user does not match a subpopulation, then that subpopulation and its requirements are invisible to that user. Otherwise the user is in the subpopulation and all its consent requirements apply.
+        x-nullable: false
     autoSendConsentSuppressed:
         type: boolean
         default: false
         description: |
             Should the user automatically be sent (via email or SMS) a copy of the consent when they sign it?
+        x-nullable: false
     required:
         type: boolean
         description: |
             If true, participants must sign the consent associated with this subpopulation if they are identified as a member of this subpopulation. Users will receive a 412 response from Bridge if this condition is not met.
+        x-nullable: false
     defaultGroup:
         type: boolean
         description: |
             If true, this is the default subpopulation created for a study, and it cannot be deleted (although it can be changed, and even made optional or hidden through the use of criteria).
+        x-nullable: false
     publishedConsentCreatedOn:
         type: string
         format: date-time
         description: |
             The creation date (ISO 8601 timestamp) of the version of the consent agreement for this subpopulation that is published, ie. that is presented to users for their signature. The subpopulation guid and this createdOn timestamp can be used to retrieve the consent document.
+        x-nullable: false
     dataGroupsAssignedWhileConsented:
         type: array
         description: The data groups that will be assigned to a participant who consents to membership in this subpopulation. If the participant withdraws from this subpopulation, the data groups will be removed from their account.
         items:
             type: string
+        x-nullable: false
     substudyIdsAssignedOnConsent:
         type: array
         description: The substudies this participant is associated to when they consent to membership in this subpopulation. This association is permanent (even if the participant withdraws from the subpopulation, they are still part of the substudy, visible to substudy research administrations, and so forth).
         items:
             type: string
+        x-nullable: false
     version:
         type: integer
         format: int64
         description: | 
             The optimistic locking version of the survey. This value must be submitted as part of the next update of the model. If it does not match the value on the server, a 409 error (Conflict) will prevent the update from occurring.
+        x-nullable: false
     consentHTML:
         type: string
         description: |
             The URL to retrieve an HTML version of the published and active version of the consent. This can be referenced in your mobile app, web site, etc. Publishing a new consent revision will update this document.
+        x-nullable: false
     consentPDF:
         type: string
         description: |
             The URL to retrieve a PDF version of the published and active version of the consent. This can be referenced in your mobile app, web site, etc. Publishing a new consent revision will update this document.
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "Subpopulation"
+        x-nullable: false

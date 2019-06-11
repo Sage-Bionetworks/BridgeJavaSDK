@@ -7,15 +7,19 @@ properties:
     number:
         type: string
         description: The phone number (can be formatted in any way that's useful for end users).
+        x-nullable: false
     regionCode:
         type: string
         description: CLDR two-letter region code describing the region in which the phone number was issued.
+        x-nullable: false
     nationalFormat:
         type: string
         readOnly: true
         description: |
             The phone number formatted in the commonly accepted national format of the region code. This value is read-only.
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "Phone"
+        x-nullable: false

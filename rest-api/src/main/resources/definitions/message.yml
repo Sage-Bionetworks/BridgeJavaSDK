@@ -3,3 +3,9 @@ properties:
     message:
         type: string
         readOnly: true
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "StatusMessage"
+        x-nullable: false

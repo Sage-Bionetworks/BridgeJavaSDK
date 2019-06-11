@@ -11,6 +11,7 @@ properties:
     label:
         type: string
         description: A label to show the user for this activity.
+        x-nullable: false
     labelDetail:
         type: string
         description: |
@@ -18,6 +19,7 @@ properties:
             questions, or the average time it takes to complete the activity).
     guid:
         type: string
+        x-nullable: false
     compoundActivity:
         $ref: ./compound_activity.yml
     task:
@@ -26,7 +28,9 @@ properties:
         $ref: ./survey_reference.yml
     activityType:
         $ref: ./enums/activity_type.yml
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "Activity"
+        x-nullable: false

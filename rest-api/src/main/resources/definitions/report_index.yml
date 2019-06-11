@@ -8,16 +8,20 @@ properties:
     identifier:
         type: string
         description: The report identifier.
+        x-nullable: false
     substudyIds:
         type: array
         description: The substudies these report records are associated to.
         items:
             type: string
+        x-nullable: false
     public:
         type: boolean
         description: |
             Study reports can be marked as "public", which will make them accessible through the API to any requester (authentication is not required).
+        x-nullable: false
     type:
         type: string
         readOnly: true
         description: "ReportIndex"
+        x-nullable: false

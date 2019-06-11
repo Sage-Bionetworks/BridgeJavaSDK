@@ -2,6 +2,7 @@ description: Request object for creating a Custom Activity Event.
 type: object
 required:
     - eventKey
+    - timestamp
 properties:
     eventKey:
         type: string
@@ -10,3 +11,9 @@ properties:
         type: string
         format: date-time
         description:  ISO 8601 date and time to record for event
+    type:
+        type: string
+        readOnly: true
+        description: "CustomActivityEventRequest"
+        x-nullable: false
+    

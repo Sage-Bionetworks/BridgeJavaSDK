@@ -1,22 +1,21 @@
 type: object
-readOnly: true
-required:
-    - messageList
 properties:
     id:
         type: string
         readOnly: true
         description: The identifier for this upload.
+        x-nullable: false
     messageList:
         type: array
         readOnly: true
-        description: |
-            An array of error messages if failures occurred during validation.
+        description: An array of error messages if failures occurred during validation.
         items:
             type: string
+        x-nullable: false
     status:
         $ref: ./enums/upload_status.yml
         readOnly: true
+        x-nullable: false
     record:
         $ref: ./health_data_record.yml
         readOnly: true
@@ -24,3 +23,4 @@ properties:
         type: string
         readOnly: true
         description: "UploadValidationStatus"
+        x-nullable: false
