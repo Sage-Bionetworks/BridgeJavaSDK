@@ -22,9 +22,4 @@ allOf:
         image:
             description: An optional Image element describing an image to show for this screen.
             $ref: ./image.yml
-        type:
-            type: string
-            readOnly: true
-            description: "SurveyInfoScreen"
-            x-nullable: false
 
