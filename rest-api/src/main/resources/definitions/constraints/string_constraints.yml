@@ -2,8 +2,6 @@ description: |
     A string answer. 
 
     **UI hints:** texfield, multilinetext.
-required:
-    - dataType
 allOf:
     - $ref: ./constraints.yml
     - properties:

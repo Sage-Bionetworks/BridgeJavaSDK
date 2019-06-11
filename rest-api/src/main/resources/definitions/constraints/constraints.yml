@@ -1,10 +1,11 @@
 type: object
 discriminator: type
 required:
-    - type
+    - dataType
 properties:
     dataType:
         $ref: ../enums/data_type.yml
     type:
         type: string
+        x-nullable: false
         readOnly: true

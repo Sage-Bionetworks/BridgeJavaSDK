@@ -1,9 +1,6 @@
 type: object
 description: |
     An early user information object that has been superceded by the [StudyParticipant](#StudyParticipant) object, along with a new set of API endpoints (`/v3/participants/self`).
-required:
-    - email
-    - username
 properties:
     firstName:
         type: string
@@ -13,6 +10,7 @@ properties:
         type: string
     username:
         type: string
+        readOnly: true
         description: Now always the same value as the user's email address
     type:
         type: string

@@ -3,19 +3,11 @@ description: |
 type: object
 required:
     - name
+    - shortName
     - sponsorName
     - supportEmail
-    - technicalEmail
     - identifier
-    - consentNotificationEmail
     - version
-    - userProfileAttributes
-    - uploadMetadataFieldDefinitions
-    - taskIdentifiers
-    - activityEventKeys
-    - dataGroups
-    - appleAppLinks
-    - androidAppLinks
 properties:
     name:
         type: string
@@ -40,7 +32,6 @@ properties:
     consentNotificationEmailVerified:
         description: True if the consent notification email is verified. False if not.
         type: boolean
-        x-nullable: false
     installLinks:
         type: object
         description: |

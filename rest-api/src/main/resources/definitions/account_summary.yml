@@ -1,5 +1,5 @@
 description: |
-    Summary of a participant, used in APIs to search and retrieve participant accounts.  
+    Summary of a participant, used in APIs to search and retrieve participant accounts. This payload is returned from the API, but is never submitted to the API.
 type: object
 readOnly: true
 properties:

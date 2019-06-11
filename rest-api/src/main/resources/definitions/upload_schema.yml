@@ -6,8 +6,6 @@ required:
     - revision
     - schemaId
     - version
-    - minAppVersions
-    - maxAppVersions
     - fieldDefinitions
 properties:
     maxAppVersions:
@@ -49,6 +47,7 @@ properties:
             If this schema is created from a survey, this is the GUID of the survey it represents.
     studyId:
         type: string
+        readOnly: true
         description: |
             **Only available through worker APIs.** The identifier of the study from which this schema was retrieved.
         x-nullable: false

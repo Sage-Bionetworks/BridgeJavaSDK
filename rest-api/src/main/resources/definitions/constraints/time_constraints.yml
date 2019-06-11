@@ -4,7 +4,5 @@ description: |
     of where the user is, e.g. "I take my medications at 3:00pm every day, whether I'm in Chicago or Tokyo."
 
     **UI hints:** timepicker.
-required:
-    - dataType
 allOf:
     - $ref: ./constraints.yml

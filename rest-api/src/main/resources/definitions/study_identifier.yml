@@ -1,7 +1,5 @@
 description: A typesafe representation of a study's string identifier
 type: object
-required:
-    - identifier
 properties:
     identifier:
         type: string

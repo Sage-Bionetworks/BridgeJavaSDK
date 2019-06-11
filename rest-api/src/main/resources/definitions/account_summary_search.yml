@@ -1,5 +1,5 @@
 description: |
-    Search criteria to retrieve account summaries of study participants
+    Search criteria to retrieve account summaries of study participants. This payload is sent to the server but is never returned via the API.
 type: object
 properties:
     pageSize:
@@ -24,17 +24,14 @@ properties:
         type: array
         items:
             type: string
-        x-nullable: false
     noneOfGroups:
         description: return records that have none of these data groups
         type: array
         items:
             type: string
-        x-nullable: false
     language:
         description: return records that have this record as a declared language
         type: string
-        x-nullable: false
     startTime:
         description: return record created on or after this day
         type: string

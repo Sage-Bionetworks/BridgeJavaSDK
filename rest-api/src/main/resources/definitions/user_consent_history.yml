@@ -1,6 +1,4 @@
-description: | 
-    A record of a complete consent (including both the dates of consent and withdrawal, if applicable);
-readOnly: true
+description: A record of a complete consent (including both the dates of consent and withdrawal, if applicable);
 type: object
 properties:
     subpopulationGuid:

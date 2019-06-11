@@ -2,8 +2,6 @@ description: |
     A floating point value.
 
     **UI hints:** numberfield, slider, select.
-required:
-    - dataType
 allOf:
     - $ref: ./constraints.yml
     - properties:

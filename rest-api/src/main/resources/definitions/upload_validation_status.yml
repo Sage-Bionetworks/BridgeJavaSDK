@@ -1,5 +1,4 @@
 type: object
-readOnly: true
 properties:
     id:
         type: string
@@ -9,8 +8,7 @@ properties:
     messageList:
         type: array
         readOnly: true
-        description: |
-            An array of error messages if failures occurred during validation.
+        description: An array of error messages if failures occurred during validation.
         items:
             type: string
         x-nullable: false
