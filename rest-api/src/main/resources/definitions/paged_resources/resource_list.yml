@@ -8,7 +8,10 @@ properties:
     requestParams:
         $ref: ../request_params.yml
         readOnly: true
+        x-nullable: false
     type:
         type: string
         readOnly: true
-        description: "ResourceList"        
+        x-nullable: false
+        description: "ResourceList"
+        x-nullabel: false
