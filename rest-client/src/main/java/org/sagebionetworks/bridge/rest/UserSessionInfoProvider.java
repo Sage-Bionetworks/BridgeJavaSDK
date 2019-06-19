@@ -112,7 +112,8 @@ public class UserSessionInfoProvider {
      *         a reauth token
      * @return the merged session
      */
-    static UserSessionInfo mergeReauthToken(final UserSessionInfo previousSession, final UserSessionInfo session) {
+    @SuppressWarnings("WeakerAccess")
+    public static UserSessionInfo mergeReauthToken(final UserSessionInfo previousSession, final UserSessionInfo session) {
         if (session != null && session.getReauthToken() == null) {
             if (previousSession != null) {
                 JsonObject el = (JsonObject)RestUtils.GSON.toJsonTree(session);
