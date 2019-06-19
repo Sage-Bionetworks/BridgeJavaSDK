@@ -10,6 +10,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonObject;
 
+import org.sagebionetworks.bridge.rest.exceptions.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -165,6 +166,7 @@ public class UserSessionInfoProvider {
     private boolean signIn() throws IOException {
         if (Strings.isNullOrEmpty(password)) {
             LOG.warn("Could not signIn, no password provided");
+            setSession(null);
             return false;
         }
         try {
@@ -175,6 +177,9 @@ public class UserSessionInfoProvider {
         } catch (ConsentRequiredException e) {
             // successful authentication
             setSession(e.getSession());
+        } catch (EntityNotFoundException e) {
+            // invalid credentials
+            setSession(null);
         }
         return true;
     }
