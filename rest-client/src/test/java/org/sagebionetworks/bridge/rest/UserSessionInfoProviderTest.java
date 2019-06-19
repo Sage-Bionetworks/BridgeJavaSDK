@@ -36,74 +36,74 @@ public class UserSessionInfoProviderTest {
 
     @Mock
     AuthenticationApi authenticationApi;
-    
+
     @Mock
     Call<UserSessionInfo> call;
-    
+
     @Mock
     Call<UserSessionInfo> call2;
-    
+
     @Mock
     Response<UserSessionInfo> response;
 
     @Mock
     UserSessionInfoProvider.UserSessionInfoChangeListener changeListener;
-    
+
     @Captor
     ArgumentCaptor<SignIn> reauthenticateRequestCaptor;
 
     @Captor
     ArgumentCaptor<SignIn> signInCaptor;
-    
+
     SignIn signIn;
-    
+
     UserSessionInfo userSessionInfo;
-    
+
     UserSessionInfoProvider provider;
-    
+
     @Before
     public void before() throws Exception {
         userSessionInfo = new UserSessionInfo();
         Tests.setVariableValueInObject(userSessionInfo, "email", "email@email.com");
         Tests.setVariableValueInObject(userSessionInfo, "sessionToken", "sessionToken");
-        
+
         signIn = new SignIn().email("email@email.com").password("password").study("test-study");
-        
+
         provider = new UserSessionInfoProvider(authenticationApi, signIn.getStudy(), signIn.getEmail(),
                 signIn.getPhone(), signIn.getExternalId(), signIn.getPassword(), null,
                 Arrays.asList(changeListener));
     }
-    
+
     @Test
     public void onceItHasSessionItDoesntAuthenticate() throws Exception {
         provider.setSession(userSessionInfo);
-        
+
         assertEquals(userSessionInfo, provider.getSession());
         assertEquals(userSessionInfo, provider.retrieveSession());
     }
-    
+
     @Test
     public void getSessionReturnsNullIfNotSet() {
         assertNull(provider.getSession());
     }
-    
+
     @Test
     public void retrieveSessionWithoutSessionSignsInAgain() throws Exception {
         doReturn(call).when(authenticationApi).signInV4(any(SignIn.class));
         doReturn(response).when(call).execute();
         doReturn(userSessionInfo).when(response).body();
-        
+
         UserSessionInfo retrieved = provider.retrieveSession();
         assertEquals(userSessionInfo, retrieved);
         verify(authenticationApi).signInV4(any(SignIn.class));
     }
-    
+
     @Test
     public void reauthenticate() throws Exception {
         doReturn(call).when(authenticationApi).reauthenticate(any(SignIn.class));
         doReturn(response).when(call).execute();
         doReturn(userSessionInfo).when(response).body();
-        
+
         Tests.setVariableValueInObject(userSessionInfo, "reauthToken", "reauthToken");
         provider.setSession(userSessionInfo);
 
@@ -122,7 +122,7 @@ public class UserSessionInfoProviderTest {
         provider.setSession(userSessionInfo);
         verify(changeListener).onChange(userSessionInfo);
     }
-    
+
     @Test
     public void failureToReauthenticate404SignsIn() throws Exception {
         doReturn(call2).when(authenticationApi).reauthenticate(any(SignIn.class));
@@ -131,17 +131,17 @@ public class UserSessionInfoProviderTest {
         doReturn(call).when(authenticationApi).signInV4(any(SignIn.class));
         doReturn(response).when(call).execute();
         doReturn(userSessionInfo).when(response).body();
-        
+
         Tests.setVariableValueInObject(userSessionInfo, "reauthToken", "reauthToken");
         provider.setSession(userSessionInfo);
-        
+
         provider.reauthenticate();
-        
+
         assertEquals(userSessionInfo, provider.getSession());
         verify(authenticationApi, times(1)).reauthenticate(any(SignIn.class));
         verify(authenticationApi, times(1)).signInV4(signInCaptor.capture());
     }
-    
+
     @Test
     public void failureToReauthenticate401SignsIn() throws Exception {
         doReturn(call2).when(authenticationApi).reauthenticate(any(SignIn.class));
@@ -150,17 +150,17 @@ public class UserSessionInfoProviderTest {
         doReturn(call).when(authenticationApi).signInV4(any(SignIn.class));
         doReturn(response).when(call).execute();
         doReturn(userSessionInfo).when(response).body();
-        
+
         Tests.setVariableValueInObject(userSessionInfo, "reauthToken", "reauthToken");
         provider.setSession(userSessionInfo);
-        
+
         provider.reauthenticate();
-        
+
         assertEquals(userSessionInfo, provider.getSession());
         verify(authenticationApi, times(1)).reauthenticate(any(SignIn.class));
         verify(authenticationApi, times(1)).signInV4(signInCaptor.capture());
     }
-    
+
     @Test
     public void consentRequiredOnReauthenticate() throws Exception {
         doReturn(call2).when(authenticationApi).reauthenticate(any(SignIn.class));
@@ -169,12 +169,12 @@ public class UserSessionInfoProviderTest {
         doReturn(call).when(authenticationApi).signIn(any(SignIn.class));
         doReturn(response).when(call).execute();
         doReturn(userSessionInfo).when(response).body();
-        
+
         Tests.setVariableValueInObject(userSessionInfo, "reauthToken", "reauthToken");
         provider.setSession(userSessionInfo);
-        
+
         provider.reauthenticate();
-        
+
         assertEquals(userSessionInfo, provider.getSession());
         verify(authenticationApi).reauthenticate(any(SignIn.class));
     }
@@ -205,7 +205,7 @@ public class UserSessionInfoProviderTest {
 
         verify(authenticationApi, times(1)).reauthenticate(any(SignIn.class));
     }
-    
+
     @Test
     public void everythingGoesWrongOnAuthentication() throws Exception {
         // Neither call works. 
@@ -218,10 +218,10 @@ public class UserSessionInfoProviderTest {
         doThrow(e2).when(call2).execute();
 
         doReturn(userSessionInfo).when(response).body();
-        
+
         Tests.setVariableValueInObject(userSessionInfo, "reauthToken", "reauthToken");
         provider.setSession(userSessionInfo);
-        
+
         try {
             provider.reauthenticate();
             fail("This should have thrown an exception");
@@ -233,14 +233,14 @@ public class UserSessionInfoProviderTest {
         verify(authenticationApi, times(1)).reauthenticate(any(SignIn.class));
         verify(authenticationApi, times(1)).signInV4(any(SignIn.class));
     }
-    
+
     @Test
     public void consentRequiredOnSignsIn() throws Exception {
         doReturn(call2).when(authenticationApi).signInV4(any(SignIn.class));
         doThrow(new ConsentRequiredException("message", "endpoint", userSessionInfo)).when(call2).execute();
 
         provider.reauthenticate();
-        
+
         assertEquals(userSessionInfo, provider.getSession());
         verify(authenticationApi).signInV4(any(SignIn.class));
     }
@@ -273,5 +273,10 @@ public class UserSessionInfoProviderTest {
 
         assertEquals(evenNewerSessionToken, evenNewerSession.getSessionToken());
         assertEquals(newReauthToken, evenNewerSession.getReauthToken()); // check we wrote a new reauth token
+    }
+
+    @Test
+    public void mergeWithNullSession() {
+        assertNull(UserSessionInfoProvider.mergeReauthToken(new UserSessionInfo(), null));
     }
 }
