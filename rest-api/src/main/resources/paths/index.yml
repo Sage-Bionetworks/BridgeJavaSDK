@@ -366,6 +366,12 @@
 /v3/substudies/{id}:
     $ref: ./substudies/v3_substudies_id.yml
 
+# Templates
+/v3/templates:
+    $ref: ./templates/v3_templates.yml
+/v3/templates/{guid}:
+    $ref: ./templates/v3_templates_guid.yml
+
 # AppConfig
 /v3/appconfigs:
     $ref: ./appconfigs/v3_appconfigs.yml

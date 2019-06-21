@@ -12,8 +12,3 @@ allOf:
             items:
                 $ref: ./schedule_criteria.yml
             x-nullable: false
-        type:
-            type: string
-            readOnly: true
-            description: "CriteriaScheduleStrategy"
-            x-nullable: false

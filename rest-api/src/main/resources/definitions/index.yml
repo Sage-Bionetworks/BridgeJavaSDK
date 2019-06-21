@@ -30,6 +30,8 @@ ReportType:
     $ref: ./enums/report_type.yml
 SharedModuleType:
     $ref: ./enums/shared_module_type.yml
+TemplateType:
+    $ref: ./enums/template_type.yml
 UploadStatus:
     $ref: ./enums/upload_status.yml
 UploadSchemaType:
@@ -219,6 +221,8 @@ SurveyRule:
     $ref: ./survey_rule.yml
 TaskReference:
     $ref: ./task_reference.yml
+Template:
+    $ref: ./template.yml
 Upload:
     $ref: ./upload.yml
 UploadFieldDefinition:
@@ -305,6 +309,8 @@ SubstudyList:
     $ref: ./paged_resources/substudy.yml
 SurveyList:
     $ref: ./paged_resources/survey.yml
+TemplateList:
+    $ref: ./paged_resources/template.yml
 UploadList:
     $ref: ./paged_resources/upload.yml
 UploadSchemaList:

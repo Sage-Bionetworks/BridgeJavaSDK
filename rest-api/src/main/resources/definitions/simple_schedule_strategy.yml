@@ -9,8 +9,3 @@ allOf:
         schedule:
             $ref: ./schedule.yml
             x-nullable: false
-        type:
-            type: string
-            readOnly: true
-            description: "SimpleScheduleStrategy"
-            x-nullable: false

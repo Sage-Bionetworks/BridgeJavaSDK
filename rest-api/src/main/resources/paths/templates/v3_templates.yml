@@ -1,42 +1,44 @@
 get:
-    operationId: getAppConfigs
-    summary: Get a list of the study's app configurations
+    operationId: getTemplates
+    summary: Get a list of templates of a specific type
     tags:
-        - AppConfigs
+        - Templates
         - _For Developers
     security:
         - BridgeSecurity: []
     description: |
-        Get all the app configuration objects for this study.
+        Get all the templates of a specific type for this study.
     parameters:
+        - $ref: ../../index.yml#/parameters/templateType
+        - $ref: ../../index.yml#/parameters/offsetBy
+        - $ref: ../../index.yml#/parameters/pageSize
         - $ref: ../../index.yml#/parameters/includeDeleted
     responses:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/paged_resources/app_config.yml
+                $ref: ../../definitions/paged_resources/template.yml
         401:
             $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_developer.yml
 post:
-    operationId: createAppConfig
-    summary: Create a new app config
+    operationId: createTemplate
+    summary: Create a new template
     tags:
-        - AppConfigs
+        - Templates
         - _For Developers
     security:
         - BridgeSecurity: []
     description: |
-        Create a new app configuration object. If you submit an existing app configuration to this 
-        endpoint, it will be copied.
+        Create a new template.
     parameters:
-        - name: AppConfig
+        - name: Template
           in: body
-          description: New app configuration 
+          description: New template
           required: true
           schema:
-              $ref: ../../definitions/app_config.yml
+              $ref: ../../definitions/template.yml
     responses:
         202:
             description: Created
