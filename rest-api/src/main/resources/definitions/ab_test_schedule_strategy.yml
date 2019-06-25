@@ -13,8 +13,3 @@ allOf:
             items:
                 $ref: ./ab_test_group.yml
             x-nullable: false
-        type:
-            type: string
-            readOnly: true
-            description: "ABTestScheduleStrategy"
-            x-nullable: false
