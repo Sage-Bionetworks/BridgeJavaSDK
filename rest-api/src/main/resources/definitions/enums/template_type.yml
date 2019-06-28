@@ -1,0 +1,31 @@
+type: string
+description: |
+    The role a template plays in the messaging of the system.
+
+    |Value|Description|
+    |---|---|
+    |email_account_exists|Email message notifying participant that their email address has already been registered with this study|
+    |email_app_install_link|Email message sending app install information to the participant|
+    |email_reset_password|Email message providing a link to reset the participant's password|
+    |email_sign_in|Email message providing a link to sign in to an app|
+    |email_signed_consent|Email message containing the written consent document a user has agreed to in joining a specific population (consent group).|
+    |email_verify_email|Email message asking the participant to trigger a link that will verify their control of an email address|
+    |sms_account_exists|SMS message notifying participant that their email address has already been registered with this study|
+    |sms_app_install_link|SMS message sending app install information to the participant|
+    |sms_phone_sign_in|SMS message providing a link to sign in to an app|
+    |sms_reset_password|SMS message providing a link to reset the participant's password|
+    |sms_signed_consent|SMS message containing the written consent document a user has agreed to in joining a specific population (consent group).|
+    |sms_verify_phone|SMS message asking the participant to enter a code or trigger a link that will verify their control of a phone number|
+enum:
+    - email_account_exists
+    - email_app_install_link
+    - email_reset_password
+    - email_sign_in
+    - email_signed_consent
+    - email_verify_email
+    - sms_account_exists
+    - sms_app_install_link
+    - sms_phone_sign_in
+    - sms_reset_password
+    - sms_signed_consent
+    - sms_verify_phone

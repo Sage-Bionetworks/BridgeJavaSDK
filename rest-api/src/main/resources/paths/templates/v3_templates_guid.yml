@@ -1,42 +1,42 @@
 get:
-    operationId: getAppConfig
-    summary: Get an app config
+    operationId: getTemplate
+    summary: Get a template
     tags:
-        - AppConfigs
+        - Templates
         - _For Developers
     security:
         - BridgeSecurity: []
     description: |
-        Get an app configuration object for this study.
+        Get a template for this study.
     parameters:
         - $ref: ../../index.yml#/parameters/guid
     responses:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/app_config.yml
+                $ref: ../../definitions/template.yml
         401:
             $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_developer.yml
 post:
-    operationId: updateAppConfig
-    summary: Update an existing app config
+    operationId: updateTemplate
+    summary: Update an existing template
     tags:
-        - AppConfigs
+        - Templates
         - _For Developers
     security:
         - BridgeSecurity: []
     description: |
-        Update an existing app configuration.
+        Update an existing template.
     parameters:
         - $ref: ../../index.yml#/parameters/guid
-        - name: AppConfig
+        - name: Template
           in: body
-          description: Updated app configuration 
+          description: Updated template
           required: true
           schema:
-              $ref: ../../definitions/app_config.yml
+              $ref: ../../definitions/template.yml
     responses:
         200:
             description: OK
@@ -47,16 +47,16 @@ post:
         403:
             $ref: ../../responses/403_not_developer.yml
 delete:
-    operationId: deleteAppConfig
-    summary: Delete an app config
+    operationId: deleteTemplate
+    summary: Delete template (and all revisions) 
     tags:
-        - AppConfigs
+        - Templates
         - _For Developers
         - _For Admins
     security:
         - BridgeSecurity: []
     description: |
-        Delete an existing configuration object.
+        Delete an existing template (and all its revisions).
     parameters:
         - $ref: ../../index.yml#/parameters/guid
         - $ref: ../../index.yml#/parameters/physical
