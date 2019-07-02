@@ -81,6 +81,8 @@ ConsentSignature:
     $ref: ./consent_signature.yml
 ConsentStatus:
     $ref: ./consent_status.yml
+CreatedOnHolder:
+    $ref: ./created_on_holder.yml
 Criteria:
     $ref: ./criteria.yml
 CriteriaScheduleStrategy:
@@ -223,6 +225,8 @@ TaskReference:
     $ref: ./task_reference.yml
 Template:
     $ref: ./template.yml
+TemplateRevision:
+    $ref: ./template_revision.yml
 Upload:
     $ref: ./upload.yml
 UploadFieldDefinition:
@@ -311,6 +315,8 @@ SurveyList:
     $ref: ./paged_resources/survey.yml
 TemplateList:
     $ref: ./paged_resources/template.yml
+TemplateRevisionList:
+    $ref: ./paged_resources/template_revision.yml
 UploadList:
     $ref: ./paged_resources/upload.yml
 UploadSchemaList:

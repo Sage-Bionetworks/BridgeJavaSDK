@@ -1,0 +1,25 @@
+description: A revision of a template
+type: object
+required:
+  - mimeType
+properties:
+    createdOn:
+        type: string
+        format: date-time
+        readOnly: true
+        x-nullable: false
+    createdBy:
+        type: string
+        readOnly: true
+        x-nullable: false
+    documentContent:
+        type: string
+    subject:
+        type: string
+    mimeType:
+        $ref: ./enums/mime_type.yml
+    type:
+        type: string
+        readOnly: true
+        description: "TemplateRevision"
+        x-nullable: false

@@ -371,6 +371,12 @@
     $ref: ./templates/v3_templates.yml
 /v3/templates/{guid}:
     $ref: ./templates/v3_templates_guid.yml
+/v3/templates/{guid}/revisions:
+    $ref: ./templates/v3_templates_guid_revisions.yml
+/v3/templates/{guid}/revisions/{createdOn}:
+    $ref: ./templates/v3_templates_guid_revisions_createdOn.yml
+/v3/templates/{guid}/revisions/{createdOn}/publish:
+    $ref: ./templates/v3_templates_guid_revisions_createdOn_publish.yml
 
 # AppConfig
 /v3/appconfigs:
