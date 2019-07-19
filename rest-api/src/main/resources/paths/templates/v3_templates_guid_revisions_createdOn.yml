@@ -1,0 +1,20 @@
+get:
+    operationId: getTemplateRevision
+    summary: Get a single template document revision
+    tags: 
+        - Templates
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+        - $ref: ../../index.yml#/parameters/createdOn
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/template_revision.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
