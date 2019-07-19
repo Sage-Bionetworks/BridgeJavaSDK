@@ -1,0 +1,15 @@
+description: |
+    An object that provides the creation timestamp for a newly created entity. This object is returned from create and update endpoints rather than an entire entity.
+type: object
+properties:
+    createdOn:
+        type: string
+        format: date-time
+        readOnly: true
+        description: The timestamp (created on) of the newly created entity.
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "CreatedOnHolder"
+        x-nullable: false

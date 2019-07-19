@@ -1,0 +1,45 @@
+get:
+    operationId: getTemplateRevisions
+    summary: Get the template document revisions
+    tags: 
+        - Templates
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+        - $ref: ../../index.yml#/parameters/offsetBy
+        - $ref: ../../index.yml#/parameters/pageSize
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/template_revision.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+post:
+    operationId: createTemplateRevision
+    summary: Create a new revision of a template
+    tags:
+        - Templates
+        - _For Developers
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+        - name: TemplateRevision
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/template_revision.yml
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/created_on_holder.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
