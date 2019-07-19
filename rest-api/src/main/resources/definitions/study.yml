@@ -191,16 +191,6 @@ properties:
             **Can only be set by an administrator.** Should the system send a confirmation SMS message on sign 
             up if phone verification is enabled?
         x-nullable: false
-    externalIdValidationEnabled:
-        type: boolean
-        default: false
-        description: |
-            **Can only be set by an administrator.** Should external identifiers be validated? If this is false, then the external ID is treated as an unconstrained string. If this is true, the study designer will need to enter the list of valid codes into Bridge. Bridge will ensure that the following is true:
-
-            * When assigned, the ID will have to match one of the IDs entered into Bridge;
-            * A given ID will be assigned to one and only one user;
-            * Once assigned, it is not possible to change or remove the external ID from the user account.
-        x-nullable: false
     emailSignInEnabled:
         type: boolean
         default: false
