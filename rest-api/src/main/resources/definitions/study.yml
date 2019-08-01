@@ -32,6 +32,11 @@ properties:
     consentNotificationEmailVerified:
         description: True if the consent notification email is verified. False if not.
         type: boolean
+    fitBitScopes:
+        type: array
+        description: List of FitBit scopes that are configured for this study.
+        items:
+            type: string
     installLinks:
         type: object
         description: |
