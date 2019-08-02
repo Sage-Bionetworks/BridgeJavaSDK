@@ -210,7 +210,7 @@ properties:
         x-nullable: false
     reauthenticationEnabled:
         type: boolean
-        default: false
+        default: true
         description: |
             **Can only be set by an administrator.** Enable or disable the ability to issue a reauthentication token in a session, and call the reauthentication APIs to issue a new session. 
         x-nullable: false
