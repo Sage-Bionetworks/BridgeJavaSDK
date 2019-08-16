@@ -149,28 +149,6 @@ properties:
             Settings that will govern what is accepted as a valid password when users sign up for the study. If not included, the password policy will default to requiring 8 characters, including lower and upper-case letters, at least one number and at least one symbol.
         $ref: ./password_policy.yml
         x-nullable: false
-    verifyEmailTemplate:
-        description: |
-            The template for emails delivered to users during sign up, asking them to verify their email address.
-        $ref: ./email_template.yml
-        x-nullable: false
-    resetPasswordTemplate:
-        description: The template for emails delivered to users who ask to reset their passwords.
-        $ref: ./email_template.yml
-        x-nullable: false
-    emailSignInTemplate:
-        description: The template for an email that will contain a token to generate a session on the server.
-        $ref: ./email_template.yml
-        x-nullable: false
-    accountExistsTemplate:
-        description: |
-            The template for an email that will be sent if a user tries to sign up for a study more than once. It provides a means for the user to reset their password, if needed.
-        $ref: ./email_template.yml
-        x-nullable: false
-    appInstallLinkTemplate:
-        $ref: ./email_template.yml
-        description: The template for an email that will be sent if the user submits an intent to participate, directing the user to an appstore link to download your app. Template variable ${appInstallUrl} is required.
-        x-nullable: false
     active:
         type: boolean
         readOnly: true
@@ -273,26 +251,6 @@ properties:
             The entries this study contributes to the `/.well-known/assetlinks.json` file to enable app links for Android apps that use this study as the data store.
         items:
             $ref: ./android_app_link.yml
-        x-nullable: false
-    resetPasswordSmsTemplate:
-        $ref: ./sms_template.yml
-        description: Message sent to user with a link to a page where password can be reset. Template variable ${url} is required (depending on whether you wish to promp the user to reset a password or sign in using this account, or both).
-        x-nullable: false
-    phoneSignInSmsTemplate:
-        $ref: ./sms_template.yml
-        description: Message sent to user with a code to validate through the application. Template variable ${token} is required.
-        x-nullable: false
-    appInstallLinkSmsTemplate:
-        $ref: ./sms_template.yml
-        description: Message sent to the user after submitting an intent to participate, directing the user to an appstore link to download your app. Template variable ${appInstallUrl} is required.
-        x-nullable: false
-    verifyPhoneSmsTemplate:
-        $ref: ./sms_template.yml
-        description: Message sent to user with a code to verify a phone number through the application. Template variable ${token} is required.
-        x-nullable: false
-    accountExistsSmsTemplate:
-        $ref: ./sms_template.yml
-        description: Message sent to user if the user tries to sign up with an existing phone number. Template variable ${passwordResetUrl} or ${token} is required.
         x-nullable: false
     type:
         type: string
