@@ -252,6 +252,13 @@ properties:
         items:
             $ref: ./android_app_link.yml
         x-nullable: false
+    defaultTemplates:
+        type: object
+        description: |
+            A map between a type of template, and the template revision that should be used as a default if matching templates to a user is ambiguous.
+        additionalProperties:
+            type: string
+        x-nullable: false        
     type:
         type: string
         readOnly: true
