@@ -22,6 +22,10 @@ properties:
         description: |
             The callback URL that the client provides to retrieve the authorization token. This must match that callback URL exactly.
         x-nullable: false
+    introspectEndpoint:
+        type: string
+        description: OAuth introspect URL, as defined by RFC7662. Optional but recommended.
+        x-nullable: true
     type:
         type: string
         readOnly: true
