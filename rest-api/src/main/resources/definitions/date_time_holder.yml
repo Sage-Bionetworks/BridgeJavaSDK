@@ -1,0 +1,15 @@
+description: |
+    An object that provides a timestamp for a newly created entity.
+type: object
+properties:
+    dateTime:
+        type: string
+        format: date-time
+        readOnly: true
+        description: The timestamp (date time) of the newly created entity.
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "DateTimeHolder"
+        x-nullable: false
