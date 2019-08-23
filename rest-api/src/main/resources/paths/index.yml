@@ -339,8 +339,6 @@
     $ref: ./studies/v3_studies_studyId_participants_healthCode.yml
 /v3/studies/{studyId}/participants/externalId:{externalId}:
     $ref: ./studies/v3_studies_studyId_participants_externalId.yml
-/v3/studies/{studyId}/participants/{userId}/studyStartDate:
-    $ref: ./studies/v3_studies_studyId_participants_userId_studyStartDate.yml
 /v3/studies/{studyId}/participants/{userId}/reports/{reportId}:
     $ref: ./studies/v3_studies_studyId_participants_userId_reports_reportId.yml
 /v3/studies/{studyId}/participants/{userId}/sendSmsMessage:

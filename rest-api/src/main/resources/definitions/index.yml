@@ -93,8 +93,6 @@ DataGroups:
     $ref: ./data_groups.yml
 DateRange:
     $ref: ./date_range.yml
-DateTimeHolder:
-    $ref: ./date_time_holder.yml
 EmailSignIn:
     $ref: ./email_signin.yml
 EmailSignInRequest:
