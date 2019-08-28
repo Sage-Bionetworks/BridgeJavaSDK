@@ -122,6 +122,12 @@ properties:
         additionalProperties:
             type: string
         x-nullable: false
+    userLanguages:
+        type: array
+        readOnly: true
+        items:
+            type: string
+        description: The user's language preferences at the time of this upload.
     validationErrors:
         type: string
         readOnly: true
