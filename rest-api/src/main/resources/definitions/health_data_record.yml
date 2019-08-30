@@ -27,6 +27,13 @@ properties:
         readOnly: true
         description: JSON map with key value pairs representing the record's data.
         x-nullable: false
+    dayInStudy:
+        type: integer
+        readOnly: true
+        description: |
+            How many calendar days the participant has been in the study. For example, if the participant started on |
+            2019-07-24, then 2019-07-24 is day 1, 2019-07-25 is day 2, etc. Calendar days are calculated using the |
+            same timezone as the Bridge Exporter (ie, America/Los_Angeles).
     id:
         type: string
         readOnly: true

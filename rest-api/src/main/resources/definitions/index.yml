@@ -97,8 +97,6 @@ EmailSignIn:
     $ref: ./email_signin.yml
 EmailSignInRequest:
     $ref: ./email_signin_request.yml
-EmailTemplate:
-    $ref: ./email_template.yml
 EmailVerificationStatus:
     $ref: ./email_verification_status.yml
 ExternalIdentifier:

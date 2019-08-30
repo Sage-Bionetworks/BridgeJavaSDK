@@ -44,6 +44,13 @@ properties:
         items:
             type: string
         x-nullable: false
+    externalIds:
+        type: object
+        readOnly: true
+        description: A map of substudy ID to external ID for all the external IDs that have been assigned to this participant.
+        additionalProperties:
+            type: string
+        x-nullable: false
     type:
         type: string
         readOnly: true
