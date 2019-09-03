@@ -353,6 +353,8 @@
     $ref: ./studies/v3_studies_studyId_participants_userId_activities_surveys_surveyGuid.yml
 /v3/studies/{studyId}/participants/{userId}/activities/compoundactivities/{taskId}:
     $ref: ./studies/v3_studies_studyId_participants_userId_activities_compoundactivities_taskId.yml
+/v3/studies/{studyId}/participants/{userId}/requestInfo:
+    $ref: ./studies/v3_studies_studyId_participants_userId_requestInfo.yml
 /v4/studies/{studyId}/participants/{userId}/reports/{reportId}:
     $ref: ./studies/v4_studies_studyId_participants_userId_reports_reportId.yml
 /v3/studies/{studyId}/oauth/{vendorId}:
