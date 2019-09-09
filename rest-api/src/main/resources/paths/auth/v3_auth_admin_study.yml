@@ -3,8 +3,7 @@ post:
     tags:
       - _For Admins
     description: |
-        Change the study an administrator is in. The only value that needs to be included in the 
-        request is the study parameter.
+        Change the study an administrator is in (this does not work for study-scoped admins who are limited to operating only within a given study; this is the majority of admin accounts outside of Sage Bionetworks). The only value that needs to be included in the request is the study parameter.
     parameters:
         - name: SignIn
           in: body
@@ -17,6 +16,10 @@ post:
             description: OK
             schema:
                 $ref: ../../definitions/user_session_info.yml
+        403:
+            description: Admin user is only scoped to operate within a specific study, and cannot switch to another study.
+            schema:
+                $ref: ../../definitions/message.yml
         404:
             description: Study doesn't exist, credentials incorrect, user does not exist, or email/phone have not been verified.
             schema:
