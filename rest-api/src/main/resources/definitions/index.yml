@@ -125,6 +125,8 @@ IntentToParticipate:
     $ref: ./intent_to_participate.yml
 InvalidEntity:
     $ref: ./invalid_entity.yml
+MasterSchedulerConfig:
+    $ref: ./master_scheduler_config.yml
 Message:
     $ref: ./message.yml
 NotificationMessage:
