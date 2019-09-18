@@ -38,6 +38,12 @@
 /v3/auth/admin/study:
     $ref: ./auth/v3_auth_admin_study.yml
 
+# Files
+/v3/files:
+    $ref: ./files/v3_files.yml
+/v3/files/{guid}:
+    $ref: ./files/v3_files_guid.yml
+
 # Scheduled Activities
 /v3/activities:
     $ref: ./activities/v3_activities.yml
