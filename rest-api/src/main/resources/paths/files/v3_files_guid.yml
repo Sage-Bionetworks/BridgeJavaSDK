@@ -1,0 +1,71 @@
+get:
+    operationId: getFile
+    summary: Get a file resource
+    tags:
+        - Files
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    description: |
+        Get a file resource for this study.
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/file_metadata.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+post:
+    operationId: updateFile
+    summary: Update an existing file resource
+    tags:
+        - Files
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    description: |
+        Update an existing file resource.
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+        - name: File
+          in: body
+          description: Updated file
+          required: true
+          schema:
+              $ref: ../../definitions/file_metadata.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/guid_version_holder.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+delete:
+    operationId: deleteFile
+    summary: Delete file resource (and all revisions) 
+    tags:
+        - Files
+        - _For Developers
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    description: |
+        Delete an existing file resource (and all its revisions, if the delete is physical).
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+        - $ref: ../../index.yml#/parameters/physical
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin_developer.yml
