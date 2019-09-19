@@ -1,0 +1,15 @@
+description: |
+    An object that provides a timestamp.
+type: object
+properties:
+    timestamp:
+        type: string
+        format: date-time
+        readOnly: true
+        description: The datetime of an entity.
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "DateTimeHolder"
+        x-nullable: false

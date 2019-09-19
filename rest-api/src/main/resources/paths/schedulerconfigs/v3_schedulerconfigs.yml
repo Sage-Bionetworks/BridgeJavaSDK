@@ -21,11 +21,18 @@ post:
         - _For Admins
     security:
         - BridgeSecurity: []
+    parameters:
+        - name: MasterSchedulerConfig
+          in: body
+          description: Master scheduler config 
+          required: true
+          schema:
+                $ref: ../../definitions/master_scheduler_config.yml
     responses:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/guid_version_holder.yml
+                $ref: ../../definitions/master_scheduler_config.yml
         401:
             $ref: ../../responses/401.yml
         403:

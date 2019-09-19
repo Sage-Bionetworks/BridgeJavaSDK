@@ -227,6 +227,8 @@ Template:
     $ref: ./template.yml
 TemplateRevision:
     $ref: ./template_revision.yml
+DateTimeHolder:
+    $ref: ./date_time_holder.yml
 Upload:
     $ref: ./upload.yml
 UploadFieldDefinition:
