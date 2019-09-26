@@ -2,7 +2,7 @@ description: |
     An object that provides a timestamp.
 type: object
 properties:
-    timestamp:
+    dateTime:
         type: string
         format: date-time
         readOnly: true
