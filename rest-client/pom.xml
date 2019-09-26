@@ -126,7 +126,7 @@
                             <environmentVariables>
                                 <models></models>
                                 <apis></apis>
-                                <supportingFiles>CollectionFormats.java,StringUtil.java</supportingFiles>
+                                <supportingFiles>File.java,CollectionFormats.java,StringUtil.java</supportingFiles>
                                 <apiTests>false</apiTests>
                             </environmentVariables>
                         </configuration>
