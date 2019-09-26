@@ -7,7 +7,6 @@ properties:
         format: date-time
         readOnly: true
         description: The datetime of an entity.
-        x-nullable: false
     type:
         type: string
         readOnly: true
