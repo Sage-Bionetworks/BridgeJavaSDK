@@ -41,4 +41,5 @@ enum:
     - toggle
     - weight
     - yearmonth
+    - year
     - postalcode
