@@ -113,6 +113,8 @@ HealthDataRecord:
     $ref: ./health_data_record.yml
 HealthDataSubmission:
     $ref: ./health_data_submission.yml
+FileMetadata:
+    $ref: ./file_metadata.yml
 Identifier:
     $ref: ./identifier.yml
 IdentifierHolder:
@@ -271,6 +273,8 @@ CompoundActivityDefinitionList:
     $ref: ./paged_resources/compound_activity_definition.yml
 ExternalIdentifierList:
     $ref: ./paged_resources/external_identifier.yml
+FileMetadataList:
+    $ref: ./paged_resources/file_metadata.yml
 HealthDataRecordList:
     $ref: ./paged_resources/health_data_record.yml
 NotificationRegistrationList:
