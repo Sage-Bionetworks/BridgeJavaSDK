@@ -345,6 +345,8 @@ PostalCodeConstraints:
     $ref: ./constraints/postalcode_constraints.yml
 YearMonthConstraints:
     $ref: ./constraints/yearmonth_constraints.yml
+YearConstraints:
+    $ref: ./constraints/year_constraints.yml
 TimeConstraints:
     $ref: ./constraints/time_constraints.yml
 DurationConstraints:
