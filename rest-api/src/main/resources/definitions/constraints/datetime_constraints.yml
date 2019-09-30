@@ -7,17 +7,17 @@ allOf:
             type: boolean
             default: false
             description: Should this question allow answers in the future?
+        allowPast:
+            type: boolean
+            default: true
+            description: Should this question allow answers in the past?
         earliestValue:
             type: string
             format: date-time
             description: |
-                ISO 8601 date and time value that is the earliest value that may be set for this question. 
-                If allowFuture is false, that constraint should also be applied regardless of 
-                earliest/latestValue constraints.
+                ISO 8601 date and time value that is the earliest value that may be set for this question. If allowFuture is false, that constraint should also be applied regardless of earliest/latestValue constraints.
         latestValue:
             type: string
             format: date-time
             description: |
-                ISO 8601 date and time value that is the earliest value that may be set for this question. 
-                If allowFuture is false, that constraint should also be applied regardless of  
-                earliest/latestValue constraints.
+                ISO 8601 date and time value that is the earliest value that may be set for this question. If allowFuture is false, that constraint should also be applied regardless of earliest/latestValue constraints.
