@@ -241,8 +241,6 @@ UploadValidationStatus:
     $ref: ./upload_validation_status.yml
 UserConsentHistory:
     $ref: ./user_consent_history.yml
-UserProfile:
-    $ref: ./user_profile.yml
 UserSessionInfo:
     $ref: ./user_session_info.yml
 Verification:
