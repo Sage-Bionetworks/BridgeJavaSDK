@@ -21,6 +21,7 @@ description: |
     |toggle|A switch or toggle control to select a boolean state||
     |weight|A control for entering an adult or infant weight value in a specified unit of measurement||
     |yearmonth|A control for entering a year and month. This is often a custom UI control.||
+    |year|A specialized control for entering a year. This is often a custom UI control.||
     |postalcode|A control for entering a partial postal code. For example, to enter the first three digits of a US zip code, the control might have an input like ___XX.||
 enum:
     - bloodpressure
@@ -40,4 +41,5 @@ enum:
     - toggle
     - weight
     - yearmonth
+    - year
     - postalcode
