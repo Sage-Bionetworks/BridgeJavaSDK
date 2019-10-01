@@ -9,7 +9,7 @@ get:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/master_scheduler_config.yml
+                $ref: ../../definitions/paged_resources/master_scheduler_config.yml
         401:
             $ref: ../../responses/401.yml
         403:
