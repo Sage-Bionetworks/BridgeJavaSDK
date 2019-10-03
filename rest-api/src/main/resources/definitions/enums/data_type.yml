@@ -19,6 +19,7 @@ description: |
     |height|Height measurement|
     |weight|Weight measurement|
     |yearmonth|Year and month value ("YYYY-MM")|
+    |year|Year value ("YYYY")|
     |postalcode|Partial postal code|
 
 enum:
@@ -34,4 +35,5 @@ enum:
     - height
     - weight
     - yearmonth
+    - year
     - postalcode

@@ -47,6 +47,7 @@ import org.sagebionetworks.bridge.rest.model.UploadRequest;
 import org.sagebionetworks.bridge.rest.model.UploadSession;
 import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 import org.sagebionetworks.bridge.rest.model.WeightConstraints;
+import org.sagebionetworks.bridge.rest.model.YearConstraints;
 import org.sagebionetworks.bridge.rest.model.YearMonthConstraints;
 
 import com.google.common.base.Joiner;
@@ -104,7 +105,8 @@ public class RestUtils {
             .registerSubtype(HeightConstraints.class, HeightConstraints.class.getSimpleName())
             .registerSubtype(WeightConstraints.class, WeightConstraints.class.getSimpleName())
             .registerSubtype(YearMonthConstraints.class, YearMonthConstraints.class.getSimpleName())
-            .registerSubtype(PostalCodeConstraints.class, PostalCodeConstraints.class.getSimpleName());
+            .registerSubtype(PostalCodeConstraints.class, PostalCodeConstraints.class.getSimpleName())
+            .registerSubtype(YearConstraints.class, YearConstraints.class.getSimpleName());
     
     public static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(byte[].class, new ByteArrayToBase64TypeAdapter())

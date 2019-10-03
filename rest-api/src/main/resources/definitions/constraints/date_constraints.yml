@@ -9,6 +9,10 @@ allOf:
             type: boolean
             default: false
             description: Should this question allow answers in the future?
+        allowPast:
+            type: boolean
+            default: true
+            description: Should this question allow answers in the past?
         earliestValue:
             type: string
             format: date

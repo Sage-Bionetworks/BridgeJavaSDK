@@ -245,8 +245,6 @@ UploadValidationStatus:
     $ref: ./upload_validation_status.yml
 UserConsentHistory:
     $ref: ./user_consent_history.yml
-UserProfile:
-    $ref: ./user_profile.yml
 UserSessionInfo:
     $ref: ./user_session_info.yml
 Verification:
@@ -351,6 +349,8 @@ PostalCodeConstraints:
     $ref: ./constraints/postalcode_constraints.yml
 YearMonthConstraints:
     $ref: ./constraints/yearmonth_constraints.yml
+YearConstraints:
+    $ref: ./constraints/year_constraints.yml
 TimeConstraints:
     $ref: ./constraints/time_constraints.yml
 DurationConstraints:
