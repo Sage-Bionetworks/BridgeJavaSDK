@@ -12,9 +12,6 @@ properties:
         x-nullable:  false
     description:
         type: string
-    mimeType:
-        type: string
-        description: An optional declaration of the MIME type of this file (if none is provided, one will be autodetected from the file when requested).
     createdOn:
         type: string
         format: date-time

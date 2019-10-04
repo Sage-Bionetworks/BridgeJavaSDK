@@ -1,0 +1,55 @@
+get:
+    operationId: getFileRevisions
+    summary: Get the revision history of a file resource
+    tags:
+        - Files
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    description: |
+        Get the paginated revision history of a file resource.
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+        - $ref: ../../index.yml#/parameters/offsetBy
+        - $ref: ../../index.yml#/parameters/pageSize
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/file_revision.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+post:
+    operationId: createFileRevision
+    summary: Create a new file resource revision.
+    tags:
+        - Files
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    description: |
+        Create a new file resource revision. The record returns contains the `uploadURL` field, where the resource must be PUT using an HTTP library with the following two headers:
+
+        - **Content-Type** The mime type of the resource that was posted to this endpoint;
+        - **Content-Disposition** A content disposition header with the value of `attachment; filename="name"` where the name is the name included in the revision object posted to this endpoint.
+
+        This uplod URL expires in 10 minutes. When this upload has been completed, the client should then call the `finishFileRevision` API (these steps are also encapsulated in the `RestUtils.uploadHostedFileToS3` method).
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+        - name: FileRevision
+          in: body
+          description: New file revision
+          required: true
+          schema:
+              $ref: ../../definitions/file_revision.yml
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/file_revision.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
