@@ -11,23 +11,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import org.sagebionetworks.bridge.rest.model.ClientInfo;
 import org.sagebionetworks.bridge.rest.model.ConsentStatus;
 import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 
-import retrofit2.Call;
-import retrofit2.Response;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(RestUtils.class)
 public class RestUtilsTest extends Mockito {
     
     @Test
