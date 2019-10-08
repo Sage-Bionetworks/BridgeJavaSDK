@@ -131,6 +131,8 @@ IntentToParticipate:
     $ref: ./intent_to_participate.yml
 InvalidEntity:
     $ref: ./invalid_entity.yml
+MasterSchedulerConfig:
+    $ref: ./master_scheduler_config.yml
 Message:
     $ref: ./message.yml
 NotificationMessage:
@@ -231,6 +233,8 @@ Template:
     $ref: ./template.yml
 TemplateRevision:
     $ref: ./template_revision.yml
+DateTimeHolder:
+    $ref: ./date_time_holder.yml
 Upload:
     $ref: ./upload.yml
 UploadFieldDefinition:
@@ -285,6 +289,8 @@ NotificationRegistrationList:
     $ref: ./paged_resources/notification_registration.yml
 NotificationTopicList:
     $ref: ./paged_resources/notification_topic.yml
+MasterSchedulerConfigList:
+    $ref: ./paged_resources/master_scheduler_config.yml
 ReportDataList:
     $ref: ./paged_resources/report_data.yml
 ForwardCursorReportDataList:

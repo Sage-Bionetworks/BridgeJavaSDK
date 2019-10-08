@@ -71,6 +71,12 @@ parameters:
         in: path
         type: integer
         format: int64
+    scheduleId:
+        name: scheduleId
+        description: Scheduler identifier
+        required: true
+        in: path
+        type: string
     schedulePlanGuid:
         name: schedulePlanGuid
         description: Schedule plan GUID

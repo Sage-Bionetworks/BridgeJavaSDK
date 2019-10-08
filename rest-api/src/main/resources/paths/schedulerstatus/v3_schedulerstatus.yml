@@ -1,0 +1,16 @@
+get:
+    operationId: getSchedulerStatus
+    summary: Get the last time the scheduler ran
+    tags: 
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/date_time_holder.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml
