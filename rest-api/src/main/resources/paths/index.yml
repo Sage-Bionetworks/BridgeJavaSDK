@@ -43,6 +43,10 @@
     $ref: ./files/v3_files.yml
 /v3/files/{guid}:
     $ref: ./files/v3_files_guid.yml
+/v3/files/{guid}/revisions:
+    $ref: ./files/v3_files_guid_revisions.yml
+/v3/files/{guid}/revisions/{createdOn}:
+    $ref: ./files/v3_files_guid_revisions_createdOn.yml
 
 # Scheduled Activities
 /v3/activities:

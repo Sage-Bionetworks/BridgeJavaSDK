@@ -1,0 +1,26 @@
+post:
+    operationId: finishFileRevision
+    summary: Indicate to the server that a file revision upload has been completed.
+    tags:
+        - Files
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    description: |
+        Indicate to the server that a file revision upload has been completed. If this call is made and the S3 file is found, the revision record is moved from the `pending` to the `available` state (and the upload URL is removed from the record). If the S3 record is *not* on the server, then this call will return a 404 and the `FileRevision` record will be deleted.
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+        - $ref: ../../index.yml#/parameters/createdOn
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+        404:
+          description: If the `guid` and `createdOn` timestamp are correct, this indicates that the contents of the file revision were not successfully uploaded to S3, and this record will be deleted.
+          schema:
+              $ref: ../../definitions/message.yml

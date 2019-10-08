@@ -8,6 +8,8 @@ DataType:
     $ref: ./enums/data_type.yml
 Environment:
     $ref: ./enums/environment.yml
+FileRevisionStatus:
+    $ref: ./enums/file_revision_status.yml
 NotificationProtocol:
     $ref: ./enums/notification_protocol.yml
 ScheduleType:
@@ -115,6 +117,8 @@ HealthDataSubmission:
     $ref: ./health_data_submission.yml
 FileMetadata:
     $ref: ./file_metadata.yml
+FileRevision:
+    $ref: ./file_revision.yml
 Identifier:
     $ref: ./identifier.yml
 IdentifierHolder:
@@ -277,6 +281,8 @@ ExternalIdentifierList:
     $ref: ./paged_resources/external_identifier.yml
 FileMetadataList:
     $ref: ./paged_resources/file_metadata.yml
+FileRevisionList:
+    $ref: ./paged_resources/file_revision.yml
 HealthDataRecordList:
     $ref: ./paged_resources/health_data_record.yml
 NotificationRegistrationList:
