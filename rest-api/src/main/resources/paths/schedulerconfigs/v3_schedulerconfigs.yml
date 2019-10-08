@@ -1,0 +1,39 @@
+get:
+    operationId: getAllSchedulerConfigs
+    summary: Get list of scheduler configs
+    tags: 
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/master_scheduler_config.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml
+post:
+    operationId: createSchedulerConfig
+    summary: Create a scheduler config
+    tags: 
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - name: MasterSchedulerConfig
+          in: body
+          description: Master scheduler config 
+          required: true
+          schema:
+                $ref: ../../definitions/master_scheduler_config.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/master_scheduler_config.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml

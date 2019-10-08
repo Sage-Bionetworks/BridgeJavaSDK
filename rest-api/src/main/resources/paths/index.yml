@@ -284,6 +284,16 @@
 /v3/scheduleplans/{schedulePlanGuid}:
     $ref: ./scheduleplans/v3_scheduleplans_schedulePlanGuid.yml
 
+# Scheduler configs
+/v3/schedulerconfigs:
+    $ref: ./schedulerconfigs/v3_schedulerconfigs.yml
+/v3/schedulerconfigs/{scheduleId}:
+    $ref: ./schedulerconfigs/v3_schedulerconfigs_scheduleId.yml
+
+# Scheduler status
+/v3/schedulerstatus:
+    $ref: ./schedulerstatus/v3_schedulerstatus.yml
+
 # Activity events
 /v1/activityevents:
     $ref: ./activityevents/v1_activityevents.yml
