@@ -1,0 +1,41 @@
+description: |
+    An object that tracks the existence of an individual revision of a file resource in S3.
+type: object
+required:
+    - name
+    - mimeType
+properties:
+    name:
+        type: string
+    fileGuid:
+        type: string
+        x-nullable:  false
+    description:
+        type: string
+    mimeType:
+        type: string
+        description: An optional declaration of the MIME type of this file (if none is provided, one will be autodetected from the file when requested).
+    createdOn:
+        type: string
+        format: date-time
+        readOnly: true
+        description: The date and time the account was created.
+        x-nullable: false
+    size:
+        type: integer
+        format: int64
+    uploadURL:
+        type: string
+        readOnly: true
+    downloadURL:
+        type: string
+        readOnly: true
+    status:
+        $ref: ./enums/file_revision_status.yml
+        readOnly: true
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "FileRevision"
+        x-nullable:  false

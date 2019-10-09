@@ -43,6 +43,10 @@
     $ref: ./files/v3_files.yml
 /v3/files/{guid}:
     $ref: ./files/v3_files_guid.yml
+/v3/files/{guid}/revisions:
+    $ref: ./files/v3_files_guid_revisions.yml
+/v3/files/{guid}/revisions/{createdOn}:
+    $ref: ./files/v3_files_guid_revisions_createdOn.yml
 
 # Scheduled Activities
 /v3/activities:
@@ -283,6 +287,16 @@
     $ref: ./scheduleplans/v3_scheduleplans.yml
 /v3/scheduleplans/{schedulePlanGuid}:
     $ref: ./scheduleplans/v3_scheduleplans_schedulePlanGuid.yml
+
+# Scheduler configs
+/v3/schedulerconfigs:
+    $ref: ./schedulerconfigs/v3_schedulerconfigs.yml
+/v3/schedulerconfigs/{scheduleId}:
+    $ref: ./schedulerconfigs/v3_schedulerconfigs_scheduleId.yml
+
+# Scheduler status
+/v3/schedulerstatus:
+    $ref: ./schedulerstatus/v3_schedulerstatus.yml
 
 # Activity events
 /v1/activityevents:
