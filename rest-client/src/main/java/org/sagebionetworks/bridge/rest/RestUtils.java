@@ -2,10 +2,13 @@ package org.sagebionetworks.bridge.rest;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.FileNameMap;
 import java.net.URI;
+import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -15,6 +18,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
+import org.sagebionetworks.bridge.rest.api.FilesApi;
 import org.sagebionetworks.bridge.rest.api.ForConsentedUsersApi;
 import org.sagebionetworks.bridge.rest.gson.ByteArrayToBase64TypeAdapter;
 import org.sagebionetworks.bridge.rest.gson.DateTimeTypeAdapter;
@@ -31,6 +35,7 @@ import org.sagebionetworks.bridge.rest.model.DateConstraints;
 import org.sagebionetworks.bridge.rest.model.DateTimeConstraints;
 import org.sagebionetworks.bridge.rest.model.DecimalConstraints;
 import org.sagebionetworks.bridge.rest.model.DurationConstraints;
+import org.sagebionetworks.bridge.rest.model.FileRevision;
 import org.sagebionetworks.bridge.rest.model.HeightConstraints;
 import org.sagebionetworks.bridge.rest.model.IntegerConstraints;
 import org.sagebionetworks.bridge.rest.model.MultiValueConstraints;
@@ -352,6 +357,65 @@ public class RestUtils {
     }
     
     /**
+     * A utility method for uploading static asset files that are hosted by Bridge and referenceable
+     * from the AppConfig defined for an application.
+     * 
+     * @param fileApi
+     *  the FileApi client object
+     * @param fileGuid
+     *  the GUID of the FileMetadata object of which this file is one revision
+     * @param file
+     *  a File reference to the content of the FileRevision
+     * @return
+     *  a download URL for any client to request and download the file via HTTP GET.
+     * @throws IOException
+     */
+    public static String uploadHostedFileToS3(FilesApi fileApi, String fileGuid, File file) throws IOException {
+        checkNotNull(fileApi, "FileApi cannot be null");
+        checkNotNull(fileGuid, "FileMetadata guid cannot be null");
+        checkNotNull(file, "File cannot be null");
+        checkArgument(file.exists(), "File does not exist: " + file.getAbsolutePath());
+        
+        FileNameMap fileNameMap = URLConnection.getFileNameMap();
+        String mimeType = fileNameMap.getContentTypeFor(file.getName());        
+        checkNotNull(mimeType, "Mime type cannot be detected: " + mimeType);
+        
+        long size = java.nio.file.Files.size(file.toPath());
+        checkArgument(size > 0, "File size cannot be detected: " + size);
+        
+        FileRevision revision = new FileRevision();
+        revision.setFileGuid(fileGuid);
+        revision.setName(file.getName());
+        revision.setMimeType(mimeType);
+        revision.setSize(size);
+        
+        String contentDisposition = "attachment; filename=\""+ revision.getName() +"\"";
+        RequestBody body = RequestBody.create(MediaType.parse(revision.getMimeType()), file);
+        
+        FileRevision updated = fileApi.createFileRevision(fileGuid, revision).execute().body();
+        
+        URI uri = URI.create(updated.getUploadURL());
+        String baseUrl = uri.getScheme()+"://"+uri.getHost()+"/";
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(5, MINUTES)
+                .readTimeout(5, MINUTES)
+                .writeTimeout(5, MINUTES)
+                .addInterceptor(new ErrorResponseInterceptor())
+                .addInterceptor(new LoggingInterceptor())
+                .retryOnConnectionFailure(false).build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .client(client).build();
+
+        retrofit.create(HostS3Service.class).uploadToS3(
+                updated.getUploadURL(), body, contentDisposition, updated.getMimeType()).execute();
+        
+        fileApi.finishFileRevision(fileGuid, updated.getCreatedOn()).execute();
+        return updated.getDownloadURL();
+    }
+    
+    /**
      * Makes a defensive copy of SignIn for internal use.
      * <br>
      * We make a defensive copy to 1) ensure object does not change since it is used as the Map's
@@ -374,6 +438,12 @@ public class RestUtils {
         @PUT
         Call<Void> uploadToS3(@Url String url, @Body RequestBody body, @Header("Content-MD5") String md5Hash,
                 @Header("Content-Type") String contentType);
+    }
+    
+    interface HostS3Service {
+        @PUT
+        Call<Void> uploadToS3(@Url String url, @Body RequestBody body,
+                @Header("Content-Disposition") String contentDisposition, @Header("Content-Type") String contentType);
     }
     
     private static boolean isNotBlank(String string) {

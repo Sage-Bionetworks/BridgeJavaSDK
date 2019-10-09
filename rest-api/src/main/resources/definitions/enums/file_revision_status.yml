@@ -1,0 +1,9 @@
+type: string
+description: |
+    |State|Description|
+    |---|---|
+    |pending|The client has requested and created a `FileRevision` object, and must now PUT the actual file resource to S3, using the `uploadURL` in the `FileRevision` object.|
+    |available|The client has called the `finishFileRevision` endpoint and the server confirmed that the file is available.|
+enum:
+    - pending
+    - available
