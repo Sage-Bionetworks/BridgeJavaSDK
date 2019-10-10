@@ -103,6 +103,8 @@ EmailVerificationStatus:
     $ref: ./email_verification_status.yml
 ExternalIdentifier:
     $ref: ./external_identifier.yml
+FileReference:
+    $ref: ./file_reference.yml
 GeneratedPassword:
     $ref: ./generated_password.yml
 GuidCreatedOnVersionHolder:
