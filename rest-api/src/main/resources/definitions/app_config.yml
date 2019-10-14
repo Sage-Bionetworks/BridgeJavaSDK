@@ -54,6 +54,11 @@ properties:
         items:
             $ref: ./config_reference.yml
         x-nullable: false
+    fileReferences:
+        type: array
+        items:
+            $ref: ./file_reference.yml
+        x-nullable: false
     configElements:
         type: object
         description: |

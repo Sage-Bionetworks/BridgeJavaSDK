@@ -1,0 +1,26 @@
+type: object
+description: |
+    A pointer to a file revision hosted for this study.
+required:
+    - guid
+    - createdOn
+properties:
+    guid:
+        type: string
+        description: The file guid
+        x-nullable: false
+    createdOn:
+        type: string
+        format: date-time
+        description: The createdOn timestamp of the file revision
+        x-nullable: false
+    href:
+        type: string
+        readOnly: true
+        description: An URL to retrieve the file revision
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "FileReference"
+        x-nullable: false
