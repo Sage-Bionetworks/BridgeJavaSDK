@@ -93,6 +93,8 @@
     $ref: ./participants/v3_participants_externalId.yml
 /v3/participants/healthCode:{healthCode}:
     $ref: ./participants/v3_participants_healthCode.yml
+/v3/participants/syn:{synapseUserId}:
+    $ref: ./participants/v3_participants_synapseUserId.yml
 /v3/participants/{userId}/healthdata:
     $ref: ./participants/v3_participants_userId_healthdata.yml
 /v3/participants/{userId}/sms/recent:
@@ -359,6 +361,8 @@
     $ref: ./studies/v3_studies_studyId_participants_healthCode.yml
 /v3/studies/{studyId}/participants/externalId:{externalId}:
     $ref: ./studies/v3_studies_studyId_participants_externalId.yml
+/v3/studies/{studyId}/participants/syn:{synapseUserId}:
+    $ref: ./studies/v3_studies_studyId_participants_synapseUserId.yml
 /v3/studies/{studyId}/participants/{userId}/reports/{reportId}:
     $ref: ./studies/v3_studies_studyId_participants_userId_reports_reportId.yml
 /v3/studies/{studyId}/participants/{userId}/sendSmsMessage:
