@@ -1,6 +1,6 @@
 type: object
 description: |
-    An update to the key identifier fields of an account (email or phone number). To update these fields, the caller must submit authentication credentials, either sign in credentials or the reauthToken that was sent on sign in. This is to prevent the account from being hijacked through the hijacking of a user's session token.
+    An update to the key identifier fields of an account (email, phone number, external ID or Synapse user ID). To update these fields, the caller must submit authentication credentials, either sign in credentials or the reauthToken that was sent on sign in. This is to prevent the account from being hijacked through the hijacking of a user's session token.
 required:
     - signIn
 properties:
@@ -18,6 +18,10 @@ properties:
         type: string
         description: |
             An external ID to add to the account. The external ID must be associated to a substudy the account has not yet been associated to.
+    synapseUserIdUpdate:
+        type: string
+        description: |
+            A synapse user ID (a number expressed as a string) to add to the account. 
     type:
         type: string
         readOnly: true

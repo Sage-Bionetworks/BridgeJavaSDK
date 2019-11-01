@@ -34,6 +34,12 @@ parameters:
         required: true
         in: path
         type: string
+    synapseUserId:
+        name: synapseUserId
+        description: User's Synapse user ID
+        required: true
+        in: path
+        type: string
     moduleId:
         name: moduleId
         description: Unique ID of the module.

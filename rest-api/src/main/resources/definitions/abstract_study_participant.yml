@@ -12,6 +12,10 @@ properties:
         description: |
             An externally-assignable identifier a research partner can use to re-identify a user's data in the exported data set (this must be provided by the application, it is not created by Bridge). The value can be set on creation or added on an account update, but it will be returned in the `externalIds` mapping which specifies the substudy within which the external ID was defined. This field will be null when 
             retrieved from the server.
+    synapseUserId:
+        type: string
+        description: |
+            The numerical identifier for a Synapse account. For administrative accounts, this will allow the user to sign in using Synapse accounts, no further credentials are needed to access the system. This value can only be set when creating an account; otherwise the identifiers update API must be used to add the ID to an existing account.
     id:
         type: string
         readOnly: true
