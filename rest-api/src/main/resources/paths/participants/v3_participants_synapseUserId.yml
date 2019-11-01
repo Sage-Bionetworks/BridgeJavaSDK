@@ -1,0 +1,20 @@
+get:
+    operationId: getParticipantBySynapseUserId
+    summary: Get a study participant (user) record using the Synapse user ID of the account
+    tags:
+        - Participants
+        - _For Researchers    
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/synapseUserId
+        - $ref: ../../index.yml#/parameters/consents
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/study_participant.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_researcher.yml

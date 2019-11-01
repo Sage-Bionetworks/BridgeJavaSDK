@@ -140,6 +140,10 @@ allOf:
             readOnly: true
             description: True if all *required* consents have been signed and the versions signed are the most up-to-date versions of those consents.
             x-nullable: false
+        synapseUserId:
+            type: string
+            description: |
+                The numerical identifier for a Synapse account. For administrative accounts, this will allow the user to sign in using Synapse accounts, no further credentials are needed to access the system. This value can only be set when creating an account; otherwise the identifiers update API must be used to add the ID to an existing account.
         consented:
             type: boolean
             readOnly: true

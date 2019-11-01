@@ -51,6 +51,11 @@ properties:
         additionalProperties:
             type: string
         x-nullable: false
+    synapseUserId:
+        type: string
+        readOnly: true
+        description: |
+            The numerical identifier for a Synapse account. For administrative accounts, this will allow the user to sign in using Synapse accounts, no further credentials are needed to access the system.
     type:
         type: string
         readOnly: true
