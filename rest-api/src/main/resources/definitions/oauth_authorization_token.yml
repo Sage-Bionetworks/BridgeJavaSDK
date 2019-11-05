@@ -1,10 +1,24 @@
 type: object
+required:
+    - authToken
 properties:
+    study:
+        type: string
+        description: |
+            The study the user is authenticating to (optional and used when authenticating with Brige via an OAuth server, currently only Synapse).
+    vendorId:
+        type: string
+        description: |
+            The OAuth service vendor through which the user is authenticating (currently the only supported vendor is "synapse");
     authToken:
         type: string
         description: |
             The OAuth 2.0 authorization token returned from the provider, which must be submitted to the Bridge server in order to retrieve an access token. This token is optional, but if provided, Bridge server will always renew the access token with the OAuth provider.
         x-nullable: false
+    callbackUrl:
+        type: string
+        description: |
+            The callback URL registered with the OAuth authentication server. This must match the value that was initially sent to the server and was used to redirect back to the Bridge client.
     type:
         type: string
         readOnly: true
