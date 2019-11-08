@@ -18,6 +18,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
+import org.sagebionetworks.bridge.rest.api.AuthenticationApi;
 import org.sagebionetworks.bridge.rest.api.FilesApi;
 import org.sagebionetworks.bridge.rest.api.ForConsentedUsersApi;
 import org.sagebionetworks.bridge.rest.gson.ByteArrayToBase64TypeAdapter;
@@ -39,6 +40,7 @@ import org.sagebionetworks.bridge.rest.model.FileRevision;
 import org.sagebionetworks.bridge.rest.model.HeightConstraints;
 import org.sagebionetworks.bridge.rest.model.IntegerConstraints;
 import org.sagebionetworks.bridge.rest.model.MultiValueConstraints;
+import org.sagebionetworks.bridge.rest.model.OAuthAuthorizationToken;
 import org.sagebionetworks.bridge.rest.model.PostalCodeConstraints;
 import org.sagebionetworks.bridge.rest.model.ScheduleStrategy;
 import org.sagebionetworks.bridge.rest.model.SignIn;
@@ -62,14 +64,17 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
+import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Url;
 
@@ -81,6 +86,9 @@ public class RestUtils {
     private static final Predicate<String> LANG_PREDICATE = Predicates.and(Predicates.notNull(),
             Predicates.containsPattern(".+"));
     private static final String BRIDGE_UPLOAD_MIME_TYPE = "application/zip";
+    private static final String SYNAPSE_LOGIN_URL = "https://repo-prod.prod.sagebase.org/auth/v1/login";
+    private static final String SYNAPSE_OAUTH_CONSENT = "https://repo-prod.prod.sagebase.org/auth/v1/oauth2/consent";
+    private static final String OAUTH_CALLBACK_URL = "https://research.sagebridge.org";
 
     // It's unfortunate but we need to specify subtypes for GSON.
 
@@ -416,6 +424,70 @@ public class RestUtils {
     }
     
     /**
+     * Sign in to the Synapse server using a Synapse account, and use this to authenticate with Bridge via OAuth. 
+     * This utility method combines the several calls needed to complete an OAuth-based authentication. By 
+     * signing into Bridge using a Synapse account, you consent to release your Synapse user ID to Bridge so  
+     * it can confirm your identity.
+     *  
+     * @param authApi the Bridge REST authentication API (does not require authentication) 
+     * @param signIn the sign in form with your Synapse credentials and target study to sign in to
+     * @return a Bridge user session if you successfully authenticate with Synapse
+     */
+    public static UserSessionInfo signInWithSynapse(AuthenticationApi authApi, SignIn signIn) throws Exception {
+        URI uri = URI.create(SYNAPSE_LOGIN_URL);
+        String baseUrl = uri.getScheme()+"://"+uri.getHost()+"/";
+        
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .addInterceptor(new ErrorResponseInterceptor())
+                .addInterceptor(new LoggingInterceptor())
+                .retryOnConnectionFailure(false).build();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client).build();
+
+        RequestBody body = makeRequestBody(
+                "username", signIn.getEmail(), 
+                "password", signIn.getPassword());
+
+        // Sign in to Synapse
+        JsonObject object = retrofit.create(SynapseSignIn.class)
+                .synapseSignIn(SYNAPSE_LOGIN_URL, body).execute().body();
+        String sessionToken = object.get("sessionToken").getAsString();
+
+        body = makeRequestBody(
+                "clientId", "100018", 
+                "scope", "openid", 
+                "responseType", "code",
+                "claims", "{\"id_token\":{\"userid\":null}}",
+                "redirectUri", OAUTH_CALLBACK_URL);
+        
+        object = retrofit.create(OauthConsent.class)
+                .oauthConsent(SYNAPSE_OAUTH_CONSENT, body, sessionToken).execute().body();
+        String authToken = object.get("access_code").getAsString();
+        
+        OAuthAuthorizationToken token = new OAuthAuthorizationToken()
+                .study(signIn.getStudy())
+                .authToken(authToken)
+                .vendorId("synapse")
+                .callbackUrl(OAUTH_CALLBACK_URL);
+        
+        return authApi.signInWithOauthToken(token).execute().body();
+    }
+    
+    private static RequestBody makeRequestBody(String... values) {
+        JsonObject payload = new JsonObject();
+        for (int i=0; i < values.length; i += 2) {
+            String key = values[i];
+            String value = values[i+1];
+            payload.addProperty(key, value);
+        }
+        return RequestBody.create(MediaType.parse("application/json"), payload.toString());
+    }
+    
+    /**
      * Makes a defensive copy of SignIn for internal use.
      * <br>
      * We make a defensive copy to 1) ensure object does not change since it is used as the Map's
@@ -432,6 +504,16 @@ public class RestUtils {
         }
 
         return signInKey;
+    }
+    
+    interface SynapseSignIn {
+        @POST
+        Call<JsonObject> synapseSignIn(@Url String url, @Body RequestBody body);
+    }
+    
+    interface OauthConsent {
+        @POST
+        Call<JsonObject> oauthConsent(@Url String url, @Body RequestBody body, @Header("sessiontoken") String sessionToken);
     }
     
     interface S3Service {
