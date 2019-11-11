@@ -51,6 +51,9 @@ public final class Config {
         SHARED_DEVELOPER_EMAIL,
         SHARED_DEVELOPER_PASSWORD,
         SHARED_DEVELOPER_STUDY,
+        SYNAPSE_TEST_USER,
+        SYNAPSE_TEST_USER_PASSWORD,
+        SYNAPSE_TEST_USER_ID,
         STUDY_IDENTIFIER;
 
         public String getPropertyName() {
