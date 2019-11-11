@@ -125,6 +125,17 @@ public final class Config {
     public void set(Environment env) {
         this.environment = env;
     }
+    
+    /**
+     * Arbitrary properties can be added to the bridge-sdk.properties file. These are not part of the 
+     * required properties to use the Bridge REST SDK. 
+     * @param propertyName the name of the configuration property
+     * @return the value of the property if it exists.
+     */
+    public String get(String propertyName) {
+        String value = config.getProperty(propertyName);
+        return (value == null) ? value : value.trim();
+    }
 
     public SignIn getAccountSignIn() {
         return new SignIn().study(getStudyIdentifier()).email(getAccountEmail()).password(getAccountPassword());
