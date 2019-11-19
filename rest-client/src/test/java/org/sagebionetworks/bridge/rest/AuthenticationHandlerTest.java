@@ -98,7 +98,7 @@ public class AuthenticationHandlerTest {
 
         assertEquals(0, authHandler.tryCount.get().intValue());
 
-        verify(builder).header(HeaderInterceptor.BRIDGE_SESSION, "sessionToken");        
+        verify(builder).header(HeaderInterceptor.BRIDGE_SESSION, "sessionToken"); 
     }
     
     @Test
