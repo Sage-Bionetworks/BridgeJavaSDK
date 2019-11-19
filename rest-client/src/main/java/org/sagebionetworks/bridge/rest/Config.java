@@ -51,6 +51,9 @@ public final class Config {
         SHARED_DEVELOPER_EMAIL,
         SHARED_DEVELOPER_PASSWORD,
         SHARED_DEVELOPER_STUDY,
+        SYNAPSE_TEST_USER,
+        SYNAPSE_TEST_USER_PASSWORD,
+        SYNAPSE_TEST_USER_ID,
         STUDY_IDENTIFIER;
 
         public String getPropertyName() {
@@ -124,6 +127,17 @@ public final class Config {
      */
     public void set(Environment env) {
         this.environment = env;
+    }
+    
+    /**
+     * Arbitrary properties can be added to the bridge-sdk.properties file. These are not part of the 
+     * required properties to use the Bridge REST SDK. 
+     * @param propertyName the name of the configuration property
+     * @return the value of the property if it exists.
+     */
+    public String get(String propertyName) {
+        String value = config.getProperty(propertyName);
+        return (value == null) ? value : value.trim();
     }
 
     public SignIn getAccountSignIn() {
