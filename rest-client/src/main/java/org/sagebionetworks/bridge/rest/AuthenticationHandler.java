@@ -4,8 +4,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableSet;
+
 import okhttp3.Authenticator;
 import okhttp3.Interceptor;
 import okhttp3.Request;
@@ -26,9 +29,9 @@ class AuthenticationHandler implements Interceptor, Authenticator {
     private static final Logger LOG = LoggerFactory.getLogger(AuthenticationHandler.class);
 
     private static final int MAX_TRIES = 1;
-    private static final String SIGN_OUT_PATH = "/signOut";
-    private static final String CHANGE_STUDY_PATH = "/admin/study";
     private static final String AUTH_PATH = "/auth/";
+    private static final Set<String> AUTH_PATHS_REQUIRING_SESSION = ImmutableSet.of("/signOut", "/admin/study",
+            "/auth/study");
     
     private final UserSessionInfoProvider userSessionInfoProvider;
     @VisibleForTesting
@@ -109,7 +112,11 @@ class AuthenticationHandler implements Interceptor, Authenticator {
             return true;
         }
         if (includeSignOut) {
-            return (url.endsWith(SIGN_OUT_PATH) || url.endsWith(CHANGE_STUDY_PATH));
+            for (String path : AUTH_PATHS_REQUIRING_SESSION) {
+                if (url.endsWith(path)) {
+                    return true;
+                }
+            }
         }
         return false;
     }

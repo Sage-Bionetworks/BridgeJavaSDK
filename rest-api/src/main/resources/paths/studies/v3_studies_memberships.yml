@@ -1,0 +1,21 @@
+get:
+    operationId: getStudyMemberships
+    summary: Get the list of studies that are accessible to the signed in user via a shared Synpase user ID
+    description: | 
+        Return a summary of all studies that are accessible to the authenticated caller via a shared Synapse 
+        user ID. If the caller is a cross-study administrator (Sage only), all studies are returned. These 
+        study objects are truncated objects containing only the study's name and identifier.
+    tags:
+        - Studies
+        - Authentication
+    security:
+        -   BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/study.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher_admin.yml

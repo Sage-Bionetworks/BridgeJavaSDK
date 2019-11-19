@@ -65,14 +65,28 @@ public class AuthenticationHandlerTest {
     }
 
     @Test
-    public void interceptRequiringAuthAddsHeader() throws Exception {
+    public void interceptRequiringAuthAddsHeaderSignOut() throws Exception {
+        interceptRequiringAuthAddsHeader("/v3/auth/signOut");
+    }
+    
+    @Test
+    public void interceptRequiringAuthAddsHeaderChangeStudy() throws Exception {
+        interceptRequiringAuthAddsHeader("/v3/auth/study");
+    }
+    
+    @Test
+    public void interceptRequiringAuthAddsHeaderAdminChangeStudy() throws Exception {
+        interceptRequiringAuthAddsHeader("/v3/admin/study");
+    }
+    
+    private void interceptRequiringAuthAddsHeader(String path) throws Exception {
         UserSessionInfo session = new UserSessionInfo();
         Tests.setVariableValueInObject(session, "sessionToken", "sessionToken");
         when(userSessionInfoProvider.retrieveSession()).thenReturn(session);
         
         when(chain.request()).thenReturn(request);
         when(chain.proceed(request)).thenReturn(response);
-        when(url.toString()).thenReturn("/v3/auth/signOut");
+        when(url.toString()).thenReturn(path);
         when(request.url()).thenReturn(url);
         when(request.newBuilder()).thenReturn(builder);
         when(builder.header(anyString(), anyString())).thenReturn(builder);
@@ -84,7 +98,7 @@ public class AuthenticationHandlerTest {
 
         assertEquals(0, authHandler.tryCount.get().intValue());
 
-        verify(builder).header(HeaderInterceptor.BRIDGE_SESSION, "sessionToken");
+        verify(builder).header(HeaderInterceptor.BRIDGE_SESSION, "sessionToken");        
     }
     
     @Test
