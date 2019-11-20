@@ -5,6 +5,10 @@ required:
 properties:
     dataType:
         $ref: ../enums/data_type.yml
+    required:
+        type: boolean
+        description: |
+            All survey questions are optional/skippable by default. Must this question be answered by the user in order to advance in the survey?
     type:
         type: string
         x-nullable: false
