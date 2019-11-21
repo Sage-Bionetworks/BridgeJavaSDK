@@ -27,6 +27,8 @@
     $ref: ./auth/v3_auth_phone_signIn.yml
 /v3/auth/oauth/signIn:
     $ref: ./auth/v3_auth_oauth_signIn.yml
+/v3/auth/study:
+    $ref: ./auth/v3_auth_study.yml
 /v3/oauth/{vendorId}:
     $ref: ./oauth/v3_oauth_vendorId.yml
 /v4/auth/signIn:
@@ -311,6 +313,8 @@
     $ref: ./studies/v3_studies.yml
 /v3/studies/init:
     $ref: ./studies/v3_studies_init.yml
+/v3/studies/memberships:
+    $ref: ./studies/v3_studies_memberships.yml
 /v3/studies/self:
     $ref: ./studies/v3_studies_self.yml
 /v3/studies/{studyId}:
