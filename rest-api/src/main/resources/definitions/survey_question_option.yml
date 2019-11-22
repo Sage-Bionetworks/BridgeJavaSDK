@@ -20,6 +20,10 @@ properties:
         $ref: ./image.yml
         description: |
             An optional Image element describing an image to show for this option. It should be shown along with the label (which will still be required).
+    exclusive:
+        type: boolean
+        description: |
+            If this option is selected, deselect all other options in the question. This is used for a "none of the above" type option in multiple choice questions.
     type:
         type: string
         readOnly: true
