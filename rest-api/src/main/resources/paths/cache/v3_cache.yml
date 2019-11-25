@@ -2,7 +2,7 @@ get:
     operationId: getCacheKeys
     summary: Get all the non-session Redis keys
     tags:
-        - _For Admins
+        - _For Superadmins
     security:
         - BridgeSecurity: []
     responses:
@@ -15,4 +15,4 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_admin.yml
+            $ref: ../../responses/403_not_superadmin.yml

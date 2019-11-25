@@ -4,7 +4,7 @@ post:
     description: | 
         Create a new study along with the access team and project in Synapse to receive data collected through Bridge. Assigns the Synapse users in the admin ID list to be administrators of the access team and project, and creates the users in the user IDs (users will receive an email confirmation from Synapse to complete account creation).
     tags:
-        - _For Admins
+        - _For Superadmins
     security:
         -   BridgeSecurity: []
     parameters:
@@ -21,4 +21,4 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_admin.yml
+            $ref: ../../responses/403_not_superadmin.yml

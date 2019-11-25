@@ -2,7 +2,7 @@ get:
     operationId: getStudy
     summary: Get a study
     tags: 
-        - _For Admins
+        - _For Superadmins
         - _For Workers
     security:
         -   BridgeSecurity: []
@@ -14,13 +14,12 @@ get:
             schema:
                 $ref: ../../definitions/study.yml
         403:
-            $ref: ../../responses/403_not_admin_worker.yml
+            $ref: ../../responses/403_not_superadmin_worker.yml
 post:
     operationId: updateStudy
     summary: Update a study
     tags:
-        - _For Admins
-        - _For Developers
+        - _For Superadmins
     security:
         -   BridgeSecurity: []
     parameters:
@@ -36,12 +35,12 @@ post:
             schema:
                 $ref: ../../definitions/version_holder.yml
         403:
-            $ref: ../../responses/403_not_admin.yml            
+            $ref: ../../responses/403_not_superadmin.yml            
 delete:
     operationId: deleteStudy
     summary: Delete a study
     tags:
-        - _For Admins
+        - _For Superadmins
     security:
         -   BridgeSecurity: []
     parameters:
@@ -53,4 +52,4 @@ delete:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_admin_developer.yml
+            $ref: ../../responses/403_not_superadmin.yml
