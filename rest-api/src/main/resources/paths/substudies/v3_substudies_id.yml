@@ -3,7 +3,7 @@ get:
     summary: Get a sub-study
     tags:
         - Substudies
-        - _For Admins
+        - _For Superadmins
     security:
         - BridgeSecurity: []
     description: |
@@ -18,13 +18,13 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_admin.yml
+            $ref: ../../responses/403_not_superadmin.yml
 post:
     operationId: updateSubstudy
     summary: Update an existing sub-study
     tags:
         - Substudies
-        - _For Admins
+        - _For Superadmins
     security:
         - BridgeSecurity: []
     description: |
@@ -45,13 +45,13 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_admin.yml
+            $ref: ../../responses/403_not_superadmin.yml
 delete:
     operationId: deleteSubstudy
     summary: Delete a sub-study
     tags:
         - Substudies
-        - _For Admins
+        - _For Superadmins
     security:
         - BridgeSecurity: []
     description: |
@@ -67,4 +67,4 @@ delete:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_admin.yml
+            $ref: ../../responses/403_not_superadmin.yml

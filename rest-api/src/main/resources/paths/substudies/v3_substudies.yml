@@ -5,6 +5,7 @@ get:
         - Substudies
         - _For Admins
         - _For Developers
+        - _For Researchers
     security:
         - BridgeSecurity: []
     parameters:
@@ -23,7 +24,7 @@ post:
     summary: Create a new substudy
     tags:
         - Substudies
-        - _For Admins
+        - _For Superadmins
     security:
         - BridgeSecurity: []
     parameters:
@@ -41,4 +42,4 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_admin.yml
+            $ref: ../../responses/403_not_superadmin.yml

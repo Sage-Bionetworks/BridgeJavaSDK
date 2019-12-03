@@ -2,7 +2,7 @@ get:
     operationId: getSchedulerConfig
     summary: Get a scheduler config
     tags: 
-        - _For Admins
+        - _For Superadmins
     security:
         - BridgeSecurity: []
     parameters:
@@ -15,12 +15,12 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_admin.yml
+            $ref: ../../responses/403_not_superadmin.yml
 post:
     operationId: updateSchedulerConfig
     summary: Update a scheduler config
     tags: 
-        - _For Admins
+        - _For Superadmins
     security:
         - BridgeSecurity: []
     parameters:
@@ -38,12 +38,12 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_admin.yml
+            $ref: ../../responses/403_not_superadmin.yml
 delete:
     operationId: deleteSchedulerConfig
     summary: Delete a scheduler config
     tags: 
-        - _For Admins
+        - _For Superadmins
     security:
         - BridgeSecurity: []
     parameters:
@@ -54,4 +54,4 @@ delete:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_admin.yml
+            $ref: ../../responses/403_not_superadmin.yml
