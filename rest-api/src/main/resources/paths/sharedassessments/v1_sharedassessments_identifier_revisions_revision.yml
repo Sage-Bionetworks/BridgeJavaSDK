@@ -1,0 +1,17 @@
+get:
+    operationId: getSharedAssessmentById
+    summary: Get an assessment revision by identifier and revision number.
+    tags:
+        - Shared Assessments
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/identifier
+        - $ref: ../../index.yml#/parameters/revision
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/assessment.yml
+        410:
+            $ref: ../../responses/410.yml

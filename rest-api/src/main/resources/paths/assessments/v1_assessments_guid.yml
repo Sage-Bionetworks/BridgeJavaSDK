@@ -1,0 +1,72 @@
+get:
+    operationId: getAssessmentByGUID
+    summary: Get an assessment revision.
+    description: A GUID uniquely identifies a specific assessment revision.
+    tags:
+        - _For Developers
+        - Assessments
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/assessment.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+        410:
+            $ref: ../../responses/410.yml
+post:
+    operationId: updateAssessment
+    summary: Update an assessment revision.
+    description: A GUID uniquely identifies a specific assessment revision.
+    tags:
+        - _For Developers
+        - Assessments
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+        - name: Assessment
+          in: body
+          description: Updated assessment
+          required: true
+          schema:
+              $ref: ../../definitions/assessment.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/assessment.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+        410:
+            $ref: ../../responses/410.yml
+delete:
+    operationId: deleteAssessment
+    summary: Delete an assessment revision.
+    description: A GUID uniquely identifies a specific assessment revision.
+    tags:
+        - Assessments
+        - _For Developers
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+        - $ref: ../../index.yml#/parameters/physical
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin_developer.yml

@@ -1,0 +1,28 @@
+post:
+    operationId: importSharedAssessment
+    summary: Import an assessment revision into the local app context.
+    description: |
+        If the identifier for the assessment does not currently exist in the app context, this assessment will be created at revision 1. Otherwise, it will be imported at the next highest revision number from the highest revision under that identifier. The method returns the *local* assessment that has been created by this import operation. This assessment is linked to the shared assessment and the configuration for the assessment cannot be updated without breaking the link (and in theory, potentially invalidating the scientific validation of the assessment). Use the customization API to change some fields of the imported assessment configuration that the assessment developers believe will not invalidate the scientific utility of the assessment.
+    tags: 
+        - Shared Assessments
+        - Developer
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+        - name: ownerId
+          description: The organizational ID the assessment should be imported under as the owning organization of the assessment (only members of that organization will be able to edite the assessment, though all users in an app context can see and schedule it). The caller must be a cross-organizational user or be associated to this organization.
+          in: query
+          type: string
+          required: true        
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/assessment.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+        412:
+            $ref: ../../responses/412.yml

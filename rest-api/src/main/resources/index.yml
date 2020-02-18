@@ -22,6 +22,15 @@ parameters:
         required: true
         in: path
         type: string
+    cat:
+        name: cat
+        description: A category identifier
+        required: false
+        in: query
+        type: array
+        items:
+            type: string
+        collectionFormat: multi
     consents:
         name: consents
         description: Should consent histories be included with this participant record?
@@ -107,6 +116,15 @@ parameters:
         required: true
         in: path
         type: string
+    tag:
+        name: tag
+        description: A tag identifier
+        required: false
+        in: query
+        type: array
+        items:
+            type: string
+        collectionFormat: multi
     uploadId:
         name: uploadId
         description: Upload ID

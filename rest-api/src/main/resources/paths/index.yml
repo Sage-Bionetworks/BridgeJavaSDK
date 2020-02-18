@@ -42,6 +42,38 @@
 /v3/auth/admin/study:
     $ref: ./auth/v3_auth_admin_study.yml
 
+# Assessments
+/v1/assessments:
+    $ref: ./assessments/v1_assessments.yml
+/v1/assessments/{guid}:
+    $ref: ./assessments/v1_assessments_guid.yml
+/v1/assessments/{guid}/publish:
+    $ref: ./assessments/v1_assessments_guid_publish.yml
+/v1/assessments/{guid}/revisions:
+    $ref: ./assessments/v1_assessments_guid_revisions.yml
+/v1/assessments/identifier:{identifier}:
+    $ref: ./assessments/v1_assessments_identifier.yml
+/v1/assessments/identifier:{identifier}/revisions:
+    $ref: ./assessments/v1_assessments_identifier_revisions.yml
+/v1/assessments/identifier:{identifier}/revisions/{revision}:
+    $ref: ./assessments/v1_assessments_identifier_revisions_revision.yml
+
+# Shared Assessments
+/v1/sharedassessments:
+    $ref: ./sharedassessments/v1_sharedassessments.yml
+/v1/sharedassessments/{guid}:
+    $ref: ./sharedassessments/v1_sharedassessments_guid.yml
+/v1/sharedassessments/{guid}/import:
+    $ref: ./sharedassessments/v1_sharedassessments_guid_import.yml
+/v1/sharedassessments/{guid}/revisions:
+    $ref: ./sharedassessments/v1_sharedassessments_guid_revisions.yml
+/v1/sharedassessments/identifier:{identifier}:
+    $ref: ./sharedassessments/v1_sharedassessments_identifier.yml
+/v1/sharedassessments/identifier:{identifier}/revisions:
+    $ref: ./sharedassessments/v1_sharedassessments_identifier_revisions.yml
+/v1/sharedassessments/identifier:{identifier}/revisions/{revision}:
+    $ref: ./sharedassessments/v1_sharedassessments_identifier_revisions_revision.yml
+
 # Files
 /v3/files:
     $ref: ./files/v3_files.yml

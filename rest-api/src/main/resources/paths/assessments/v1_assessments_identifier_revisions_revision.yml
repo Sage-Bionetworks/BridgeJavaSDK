@@ -1,0 +1,22 @@
+get:
+    operationId: getAssessmentById
+    summary: Get an assessment revision by identifier and revision number.
+    tags:
+        - _For Developers
+        - Assessments
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/identifier
+        - $ref: ../../index.yml#/parameters/revision
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/assessment.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+        410:
+            $ref: ../../responses/410.yml

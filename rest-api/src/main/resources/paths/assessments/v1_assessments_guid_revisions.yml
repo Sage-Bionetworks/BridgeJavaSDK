@@ -1,0 +1,51 @@
+get:
+    operationId: getAssessmentRevisionsByGUID
+    summary: Get the revisions of an assessment with a specific identifier.
+    description: Records are paged and returned with the highest revision number first.
+    tags:
+        - _For Developers
+        - Assessments
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+        - $ref: ../../index.yml#/parameters/offsetBy
+        - $ref: ../../index.yml#/parameters/pageSize
+        - $ref: ../../index.yml#/parameters/includeDeleted
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/assessment.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+        410:
+            $ref: ../../responses/410.yml
+post:
+    operationId: createAssessmentRevision
+    summary: Create a new revision of an assessment. The identifier of the assessment must already exist (and the revision number of this assessment must be unique).
+    tags:
+        - _For Developers
+        - Assessments
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+        - name: Assessment
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/assessment.yml
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/assessment.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+        410:
+            $ref: ../../responses/410.yml

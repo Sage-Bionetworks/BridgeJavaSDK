@@ -1,0 +1,17 @@
+get:
+    operationId: getLatestSharedAssessmentRevision
+    summary: Get an assessment revision with the greatest revision number, using the assessment's identifier.
+    tags:
+        - Shared Assessments
+        - Public
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/identifier
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/assessment.yml
+        410:
+            $ref: ../../responses/410.yml

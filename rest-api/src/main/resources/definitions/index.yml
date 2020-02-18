@@ -69,6 +69,8 @@ AppConfigElement:
     $ref: ./app_config_element.yml
 AppleAppLink:
     $ref: ./apple_app_link.yml
+Assessment:
+    $ref: ./assessment.yml
 ClientInfo:
     $ref: ./client_info.yml
 CmsPublicKey:
@@ -277,6 +279,8 @@ AppConfigList:
     $ref: ./paged_resources/app_config.yml
 AppConfigElementList:
     $ref: ./paged_resources/app_config_element.yml
+AssessmentList:
+    $ref: ./paged_resources/assessment.yml
 CompoundActivityDefinitionList:
     $ref: ./paged_resources/compound_activity_definition.yml
 ExternalIdentifierList:

@@ -1,0 +1,23 @@
+post:
+    operationId: publishAssessment
+    summary: Publish an assessment revision in the shared library. 
+    description: |
+        If the identifier for the assessment does not currently exist in the shared library, this assessment will be created at revision 1. Otherwise, it will be published at the next highest revision number from the highest revision under that identifier. The method returns the *local* assessment as it is updated to reflect that it has been derived from the shared assessment (it will be updated so that it will be identical to an assessment that has been imported from a shared assessment into the local app context).
+    tags: 
+        - Assessments
+        - Developer
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/assessment.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+        412:
+            $ref: ../../responses/412.yml
