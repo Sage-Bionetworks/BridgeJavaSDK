@@ -1,6 +1,7 @@
 get:
     operationId: getLatestAssessmentRevision
-    summary: Get an assessment revision with the greatest revision number, using the assessment's identifier.
+    summary: Get the latest version of an assessment. 
+    description: This revision is one with the “latest” (highest) revision number, using the assessment’s identifier.
     tags:
         - _For Developers
         - Assessments

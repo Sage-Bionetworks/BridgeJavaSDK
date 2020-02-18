@@ -1,7 +1,7 @@
 get:
     operationId: getAssessmentByGUID
-    summary: Get an assessment revision.
-    description: A GUID uniquely identifies a specific assessment revision.
+    summary: Get a specific assessment revision.
+    description: A GUID uniquely identifies a specific assessment revision. 
     tags:
         - _For Developers
         - Assessments
@@ -23,7 +23,7 @@ get:
 post:
     operationId: updateAssessment
     summary: Update an assessment revision.
-    description: A GUID uniquely identifies a specific assessment revision.
+    description: A GUID uniquely identifies a specific assessment revision. Only members of the organization that own this assessment can update it. This operation returns the updated assessment revision.
     tags:
         - _For Developers
         - Assessments
@@ -51,7 +51,7 @@ post:
 delete:
     operationId: deleteAssessment
     summary: Delete an assessment revision.
-    description: A GUID uniquely identifies a specific assessment revision.
+    description: A GUID uniquely identifies a specific assessment revision. Only developers who are members of the organization that owns the assessment may logically delete it, though a study admin may physically delete an assessment regardless of ownership.
     tags:
         - Assessments
         - _For Developers

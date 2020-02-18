@@ -1,6 +1,7 @@
 get:
     operationId: getAssessmentRevisionsById
-    summary: Get the revisions for an assessment by its identifier
+    summary: Get the revisions for an assessment by its identifier. 
+    description: These revisions are paged and ordered from highest to lowest revision number.
     tags:
         - _For Developers
         - Assessments

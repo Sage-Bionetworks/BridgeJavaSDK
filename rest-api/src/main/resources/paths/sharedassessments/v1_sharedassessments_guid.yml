@@ -19,7 +19,7 @@ get:
 post:
     operationId: updateSharedAssessment
     summary: Update an assessment revision.
-    description: A GUID uniquely identifies a specific assessment revision.
+    description: A GUID uniquely identifies a specific assessment revision. Only members of the organization that owned the assessment when it was published into the shared library of assessments can update the assessment in the shared library.
     tags:
         - _For Developers
         - Shared Assessments
@@ -47,7 +47,7 @@ post:
 delete:
     operationId: deleteSharedAssessment
     summary: Delete an assessment revision.
-    description: A GUID uniquely identifies a specific assessment revision.
+    description: A GUID uniquely identifies a specific assessment revision. Only cross-study administrators can delete a shared assessment (either logically or physically).
     tags:
         - _For Superadmins
         - Shared Assessments

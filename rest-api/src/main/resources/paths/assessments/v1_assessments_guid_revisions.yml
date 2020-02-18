@@ -25,7 +25,8 @@ get:
             $ref: ../../responses/410.yml
 post:
     operationId: createAssessmentRevision
-    summary: Create a new revision of an assessment. The identifier of the assessment must already exist (and the revision number of this assessment must be unique).
+    summary: Create a new revision of an assessment. 
+    description: The identifier of the assessment must already exist (and the revision number of this assessment must be unique). This operation returns the new assessment revision.
     tags:
         - _For Developers
         - Assessments

@@ -3,9 +3,9 @@ readOnly: true
 allOf:
     - $ref: ./paged_resource_list.yml
     - properties:
-        items:
-            type: array
-            readOnly: true
-            x-nullable: false
-            items:
-                $ref: ../assessment.yml
+          items:
+              type: array
+              readOnly: true
+              x-nullable: false
+              items:
+                  $ref: ../assessment.yml

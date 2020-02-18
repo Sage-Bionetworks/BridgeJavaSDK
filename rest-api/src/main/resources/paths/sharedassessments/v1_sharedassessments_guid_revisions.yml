@@ -1,6 +1,6 @@
 get:
     operationId: getSharedAssessmentRevisionsByGUID
-    summary: Get all revisions of an assessment with a GUID of one of the revisions.
+    summary: Get all revisions of an assessment using the GUID of one of the revisions.
     description: Records are paged and returned with the highest revision number first.
     tags:
         - Shared Assessments

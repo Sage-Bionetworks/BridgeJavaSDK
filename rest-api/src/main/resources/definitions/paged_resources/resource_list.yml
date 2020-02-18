@@ -1,4 +1,5 @@
 type: object
+discriminator: type
 description: |
     Lists from the Bridge server will be returned in a list payload that includes an `items` 
     property with the list of objects, and a `requestParams` object that includes the values 

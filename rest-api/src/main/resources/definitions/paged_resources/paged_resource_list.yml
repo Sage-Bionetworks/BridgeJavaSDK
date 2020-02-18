@@ -1,16 +1,15 @@
 type: object
-properties:
-    requestParams:
-        $ref: ../request_params.yml
-        readOnly: true
-        x-nullable: false
-    total:
-        type: integer
-        readOnly: true
-        x-nullable: false
-        description: The total number of records in the items list
-    type:
-        type: string
-        readOnly: true
-        description: "PagedResourceList"
-        x-nullable: false
+discriminator: type
+allOf:
+    - $ref: ./resource_list.yml
+    - properties:
+        total:
+            type: integer
+            readOnly: true
+            x-nullable: false
+            description: The total number of records in the items list
+        type:
+            type: string
+            readOnly: true
+            description: "PagedResourceList"
+            x-nullable: false

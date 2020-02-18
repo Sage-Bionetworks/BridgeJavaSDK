@@ -1,7 +1,7 @@
 get:
     operationId: getSharedAssessments
     summary: Get assessments in the shared library.
-    description: This is a paged API that can be filtered by the categories and tags assigned to assessments.
+    description: This is a paged API that can be filtered by the categories and tags assigned to assessments. The most recent revision of each assessment is returned.
     tags:
         - Shared Assessments
         - Public
@@ -14,8 +14,8 @@ get:
         - $ref: ../../index.yml#/parameters/tag
         - $ref: ../../index.yml#/parameters/includeDeleted
     responses:
-        201:
-            description: Created
+        200:
+            description: OK
             schema:
                 $ref: ../../definitions/paged_resources/assessment.yml
         410:
