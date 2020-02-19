@@ -9,7 +9,3 @@ allOf:
             x-nullable: false
             items:
                 $ref: ../master_scheduler_config.yml
-        type:
-            type: string
-            readOnly: true
-            description: "MasterSchedulerConfigResourceList"

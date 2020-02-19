@@ -11,7 +11,3 @@ allOf:
             x-nullable: false
             items:
                 $ref: ../scheduled_activity.yml
-        type:
-            type: string
-            readOnly: true
-            description: "DateTimeRangeResourceList"

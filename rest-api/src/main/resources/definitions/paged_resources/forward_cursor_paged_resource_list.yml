@@ -1,5 +1,4 @@
 type: object
-discriminator: type
 description: |
     One page of records from a source that only allows you to fetch the next page of 
     resources (no random access via an index to anywhere in the set of records). The 

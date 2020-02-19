@@ -1,5 +1,4 @@
 type: object
-discriminator: type
 allOf:
     - $ref: ./resource_list.yml
     - properties:
@@ -8,8 +7,3 @@ allOf:
             readOnly: true
             x-nullable: false
             description: The total number of records in the items list
-        type:
-            type: string
-            readOnly: true
-            description: "PagedResourceList"
-            x-nullable: false

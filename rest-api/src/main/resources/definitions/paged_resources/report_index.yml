@@ -9,7 +9,3 @@ allOf:
             x-nullable: false
             items:
                 $ref: ../report_index.yml
-        type:
-            type: string
-            readOnly: true
-            description: "ReportTypeResourceList"
