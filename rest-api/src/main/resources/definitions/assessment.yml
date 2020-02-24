@@ -3,6 +3,7 @@ description: |
 type: object
 required:
     - identifier
+    - ownerId
     - revision
     - title
     - osName
@@ -26,6 +27,7 @@ properties:
         type: string
         description: |
           The ID of the organization that owns this assessment. Only members of that organization will be able to edit the assessment, either in an app context or in the shared assessment library.
+        x-nullable: false
     title:
         type: string
         x-nullable: false
@@ -44,14 +46,9 @@ properties:
         type: string
     normingStatus:
         type: string
-    categories:
-        type: array
-        description: The assessment's categories in a catalog
-        items:
-            type: string
     tags:
         type: array
-        description: A set of tags that apply to this assessment
+        description: A set of tags that apply to this assessment. Tags should be namespaced with a prefix followed by a period (e.g. "category.neurodegenerative"), as the tag API will give you these tags in a map keyed from the prefix to a list of the values under that prefix.
         items:
             type: string
     customizationFields:
