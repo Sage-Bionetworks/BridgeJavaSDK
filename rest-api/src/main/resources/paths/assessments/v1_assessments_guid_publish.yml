@@ -2,7 +2,7 @@ post:
     operationId: publishAssessment
     summary: Publish an assessment revision in the shared library. 
     description: |
-        If the identifier for the assessment does not currently exist in the shared library, this assessment will be created at revision 1. Otherwise, it will be published at the next highest revision number from the highest revision under that identifier. The method returns the *local* assessment as it has been updated to reflect its derivation from the new shared assessment (it should be identical to an assessment that was imported from the shared assessment back into the local app context). Members of the organization that owns the assessment can continue to edit the assessment in the shared library, however its configuration is immutable and there are no APIs to edit the configuration portion of the assessment in the shared library.
+        If the identifier for the assessment does not currently exist in the shared library, this assessment will be created at revision 1. Otherwise, it will be published at the next highest revision number from the highest revision under that identifier. The method returns the *local* assessment as it has been updated to reflect its derivation from the new shared assessment (it should be identical to an assessment that was imported from the shared assessment back into the local app context). Members of the organization that owns the assessment can continue to edit the assessment in the shared library, and can publish later revisions of the assessment, however its configuration is immutable and other organizations cannot publish assessments with the same identifier.
     tags: 
         - Assessments
         - Developer
