@@ -11,8 +11,3 @@ allOf:
             x-nullable: false
             items:
                 $ref: ../health_data_record.yml
-        type:
-            type: string
-            readOnly: true
-            description: "DateTimeRangeResourceList"
-            x-nullable: false

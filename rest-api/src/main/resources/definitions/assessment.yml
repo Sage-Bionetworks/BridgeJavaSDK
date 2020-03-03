@@ -1,0 +1,89 @@
+description: |
+    The assessment object contains the general cataloguing information we have on an assessment, and includes both a set of links to documents that further describe the assessment and its use, as well as a configuration object for client applications. An assessment can be defined in an app context, or it can be shared in our shared assessment libary. Assessments are globally visible to all study authors in an app context, but are owned by a specific organization, and only members of that organization can edit the assessment. When shared, the configuration for an assessment is immutable and there are no APIs to update it.
+type: object
+required:
+    - identifier
+    - ownerId
+    - revision
+    - title
+    - osName
+properties:
+    guid:
+        type: string
+        description: |
+            Each assessment revision is assigned a unique GUID which can be used to retrieve it through the API. Assessments will also have a unique combination of an identifier and a revision, and can be retrieved as a set of revisions under a given identifier.
+        x-nullable: false
+    identifier:
+        type: string
+        description: |
+            A human-readable identifier for an assessment, which can have one or more revisions.
+        x-nullable: false
+    revision:
+        type: integer
+        format: int64        
+        default: 1
+        x-nullable: false
+    ownerId:
+        type: string
+        description: |
+          The ID of the organization that owns this assessment. Only members of that organization will be able to edit the assessment, either in an app context or in the shared assessment library.
+        x-nullable: false
+    title:
+        type: string
+        x-nullable: false
+    summary:
+        type: string
+    osName:
+        type: string
+        description: |
+            The name of the operating system (conventional names are "Android" and "iPhone OS").
+        x-nullable: false
+    originGuid:
+        type: string
+        description: |
+            If this assessment was copied from a shared assessment, this will be the GUID of the shared assessment revision that was used to make this copy. Certain aspects of the assessment (notably, the assessment's configuration) are guaranteed to be identical to this origin assessment.
+    validationStatus:
+        type: string
+    normingStatus:
+        type: string
+    tags:
+        type: array
+        description: A set of tags that apply to this assessment. Tags should be namespaced with a prefix followed by a period (e.g. "category.neurodegenerative"), as the tag API will give you these tags in a map keyed from the prefix to a list of the values under that prefix.
+        items:
+            type: string
+    customizationFields:
+        type: object
+        description: |
+            A map of AssessmentNode GUIDs to a set of field identifiers in that node that can be customized by developers without invalidating an assessment (the assessment will maintain its link to the shared assessment it was derived from, if any, and the authors of the assessment are confident that these changes to the configuration will not invalidate the scientific validity of the assessment). This specification guides validation of submissions to update an AssessmentNode through a specific customization API.
+        additionalProperties:
+            type: array
+            items:
+                type: string
+    createdOn:
+        type: string
+        format: date-time
+        readOnly: true
+        description: The date and time the assessment was created.
+        x-nullable: false
+    modifiedOn:
+        type: string
+        format: date-time
+        readOnly: true
+        description: The date and time the assessment was last modified.
+        x-nullable: false
+    deleted:
+        type: boolean
+        description: |
+            Has this assessment been logically deleted (an admin can restore it)?
+        x-nullable: false
+    version:
+        type: integer
+        format: int64
+        description: |
+            The optimistic locking version of the assessment. This value must be submitted as part of the next update of the model. If it does not match the value on the server, a 409 error (Conflict) will prevent the update from occurring. It can also serve as a key to determine if a local cache of `Assessment` needs to be updated.
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "Assessment"
+        x-nullable: false

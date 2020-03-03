@@ -1,0 +1,21 @@
+get:
+    operationId: getSharedAssessmentRevisionsById
+    summary: Get all revisions of an assessment with a specific identifier.
+    description: Records are paged and returned with the highest revision number first.
+    tags:
+        - Shared Assessments
+        - Public
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/identifier
+        - $ref: ../../index.yml#/parameters/offsetBy
+        - $ref: ../../index.yml#/parameters/pageSize
+        - $ref: ../../index.yml#/parameters/includeDeleted
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/assessment.yml
+        410:
+            $ref: ../../responses/410.yml

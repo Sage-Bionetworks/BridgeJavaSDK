@@ -1,0 +1,53 @@
+get:
+    operationId: getAssessments
+    summary: Get assessments in the app context.
+    description: This is a paged API that can be filtered by the categories and tags assigned to assessments. The most recent (highest) revision of each assessment is returned in the API.
+    tags:
+        - _For Developers
+        - Assessments
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/offsetBy
+        - $ref: ../../index.yml#/parameters/pageSize
+        - $ref: ../../index.yml#/parameters/tag
+        - $ref: ../../index.yml#/parameters/includeDeleted
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/assessment.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+        410:
+            $ref: ../../responses/410.yml
+post:
+    operationId: createAssessment
+    summary: Create a new assessment.
+    description: This assessment must have a unique identifier in the app context (if the identifier is not unique, call the `createAssessmentRevision` API to create a new revision of an existing assessment). The assessment must specify one of the caller’s organizational IDs; this organization owns the new assessment and only members of that organization can update the assessment further.
+    tags:
+        - _For Developers
+        - Assessments
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - name: Assessment
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/assessment.yml
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/assessment.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+        410:
+            $ref: ../../responses/410.yml
+        501:
+            $ref: ../../responses/501.yml

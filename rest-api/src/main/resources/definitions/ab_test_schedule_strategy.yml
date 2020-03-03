@@ -4,12 +4,11 @@ description: |
     Note that this assignment is truly random, so in small populations the percentages may diverge from those specified in the schedule plan.
 allOf:
     - $ref: ./schedule_strategy.yml
-    - type: object
     - required:
-        - scheduleGroups
+          - scheduleGroups
     - properties:
-        scheduleGroups:
-            type: array
-            items:
-                $ref: ./ab_test_group.yml
-            x-nullable: false
+          scheduleGroups:
+              type: array
+              items:
+                  $ref: ./ab_test_group.yml
+              x-nullable: false

@@ -9,7 +9,3 @@ allOf:
             x-nullable: false
             items:
                 $ref: ../report_data.yml
-        type:
-            type: string
-            readOnly: true
-            description: "DateRangeResourceList"
