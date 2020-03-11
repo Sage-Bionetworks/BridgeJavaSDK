@@ -1,0 +1,50 @@
+get:
+    operationId: getAssessmentResources
+    summary: Get the external resource links documenting an assessment
+    tags: 
+        - _For Developers
+        - Assessments
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/assessmentId
+        - $ref: ../../index.yml#/parameters/offsetBy
+        - $ref: ../../index.yml#/parameters/pageSize
+        - $ref: ../../index.yml#/parameters/category
+        - $ref: ../../index.yml#/parameters/minRevision
+        - $ref: ../../index.yml#/parameters/maxRevision
+        - $ref: ../../index.yml#/parameters/includeDeleted
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/external_resource.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+post:
+    operationId: createAssessmentResource
+    summary: Create a new external resource link documenting an assessment
+    tags:
+        - _For Developers
+        - Assessments
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/assessmentId    
+        - name: ExternalResource
+          in: body
+          description: Assessment resource
+          required: true
+          schema:
+              $ref: ../../definitions/external_resource.yml
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/external_resource.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

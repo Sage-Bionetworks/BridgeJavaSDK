@@ -1,0 +1,93 @@
+description: |
+    An external identifier assigned to a participant's account to allow external re-identification of the user by the study sponsor.
+type: object
+required:
+    - title
+    - url
+    - category
+properties:
+    guid:
+        type: string
+        x-nullable: false
+    title:
+        type: string
+        x-nullable: false
+    category:
+        $ref: ./enums/resource_category.yml
+        x-nullable: false
+        description: One of an enumerated list of categories of documentation resources.
+    url:
+        type: string
+        x-nullable: false
+        description: The link to retrieve the resource via the Internet.
+    format:
+        type: string
+        description: The format of the resource being described, expressed as a MIME type (e.g. "text/html" or "application/pdf").
+    date:
+        type: string
+        description: The date of publication of the resource (a human-readable format is sufficient unless you wish to sort by this field).
+    description:
+        type: string
+        description: Short description of the resource this link is documenting.
+    contributors:
+        type: array
+        items:
+            type: string
+        description: Non-authorial contributors to the documentation (researchers who participated in the research, grant funders, or the like).
+    creators:
+        type: array
+        items:
+            type: string
+        description: The authors of the documentation.
+    publishers:
+        type: array
+        items:
+            type: string
+        description: A list of the publishers (or institutions, or even hosting sites) supporting publication of the documentation.
+    language:
+        type: string
+        description: The language *of the resource being described by this link.* It is probably not necessary to use something structured like ISO 639-1 language codes, the name of the language in English will do.
+    minRevision:
+        type: integer
+        format: int32
+        description: The earlist (lowest) revision of an assessment that this resource applies to. This value indicates that a resource was added to describe a development in the evolution of the assessment, or some other change to the assessment. For release notes about one specific revision of the assessment, minRevision can equal maxRevision.
+    maxRevision:
+        type: integer
+        format: int32
+        description: The least (highest) revision of an assessment that this resource applies to. This deprecates the associated resource while keeping the link for reference. For release notes about one specific revision of the assessment, minRevision can equal maxRevision.
+    createdAtRevision:
+        type: integer
+        format: int32
+        description: The revision of the assessment at the time this resource was created or updated. Used to determine if the resource may be out-of-date.
+    createdOn:
+        type: string
+        format: date-time
+        readOnly: true
+        description: The date and time the app config was created.
+        x-nullable: false
+    modifiedOn:
+        type: string
+        format: date-time
+        readOnly: true
+        description: The date and time the app config was last modified.
+        x-nullable: false
+    deleted:
+        type: boolean
+        description: |
+            Has this external resource been logically deleted (an admin can restore it)?
+        x-nullable: false
+    version:
+        type: integer
+        format: int64
+        description: |
+            The optimistic locking version of the assessment. This value must be submitted as part of the next update of the model. If it does not match the value on the server, a 409 error (Conflict) will prevent the update from occurring. It can also serve as a key to determine if a local cache of `Assessment` needs to be updated.
+        x-nullable: false
+    upToDate:
+        type: boolean
+        description: The `createdAtRevision` field records the revision of the assessment when this resource link was created or last updated. If that value is equal to the most recent (highest) revision of the assessment, `upToDate` will be true. Otherwise it will be false. This can help flag resources that may no longer be relevant for the assessment.
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "ExternalResource"
+        x-nullable:  false

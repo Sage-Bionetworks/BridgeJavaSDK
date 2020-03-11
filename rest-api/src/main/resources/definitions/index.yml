@@ -46,6 +46,8 @@ ScheduleStatus:
     $ref: ./enums/schedule_status.yml
 UploadFieldType:
     $ref: ./enums/upload_field_type.yml
+ResourceCategory:
+    $ref: ./enums/resource_category.yml
     
 ABTestGroup:
     $ref: ./ab_test_group.yml
@@ -105,6 +107,8 @@ EmailVerificationStatus:
     $ref: ./email_verification_status.yml
 ExternalIdentifier:
     $ref: ./external_identifier.yml
+ExternalResource:
+    $ref: ./external_resource.yml
 FileReference:
     $ref: ./file_reference.yml
 GeneratedPassword:
@@ -285,6 +289,8 @@ CompoundActivityDefinitionList:
     $ref: ./paged_resources/compound_activity_definition.yml
 ExternalIdentifierList:
     $ref: ./paged_resources/external_identifier.yml
+ExternalResourceList:
+    $ref: ./paged_resources/external_resource.yml
 FileMetadataList:
     $ref: ./paged_resources/file_metadata.yml
 FileRevisionList:
