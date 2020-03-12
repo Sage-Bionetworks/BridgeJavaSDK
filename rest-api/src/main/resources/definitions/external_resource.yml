@@ -84,6 +84,7 @@ properties:
         x-nullable: false
     upToDate:
         type: boolean
+        readOnly: true
         description: The `createdAtRevision` field records the revision of the assessment when this resource link was created or last updated. If that value is equal to the most recent (highest) revision of the assessment, `upToDate` will be true. Otherwise it will be false. This can help flag resources that may no longer be relevant for the assessment.
         x-nullable: false
     type:
