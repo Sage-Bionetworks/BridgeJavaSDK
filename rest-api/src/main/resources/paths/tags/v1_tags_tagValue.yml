@@ -1,0 +1,19 @@
+delete:
+    operationId: deleteTag
+    summary: Delete a tag
+    tags:
+        - Tags
+        - _For Superadmins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/tagValue
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_superadmin.yml

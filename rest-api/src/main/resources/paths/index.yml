@@ -74,6 +74,12 @@
 /v1/sharedassessments/identifier:{identifier}/revisions/{revision}:
     $ref: ./sharedassessments/v1_sharedassessments_identifier_revisions_revision.yml
 
+# Tags
+/v1/tags:
+    $ref: ./tags/v1_tags.yml
+/v1/tags/{tagValue}:
+    $ref: ./tags/v1_tags_tagValue.yml
+
 # Files
 /v3/files:
     $ref: ./files/v3_files.yml

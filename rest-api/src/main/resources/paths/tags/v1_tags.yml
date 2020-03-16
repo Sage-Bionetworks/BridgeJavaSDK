@@ -1,0 +1,39 @@
+get:
+    operationId: getTags
+    summary: Get all tags, grouped into lists under their namespace prefixes (if a tag is created without a namespace prefix, it will be listed in the "default" group here).
+    tags:
+        - Tags
+        - Public
+    security:
+        - BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                type: object
+                additionalProperties:
+                    type: array
+                    items:
+                        type: string
+post:
+    operationId: addTag
+    summary: Create a tag if it does not yet exist.
+    tags:
+        - Tags
+        - _For Superadmins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - name: Tag
+          in: body
+          description: New tag
+          required: true
+          schema:
+              $ref: ../../definitions/tag.yml
+    responses:
+        201:
+            $ref: ../../responses/201_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_superadmin.yml

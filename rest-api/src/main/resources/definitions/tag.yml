@@ -1,0 +1,12 @@
+type: object
+description: A tag. The tag can optionally be namespaced with a prefix separated by a semicolon, and the tags will be returned from the APIs grouped by this prefix. This allows you to create different enumerated sets of tags for different purposes when categorizing assessments.
+required:
+    - value
+properties:
+    value:
+        type: string
+    type:
+        type: string
+        readOnly: true
+        description: "Tag"
+        x-nullable: false
