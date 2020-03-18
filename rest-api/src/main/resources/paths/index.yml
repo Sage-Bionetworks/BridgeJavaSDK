@@ -61,6 +61,8 @@
     $ref: ./assessments/v1_assessments_assessmentId_resources.yml
 /v1/assessments/identifier:{assessmentId}/resources/{guid}:
     $ref: ./assessments/v1_assessments_assessmentId_resources_guid.yml
+/v1/assessments/identifier:{assessmentId}/resources/publish:
+    $ref: ./assessments/v1_assessments_assessmentId_resources_publish.yml
 
 # Shared Assessments
 /v1/sharedassessments:
@@ -81,6 +83,8 @@
     $ref: ./sharedassessments/v1_sharedassessments_assessmentId_resources.yml
 /v1/sharedassessments/identifier:{assessmentId}/resources/{guid}:
     $ref: ./sharedassessments/v1_sharedassessments_assessmentId_resources_guid.yml
+/v1/sharedassessments/identifier:{assessmentId}/resources/import:
+    $ref: ./sharedassessments/v1_sharedassessments_assessmentId_resources_import.yml
 
 # Files
 /v3/files:

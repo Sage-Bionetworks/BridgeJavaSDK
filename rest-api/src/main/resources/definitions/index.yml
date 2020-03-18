@@ -290,7 +290,7 @@ CompoundActivityDefinitionList:
 ExternalIdentifierList:
     $ref: ./paged_resources/external_identifier.yml
 ExternalResourceList:
-    $ref: ./paged_resources/external_resource.yml
+    $ref: ./paged_resources/unpaged_external_resource.yml
 FileMetadataList:
     $ref: ./paged_resources/file_metadata.yml
 FileRevisionList:
@@ -303,6 +303,8 @@ NotificationTopicList:
     $ref: ./paged_resources/notification_topic.yml
 MasterSchedulerConfigList:
     $ref: ./paged_resources/master_scheduler_config.yml
+PagedExternalResourceList:
+    $ref: ./paged_resources/external_resource.yml
 ReportDataList:
     $ref: ./paged_resources/report_data.yml
 ForwardCursorReportDataList:
