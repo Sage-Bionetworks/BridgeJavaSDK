@@ -75,6 +75,20 @@ properties:
     summary:
         type: boolean
         readOnly: true
+    tags:
+        type: array
+        items:
+            type: string
+    categories:
+        type: array
+        items:
+            $ref: ./enums/resource_category.yml
+    minRevision:
+        type: integer
+        format: int32
+    maxRevision:
+        type: integer
+        format: int32
     type:
         type: string
         readOnly: true

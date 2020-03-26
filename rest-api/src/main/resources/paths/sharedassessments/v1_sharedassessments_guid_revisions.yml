@@ -5,8 +5,6 @@ get:
     tags:
         - Shared Assessments
         - Public
-    security:
-        - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/guid
         - $ref: ../../index.yml#/parameters/offsetBy

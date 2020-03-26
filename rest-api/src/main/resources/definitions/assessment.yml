@@ -1,5 +1,5 @@
 description: |
-    The assessment object contains the general cataloguing information we have on an assessment, and includes both a set of links to documents that further describe the assessment and its use, as well as a configuration object for client applications. An assessment can be defined in an app context, or it can be shared in our shared assessment libary. Assessments are globally visible to all study authors in an app context, but are owned by a specific organization, and only members of that organization can edit the assessment. When shared, the configuration for an assessment is immutable and there are no APIs to update it.
+    The assessment object contains the general cataloguing information we have on an assessment, and includes both a set of links to documents that describe the assessment and its use, as well as a configuration object for client applications. An assessment can be defined in an app context, or it can be shared in our shared assessment libary. Assessments are globally visible to all study authors in an app context, but are owned by a specific organization, and only members of that organization can edit the assessment. When shared, the configuration for an assessment is immutable and there are no APIs to update it.
 type: object
 required:
     - identifier
@@ -36,7 +36,7 @@ properties:
     osName:
         type: string
         description: |
-            The name of the operating system (conventional names are "Android" and "iPhone OS").
+            The name of the operating system (conventional names are "Android," "iPhone OS," and "Both").
         x-nullable: false
     originGuid:
         type: string
