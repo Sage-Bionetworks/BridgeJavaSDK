@@ -1,0 +1,68 @@
+get:
+    operationId: getAssessmentResource
+    summary: Get an assessment external resource description
+    tags: 
+        - _For Developers
+        - Assessments
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/assessmentId
+        - $ref: ../../index.yml#/parameters/guid
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/external_resource.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+post:
+    operationId: updateAssessmentResource
+    summary: Update an external resource link documenting an assessment
+    tags:
+        - _For Developers
+        - Assessments
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/assessmentId
+        - $ref: ../../index.yml#/parameters/guid
+        - name: ExternalResource
+          in: body
+          description: Assessment resource
+          required: true
+          schema:
+              $ref: ../../definitions/external_resource.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/external_resource.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml
+delete:
+    operationId: deleteAssessmentResource
+    summary: Delete an external resource link documenting an assessment
+    tags:
+        - Assessments
+        - _For Developers
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/assessmentId
+        - $ref: ../../index.yml#/parameters/guid
+        - $ref: ../../index.yml#/parameters/physical
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin_developer.yml

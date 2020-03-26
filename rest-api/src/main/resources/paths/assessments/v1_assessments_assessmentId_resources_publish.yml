@@ -1,0 +1,29 @@
+post:
+    operationId: publishAssessmentResource
+    summary: Copy these resources to the shared assessments library.
+    tags:
+        - _For Developers
+        - Assessments
+    description: |
+        The assessment these resources relate to must have been published at least one time to the shared library before the resources can be published. If the resource has already been published, it'll be updated with the local version.
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/assessmentId
+        - name: External resource GUIDs
+          in: body
+          description: List of external resource GUIDs
+          required: true
+          schema:
+              type: array
+              items:
+                  type: string
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/unpaged_external_resource.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer.yml

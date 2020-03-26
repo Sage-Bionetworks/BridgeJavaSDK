@@ -16,6 +16,12 @@ consumes:
 produces:
     - application/json
 parameters:
+    assessmentId:
+        name: assessmentId
+        description: The identifier for a stream of assessment revisions
+        required: True
+        in: path
+        type: string
     cacheKey:
         name: cacheKey
         description: Cache key
@@ -109,13 +115,13 @@ parameters:
         type: string
     tag:
         name: tag
-        description: A tag identifier
         required: false
         in: query
         type: array
         items:
             type: string
         collectionFormat: multi
+        description: One or more tags. Every resource that has at least one of the tags will be returned (resources do not need to match all tags).
     uploadId:
         name: uploadId
         description: Upload ID
@@ -353,9 +359,31 @@ parameters:
         in: query
         type: string
         enum: [email_account_exists, email_app_install_link, email_reset_password, email_sign_in, email_signed_consent, email_verify_email, sms_account_exists, sms_app_install_link, sms_phone_sign_in, sms_reset_password, sms_signed_consent, sms_verify_phone]
+    category:
+        name: category
+        in: query
+        type: array
+        items:
+            type: string
+            enum: [customization_options, data_repository, science_documentation, developer_documentation, license, publication, release_note, sample_app, sample_data, screenshot, see_also, used_in_study, website, other]
+        collectionFormat: multi
+        description: One or more category values. Searches specifying more than one category will return a resource if it matches *any* of the categories given (it does not need to match all of them).
+    minRevision:
+        name: minRevision
+        in: query
+        type: integer
+        format: int32
+        description: If this parameter is set, only resoures with a `createdAtRevision` value >= minRevision will be returned from the API (if the parameter is left null, all resources will be considered to match).
+    maxRevision:
+        name: maxRevision
+        in: query
+        type: integer
+        format: int32
+        description: If this parameter is set, only resoures with a `createdAtRevision` value <= maxRevision will be returned from the API (if the parameter is left null, all resources will be considered to match).
 paths:
     $ref: ./paths/index.yml
 definitions:
     $ref: ./definitions/index.yml
 responses:
     $ref: ./responses/index.yml
+    
