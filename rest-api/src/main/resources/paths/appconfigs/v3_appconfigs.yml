@@ -38,7 +38,7 @@ post:
           schema:
               $ref: ../../definitions/app_config.yml
     responses:
-        202:
+        201:
             description: Created
             schema:
                 $ref: ../../definitions/guid_version_holder.yml

@@ -40,7 +40,7 @@ post:
           schema:
               $ref: ../../definitions/template.yml
     responses:
-        202:
+        201:
             description: Created
             schema:
                 $ref: ../../definitions/guid_version_holder.yml

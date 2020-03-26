@@ -86,6 +86,12 @@
 /v1/sharedassessments/identifier:{assessmentId}/resources/import:
     $ref: ./sharedassessments/v1_sharedassessments_assessmentId_resources_import.yml
 
+# Tags
+/v1/tags:
+    $ref: ./tags/v1_tags.yml
+/v1/tags/{tagValue}:
+    $ref: ./tags/v1_tags_tagValue.yml
+
 # Files
 /v3/files:
     $ref: ./files/v3_files.yml
