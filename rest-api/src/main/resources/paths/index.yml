@@ -47,6 +47,10 @@
     $ref: ./assessments/v1_assessments.yml
 /v1/assessments/{guid}:
     $ref: ./assessments/v1_assessments_guid.yml
+/v1/assessments/{guid}/config:
+    $ref: ./assessments/v1_assessments_guid_config.yml
+/v1/assessments/{guid}/config/customize:
+    $ref: ./assessments/v1_assessments_guid_config_customize.yml
 /v1/assessments/{guid}/publish:
     $ref: ./assessments/v1_assessments_guid_publish.yml
 /v1/assessments/{guid}/revisions:
