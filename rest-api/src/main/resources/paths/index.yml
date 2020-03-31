@@ -73,6 +73,8 @@
     $ref: ./sharedassessments/v1_sharedassessments.yml
 /v1/sharedassessments/{guid}:
     $ref: ./sharedassessments/v1_sharedassessments_guid.yml
+/v1/sharedassessments/{guid}/config:
+    $ref: ./sharedassessments/v1_sharedassessments_guid_config.yml
 /v1/sharedassessments/{guid}/import:
     $ref: ./sharedassessments/v1_sharedassessments_guid_import.yml
 /v1/sharedassessments/{guid}/revisions:
