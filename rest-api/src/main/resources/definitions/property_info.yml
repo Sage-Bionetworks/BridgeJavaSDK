@@ -20,5 +20,5 @@ properties:
     type:
         type: string
         readOnly: true
-        description: "NotificationMessage"
+        description: "PropertyInfo"
         x-nullable: false
