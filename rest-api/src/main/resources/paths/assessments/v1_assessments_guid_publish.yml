@@ -10,6 +10,11 @@ post:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/guid
+        - name: newIdentifier
+          in: query
+          type: string
+          description: Upon publishing this assessment, you can provide a new identifier for the assessment.
+          required: false
     responses:
         201:
             description: Created

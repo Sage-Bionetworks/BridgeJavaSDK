@@ -14,7 +14,12 @@ post:
           description: The organizational ID the assessment should be imported under as the owning organization of the assessment (only members of that organization will be able to edit the assessment, though all users in an app context can see and schedule the assessment).
           in: query
           type: string
-          required: true        
+          required: true
+        - name: newIdentifier
+          in: query
+          type: string
+          description: Upon importing this assessment, you can provide a new identifier for the assessment.
+          required: false
     responses:
         201:
             description: Created
