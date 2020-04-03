@@ -58,7 +58,7 @@ properties:
         additionalProperties:
             type: array
             items:
-                type: string
+                $ref: ../definitions/property_info.yml
     createdOn:
         type: string
         format: date-time

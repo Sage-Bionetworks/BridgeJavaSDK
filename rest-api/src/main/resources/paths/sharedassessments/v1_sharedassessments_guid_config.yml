@@ -1,0 +1,15 @@
+get:
+    operationId: getSharedAssessmentConfig
+    summary: Get the configuration JSON for a shared assessmentapp context.
+    tags: 
+        - Shared Assessments
+        - Public
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/assessment_config.yml

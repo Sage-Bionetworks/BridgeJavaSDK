@@ -18,6 +18,8 @@ import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 public class RestUtilsTest {
     
@@ -190,6 +192,29 @@ public class RestUtilsTest {
     @Test
     public void acceptLanguageNullsEmptyRemoved() {
         assertEquals("de,en", RestUtils.getAcceptLanguage(Lists.<String>newArrayList("","de",null,"en")));
+    }
+    
+    @Test
+    public void toJSON() {
+        ClientInfo info = new ClientInfo()
+                .appName("appName")
+                .appVersion(10)
+                .deviceName("deviceName")
+                .osName("osName")
+                .osVersion("1.2.3")
+                .sdkName("sdkName")
+                .sdkVersion(5);
+        
+        JsonElement element = RestUtils.toJSON(info);
+        JsonObject el = element.getAsJsonObject();
+
+        assertEquals("appName", el.get("appName").getAsString());
+        assertEquals(10, el.get("appVersion").getAsInt());
+        assertEquals("deviceName", el.get("deviceName").getAsString());
+        assertEquals("osName", el.get("osName").getAsString());
+        assertEquals("1.2.3", el.get("osVersion").getAsString());
+        assertEquals("sdkName", el.get("sdkName").getAsString());
+        assertEquals(5, el.get("sdkVersion").getAsInt());
     }
     
     private Map<String,ConsentStatus> map(ConsentStatus status1, ConsentStatus status2) {

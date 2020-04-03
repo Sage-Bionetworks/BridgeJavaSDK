@@ -1,0 +1,30 @@
+type: object
+required:
+    - config
+properties:
+    config:
+        type: object
+        description: The JSON configuration for this assessment.
+    createdOn:
+        type: string
+        format: date-time
+        readOnly: true
+        description: The date and time the app config was created.
+        x-nullable: false
+    modifiedOn:
+        type: string
+        format: date-time
+        readOnly: true
+        description: The date and time the app config was last modified.
+        x-nullable: false
+    version:
+        type: integer
+        format: int64
+        description: |
+            The optimistic locking version of the assessment config. This value must be submitted as part of the next update of the model. If it does not match the value on the server, a 409 error (Conflict) will prevent the update from occurring. It can also serve as a key to determine if a local cache of this `AssessmentConfig` revision needs to be updated.
+        x-nullable: false    
+    type:
+        type: string
+        readOnly: true
+        description: "AssessmentConfig"
+        x-nullable: false

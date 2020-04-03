@@ -73,6 +73,8 @@ AppleAppLink:
     $ref: ./apple_app_link.yml
 Assessment:
     $ref: ./assessment.yml
+AssessmentConfig:
+    $ref: ./assessment_config.yml
 ClientInfo:
     $ref: ./client_info.yml
 CmsPublicKey:
@@ -163,6 +165,8 @@ Phone:
     $ref: ./phone.yml
 PhoneSignInRequest:
     $ref: ./phone_signin_request.yml
+PropertyInfo:
+    $ref: ./property_info.yml
 RecordExportStatusRequest:
     $ref: ./record_export_status_request.yml
 ReportData:

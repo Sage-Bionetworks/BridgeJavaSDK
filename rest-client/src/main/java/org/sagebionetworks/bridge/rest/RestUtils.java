@@ -64,6 +64,7 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import okhttp3.MediaType;
@@ -145,6 +146,15 @@ public class RestUtils {
      */
     public static <T> T toType(Object object, Class<T> type) {
         return GSON.fromJson(GSON.toJson(object), type);
+    }
+    
+    /**
+     * Convert an object returned as part of the API to a JSON object model  
+     * @param object
+     * @return a JSON object model of the object.
+     */
+    public static JsonElement toJSON(Object object) {
+        return GSON.toJsonTree(object);
     }
     
     /**

@@ -1,0 +1,38 @@
+get:
+    operationId: getAssessmentConfig
+    summary: Get the JSON config for this assessment
+    tags: 
+        - Assessments
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/assessment_config.yml
+        401:
+            $ref: ../../responses/401.yml
+post:
+    operationId: updateAssessmentConfig
+    summary: Update the JSON config for this assessment
+    tags: 
+        - Assessments
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+        - name: AssessmentConfig
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/assessment_config.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/assessment_config.yml
+        401:
+            $ref: ../../responses/401.yml
