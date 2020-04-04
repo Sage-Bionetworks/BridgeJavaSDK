@@ -1,0 +1,23 @@
+post:
+    operationId: customizeAssessmentConfig
+    summary: Submit updates to the config that conform to the allowed customizations for the assessment. The object submitted to the server should be of the type `Map<String, Map<String, JsonNode>>`, where the first map associates a node identifier in the configuration to a map, and the second map associates one or more named properties of the node to a JsonNode update. This value can be of any type representable in JSON, since the server will persist it as part of the JSON configuration without type conversion (the update should still follow the schema of the configuration, or the client will not be able to interpret your configuration change).
+    tags: 
+        - Assessments
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+        - name: Customization update
+          required: true
+          in: body
+          schema:
+              type: object
+              additionalProperties: true
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/assessment_config.yml
+        401:
+            $ref: ../../responses/401.yml    

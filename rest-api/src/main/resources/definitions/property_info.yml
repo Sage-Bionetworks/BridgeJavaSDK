@@ -1,0 +1,24 @@
+type: object
+required:
+    - propName
+    - label
+properties:
+    propName:
+        type: string
+        description: The property name of the property on the JSON object that can be edited.
+        x-nullable: false
+    label:
+        type: string
+        description: A short label for the property.
+        x-nullable: false
+    description:
+        type: string
+        description: A longer description of the property and the allowable values that it can take.
+    propType:
+        type: string
+        description: A type hint to a UI editor for this property. The value is not constrained to support complex types, but we suggest 'string', 'number', or 'boolean' as basic values to support with editing tools.
+    type:
+        type: string
+        readOnly: true
+        description: "PropertyInfo"
+        x-nullable: false
