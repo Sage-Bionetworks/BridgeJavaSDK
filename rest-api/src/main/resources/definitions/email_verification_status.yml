@@ -1,5 +1,5 @@
 description: |
-    The status of the email address that will be used to send consents to users. The consents are sent on behalf of the study using the study's support email address, and our email provider (Amazon's SES) requires that the address holder confirm this is an allowed use of the address. 
+    The status of the email address that will be used to send consents to users. The consents are sent on behalf of the app using the app's support email address, and our email provider (Amazon's SES) requires that the address holder confirm this is an allowed use of the address. 
 type: object
 properties:
     status:

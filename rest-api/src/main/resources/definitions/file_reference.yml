@@ -1,6 +1,6 @@
 type: object
 description: |
-    A pointer to a file revision hosted for this study.
+    A pointer to a file revision hosted for this app.
 required:
     - guid
     - createdOn

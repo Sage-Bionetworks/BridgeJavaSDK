@@ -86,7 +86,7 @@ public class ClientManager {
         String acceptLanguage = RestUtils.getAcceptLanguage(acceptLanguages);
 
         this.authenticatedClientProvider =
-                new ApiClientProvider(hostURL, userAgent, acceptLanguage, signIn.getStudy())
+                new ApiClientProvider(hostURL, userAgent, acceptLanguage, signIn.getAppId())
                         .getAuthenticatedClientProviderBuilder()
                         .withPhone(signIn.getPhone())
                         .withEmail(signIn.getEmail())
@@ -205,7 +205,7 @@ public class ClientManager {
                 this.signIn = this.config.getAccountSignIn();
             }
             checkNotNull(signIn, "Sign in must be supplied to ClientManager builder.");
-            checkNotNull(signIn.getStudy(), "Sign in must have a study identifier.");
+            checkNotNull(signIn.getAppId(), "Sign in must have an appId.");
             if (this.config == null) {
                 this.config = new Config();
             }

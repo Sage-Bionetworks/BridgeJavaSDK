@@ -26,9 +26,9 @@ properties:
     smsType:
         $ref: ./enums/sms_type.yml
         x-nullable: false
-    studyId:
+    appId:
         type: string
-        description: The study whose behalf we sent the message.
+        description: The app whose behalf we sent the message.
         x-nullable: false
     type:
         type: string

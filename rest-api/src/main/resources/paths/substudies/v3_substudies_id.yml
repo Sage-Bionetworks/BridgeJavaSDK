@@ -7,7 +7,7 @@ get:
     security:
         - BridgeSecurity: []
     description: |
-        Get an app configuration element for this study.
+        Get a sub-study for this app.
     parameters:
         - $ref: ../../index.yml#/parameters/id
     responses:

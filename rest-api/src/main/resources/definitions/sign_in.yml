@@ -1,12 +1,12 @@
 description: |
-    Information to sign in to the Bridge server. For a successful sign in, this object must include an *identifier* (either email or phone number) and a *secret* (either password or a reauthToken). Depending on the credentials supplied, there are currently different server endpoints to call. The study identifier is always required.
+    Information to sign in to the Bridge server. For a successful sign in, this object must include an *identifier* (either email or phone number) and a *secret* (either password or a reauthToken). Depending on the credentials supplied, there are currently different server endpoints to call. The appId is always required.
 type: object
 required:
-    - study
+    - appId
 properties:
-    study:
+    appId:
         type: string
-        description: Study identifier of the participant's study
+        description: App identifier of the participant's app
     email:
         type: string
         description: User's email address
@@ -14,7 +14,7 @@ properties:
         $ref: ./phone.yml
     externalId:
         type: string
-        description: The external ID associated with this study participant
+        description: The external ID associated with this app participant
     password:
         type: string
         format: password

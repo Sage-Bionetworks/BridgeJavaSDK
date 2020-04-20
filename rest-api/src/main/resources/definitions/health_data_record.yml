@@ -67,9 +67,9 @@ properties:
         format: int64
         description: |
             [UploadSchema](#UploadSchema) revision for the record.
-    studyId:
+    appId:
         type: string
-        description: Study that this record lives in.
+        description: App that this record lives in.
         readOnly: true
         x-nullable: false
     uploadDate:

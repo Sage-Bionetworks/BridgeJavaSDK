@@ -19,7 +19,7 @@ properties:
     metadata:
         type: object
         description: |
-            JSON map with key value pairs representing metadata for this health data record, as submitted by the app. This corresponds with the uploadMetadataFieldDefinitions configured in the study.
+            JSON map with key value pairs representing metadata for this health data record, as submitted by the app. This corresponds with the uploadMetadataFieldDefinitions configured in the app.
     phoneInfo:
         type: string
         description: Phone info, for example "iPhone9,3" or "iPhone 5c (GSM)". Must be 48 chars or less.

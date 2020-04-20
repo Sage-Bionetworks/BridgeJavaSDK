@@ -1,5 +1,5 @@
 description: |
-    Some basic information is captured when a participant makes a request to the Bridge server, mostly for the purpose of troubleshooting user issues with the application or the study. Questions that can be answered include:
+    Some basic information is captured when a participant makes a request to the Bridge server, mostly for the purpose of troubleshooting user issues with the app. Questions that can be answered include:
 
     * what version of the app is this participant using?
     * what filtering criteria might be applied to their requests?

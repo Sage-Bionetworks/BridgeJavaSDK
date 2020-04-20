@@ -33,7 +33,7 @@ get:
             $ref: ../../responses/403_not_developer_researcher.yml
 post:
     operationId: createExternalId
-    summary: Add external ID to the study
+    summary: Add external ID to the app
     tags:
         - External Identifiers
         - _For Developers

@@ -130,7 +130,7 @@ public class UserSessionInfoProvider {
             signIn();
         } else {
             SignIn request = new SignIn().email(email).phone(phone).externalId(externalId)
-                    .reauthToken(session.getReauthToken()).study(studyId);
+                    .reauthToken(session.getReauthToken()).appId(studyId);
             try {
                 UserSessionInfo newSession = authenticationApi.reauthenticate(request).execute().body();
                 setSession(newSession);
@@ -170,7 +170,7 @@ public class UserSessionInfoProvider {
             return false;
         }
         try {
-            SignIn signIn = new SignIn().study(studyId).email(email).phone(phone).externalId(externalId)
+            SignIn signIn = new SignIn().appId(studyId).email(email).phone(phone).externalId(externalId)
                     .password(password);
             UserSessionInfo newSession = authenticationApi.signInV4(signIn).execute().body();
             setSession(newSession);

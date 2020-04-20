@@ -13,8 +13,6 @@ properties:
             type: string 
         x-nullable: false
     study:
-        type: string
-        description: A label to show the user for this activity.
         $ref: ./study.yml
         x-nullable: false
     users:

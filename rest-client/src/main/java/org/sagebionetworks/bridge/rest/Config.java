@@ -141,11 +141,11 @@ public final class Config {
     }
 
     public SignIn getAccountSignIn() {
-        return new SignIn().study(getStudyIdentifier()).email(getAccountEmail()).password(getAccountPassword());
+        return new SignIn().appId(getStudyIdentifier()).email(getAccountEmail()).password(getAccountPassword());
     }
 
     public SignIn getAdminSignIn() {
-        return new SignIn().study(getStudyIdentifier()).email(getAdminEmail()).password(getAdminPassword());
+        return new SignIn().appId(getStudyIdentifier()).email(getAdminEmail()).password(getAdminPassword());
     }
     
     public String getStudyIdentifier() {

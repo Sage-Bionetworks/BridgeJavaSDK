@@ -1,6 +1,6 @@
 get:
     operationId: getSubpopulations
-    summary: Get all subpopulations in this study
+    summary: Get all subpopulations in this app
     tags:
         - Subpopulations
         - _For Developers

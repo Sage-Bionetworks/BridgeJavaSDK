@@ -26,9 +26,9 @@ public class ClientManagerTest {
     
     @Test
     public void testInitFromConfig() {
-        SignIn accountSignIn = new SignIn().study("study-identifier").email("account@email.com")
+        SignIn accountSignIn = new SignIn().appId("study-identifier").email("account@email.com")
                 .password("account-password");
-        SignIn adminSignIn = new SignIn().study("study-identifier").email("admin@email.com").password("admin-password");
+        SignIn adminSignIn = new SignIn().appId("study-identifier").email("admin@email.com").password("admin-password");
         
         doReturn(accountSignIn).when(config).getAccountSignIn();
         doReturn(adminSignIn).when(config).getAdminSignIn();
@@ -57,7 +57,7 @@ public class ClientManagerTest {
     
     @Test
     public void testClientInfoLoadedFromPropsFile() {
-        SignIn signIn = new SignIn().study("study-identifier").email("account@email.com")
+        SignIn signIn = new SignIn().appId("study-identifier").email("account@email.com")
                 .password("account-password");
         
         ClientManager manager = new ClientManager.Builder().withSignIn(signIn).build();

@@ -479,7 +479,7 @@ public class RestUtils {
         String authToken = object.get("access_code").getAsString();
         
         OAuthAuthorizationToken token = new OAuthAuthorizationToken()
-                .study(signIn.getStudy())
+                .appId(signIn.getAppId())
                 .authToken(authToken)
                 .vendorId("synapse")
                 .callbackUrl(OAUTH_CALLBACK_URL);
@@ -510,7 +510,7 @@ public class RestUtils {
             signInKey = new SignIn();
             signInKey.email(signIn.getEmail())
                     .password(signIn.getPassword())
-                    .study(signIn.getStudy());
+                    .appId(signIn.getAppId());
         }
 
         return signInKey;
