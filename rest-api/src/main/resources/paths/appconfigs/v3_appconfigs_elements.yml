@@ -1,14 +1,14 @@
 get:
     operationId: getMostRecentAppConfigElements
-    summary: Get a list of the most recent revision of each app configuration element in the study
+    summary: Get a list of the most recent revision of each configuration element in the app
     tags:
         - AppConfigs
         - _For Developers
     security:
         - BridgeSecurity: []
     description: |
-        Get a list of the app configuration elements in the study, returning the highest revision 
-        number for each element in the study. This revision may or may not be published.
+        Get a list of the app configuration elements in the app, returning the highest revision 
+        number for each element in the app. This revision may or may not be published.
     parameters:
         - $ref: ../../index.yml#/parameters/includeDeleted
     responses:

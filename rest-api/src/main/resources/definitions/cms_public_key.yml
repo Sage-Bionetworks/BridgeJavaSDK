@@ -1,6 +1,6 @@
 description: |
     A JSON payload that includes the base 64 encoded, public key for CMS encryption of uploads for this 
-    study. Each study has a different CMS public key.
+    app. Each app has a different CMS public key.
 type: object
 readOnly: true
 properties:

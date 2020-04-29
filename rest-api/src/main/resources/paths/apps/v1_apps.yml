@@ -1,0 +1,47 @@
+get:
+    operationId: getApps
+    summary: Get all apps
+        The summary must be true if this call is made without authentication.
+    tags: 
+        - Apps
+        - Public
+        - _For Superadmins
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - name: summary
+          required: false
+          in: query
+          type: boolean
+          description: |
+            If true, anyone can call this endpoint and return a list of truncated app objects
+            (name and ID only). Otherwise, caller must be an admin.
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/app.yml
+        403:
+            $ref: ../../responses/403_not_superadmin.yml                
+post:
+    operationId: createApp
+    summary: Create a new app
+    tags:
+        - _For Superadmins
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - name: App
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/app.yml
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/version_holder.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_superadmin.yml

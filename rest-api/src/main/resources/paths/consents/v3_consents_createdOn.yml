@@ -1,6 +1,6 @@
 get:
     operationId: getDefaultConsentRevision
-    summary: Get specific revision of a study's default subpopulation 
+    summary: Get specific revision of a app's default subpopulation 
     deprecated: true
     tags:
         - Consents

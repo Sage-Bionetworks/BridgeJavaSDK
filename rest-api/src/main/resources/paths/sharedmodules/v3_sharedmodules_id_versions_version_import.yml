@@ -1,6 +1,6 @@
 post:
     operationId: importModuleByIdAndVersion
-    summary: Imports a specific module version into the current study.
+    summary: Imports a specific module version into the current app.
     tags:
         - Shared Modules
         - _For Developers

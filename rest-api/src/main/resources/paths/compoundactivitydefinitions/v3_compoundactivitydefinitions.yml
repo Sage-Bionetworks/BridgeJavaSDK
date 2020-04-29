@@ -1,6 +1,6 @@
 get:
     operationId: getAllCompoundActivityDefinitions
-    summary: List all compound activity definitions in the study
+    summary: List all compound activity definitions in the app
     tags: 
         - Compound Activity Definitions
         - _For Developers

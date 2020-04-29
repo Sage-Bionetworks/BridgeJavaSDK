@@ -11,8 +11,8 @@ get:
                 $ref: ../../definitions/paged_resources/activity_event.yml
 post:
     operationId: createCustomActivityEvent
-    summary: Create a study-specific ActivityEvent
-    description: Create a custom ActivityEvent record. The eventKey must be dfined in the study.
+    summary: Create a app-specific ActivityEvent
+    description: Create a custom ActivityEvent record. The eventKey must be defined in the app.
     tags:
         - ActivityEvents
         - _For Consented Users

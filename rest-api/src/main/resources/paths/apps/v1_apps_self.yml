@@ -1,0 +1,47 @@
+get:
+    operationId: getUsersApp
+    summary: Get an app
+    description: |
+        Get the app of the currently signed in user account.
+    tags: 
+        - Apps
+        - _For Developers
+        - _For Researchers
+        - _For Admins
+    security:
+        -   BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/app.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher_admin.yml
+post:
+    operationId: updateUsersApp
+    summary: Update an app
+    description: |
+        Update the app of the currently signed in developer account. This API only works for Developers 
+        (administrators should use the ForAdminsApi.updateApp() API).
+    tags:
+        - Apps
+        - _For Developers
+        - _For Researchers
+        - _For Admins
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - name: App
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/app.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/version_holder.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher_admin.yml

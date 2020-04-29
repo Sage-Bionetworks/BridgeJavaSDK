@@ -1,17 +1,17 @@
 post:
     operationId: changeStudy
     tags:
-        - Studies
+        - Apps
         - Authentication
     description: |
-        Change the study currently associate with the signed in caller's session. This study must have a Bridge 
+        Change the app currently associate with the signed in caller's session. This app must have a Bridge 
         account with the same Synapse user ID as the caller's current session account. If the caller is a 
-        cross-study administrator (Sage only), any study can be selected. The only parameter required in the 
-        signIn payload is the selected study identifier.
+        cross-app administrator (Sage only), any app can be selected. The only parameter required in the 
+        signIn payload is the selected appId.
     parameters:
         - name: SignIn
           in: body
-          description: Sign in information (study identifier only)
+          description: Sign in information (appId only)
           required: true
           schema:
                 $ref: ../../definitions/sign_in.yml

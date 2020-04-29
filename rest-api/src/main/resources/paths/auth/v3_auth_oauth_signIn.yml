@@ -2,7 +2,7 @@ post:
     operationId: signInWithOauthToken
     tags: ["Authentication"]
     description: |
-        Does not require authentication. Using the token returned from a successful authentication via an OAuth server, request a session from the Bridge. The caller will need to have associated an account in the target Bridge study with the account being used to authenticate.
+        Does not require authentication. Using the token returned from a successful authentication via an OAuth server, request a session from the Bridge. The caller will need to have associated an account in the target Bridge app with the account being used to authenticate.
     parameters:
         - name: OAuthAuthorizationToken
           in: body

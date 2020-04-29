@@ -36,7 +36,7 @@ allOf:
             additionalProperties:
                 type: string
             description: |
-                A map of user profile attributes that have been set for this user (the attributes themselves must be specified in the study's configuration, and the values are stored encrypted in case they capture personally-identifying information).
+                A map of user profile attributes that have been set for this user (the attributes themselves must be specified in the app's configuration, and the values are stored encrypted in case they capture personally-identifying information).
             x-nullable: false
         sharingScope:
             $ref: ./enums/sharing_scope.yml
@@ -72,7 +72,7 @@ allOf:
             type: array
             readOnly: true
             description: |
-                The data groups set for this user. Data groups must be strings that are defined in the list of all valid data groups for the study, as part of the study object. 
+                The data groups set for this user. Data groups must be strings that are defined in the list of all valid data groups for the app, as part of the app object. 
             items:
                 type: string
             x-nullable: false

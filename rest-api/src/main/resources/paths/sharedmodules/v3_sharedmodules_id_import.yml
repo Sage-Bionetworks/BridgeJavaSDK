@@ -1,6 +1,6 @@
 post:
     operationId: importModuleByIdLatestPublishedVersion
-    summary: Imports the latest published version of a module into the current study.
+    summary: Imports the latest published version of a module into the current app.
     tags:
         - Shared Modules
         - _For Developers

@@ -17,7 +17,7 @@ allOf:
             type: object
             readOnly: true
             description: |
-                A complete historical record of all the user's consents and withdrawals of consent for all consent groups in the study.
+                A complete historical record of all the user's consents and withdrawals of consent for all studies in the app.
             additionalProperties:
                 type: array
                 items:

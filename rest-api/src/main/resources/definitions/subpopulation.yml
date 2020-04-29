@@ -47,7 +47,7 @@ properties:
     defaultGroup:
         type: boolean
         description: |
-            If true, this is the default subpopulation created for a study, and it cannot be deleted (although it can be changed, and even made optional or hidden through the use of criteria).
+            If true, this is the default subpopulation created for an app, and it cannot be deleted (although it can be changed, and even made optional or hidden through the use of criteria).
         x-nullable: false
     publishedConsentCreatedOn:
         type: string

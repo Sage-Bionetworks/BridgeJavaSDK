@@ -101,9 +101,9 @@ parameters:
         required: true
         in: path
         type: string
-    studyId:
-        name: studyId
-        description: Study ID
+    appId:
+        name: appId
+        description: App ID
         required: true
         in: path
         type: string

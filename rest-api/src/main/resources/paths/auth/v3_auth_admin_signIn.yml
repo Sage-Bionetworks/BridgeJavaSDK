@@ -4,8 +4,8 @@ post:
       - _For Superadmins
     description: |
         Sign in using an administrative account. Administrative accounts must be created in the 
-        API study; account will be authenticated against this account but will be placed in the 
-        study that is submitted in the sign in request. Consent is not releent to amin accounts 
+        API app; account will be authenticated against this account but will be placed in the 
+        app that is submitted in the sign in request. Consent is not releent to amin accounts 
         and is not checked.
     parameters:
         - name: SignIn

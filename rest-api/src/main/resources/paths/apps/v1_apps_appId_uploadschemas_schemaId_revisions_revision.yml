@@ -1,0 +1,20 @@
+get:
+    operationId: getSchemaRevision
+    summary: Get a schema revision from an app
+    tags: 
+        - _For Workers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/appId
+        - $ref: ../../index.yml#/parameters/schemaId
+        - $ref: ../../index.yml#/parameters/revision
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/upload_schema.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_worker.yml

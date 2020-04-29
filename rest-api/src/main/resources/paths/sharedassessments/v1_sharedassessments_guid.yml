@@ -47,7 +47,7 @@ post:
 delete:
     operationId: deleteSharedAssessment
     summary: Delete an assessment revision.
-    description: A GUID uniquely identifies a specific assessment revision. Only cross-study administrators can delete a shared assessment (either logically or physically).
+    description: A GUID uniquely identifies a specific assessment revision. Only cross-app administrators can delete a shared assessment (either logically or physically).
     tags:
         - _For Superadmins
         - Shared Assessments

@@ -2,7 +2,7 @@ get:
     operationId: getUsersParticipantRecord
     summary: Get user's participant record
     description: |
-        Get the current user's participant record. Any authenticated user may call this endpoint. **The user does not need to have consented to the study in order to access their participant record.** 
+        Get the current user's participant record. Any authenticated user may call this endpoint. **The user does not need to have consented a study in the app in order to access their participant record.** 
     tags: 
         - Participants
         - _For Consented Users
@@ -21,7 +21,7 @@ post:
     operationId: updateUsersParticipantRecord
     summary: Update user's participant record
     description: |
-        Update the current user's participant record. **Unlike most other calls in this API, you can send partically complete JSON to this endpoint,** and it will selectively update the participant's record (rather than treating missing properties as an instruction to delete those fields in the record). This means that many existing APIs that sent a single update value, can direct those payloads to this endpoint and they will still work fine. For this reason most `/v3/users/*` endpoints are now deprecated, though there is no plan to remove them. Any authenticated user may call this endpoint. **The user does not need to have consented to the study in order to update their participant 
+        Update the current user's participant record. **Unlike most other calls in this API, you can send partically complete JSON to this endpoint,** and it will selectively update the participant's record (rather than treating missing properties as an instruction to delete those fields in the record). This means that many existing APIs that sent a single update value, can direct those payloads to this endpoint and they will still work fine. For this reason most `/v3/users/*` endpoints are now deprecated, though there is no plan to remove them. Any authenticated user may call this endpoint. **The user does not need to have consented to a study in the app in order to update their participant 
     tags:
         - Participants
         - _For Consented Users

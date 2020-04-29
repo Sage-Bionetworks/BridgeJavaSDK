@@ -1,9 +1,9 @@
 description: |
-    The holder object for Study, a list of User and a list of admin IDs
+    The holder object for App, a list of User and a list of admin IDs
 type: object
 required:
     - adminIds
-    - study
+    - app
     - users
 properties:
     adminIds:
@@ -12,8 +12,8 @@ properties:
         items:
             type: string 
         x-nullable: false
-    study:
-        $ref: ./study.yml
+    app:
+        $ref: ./app.yml
         x-nullable: false
     users:
         type: array
@@ -24,5 +24,5 @@ properties:
     type:
         type: string
         readOnly: true
-        description: "StudyAndUsers"
+        description: "AppAndUsers"
         x-nullable: false

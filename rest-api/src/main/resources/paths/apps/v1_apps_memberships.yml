@@ -1,0 +1,21 @@
+get:
+    operationId: getAppMemberships
+    summary: Get the list of apps that are accessible to the signed in user via a shared Synapse user ID
+    description: | 
+        Return a summary of all apps that are accessible to the authenticated caller via a shared Synapse 
+        user ID. If the caller is a cross-app administrator (Sage only), all apps are returned. These 
+        app objects contain only the app's name and identifier.
+    tags:
+        - Apps
+        - Authentication
+    security:
+        -   BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/app.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher_admin.yml

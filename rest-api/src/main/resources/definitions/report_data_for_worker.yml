@@ -23,7 +23,7 @@ properties:
         x-nullable: false
     substudyIds:
         type: array
-        description: The substudies this report record is associated to (these are set with the first record that is submitted and that creates a report index, and cannot be changed afterward unless the user is a study-wide user not associated to any specific substudy.
+        description: The substudies this report record is associated to (these are set with the first record that is submitted and that creates a report index, and cannot be changed afterward unless the user is an app-wide user not associated to any specific substudy.
         items:
             type: string
         x-nullable: false

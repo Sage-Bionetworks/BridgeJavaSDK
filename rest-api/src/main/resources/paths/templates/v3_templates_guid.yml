@@ -7,7 +7,7 @@ get:
     security:
         - BridgeSecurity: []
     description: |
-        Get a template for this study.
+        Get a template for this app.
     parameters:
         - $ref: ../../index.yml#/parameters/guid
     responses:

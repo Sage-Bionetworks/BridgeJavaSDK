@@ -1,9 +1,9 @@
 post:
-    operationId: adminChangeStudy
+    operationId: adminChangeApp
     tags:
       - _For Superadmins
     description: |
-        Change the study an super administrator is in. The only value that needs to be included in the request is the study parameter.
+        Change the app a super administrator is in. The only value that needs to be included in the request is the appId property.
     parameters:
         - name: SignIn
           in: body

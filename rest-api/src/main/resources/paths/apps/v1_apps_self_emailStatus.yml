@@ -1,0 +1,20 @@
+get:
+    operationId: getAppEmailStatus
+    summary: SES email verification status
+    description: |
+        Consents will be emailed from the support email address you provide. Amazon 
+        SES will ask the holder of that address to confirm this is OK.
+    tags: 
+        - Apps
+        - _For Developers
+    security:
+        -   BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/email_verification_status.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher.yml
