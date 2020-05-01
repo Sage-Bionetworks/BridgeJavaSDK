@@ -67,7 +67,7 @@ public class UserSessionInfoProviderTest {
         Tests.setVariableValueInObject(userSessionInfo, "email", "email@email.com");
         Tests.setVariableValueInObject(userSessionInfo, "sessionToken", "sessionToken");
 
-        signIn = new SignIn().email("email@email.com").password("password").appId("test-study");
+        signIn = new SignIn().email("email@email.com").password("password").appId("test-app");
 
         provider = new UserSessionInfoProvider(authenticationApi, signIn.getAppId(), signIn.getEmail(),
                 signIn.getPhone(), signIn.getExternalId(), signIn.getPassword(), null,
@@ -182,7 +182,7 @@ public class UserSessionInfoProviderTest {
     @Test
     public void reauthenticationFailsWithNoCredentialsAllowingSignIn() throws Exception {
 
-        signIn = new SignIn().email("email@email.com").appId("test-study");
+        signIn = new SignIn().email("email@email.com").appId("test-app");
 
         provider = new UserSessionInfoProvider(authenticationApi, signIn.getAppId(), signIn.getEmail(),
                 signIn.getPhone(), signIn.getExternalId(), signIn.getPassword(), null,

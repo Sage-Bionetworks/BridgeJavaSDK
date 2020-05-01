@@ -79,6 +79,16 @@ public class AuthenticationHandlerTest {
         interceptRequiringAuthAddsHeader("/v3/admin/study");
     }
     
+    @Test
+    public void interceptRequiringAuthAddsHeaderChangeApp() throws Exception {
+        interceptRequiringAuthAddsHeader("/v3/auth/app");
+    }
+    
+    @Test
+    public void interceptRequiringAuthAddsHeaderAdminChangeApp() throws Exception {
+        interceptRequiringAuthAddsHeader("/v3/admin/app");
+    }
+    
     private void interceptRequiringAuthAddsHeader(String path) throws Exception {
         UserSessionInfo session = new UserSessionInfo();
         Tests.setVariableValueInObject(session, "sessionToken", "sessionToken");

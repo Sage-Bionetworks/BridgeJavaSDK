@@ -34,7 +34,7 @@ public class UserSessionInfoProvider {
     }
 
     private final AuthenticationApi authenticationApi;
-    private final String studyId;
+    private final String appId;
     private final String email;
     private final Phone phone;
     private final String externalId;
@@ -42,16 +42,16 @@ public class UserSessionInfoProvider {
     private final List<UserSessionInfoChangeListener> changeListeners;
     private volatile UserSessionInfo session;
 
-    UserSessionInfoProvider(AuthenticationApi authenticationApi, String studyId, String email, Phone phone,
+    UserSessionInfoProvider(AuthenticationApi authenticationApi, String appId, String email, Phone phone,
                             String externalId, String password, UserSessionInfo session,
                             List<UserSessionInfoChangeListener> changeListeners) {
         checkNotNull(authenticationApi);
-        checkNotNull(studyId);
+        checkNotNull(appId);
         checkState(!Strings.isNullOrEmpty(email) || phone != null || !Strings.isNullOrEmpty(externalId),
                 "requires email, phone or externalId");
 
         this.authenticationApi = authenticationApi;
-        this.studyId = studyId;
+        this.appId = appId;
 
         this.email = email;
         this.phone = phone;
@@ -130,7 +130,7 @@ public class UserSessionInfoProvider {
             signIn();
         } else {
             SignIn request = new SignIn().email(email).phone(phone).externalId(externalId)
-                    .reauthToken(session.getReauthToken()).appId(studyId);
+                    .reauthToken(session.getReauthToken()).appId(appId);
             try {
                 UserSessionInfo newSession = authenticationApi.reauthenticate(request).execute().body();
                 setSession(newSession);
@@ -170,7 +170,7 @@ public class UserSessionInfoProvider {
             return false;
         }
         try {
-            SignIn signIn = new SignIn().appId(studyId).email(email).phone(phone).externalId(externalId)
+            SignIn signIn = new SignIn().appId(appId).email(email).phone(phone).externalId(externalId)
                     .password(password);
             UserSessionInfo newSession = authenticationApi.signInV4(signIn).execute().body();
             setSession(newSession);

@@ -1,5 +1,5 @@
 get:
-    operationId: getParticipantReportsForParticipantV4
+    operationId: getParticipantReportsForParticipantV2
     summary: Get participant report records by date-time
     tags: 
         - _For Workers
