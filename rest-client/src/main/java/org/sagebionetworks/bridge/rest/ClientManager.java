@@ -44,8 +44,8 @@ import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
  *      <dt>OS_VERSION (os.version in properties file)</dt>
  *      <dd>The operating system version of the client (a string in any format).</dd>
  *      
- *      <dt>STUDY_IDENTIFIER (study.identifier in properties file)</dt>
- *      <dd>The identifier of your study (not the name, but the ID).</dd>
+ *      <dt>APP_IDENTIFIER (app.identifier in properties file)</dt>
+ *      <dd>The identifier of your app (not the name, but the ID).</dd>
  *      
  *      <dt>HOST</dt>
  *      <dd>An alternative to setting the host server through the <code>Environment</code> 
@@ -86,7 +86,7 @@ public class ClientManager {
         String acceptLanguage = RestUtils.getAcceptLanguage(acceptLanguages);
 
         this.authenticatedClientProvider =
-                new ApiClientProvider(hostURL, userAgent, acceptLanguage, signIn.getStudy())
+                new ApiClientProvider(hostURL, userAgent, acceptLanguage, signIn.getAppId())
                         .getAuthenticatedClientProviderBuilder()
                         .withPhone(signIn.getPhone())
                         .withEmail(signIn.getEmail())
@@ -165,12 +165,12 @@ public class ClientManager {
         /**
          * Provide the languages this caller can accept to the server, in an ordered list of two-character 
          * language codes (in order of most preferred, to least preferred). Duplicate language codes are 
-         * ignored (first in order takes preference). If the study is offered in more than one language, 
+         * ignored (first in order takes preference). If the app is offered in more than one language, 
          * this preferred language may change the content returned from the server. These language 
-         * preferences are considered optional by the Bridge server, though your specific study may require 
+         * preferences are considered optional by the Bridge server, though your specific app may require 
          * that a language be specified to deliver the correct content. If no language match occurs 
          * (or these preferences are not provided), virtually all studies are configured to return default 
-         * content in the study's primary language.
+         * content in the app's primary language.
          * @param acceptLanguages
          *      an optional, ordered list of two-letter language codes, from most preferred language to 
          *      least preferred language
@@ -205,7 +205,7 @@ public class ClientManager {
                 this.signIn = this.config.getAccountSignIn();
             }
             checkNotNull(signIn, "Sign in must be supplied to ClientManager builder.");
-            checkNotNull(signIn.getStudy(), "Sign in must have a study identifier.");
+            checkNotNull(signIn.getAppId(), "Sign in must have an appId.");
             if (this.config == null) {
                 this.config = new Config();
             }

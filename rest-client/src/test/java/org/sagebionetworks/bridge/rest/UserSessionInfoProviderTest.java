@@ -67,9 +67,9 @@ public class UserSessionInfoProviderTest {
         Tests.setVariableValueInObject(userSessionInfo, "email", "email@email.com");
         Tests.setVariableValueInObject(userSessionInfo, "sessionToken", "sessionToken");
 
-        signIn = new SignIn().email("email@email.com").password("password").study("test-study");
+        signIn = new SignIn().email("email@email.com").password("password").appId("test-app");
 
-        provider = new UserSessionInfoProvider(authenticationApi, signIn.getStudy(), signIn.getEmail(),
+        provider = new UserSessionInfoProvider(authenticationApi, signIn.getAppId(), signIn.getEmail(),
                 signIn.getPhone(), signIn.getExternalId(), signIn.getPassword(), null,
                 Arrays.asList(changeListener));
     }
@@ -113,7 +113,7 @@ public class UserSessionInfoProviderTest {
 
         SignIn reauthRequest = reauthenticateRequestCaptor.getValue();
         assertEquals("reauthToken", reauthRequest.getReauthToken());
-        assertEquals(signIn.getStudy(), reauthRequest.getStudy());
+        assertEquals(signIn.getAppId(), reauthRequest.getAppId());
         assertEquals(signIn.getEmail(), reauthRequest.getEmail());
     }
 
@@ -182,9 +182,9 @@ public class UserSessionInfoProviderTest {
     @Test
     public void reauthenticationFailsWithNoCredentialsAllowingSignIn() throws Exception {
 
-        signIn = new SignIn().email("email@email.com").study("test-study");
+        signIn = new SignIn().email("email@email.com").appId("test-app");
 
-        provider = new UserSessionInfoProvider(authenticationApi, signIn.getStudy(), signIn.getEmail(),
+        provider = new UserSessionInfoProvider(authenticationApi, signIn.getAppId(), signIn.getEmail(),
                 signIn.getPhone(), signIn.getExternalId(), signIn.getPassword(), null,
                 Arrays.asList(changeListener));
 

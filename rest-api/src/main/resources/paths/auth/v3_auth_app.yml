@@ -1,0 +1,26 @@
+post:
+    operationId: changeApp
+    tags:
+        - Apps
+        - Authentication
+    description: |
+        Change the app currently associate with the signed in caller's session. This app must have a Bridge 
+        account with the same Synapse user ID as the caller's current session account. If the caller is a 
+        cross-app administrator (Sage only), any app can be selected. The only parameter required in the 
+        signIn payload is the selected appId.
+    parameters:
+        - name: SignIn
+          in: body
+          description: Sign in information (appId only)
+          required: true
+          schema:
+                $ref: ../../definitions/sign_in.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/user_session_info.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher_admin.yml

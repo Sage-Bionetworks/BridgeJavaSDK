@@ -6,17 +6,17 @@ description: |
 
     |Template Variable|What it will be replaced with|
     |---|---|
-    |studyName|The full name of the study|
-    |studyShortName|The short name of the study (ten letters or less)|
-    |studyId|The identifier of the study|
-    |sponsorName|The name of the study sponsor|
-    |supportEmail|The support email of the study|
-    |technicalEmail|The technical support email of the study|
-    |consentEmail|The consent administration email of the study|
+    |appName|The full name of the app|
+    |appShortName|The short name of the app (ten letters or less)|
+    |appId|The identifier of the app|
+    |sponsorName|The name of the app sponsor|
+    |supportEmail|The support email of the app|
+    |technicalEmail|The technical support email of the app|
+    |consentEmail|The consent administration email of the app|
     |host|The host server (e.g. `https://ws.sagebridge.org`|
 
     **Account exists SMS message**
-    *You can include a link to reset the account's password, or a token to sign in via the SMS message, if supported by the study, or both.*
+    *You can include a link to reset the account's password, or a token to sign in via the SMS message, if supported by the app, or both.*
 
     |Template Variable|What it will be replaced with|
     |---|---|
@@ -56,7 +56,7 @@ description: |
 
     |Template Variable|What it will be replaced with|
     |---|---|
-    |appInstallUrl|The URL selected for this request and returned as the link to download and install the app for this study|
+    |appInstallUrl|The URL selected for this request and returned as the link to download and install the app for this app|
 
 required:
     - message

@@ -39,7 +39,7 @@ public class ApiClientProvider {
     private final String baseUrl;
     private final String userAgent;
     private final String acceptLanguage;
-    private final String study;
+    private final String appId;
     private final Retrofit unauthenticatedRetrofit;
     private final LoadingCache<Class<?>, ?> unauthenticatedServices;
     private final AuthenticationApi authenticationApi;
@@ -48,7 +48,7 @@ public class ApiClientProvider {
     private final ImmutableList<Interceptor> applicationInterceptors;
 
     /**
-     * Creates a builder for accessing services associated with an environment and study.
+     * Creates a builder for accessing services associated with an environment and app.
      *
      * @param baseUrl base url for Bridge service
      * @param userAgent
@@ -56,16 +56,16 @@ public class ApiClientProvider {
      * @param acceptLanguage
      *         optional comma-separated list of preferred languages for this client (most to least
      *         preferred
-     * @param study
-     *         study identifier
+     * @param appId
+     *         app identifier
      */
-    public ApiClientProvider(String baseUrl, String userAgent, String acceptLanguage, String study) {
-        this(baseUrl, userAgent, acceptLanguage, study, null, Collections.<Interceptor>emptyList(),
+    public ApiClientProvider(String baseUrl, String userAgent, String acceptLanguage, String appId) {
+        this(baseUrl, userAgent, acceptLanguage, appId, null, Collections.<Interceptor>emptyList(),
                 Collections.<Interceptor>emptyList());
     }
 
     /**
-     * Creates a builder for accessing services associated with an environment and study.
+     * Creates a builder for accessing services associated with an environment and appId.
      *
      * @param baseUrl base url for Bridge service
      * @param userAgent
@@ -73,8 +73,8 @@ public class ApiClientProvider {
      * @param acceptLanguage
      *         optional comma-separated list of preferred languages for this client (most to least
      *         preferred
-     * @param study
-     *         study identifier
+     * @param appId
+     *         app identifier
      * @param socketFactory
      *         optional factory to customize how OkHttp creates sockets. This is used on Android to associate a
      *         socket with statistics for the current thread, as required by Android O. If no factory is passed, the
@@ -84,19 +84,19 @@ public class ApiClientProvider {
      * @param applicationInterceptors
      *         additional application applicationInterceptors
      */
-    public ApiClientProvider(String baseUrl, String userAgent, String acceptLanguage, String study,
+    public ApiClientProvider(String baseUrl, String userAgent, String acceptLanguage, String appId,
             SocketFactory socketFactory, List<Interceptor> networkInterceptors,
             List<Interceptor> applicationInterceptors) {
         checkState(!Strings.isNullOrEmpty(baseUrl));
         checkState(!Strings.isNullOrEmpty(userAgent));
-        checkState(!Strings.isNullOrEmpty(study));
+        checkState(!Strings.isNullOrEmpty(appId));
         checkNotNull(networkInterceptors);
         checkNotNull(applicationInterceptors);
 
         this.baseUrl = baseUrl;
         this.userAgent = userAgent;
         this.acceptLanguage = acceptLanguage;
-        this.study = study;
+        this.appId = appId;
         this.socketFactory = socketFactory;
         this.unauthenticatedRetrofit = getRetrofit(
                 getHttpClientBuilder(
@@ -209,7 +209,7 @@ public class ApiClientProvider {
     }
 
     /**
-     * Returns a builder for authenticated access to this study.
+     * Returns a builder for authenticated access to this app.
      *
      * @return builder for creating authenticated clients
      */
@@ -336,7 +336,7 @@ public class ApiClientProvider {
                     "requires email, phone or external ID");
 
             UserSessionInfoProvider sessionProvider =
-                    new UserSessionInfoProvider(authenticationApi, study, email, phone, externalId, password, session,
+                    new UserSessionInfoProvider(authenticationApi, appId, email, phone, externalId, password, session,
                             changeListeners);
             // reset credentials so same builder can be reused
             email = null;

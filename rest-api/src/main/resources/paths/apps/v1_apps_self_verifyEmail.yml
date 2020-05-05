@@ -1,0 +1,20 @@
+post:
+    operationId: verifySenderEmail
+    summary: Trigger SES email verification process
+    description: |
+        Amazon SES will attempt to verify that it can send email from your support email address. 
+        If that fails or expires, this API will trigger another request to verify.
+    tags: 
+        - Apps
+        - _For Developers
+    security:
+        -   BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/email_verification_status.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml

@@ -1,6 +1,6 @@
 get:
     operationId: getStudyReportIndex
-    summary: Get a study report index
+    summary: Get a  report index
     description: |
         Get the index (or metadata) for a set of report records. 
     tags:

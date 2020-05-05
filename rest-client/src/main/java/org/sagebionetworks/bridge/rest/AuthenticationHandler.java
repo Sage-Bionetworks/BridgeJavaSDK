@@ -31,7 +31,7 @@ class AuthenticationHandler implements Interceptor, Authenticator {
     private static final int MAX_TRIES = 1;
     private static final String AUTH_PATH = "/auth/";
     private static final Set<String> AUTH_PATHS_REQUIRING_SESSION = ImmutableSet.of("/signOut", "/admin/study",
-            "/auth/study");
+            "/auth/study", "/admin/app", "/auth/app");
     
     private final UserSessionInfoProvider userSessionInfoProvider;
     @VisibleForTesting

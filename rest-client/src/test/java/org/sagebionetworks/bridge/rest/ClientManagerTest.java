@@ -26,13 +26,13 @@ public class ClientManagerTest {
     
     @Test
     public void testInitFromConfig() {
-        SignIn accountSignIn = new SignIn().study("study-identifier").email("account@email.com")
+        SignIn accountSignIn = new SignIn().appId("app-identifier").email("account@email.com")
                 .password("account-password");
-        SignIn adminSignIn = new SignIn().study("study-identifier").email("admin@email.com").password("admin-password");
+        SignIn adminSignIn = new SignIn().appId("app-identifier").email("admin@email.com").password("admin-password");
         
         doReturn(accountSignIn).when(config).getAccountSignIn();
         doReturn(adminSignIn).when(config).getAdminSignIn();
-        doReturn("study-identifier").when(config).getStudyIdentifier();
+        doReturn("app-identifier").when(config).getAppId();
         doReturn("1").when(config).getSdkVersion();
         doReturn("account@email.com").when(config).getAccountEmail();
         doReturn("account-password").when(config).getAccountPassword();
@@ -45,7 +45,7 @@ public class ClientManagerTest {
         
         ClientManager manager = new ClientManager.Builder().withConfig(config).build();
         
-        assertEquals("study-identifier", manager.getConfig().getStudyIdentifier());
+        assertEquals("app-identifier", manager.getConfig().getAppId());
         assertEquals("1", manager.getConfig().getSdkVersion());
         assertEquals(accountSignIn, manager.getConfig().getAccountSignIn());
         assertEquals(adminSignIn, manager.getConfig().getAdminSignIn());
@@ -57,7 +57,7 @@ public class ClientManagerTest {
     
     @Test
     public void testClientInfoLoadedFromPropsFile() {
-        SignIn signIn = new SignIn().study("study-identifier").email("account@email.com")
+        SignIn signIn = new SignIn().appId("app-identifier").email("account@email.com")
                 .password("account-password");
         
         ClientManager manager = new ClientManager.Builder().withSignIn(signIn).build();
@@ -97,7 +97,7 @@ public class ClientManagerTest {
         config.set(Props.HOST, "https://aws.bridgeserver.com");
         config.set(Environment.PRODUCTION);
 
-        config.set(Props.STUDY_IDENTIFIER, "studyId");
+        config.set(Props.APP_IDENTIFIER, "appId");
         config.set(Props.ADMIN_EMAIL, "account@example.com");
 
         SignIn signIn = config.getAdminSignIn();

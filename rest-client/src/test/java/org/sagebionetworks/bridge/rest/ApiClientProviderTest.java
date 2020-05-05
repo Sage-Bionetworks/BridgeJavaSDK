@@ -18,9 +18,9 @@ public class ApiClientProviderTest {
     
     @Before
     public void before() {
-        signIn = new SignIn().email("email@email.com").password("password").study("test-study");
+        signIn = new SignIn().email("email@email.com").password("password").appId("test-app");
         provider = spy(
-                new ApiClientProvider(BASE_URL, USER_AGENT, "en, fr", signIn.getStudy())
+                new ApiClientProvider(BASE_URL, USER_AGENT, "en, fr", signIn.getAppId())
                         .getAuthenticatedClientProviderBuilder()
                         .withEmail(signIn.getEmail())
                         .withPassword(signIn.getPassword()).build());

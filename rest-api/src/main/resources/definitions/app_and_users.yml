@@ -1,0 +1,28 @@
+description: |
+    The holder object for App, a list of User and a list of admin IDs
+type: object
+required:
+    - adminIds
+    - app
+    - users
+properties:
+    adminIds:
+        type: array
+        description: A list of Synapse admin user IDs.
+        items:
+            type: string 
+        x-nullable: false
+    app:
+        $ref: ./app.yml
+        x-nullable: false
+    users:
+        type: array
+        description: A list of users in the new Study.
+        items:
+            $ref: ./study_participant.yml
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "AppAndUsers"
+        x-nullable: false

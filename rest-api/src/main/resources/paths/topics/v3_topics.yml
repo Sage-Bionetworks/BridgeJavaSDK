@@ -1,8 +1,8 @@
 get:
     operationId: getNotificationTopics
-    summary: Get all the notification topics in this study
+    summary: Get all the notification topics in this app
     description: |
-        Return all the topics defined for this study. Participants can be subscribed to topics if they 
+        Return all the topics defined for this app. Participants can be subscribed to topics if they 
         register for notifications. Researchers can then send push notifications to those users through 
         the user of a topic.
     tags:

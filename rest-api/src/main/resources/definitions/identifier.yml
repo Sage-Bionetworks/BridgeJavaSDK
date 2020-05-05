@@ -2,16 +2,16 @@ description: |
     Payload object for an email address or phone number. You do not provide both identifiers when using this object for a call.
 type: object
 required:
-    - study
+    - appId
 properties:
     email:
         type: string
         description: Participant's email.
     phone:
         $ref: ./phone.yml
-    study:
+    appId:
         type: string  
-        description: String identifier if the participant's study.
+        description: String identifier if the participant's app.
         x-nullable: false
     type:
         type: string

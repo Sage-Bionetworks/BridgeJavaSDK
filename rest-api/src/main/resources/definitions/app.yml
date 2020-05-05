@@ -1,0 +1,266 @@
+description: |
+    An app with its many configuration options.
+type: object
+required:
+    - name
+    - shortName
+    - sponsorName
+    - supportEmail
+    - identifier
+    - version
+properties:
+    name:
+        type: string
+        description: A label for the app. This will be shown to users in emails and other contexts.
+        x-nullable: false
+    shortName:
+        type: string
+        description: A very short label (10 characters or less) for SMS messages and any other highly constrainted contexts.
+        x-nullable: false
+    automaticCustomEvents:
+        type: object
+        description: |
+            Custom events that should be generated for participant upon enrollment. The key in this map is the eventKey, and the value is the offset after the enrollment event (eg, "P1D" for one day after enrollment, "P-2W" for 2 weeks before enrollment). Note that this API will automatically pre-pend "custom:" in front of the event key when generating the eventId (eg, eventKey "studyBurstStart" becomes event ID "custom:studyBurstStart").
+        additionalProperties:
+            type: string
+        x-nullable: false
+    autoVerificationEmailSuppressed:
+        description: |
+            True if the automatic email verification email on sign-up should be suppressed. False if the email should be sent on sign-up. This is generally used in conjunction with email sign-in, where sending a separate email verification email would be redundant.
+        type: boolean
+        x-nullable: false
+    consentNotificationEmailVerified:
+        description: True if the consent notification email is verified. False if not.
+        type: boolean
+    fitBitScopes:
+        type: array
+        description: List of FitBit scopes that are configured for this app.
+        items:
+            type: string
+    installLinks:
+        type: object
+        description: |
+            This can be either to an app store (URLs mapped to the keys "iOS" or "Android"), or an intermediate web
+            page that will route to a final app or appstore (URLs mapped to the key "Universal"). iOS and Android take
+            precedence over the Universal URL.
+        additionalProperties:
+            type: string
+        x-nullable: false
+    participantIpLockingEnabled:
+        description: True if sessions for unprivileged participant accounts should be locked to an IP address. (Privileged account sessions are _always_ locked to an IP address.)
+        type: boolean
+        x-nullable: false
+    sponsorName:
+        type: string
+        description: The name of the institution or organization that is conducting the app. 
+        x-nullable: false
+    supportEmail:
+        type: string
+        description: |
+            The email address that will be given to study participants and other end users to contact for support requests. This can be a comma-separated list of email addresses. Email will be sent via this email address.
+        x-nullable: false
+    technicalEmail:
+        type: string
+        description: |
+            The email address for a technical contact who can coordinate with the Bridge Server team on technical issues (client or server). This can be a comma-separated list of email addresses.
+    uploadMetadataFieldDefinitions:
+        type: array
+        description: |
+            Metadata fields can be configured for any app. This metadata will be implicitly added to every schema and automatically added to every Synapse table.
+
+            All metadata field definitions are implicitly optional. The "required" field in metadata field definitions is ignored.
+        items:
+            $ref: ./upload_field_definition.yml
+        x-nullable: false
+    uploadValidationStrictness:
+        $ref: ./enums/upload_validation_strictness.yml
+        x-nullable: false
+    consentNotificationEmail:
+        type: string
+        description: |
+            Copies of all consent agreements and withdrawals will be emailed to this address. This can be a comma-separated list of email addresses.
+    identifier:
+        type: string
+        description: |
+            A user selected identifier that is unique relative to all other Bridge studies (lower-case letters and dashes only). The identifier serves as a "domain" that scopes accounts to that app, and is usually created by combining an institution and app tag or acronym. For example, if you work at the University of Washington and your app is on Asthma in Children, your identifier might be `uw-child-asthma`. Participants will not see this identifier.
+        x-nullable: false
+    version:
+        type: integer
+        format: int64
+        description: |
+            A version number used for optimistic locking of the object these keys represent; this value must be passed back to the server on updates. If the version doesn't match the version in the database, an error will be returned (409 Conflict) and the app will not be saved. 
+        x-nullable: false
+    minAgeOfConsent:
+        type: integer
+        default: 18
+        description: |
+            The minimum required age for participants in the app. If the user reports they are younger than this age, they will not be allowed to consent to the research.
+        x-nullable: false
+    appIdExcludedInExport:
+        description: |
+            True if the Bridge Exporter should include the appId prefix in the "originalTable" field in the appVersion (now "Health Data Summary") table in Synapse. This is false for legacy studies for backwards compatibility, but is true for all new studies being created.
+
+            This can only be changed by a Bridge admin. Care should be taken before changing this setting, as it may partition the data in Synapse.
+        type: boolean
+        x-nullable: false
+    synapseDataAccessTeamId:
+        type: integer
+        format: int64
+        description: |
+            Synapse team ID that is granted read access to exported health data records.
+    synapseProjectId:
+        type: string
+        description: The Synapse project to export health data records to.
+    usesCustomExportSchedule:
+        type: boolean
+        description: |
+            **Note: Bridge engineers will normally set this value when setting up data export. You should probably leave this setting as is.** By default, all studies are exported using the default nightly schedule. Some studies may need custom schedules for hourly or on-demand exports. To prevent this app from being exported twice (once by the custom schedule, once by the default schedule), you should set this attribute to true.
+        x-nullable: false
+    userProfileAttributes:
+        type: array
+        description: |
+            Custom attributes that can be added to the StudyParticipant object (as members of the attributes property). For example, if you wished to collect a telephone number for participants and had permission to do so, you could add the "telephone" attribute. The map of a user's profile attributes can be personally identifying health information; it will be stored encrypted and in a separate data store from the participant's health data.
+        items:
+            type: string
+        x-nullable: false
+    taskIdentifiers:
+        type: array
+        description: |
+            An enumerated list of **unique** strings that can be used to identify tasks when creating schedules. These mostly serve to prevent typos when designing schedules, which would prevent client scheduling from working. There's no hard limit on the string content (e.g. "Tapping Test" is fine as a task identifier, as long as it uniquely identifies a task known to the application).
+        items:
+            type: string
+        x-nullable: false
+    activityEventKeys:
+        type: array
+        description: |
+            The enumerated activity event keys for timestamps that can be recorded for use when scheduling tasks. These are provided through the UI to prevent errors when creating schedules. These form a whitelist for custom activity events that may be recorded for a participant.
+        items:
+            type: string
+        x-nullable: false
+    dataGroups:
+        type: array
+        description: |
+            An enumerated list of **unique** strings that can be assigned to user accounts. This is a list of the "tags" that can be assigned to a given user. The specific data groups that *are* assigned to a user will be exported with a participant's health data to Synapse. This can be used to identify test users or specific cohorts in the app, but it should not include sensitive health information about participants. Strings must contain only letters, numbers, underscore or dash, and cannot (as a comma-separated list) exceed the character limit of 100 characters so they can be exported to Synapse.
+        items:
+            type: string
+        x-nullable: false
+    passwordPolicy:
+        description: |
+            Settings that will govern what is accepted as a valid password when users sign up for the app. If not included, the password policy will default to requiring 8 characters, including lower and upper-case letters, at least one number and at least one symbol.
+        $ref: ./password_policy.yml
+        x-nullable: false
+    active:
+        type: boolean
+        readOnly: true
+        x-nullable: false
+    strictUploadValidationEnabled:
+        description: True if uploads in this app should fail on strict validation errors.
+        type: boolean
+        x-nullable: false
+    healthCodeExportEnabled:
+        type: boolean
+        description: |
+            **Can only be set by an administrator.** Should user health codes be exported as part of the participant roster? This identifies users in the public data set; this can only be set to true for certain studies where users expect to be identified by researchers.
+        x-nullable: false
+    emailVerificationEnabled:
+        type: boolean
+        description: |
+            **Can only be set by an administrator.** Should users be asked to validate that they control the email addresses they use to sign up for the app? True by default.  (Using an email address to send a 
+            sign in link will also verify it.)
+        x-nullable: false
+    autoVerificationPhoneSuppressed:
+        type: boolean
+        description: |
+            **Can only be set by an administrator.** Should the system send a confirmation SMS message on sign 
+            up if phone verification is enabled?
+        x-nullable: false
+    emailSignInEnabled:
+        type: boolean
+        default: false
+        description: |
+            **Can only be set by an administrator.** If enabled, the user will be able to trigger an email with an URL that can be used to sign into the server, in lieu of a normal sign in process.
+        x-nullable: false
+    phoneSignInEnabled:
+        type: boolean
+        default: false
+        description: |
+            **Can only be set by an administrator.** If enabled, the user will be able to trigger an SMS message which contains a token that can be used to sign in to the server, in lieu of a normal sign in process.
+        x-nullable: false
+    reauthenticationEnabled:
+        type: boolean
+        default: true
+        description: |
+            **Can only be set by an administrator.** Enable or disable the ability to issue a reauthentication token in a session, and call the reauthentication APIs to issue a new session. 
+        x-nullable: false
+    externalIdRequiredOnSignup:
+        type: boolean
+        default: false
+        description: |
+            **Can only be set by an administrator.** Should the external ID be required on sign up? If this is true and external ID validation is enabled, this app can support lab codes (where the username and password are auto-generated from the external ID and the user only needs to enter a code).
+        x-nullable: false
+    verifyChannelOnSignInEnabled:
+        type: boolean
+        default: true
+        description: |
+            **Can only be changed by an administrator.** Should the the credential that is submitted during sign-in 
+            be verified? This is always true (with the exception of legacy studies) and should not be changed.
+        x-nullable: false
+    accountLimit:
+        type: integer
+        default: 0
+        description: |
+            **Can only be set by an administrator.** If not zero, sets an upper-bound limit on the number of accounts that can be created for this app. Once this number is reached, no more sign ups or user creation can occur.
+        x-nullable: false
+    disableExport:
+        type: boolean
+        default: false
+        description: |
+            If set this field to true, Bridge Exporter will not export this app at all during exporting.
+        x-nullable: false
+    minSupportedAppVersions:
+        type: object
+        description: |
+            Minimum supported app versions (older versions will be blocked), keyed by the name of the operating system (we expect either "Android" or "iPhone OS" in the User-Agent header of all requests sent to the server). Example: `{"iPhone OS":14,"Android":10}` 
+        additionalProperties:
+            type: integer
+        x-nullable: false
+    oAuthProviders:
+        type: object
+        description: |
+            The metadata to contact OAuth providers for the Authorization Code Grant Flow.
+        additionalProperties:
+            $ref: ./oauth_provider.yml
+        x-nullable: false
+    pushNotificationARNs:
+        type: object
+        description: |
+            A map between operating system names, and the platform ARN necessary to register a device to receive mobile push notifications. The operating system names are currently "Android" and "iPhone OS". The ARN (Amazon Resource Name) is the name of the Application/platform ARN defined in SNS (currently this must be done by a Bridge administrator).
+        additionalProperties:
+            type: string
+        x-nullable: false
+    appleAppLinks:
+        type: array
+        description: |
+            The entries this app contributes to the `/.well-known/apple-app-site-association` file to enable universal links for iOS apps that use this app as the data store.
+        items:
+            $ref: ./apple_app_link.yml
+        x-nullable: false
+    androidAppLinks:
+        type: array
+        description: |
+            The entries this app contributes to the `/.well-known/assetlinks.json` file to enable app links for Android apps that use this app as the data store.
+        items:
+            $ref: ./android_app_link.yml
+        x-nullable: false
+    defaultTemplates:
+        type: object
+        description: |
+            A map between a type of template, and the template revision that should be used as a default if matching templates to a user is ambiguous.
+        additionalProperties:
+            type: string
+        x-nullable: false        
+    type:
+        type: string
+        readOnly: true
+        description: "App"
+        x-nullable: false

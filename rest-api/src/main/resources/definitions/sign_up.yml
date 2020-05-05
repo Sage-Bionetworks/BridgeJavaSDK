@@ -1,18 +1,18 @@
 description: |
-    The information necessary to sign up for a Bridge study. **Only the study's ID, an email address, and a password are required to sign up for a study.** However, all the information of [AbstractStudyParticipant](#AbstractStudyParticipant) can be submitted at sign up. In some configurations of the server, for example, an `externalId` value must be submitted at the time of sign up.
+    The information necessary to sign up for a Bridge app. **Only the app's ID, an email address, and a password are required to sign up for an app.** However, all the information of [AbstractStudyParticipant](#AbstractStudyParticipant) can be submitted at sign up. In some configurations of the server, for example, an `externalId` value must be submitted at the time of sign up.
 allOf:
     - $ref: ./abstract_study_participant.yml
     - type: object
     - required:
-        - study
+        - appId
     - properties:
-        study:
+        appId:
             type: string
-            description: The study ID of the study the participant is joining.
+            description: The app ID of the app the participant is joining.
         email:
             type: string
             description: |
-                The user's email. Users can use the same email for different studies, but their account is identified by the email within a study.
+                The user's email. Users can use the same email for different studies, but their account is identified by the email within an app.
         phone:
             $ref: ./phone.yml
         password:
@@ -22,12 +22,12 @@ allOf:
         consent:
             type: boolean
             description: |
-                **Create user API  for admins only.** Create this user consented to all required consents. For testing purposes only.
+                **Create user API for admins only.** Create this user consented to all required consents. For testing purposes only.
         checkForConsent:
             type: boolean
             default: false
             description: |
-                If sign ups for your study may include a consent to participate submitted prior to sign up, this field should be set to true to check for and finalize that consent. Otherwise this should be left false.
+                If sign ups for your app may include a consent to participate submitted prior to sign up, this field should be set to true to check for and finalize that consent. Otherwise this should be left false.
         type:
             type: string
             readOnly: true

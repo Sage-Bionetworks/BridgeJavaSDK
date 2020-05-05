@@ -440,7 +440,7 @@ public class RestUtils {
      * it can confirm your identity.
      *  
      * @param authApi the Bridge REST authentication API (does not require authentication) 
-     * @param signIn the sign in form with your Synapse credentials and target study to sign in to
+     * @param signIn the sign in form with your Synapse credentials and target app to sign in to
      * @return a Bridge user session if you successfully authenticate with Synapse
      */
     public static UserSessionInfo signInWithSynapse(AuthenticationApi authApi, SignIn signIn) throws Exception {
@@ -479,7 +479,7 @@ public class RestUtils {
         String authToken = object.get("access_code").getAsString();
         
         OAuthAuthorizationToken token = new OAuthAuthorizationToken()
-                .study(signIn.getStudy())
+                .appId(signIn.getAppId())
                 .authToken(authToken)
                 .vendorId("synapse")
                 .callbackUrl(OAUTH_CALLBACK_URL);
@@ -510,7 +510,7 @@ public class RestUtils {
             signInKey = new SignIn();
             signInKey.email(signIn.getEmail())
                     .password(signIn.getPassword())
-                    .study(signIn.getStudy());
+                    .appId(signIn.getAppId());
         }
 
         return signInKey;

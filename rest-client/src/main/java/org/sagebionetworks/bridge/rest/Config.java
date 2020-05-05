@@ -37,6 +37,7 @@ public final class Config {
         API_DEVELOPER_EMAIL,
         API_DEVELOPER_PASSWORD,
         API_DEVELOPER_STUDY,
+        APP_IDENTIFIER,
         APP_NAME,
         APP_VERSION,
         DEV_NAME,
@@ -53,8 +54,7 @@ public final class Config {
         SHARED_DEVELOPER_STUDY,
         SYNAPSE_TEST_USER,
         SYNAPSE_TEST_USER_PASSWORD,
-        SYNAPSE_TEST_USER_ID,
-        STUDY_IDENTIFIER;
+        SYNAPSE_TEST_USER_ID;
 
         public String getPropertyName() {
             return this.name().replace("_", ".").toLowerCase();
@@ -141,15 +141,15 @@ public final class Config {
     }
 
     public SignIn getAccountSignIn() {
-        return new SignIn().study(getStudyIdentifier()).email(getAccountEmail()).password(getAccountPassword());
+        return new SignIn().appId(getAppId()).email(getAccountEmail()).password(getAccountPassword());
     }
 
     public SignIn getAdminSignIn() {
-        return new SignIn().study(getStudyIdentifier()).email(getAdminEmail()).password(getAdminPassword());
+        return new SignIn().appId(getAppId()).email(getAdminEmail()).password(getAdminPassword());
     }
     
-    public String getStudyIdentifier() {
-        return fromProperty(Props.STUDY_IDENTIFIER);
+    public String getAppId() {
+        return fromProperty(Props.APP_IDENTIFIER);
     }
     
     public String getSdkVersion() {

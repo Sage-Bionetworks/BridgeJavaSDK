@@ -6,9 +6,9 @@ required:
     - scope
     - consentSignature
 properties:
-    studyId:
+    appId:
         type: string
-        description: The identifier for the study in which the user consents to participate.
+        description: The identifier for the app in which the user consents to participate.
     subpopGuid:
         type: string
         description: The specific subpopulation sent in the study to which the user consents to participate.

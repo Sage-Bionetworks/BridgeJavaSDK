@@ -26,10 +26,10 @@ properties:
 
             |Template variable|Substituted with|
             |---|---|
-            |${studyName}|The name of the study|
-            |${supportEmail}|The support email address for the study|
-            |${technicalEmail}|The technical contact/support email address for the study|
-            |${sponsorName}|The name of the sponsor for this study (the institution or research team name)|
+            |${appName}|The name of the app|
+            |${supportEmail}|The support email address for the app|
+            |${technicalEmail}|The technical contact/support email address for the app|
+            |${sponsorName}|The name of the sponsor for this app (the institution or research team name)|
 
             The signature block will be appended to the end of your consent document. **It is not possible to remove or change the signature block at this time.**
         x-nullable: false

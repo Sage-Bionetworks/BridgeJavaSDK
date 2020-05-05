@@ -1,14 +1,14 @@
 type: object
 description: |
-    Using a token supplied in an email to the participant, authenticate with the server. The token remains valid, once sent, for a minute. This token will be sent as part of a link in an email to the participant. This link should be intercepted by the installed app, which can extract the parameter in the link and use them to authenticate with the server using this endpoint. (This feature must be enabled for your study.)
+    Using a token supplied in an email to the participant, authenticate with the server. The token remains valid, once sent, for a minute. This token will be sent as part of a link in an email to the participant. This link should be intercepted by the installed app, which can extract the parameter in the link and use them to authenticate with the server using this endpoint. (This feature must be enabled for your app.)
 required:
-    - study
+    - appId
     - email
     - token
 properties:
-    study:
+    appId:
         type: string
-        description: The identifier of the participant's study.
+        description: The identifier of the participant's app.
     email:
         type: string
         description: The email address of the participant.

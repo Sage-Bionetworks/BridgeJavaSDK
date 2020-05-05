@@ -1,8 +1,8 @@
 post:
-    operationId: withdrawParticipantFromStudy
-    summary: Withdraw the participant from study
+    operationId: withdrawParticipantFromApp
+    summary: Withdraw the participant from all studies in this app
     description: |
-        Withdraw the user entirely from this study. The user is withdraw from all consents, no further data will be exported from Bridge, the device will be unregistered from any push notifications, and the account's identifiers (email, phone number, and external ID) will be deleted. The account remains to verify the consent history for a given health code. The study consent administration email will receive a notification of the withdrawal. This withdrawal cannot be reversed. If the user signs up again with the study, a new account under a new `healthCode` will be generated.
+        Withdraw the user entirely from all studies in this app. The user is withdraw from all consents, no further data will be exported from Bridge, the device will be unregistered from any push notifications, and the account's identifiers (email, phone number, and external ID) will be deleted. The account remains to verify the consent history for a given health code. The app consent administration email will receive a notification of the withdrawal. This withdrawal cannot be reversed. If the user signs up again with the app, a new account under a new `healthCode` will be generated.
     tags:
         - Participants
         - Consents

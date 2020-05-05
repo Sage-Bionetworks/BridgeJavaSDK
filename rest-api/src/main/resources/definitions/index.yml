@@ -65,6 +65,10 @@ ActivityEvent:
     $ref: ./activity_event.yml
 AndroidAppLink:
     $ref: ./android_app_link.yml
+App:
+    $ref: ./app.yml
+AppAndUsers:
+    $ref: ./app_and_users.yml
 AppConfig:
     $ref: ./app_config.yml
 AppConfigElement:
@@ -207,14 +211,8 @@ SmsMessage:
     $ref: ./sms_message.yml
 SmsTemplate:
     $ref: ./sms_template.yml
-Study:
-    $ref: ./study.yml
-StudyAndUsers:
-    $ref: ./study_and_users.yml
 StudyConsent:
     $ref: ./study_consent.yml
-StudyIdentifier:
-    $ref: ./study_identifier.yml
 StudyParticipant:
     $ref: ./study_participant.yml
 Subpopulation:
@@ -287,6 +285,8 @@ AppConfigList:
     $ref: ./paged_resources/app_config.yml
 AppConfigElementList:
     $ref: ./paged_resources/app_config_element.yml
+AppList:
+    $ref: ./paged_resources/app.yml
 AssessmentList:
     $ref: ./paged_resources/assessment.yml
 CompoundActivityDefinitionList:
@@ -331,8 +331,6 @@ SharedModuleMetadataList:
     $ref: ./paged_resources/shared_module_metadata.yml
 StringList:
     $ref: ./paged_resources/string.yml
-StudyList:
-    $ref: ./paged_resources/study.yml
 StudyConsentList:
     $ref: ./paged_resources/study_consent.yml
 SubpopulationList:

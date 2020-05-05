@@ -2,13 +2,13 @@ type: object
 description: |
     Using a token supplied in an SMS message authenticate with the server. The token remains valid, once sent, for 5 minutes. 
 required:
-    - study
+    - appId
     - phone
     - token
 properties:
-    study:
+    appId:
         type: string
-        description: The identifier of the participant's study.
+        description: The identifier of the participant's app.
     phone:
         $ref: ./phone.yml
     token:

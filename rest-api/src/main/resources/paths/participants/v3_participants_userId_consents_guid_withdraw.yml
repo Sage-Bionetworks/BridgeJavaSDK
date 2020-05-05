@@ -3,7 +3,7 @@ post:
     summary: Withdraw the participant from the specified subpopulation
     description: |
         This endpoint will withdraw the user from consent to participate in one subpopulation of 
-        the study. 
+        the app. 
     tags:
         - Participants
         - Consents

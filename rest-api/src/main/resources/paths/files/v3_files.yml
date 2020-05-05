@@ -7,7 +7,7 @@ get:
     security:
         - BridgeSecurity: []
     description: |
-        Get all the files of a specific type for this study.
+        Get all the files of a specific type for this app.
     parameters:
         - $ref: ../../index.yml#/parameters/offsetBy
         - $ref: ../../index.yml#/parameters/pageSize

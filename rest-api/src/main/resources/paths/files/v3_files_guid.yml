@@ -7,7 +7,7 @@ get:
     security:
         - BridgeSecurity: []
     description: |
-        Get a file resource for this study.
+        Get a file resource for this app.
     parameters:
         - $ref: ../../index.yml#/parameters/guid
     responses:

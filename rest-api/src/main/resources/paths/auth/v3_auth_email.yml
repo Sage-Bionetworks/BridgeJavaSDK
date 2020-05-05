@@ -16,9 +16,9 @@ post:
         202:
             $ref: ../../responses/202_message.yml
         403:
-            description: This feature has not been enabled for the study
+            description: This feature has not been enabled for the app
         404:
-            description: Study not found
+            description: App not found
             schema:
                 $ref: ../../definitions/message.yml
         429:

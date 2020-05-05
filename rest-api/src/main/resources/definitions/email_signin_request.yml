@@ -1,13 +1,13 @@
 type: object
 description: |
-    Make a request to sign in through an email. This request will trigger the email to be sent to an existing account's email address (no more than once per minute). When the user clicks on this link, the installed app should be registered to intercept and handle the link. The link will include a token that can be sent to the server to authenticate. This feature must be enabled for your study.
+    Make a request to sign in through an email. This request will trigger the email to be sent to an existing account's email address (no more than once per minute). When the user clicks on this link, the installed app should be registered to intercept and handle the link. The link will include a token that can be sent to the server to authenticate. This feature must be enabled for your app.
 required:
-    - study
+    - appId
     - email
 properties:
-    study:
+    appId:
         type: string
-        description: The identifier for the participant's study.
+        description: The identifier for the participant's app.
     email:
         type: string
         description: The email address of the participant.

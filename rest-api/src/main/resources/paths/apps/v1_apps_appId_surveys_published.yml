@@ -1,0 +1,19 @@
+get:
+    operationId: getAllPublishedSurveys
+    summary: Get the published surveys in an app
+    tags: 
+        - _For Workers
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/appId
+        - $ref: ../../index.yml#/parameters/includeDeleted
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/survey.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_worker.yml

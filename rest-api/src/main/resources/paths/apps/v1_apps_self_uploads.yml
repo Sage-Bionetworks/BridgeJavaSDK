@@ -1,0 +1,24 @@
+get:
+    operationId: getUploads
+    summary: Get uploads for the app
+    tags: 
+        - Apps
+        - Uploads
+        - _For Admins
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/startTime
+        - $ref: ../../index.yml#/parameters/endTime
+        - $ref: ../../index.yml#/parameters/pageSize
+        - $ref: ../../index.yml#/parameters/offsetKey
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/upload.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml
+                

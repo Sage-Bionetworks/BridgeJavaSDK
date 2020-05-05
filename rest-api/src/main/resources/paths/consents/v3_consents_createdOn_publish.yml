@@ -1,6 +1,6 @@
 post:
     operationId: publishDefaultConsentRevision
-    summary: Publish a revision of a study's default subpopulation 
+    summary: Publish a revision of a app's default subpopulation 
     deprecated: true
     tags:
         - Consents

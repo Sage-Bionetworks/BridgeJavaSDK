@@ -3,7 +3,7 @@ post:
     summary: Request an access token from a given OAuth 2.0 provider.
     description: |
         Request an access token from a given OAuth 2.0 provider. The vendor ID must be defined 
-        for the study. The authorization token is optional. If the server can, a request without an 
+        for the app. The authorization token is optional. If the server can, a request without an 
         authorization token will be refreshed with the provider and the access token will be returned. 
         If a grant has never been given or this request fails to get a valid grant, a 404 will be 
         returned. 

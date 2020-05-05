@@ -27,8 +27,8 @@
     $ref: ./auth/v3_auth_phone_signIn.yml
 /v3/auth/oauth/signIn:
     $ref: ./auth/v3_auth_oauth_signIn.yml
-/v3/auth/study:
-    $ref: ./auth/v3_auth_study.yml
+/v3/auth/app:
+    $ref: ./auth/v3_auth_app.yml
 /v3/oauth/{vendorId}:
     $ref: ./oauth/v3_oauth_vendorId.yml
 /v4/auth/signIn:
@@ -39,8 +39,83 @@
 # Admin authentication methods
 /v3/auth/admin/signIn:
     $ref: ./auth/v3_auth_admin_signIn.yml
-/v3/auth/admin/study:
-    $ref: ./auth/v3_auth_admin_study.yml
+/v3/auth/admin/app:
+    $ref: ./auth/v3_auth_admin_app.yml
+
+# Apps
+/v1/apps:
+    $ref: ./apps/v1_apps.yml
+/v1/apps/init:
+    $ref: ./apps/v1_apps_init.yml
+/v1/apps/memberships:
+    $ref: ./apps/v1_apps_memberships.yml
+/v1/apps/self:
+    $ref: ./apps/v1_apps_self.yml
+/v1/apps/{appId}:
+    $ref: ./apps/v1_apps_appId.yml
+/v1/apps/{appId}/emails/verify:
+    $ref: ./apps/v1_apps_appId_emails_verify.yml
+/v1/apps/{appId}/appconfig:
+    $ref: ./apps/v1_apps_appId_appconfig.yml
+/v1/apps/{appId}/scheduleplans:
+    $ref: ./apps/v1_apps_appId_scheduleplans.yml
+/v1/apps/self/publicKey:
+    $ref: ./apps/v1_apps_self_publicKey.yml
+/v1/apps/self/emailStatus:
+    $ref: ./apps/v1_apps_self_emailStatus.yml
+/v1/apps/self/emails/resendVerify:
+    $ref: ./apps/v1_apps_self_emails_resendVerify.yml
+/v1/apps/self/verifyEmail:
+    $ref: ./apps/v1_apps_self_verifyEmail.yml
+/v1/apps/self/uploads:
+    $ref: ./apps/v1_apps_self_uploads.yml
+/v1/apps/self/synapseProject:
+    $ref: ./apps/v1_apps_self_synapseProject.yml
+# APIs for getting entities across apps
+/v1/apps/{appId}/surveys/published:
+    $ref: ./apps/v1_apps_appId_surveys_published.yml
+/v1/apps/{appId}/uploadschemas/{schemaId}/revisions/{revision}:
+    $ref: ./apps/v1_apps_appId_uploadschemas_schemaId_revisions_revision.yml
+/v1/apps/{appId}/reports/{identifier}:
+    $ref: ./apps/v1_apps_appId_reports_identifier.yml
+/v1/apps/{appId}/uploads:
+    $ref: ./apps/v1_apps_appId_uploads.yml
+/v1/apps/{appId}/users:
+    $ref: ./apps/v1_apps_appId_users.yml
+/v1/apps/{appId}/participants:
+    $ref: ./apps/v1_apps_appId_participants.yml
+/v1/apps/{appId}/participants/search:
+    $ref: ./apps/v1_apps_appId_participants_search.yml
+/v1/apps/{appId}/participants/{userId}:
+    $ref: ./apps/v1_apps_appId_participants_userId.yml
+/v1/apps/{appId}/participants/healthCode:{healthCode}:
+    $ref: ./apps/v1_apps_appId_participants_healthCode.yml
+/v1/apps/{appId}/participants/externalId:{externalId}:
+    $ref: ./apps/v1_apps_appId_participants_externalId.yml
+/v1/apps/{appId}/participants/syn:{synapseUserId}:
+    $ref: ./apps/v1_apps_appId_participants_synapseUserId.yml
+/v1/apps/{appId}/participants/{userId}/reports/{reportId}:
+    $ref: ./apps/v1_apps_appId_participants_userId_reports_reportId.yml
+/v1/apps/{appId}/participants/{userId}/sendSmsMessage:
+    $ref: ./apps/v1_apps_appId_participants_userId_sendSmsMessage.yml
+/v1/apps/{appId}/participants/{userId}/activityEvents:
+    $ref: ./apps/v1_apps_appId_participants_userId_activityEvents.yml
+/v1/apps/{appId}/participants/{userId}/activities/{activityGuid}:
+    $ref: ./apps/v1_apps_appId_participants_userId_activities_activityGuid.yml
+/v1/apps/{appId}/participants/{userId}/activities/tasks/{taskId}:
+    $ref: ./apps/v1_apps_appId_participants_userId_activities_tasks_taskId.yml
+/v1/apps/{appId}/participants/{userId}/activities/surveys/{surveyGuid}:
+    $ref: ./apps/v1_apps_appId_participants_userId_activities_surveys_surveyGuid.yml
+/v1/apps/{appId}/participants/{userId}/activities/compoundactivities/{taskId}:
+    $ref: ./apps/v1_apps_appId_participants_userId_activities_compoundactivities_taskId.yml
+/v1/apps/{appId}/participants/{userId}/requestInfo:
+    $ref: ./apps/v1_apps_appId_participants_userId_requestInfo.yml
+/v2/apps/{appId}/participants/{userId}/reports/{reportId}:
+    $ref: ./apps/v2_apps_appId_participants_userId_reports_reportId.yml
+/v1/apps/{appId}/oauth/{vendorId}:
+    $ref: ./apps/v1_apps_appId_oauth_vendorId.yml
+/v1/apps/{appId}/oauth/{vendorId}/{healthCode}:
+    $ref: ./apps/v1_apps_appId_oauth_vendorId_healthCode.yml
 
 # Assessments
 /v1/assessments:
@@ -364,36 +439,6 @@
 /v1/activityevents:
     $ref: ./activityevents/v1_activityevents.yml
 
-# Studies
-/v3/studies:
-    $ref: ./studies/v3_studies.yml
-/v3/studies/init:
-    $ref: ./studies/v3_studies_init.yml
-/v3/studies/memberships:
-    $ref: ./studies/v3_studies_memberships.yml
-/v3/studies/self:
-    $ref: ./studies/v3_studies_self.yml
-/v3/studies/{studyId}:
-    $ref: ./studies/v3_studies_studyId.yml
-/v3/studies/{studyId}/emails/verify:
-    $ref: ./studies/v3_studies_studyId_emails_verify.yml
-/v3/studies/{studyId}/appconfig:
-    $ref: ./studies/v3_studies_studyId_appconfig.yml
-/v3/studies/{studyId}/scheduleplans:
-    $ref: ./studies/v3_studies_studyId_scheduleplans.yml
-/v3/studies/self/publicKey:
-    $ref: ./studies/v3_studies_self_publicKey.yml
-/v3/studies/self/emailStatus:
-    $ref: ./studies/v3_studies_self_emailStatus.yml
-/v3/studies/self/emails/resendVerify:
-    $ref: ./studies/v3_studies_self_emails_resendVerify.yml
-/v3/studies/self/verifyEmail:
-    $ref: ./studies/v3_studies_self_verifyEmail.yml
-/v3/studies/self/uploads:
-    $ref: ./studies/v3_studies_self_uploads.yml
-/v3/studies/self/synapseProject:
-    $ref: ./studies/v3_studies_self_synapseProject.yml
-
 # External IDs v4
 /v4/externalids:
     $ref: ./externalIds/v4_externalids.yml
@@ -401,52 +446,6 @@
     $ref: ./externalIds/v4_externalids_externalId.yml
 /v3/externalids/{externalId}/password:
     $ref: ./externalIds/v3_externalIds_externalId_password.yml
-
-# APIs for getting entities across studies
-/v3/studies/{studyId}/surveys/published:
-    $ref: ./studies/v3_studies_studyId_surveys_published.yml
-/v3/studies/{studyId}/uploadschemas/{schemaId}/revisions/{revision}:
-    $ref: ./studies/v3_studies_studyId_uploadschemas_schemaId_revisions_revision.yml
-/v3/studies/{studyId}/reports/{identifier}:
-    $ref: ./studies/v3_studies_studyId_reports_identifier.yml
-/v3/studies/{studyId}/uploads:
-    $ref: ./studies/v3_studies_studyId_uploads.yml
-/v3/studies/{studyId}/users:
-    $ref: ./studies/v3_studies_studyId_users.yml
-/v3/studies/{studyId}/participants:
-    $ref: ./studies/v3_studies_studyId_participants.yml
-/v3/studies/{studyId}/participants/search:
-    $ref: ./studies/v3_studies_studyId_participants_search.yml
-/v3/studies/{studyId}/participants/{userId}:
-    $ref: ./studies/v3_studies_studyId_participants_userId.yml
-/v3/studies/{studyId}/participants/healthCode:{healthCode}:
-    $ref: ./studies/v3_studies_studyId_participants_healthCode.yml
-/v3/studies/{studyId}/participants/externalId:{externalId}:
-    $ref: ./studies/v3_studies_studyId_participants_externalId.yml
-/v3/studies/{studyId}/participants/syn:{synapseUserId}:
-    $ref: ./studies/v3_studies_studyId_participants_synapseUserId.yml
-/v3/studies/{studyId}/participants/{userId}/reports/{reportId}:
-    $ref: ./studies/v3_studies_studyId_participants_userId_reports_reportId.yml
-/v3/studies/{studyId}/participants/{userId}/sendSmsMessage:
-    $ref: ./studies/v3_studies_studyId_participants_userId_sendSmsMessage.yml
-/v3/studies/{studyId}/participants/{userId}/activityEvents:
-    $ref: ./studies/v3_studies_studyId_participants_userId_activityEvents.yml
-/v3/studies/{studyId}/participants/{userId}/activities/{activityGuid}:
-    $ref: ./studies/v3_studies_studyId_participants_userId_activities_activityGuid.yml
-/v3/studies/{studyId}/participants/{userId}/activities/tasks/{taskId}:
-    $ref: ./studies/v3_studies_studyId_participants_userId_activities_tasks_taskId.yml
-/v3/studies/{studyId}/participants/{userId}/activities/surveys/{surveyGuid}:
-    $ref: ./studies/v3_studies_studyId_participants_userId_activities_surveys_surveyGuid.yml
-/v3/studies/{studyId}/participants/{userId}/activities/compoundactivities/{taskId}:
-    $ref: ./studies/v3_studies_studyId_participants_userId_activities_compoundactivities_taskId.yml
-/v3/studies/{studyId}/participants/{userId}/requestInfo:
-    $ref: ./studies/v3_studies_studyId_participants_userId_requestInfo.yml
-/v4/studies/{studyId}/participants/{userId}/reports/{reportId}:
-    $ref: ./studies/v4_studies_studyId_participants_userId_reports_reportId.yml
-/v3/studies/{studyId}/oauth/{vendorId}:
-    $ref: ./studies/v3_studies_studyId_oauth_vendorId.yml
-/v3/studies/{studyId}/oauth/{vendorId}/{healthCode}:
-    $ref: ./studies/v3_studies_studyId_oauth_vendorId_healthCode.yml
 
 # Sub-studies
 /v3/substudies:

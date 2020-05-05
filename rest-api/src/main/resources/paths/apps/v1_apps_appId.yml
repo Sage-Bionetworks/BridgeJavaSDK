@@ -1,0 +1,55 @@
+get:
+    operationId: getApp
+    summary: Get an app
+    tags: 
+        - _For Superadmins
+        - _For Workers
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/appId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/app.yml
+        403:
+            $ref: ../../responses/403_not_superadmin_worker.yml
+post:
+    operationId: updateApp
+    summary: Update a app
+    tags:
+        - _For Superadmins
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/appId
+        - name: App
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/app.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/version_holder.yml
+        403:
+            $ref: ../../responses/403_not_superadmin.yml            
+delete:
+    operationId: deleteApp
+    summary: Delete a app
+    tags:
+        - _For Superadmins
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/appId
+        - $ref: ../../index.yml#/parameters/physical
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_superadmin.yml
