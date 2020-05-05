@@ -1,7 +1,6 @@
 get:
     operationId: getParticipantsForApp
     summary: Get a paged list of study participants for an app
-    deprecated: true
     tags:
         - _For Workers
     security:
