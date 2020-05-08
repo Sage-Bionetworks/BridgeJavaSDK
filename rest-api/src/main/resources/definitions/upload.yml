@@ -12,6 +12,9 @@ properties:
         readOnly: true
         description: The GUID assigned to this upoad.
         x-nullable: false
+    encrypted:
+        type: boolean
+        description: True if the upload is encrypted. False if it is not encrypted.
     schemaId:
         type: string
         readOnly: true
@@ -69,6 +72,9 @@ properties:
         $ref: ./enums/synapse_exporter_status.yml
         readOnly: true
         x-nullable: false
+    zipped:
+        type: boolean
+        description: True if the upload is zipped. False if it is a single file.
     type:
         type: string
         readOnly: true
