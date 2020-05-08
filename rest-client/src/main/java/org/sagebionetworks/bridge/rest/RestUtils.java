@@ -343,9 +343,28 @@ public class RestUtils {
      *         IOException if an issue occurs during upload. Callers are responsible for re-trying the upload
      */
     public static void uploadToS3(File file, String url) throws IOException {
+        uploadToS3(file, url, BRIDGE_UPLOAD_MIME_TYPE);
+    }
+
+    /**
+     * Uploads the given file to the given S3 URL.
+     *
+     * @param file
+     *         File to upload to Bridge
+     * @param url
+     *         S3 URL to upload to, generally as returned by Bridge Upload Session
+     * @param contentType
+     *         MIME type of the uploaded file, must match what was sent in the upload request
+     * @throws IOException
+     *         IOException if an issue occurs during upload. Callers are responsible for re-trying the upload
+     */
+    public static void uploadToS3(File file, String url, String contentType) throws IOException {
         checkNotNull(file, "File cannot be null");
         checkNotNull(url, "url cannot be null");
         checkArgument(!url.isEmpty(), "url cannot be empty");
+        checkNotNull(contentType, "contentType cannot be null");
+        checkArgument(!contentType.isEmpty(), "contentType cannot be empty");
+        MediaType contentTypeParsed = MediaType.parse(contentType);
 
         // File metadata
         byte[] fileBytes = Files.toByteArray(file);
@@ -368,10 +387,10 @@ public class RestUtils {
 
         S3Service s3service = retrofit.create(S3Service.class);
 
-        RequestBody body = RequestBody.create(MediaType.parse(BRIDGE_UPLOAD_MIME_TYPE), file);
+        RequestBody body = RequestBody.create(contentTypeParsed, file);
 
         // Upload
-        s3service.uploadToS3(url, body, contentMd5, BRIDGE_UPLOAD_MIME_TYPE).execute();
+        s3service.uploadToS3(url, body, contentMd5, contentType).execute();
     }
     
     /**
