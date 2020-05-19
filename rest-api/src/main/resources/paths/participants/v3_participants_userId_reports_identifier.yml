@@ -2,7 +2,7 @@ get:
     operationId: getUsersParticipantReportRecords
     summary: Get participant report records
     tags:
-        - ParticipantReports
+        - Participant Reports
         - _For Researchers
     security:
         - BridgeSecurity: []

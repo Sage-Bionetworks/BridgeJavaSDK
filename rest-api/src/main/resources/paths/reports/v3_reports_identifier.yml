@@ -2,7 +2,7 @@ get:
     operationId: getStudyReportRecords
     summary: Get study report records
     tags:
-        - StudyReports
+        - Study Reports
         - _For Consented Users
     security:
         - BridgeSecurity: []

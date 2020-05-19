@@ -5,7 +5,7 @@ post:
         The assessment is copied into the local app context under the ownership of one of the caller’s organizations. If the identifier for the assessment does not currently exist in the app context, this assessment will be created at revision 1. Otherwise, it will be imported at the next highest revision number from the highest revision under that identifier. The method returns the *local* assessment that has been created by this import operation. This assessment is linked to the shared assessment and the configuration for the assessment cannot be updated without breaking the link (which might invalidate the scientific validation of the assessment). However, owners of the assessment can use the customization API to change some fields of the imported assessment configuration without breaking the link to the shared assessment.
     tags: 
         - Shared Assessments
-        - For Developers
+        - _For Developers
     security:
         - BridgeSecurity: []
     parameters:
