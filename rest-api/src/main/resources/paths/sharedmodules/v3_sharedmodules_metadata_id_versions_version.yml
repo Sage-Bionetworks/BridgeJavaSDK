@@ -1,66 +1,66 @@
-get:
-    operationId: getMetadataByIdAndVersion
-    summary: Gets metadata for the specified version of the specified module.
-    tags:
-        - Shared Modules
-        - Public
-        - _For Developers
-    security:
-        -   BridgeSecurity: []
-    parameters:
-        - $ref: ../../index.yml#/parameters/moduleId
-        - $ref: ../../index.yml#/parameters/moduleVersion
-    responses:
-        200:
-            description: OK
-            schema:
-                $ref: ../../definitions/shared_module_metadata.yml
-        401:
-            $ref: ../../responses/401.yml
-        403:
-            $ref: ../../responses/403_not_developer.yml
-post:
-    operationId: updateMetadata
-    summary: Updates metadata for the specified module version.
-    tags:
-        - Shared Modules
-        - _For Developers
-    security:
-        -   BridgeSecurity: []
-    parameters:
-        - $ref: ../../index.yml#/parameters/moduleId
-        - $ref: ../../index.yml#/parameters/moduleVersion
-        - name: SharedModuleMetadata
-          in: body
-          required: true
-          schema:
-            $ref: ../../definitions/shared_module_metadata.yml
-    responses:
-        200:
-            description: OK
-            schema:
-                $ref: ../../definitions/shared_module_metadata.yml
-        401:
-            $ref: ../../responses/401.yml
-        403:
-            $ref: ../../responses/403_not_developer.yml
-delete:
-    operationId: deleteMetadataByIdAndVersion
-    summary: Deletes metadata for the specified module ID and version.
-    tags:
-        - Shared Modules
-        - _For Developers
-        - _For Admins
-    security:
-        -   BridgeSecurity: []
-    parameters:
-        - $ref: ../../index.yml#/parameters/moduleId
-        - $ref: ../../index.yml#/parameters/moduleVersion
-        - $ref: ../../index.yml#/parameters/physical
-    responses:
-        200:
-            $ref: ../../responses/200_message.yml
-        401:
-            $ref: ../../responses/401.yml
-        403:
-            $ref: ../../responses/403_not_developer.yml
+# get:
+#     operationId: getMetadataByIdAndVersion
+#     summary: Gets metadata for the specified version of the specified module.
+#     tags:
+#         - Shared Modules
+#         - Public
+#         - _For Developers
+#     security:
+#         -   BridgeSecurity: []
+#     parameters:
+#         - $ref: ../../index.yml#/parameters/moduleId
+#         - $ref: ../../index.yml#/parameters/moduleVersion
+#     responses:
+#         200:
+#             description: OK
+#             schema:
+#                 $ref: ../../definitions/shared_module_metadata.yml
+#         401:
+#             $ref: ../../responses/401.yml
+#         403:
+#             $ref: ../../responses/403_not_developer.yml
+# post:
+#     operationId: updateMetadata
+#     summary: Updates metadata for the specified module version.
+#     tags:
+#         - Shared Modules
+#         - _For Developers
+#     security:
+#         -   BridgeSecurity: []
+#     parameters:
+#         - $ref: ../../index.yml#/parameters/moduleId
+#         - $ref: ../../index.yml#/parameters/moduleVersion
+#         - name: SharedModuleMetadata
+#           in: body
+#           required: true
+#           schema:
+#             $ref: ../../definitions/shared_module_metadata.yml
+#     responses:
+#         200:
+#             description: OK
+#             schema:
+#                 $ref: ../../definitions/shared_module_metadata.yml
+#         401:
+#             $ref: ../../responses/401.yml
+#         403:
+#             $ref: ../../responses/403_not_developer.yml
+# delete:
+#     operationId: deleteMetadataByIdAndVersion
+#     summary: Deletes metadata for the specified module ID and version.
+#     tags:
+#         - Shared Modules
+#         - _For Developers
+#         - _For Admins
+#     security:
+#         -   BridgeSecurity: []
+#     parameters:
+#         - $ref: ../../index.yml#/parameters/moduleId
+#         - $ref: ../../index.yml#/parameters/moduleVersion
+#         - $ref: ../../index.yml#/parameters/physical
+#     responses:
+#         200:
+#             $ref: ../../responses/200_message.yml
+#         401:
+#             $ref: ../../responses/401.yml
+#         403:
+#             $ref: ../../responses/403_not_developer.yml

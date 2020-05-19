@@ -47,7 +47,6 @@ properties:
             If this schema is created from a survey, this is the GUID of the survey it represents.
     appId:
         type: string
-        readOnly: true
         description: |
             **Only available through worker APIs.** The identifier of the app from which this schema was retrieved.
         x-nullable: false

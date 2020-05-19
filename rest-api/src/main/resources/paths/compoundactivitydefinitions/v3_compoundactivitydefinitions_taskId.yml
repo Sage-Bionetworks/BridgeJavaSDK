@@ -1,60 +1,60 @@
-get:
-    operationId: getCompoundActivityDefinition
-    summary: Get a compound activity definition by ID
-    tags: 
-        - Compound Activity Definitions
-        - _For Developers
-    security:
-        -   BridgeSecurity: []
-    parameters:
-        - $ref: ../../index.yml#/parameters/taskId
-    responses:
-        200:
-            description: OK
-            schema:
-                $ref: ../../definitions/compound_activity_definition.yml
-        401:
-            $ref: ../../responses/401.yml
-        403:
-            $ref: ../../responses/403_not_developer_worker.yml
-delete:
-    operationId: deleteCompoundActivityDefinition
-    summary: Delete a compound activity definition
-    tags: 
-        - Compound Activity Definitions
-        - _For Developers
-    security:
-        -   BridgeSecurity: []
-    parameters:
-        - $ref: ../../index.yml#/parameters/taskId
-    responses:
-        200:
-            $ref: ../../responses/200_message.yml
-        401:
-            $ref: ../../responses/401.yml
-        403:
-            $ref: ../../responses/403_not_admin.yml
-post:
-    operationId: updateCompoundActivityDefinition
-    summary: Update a compound activity definition
-    tags: 
-        - Compound Activity Definitions
-        - _For Developers
-    security:
-        -   BridgeSecurity: []
-    parameters:
-        - $ref: ../../index.yml#/parameters/taskId
-        - name: CompoundActivityDefinition
-          in: body
-          required: true
-          schema:
-            $ref: ../../definitions/compound_activity_definition.yml
-    responses:
-        200:
-            description: OK
-            schema:
-                $ref: ../../definitions/compound_activity_definition.yml
-        401:
-            $ref: ../../responses/401.yml
-        403:
-            $ref: ../../responses/403_not_developer.yml
+# get:
+#     operationId: getCompoundActivityDefinition
+#     summary: Get a compound activity definition by ID
+#     tags: 
+#         - Compound Activity Definitions
+#         - _For Developers
+#     security:
+#         -   BridgeSecurity: []
+#     parameters:
+#         - $ref: ../../index.yml#/parameters/taskId
+#     responses:
+#         200:
+#             description: OK
+#             schema:
+#                 $ref: ../../definitions/compound_activity_definition.yml
+#         401:
+#             $ref: ../../responses/401.yml
+#         403:
+#             $ref: ../../responses/403_not_developer_worker.yml
+# delete:
+#     operationId: deleteCompoundActivityDefinition
+#     summary: Delete a compound activity definition
+#     tags: 
+#         - Compound Activity Definitions
+#         - _For Developers
+#     security:
+#         -   BridgeSecurity: []
+#     parameters:
+#         - $ref: ../../index.yml#/parameters/taskId
+#     responses:
+#         200:
+#             $ref: ../../responses/200_message.yml
+#         401:
+#             $ref: ../../responses/401.yml
+#         403:
+#             $ref: ../../responses/403_not_admin.yml
+# post:
+#     operationId: updateCompoundActivityDefinition
+#     summary: Update a compound activity definition
+#     tags: 
+#         - Compound Activity Definitions
+#         - _For Developers
+#     security:
+#         -   BridgeSecurity: []
+#     parameters:
+#         - $ref: ../../index.yml#/parameters/taskId
+#         - name: CompoundActivityDefinition
+#           in: body
+#           required: true
+#           schema:
+#             $ref: ../../definitions/compound_activity_definition.yml
+#     responses:
+#         200:
+#             description: OK
+#             schema:
+#                 $ref: ../../definitions/compound_activity_definition.yml
+#         401:
+#             $ref: ../../responses/401.yml
+#         403:
+#             $ref: ../../responses/403_not_developer.yml

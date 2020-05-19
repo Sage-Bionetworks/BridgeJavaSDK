@@ -198,10 +198,10 @@
     $ref: ./activities/v4_activities_compoundactivities_taskId.yml
 
 # Compound Activity Definitions
-/v3/compoundactivitydefinitions:
-    $ref: ./compoundactivitydefinitions/v3_compoundactivitydefinitions.yml
-/v3/compoundactivitydefinitions/{taskId}:
-    $ref: ./compoundactivitydefinitions/v3_compoundactivitydefinitions_taskId.yml
+# /v3/compoundactivitydefinitions:
+#     $ref: ./compoundactivitydefinitions/v3_compoundactivitydefinitions.yml
+# /v3/compoundactivitydefinitions/{taskId}:
+#     $ref: ./compoundactivitydefinitions/v3_compoundactivitydefinitions_taskId.yml
 
 # Health Data
 /v3/healthdata:
@@ -282,20 +282,20 @@
     $ref: ./participants/v4_participants_userId_reports_identifier.yml
 
 # Shared Modules
-/v3/sharedmodules/{moduleId}/import:
-    $ref: ./sharedmodules/v3_sharedmodules_id_import.yml
-/v3/sharedmodules/{moduleId}/versions/{moduleVersion}/import:
-    $ref: ./sharedmodules/v3_sharedmodules_id_versions_version_import.yml
+# /v3/sharedmodules/{moduleId}/import:
+#     $ref: ./sharedmodules/v3_sharedmodules_id_import.yml
+# /v3/sharedmodules/{moduleId}/versions/{moduleVersion}/import:
+#     $ref: ./sharedmodules/v3_sharedmodules_id_versions_version_import.yml
 
 # Shared Module Metadata
-/v3/sharedmodules/metadata:
-    $ref: ./sharedmodules/v3_sharedmodules_metadata.yml
-/v3/sharedmodules/metadata/{moduleId}:
-    $ref: ./sharedmodules/v3_sharedmodules_metadata_id.yml
-/v3/sharedmodules/metadata/{moduleId}/versions:
-    $ref: ./sharedmodules/v3_sharedmodules_metadata_id_versions.yml
-/v3/sharedmodules/metadata/{moduleId}/versions/{moduleVersion}:
-    $ref: ./sharedmodules/v3_sharedmodules_metadata_id_versions_version.yml
+# /v3/sharedmodules/metadata:
+#     $ref: ./sharedmodules/v3_sharedmodules_metadata.yml
+# /v3/sharedmodules/metadata/{moduleId}:
+#     $ref: ./sharedmodules/v3_sharedmodules_metadata_id.yml
+# /v3/sharedmodules/metadata/{moduleId}/versions:
+#     $ref: ./sharedmodules/v3_sharedmodules_metadata_id_versions.yml
+# /v3/sharedmodules/metadata/{moduleId}/versions/{moduleVersion}:
+#     $ref: ./sharedmodules/v3_sharedmodules_metadata_id_versions_version.yml
 
 # Subpopulations
 /v3/subpopulations:

@@ -1,48 +1,48 @@
-get:
-    operationId: queryAllMetadata
-    summary: Queries module metadata using the set of given parameters.
-    tags:
-        - Shared Modules
-        - Public
-        - _For Developers
-    security:
-        -   BridgeSecurity: []
-    parameters:
-        - $ref: ../../index.yml#/parameters/mostrecent
-        - $ref: ../../index.yml#/parameters/published
-        - $ref: ../../index.yml#/parameters/name
-        - $ref: ../../index.yml#/parameters/notes
-        - $ref: ../../index.yml#/parameters/tags
-        - $ref: ../../index.yml#/parameters/includeDeleted
-    responses:
-        200:
-            description: OK
-            schema:
-                $ref: ../../definitions/paged_resources/shared_module_metadata.yml
-        401:
-            $ref: ../../responses/401.yml
-        403:
-            $ref: ../../responses/403_not_developer.yml
-post:
-    operationId: createMetadata
-    summary: Creates the specified module metadata.
-    tags:
-        - Shared Modules
-        - _For Developers
-    security:
-        -   BridgeSecurity: []
-    parameters:
-        - name: SharedModuleMetadata
-          in: body
-          required: true
-          schema:
-            $ref: ../../definitions/shared_module_metadata.yml
-    responses:
-        201:
-            description: OK
-            schema:
-                $ref: ../../definitions/shared_module_metadata.yml
-        401:
-            $ref: ../../responses/401.yml
-        403:
-            $ref: ../../responses/403_not_developer.yml
+# get:
+#     operationId: queryAllMetadata
+#     summary: Queries module metadata using the set of given parameters.
+#     tags:
+#         - Shared Modules
+#         - Public
+#         - _For Developers
+#     security:
+#         -   BridgeSecurity: []
+#     parameters:
+#         - $ref: ../../index.yml#/parameters/mostrecent
+#         - $ref: ../../index.yml#/parameters/published
+#         - $ref: ../../index.yml#/parameters/name
+#         - $ref: ../../index.yml#/parameters/notes
+#         - $ref: ../../index.yml#/parameters/tags
+#         - $ref: ../../index.yml#/parameters/includeDeleted
+#     responses:
+#         200:
+#             description: OK
+#             schema:
+#                 $ref: ../../definitions/paged_resources/shared_module_metadata.yml
+#         401:
+#             $ref: ../../responses/401.yml
+#         403:
+#             $ref: ../../responses/403_not_developer.yml
+# post:
+#     operationId: createMetadata
+#     summary: Creates the specified module metadata.
+#     tags:
+#         - Shared Modules
+#         - _For Developers
+#     security:
+#         -   BridgeSecurity: []
+#     parameters:
+#         - name: SharedModuleMetadata
+#           in: body
+#           required: true
+#           schema:
+#             $ref: ../../definitions/shared_module_metadata.yml
+#     responses:
+#         201:
+#             description: OK
+#             schema:
+#                 $ref: ../../definitions/shared_module_metadata.yml
+#         401:
+#             $ref: ../../responses/401.yml
+#         403:
+#             $ref: ../../responses/403_not_developer.yml
