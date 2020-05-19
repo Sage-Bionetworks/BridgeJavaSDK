@@ -2,7 +2,7 @@ get:
     operationId: getStudyReportRecordsV4
     summary: Get study report records
     tags:
-        - Study Reports
+        - StudyReports
         - _For Consented Users
     security:
         - BridgeSecurity: []
@@ -23,7 +23,7 @@ post:
     operationId: addStudyReportRecord
     summary: Add a record to a study report
     tags:
-        - Study Reports
+        - StudyReports
         - _For Developers
         - _For Workers
     security:
@@ -47,7 +47,7 @@ delete:
     operationId: deleteAllStudyReportRecords
     summary: Delete a study report (all records)
     tags:
-        - Study Reports
+        - StudyReports
         - _For Developers
         - _For Workers
     security:

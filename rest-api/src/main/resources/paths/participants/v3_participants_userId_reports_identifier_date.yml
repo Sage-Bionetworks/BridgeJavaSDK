@@ -2,7 +2,7 @@ delete:
     operationId: deleteParticipantReportRecord
     summary: Delete a record for a specific day of a participant report
     tags:
-        - Participant Reports
+        - ParticipantReports
         - _For Developers
         - _For Workers
     security:

@@ -2,7 +2,7 @@ get:
     operationId: getAppConfigs
     summary: Get a list of the app's configurations
     tags:
-        - App Configs
+        - AppConfigs
         - _For Developers
     security:
         - BridgeSecurity: []
@@ -23,7 +23,7 @@ post:
     operationId: createAppConfig
     summary: Create a new app config
     tags:
-        - App Configs
+        - AppConfigs
         - _For Developers
     security:
         - BridgeSecurity: []

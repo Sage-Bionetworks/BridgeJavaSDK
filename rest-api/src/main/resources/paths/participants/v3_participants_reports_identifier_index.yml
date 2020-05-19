@@ -2,7 +2,7 @@ get:
     operationId: getParticipantReportIndex
     summary: Get a single report index for participant reports
     tags:
-        - Participant Reports
+        - ParticipantReports
         - _For Consented Users
     security:
         - BridgeSecurity: []
