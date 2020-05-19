@@ -4,7 +4,7 @@ get:
     description: |
         Get the index (or metadata) for a set of report records. 
     tags:
-        - Study Reports
+        - StudyReports
         - _For Developers
         - _For Researchers
     security:
@@ -26,7 +26,7 @@ post:
     description: |
         Update the index (or metadata) for a set of report records.
     tags:
-        - Study Reports
+        - StudyReports
         - _For Developers
     security:
         - BridgeSecurity: []

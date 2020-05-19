@@ -2,7 +2,7 @@ get:
     operationId: getAppConfigElement
     summary: Get an app config element
     tags:
-        - App Configs
+        - AppConfigs
         - _For Developers
     security:
         - BridgeSecurity: []
@@ -24,7 +24,7 @@ post:
     operationId: updateAppConfigElement
     summary: Update an existing app config element
     tags:
-        - App Configs
+        - AppConfigs
         - _For Developers
     security:
         - BridgeSecurity: []
@@ -52,7 +52,7 @@ delete:
     operationId: deleteAppConfigElement
     summary: Delete an app config element
     tags:
-        - App Configs
+        - AppConfigs
         - _For Developers
         - _For Admins
     security:

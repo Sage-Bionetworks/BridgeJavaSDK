@@ -2,7 +2,7 @@ get:
     operationId: getMostRecentAppConfigElement
     summary: Get most recent app config element
     tags:
-        - App Configs
+        - AppConfigs
         - _For Developers
     security:
         - BridgeSecurity: []
