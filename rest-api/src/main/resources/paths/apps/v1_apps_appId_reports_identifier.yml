@@ -5,7 +5,7 @@ get:
         Get public study report records (no authentication is needed, but index for the report must be marked as 
         public or the server will return 404 for the report). Only study reports may be made public.
     tags:
-        - StudyReports
+        - Study Reports
         - Public
     parameters:
         - $ref: ../../index.yml#/parameters/appId

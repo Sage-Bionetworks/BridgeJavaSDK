@@ -2,7 +2,7 @@ get:
     operationId: getMostRecentAppConfigElements
     summary: Get a list of the most recent revision of each configuration element in the app
     tags:
-        - AppConfigs
+        - App Configs
         - _For Developers
     security:
         - BridgeSecurity: []
@@ -24,7 +24,7 @@ post:
     operationId: createAppConfigElement
     summary: Create a new app config element
     tags:
-        - AppConfigs
+        - App Configs
         - _For Developers
     security:
         - BridgeSecurity: []

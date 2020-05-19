@@ -2,7 +2,7 @@ get:
     operationId: getActivityEventsForParticipant
     summary: Get ActivityEvent
     tags:
-        - ActivityEvents
+        - Activity Events
         - _For Researchers
     parameters:
       - name: userId

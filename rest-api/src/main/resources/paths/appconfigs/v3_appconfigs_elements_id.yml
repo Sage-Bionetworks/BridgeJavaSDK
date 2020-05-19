@@ -2,7 +2,7 @@ get:
     operationId: getAllAppConfigElementRevisions
     summary: Get all revisions for an app config element
     tags:
-        - AppConfigs
+        - App Configs
         - _For Developers
     security:
         - BridgeSecurity: []
@@ -24,7 +24,7 @@ delete:
     operationId: deleteAllAppConfigElementRevisions
     summary: Delete all revisions of an app config element
     tags:
-        - AppConfigs
+        - App Configs
         - _For Developers
         - _For Admins
     security:
