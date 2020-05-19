@@ -23,7 +23,7 @@ post:
     summary: Update an external resource link documenting a shared assessment
     tags: 
         - Shared Assessments
-        - For Developers
+        - _For Developers
     security:
         -   BridgeSecurity: []
     parameters:
@@ -49,7 +49,7 @@ delete:
     summary: Delete an external resource link documenting a shared assessment
     tags: 
         - Shared Assessments
-        - For Superadmins
+        - _For Superadmins
     security:
         - BridgeSecurity: []
     parameters:

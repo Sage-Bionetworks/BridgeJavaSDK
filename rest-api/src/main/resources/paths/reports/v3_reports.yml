@@ -2,7 +2,7 @@ get:
     operationId: getStudyReportIndices
     summary: Get list of report indices for studies
     tags:
-        - StudyReports
+        - Study Reports
         - _For Consented Users
     security:
         - BridgeSecurity: []

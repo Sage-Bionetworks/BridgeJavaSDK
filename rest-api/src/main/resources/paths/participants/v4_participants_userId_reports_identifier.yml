@@ -2,7 +2,7 @@ get:
     operationId: getUsersParticipantReportRecordsV4
     summary: Get participant report records
     tags:
-        - ParticipantReports
+        - Participant Reports
         - _For Researchers
     security:
         - BridgeSecurity: []
@@ -26,7 +26,7 @@ post:
     operationId: addParticipantReportRecordV4
     summary: Add a participant report record
     tags:
-        - ParticipantReports
+        - Participant Reports
         - _For Developers
     security:
         - BridgeSecurity: []
@@ -50,7 +50,7 @@ delete:
     operationId: deleteAllParticipantReportRecords
     summary: Delete a participant report (all records)
     tags:
-        - ParticipantReports
+        - Participant Reports
         - _For Developers
         - _For Workers
     security:
