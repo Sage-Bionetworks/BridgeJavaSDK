@@ -59,6 +59,11 @@ properties:
         items:
             $ref: ./file_reference.yml
         x-nullable: false
+    assessmentReferences:
+        type: array
+        items:
+            $ref: ./assessment_reference.yml
+        x-nullable: false
     configElements:
         type: object
         description: |

@@ -1,0 +1,30 @@
+type: object
+description: |
+    A pointer to an assessment revision.
+required:
+    - guid
+properties:
+    guid:
+        type: string
+        description: The assessment revision guid
+        x-nullable: false
+    id:
+        type: string
+        readOnly: true
+        description: The identifier of the assessment (should be unique in the set of references)
+        x-nullable: false
+    sharedId:
+        type: string
+        readOnly: true
+        description: If imported from a shared assessment, the identifier of the shard assessment (this may not be unique between two different references in the set of references)
+        x-nullable: false
+    configHref:
+        type: string
+        readOnly: true
+        description: The URL to retrieve the configuration for this assessment
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "AssessmentReference"
+        x-nullable: false
