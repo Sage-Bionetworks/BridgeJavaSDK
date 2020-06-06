@@ -79,6 +79,8 @@ Assessment:
     $ref: ./assessment.yml
 AssessmentConfig:
     $ref: ./assessment_config.yml
+AssessmentReference:
+    $ref: ./assessment_reference.yml
 ClientInfo:
     $ref: ./client_info.yml
 CmsPublicKey:
