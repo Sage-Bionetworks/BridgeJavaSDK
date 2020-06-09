@@ -13,5 +13,5 @@ post:
           schema:
                 $ref: ../../definitions/identifier.yml
     responses:
-        200:
-            $ref: ../../responses/200_message.yml
+        202:
+            $ref: ../../responses/202_message.yml
