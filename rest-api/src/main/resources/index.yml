@@ -58,6 +58,12 @@ parameters:
         required: true
         in: path
         type: integer
+    orgId:
+        name: orgId
+        description: Organization ID
+        required: true
+        in: path
+        type: string
     reportId:
         name: reportId
         description: Report ID

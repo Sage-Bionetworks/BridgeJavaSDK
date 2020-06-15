@@ -1,0 +1,69 @@
+get:
+    operationId: getOrganization
+    summary: Get an organization
+    description: Get a single organization record.
+    tags:
+        - _For Superadmins
+        - Organizations
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/orgId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/organization.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_superadmin.yml
+        410:
+            $ref: ../../responses/410.yml
+post:
+    operationId: updateOrganization
+    summary: Update an organization
+    description: |
+        Update an existing organization.
+    tags:
+        - _For Superadmins
+        - Organizations
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/orgId
+        - name: Organization
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/organization.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/organization.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_superadmin.yml
+        410:
+            $ref: ../../responses/410.yml
+delete:
+    operationId: deleteOrganization
+    summary: Delete an organization.
+    description: |
+        Delete an organization. This call will fail if any users are members of the organization.
+    tags:
+        - _For Superadmins
+        - Organizations
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/orgId
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_superadmin.yml

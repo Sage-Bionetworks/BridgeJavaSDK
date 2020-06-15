@@ -1,0 +1,52 @@
+get:
+    operationId: getOrganizations
+    summary: Get all of the organizations in an app
+    description: |
+        Return all the organizations that have been defined for the app context of the caller. These organization objects only contain the name and identifier of the organization (for the full record, call `getOrganization()`).
+    tags:
+        - _For Admins
+        - _For Researchers
+        - _For Developers
+        - Organizations
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/offsetBy
+        - $ref: ../../index.yml#/parameters/pageSize
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/organization.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_superadmin.yml
+        410:
+            $ref: ../../responses/410.yml
+post:
+    operationId: createOrganization
+    summary: Create a new organization
+    description: Create a new organization.
+    tags:
+        - _For Superadmins
+        - Organizations
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - name: Organization
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/organization.yml
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/organization.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_superadmin.yml
+        410:
+            $ref: ../../responses/410.yml

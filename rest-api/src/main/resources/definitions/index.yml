@@ -163,6 +163,8 @@ OAuthAuthorizationToken:
     $ref: ./oauth_authorization_token.yml
 OAuthProvider:
     $ref: ./oauth_provider.yml
+Organization:
+    $ref: ./organization.yml
 PasswordPolicy:
     $ref: ./password_policy.yml
 PasswordReset:
@@ -315,6 +317,8 @@ ReportDataList:
     $ref: ./paged_resources/report_data.yml
 ForwardCursorReportDataList:
     $ref: ./paged_resources/forward_cursor_report_data.yml
+OrganizationList:
+    $ref: ./paged_resources/organization.yml
 ReportIndexList:
     $ref: ./paged_resources/report_index.yml
 ScheduleList:
