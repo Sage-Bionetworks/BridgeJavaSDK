@@ -14,12 +14,6 @@ properties:
     description:
         description: A description of the organization.
         type: string
-    synapseDataAccessTeamId:
-        description: The access team ID for the Synapse project where data that is accessible to this organization will be uploaded.
-        type: string
-    synapseProjectId:
-        description: The project ID for for the Synapse project where data that is accessible to this organization will be uploaded. 
-        type: string
     createdOn:
         description: The date and time this organization was created.
         type: string
