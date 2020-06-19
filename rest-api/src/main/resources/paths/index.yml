@@ -183,6 +183,12 @@
 /v3/files/{guid}/revisions/{createdOn}:
     $ref: ./files/v3_files_guid_revisions_createdOn.yml
 
+# Organizations
+/v1/organizations:
+    $ref: ./organizations/v1_organizations.yml
+/v1/organizations/{orgId}:
+    $ref: ./organizations/v1_organizations_orgId.yml
+
 # Scheduled Activities
 /v3/activities:
     $ref: ./activities/v3_activities.yml
