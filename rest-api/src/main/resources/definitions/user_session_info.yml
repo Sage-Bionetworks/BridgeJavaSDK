@@ -142,6 +142,7 @@ allOf:
             x-nullable: false
         synapseUserId:
             type: string
+            readOnly: true
             description: |
                 The numerical identifier for a Synapse account. For administrative accounts, this will allow the user to sign in using Synapse accounts, no further credentials are needed to access the system. This value can only be set when creating an account; otherwise the identifiers update API must be used to add the ID to an existing account.
         consented:
@@ -157,6 +158,10 @@ allOf:
             additionalProperties:
                 $ref: ../definitions/consent_status.yml
             x-nullable: false
+        orgMembership:
+            type: string
+            readOnly: true
+            description: The identifier of the organization this account is a member of (this will be an administrative account and not a study participant).
         type:
             type: string
             readOnly: true

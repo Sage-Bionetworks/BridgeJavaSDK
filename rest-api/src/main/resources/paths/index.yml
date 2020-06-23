@@ -188,6 +188,10 @@
     $ref: ./organizations/v1_organizations.yml
 /v1/organizations/{orgId}:
     $ref: ./organizations/v1_organizations_orgId.yml
+/v1/organizations/{orgId}/members:
+    $ref: ./organizations/v1_organizations_orgId_members.yml
+/v1/organizations/{orgId}/members/{userId}:
+    $ref: ./organizations/v1_organizations_orgId_members_userId.yml
 
 # Scheduled Activities
 /v3/activities:
