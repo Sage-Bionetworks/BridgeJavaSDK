@@ -1,0 +1,27 @@
+post:
+    operationId: getMembers
+    summary: Get members of organization (using search terms)
+    tags:
+        - Organizations
+        - _For Admin
+        - _For Developer
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/orgId
+        - name: AccountSummarySearch
+          in: body
+          description: Account summary search parameters
+          required: true
+          schema:
+                $ref: ../../definitions/account_summary_search.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/account_summary.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher_admin.yml

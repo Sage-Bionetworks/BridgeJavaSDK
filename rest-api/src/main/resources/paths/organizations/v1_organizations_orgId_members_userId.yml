@@ -1,0 +1,40 @@
+post:
+    operationId: addMember
+    summary: Add user as a member of the organization (any existing membership is removed).
+    tags:
+        - Organizations
+        - _For Admin
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/orgId
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml
+delete:
+    operationId: removeMember
+    summary: Remove a member from this organization (the user will no longer belong to any organization).
+    tags:
+        - Organizations
+        - _For Admin
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/orgId
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml

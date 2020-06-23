@@ -61,6 +61,10 @@ properties:
         additionalProperties:
             type: string
         x-nullable: false
+    orgMembership:
+        type: string
+        readOnly: true
+        description: The identifier of the organization this account is a member of (this will be an administrative account and not a study participant).        
     type:
         type: string
         readOnly: true
