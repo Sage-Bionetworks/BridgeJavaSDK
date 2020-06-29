@@ -71,6 +71,7 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
@@ -477,7 +478,7 @@ public class RestUtils {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client).build();
 
-        RequestBody body = makeRequestBody(
+        RequestBody body = makeRequestBody(null, 
                 "username", signIn.getEmail(), 
                 "password", signIn.getPassword());
 
@@ -486,15 +487,26 @@ public class RestUtils {
                 .synapseSignIn(SYNAPSE_LOGIN_URL, body).execute().body();
         String sessionToken = object.get("sessionToken").getAsString();
 
-        body = makeRequestBody(
+        JsonObject idClaim = new JsonObject();
+        idClaim.addProperty("userId", (String)null);
+        JsonObject claims = new JsonObject();
+        claims.add("id_token", idClaim);
+
+        body = makeRequestBody(claims, 
                 "clientId", "100018", 
                 "scope", "openid", 
                 "responseType", "code",
-                "claims", "{\"id_token\":{\"userid\":null}}",
                 "redirectUri", OAUTH_CALLBACK_URL);
         
-        object = retrofit.create(OauthConsent.class)
-                .oauthConsent(SYNAPSE_OAUTH_CONSENT, body, sessionToken).execute().body();
+        Response<JsonObject> response = retrofit.create(OauthConsent.class)
+                .oauthConsent(SYNAPSE_OAUTH_CONSENT, body, sessionToken).execute();
+        if (!response.isSuccessful()) {
+            System.out.println(response.code());
+            System.out.println(response.message());
+            System.out.println(response.body().toString());
+            System.out.println(response.errorBody().toString());
+        }
+        object = response.body();
         String authToken = object.get("access_code").getAsString();
         
         OAuthAuthorizationToken token = new OAuthAuthorizationToken()
@@ -506,12 +518,15 @@ public class RestUtils {
         return authApi.signInWithOauthToken(token).execute().body();
     }
     
-    private static RequestBody makeRequestBody(String... values) {
+    private static RequestBody makeRequestBody(JsonObject claims, String... values) {
         JsonObject payload = new JsonObject();
         for (int i=0; i < values.length; i += 2) {
             String key = values[i];
             String value = values[i+1];
             payload.addProperty(key, value);
+        }
+        if (claims != null) {
+            payload.add("claims", claims);    
         }
         return RequestBody.create(MediaType.parse("application/json"), payload.toString());
     }
