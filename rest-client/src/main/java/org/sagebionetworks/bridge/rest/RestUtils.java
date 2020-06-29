@@ -71,7 +71,6 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
@@ -498,15 +497,8 @@ public class RestUtils {
                 "responseType", "code",
                 "redirectUri", OAUTH_CALLBACK_URL);
         
-        Response<JsonObject> response = retrofit.create(OauthConsent.class)
-                .oauthConsent(SYNAPSE_OAUTH_CONSENT, body, sessionToken).execute();
-        if (!response.isSuccessful()) {
-            System.out.println(response.code());
-            System.out.println(response.message());
-            System.out.println(response.body().toString());
-            System.out.println(response.errorBody().toString());
-        }
-        object = response.body();
+        object = retrofit.create(OauthConsent.class)
+                .oauthConsent(SYNAPSE_OAUTH_CONSENT, body, sessionToken).execute().body();
         String authToken = object.get("access_code").getAsString();
         
         OAuthAuthorizationToken token = new OAuthAuthorizationToken()
