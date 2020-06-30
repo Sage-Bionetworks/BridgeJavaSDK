@@ -487,7 +487,7 @@ public class RestUtils {
         String sessionToken = object.get("sessionToken").getAsString();
 
         JsonObject idClaim = new JsonObject();
-        idClaim.addProperty("userId", (String)null);
+        idClaim.addProperty("userid", (String)null);
         JsonObject claims = new JsonObject();
         claims.add("id_token", idClaim);
 
