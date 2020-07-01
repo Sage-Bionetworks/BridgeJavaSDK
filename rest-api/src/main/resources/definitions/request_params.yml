@@ -77,18 +77,28 @@ properties:
         readOnly: true
     tags:
         type: array
+        readOnly: true
         items:
             type: string
     categories:
         type: array
+        readOnly: true
         items:
             $ref: ./enums/resource_category.yml
     minRevision:
         type: integer
         format: int32
+        readOnly: true
     maxRevision:
         type: integer
         format: int32
+        readOnly: true
+    adminOnly:
+        type: boolean
+        readOnly: true
+    orgMembership:
+        type: string
+        readOnly: true
     type:
         type: string
         readOnly: true
