@@ -17,7 +17,7 @@ properties:
     externalIdUpdate:
         type: string
         description: |
-            An external ID to add to the account. The external ID must be associated to a substudy the account has not yet been associated to.
+            An external ID to add to the account. The external ID must be associated to a study the account has not yet been associated to.
     synapseUserIdUpdate:
         type: string
         description: |

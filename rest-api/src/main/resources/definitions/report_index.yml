@@ -9,9 +9,9 @@ properties:
         type: string
         description: The report identifier.
         x-nullable: false
-    substudyIds:
+    studyIds:
         type: array
-        description: The substudies these report records are associated to.
+        description: The studies these report records are associated to.
         items:
             type: string
         x-nullable: false

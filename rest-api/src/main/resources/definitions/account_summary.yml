@@ -37,17 +37,17 @@ properties:
         type: string
         readOnly: true
         x-nullable: false
-    substudyIds:
+    studyIds:
         type: array
         readOnly: true
-        description: The substudies this participant is associated to.
+        description: The studies this participant is associated to.
         items:
             type: string
         x-nullable: false
     externalIds:
         type: object
         readOnly: true
-        description: A map of substudy ID to external ID for all the external IDs that have been assigned to this participant.
+        description: A map of study ID to external ID for all the external IDs that have been assigned to this participant.
         additionalProperties:
             type: string
         x-nullable: false

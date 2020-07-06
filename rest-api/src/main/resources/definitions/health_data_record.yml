@@ -113,12 +113,12 @@ properties:
         items:
             type: string
         x-nullable: false
-    userSubstudyMemberships:
+    userStudyMemberships:
         type: object
         readOnly: true
         description: |
-            A map where the keys are the substudy IDs assigned to the user at the time that user generated this 
-            health data, and the values are the external IDs that were assigned to the user for each substudy (if no external ID was assigned, the value will be an empty string).
+            A map where the keys are the study IDs assigned to the user at the time that user generated this 
+            health data, and the values are the external IDs that were assigned to the user for each study (if no external ID was assigned, the value will be an empty string).
         additionalProperties:
             type: string
         x-nullable: false

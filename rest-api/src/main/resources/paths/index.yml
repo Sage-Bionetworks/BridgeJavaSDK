@@ -457,11 +457,11 @@
 /v3/externalids/{externalId}/password:
     $ref: ./externalIds/v3_externalIds_externalId_password.yml
 
-# Sub-studies
-/v3/substudies:
-    $ref: ./substudies/v3_substudies.yml
-/v3/substudies/{id}:
-    $ref: ./substudies/v3_substudies_id.yml
+# Studies
+/v5/studies:
+    $ref: ./studies/v5_studies.yml
+/v5/studies/{id}:
+    $ref: ./studies/v5_studies_id.yml
 
 # Templates
 /v3/templates:

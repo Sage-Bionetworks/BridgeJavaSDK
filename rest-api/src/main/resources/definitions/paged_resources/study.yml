@@ -8,4 +8,4 @@ allOf:
             readOnly: true
             x-nullable: false
             items:
-                $ref: ../substudy.yml
+                $ref: ../study.yml

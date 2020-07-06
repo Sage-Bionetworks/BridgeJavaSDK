@@ -10,8 +10,7 @@ properties:
     externalId:
         type: string
         description: |
-            An externally-assignable identifier a research partner can use to re-identify a user's data in the exported data set (this must be provided by the application, it is not created by Bridge). The value can be set on creation or added on an account update, but it will be returned in the `externalIds` mapping which specifies the substudy within which the external ID was defined. This field will be null when 
-            retrieved from the server.
+            An externally-assignable identifier a research partner can use to re-identify a user's data in the exported data set (this must be provided by the application, it is not created by Bridge). The value can be set on creation or added on an account update, but it will be returned in the `externalIds` mapping which specifies the study within which the external ID was defined. This field will be null when retrieved from the server.
     synapseUserId:
         type: string
         description: |
@@ -79,16 +78,16 @@ properties:
         items:
             type: string
         x-nullable: false
-    substudyIds:
+    studyIds:
         type: array
-        description: The substudies this participant is associated to.
+        description: The studies this participant is associated to. For administrative accounts, these are the studies associated to the account's organization. For study participants, these will be the studies that the person is enrolled in.
         items:
             type: string
         x-nullable: false
     externalIds:
         type: object
         readOnly: true
-        description: The exernal IDs this participant is associated to, mapped to the substudy that issued the external ID. Typically a user signs up with the external ID, and is assigned to that substudy as a result.
+        description: The exernal IDs this participant is associated to, mapped to the study that issued the external ID. Typically a user signs up with the external ID, and is assigned to that study as a result.
         additionalProperties:
             type: string
         x-nullable: false

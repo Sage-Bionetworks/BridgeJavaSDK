@@ -1,42 +1,42 @@
 get:
-    operationId: getSubstudy
-    summary: Get a sub-study
+    operationId: getStudy
+    summary: Get a study
     tags:
-        - Substudies
+        - Studies
         - _For Superadmins
     security:
         - BridgeSecurity: []
     description: |
-        Get a sub-study for this app.
+        Get a study for this app.
     parameters:
         - $ref: ../../index.yml#/parameters/id
     responses:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/substudy.yml
+                $ref: ../../definitions/study.yml
         401:
             $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_superadmin.yml
 post:
-    operationId: updateSubstudy
-    summary: Update an existing sub-study
+    operationId: updateStudy
+    summary: Update an existing study
     tags:
-        - Substudies
+        - Studies
         - _For Superadmins
     security:
         - BridgeSecurity: []
     description: |
-        Update an existing sub-study
+        Update an existing study
     parameters:
         - $ref: ../../index.yml#/parameters/id
-        - name: Substudy
+        - name: Study
           in: body
-          description: Updated sub-study
+          description: Updated study
           required: true
           schema:
-              $ref: ../../definitions/substudy.yml
+              $ref: ../../definitions/study.yml
     responses:
         200:
             description: OK
@@ -47,15 +47,15 @@ post:
         403:
             $ref: ../../responses/403_not_superadmin.yml
 delete:
-    operationId: deleteSubstudy
-    summary: Delete a sub-study
+    operationId: deleteStudy
+    summary: Delete a study
     tags:
-        - Substudies
+        - Studies
         - _For Superadmins
     security:
         - BridgeSecurity: []
     description: |
-        Delete an existing sub-study
+        Delete an existing study
     parameters:
         - $ref: ../../index.yml#/parameters/id
         - $ref: ../../index.yml#/parameters/physical

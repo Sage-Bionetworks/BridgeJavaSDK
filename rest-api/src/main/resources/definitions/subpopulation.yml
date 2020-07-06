@@ -61,9 +61,9 @@ properties:
         items:
             type: string
         x-nullable: false
-    substudyIdsAssignedOnConsent:
+    studyIdsAssignedOnConsent:
         type: array
-        description: The substudies this participant is associated to when they consent to membership in this subpopulation. This association is permanent (even if the participant withdraws from the subpopulation, they are still part of the substudy, visible to substudy research administrations, and so forth).
+        description: The studies this participant is associated to when they consent to membership in this subpopulation. This association is permanent (even if the participant withdraws from the subpopulation, they are still part of the study, visible to study research administrations, and so forth).
         items:
             type: string
         x-nullable: false
