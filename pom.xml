@@ -24,7 +24,7 @@
         <commons-codec.version>1.9</commons-codec.version>
         <exec-maven-plugin.version>1.6.0</exec-maven-plugin.version>
         <gson.version>2.7</gson.version>
-        <guava.version>19.0</guava.version>
+        <guava.version>29.0-android</guava.version>
         <javadoc.version>2.10.4</javadoc.version>
         <joda-time.version>2.9.4</joda-time.version>
         <junit.version>4.11</junit.version>
