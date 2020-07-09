@@ -1,8 +1,8 @@
 get:
-    operationId: getSubstudies
-    summary: Get a list of the sub-studies in this study (groups contributing participants to the study)
+    operationId: getStudies
+    summary: Get a list of the studies in this app
     tags:
-        - Substudies
+        - Studies
         - _For Admins
         - _For Developers
         - _For Researchers
@@ -14,26 +14,26 @@ get:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/paged_resources/substudy.yml
+                $ref: ../../definitions/paged_resources/study.yml
         401:
             $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_admin.yml
 post:
-    operationId: createSubstudy
-    summary: Create a new substudy
+    operationId: createStudy
+    summary: Create a new study
     tags:
-        - Substudies
+        - Studies
         - _For Superadmins
     security:
         - BridgeSecurity: []
     parameters:
-        - name: Substudy
+        - name: Study
           in: body
-          description: New sub-study
+          description: New study
           required: true
           schema:
-              $ref: ../../definitions/substudy.yml
+              $ref: ../../definitions/study.yml
     responses:
         201:
             description: Created

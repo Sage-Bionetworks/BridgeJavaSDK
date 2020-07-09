@@ -2,16 +2,16 @@ description: |
     An external identifier assigned to a participant's account to allow external re-identification of the user by the study sponsor.
 type: object
 required:
+    - studyId
     - identifier
-    - substudyId
 properties:
+    studyId:
+        type: string
+        description: The study ID of the study in which this external ID is defined
+        x-nullable:  false
     identifier:
         type: string
         description: The external identifier.
-        x-nullable:  false
-    substudyId:
-        type: string
-        description: The substudy ID of the associated substudy for external ID
         x-nullable:  false
     assigned:
         type: boolean

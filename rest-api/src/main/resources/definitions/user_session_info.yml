@@ -90,17 +90,17 @@ allOf:
             items:
                 type: string
             x-nullable: false
-        substudyIds:
+        studyIds:
             type: array
             readOnly: true
-            description: The substudies this participant is associated to.
+            description: The studies this participant is associated to.
             items:
                 type: string
             x-nullable: false
         externalIds:
             type: object
             readOnly: true
-            description: The exernal IDs this participant is associated to, mapped to the substudy that issued the external ID. Typically a user signs up with the external ID, and is assigned to that substudy as a result.
+            description: The exernal IDs this participant is associated to, mapped to the study that issued the external ID. Typically a user signs up with the external ID, and is assigned to that study as a result.
             additionalProperties:
                 type: string
             x-nullable: false

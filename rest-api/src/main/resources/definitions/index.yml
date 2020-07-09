@@ -225,8 +225,8 @@ SubscriptionRequest:
     $ref: ./subscription_request.yml
 SubscriptionStatus:
     $ref: ./subscription_status.yml
-Substudy:
-    $ref: ./substudy.yml
+Study:
+    $ref: ./study.yml
 Survey:
     $ref: ./survey.yml
 SurveyElement:
@@ -339,12 +339,12 @@ StringList:
     $ref: ./paged_resources/string.yml
 StudyConsentList:
     $ref: ./paged_resources/study_consent.yml
+StudyList:
+    $ref: ./paged_resources/study.yml
 SubpopulationList:
     $ref: ./paged_resources/subpopulation.yml
 SubscriptionStatusList:
     $ref: ./paged_resources/subscription_status.yml
-SubstudyList:
-    $ref: ./paged_resources/substudy.yml
 SurveyList:
     $ref: ./paged_resources/survey.yml
 TemplateList:

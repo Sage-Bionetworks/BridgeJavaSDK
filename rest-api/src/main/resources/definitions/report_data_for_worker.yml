@@ -21,9 +21,9 @@ properties:
         type: object
         description: An arbitrary JSON object containing whatever data should be saved for a report.
         x-nullable: false
-    substudyIds:
+    studyIds:
         type: array
-        description: The substudies this report record is associated to (these are set with the first record that is submitted and that creates a report index, and cannot be changed afterward unless the user is an app-wide user not associated to any specific substudy.
+        description: The studies this report record is associated to (these are set with the first record that is submitted and that creates a report index, and cannot be changed afterward unless the user is an app-wide user not associated to any specific study.
         items:
             type: string
         x-nullable: false
