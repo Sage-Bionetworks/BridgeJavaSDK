@@ -1,6 +1,6 @@
 type: object
 description: |
-    Type-safe object that returns request parameters submitted for a request. Only the values that are submitted in a request will be returned, the rest will be null.
+    Type-safe object that returns request parameters submitted for a request. Only the values that are submitted in a request, or that are assigned default values by the server, will be returned with the response. Inapplicable values will be null.
 properties:
     allOfGroups:
         type: array

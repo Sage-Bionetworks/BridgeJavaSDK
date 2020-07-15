@@ -192,6 +192,10 @@
     $ref: ./organizations/v1_organizations_orgId_members.yml
 /v1/organizations/{orgId}/members/{userId}:
     $ref: ./organizations/v1_organizations_orgId_members_userId.yml
+/v1/organizations/{orgId}/studies:
+    $ref: ./organizations/v1_organizations_orgId_studies.yml
+/v1/organizations/{orgId}/studies/{studyId}:
+    $ref: ./organizations/v1_organizations_orgId_studies_studyId.yml
 
 # Scheduled Activities
 /v3/activities:
@@ -460,8 +464,12 @@
 # Studies
 /v5/studies:
     $ref: ./studies/v5_studies.yml
-/v5/studies/{id}:
-    $ref: ./studies/v5_studies_id.yml
+/v5/studies/{studyId}:
+    $ref: ./studies/v5_studies_studyId.yml
+/v5/studies/{studyId}/sponsors:
+    $ref: ./studies/v5_studies_studyId_sponsors.yml
+/v5/studies/{studyId}/sponsors/{orgId}:
+    $ref: ./studies/v5_studies_studyId_sponsors_orgId.yml
 
 # Templates
 /v3/templates:

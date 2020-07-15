@@ -9,7 +9,7 @@ get:
     description: |
         Get a study for this app.
     parameters:
-        - $ref: ../../index.yml#/parameters/id
+        - $ref: ../../index.yml#/parameters/studyId
     responses:
         200:
             description: OK
@@ -30,7 +30,7 @@ post:
     description: |
         Update an existing study
     parameters:
-        - $ref: ../../index.yml#/parameters/id
+        - $ref: ../../index.yml#/parameters/studyId
         - name: Study
           in: body
           description: Updated study
@@ -57,7 +57,7 @@ delete:
     description: |
         Delete an existing study
     parameters:
-        - $ref: ../../index.yml#/parameters/id
+        - $ref: ../../index.yml#/parameters/studyId
         - $ref: ../../index.yml#/parameters/physical
     responses:
         200:

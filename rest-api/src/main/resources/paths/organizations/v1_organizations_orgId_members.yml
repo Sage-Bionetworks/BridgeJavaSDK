@@ -3,8 +3,8 @@ post:
     summary: Get members of organization (using search terms)
     tags:
         - Organizations
-        - _For Admin
-        - _For Developer
+        - _For Admins
+        - _For Developers
         - _For Researchers
     security:
         - BridgeSecurity: []

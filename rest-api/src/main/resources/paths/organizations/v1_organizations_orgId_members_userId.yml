@@ -3,15 +3,15 @@ post:
     summary: Add user as a member of the organization (any existing membership is removed).
     tags:
         - Organizations
-        - _For Admin
+        - _For Admins
     security:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/orgId
         - $ref: ../../index.yml#/parameters/userId
     responses:
-        200:
-            description: OK
+        201:
+            description: Created
             schema:
                 $ref: ../../definitions/message.yml
         401:
