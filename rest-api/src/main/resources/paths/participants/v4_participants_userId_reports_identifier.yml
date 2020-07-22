@@ -1,6 +1,7 @@
 get:
     operationId: getUsersParticipantReportRecordsV4
     summary: Get participant report records
+    description: This endpoint can be called by researchers, and by other administrators for their own account record. 
     tags:
         - Participant Reports
         - _For Researchers

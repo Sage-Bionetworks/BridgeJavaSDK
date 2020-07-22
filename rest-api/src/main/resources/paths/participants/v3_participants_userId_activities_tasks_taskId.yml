@@ -1,6 +1,7 @@
 get:
     operationId: getParticipantTaskHistory
     summary: Get a study participant's history of a task
+    description: This endpoint can be called by researchers, and by other administrators for their own account record. 
     tags:
         - Participants
         - _For Researchers    

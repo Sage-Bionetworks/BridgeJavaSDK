@@ -2,8 +2,7 @@ post:
     operationId: withdrawParticipantFromSubpopulation
     summary: Withdraw the participant from the specified subpopulation
     description: |
-        This endpoint will withdraw the user from consent to participate in one subpopulation of 
-        the app. 
+        This endpoint will withdraw the user from consent to participate in one subpopulation of the app. This endpoint can be called by researchers, and by other administrators for their own account record. 
     tags:
         - Participants
         - Consents
