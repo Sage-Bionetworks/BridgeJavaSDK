@@ -2,7 +2,7 @@ get:
     operationId: getParticipantRequestInfo
     summary: Get information about the last request made by this participant
     description: |
-        Retrieves information about the user agent headers and participant settings that were in effect the last time this participant contacted the Bridge server. Also provides the last time activities were retrieved and uploads were sent back to the server. This endpoint can be called by researchers, and by other administrators for their own account record. 
+        Retrieves information about the user agent headers and participant settings that were in effect the last time this participant contacted the Bridge server. Also provides the last time activities were retrieved and uploads were sent back to the server. This endpoint can be called by researchers, and by other administrators for their own account. 
     tags:
         - Participants
         - _For Researchers    

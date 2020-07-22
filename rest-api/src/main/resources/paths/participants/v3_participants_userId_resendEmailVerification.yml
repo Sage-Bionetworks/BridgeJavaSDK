@@ -2,7 +2,7 @@ post:
     operationId: sendParticipantEmailVerification
     summary: Resend an email verification email to this user
     description: |
-        When called, resends the email to the user's email account, which contains a link they must click on to verify they control that email address. Account is not activated until this is done. This endpoint can be called by researchers, and by other administrators for their own account record. This endpoint can be called by researchers, and by other administrators for their own account record. 
+        When called, resends the email to the user's email account, which contains a link they must click on to verify they control that email address. Account is not activated until this is done. This endpoint can be called by researchers, and by other administrators for their own account.
     tags:
         - Participants
         - _For Researchers

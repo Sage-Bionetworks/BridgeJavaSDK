@@ -1,7 +1,7 @@
 get:
     operationId: getParticipantById
     summary: Get a study participant (user) record
-    description: This endpoint can be called by researchers, and by other administrators for their own account record.
+    description: This endpoint can be called by researchers, and by other administrators for their own account.
     tags:
         - Participants
         - _For Researchers    
@@ -22,7 +22,7 @@ get:
 post:
     operationId: updateParticipant
     summary: Update an existing study participant (user) recor
-    description: This endpoint can be called by researchers, and by other administrators for their own account record.
+    description: This endpoint can be called by researchers, and by other administrators for their own account account.
     tags:
         - Participants
         - _For Researchers    
