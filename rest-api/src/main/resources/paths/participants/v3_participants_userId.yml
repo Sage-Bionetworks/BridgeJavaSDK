@@ -21,7 +21,7 @@ get:
             $ref: ../../responses/403_not_researcher.yml                
 post:
     operationId: updateParticipant
-    summary: Update an existing study participant (user) recor
+    summary: Update an existing study participant (user) record
     description: This endpoint can be called by researchers, and by other administrators for their own account account.
     tags:
         - Participants
