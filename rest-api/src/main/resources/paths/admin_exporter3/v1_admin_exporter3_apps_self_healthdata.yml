@@ -1,0 +1,19 @@
+get:
+    operationId: getRecordsEx3ForCurrentApp
+    summary: Retrieves all records from the Exporter 3 implemention in the current app for the given time range.
+    tags:
+        - _For Superadmins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/createdOnStart
+        - $ref: ../../index.yml#/parameters/createdOnEnd
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/health_data_record_ex3.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_superadmin.yml

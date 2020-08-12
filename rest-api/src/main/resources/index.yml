@@ -76,6 +76,12 @@ parameters:
         required: true
         in: path
         type: string
+    studyId:
+        name: studyId
+        description: Study ID
+        required: true
+        in: path
+        type: string
     taskId:
         name: taskId
         description: Task ID

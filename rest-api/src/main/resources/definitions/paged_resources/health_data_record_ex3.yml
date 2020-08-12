@@ -1,0 +1,13 @@
+type: object
+readOnly: true
+description: |
+    List of health data records within a date-time range.
+allOf:
+    - $ref: ./resource_list.yml
+    - properties:
+        items:
+            type: array
+            readOnly: true
+            x-nullable: false
+            items:
+                $ref: ../health_data_record_ex3.yml

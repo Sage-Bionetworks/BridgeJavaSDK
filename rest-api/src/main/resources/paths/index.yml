@@ -1,3 +1,15 @@
+# Admin Exporter 3
+/v1/admin/exporter3/apps/self/healthdata:
+    $ref: ./admin_exporter3/v1_admin_exporter3_apps_self_healthdata.yml
+/v1/admin/exporter3/apps/self/study/{studyId}/healthdata:
+    $ref: ./admin_exporter3/v1_admin_exporter3_apps_self_study_studyId_healthdata.yml
+/v1/admin/exporter3/healthdata:
+    $ref: ./admin_exporter3/v1_admin_exporter3_healthdata.yml
+/v1/admin/exporter3/healthdata/{recordId}:
+    $ref: ./admin_exporter3/v1_admin_exporter3_healthdata_recordId.yml
+/v1/admin/exporter3/participants/{userId}/healthdata:
+    $ref: ./admin_exporter3/v1_admin_exporter3_participants_userId_healthdata.yml
+
 # Authentication
 /v3/auth/signIn:
     $ref: ./auth/v3_auth_signIn.yml
