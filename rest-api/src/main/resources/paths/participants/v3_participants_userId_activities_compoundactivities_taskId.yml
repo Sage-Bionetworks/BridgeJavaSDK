@@ -1,6 +1,7 @@
 get:
     operationId: getParticipantCompoundActivityHistory
     summary: Get a study participant's history of a compound activity
+    description: This endpoint can be called by researchers, and by other administrators for their own account. 
     tags:
         - Participants
         - _For Researchers    

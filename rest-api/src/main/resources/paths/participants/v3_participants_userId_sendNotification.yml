@@ -2,9 +2,7 @@ post:
     operationId: sendNotificationToParticipant
     summary: Send a push notification to a single participant
     description: |
-        Send a push notification to an individual participant (assuming they have registered for push notifications). 
-        Do not use this method to notify a group of participants; create a topic, ask your users to subscribe to that 
-        topic, and send a message via that topic instead.
+        Send a push notification to an individual participant (assuming they have registered for push notifications). Do not use this method to notify a group of participants; create a topic, ask your users to subscribe to that topic, and send a message via that topic instead. 
     tags:
         - Participants
         - Notifications
