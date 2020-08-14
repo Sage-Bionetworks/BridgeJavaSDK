@@ -9,6 +9,8 @@ get:
     security:
         - BridgeSecurity: []
     parameters:
+        - $ref: ../../index.yml#/parameters/offsetBy
+        - $ref: ../../index.yml#/parameters/pageSize
         - $ref: ../../index.yml#/parameters/includeDeleted
     responses:
         200:
