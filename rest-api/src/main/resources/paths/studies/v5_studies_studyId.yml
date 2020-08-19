@@ -3,7 +3,7 @@ get:
     summary: Get a study
     tags:
         - Studies
-        - _For Superadmins
+        - _For Admins
     security:
         - BridgeSecurity: []
     description: |
@@ -24,7 +24,7 @@ post:
     summary: Update an existing study
     tags:
         - Studies
-        - _For Superadmins
+        - _For Admins
     security:
         - BridgeSecurity: []
     description: |
@@ -51,7 +51,7 @@ delete:
     summary: Delete a study
     tags:
         - Studies
-        - _For Superadmins
+        - _For Admins
     security:
         - BridgeSecurity: []
     description: |

@@ -2,10 +2,7 @@ delete:
     operationId: deleteParticipantActivities
     summary: Delete all activities for a participant
     description: |
-        Intended for use in development. Developers may wish to delete an account's scheduled activities in order 
-        to see the impact of changes to schedules for a study. Otherwise, activities from the original 
-        scheduling will persist until they expire, alongside tasks issued for the newly changed schedule. **This 
-        should not be called on production accounts.**
+        Intended for use in development. Developers may wish to delete an account's scheduled activities in order to see the impact of changes to schedules for a study. Otherwise, activities from the original scheduling will persist until they expire, alongside tasks issued for the newly changed schedule. This endpoint can be called by researchers, and by other administrators for their own account. **This should not be called on production accounts.**
     tags:
         - Participants
         - _For Researchers    

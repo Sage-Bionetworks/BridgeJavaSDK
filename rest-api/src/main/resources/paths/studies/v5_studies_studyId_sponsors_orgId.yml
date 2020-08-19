@@ -4,7 +4,6 @@ post:
   tags:
       - Studies
       - _For Admins
-      - _For Superadmins
   security:
       - BridgeSecurity: []
   parameters:
@@ -25,7 +24,6 @@ delete:
   tags:
       - Studies
       - _For Admins
-      - _For Superadmins
   security:
       - BridgeSecurity: []
   parameters:
