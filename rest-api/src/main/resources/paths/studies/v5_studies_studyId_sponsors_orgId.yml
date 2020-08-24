@@ -1,0 +1,40 @@
+post:
+  operationId: addStudySponsor
+  summary: Add this organization as a sponsor
+  tags:
+      - Studies
+      - _For Admins
+  security:
+      - BridgeSecurity: []
+  parameters:
+      - $ref: ../../index.yml#/parameters/studyId
+      - $ref: ../../index.yml#/parameters/orgId
+  responses:
+      201:
+          description: Created
+          schema:
+              $ref: ../../definitions/message.yml
+      401:
+          $ref: ../../responses/401.yml
+      403:
+          $ref: ../../responses/403_not_admin.yml
+delete:
+  operationId: removeStudySponsor
+  summary: Remove this organization as a sponsor
+  tags:
+      - Studies
+      - _For Admins
+  security:
+      - BridgeSecurity: []
+  parameters:
+      - $ref: ../../index.yml#/parameters/studyId
+      - $ref: ../../index.yml#/parameters/orgId
+  responses:
+      200:
+          description: OK
+          schema:
+              $ref: ../../definitions/message.yml
+      401:
+          $ref: ../../responses/401.yml
+      403:
+          $ref: ../../responses/403_not_admin.yml

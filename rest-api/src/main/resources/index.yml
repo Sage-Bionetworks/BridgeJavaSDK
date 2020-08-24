@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-    version: "0.16.25"
+    version: "0.21.3"
     title: Bridge Server API
 host: webservices.sagebridge.org
 basePath: /
@@ -116,6 +116,12 @@ parameters:
     recordId:
         name: recordId
         description: Health data record ID
+        required: true
+        in: path
+        type: string
+    studyId:
+        name: studyId
+        description: Study identifier
         required: true
         in: path
         type: string

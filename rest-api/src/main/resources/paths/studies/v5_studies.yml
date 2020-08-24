@@ -26,7 +26,7 @@ post:
     summary: Create a new study
     tags:
         - Studies
-        - _For Superadmins
+        - _For Admins
     security:
         - BridgeSecurity: []
     parameters:

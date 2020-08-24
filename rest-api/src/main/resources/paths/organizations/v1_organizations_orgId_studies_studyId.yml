@@ -1,0 +1,40 @@
+post:
+  operationId: addStudySponsorship
+  summary: Sponsor this study
+  tags:
+      - Organizations
+      - _For Admins
+  security:
+      - BridgeSecurity: []
+  parameters:
+      - $ref: ../../index.yml#/parameters/orgId
+      - $ref: ../../index.yml#/parameters/studyId
+  responses:
+      201:
+          description: Created
+          schema:
+              $ref: ../../definitions/message.yml
+      401:
+          $ref: ../../responses/401.yml
+      403:
+          $ref: ../../responses/403_not_admin.yml
+delete:
+  operationId: removeStudySponsorship
+  summary: Stop sponsoring this study
+  tags:
+      - Organizations
+      - _For Admins
+  security:
+      - BridgeSecurity: []
+  parameters:
+      - $ref: ../../index.yml#/parameters/orgId
+      - $ref: ../../index.yml#/parameters/studyId
+  responses:
+      200:
+          description: OK
+          schema:
+              $ref: ../../definitions/message.yml
+      401:
+          $ref: ../../responses/401.yml
+      403:
+          $ref: ../../responses/403_not_admin.yml
