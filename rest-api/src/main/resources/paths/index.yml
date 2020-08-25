@@ -186,6 +186,8 @@
 # Organizations
 /v1/organizations:
     $ref: ./organizations/v1_organizations.yml
+/v1/organizations/nonmembers:
+    $ref: ./organizations/v1_organizations_nonmembers.yml
 /v1/organizations/{orgId}:
     $ref: ./organizations/v1_organizations_orgId.yml
 /v1/organizations/{orgId}/members:
