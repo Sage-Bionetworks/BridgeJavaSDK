@@ -23,7 +23,7 @@ delete:
     summary: Remove a member from this organization (the user will no longer belong to any organization).
     tags:
         - Organizations
-        - _For Admin
+        - _For Admins
     security:
         - BridgeSecurity: []
     parameters:
