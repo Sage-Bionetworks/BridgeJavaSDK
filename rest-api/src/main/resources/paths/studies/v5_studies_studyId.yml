@@ -3,13 +3,13 @@ get:
     summary: Get a study
     tags:
         - Studies
-        - _For Superadmins
+        - _For Admins
     security:
         - BridgeSecurity: []
     description: |
         Get a study for this app.
     parameters:
-        - $ref: ../../index.yml#/parameters/id
+        - $ref: ../../index.yml#/parameters/studyId
     responses:
         200:
             description: OK
@@ -24,13 +24,13 @@ post:
     summary: Update an existing study
     tags:
         - Studies
-        - _For Superadmins
+        - _For Admins
     security:
         - BridgeSecurity: []
     description: |
         Update an existing study
     parameters:
-        - $ref: ../../index.yml#/parameters/id
+        - $ref: ../../index.yml#/parameters/studyId
         - name: Study
           in: body
           description: Updated study
@@ -51,13 +51,13 @@ delete:
     summary: Delete a study
     tags:
         - Studies
-        - _For Superadmins
+        - _For Admins
     security:
         - BridgeSecurity: []
     description: |
         Delete an existing study
     parameters:
-        - $ref: ../../index.yml#/parameters/id
+        - $ref: ../../index.yml#/parameters/studyId
         - $ref: ../../index.yml#/parameters/physical
     responses:
         200:

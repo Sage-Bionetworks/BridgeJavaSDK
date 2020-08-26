@@ -1,12 +1,12 @@
 description: |
-    A sstudy (an outside organization providing participants for a study).
+    A study (an outside organization providing participants for a study).
 type: object
 required:
-    - id
+    - identifier
     - name
     - version
 properties:
-    id:
+    identifier:
         type: string
         description: The identifier for this study.
         x-nullable: false

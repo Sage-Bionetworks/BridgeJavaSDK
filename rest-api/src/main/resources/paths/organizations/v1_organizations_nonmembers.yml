@@ -1,18 +1,18 @@
 post:
-    operationId: getMembers
-    summary: Get members of organization (using search terms)
+    operationId: getUnassignedAdminAccounts
+    summary: Get paged listing of unassigned administrative accounts
+    description: Get administrative accounts that have not been assigned to an organization. These are the accounts that still need to be assigned to an organization.
     tags:
-        - Organizations
         - _For Admins
         - _For Developers
         - _For Researchers
+        - Organizations
     security:
         - BridgeSecurity: []
     parameters:
-        - $ref: ../../index.yml#/parameters/orgId
         - name: AccountSummarySearch
           in: body
-          description: Account summary search parameters
+          description: Account summary search parameters. This method only returns administrative accounts that are not currently assigned to an organization.
           required: true
           schema:
                 $ref: ../../definitions/account_summary_search.yml
@@ -24,4 +24,4 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_developer_researcher_admin.yml
+            $ref: ../../responses/403_not_developer.yml

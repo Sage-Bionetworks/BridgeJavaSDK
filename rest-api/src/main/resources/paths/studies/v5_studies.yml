@@ -9,6 +9,8 @@ get:
     security:
         - BridgeSecurity: []
     parameters:
+        - $ref: ../../index.yml#/parameters/offsetBy
+        - $ref: ../../index.yml#/parameters/pageSize
         - $ref: ../../index.yml#/parameters/includeDeleted
     responses:
         200:
@@ -24,7 +26,7 @@ post:
     summary: Create a new study
     tags:
         - Studies
-        - _For Superadmins
+        - _For Admins
     security:
         - BridgeSecurity: []
     parameters:
