@@ -1,0 +1,24 @@
+post:
+    operationId: createOrUpdateRecordEx3
+    summary: Create or update health data record using the Exporter 3 implementation. Returns the created or updated record.
+    tags:
+        - _Internal
+        - _For Superadmins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - name: HealthDataRecordEx3
+          in: body
+          description: Health data record to be created or updated.
+          required: true
+          schema:
+            $ref: ../../definitions/health_data_record_ex3.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/health_data_record_ex3.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_superadmin.yml

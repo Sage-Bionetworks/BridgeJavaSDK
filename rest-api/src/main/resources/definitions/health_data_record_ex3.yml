@@ -1,0 +1,50 @@
+description: |
+    Represents the Health Data Record model for Exporter 3. This is not cross-compatible with the original model for
+    Health Data Records.
+type: object
+required:
+    - appId
+    - healthCode
+    - createdOn
+properties:
+    id:
+        type: string
+        description: Record ID, uniquely identifies this record.
+    appId:
+        type: string
+        description: App that the record belongs to.
+    studyId:
+        type: string
+        description: Study that the record belongs to. May be null if the record is not part of a study.
+    healthCode:
+        type: string
+        description: Health code of the participant that submitted the record.
+    createdOn:
+        type: string
+        format: date-time
+        description: ISO timestamp of when this record was submitted to Bridge.
+    clientInfo:
+        type: string
+        description: Client info string of the participant at the time they submitted the record to Bridge.
+    exported:
+        type: boolean
+        default: false
+        x-nullable: false
+        description: This is set to true when the record is exported to Synapse.
+    metadata:
+        type: object
+        additionalProperties:
+            type: string
+        description: Client-submitted metadata, as a map of key-value pairs.
+    version:
+        type: integer
+        format: int64
+        description: |
+            A version number issued for optimistic locking of record updates. Should not be set when creating a new
+            health data record. When updating a record retrieved from the API, the object will have the version
+            attribute and this must match the last value issued by the service or an update will fail.
+    type:
+        type: string
+        readOnly: true
+        description: "HealthDataRecordEx3"
+        x-nullable: false

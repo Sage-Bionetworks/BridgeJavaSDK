@@ -1,0 +1,40 @@
+get:
+    operationId: getRecordsEx3ForUser
+    summary: Retrieves all records from the Exporter 3 implementation for the given user and time range.
+    tags:
+        - _Internal
+        - _For Superadmins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/createdOnStart
+        - $ref: ../../index.yml#/parameters/createdOnEnd
+        - $ref: ../../index.yml#/parameters/pageSize
+        - $ref: ../../index.yml#/parameters/offsetKey
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/health_data_record_ex3.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_superadmin.yml
+delete:
+    operationId: deleteRecordsEx3ForUser
+    summary: Deletes all health data records from the Exporter 3 implementation for the given user.
+    tags:
+        - _Internal
+        - _For Superadmins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_superadmin.yml

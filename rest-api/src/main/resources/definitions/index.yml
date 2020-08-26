@@ -129,6 +129,8 @@ GuidVersionHolder:
     $ref: ./guid_version_holder.yml
 HealthDataRecord:
     $ref: ./health_data_record.yml
+HealthDataRecordEx3:
+    $ref: ./health_data_record_ex3.yml
 HealthDataSubmission:
     $ref: ./health_data_submission.yml
 FileMetadata:
@@ -305,6 +307,8 @@ FileRevisionList:
     $ref: ./paged_resources/file_revision.yml
 HealthDataRecordList:
     $ref: ./paged_resources/health_data_record.yml
+HealthDataRecordEx3List:
+    $ref: ./paged_resources/health_data_record_ex3.yml
 NotificationRegistrationList:
     $ref: ./paged_resources/notification_registration.yml
 NotificationTopicList:
