@@ -2,12 +2,15 @@ get:
     operationId: getRecordsEx3ForCurrentApp
     summary: Retrieves all records from the Exporter 3 implemention in the current app for the given time range.
     tags:
+        - _Internal
         - _For Superadmins
     security:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/createdOnStart
         - $ref: ../../index.yml#/parameters/createdOnEnd
+        - $ref: ../../index.yml#/parameters/pageSize
+        - $ref: ../../index.yml#/parameters/offsetKey
     responses:
         200:
             description: OK

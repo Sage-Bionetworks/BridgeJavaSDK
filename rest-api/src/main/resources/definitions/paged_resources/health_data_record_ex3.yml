@@ -3,7 +3,7 @@ readOnly: true
 description: |
     List of health data records within a date-time range.
 allOf:
-    - $ref: ./resource_list.yml
+    - $ref: ./forward_cursor_paged_resource_list.yml
     - properties:
         items:
             type: array

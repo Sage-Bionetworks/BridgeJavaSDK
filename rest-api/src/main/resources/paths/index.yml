@@ -1,8 +1,8 @@
 # Admin Exporter 3
 /v1/admin/exporter3/apps/self/healthdata:
     $ref: ./admin_exporter3/v1_admin_exporter3_apps_self_healthdata.yml
-/v1/admin/exporter3/apps/self/study/{studyId}/healthdata:
-    $ref: ./admin_exporter3/v1_admin_exporter3_apps_self_study_studyId_healthdata.yml
+/v1/admin/exporter3/apps/self/studies/{studyId}/healthdata:
+    $ref: ./admin_exporter3/v1_admin_exporter3_apps_self_studies_studyId_healthdata.yml
 /v1/admin/exporter3/healthdata:
     $ref: ./admin_exporter3/v1_admin_exporter3_healthdata.yml
 /v1/admin/exporter3/healthdata/{recordId}:

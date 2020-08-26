@@ -2,6 +2,7 @@ get:
     operationId: getRecordEx3
     summary: Retrieves the record for the given ID from the Exporter 3 implemention.
     tags:
+        - _Internal
         - _For Superadmins
     security:
         - BridgeSecurity: []
