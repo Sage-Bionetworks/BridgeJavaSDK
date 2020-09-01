@@ -1,0 +1,14 @@
+type: string
+description: |
+    Filter information about the enrollees in a study (these are people who consented to participate in the research, whether through Bridge or external to the system).
+
+    |Type|Description|
+    |---|---|
+    |enrolled|Return only accounts that are currently actively enrolled in the study|
+    |withdrawn|Return only accounts that were enrolled, and later withdrawn|
+    |all|Return all enrolled accounts, whether active or withdrawn
+
+enum:
+    - enrolled
+    - withdrawn
+    - all

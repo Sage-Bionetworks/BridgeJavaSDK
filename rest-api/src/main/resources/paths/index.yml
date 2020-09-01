@@ -484,6 +484,10 @@
     $ref: ./studies/v5_studies_studyId_sponsors.yml
 /v5/studies/{studyId}/sponsors/{orgId}:
     $ref: ./studies/v5_studies_studyId_sponsors_orgId.yml
+/v5/studies/{studyId}/enrollments:
+    $ref: ./studies/v5_studies_studyId_enrollments.yml
+/v5/studies/{studyId}/enrollments/{userId}:
+    $ref: ./studies/v5_studies_studyId_enrollments_userId.yml
 
 # Templates
 /v3/templates:

@@ -185,6 +185,13 @@ parameters:
         required: true
         in: path
         type: string
+    enrollmentFilter:
+        name: enrollmentFilter
+        description: Filter enrollees
+        required: false
+        in: query
+        type: string
+        enum: [enrolled,withdrawn,all]
     startDate:
         name: startDate
         in: query
