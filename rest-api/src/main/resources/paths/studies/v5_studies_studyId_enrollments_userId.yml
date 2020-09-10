@@ -1,4 +1,4 @@
-post:
+delete:
     operationId: withdrawParticipant
     summary: Withdraw a participant from a a study
     tags:
