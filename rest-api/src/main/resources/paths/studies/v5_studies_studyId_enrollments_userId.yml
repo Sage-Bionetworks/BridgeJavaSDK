@@ -10,12 +10,7 @@ delete:
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
         - $ref: ../../index.yml#/parameters/userId
-        - name: Enrollment
-          in: body
-          description: Information to withdraw this user
-          required: true
-          schema:
-              $ref: ../../definitions/enrollment.yml
+        - $ref: ../../index.yml#/parameters/withdrawalNote
     responses:
         200:
             description: OK
