@@ -1,0 +1,52 @@
+get:
+    operationId: getEnrollees
+    summary: Get the participants enrolled in this study.
+    tags:
+        - Studies
+        - _For Researchers
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/enrollmentFilter
+        - $ref: ../../index.yml#/parameters/offsetBy
+        - $ref: ../../index.yml#/parameters/pageSize
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/enrollment.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin_researcher.yml
+post:
+    operationId: enrollParticipant
+    summary: Enroll an account in a study as a participant.
+    description: |
+        When enrolling a participant in a study, be sure your process includes informed consent to research. Bridge also supports the delivery of an electronic informed consent process, but you can also opt to enroll someone, with or without a flag that indicates whether or not the user should still be required to go through the informed consent process defined for this study. For example, studies that handle consent prior to onboarding participants my choose to enroll them through this API with `consentRequired` set to false.
+    tags:
+        - Studies
+        - _For Researchers
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - name: Enrollment
+          in: body
+          description: Enrollment information for this user
+          required: true
+          schema:
+              $ref: ../../definitions/enrollment.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/enrollment.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin_researcher.yml
+      

@@ -1,0 +1,40 @@
+description: An enrollment of a user in a study
+type: object
+required:
+    - userId
+properties:
+    externalId:
+        type: string
+        description: An optional, arbitrary string identifier that identifies this user in an external system (as a member of this study; one external ID can be tracked per study).
+    userId:
+        type: string
+        description: The ID of the enrolled user
+        x-nullable:  false
+    consentRequired:
+        type: boolean
+        default: false
+        description: |
+            If true, this user must still sign consents for the study before they can participate. Despite this, they are being tracked as part of the study.
+        x-nullable:  false
+    enrolledOn:
+        type: string
+        format: date-time
+        description: The timestamp of enrollment (either the timestamp of the consent signature if self-enrolled, or the time the enrollment record was created).
+    enrolledBy:
+        type: string
+        description: If the user is not enrolled through consenting to participate, this will be the user ID of the API caller who enrolled the user in the study (otherwise it is blank).
+    withdrawnOn:
+        type: string
+        format: date-time
+        description: The timestamp of withdrawal from the study (either the timestamp of the revocation of the  consent signature if self-enrolled, or the time the enrollment record was withdrawn).
+    withdrawnBy:
+        type: string
+        description: If the user is not withdrawing their own consent, this will be the user ID of the API caller who withdrew the user (otherwise it is blank).
+    withdrawalNote:
+        type: string
+        description: An optional note that can be supplied by the person doing a withdrawal as to why a participant is being removed from the study.
+    type:
+        type: string
+        readOnly: true
+        description: "Enrollment"
+        x-nullable:  false
