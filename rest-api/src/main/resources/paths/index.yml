@@ -239,6 +239,12 @@
 /v3/itp:
     $ref: ./itp.yml
 
+# Participant File
+/v3/participants/self/files:
+    $ref: ./participant_files/v3_participants_self_files.yml
+/v3/participants/self/files/{fileId}:
+    $ref: ./participant_files/v3_participants_self_files_fileId.yml
+
 # Participants
 /v3/participants:
     $ref: ./participants/v3_participants.yml

@@ -392,10 +392,15 @@ parameters:
         type: integer
         format: int32
         description: If this parameter is set, only resoures with a `createdAtRevision` value <= maxRevision will be returned from the API (if the parameter is left null, all resources will be considered to match).
+    fileId:
+        name: fileId
+        required: true
+        in: path
+        type: string
 paths:
     $ref: ./paths/index.yml
 definitions:
     $ref: ./definitions/index.yml
 responses:
     $ref: ./responses/index.yml
-    
+
