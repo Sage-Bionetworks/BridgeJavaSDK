@@ -185,6 +185,13 @@ parameters:
         required: true
         in: path
         type: string
+    enrollmentFilter:
+        name: enrollmentFilter
+        description: Filter enrollees
+        required: false
+        in: query
+        type: string
+        enum: [enrolled,withdrawn,all]
     startDate:
         name: startDate
         in: query
@@ -392,6 +399,11 @@ parameters:
         type: integer
         format: int32
         description: If this parameter is set, only resoures with a `createdAtRevision` value <= maxRevision will be returned from the API (if the parameter is left null, all resources will be considered to match).
+    withdrawalNote:
+        name: withdrawalNote
+        in: query
+        type: string
+        description: The reason given for a user’s withdrawal from a study.
     fileId:
         name: fileId
         required: true

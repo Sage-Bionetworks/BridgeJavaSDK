@@ -6,6 +6,8 @@ CountryCode:
     $ref: ./enums/country_code.yml
 DataType:
     $ref: ./enums/data_type.yml
+EnrollmentFilter:
+    $ref: ./enums/enrollment_filter.yml
 Environment:
     $ref: ./enums/environment.yml
 FileRevisionStatus:
@@ -113,6 +115,8 @@ EmailSignInRequest:
     $ref: ./email_signin_request.yml
 EmailVerificationStatus:
     $ref: ./email_verification_status.yml
+Enrollment:
+    $ref: ./enrollment.yml
 ExternalIdentifier:
     $ref: ./external_identifier.yml
 ExternalResource:
@@ -299,6 +303,8 @@ AssessmentList:
     $ref: ./paged_resources/assessment.yml
 CompoundActivityDefinitionList:
     $ref: ./paged_resources/compound_activity_definition.yml
+EnrollmentList:
+    $ref: ./paged_resources/enrollment.yml
 ExternalIdentifierList:
     $ref: ./paged_resources/external_identifier.yml
 ExternalResourceList:

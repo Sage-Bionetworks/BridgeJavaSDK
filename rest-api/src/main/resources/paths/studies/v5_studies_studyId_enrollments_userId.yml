@@ -1,0 +1,23 @@
+delete:
+    operationId: withdrawParticipant
+    summary: Withdraw a participant from a a study
+    tags:
+        - Studies
+        - _For Researchers
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/withdrawalNote
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/enrollment.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin_researcher.yml
+      
