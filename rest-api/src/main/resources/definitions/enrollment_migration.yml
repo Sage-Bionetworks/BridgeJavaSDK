@@ -1,0 +1,30 @@
+description: An object to migrate enrollments.
+type: object
+properties:
+    appId:
+        type: string
+    studyId:
+        type: string
+    userId:
+        type: string
+    externalId:
+        type: string
+    enrolledOn:
+        type: string
+        format: date-time
+    withdrawnOn:
+        type: string
+        format: date-time
+    enrolledBy:
+        type: string
+    withdrawnBy:
+        type: string
+    withdrawalNote:
+        type: string
+    consentRequired:
+        type: boolean
+    type:
+        type: string
+        readOnly: true
+        description: "EnrollmentMigration"
+        x-nullable:  false

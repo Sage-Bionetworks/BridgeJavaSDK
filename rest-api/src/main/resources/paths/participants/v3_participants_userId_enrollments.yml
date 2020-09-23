@@ -1,0 +1,45 @@
+get:
+    operationId: getEnrollmentsByHealthCode
+    tags:
+        - _Internal
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/healthCode
+    responses:
+        200:
+            description: OK
+            schema:
+                type: array
+                items:
+                    $ref: ../../definitions/enrollment_migration.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_superadmin.yml
+post:
+    operationId: updateEnrollmentsByHealthCode
+    tags:
+        - _Internal
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/healthCode
+        - name: Customization update
+          required: true
+          in: body
+          schema:
+              type: array
+              items:
+                  $ref: ../../definitions/enrollment_migration.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_superadmin.yml
+
+
