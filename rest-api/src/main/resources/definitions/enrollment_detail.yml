@@ -1,0 +1,35 @@
+description: Details about the enrollment of a user in a study
+type: object
+properties:
+    externalId:
+        type: string
+        readOnly: true
+    participant:
+        $ref: ./account_ref.yml
+        readOnly: true
+    consentRequired:
+        type: boolean
+        readOnly: true
+        x-nullable:  false
+    enrolledOn:
+        type: string
+        format: date-time
+        readOnly: true
+    enrolledBy:
+        $ref: ./account_ref.yml
+        readOnly: true
+    withdrawnOn:
+        type: string
+        format: date-time
+        readOnly: true
+    withdrawnBy:
+        $ref: ./account_ref.yml
+        readOnly: true
+    withdrawalNote:
+        type: string
+        readOnly: true
+    type:
+        type: string
+        readOnly: true
+        description: "EnrollmentDetail"
+        x-nullable:  false
