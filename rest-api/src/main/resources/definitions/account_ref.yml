@@ -10,7 +10,7 @@ properties:
     synapseUserId:
         type: string
         readOnly: true
-    id:
+    identifier:
         type: string
         readOnly: true
         x-nullable:  false
