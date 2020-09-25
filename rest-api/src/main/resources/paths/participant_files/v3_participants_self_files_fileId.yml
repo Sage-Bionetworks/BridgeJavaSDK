@@ -9,17 +9,21 @@ get:
     parameters:
         - $ref: ../../index.yml#/parameters/fileId
     responses:
+        200:
+            description: OK
+            schema:
+                type: file
         302:
             description: Found
-            schema:
-                $ref: ../../definitions/participant_file.yml
             headers:
                 Location:
                     type: string
         401:
             $ref: ../../responses/401.yml
-        403:
-            $ref: ../../responses/403_not_developer.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml
 post:
     operationId: createParticipantFile
     summary: Create a new participant file
@@ -43,8 +47,10 @@ post:
                 $ref: ../../definitions/participant_file.yml
         401:
             $ref: ../../responses/401.yml
-        403:
-            $ref: ../../responses/403_not_developer.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml
 delete:
     operationId: deleteParticipantFile
     summary: Delete a participant file
@@ -62,5 +68,7 @@ delete:
             $ref: ../../responses/200_message.yml
         401:
             $ref: ../../responses/401.yml
-        403:
-            $ref: ../../responses/403_not_developer.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml

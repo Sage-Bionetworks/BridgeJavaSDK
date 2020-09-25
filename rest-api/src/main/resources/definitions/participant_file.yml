@@ -1,8 +1,6 @@
 description: |
     A descriptor of a participant blob file
 type: object
-required:
-    - userId
 properties:
     userId:
         type: string
@@ -21,3 +19,8 @@ properties:
         type: string
     uploadUrl:
         type: string
+    type:
+        type: string
+        readOnly: true
+        description: "ParticipantFile"
+        x-nullable: false
