@@ -309,7 +309,7 @@
 /v4/participants/{userId}/reports/{identifier}:
     $ref: ./participants/v4_participants_userId_reports_identifier.yml
 
-/v3/participants/healthcode:{healthCode}/enrollments:
+/v3/participants/{userId}/enrollments:
     $ref: ./participants/v3_participants_userId_enrollments.yml
 
 # Shared Modules

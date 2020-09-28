@@ -1,11 +1,11 @@
 get:
-    operationId: getEnrollmentsByHealthCode
+    operationId: getEnrollments
     tags:
         - _Internal
     security:
         - BridgeSecurity: []
     parameters:
-        - $ref: ../../index.yml#/parameters/healthCode
+        - $ref: ../../index.yml#/parameters/userId
     responses:
         200:
             description: OK
@@ -18,13 +18,13 @@ get:
         403:
             $ref: ../../responses/403_not_superadmin.yml
 post:
-    operationId: updateEnrollmentsByHealthCode
+    operationId: updateEnrollments
     tags:
         - _Internal
     security:
         - BridgeSecurity: []
     parameters:
-        - $ref: ../../index.yml#/parameters/healthCode
+        - $ref: ../../index.yml#/parameters/userId
         - name: Customization update
           required: true
           in: body
@@ -41,5 +41,3 @@ post:
             $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_superadmin.yml
-
-
