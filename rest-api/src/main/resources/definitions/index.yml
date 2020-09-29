@@ -117,6 +117,8 @@ EmailVerificationStatus:
     $ref: ./email_verification_status.yml
 Enrollment:
     $ref: ./enrollment.yml
+EnrollmentMigration:
+    $ref: ./enrollment_migration.yml
 ExternalIdentifier:
     $ref: ./external_identifier.yml
 ExternalResource:
