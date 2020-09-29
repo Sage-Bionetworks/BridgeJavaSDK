@@ -1,0 +1,30 @@
+type: object
+description: Identifying fields for an account
+properties:
+    firstName:
+        type: string
+        readOnly: true
+    lastName:
+        type: string
+        readOnly: true
+    synapseUserId:
+        type: string
+        readOnly: true
+    identifier:
+        type: string
+        readOnly: true
+        x-nullable:  false
+    orgMembership:
+        type: string
+        readOnly: true
+    email:
+        type: string
+        readOnly: true
+    phone:
+        $ref: ./phone.yml
+        readOnly: true
+    type:
+        type: string
+        readOnly: true
+        description: "AccountRef"
+        x-nullable:  false
