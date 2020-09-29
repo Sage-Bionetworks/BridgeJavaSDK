@@ -309,8 +309,8 @@
 /v4/participants/{userId}/reports/{identifier}:
     $ref: ./participants/v4_participants_userId_reports_identifier.yml
 
-/v3/participants/{userId}/enrollments:
-    $ref: ./participants/v3_participants_userId_enrollments.yml
+/v1/migration/participants/{userId}/enrollments:
+    $ref: ./migration/v1_migration_participants_userId_enrollments.yml
 
 # Shared Modules
 /v3/sharedmodules/{moduleId}/import:

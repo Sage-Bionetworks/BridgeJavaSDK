@@ -1,5 +1,5 @@
 get:
-    operationId: getEnrollments
+    operationId: getEnrollmentMigrations
     tags:
         - _Internal
     security:
@@ -18,7 +18,7 @@ get:
         403:
             $ref: ../../responses/403_not_superadmin.yml
 post:
-    operationId: updateEnrollments
+    operationId: updateEnrollmentMigrations
     tags:
         - _Internal
     security:
