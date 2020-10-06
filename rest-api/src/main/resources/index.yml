@@ -192,6 +192,12 @@ parameters:
         in: query
         type: string
         enum: [enrolled,withdrawn,all]
+    includeTesters:
+        name: includeTesters
+        description: Include accounts with 'test_user' data group
+        required: false
+        in: query
+        type: boolean
     startDate:
         name: startDate
         in: query
