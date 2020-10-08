@@ -196,6 +196,7 @@ parameters:
         name: includeTesters
         description: Include accounts with 'test_user' data group
         required: false
+        default: false
         in: query
         type: boolean
     startDate:
