@@ -46,6 +46,10 @@ properties:
         type: string
     normingStatus:
         type: string
+    minutesToComplete:
+        type: integer
+        format: int32 
+        description: The number of minutes it takes for a participant to complete this assessment.
     tags:
         type: array
         description: A set of tags that apply to this assessment. Tags should be namespaced with a prefix followed by a period (e.g. "category.neurodegenerative"), as the tag API will give you these tags in a map keyed from the prefix to a list of the values under that prefix.
