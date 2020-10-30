@@ -471,8 +471,6 @@
     $ref: ./activityevents/v1_activityevents.yml
 
 # External IDs v4
-/v4/externalids:
-    $ref: ./externalIds/v4_externalids.yml
 /v4/externalids/{externalId}:
     $ref: ./externalIds/v4_externalids_externalId.yml
 /v3/externalids/{externalId}/password:
@@ -491,6 +489,8 @@
     $ref: ./studies/v5_studies_studyId_enrollments.yml
 /v5/studies/{studyId}/enrollments/{userId}:
     $ref: ./studies/v5_studies_studyId_enrollments_userId.yml
+/v5/studies/{studyId}/externalids:
+    $ref: ./studies/v5_studies_studyId_externalids.yml
 
 # Templates
 /v3/templates:
