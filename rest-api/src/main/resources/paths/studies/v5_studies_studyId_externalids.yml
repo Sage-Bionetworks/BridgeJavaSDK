@@ -1,0 +1,25 @@
+get:
+    operationId: getExternalIdsForStudy
+    summary: Get external IDs for a study
+    tags:
+        - Studies
+        - _For Developers
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/offsetBy
+        - $ref: ../../index.yml#/parameters/pageSize
+        - name: idFilter
+          type: string
+          in: query
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/external_identifier.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher.yml

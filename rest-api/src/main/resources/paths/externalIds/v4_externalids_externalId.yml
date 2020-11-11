@@ -2,7 +2,7 @@ delete:
     operationId: deleteExternalId
     summary: Delete an external ID
     tags: 
-        - External Identifiers
+        - Studies
         - _For Admins
     security:
         -   BridgeSecurity: []

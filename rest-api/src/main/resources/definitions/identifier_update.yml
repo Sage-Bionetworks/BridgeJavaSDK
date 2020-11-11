@@ -14,10 +14,6 @@ properties:
         $ref: ./phone.yml
         description: |
             A phone number to add to the account. Will only be added if the account does not already have a phone number.
-    externalIdUpdate:
-        type: string
-        description: |
-            An external ID to add to the account. The external ID must be associated to a study the account has not yet been associated to.
     synapseUserIdUpdate:
         type: string
         description: |
