@@ -1,12 +1,10 @@
 post:
-    operationId: updateUsersIdentifiers
+    operationId: updateIdentifiersForSelf
     tags:
-        - Participants
-        - _For Consented Users
+        - _For Org Admins
+        - Accounts
     description: |
-        Allows the caller to add additional identifier fields to an account (email, phone). Once set, 
-        these fields cannot currently be changed. The caller must be authenticated to make this call, 
-        *and* must provide a valid sign in object for either authentication or reauthentication.
+        Allows the caller to add additional identifier fields to their own account (email, phone). Once set, these fields cannot currently be changed. The caller must be authenticated to make this call, *and* must provide a valid sign in object for either authentication or reauthentication.
     parameters:
         - name: UpdateIdentifier
           in: body

@@ -1,0 +1,19 @@
+post:
+    operationId: resendAccountEmailVerification
+    summary: Resent an email verification email to the the organization member.
+    tags:
+        - _For Org Admins
+        - Accounts
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        202:
+            description: ACCEPTED
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_org_admin_admin.yml    

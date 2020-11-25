@@ -1,0 +1,24 @@
+post:
+    operationId: signOutAccount
+    summary: Sign the account out and delete their server session
+    tags:
+        - _For Org Admins
+        - Accounts
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+        - name: deleteReauthToken
+          description: Should sign out also delete any extant reauthentication tokens?
+          required: false
+          default: true
+          in: query
+          type: boolean
+    responses:
+        202:
+            description: ACCEPTED
+            $ref: ../../responses/202_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_org_admin_admin.yml

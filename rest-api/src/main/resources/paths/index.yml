@@ -195,11 +195,27 @@
 /v3/files/{guid}/revisions/{createdOn}:
     $ref: ./files/v3_files_guid_revisions_createdOn.yml
 
+# Accounts
+/v1/accounts:
+    $ref: ./accounts/v1_accounts.yml
+/v1/accounts/{userId}:
+    $ref: ./accounts/v1_accounts_userId.yml
+/v1/accounts/{userId}/requestInfo:
+    $ref: ./accounts/v1_accounts_userId_requestInfo.yml
+/v1/accounts/{userId}/requestResetPassword:
+    $ref: ./accounts/v1_accounts_userId_requestResetPassword.yml
+/v1/accounts/{userId}/resendEmailVerification:
+    $ref: ./accounts/v1_accounts_userId_resendEmailVerification.yml
+/v1/accounts/{userId}/resendPhoneVerification:
+    $ref: ./accounts/v1_accounts_userId_resendPhoneVerification.yml
+/v1/accounts/{userId}/signOut:
+    $ref: ./accounts/v1_accounts_userId_signOut.yml
+/v1/accounts/self/identifiers:
+    $ref: ./accounts/v1_accounts_self_identifiers.yml
+
 # Organizations
 /v1/organizations:
     $ref: ./organizations/v1_organizations.yml
-/v1/organizations/nonmembers:
-    $ref: ./organizations/v1_organizations_nonmembers.yml
 /v1/organizations/{orgId}:
     $ref: ./organizations/v1_organizations_orgId.yml
 /v1/organizations/{orgId}/members:
@@ -210,6 +226,8 @@
     $ref: ./organizations/v1_organizations_orgId_studies.yml
 /v1/organizations/{orgId}/studies/{studyId}:
     $ref: ./organizations/v1_organizations_orgId_studies_studyId.yml
+/v1/organizations/nonmembers:
+    $ref: ./organizations/v1_organizations_nonmembers.yml
 
 # Scheduled Activities
 /v3/activities:
@@ -246,8 +264,6 @@
     $ref: ./participants/v3_participants_search.yml
 /v3/participants/self:
     $ref: ./participants/v3_participants_self.yml
-/v3/participants/self/identifiers:
-    $ref: ./participants/v3_participants_self_identifiers.yml
 /v3/participants/reports:
     $ref: ./participants/v3_participants_reports.yml
 /v3/participants/{userId}:
