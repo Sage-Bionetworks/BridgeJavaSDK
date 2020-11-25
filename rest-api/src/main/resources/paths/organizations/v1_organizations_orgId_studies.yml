@@ -1,24 +1,24 @@
 get:
-  operationId: getSponsoredStudies
-  summary: Get the studies that are sponsored by this organization.
-  tags:
-    - _For Admins
-    - _For Developers
-    - _For Researchers
-    - _For Org Admins
-    - Organizations
-  security:
-    - BridgeSecurity: []
-  parameters:
-    - $ref: ../../index.yml#/parameters/orgId
-    - $ref: ../../index.yml#/parameters/offsetBy
-    - $ref: ../../index.yml#/parameters/pageSize
-  responses:
-    200:
-        description: OK
-        schema:
-            $ref: ../../definitions/paged_resources/study.yml
-    401:
-        $ref: ../../responses/401.yml
-    403:
-        $ref: ../../responses/403_not_developer_researcher_admin.yml
+    operationId: getSponsoredStudies
+    summary: Get the studies that are sponsored by this organization.
+    tags:
+        - _For Admins
+        - _For Developers
+        - _For Researchers
+        - _For Org Admins
+        - Organizations
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/orgId
+        - $ref: ../../index.yml#/parameters/offsetBy
+        - $ref: ../../index.yml#/parameters/pageSize
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/study.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher_admin.yml
