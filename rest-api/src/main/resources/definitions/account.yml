@@ -82,9 +82,6 @@ properties:
     orgMembership:
         type: string
         description: The identifier of the organization this account is a member of (this will be an administrative account and not a study participant). Once set, it cannot be changed on an update (there are separate organization membership APIs to change organizational membership).
-    timeZone:
-        type: string
-        description: User's original time zone, as measured by the timezone used to request activities, as a string offset in ISO8601 format.
     type:
         type: string
         readOnly: true
