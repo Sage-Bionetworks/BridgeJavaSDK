@@ -1,0 +1,4 @@
+description: |
+    User cannot access this service because they do not have an administrative role (no study coordinator or admin role on account).
+schema:
+    $ref: ../definitions/message.yml

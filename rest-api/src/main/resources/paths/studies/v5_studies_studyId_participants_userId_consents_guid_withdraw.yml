@@ -1,0 +1,28 @@
+post:
+    operationId: withdrawParticipantFromStudy
+    summary: Withdraw the participant from the specified study (via the study’s subppoulation/consent GUID).
+    description: |
+        This endpoint will withdraw the user from consent to participate in one subpopulation of the app. This endpoint can be called by researchers, and by other administrators for their own account. 
+    tags:
+        - Participants
+        - Consents
+        - _For Study Coordinators
+        - _For Admin
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/guid
+        - name: withdrawal
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/withdrawal.yml
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_admin.yml                

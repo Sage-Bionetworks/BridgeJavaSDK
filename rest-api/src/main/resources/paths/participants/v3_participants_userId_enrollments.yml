@@ -1,0 +1,19 @@
+get:
+    operationId: getEnrollmentsForUser
+    summary: Get enrollment records for this user
+    tags:
+        - For Researchers
+        - Consents
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/enrollment_detail.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_researcher.yml

@@ -3,6 +3,7 @@ get:
     summary: Get external IDs for a study
     tags:
         - Studies
+        - _For Study Coordinators
         - _For Developers
         - _For Researchers
     security:

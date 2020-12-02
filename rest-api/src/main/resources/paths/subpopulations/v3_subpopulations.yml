@@ -3,6 +3,7 @@ get:
     summary: Get all subpopulations in this app
     tags:
         - Subpopulations
+        - _For Study Coordinators
         - _For Developers
     security:
         - BridgeSecurity: []

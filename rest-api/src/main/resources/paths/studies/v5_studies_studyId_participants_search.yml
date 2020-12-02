@@ -1,0 +1,26 @@
+post:
+    operationId: getStudyParticipants
+    summary: Search for account summaries of study participants.
+    tags:
+        - Participants
+        - _For Study Coordinators
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - name: AccountSummarySearch
+          in: body
+          description: Account summary search parameters
+          required: true
+          schema:
+                $ref: ../../definitions/account_summary_search.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/account_summary.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_admin.yml

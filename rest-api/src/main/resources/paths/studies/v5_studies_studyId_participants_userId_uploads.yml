@@ -1,0 +1,27 @@
+get:
+    operationId: getStudyParticipantUploads
+    summary: Get a study participant’s upload history
+    description: |
+        Retrieve information about the uploads from a user. This is particularly useful during development to verify the mobile application is sending valid data back to the Bridge server. The API can retrieve any number of days worth of upload records, defined by the startTime and endTime timestamps (ISO 8601 format), and paginated using a pageSize and offsetKey value (null for the first page, but returned with subsequent requests to retrieve further pages in the time range). If the endTime is not provided, it will be one day after the startTime. If the startTime is not provided, it will be one day before the endTime. 
+    tags:
+        - Participants
+        - _For Study Coordinators
+        - _For Admin
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/startTime
+        - $ref: ../../index.yml#/parameters/endTime
+        - $ref: ../../index.yml#/parameters/pageSize
+        - $ref: ../../index.yml#/parameters/offsetKey
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/upload.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_admin.yml

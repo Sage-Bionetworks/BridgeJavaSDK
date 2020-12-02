@@ -258,6 +258,8 @@
     $ref: ./participants/v3_participants_healthCode.yml
 /v3/participants/syn:{synapseUserId}:
     $ref: ./participants/v3_participants_synapseUserId.yml
+/v3/participants/{userId}/enrollments:
+    $ref: ./participants/v3_participants_userId_enrollments.yml
 /v3/participants/{userId}/healthdata:
     $ref: ./participants/v3_participants_userId_healthdata.yml
 /v3/participants/{userId}/sms/recent:
@@ -491,6 +493,38 @@
     $ref: ./studies/v5_studies_studyId_enrollments_userId.yml
 /v5/studies/{studyId}/externalids:
     $ref: ./studies/v5_studies_studyId_externalids.yml
+/v5/studies/{studyId}/participants/{userId}/notifications/sms:
+    $ref: ./studies/v5_studies_studyId_participants_userId_notifications_sms.yml
+/v5/studies/{studyId}/participants/{userId}/enrollments:
+    $ref: ./studies/v5_studies_studyId_participants_userId_enrollments.yml
+/v5/studies/{studyId}/participants/search:
+    $ref: ./studies/v5_studies_studyId_participants_search.yml    
+/v5/studies/{studyId}/participants:
+    $ref: ./studies/v5_studies_studyId_participants.yml
+/v5/studies/{studyId}/participants/{userId}:
+    $ref: ./studies/v5_studies_studyId_participants_userId.yml
+/v5/studies/{studyId}/participants/{userId}/requestInfo:
+    $ref: ./studies/v5_studies_studyId_participants_userId_requestInfo.yml
+/v5/studies/{studyId}/participants/{userId}/signOut:
+    $ref: ./studies/v5_studies_studyId_participants_userId_signOut.yml
+/v5/studies/{studyId}/participants/{userId}/requestResetPassword:
+    $ref: ./studies/v5_studies_studyId_participants_userId_requestResetPassword.yml
+/v5/studies/{studyId}/participants/{userId}/resendEmailVerification:
+    $ref: ./studies/v5_studies_studyId_participants_userId_resendEmailVerification.yml
+/v5/studies/{studyId}/participants/{userId}/resendPhoneVerification:
+    $ref: ./studies/v5_studies_studyId_participants_userId_resendPhoneVerification.yml
+/v5/studies/{studyId}/participants/{userId}/consents/{guid}/resendConsent:
+    $ref: ./studies/v5_studies_studyId_participants_userId_consents_guid_resendConsent.yml
+/v5/studies/{studyId}/participants/{userId}/consents/{guid}/withdraw:
+    $ref: ./studies/v5_studies_studyId_participants_userId_consents_guid_withdraw.yml
+/v5/studies/{studyId}/participants/{userId}/uploads:
+    $ref: ./studies/v5_studies_studyId_participants_userId_uploads.yml
+/v5/studies/{studyId}/participants/{userId}/notifications:
+    $ref: ./studies/v5_studies_studyId_participants_userId_notifications.yml
+/v5/studies/{studyId}/participants/{userId}/sendNotification:
+    $ref: ./studies/v5_studies_studyId_participants_userId_sendNotification.yml
+/v5/studies/{studyId}/participants/{userId}/activityEvents:
+    $ref: ./studies/v5_studies_studyId_participants_userId_activityEvents.yml
 
 # Templates
 /v3/templates:

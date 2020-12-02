@@ -1,24 +1,20 @@
-delete:
-    operationId: withdrawParticipant
-    summary: Withdraw a participant from a study
+get:
+    operationId: getStudyParticipantRequestInfo
+    summary: Get information about the last request made by this participant
     tags:
-        - Studies
         - _For Study Coordinators
-        - _For Researchers
         - _For Admins
     security:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
         - $ref: ../../index.yml#/parameters/userId
-        - $ref: ../../index.yml#/parameters/withdrawalNote
     responses:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/enrollment.yml
+                $ref: ../../definitions/request_info.yml
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_admin_researcher.yml
-      
+            $ref: ../../responses/403_not_study_coordinator_admin.yml

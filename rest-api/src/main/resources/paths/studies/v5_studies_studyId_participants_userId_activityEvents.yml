@@ -1,0 +1,19 @@
+get:
+    operationId: getStudyParticipantActivityEvents
+    summary: Get activity events for the participants
+    tags:
+        - Activity Events
+        - _For Study Coordinators
+        - _For Admins
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/activity_event.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_admin.yml                
