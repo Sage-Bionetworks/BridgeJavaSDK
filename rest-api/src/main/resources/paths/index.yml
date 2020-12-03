@@ -311,9 +311,6 @@
 /v4/participants/{userId}/reports/{identifier}:
     $ref: ./participants/v4_participants_userId_reports_identifier.yml
 
-/v1/migration/participants/{userId}/enrollments:
-    $ref: ./migration/v1_migration_participants_userId_enrollments.yml
-
 # Shared Modules
 /v3/sharedmodules/{moduleId}/import:
     $ref: ./sharedmodules/v3_sharedmodules_id_import.yml
@@ -493,8 +490,6 @@
     $ref: ./studies/v5_studies_studyId_enrollments_userId.yml
 /v5/studies/{studyId}/externalids:
     $ref: ./studies/v5_studies_studyId_externalids.yml
-/v5/studies/{studyId}/participants/{userId}/notifications/sms:
-    $ref: ./studies/v5_studies_studyId_participants_userId_notifications_sms.yml
 /v5/studies/{studyId}/participants/{userId}/enrollments:
     $ref: ./studies/v5_studies_studyId_participants_userId_enrollments.yml
 /v5/studies/{studyId}/participants/search:
@@ -515,8 +510,6 @@
     $ref: ./studies/v5_studies_studyId_participants_userId_resendPhoneVerification.yml
 /v5/studies/{studyId}/participants/{userId}/consents/{guid}/resendConsent:
     $ref: ./studies/v5_studies_studyId_participants_userId_consents_guid_resendConsent.yml
-/v5/studies/{studyId}/participants/{userId}/consents/{guid}/withdraw:
-    $ref: ./studies/v5_studies_studyId_participants_userId_consents_guid_withdraw.yml
 /v5/studies/{studyId}/participants/{userId}/uploads:
     $ref: ./studies/v5_studies_studyId_participants_userId_uploads.yml
 /v5/studies/{studyId}/participants/{userId}/notifications:

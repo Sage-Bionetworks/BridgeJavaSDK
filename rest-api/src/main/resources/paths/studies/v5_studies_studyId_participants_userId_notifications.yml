@@ -1,11 +1,10 @@
 get:
-    operationId: getStudyParticipantPushNotificationRegistrations
+    operationId: getStudyParticipantNotificationRegistrations
     summary: Get a study participant’s push notification registrations
     description: |
         Get all of a study participant’s registrations for push notifications. There can be more than one of these if the participant has downloaded and installed the app on more than one device. There must be at least one record in order to send a push notification to the user. This endpoint can be called by researchers, and by other administrators for their own account. 
     tags:
-        - Participants
-        - Notifications
+        - Study Participants
         - _For Study Coordinators
         - _For Admins
     security:

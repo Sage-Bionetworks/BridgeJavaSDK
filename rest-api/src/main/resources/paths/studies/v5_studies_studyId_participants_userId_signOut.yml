@@ -2,7 +2,7 @@ post:
     operationId: signOutStudyParticipant
     summary: Sign the participant out and delete their server session
     tags:
-        - Participants
+        - Study Participants
         - _For Study Coordinators
         - _For Admins
     security:

@@ -4,7 +4,7 @@ post:
     description: |
         When called, resends the SMS message to the user’s email account, which contains a code they must enter into your application to call and verify this phone number. Account is not activated until this is done.
     tags:
-        - Participants
+        - Study Participants
         - _For Study Coordinators
         - _For Admins
     security:

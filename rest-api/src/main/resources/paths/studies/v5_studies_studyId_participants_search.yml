@@ -2,7 +2,7 @@ post:
     operationId: getStudyParticipants
     summary: Search for account summaries of study participants.
     tags:
-        - Participants
+        - Study Participants
         - _For Study Coordinators
         - _For Admins
     security:

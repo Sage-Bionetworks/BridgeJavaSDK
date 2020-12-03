@@ -4,7 +4,7 @@ post:
     description: |
         When called, resends the email to the user's email account, which contains a link they must click on to verify they control that email address. Account is not activated until this is done. 
     tags:
-        - Participants
+        - Study Participants
         - _For Study Coordinators
         - _For Admins
     security:

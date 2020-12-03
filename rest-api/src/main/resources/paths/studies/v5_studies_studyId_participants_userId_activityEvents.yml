@@ -2,7 +2,7 @@ get:
     operationId: getStudyParticipantActivityEvents
     summary: Get activity events for the participants
     tags:
-        - Activity Events
+        - Study Participants
         - _For Study Coordinators
         - _For Admins
     parameters:

@@ -121,8 +121,6 @@ Enrollment:
     $ref: ./enrollment.yml
 EnrollmentDetail:
     $ref: ./enrollment_detail.yml
-EnrollmentMigration:
-    $ref: ./enrollment_migration.yml
 ExternalIdentifier:
     $ref: ./external_identifier.yml
 ExternalResource:

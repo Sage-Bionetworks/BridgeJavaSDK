@@ -4,7 +4,7 @@ post:
     description: |
         When called, re-sends a signed consent agreement document to the participant’s email address. This endpoint can be called by researchers, and by other administrators for their own account.
     tags:
-        - Participants
+        - Study Participants
         - _For Study Coordinators
         - _For Admins
     security:
@@ -19,4 +19,4 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_study_coordinator_admin.yml                
+            $ref: ../../responses/403_not_study_coordinator_admin.yml

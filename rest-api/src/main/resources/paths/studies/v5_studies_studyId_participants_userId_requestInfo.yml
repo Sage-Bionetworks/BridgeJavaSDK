@@ -2,6 +2,7 @@ get:
     operationId: getStudyParticipantRequestInfo
     summary: Get information about the last request made by this participant
     tags:
+        - Study Participants
         - _For Study Coordinators
         - _For Admins
     security:

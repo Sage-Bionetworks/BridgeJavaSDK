@@ -1,6 +1,6 @@
 delete:
     operationId: withdrawParticipant
-    summary: Withdraw a participant from a study
+    summary: Withdraw a participant from the study
     tags:
         - Studies
         - _For Study Coordinators

@@ -1,8 +1,8 @@
 get:
     operationId: getStudyParticipantById
-    summary: Get a study participant (user) record
+    summary: Get a study participant.
     tags:
-        - Participants
+        - Study Participants
         - _For Study Coordinators
         - _For Admins
     security:
@@ -37,7 +37,7 @@ post:
           description: Study participant 
           required: true
           schema:
-                $ref: ../../definitions/study_participant.yml
+              $ref: ../../definitions/study_participant.yml
     responses:
         200:
             $ref: ../../responses/200_message.yml

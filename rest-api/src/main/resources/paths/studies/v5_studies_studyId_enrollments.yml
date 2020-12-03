@@ -1,6 +1,6 @@
 get:
-    operationId: getEnrollees
-    summary: Get the participants enrolled in this study.
+    operationId: getEnrollments
+    summary: Get the enrollments in this study. These include participants who have been withdrawn from the study (as we continue to document their historic participation).
     tags:
         - Studies
         - _For Study Coordinators

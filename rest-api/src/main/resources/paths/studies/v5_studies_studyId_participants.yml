@@ -1,8 +1,8 @@
 post:
     operationId: createStudyParticipant
-    summary: Create a new study participant (user)
+    summary: Create a new study participant who will be enrolled (but not consented) in this study.
     tags:
-        - Participants
+        - Study Participants
         - _For Study Coordinators
         - _For Admins
     security:
@@ -14,7 +14,7 @@ post:
           description: Sign up 
           required: true
           schema:
-                $ref: ../../definitions/sign_up.yml
+              $ref: ../../definitions/sign_up.yml
     responses:
         201:
             description: Created

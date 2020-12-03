@@ -1,10 +1,10 @@
 get:
     operationId: getStudyParticipantEnrollments
-    summary: Get enrollment records for this user
+    summary: Get enrollment records for this user.
     tags:
+        - Study Participants
         - _For Study Coordinators
         - _For Admins
-        - Consents
     security:
         - BridgeSecurity: []
     parameters:
@@ -18,4 +18,4 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_researcher.yml
+            $ref: ../../responses/403_not_study_coordinator_admin.yml

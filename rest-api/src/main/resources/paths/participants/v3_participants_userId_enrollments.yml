@@ -2,7 +2,7 @@ get:
     operationId: getEnrollmentsForUser
     summary: Get enrollment records for this user
     tags:
-        - For Researchers
+        - _For Researchers
         - Consents
     security:
         - BridgeSecurity: []
