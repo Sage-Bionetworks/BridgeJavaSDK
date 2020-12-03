@@ -2,16 +2,11 @@ description: |
     A descriptor of a participant blob file
 type: object
 properties:
-    userId:
-        type: string
-        x-nullable: false
     fileId:
         type: string
     mimeType:
         type: string
         x-nullable: false
-    appId:
-        type: string
     createdOn:
         type: string
         format: date-time
