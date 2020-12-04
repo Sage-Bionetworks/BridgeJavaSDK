@@ -1,7 +1,7 @@
 type: object
 readOnly: true
 allOf:
-    - $ref: ./forward_cursor_paged_resource_list.yml
+    - $ref: ./paged_resource_list.yml
     - properties:
         items:
             type: array

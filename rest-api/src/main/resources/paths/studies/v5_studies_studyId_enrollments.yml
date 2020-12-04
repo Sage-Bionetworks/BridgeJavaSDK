@@ -10,13 +10,14 @@ get:
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
         - $ref: ../../index.yml#/parameters/enrollmentFilter
+        - $ref: ../../index.yml#/parameters/includeTesters
         - $ref: ../../index.yml#/parameters/offsetBy
         - $ref: ../../index.yml#/parameters/pageSize
     responses:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/paged_resources/enrollment.yml
+                $ref: ../../definitions/paged_resources/enrollment_detail.yml
         401:
             $ref: ../../responses/401.yml
         403:

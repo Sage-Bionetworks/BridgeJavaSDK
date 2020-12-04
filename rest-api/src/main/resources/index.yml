@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-    version: "0.21.4"
+    version: "0.21.11"
     title: Bridge Server API
 host: webservices.sagebridge.org
 basePath: /
@@ -192,6 +192,13 @@ parameters:
         in: query
         type: string
         enum: [enrolled,withdrawn,all]
+    includeTesters:
+        name: includeTesters
+        description: Include accounts with 'test_user' data group
+        required: false
+        default: false
+        in: query
+        type: boolean
     startDate:
         name: startDate
         in: query

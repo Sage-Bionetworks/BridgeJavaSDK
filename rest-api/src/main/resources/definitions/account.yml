@@ -1,6 +1,11 @@
 type: object
-description: Common fields for the SignUp and StudyParticipant payloads. This is an abstract class that cannot be used directly through the API.
+description: Account record for administrative accounts.
 properties:
+    id:
+        type: string
+        readOnly: true
+        description: An ID assigned to this account by Bridge system.
+        x-nullable: false
     firstName:
         type: string
         description: First name (given name) of the user.
@@ -11,18 +16,15 @@ properties:
         type: string
         description: |
             The numerical identifier for a Synapse account. For administrative accounts, this will allow the user to sign in using Synapse accounts, no further credentials are needed to access the system. This value can only be set when creating an account; otherwise the identifiers update API must be used to add the ID to an existing account.
-    id:
+    email:
         type: string
-        readOnly: true
-        description: |
-            An ID assigned to this account by Bridge system. This ID is exposed in the API and is different from the health code assigned to the user's anonymized data. Bridge never exports this ID along with the health code from Bridge.  
-        x-nullable: false
-    notifyByEmail:
-        type: boolean
-        default: true
-        description: |
-            True if the user has consented to be contacted via email outside the application, false otherwise.
-        x-nullable: false
+        description: The user's email.
+    phone:
+        $ref: ./phone.yml
+    password:
+        type: string
+        format: password
+        description: Account password.
     attributes:
         type: object
         additionalProperties:
@@ -30,14 +32,17 @@ properties:
         description: |
             A map of user profile attributes that have been set for this user (the attributes themselves must be specified in the app's configuration, and the values are stored encrypted in case they capture personally-identifying information).
         x-nullable: false
-    sharingScope:
-        $ref: ./enums/sharing_scope.yml
-        x-nullable: false
     createdOn:
         type: string
         format: date-time
         readOnly: true
         description: The date and time the account was created.
+        x-nullable: false
+    modifiedOn:
+        type: string
+        format: date-time
+        readOnly: true
+        description: The date and time the account was last modified.
         x-nullable: false
     emailVerified:
         type: boolean
@@ -74,19 +79,11 @@ properties:
         items:
             type: string
         x-nullable: false
-    studyIds:
-        type: array
-        description: The studies this participant is associated to. For administrative accounts, these are the studies associated to the account's organization. For study participants, these will be the studies that the person is enrolled in.
-        readOnly: true
-        items:
-            type: string
-        x-nullable: false
-    externalIds:
-        type: object
-        description: The exernal IDs this participant is associated to, mapped to the study that issued the external ID. Typically a user signs up with the external ID, and is assigned to that study as a result.
-        additionalProperties:
-            type: string
-        x-nullable: false
     orgMembership:
         type: string
         description: The identifier of the organization this account is a member of (this will be an administrative account and not a study participant). Once set, it cannot be changed on an update (there are separate organization membership APIs to change organizational membership).
+    type:
+        type: string
+        readOnly: true
+        description: "Account"
+        x-nullable: false

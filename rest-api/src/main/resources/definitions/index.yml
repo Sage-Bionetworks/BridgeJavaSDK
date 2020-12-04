@@ -57,6 +57,10 @@ ABTestScheduleStrategy:
     $ref: ./ab_test_schedule_strategy.yml
 AbstractStudyParticipant:
     $ref: ./abstract_study_participant.yml
+Account:
+    $ref: ./account.yml
+AccountRef:
+    $ref: ./account_ref.yml
 AccountSummary:
     $ref: ./account_summary.yml
 AccountSummarySearch:
@@ -117,6 +121,10 @@ EmailVerificationStatus:
     $ref: ./email_verification_status.yml
 Enrollment:
     $ref: ./enrollment.yml
+EnrollmentDetail:
+    $ref: ./enrollment_detail.yml
+EnrollmentMigration:
+    $ref: ./enrollment_migration.yml
 ExternalIdentifier:
     $ref: ./external_identifier.yml
 ExternalResource:
@@ -303,8 +311,8 @@ AssessmentList:
     $ref: ./paged_resources/assessment.yml
 CompoundActivityDefinitionList:
     $ref: ./paged_resources/compound_activity_definition.yml
-EnrollmentList:
-    $ref: ./paged_resources/enrollment.yml
+EnrollmentDetailList:
+    $ref: ./paged_resources/enrollment_detail.yml
 ExternalIdentifierList:
     $ref: ./paged_resources/external_identifier.yml
 ExternalResourceList:

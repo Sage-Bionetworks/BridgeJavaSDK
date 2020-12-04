@@ -4,6 +4,7 @@ get:
     description: Get a single organization record.
     tags:
         - _For Superadmins
+        - _For Org Admins
         - Organizations
     security:
         - BridgeSecurity: []
@@ -27,6 +28,7 @@ post:
         Update an existing organization.
     tags:
         - _For Superadmins
+        - _For Org Admins
         - Organizations
     security:
         -   BridgeSecurity: []
