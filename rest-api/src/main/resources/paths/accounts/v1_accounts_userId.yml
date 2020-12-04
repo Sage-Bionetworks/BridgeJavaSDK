@@ -1,0 +1,63 @@
+get:
+    operationId: getAccount
+    summary: Get an administrative account
+    tags:
+        - _For Org Admins
+        - Accounts
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/account.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_org_admin_admin.yml        
+post:
+    operationId: updateAccount
+    summary: Update an administrative account
+    tags:
+        - _For Org Admins
+        - Accounts
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+        - name: Account
+          in: body
+          description: Account record to update
+          required: true
+          schema:
+              $ref: ../../definitions/account.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_org_admin_admin.yml        
+delete:
+    operationId: deleteAccount
+    summary: Delete an administrative account
+    tags:
+        - _For Org Admins
+        - Accounts
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_org_admin_admin.yml        

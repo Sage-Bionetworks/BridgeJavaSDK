@@ -1,0 +1,19 @@
+get:
+    operationId: getAccountRequestInfo
+    summary: Get information about the last request made by this organization member
+    tags:
+        - _For Org Admins
+        - Accounts
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/request_info.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_org_admin_admin.yml    

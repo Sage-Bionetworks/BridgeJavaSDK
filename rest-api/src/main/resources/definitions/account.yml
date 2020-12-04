@@ -1,0 +1,89 @@
+type: object
+description: Account record for administrative accounts.
+properties:
+    id:
+        type: string
+        readOnly: true
+        description: An ID assigned to this account by Bridge system.
+        x-nullable: false
+    firstName:
+        type: string
+        description: First name (given name) of the user.
+    lastName:
+        type: string
+        description: Last name (family name) of the user.
+    synapseUserId:
+        type: string
+        description: |
+            The numerical identifier for a Synapse account. For administrative accounts, this will allow the user to sign in using Synapse accounts, no further credentials are needed to access the system. This value can only be set when creating an account; otherwise the identifiers update API must be used to add the ID to an existing account.
+    email:
+        type: string
+        description: The user's email.
+    phone:
+        $ref: ./phone.yml
+    password:
+        type: string
+        format: password
+        description: Account password.
+    attributes:
+        type: object
+        additionalProperties:
+            type: string
+        description: |
+            A map of user profile attributes that have been set for this user (the attributes themselves must be specified in the app's configuration, and the values are stored encrypted in case they capture personally-identifying information).
+        x-nullable: false
+    createdOn:
+        type: string
+        format: date-time
+        readOnly: true
+        description: The date and time the account was created.
+        x-nullable: false
+    modifiedOn:
+        type: string
+        format: date-time
+        readOnly: true
+        description: The date and time the account was last modified.
+        x-nullable: false
+    emailVerified:
+        type: boolean
+        description: Has the user verified that they have control of this email address?
+        x-nullable: false
+    phoneVerified:
+        type: boolean
+        description: Has the user verified that they have control of this phone number?
+        x-nullable: false
+    status:
+        $ref: ./enums/account_status.yml
+        x-nullable: false
+    roles:
+        type: array
+        items:
+            $ref: ./enums/role.yml
+        x-nullable: false
+    dataGroups:
+        type: array
+        description: |
+            The data groups set for this user. Data groups must be strings that are defined in the list of all valid data groups for the app, as part of the app object. 
+        items:
+            type: string
+        x-nullable: false
+    clientData:
+        type: object
+        description: |
+            Client data for a user should be in a syntactically valid JSON format. It will be returned as is to the client (as JSON).
+        additionalProperties: true
+    languages:
+        type: array
+        description: |
+            Two letter language codes to assign to this user (these are initially retrieved from the user's `Accept-Language` header and then persisted as part of account configuration). 
+        items:
+            type: string
+        x-nullable: false
+    orgMembership:
+        type: string
+        description: The identifier of the organization this account is a member of (this will be an administrative account and not a study participant). Once set, it cannot be changed on an update (there are separate organization membership APIs to change organizational membership).
+    type:
+        type: string
+        readOnly: true
+        description: "Account"
+        x-nullable: false

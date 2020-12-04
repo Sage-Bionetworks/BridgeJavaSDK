@@ -1,0 +1,25 @@
+post:
+    operationId: createAccount
+    summary: Create an administrative account
+    tags:
+        - _For Org Admins
+        - Accounts
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - name: Account
+          in: body
+          description: Account record to create
+          required: true
+          schema:
+              $ref: ../../definitions/account.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/identifier_holder.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_org_admin_admin.yml        
+

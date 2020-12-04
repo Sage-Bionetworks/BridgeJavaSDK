@@ -2,10 +2,11 @@ get:
     operationId: getSponsoredStudies
     summary: Get the studies that are sponsored by this organization.
     tags:
-        - Organizations
+        - _For Admins
         - _For Developers
         - _For Researchers
-        - _For Admins
+        - _For Org Admins
+        - Organizations
     security:
         - BridgeSecurity: []
     parameters:
