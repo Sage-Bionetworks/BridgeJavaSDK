@@ -10,6 +10,8 @@
     $ref: ./400_message.yml
 401:
     $ref: ./401.yml
+403_not_administrative:
+    $ref: ./403_not_administrative.yml
 403_not_admin:
     $ref: ./403_not_admin.yml
 403_not_admin_developer:

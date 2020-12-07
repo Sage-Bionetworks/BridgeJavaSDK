@@ -45,3 +45,22 @@ post:
             $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_study_coordinator_admin.yml
+delete:
+    operationId: deleteTestStudyParticipant
+    summary: Delete a study participant with a `test_user` data group. 
+    tags:
+        - Study Participants
+        - _For Study Coordinators
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_admin.yml

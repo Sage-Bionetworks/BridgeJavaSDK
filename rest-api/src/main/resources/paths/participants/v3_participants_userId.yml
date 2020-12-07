@@ -43,3 +43,21 @@ post:
             $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_researcher.yml                
+delete:
+    operationId: deleteTestParticipant
+    summary: Delete an account with a `test_user` data group. 
+    tags:
+        - Participants
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_administrative.yml
+      
