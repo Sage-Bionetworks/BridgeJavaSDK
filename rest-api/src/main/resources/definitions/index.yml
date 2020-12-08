@@ -187,8 +187,6 @@ Phone:
     $ref: ./phone.yml
 PhoneSignInRequest:
     $ref: ./phone_signin_request.yml
-ParticipantFile:
-    $ref: ./participant_file.yml
 PropertyInfo:
     $ref: ./property_info.yml
 RecordExportStatusRequest:
@@ -339,8 +337,6 @@ ForwardCursorReportDataList:
     $ref: ./paged_resources/forward_cursor_report_data.yml
 OrganizationList:
     $ref: ./paged_resources/organization.yml
-ParticipantFileList:
-    $ref: ./paged_resources/participant_file.yml
 ReportIndexList:
     $ref: ./paged_resources/report_index.yml
 ScheduleList:
