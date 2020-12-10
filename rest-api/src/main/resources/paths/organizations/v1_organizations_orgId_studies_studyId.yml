@@ -2,8 +2,8 @@ post:
   operationId: addStudySponsorship
   summary: Sponsor this study
   tags:
-      - Organizations
       - _For Admins
+      - Organizations
   security:
       - BridgeSecurity: []
   parameters:
@@ -22,8 +22,8 @@ delete:
   operationId: removeStudySponsorship
   summary: Stop sponsoring this study
   tags:
-      - Organizations
       - _For Admins
+      - Organizations
   security:
       - BridgeSecurity: []
   parameters:

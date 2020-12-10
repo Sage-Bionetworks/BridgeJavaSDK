@@ -6,6 +6,7 @@ post:
         - _For Admins
         - _For Developers
         - _For Researchers
+        - _For Org Admins
         - Organizations
     security:
         - BridgeSecurity: []
@@ -23,5 +24,3 @@ post:
                 $ref: ../../definitions/paged_resources/account_summary.yml
         401:
             $ref: ../../responses/401.yml
-        403:
-            $ref: ../../responses/403_not_developer.yml

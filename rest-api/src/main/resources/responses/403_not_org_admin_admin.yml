@@ -1,0 +1,4 @@
+description: |
+    User cannot access this service because they are not an administrator of the encompassing organization, or an admin (no org_admin or admin role).
+schema:
+    $ref: ../definitions/message.yml
