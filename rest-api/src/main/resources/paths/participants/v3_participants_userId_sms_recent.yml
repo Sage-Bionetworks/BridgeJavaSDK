@@ -3,6 +3,7 @@ get:
     summary: Returns the most recent message sent to the phone number of the given user. Used by integration tests.
     tags:
         - _Internal
+        - _For Admins
     security:
         - BridgeSecurity: []
     parameters:

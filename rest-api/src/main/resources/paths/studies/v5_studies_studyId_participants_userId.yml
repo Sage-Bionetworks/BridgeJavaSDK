@@ -4,7 +4,7 @@ get:
     tags:
         - Study Participants
         - _For Study Coordinators
-        - _For Admins
+        - _For Researchers
     security:
         - BridgeSecurity: []
     parameters:
@@ -19,14 +19,14 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_study_coordinator_admin.yml
+            $ref: ../../responses/403.yml
 post:
     operationId: updateStudyParticipant
     summary: Update an existing study participant (user) record
     tags:
-        - Participants
-        - _For Researchers
+        - Study Participants
         - _For Study Coordinators
+        - _For Researchers
     security:
         - BridgeSecurity: []
     parameters:
@@ -51,7 +51,7 @@ delete:
     tags:
         - Study Participants
         - _For Study Coordinators
-        - _For Admins
+        - _For Researchers
     security:
         - BridgeSecurity: []
     parameters:
@@ -63,4 +63,4 @@ delete:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_study_coordinator_admin.yml
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml

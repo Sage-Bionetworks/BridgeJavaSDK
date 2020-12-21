@@ -3,6 +3,7 @@ post:
   summary: Add this organization as a sponsor
   tags:
       - Studies
+      - Organizations
       - _For Admins
   security:
       - BridgeSecurity: []

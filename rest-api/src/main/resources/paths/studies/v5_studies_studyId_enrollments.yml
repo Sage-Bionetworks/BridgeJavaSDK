@@ -2,10 +2,10 @@ get:
     operationId: getEnrollments
     summary: Get the enrollments in this study. These include participants who have been withdrawn from the study (as we continue to document their historic participation).
     tags:
+        - Study Participants
         - Studies
         - _For Study Coordinators
         - _For Researchers
-        - _For Admins
     security:
         - BridgeSecurity: []
     parameters:
@@ -22,13 +22,14 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_admin_researcher.yml
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml
 post:
     operationId: enrollParticipant
     summary: Enroll an account in a study as a participant.
     description: |
         When enrolling a participant in a study, be sure your process includes informed consent to research. Bridge also supports the delivery of an electronic informed consent process, but you can also opt to enroll someone, with or without a flag that indicates whether or not the user should still be required to go through the informed consent process defined for this study. For example, studies that handle consent prior to onboarding participants my choose to enroll them through this API with `consentRequired` set to false.
     tags:
+        - Study Participants
         - Studies
         - _For Study Coordinators
         - _For Researchers
@@ -51,5 +52,4 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_admin_researcher.yml
-      
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml
