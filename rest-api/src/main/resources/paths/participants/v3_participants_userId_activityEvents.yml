@@ -1,6 +1,6 @@
 get:
     operationId: getActivityEventsForParticipant
-    summary: Get ActivityEvent
+    summary: Get activity events mapping for a participant
     description: This endpoint can be called by researchers, and by other administrators for their own account. 
     tags:
         - Activity Events

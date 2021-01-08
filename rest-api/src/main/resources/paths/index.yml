@@ -509,6 +509,10 @@
     $ref: ./studies/v5_studies_studyId_enrollments_userId.yml
 /v5/studies/{studyId}/externalids:
     $ref: ./studies/v5_studies_studyId_externalids.yml
+/v5/studies/{studyId}/participants/self/activityEvents:
+    $ref: ./studies/v5_studies_studyId_participants_self_activityEvents.yml
+/v5/studies/{studyId}/participants/{userId}/activityEvents:
+    $ref: ./studies/v5_studies_studyId_participants_userId_activityEvents.yml
 
 # Templates
 /v3/templates:
