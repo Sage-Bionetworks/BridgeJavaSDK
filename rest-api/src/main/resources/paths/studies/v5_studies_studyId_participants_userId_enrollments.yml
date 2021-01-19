@@ -1,9 +1,8 @@
-delete:
-    operationId: withdrawParticipant
-    summary: Withdraw a participant from the study
+get:
+    operationId: getStudyParticipantEnrollments
+    summary: Get enrollment records for this user.
     tags:
         - Study Participants
-        - Studies
         - _For Study Coordinators
         - _For Researchers
     security:
@@ -11,14 +10,12 @@ delete:
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
         - $ref: ../../index.yml#/parameters/userId
-        - $ref: ../../index.yml#/parameters/withdrawalNote
     responses:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/enrollment.yml
+                $ref: ../../definitions/paged_resources/enrollment_detail.yml
         401:
             $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_study_coordinator_researcher.yml
-      

@@ -3,9 +3,11 @@ get:
     summary: Get a list of the studies in this app
     tags:
         - Studies
-        - _For Admins
         - _For Developers
         - _For Researchers
+        - _For Study Coordinators
+        - _For Org Admins
+        - _For Admins
     security:
         - BridgeSecurity: []
     parameters:
@@ -20,12 +22,14 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_admin.yml
+            $ref: ../../responses/403.yml
 post:
     operationId: createStudy
     summary: Create a new study
     tags:
         - Studies
+        - _For Study Coordinators
+        - _For Org Admins
         - _For Admins
     security:
         - BridgeSecurity: []
@@ -44,4 +48,4 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_superadmin.yml
+            $ref: ../../responses/403_not_study_coordinator_org_admin_admin.yml

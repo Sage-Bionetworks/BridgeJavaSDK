@@ -1,0 +1,22 @@
+post:
+    operationId: resendStudyParticipantConsentAgreement
+    summary: Re-send the consent agreement for this study
+    description: |
+        When called, re-sends a signed consent agreement document to the participant’s email address. This endpoint can be called by researchers, and by other administrators for their own account.
+    tags:
+        - Study Participants
+        - _For Study Coordinators
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/guid
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml

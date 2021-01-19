@@ -1,0 +1,26 @@
+post:
+    operationId: createStudyParticipant
+    summary: Create a new study participant who will be enrolled (but not consented) in this study.
+    tags:
+        - Study Participants
+        - _For Study Coordinators
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - name: SignUp
+          in: body
+          description: Sign up 
+          required: true
+          schema:
+              $ref: ../../definitions/sign_up.yml
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/identifier_holder.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml

@@ -1,0 +1,25 @@
+post:
+    operationId: signOutStudyParticipant
+    summary: Sign the participant out and delete their server session
+    tags:
+        - Study Participants
+        - _For Study Coordinators
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+        - name: deleteReauthToken
+          description: Should sign out also delete any extant reauthentication tokens?
+          required: false
+          default: true
+          in: query
+          type: boolean
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml                

@@ -1,8 +1,9 @@
 get:
     operationId: getSubpopulations
-    summary: Get all subpopulations in this app
+    summary: Get all subpopulations in this app. This is temporarily accessible to study coordinators until we build v2 of our consent system.
     tags:
         - Subpopulations
+        - _For Study Coordinators
         - _For Developers
     security:
         - BridgeSecurity: []

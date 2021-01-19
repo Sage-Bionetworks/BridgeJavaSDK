@@ -1,13 +1,14 @@
 get:
-    operationId: getParticipantById
-    summary: Get a study participant (user) record
-    description: This endpoint can be called by researchers (all authenticated users can retrieve their own StudyParticipant record by using the `getUsersParticipantRecord` method, which should be used by administrative accounts as well, such as developers).
+    operationId: getStudyParticipantById
+    summary: Get a study participant.
     tags:
-        - Participants
-        - _For Researchers    
+        - Study Participants
+        - _For Study Coordinators
+        - _For Researchers
     security:
         - BridgeSecurity: []
     parameters:
+        - $ref: ../../index.yml#/parameters/studyId
         - $ref: ../../index.yml#/parameters/userId
         - $ref: ../../index.yml#/parameters/consents
     responses:
@@ -18,40 +19,43 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_researcher.yml                
+            $ref: ../../responses/403.yml
 post:
-    operationId: updateParticipant
+    operationId: updateStudyParticipant
     summary: Update an existing study participant (user) record
-    description: This endpoint can be called by researchers, and by other administrators for their own account account.
     tags:
-        - Participants
-        - _For Researchers    
+        - Study Participants
+        - _For Study Coordinators
+        - _For Researchers
     security:
         - BridgeSecurity: []
     parameters:
+        - $ref: ../../index.yml#/parameters/studyId
         - $ref: ../../index.yml#/parameters/userId
         - name: StudyParticipant
           in: body
           description: Study participant 
           required: true
           schema:
-                $ref: ../../definitions/study_participant.yml
+              $ref: ../../definitions/study_participant.yml
     responses:
         200:
             $ref: ../../responses/200_message.yml
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_researcher.yml                
+            $ref: ../../responses/403_not_study_coordinator_admin.yml
 delete:
-    operationId: deleteTestParticipant
-    summary: Delete an account with a `test_user` data group. 
+    operationId: deleteTestStudyParticipant
+    summary: Delete a study participant with a `test_user` data group. 
     tags:
-        - Participants
+        - Study Participants
+        - _For Study Coordinators
         - _For Researchers
     security:
         - BridgeSecurity: []
     parameters:
+        - $ref: ../../index.yml#/parameters/studyId
         - $ref: ../../index.yml#/parameters/userId
     responses:
         200:
@@ -59,5 +63,4 @@ delete:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_administrative.yml
-      
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml
