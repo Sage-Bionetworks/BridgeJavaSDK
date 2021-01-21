@@ -1,6 +1,9 @@
 description: Details about the enrollment of a user in a study
 type: object
 properties:
+    studyId:
+        type: string
+        readOnly: true
     externalId:
         type: string
         readOnly: true
@@ -10,7 +13,7 @@ properties:
     consentRequired:
         type: boolean
         readOnly: true
-        x-nullable:  false
+        x-nullable: false
     enrolledOn:
         type: string
         format: date-time

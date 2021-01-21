@@ -1,12 +1,10 @@
 get:
-    operationId: getActivityEventsForStudyParticipant
-    summary: Get the activity events for this study for a specific participant.
+    operationId: getStudyParticipantActivityEvents
+    summary: Get activity events for the participants
     tags:
-        - Studies
-        - Activity Events
+        - Study Participants
+        - _For Study Coordinators
         - _For Researchers
-    security:
-        - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
         - $ref: ../../index.yml#/parameters/userId
@@ -18,9 +16,9 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_researcher.yml
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml                
 post:
-    operationId: createActivityEventForStudyParticipant
+    operationId: createStudyParticipantActivityEvent
     summary: Create a new activity event for a participant in this study.
     tags:
         - Studies
@@ -43,5 +41,5 @@ post:
                 $ref: ../../definitions/message.yml
         401:
             $ref: ../../responses/401.yml
-        412:
-            $ref: ../../responses/412.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml                

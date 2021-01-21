@@ -3,6 +3,10 @@ get:
     summary: Get a study
     tags:
         - Studies
+        - _For Developers
+        - _For Researchers
+        - _For Study Coordinators
+        - _For Org Admins
         - _For Admins
     security:
         - BridgeSecurity: []
@@ -18,13 +22,14 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_superadmin.yml
+            $ref: ../../responses/403.yml
 post:
     operationId: updateStudy
     summary: Update an existing study
     tags:
         - Studies
-        - _For Admins
+        - _For Study Coordinators
+        - _For Developers
     security:
         - BridgeSecurity: []
     description: |
@@ -45,7 +50,7 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_superadmin.yml
+            $ref: ../../responses/403_not_study_coordinator_developer.yml
 delete:
     operationId: deleteStudy
     summary: Delete a study
@@ -67,4 +72,4 @@ delete:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_superadmin.yml
+            $ref: ../../responses/403_not_admin.yml

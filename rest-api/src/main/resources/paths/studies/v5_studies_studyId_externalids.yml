@@ -2,8 +2,8 @@ get:
     operationId: getExternalIdsForStudy
     summary: Get external IDs for a study
     tags:
-        - Studies
-        - _For Developers
+        - Study Participants
+        - _For Study Coordinators
         - _For Researchers
     security:
         - BridgeSecurity: []
@@ -22,4 +22,4 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_developer_researcher.yml
+            $ref: ../../responses/403_not_study_coordinator_dev_researcher.yml

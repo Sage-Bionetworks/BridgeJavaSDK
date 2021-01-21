@@ -56,8 +56,8 @@ delete:
     description: |
         Delete an organization. This call will fail if any users are members of the organization.
     tags:
-        - _For Superadmins
         - Organizations
+        - _For Admins
     security:
         -   BridgeSecurity: []
     parameters:
@@ -68,4 +68,4 @@ delete:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_superadmin.yml
+            $ref: ../../responses/403_not_admin.yml

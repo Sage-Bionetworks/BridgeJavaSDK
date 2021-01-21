@@ -1,0 +1,21 @@
+post:
+    operationId: sendStudyParticipantEmailVerification
+    summary: Resend an email verification email to this user
+    description: |
+        When called, resends the email to the user's email account, which contains a link they must click on to verify they control that email address. Account is not activated until this is done. 
+    tags:
+        - Study Participants
+        - _For Study Coordinators
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml                

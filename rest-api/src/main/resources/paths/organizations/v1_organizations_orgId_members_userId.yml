@@ -1,6 +1,6 @@
 post:
     operationId: addMember
-    summary: Add user as a member of the organization (any existing membership is removed).
+    summary: Add user as a member of the organization (this will return an error if the user is already assigned to another organization).
     tags:
         - _For Admins
         - _For Org Admins

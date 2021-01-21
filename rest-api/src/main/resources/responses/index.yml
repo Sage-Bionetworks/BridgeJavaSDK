@@ -10,6 +10,10 @@
     $ref: ./400_message.yml
 401:
     $ref: ./401.yml
+403:
+    $ref: ./403.yml
+403_not_administrative:
+    $ref: ./403_not_administrative.yml
 403_not_admin:
     $ref: ./403_not_admin.yml
 403_not_admin_developer:
@@ -26,6 +30,12 @@
     $ref: ./403_not_developer_worker.yml
 403_not_researcher:
     $ref: ./403_not_researcher.yml
+403_not_study_coordinator_developer:
+    $ref: ./403_not_study_coordinator_developer.yml
+403_not_study_coordinator_researcher:
+    $ref: ./403_not_study_coordinator_researcher.yml
+403_not_study_coordinator_admin:
+    $ref: ./403_not_study_coordinator_admin.yml
 403_not_superadmin:
     $ref: ./403_not_superadmin.yml
 403_not_superadmin_worker:

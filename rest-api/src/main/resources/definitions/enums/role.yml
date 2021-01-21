@@ -8,12 +8,14 @@ description: |
     |---|---|
     |developer|A user with the rights to use the app configuration APIs (all admin APIs except for those APIs which expose information about study participants).|
     |researcher|The research role is assigned to users who have permission to see the users in a study and the activity of participants. We will assign this role to developers during the initial development of the application so they can view the uploads of test accounts, etc.|
+    |study_coordinator|A specialized researcher who manages and coordinates research with participants.|
     |admin|A Sage Bionetworks Bridge administrator (internal to Bridge).|
     |org_admin|An administrator who can manage an organization and the member accounts of that organization.|
     |worker|A Sage Bionetworks worker process (internal to Bridge).|
 enum:
     - developer
     - researcher
+    - study_coordinator
     - admin
     - org_admin
     - worker
