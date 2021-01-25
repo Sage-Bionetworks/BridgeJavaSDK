@@ -1,13 +1,14 @@
 get:
-    operationId: getStudyParticipantActivityEvents
-    summary: Get activity events for the participants
+    operationId: getActivityEventsForSelf
+    summary: Get the activity events for this study (for the caller).
     tags:
-        - Study Participants
-        - _For Study Coordinators
-        - _For Researchers
+        - Studies
+        - Activity Events
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
-        - $ref: ../../index.yml#/parameters/userId
     responses:
         200:
             description: OK
@@ -15,20 +16,19 @@ get:
                 $ref: ../../definitions/paged_resources/activity_event.yml
         401:
             $ref: ../../responses/401.yml
-        403:
-            $ref: ../../responses/403_not_study_coordinator_researcher.yml                
+        412:
+            $ref: ../../responses/412.yml
 post:
-    operationId: createStudyParticipantActivityEvent
-    summary: Create a new activity event for a participant in this study.
+    operationId: createActivityEventForSelf
+    summary: Create a new activity event for the caller in this study.
     tags:
         - Studies
         - Activity Events
-        - _For Researchers
+        - _For Consented Users
     security:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
-        - $ref: ../../index.yml#/parameters/userId
         - name: CustomActivityEventRequest
           required: true
           in: body
@@ -41,5 +41,5 @@ post:
                 $ref: ../../definitions/message.yml
         401:
             $ref: ../../responses/401.yml
-        403:
-            $ref: ../../responses/403_not_study_coordinator_researcher.yml                
+        412:
+            $ref: ../../responses/412.yml

@@ -1,8 +1,9 @@
 get:
     operationId: getActivityEvents
-    summary: Get ActivityEvent
+    summary: Get activity events for current user
     description: Gets all activity events for the current user.
     tags: 
+        - Activity Events
         - _For Consented Users
     responses:
         200:
@@ -11,8 +12,8 @@ get:
                 $ref: ../../definitions/paged_resources/activity_event.yml
 post:
     operationId: createCustomActivityEvent
-    summary: Create a app-specific ActivityEvent
-    description: Create a custom ActivityEvent record. The eventKey must be defined in the app.
+    summary: Create an app-scoped activity event for the current user
+    description: Create an app-scoped activity event for the current user. The eventKey must be defined in the app.
     tags:
         - Activity Events
         - _For Consented Users

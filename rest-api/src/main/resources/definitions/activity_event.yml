@@ -9,6 +9,9 @@ properties:
         type: string
         description: event identifier
         x-nullable: false
+    studyId:
+        type: string
+        description: the study in which this event occurred (if null, the event is global to an entire app; these are deprecated).
     answerValue:
         type: string
         description: answer value for a question event
@@ -16,7 +19,7 @@ properties:
     timestamp:
         type: string
         format: date-time
-        description: ISO 8601 date and time that the event occured
+        description: ISO 8601 date and time that the event occurred
         x-nullable: false
     type:
         type: string

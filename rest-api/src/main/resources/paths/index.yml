@@ -534,6 +534,8 @@
     $ref: ./studies/v5_studies_studyId_participants_userId_notifications.yml
 /v5/studies/{studyId}/participants/{userId}/sendNotification:
     $ref: ./studies/v5_studies_studyId_participants_userId_sendNotification.yml
+/v5/studies/{studyId}/participants/self/activityEvents:
+    $ref: ./studies/v5_studies_studyId_participants_self_activityEvents.yml
 /v5/studies/{studyId}/participants/{userId}/activityEvents:
     $ref: ./studies/v5_studies_studyId_participants_userId_activityEvents.yml
 
