@@ -177,6 +177,8 @@ OAuthProvider:
     $ref: ./oauth_provider.yml
 Organization:
     $ref: ./organization.yml
+ParticipantFile:
+     $ref: ./participant_file.yml
 PasswordPolicy:
     $ref: ./password_policy.yml
 PasswordReset:
@@ -335,6 +337,8 @@ ForwardCursorReportDataList:
     $ref: ./paged_resources/forward_cursor_report_data.yml
 OrganizationList:
     $ref: ./paged_resources/organization.yml
+ParticipantFileList:
+    $ref: ./paged_resources/participant_file.yml
 ReportIndexList:
     $ref: ./paged_resources/report_index.yml
 ScheduleList:

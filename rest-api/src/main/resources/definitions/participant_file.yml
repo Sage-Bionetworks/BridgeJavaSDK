@@ -1,0 +1,21 @@
+description: |
+    A descriptor of a participant blob file
+type: object
+properties:
+    fileId:
+        type: string
+    mimeType:
+        type: string
+        x-nullable: false
+    createdOn:
+        type: string
+        format: date-time
+    downloadUrl:
+        type: string
+    uploadUrl:
+        type: string
+    type:
+        type: string
+        readOnly: true
+        description: "ParticipantFile"
+        x-nullable: false
