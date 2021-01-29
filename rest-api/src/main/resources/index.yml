@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-    version: "0.21.11"
+    version: "0.21.18"
     title: Bridge Server API
 host: webservices.sagebridge.org
 basePath: /
@@ -46,6 +46,11 @@ parameters:
         required: true
         in: path
         type: string
+    fileId:
+        name: fileId
+        required: true
+        in: path
+        type: string        
     synapseUserId:
         name: synapseUserId
         description: User's Synapse user ID

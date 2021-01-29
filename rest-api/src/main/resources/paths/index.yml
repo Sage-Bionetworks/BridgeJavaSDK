@@ -249,6 +249,12 @@
 /v3/compoundactivitydefinitions/{taskId}:
     $ref: ./compoundactivitydefinitions/v3_compoundactivitydefinitions_taskId.yml
 
+# Participant Files
+/v3/participants/self/files:
+    $ref: ./participant_files/v3_participants_self_files.yml
+/v3/participants/self/files/{fileId}:
+    $ref: ./participant_files/v3_participants_self_files_fileId.yml
+
 # Health Data
 /v3/healthdata:
     $ref: ./healthdata/v3_healthdata.yml

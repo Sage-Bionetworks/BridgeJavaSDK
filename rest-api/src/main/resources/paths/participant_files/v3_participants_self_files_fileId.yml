@@ -1,0 +1,74 @@
+get:
+    operationId: getParticipantFile
+    summary: Get a participant file
+    tags:
+        - Participant Files
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/fileId
+    responses:
+        200:
+            description: OK
+            schema:
+                type: file
+        302:
+            description: Found
+            headers:
+                Location:
+                    type: string
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml
+post:
+    operationId: createParticipantFile
+    summary: Create a new participant file
+    tags:
+        - Participant Files
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/fileId
+        - name: ParticipantFile
+          in: body
+          description: The participant file metadata
+          required: true
+          schema:
+              $ref: ../../definitions/participant_file.yml
+    responses:
+        201:
+            description: created
+            schema:
+                $ref: ../../definitions/participant_file.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml
+delete:
+    operationId: deleteParticipantFile
+    summary: Delete a participant file
+    tags:
+        - Participant Files
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    description: |
+        Delete a participant file
+    parameters:
+        - $ref: ../../index.yml#/parameters/fileId
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml
