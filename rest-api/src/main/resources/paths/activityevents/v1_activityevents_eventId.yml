@@ -1,0 +1,11 @@
+delete:
+    operationId: deleteCustomActivityEvent
+    description: Delete a custom activity event. The eventId must be defined in the app.
+    tags:
+        - Activity Events
+        - _For Consented Users
+    parameters:
+        - $ref: ../../index.yml#/parameters/eventId
+    responses:
+        201:
+            $ref: ../../responses/200_message.yml

@@ -20,7 +20,7 @@ properties:
     automaticCustomEvents:
         type: object
         description: |
-            Custom events that should be generated for participant upon enrollment. The key in this map is the eventKey, and the value is the offset after the enrollment event (eg, "P1D" for one day after enrollment, "P-2W" for 2 weeks before enrollment). Note that this API will automatically pre-pend "custom:" in front of the event key when generating the eventId (eg, eventKey "studyBurstStart" becomes event ID "custom:studyBurstStart").
+            Custom events that should be generated for participant upon enrollment. The key in this map is the eventId, and the value is the offset after the enrollment event (eg, "P1D" for one day after enrollment, "P-2W" for 2 weeks before enrollment). Note that this API will automatically pre-pend "custom:" in front of the event key when generating the eventId (eg, eventId "studyBurstStart" becomes event ID "custom:studyBurstStart").
         additionalProperties:
             type: string
         x-nullable: false
@@ -133,7 +133,7 @@ properties:
     activityEventKeys:
         type: array
         description: |
-            The enumerated activity event keys for timestamps that can be recorded for use when scheduling tasks. These are provided through the UI to prevent errors when creating schedules. These form a whitelist for custom activity events that may be recorded for a participant.
+            The enumerated activity event IDs for timestamps that can be recorded for use when scheduling tasks. These are provided through the UI to prevent errors when creating schedules. These form a whitelist for custom activity events that may be recorded for a participant.
         items:
             type: string
         x-nullable: false
