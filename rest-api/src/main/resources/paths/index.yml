@@ -492,6 +492,8 @@
 # Activity events
 /v1/activityevents:
     $ref: ./activityevents/v1_activityevents.yml
+/v1/activityevents/{eventId}:
+    $ref: ./activityevents/v1_activityevents_eventId.yml
 
 # External IDs v4
 /v4/externalids/{externalId}:
@@ -542,8 +544,12 @@
     $ref: ./studies/v5_studies_studyId_participants_userId_sendNotification.yml
 /v5/studies/{studyId}/participants/self/activityEvents:
     $ref: ./studies/v5_studies_studyId_participants_self_activityEvents.yml
+/v5/studies/{studyId}/participants/self/activityEvents/{eventId}:
+    $ref: ./studies/v5_studies_studyId_participants_self_activityEvents_eventId.yml
 /v5/studies/{studyId}/participants/{userId}/activityEvents:
     $ref: ./studies/v5_studies_studyId_participants_userId_activityEvents.yml
+/v5/studies/{studyId}/participants/{userId}/activityEvents/{eventId}:
+    $ref: ./studies/v5_studies_studyId_participants_userId_activityEvents_eventId.yml
 
 # Templates
 /v3/templates:

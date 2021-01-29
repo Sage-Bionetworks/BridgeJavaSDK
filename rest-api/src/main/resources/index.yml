@@ -34,6 +34,12 @@ parameters:
         required: false
         in: query
         type: boolean
+    eventId:
+        name: eventId
+        description: An activity event key
+        required: true
+        in: path
+        type: string
     externalId:
         name: externalId
         description: User's external ID
