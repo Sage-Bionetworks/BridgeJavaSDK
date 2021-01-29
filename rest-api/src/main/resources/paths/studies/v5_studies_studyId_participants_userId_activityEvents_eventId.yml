@@ -1,0 +1,20 @@
+delete:
+    operationId: deleteStudyParticipantActivityEvent
+    summary: Delete custom activity event for a study participant
+    tags:
+        - Study Participants
+        - _For Study Coordinators
+        - _For Researchers
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/eventId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml                

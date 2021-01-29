@@ -1,10 +1,10 @@
 description: Request object for creating a Custom Activity Event.
 type: object
 required:
-    - eventKey
+    - eventId
     - timestamp
 properties:
-    eventKey:
+    eventId:
         type: string
         description: identifier for the custom event
     timestamp:
