@@ -1,0 +1,21 @@
+description:
+    The JSON data for a non-time series participant data attribute.
+
+type: object
+required:
+    - data
+properties:
+    userId:
+        type: string
+        description: The userId of the participant data.
+    identifier:
+        type: string
+        description: The identifier of the participant data.
+    data:
+        type: string
+        description: A string containing the data to be saved for the participant data attribute.
+    type:
+        type: string
+        readOnly: true
+        description: "ParticipantData"
+        x-nullable: false
