@@ -1,0 +1,68 @@
+get:
+    operationId: getDataByIdentifierForAdminWorker
+    summary: Get participant data by identifier
+    description: Endpoint for worker or admin to get a participant data.
+    tags:
+        - _For Workers
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/appId
+        - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/identifier
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/participant_data.yml
+        401:
+            $ref: ../../responses/401.yml
+        404:
+            description: Account does not exist or app does not exist
+            $ref: ../../definitions/message.yml
+post:
+    operationId: saveDataForAdminWorker
+    summary: Save a participant data
+    description: Endpoint for worker or admin to save a participant data.
+    tags:
+        - _For Workers
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/appId
+        - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/identifier
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        404:
+            description: Account does not exist or app does not exist
+            $ref: ../../definitions/message.yml
+delete:
+    operationId: deleteDataForAdmin
+    summary: Delete a participant data
+    description: Endpoint for admin to delete a participnt data.
+    tags:
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/appId
+        - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/identifier
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        404:
+            description: Account does not exist or app does not exist
+            $ref: ../../definitions/message.yml
