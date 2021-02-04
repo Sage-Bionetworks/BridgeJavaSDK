@@ -1,0 +1,68 @@
+get:
+    operationId: getDataByIdentifierForSelf
+    summary: Get user's data based on the given identifier
+    description: |
+        Get the participant data record based on the given identifier. Participants can get reports for their own account.
+        Note that this call does require consent and authentication.
+    tags:
+        - Participant Data
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/identifier
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/participant_data.yml
+        401:
+            $ref: ../../responses/401.yml
+        404:
+            $ref: ../../definitions/message.yml
+post:
+    operationId: saveDataForSelf
+    summary: Save a participant data record
+    description: |
+        Save a participant record. If a record exists with the given identifier, it will be replaced with this record.
+        Note that this call requires consent and authentication.
+    tags:
+        - Users
+        - Participant Data
+        - _For Consented Users
+    security:
+        - BrigeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/identifier
+        - name: ParticipantData
+          required: true
+          in: body
+          schema:
+              $ref: ../../definitions/pariticpant_data.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+delete:
+    operationId: deleteDataByIdentifier
+    summary: delete a participant data record
+    tags:
+        - Users
+        - Participant Data
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/identifier
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        404:
+            $ref: ../../responses/400_message.yml
