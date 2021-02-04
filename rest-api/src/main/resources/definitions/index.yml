@@ -177,6 +177,8 @@ OAuthProvider:
     $ref: ./oauth_provider.yml
 Organization:
     $ref: ./organization.yml
+ParticipantData:
+    $ref: ./participant_data.yml
 ParticipantFile:
      $ref: ./participant_file.yml
 PasswordPolicy:
