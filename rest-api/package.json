@@ -5,7 +5,7 @@
   "main": "index.js",
   "engine": "node 10.15.3",
   "devDependencies": {
-    "swagger-cli": "2.2.1",
-    "minimist": ">=0.2.1"
+    "minimist": ">=0.2.1",
+    "swagger-cli": "2.2.1"
   }
 }
