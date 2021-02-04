@@ -2,16 +2,25 @@ get:
     operationId: getAllDataForSelf
     summary: Get list of identifiers for participant data
     tags:
+        - Users
         - Participant Data
         - _For Consented Users
-        #TODO Are the above correct? Modeling after v3_reports.yml
     security:
         - BridgeSecurity: []
-    #TODO are there parameters? they aren't 1:1 with controller's function params from what I can see
-    responses:
+    paramters:
+        - $ref: ../../index.yml#/parameters/offsetKey
+        - $ref: ../../index.yml#/parameters/pageSize
+
+   responses:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/paged_resources/string.yml #TODO bc I'm returning a RL<String>, right?
+                $ref: ../../definitions/paged_resources/string.yml
         401:
             $ref: ../../responses/401.yml
+        400:
+            $ref: ../../responses/400_message.yml
+        404:
+            description: page size must be from 5 - 100 records
+            schmema:
+                $ref: ../../definitions/message.yml
