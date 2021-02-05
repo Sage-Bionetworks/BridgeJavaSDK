@@ -21,7 +21,8 @@ get:
             $ref: ../../responses/401.yml
         404:
             description: Account does not exist or app does not exist
-            $ref: ../../definitions/message.yml
+            schema:
+                $ref: ../../definitions/message.yml
 delete:
     operationId: deleteAllParticipantDataForAdmin
     summary: Delete all participant data
@@ -42,4 +43,5 @@ delete:
             $ref: ../../responses/401.yml
         404:
             description: Account does not exist or app does not exist
-            $ref: ../../definitions/message.yml
+            schema:
+                $ref: ../../definitions/message.yml

@@ -20,7 +20,8 @@ get:
             $ref: ../../responses/401.yml
         404:
             description: Account does not exist or app does not exist
-            $ref: ../../definitions/message.yml
+            schema:
+                $ref: ../../definitions/message.yml
 post:
     operationId: saveDataForAdminWorker
     summary: Save a participant data
@@ -43,7 +44,8 @@ post:
             $ref: ../../responses/401.yml
         404:
             description: Account does not exist or app does not exist
-            $ref: ../../definitions/message.yml
+            schema:
+                $ref: ../../definitions/message.yml
 delete:
     operationId: deleteDataForAdmin
     summary: Delete a participant data
@@ -65,4 +67,5 @@ delete:
             $ref: ../../responses/401.yml
         404:
             description: Account does not exist or app does not exist
-            $ref: ../../definitions/message.yml
+            schema:
+                $ref: ../../definitions/message.yml

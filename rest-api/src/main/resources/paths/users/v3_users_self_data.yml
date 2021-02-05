@@ -7,11 +7,10 @@ get:
         - _For Consented Users
     security:
         - BridgeSecurity: []
-    paramters:
+    parameters:
         - $ref: ../../index.yml#/parameters/offsetKey
         - $ref: ../../index.yml#/parameters/pageSize
-
-   responses:
+    responses:
         200:
             description: OK
             schema:
@@ -22,5 +21,5 @@ get:
             $ref: ../../responses/400_message.yml
         404:
             description: page size must be from 5 - 100 records
-            schmema:
+            schema:
                 $ref: ../../definitions/message.yml
