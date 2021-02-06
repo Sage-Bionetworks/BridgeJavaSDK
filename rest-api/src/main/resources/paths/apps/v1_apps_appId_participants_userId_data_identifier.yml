@@ -18,10 +18,6 @@ get:
                 $ref: ../../definitions/participant_data.yml
         401:
             $ref: ../../responses/401.yml
-        404:
-            description: Account does not exist or app does not exist
-            schema:
-                $ref: ../../definitions/message.yml
 post:
     operationId: saveDataForAdminWorker
     summary: Save a participant data

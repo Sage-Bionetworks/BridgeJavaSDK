@@ -18,10 +18,6 @@ get:
                 $ref: ../../definitions/participant_data.yml
         401:
             $ref: ../../responses/401.yml
-        404:
-            description: Participant data does not exist
-            schema:
-                $ref: ../../definitions/message.yml
 post:
     operationId: saveDataForSelf
     summary: Save a participant data record
