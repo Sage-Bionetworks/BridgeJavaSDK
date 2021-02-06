@@ -31,6 +31,11 @@ post:
         - $ref: ../../index.yml#/parameters/appId
         - $ref: ../../index.yml#/parameters/userId
         - $ref: ../../index.yml#/parameters/identifier
+        - name: ParticipantData
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/participant_data.yml
     responses:
         200:
             description: OK
