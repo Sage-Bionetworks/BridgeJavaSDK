@@ -3,6 +3,7 @@ get:
     summary: Get list of identifiers for participant data
     description: Endpoint for worker or admin to get a list of participant data identifiers.
     tags:
+        - Participant Data
         - _For Workers
         - _For Admins
     security:
@@ -28,6 +29,7 @@ delete:
     summary: Delete all participant data
     description: Endpoint for admin to delete all participant data for the given participant.
     tags:
+        - Participant Data
         - _For Admins
     security:
         - BridgeSecurity: []
