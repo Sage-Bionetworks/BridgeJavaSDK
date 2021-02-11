@@ -12,7 +12,7 @@ properties:
         type: string
         description: The identifier of the participant data.
     data:
-        type: string
+        type: object
         description: A string containing the data to be saved for the participant data attribute.
     type:
         type: string
