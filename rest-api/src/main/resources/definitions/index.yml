@@ -339,6 +339,8 @@ ForwardCursorReportDataList:
     $ref: ./paged_resources/forward_cursor_report_data.yml
 OrganizationList:
     $ref: ./paged_resources/organization.yml
+ParticipantDataList:
+    $ref: ./paged_resources/partcipant_data.yml
 ParticipantFileList:
     $ref: ./paged_resources/participant_file.yml
 ReportIndexList:

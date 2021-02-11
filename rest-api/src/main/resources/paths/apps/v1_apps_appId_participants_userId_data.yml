@@ -17,7 +17,7 @@ get:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/paged_resources/string.yml
+                $ref: ../../definitions/paged_resources/participant_data.yml
         401:
             $ref: ../../responses/401.yml
         404:

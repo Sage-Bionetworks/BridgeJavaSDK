@@ -5,9 +5,6 @@ type: object
 required:
     - data
 properties:
-    userId:
-        type: string
-        description: The userId of the participant data.
     identifier:
         type: string
         description: The identifier of the participant data.
