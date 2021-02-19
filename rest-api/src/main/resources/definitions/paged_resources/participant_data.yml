@@ -1,0 +1,11 @@
+type: object
+readOnly: true
+allOf:
+    - $ref: ./forward_cursor_paged_resource_list.yml
+    - properties:
+        items:
+            type: array
+            readOnly: true
+            x-nullable: false
+            items:
+                $ref: ../participant_data.yml

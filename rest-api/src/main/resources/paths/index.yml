@@ -128,6 +128,10 @@
     $ref: ./apps/v1_apps_appId_oauth_vendorId.yml
 /v1/apps/{appId}/oauth/{vendorId}/{healthCode}:
     $ref: ./apps/v1_apps_appId_oauth_vendorId_healthCode.yml
+/v1/apps/{appId}/participants/{userId}/data:
+    $ref: ./apps/v1_apps_appId_participants_userId_data.yml
+/v1/apps/{appId}/participants/{userId}/data/{identifier}:
+    $ref: ./apps/v1_apps_appId_participants_userId_data_identifier.yml
 
 # Assessments
 /v1/assessments:
@@ -398,6 +402,10 @@
     $ref: ./users/v3_users_self_reports_identifier.yml
 /v4/users/self/reports/{identifier}:
     $ref: ./users/v4_users_self_reports_identifier.yml
+/v3/users/self/data:
+    $ref: ./users/v3_users_self_data.yml
+/v3/users/self/data/{identifier}:
+    $ref: ./users/v3_users_self_data_identifier.yml
 
 # Reports
 /v3/reports:

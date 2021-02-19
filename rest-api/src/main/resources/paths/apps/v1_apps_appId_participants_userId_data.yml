@@ -1,0 +1,49 @@
+get:
+    operationId: getAllDataForAdminWorker
+    summary: Get list of identifiers for participant data
+    description: Endpoint for worker or admin to get a list of participant data identifiers.
+    tags:
+        - Participant Data
+        - _For Workers
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/appId
+        - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/offsetKey
+        - $ref: ../../index.yml#/parameters/pageSize
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/paged_string.yml
+        401:
+            $ref: ../../responses/401.yml
+        404:
+            description: Account does not exist or app does not exist
+            schema:
+                $ref: ../../definitions/message.yml
+delete:
+    operationId: deleteAllParticipantDataForAdmin
+    summary: Delete all participant data
+    description: Endpoint for admin to delete all participant data for the given participant.
+    tags:
+        - Participant Data
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        -   $ref: ../../index.yml#/parameters/appId
+        -   $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        404:
+            description: Account does not exist or app does not exist
+            schema:
+                $ref: ../../definitions/message.yml

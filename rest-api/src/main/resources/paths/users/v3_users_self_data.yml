@@ -1,0 +1,25 @@
+get:
+    operationId: getAllDataForSelf
+    summary: Get list of identifiers for participant data
+    tags:
+        - Users
+        - Participant Data
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/offsetKey
+        - $ref: ../../index.yml#/parameters/pageSize
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/paged_string.yml
+        401:
+            $ref: ../../responses/401.yml
+        400:
+            $ref: ../../responses/400_message.yml
+        404:
+            description: page size must be from 5 - 100 records
+            schema:
+                $ref: ../../definitions/message.yml
