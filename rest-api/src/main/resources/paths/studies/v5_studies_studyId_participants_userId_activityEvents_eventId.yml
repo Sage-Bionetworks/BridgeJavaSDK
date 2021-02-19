@@ -3,6 +3,7 @@ delete:
     summary: Delete custom activity event for a study participant
     tags:
         - Study Participants
+        - Activity Events
         - _For Study Coordinators
         - _For Researchers
     parameters:

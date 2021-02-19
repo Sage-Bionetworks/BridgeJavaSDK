@@ -3,6 +3,7 @@ get:
     summary: Get activity events for the participants
     tags:
         - Study Participants
+        - Activity Events
         - _For Study Coordinators
         - _For Researchers
     parameters:
@@ -21,8 +22,9 @@ post:
     operationId: createStudyParticipantActivityEvent
     summary: Create a new activity event for a participant in this study.
     tags:
-        - Studies
+        - Study Participants
         - Activity Events
+        - _For Study Coordinators
         - _For Researchers
     security:
         - BridgeSecurity: []
