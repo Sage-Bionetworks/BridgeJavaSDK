@@ -14,6 +14,11 @@ properties:
         type: string
         description: The name of the study.
         x-nullable: false
+    clientData:
+        type: object
+        description: |
+            Client data for a study should be in a syntactically valid JSON format. It will be returned as is to the client (as JSON). It can contain any information that is useful to study authoring tools or administration tools that is not part of the Bridge data model.
+        additionalProperties: true
     deleted:
         type: boolean
         description: |
