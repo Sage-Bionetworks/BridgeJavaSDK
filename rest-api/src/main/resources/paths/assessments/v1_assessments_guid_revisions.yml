@@ -4,6 +4,7 @@ get:
     description: Records are paged and returned with the highest revision number first.
     tags:
         - _For Developers
+        - _For Study Designers
         - Assessments
     security:
         - BridgeSecurity: []

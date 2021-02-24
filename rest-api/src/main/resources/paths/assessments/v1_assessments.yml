@@ -4,6 +4,7 @@ get:
     description: This is a paged API that can be filtered by the categories and tags assigned to assessments. The most recent (highest) revision of each assessment is returned in the API.
     tags:
         - _For Developers
+        - _For Study Designers
         - Assessments
     security:
         - BridgeSecurity: []

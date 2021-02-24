@@ -4,6 +4,7 @@ get:
     description: A GUID uniquely identifies a specific assessment revision. 
     tags:
         - _For Developers
+        - _For Study Designers
         - Assessments
     security:
         - BridgeSecurity: []
