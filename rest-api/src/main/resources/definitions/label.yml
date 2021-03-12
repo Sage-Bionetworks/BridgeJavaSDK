@@ -1,0 +1,17 @@
+description: |
+    Payload returned with a 400 error when an entity submitted to the server is invalid.
+type: object
+properties:
+    lang:
+        type: string
+        description: A valid ISO 639 alpha-2 or alpha-3 language code specifying the language of the notification.
+        x-nullable: false
+    value:
+        type: string
+        description: The text of the label.
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "Label"
+        x-nullable: false

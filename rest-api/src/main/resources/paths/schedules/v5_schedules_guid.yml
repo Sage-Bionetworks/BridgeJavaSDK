@@ -1,0 +1,67 @@
+get:
+    operationId: getSchedule
+    summary: Get schedule (v2)
+    tags: 
+        - Schedules
+        - _For Study Coordinators
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+    description: Get a schedule by GUID (v2).
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/schedule2.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_developer.yml
+        410:
+            $ref: ../../responses/410.yml
+post:
+    operationId: updateSchedule
+    summary: Update a schedule (v2)
+    tags: 
+        - Schedules
+        - _For Study Coordinators
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+    description: Update an existing schedule and return the updated copy. Published or (logically) deleted schedules cannot be updated, however, a logical delete or undelete can be accomplished by updating the schedule.
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/schedule2.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_developer.yml
+        410:
+            $ref: ../../responses/410.yml
+delete:
+    operationId: deleteSchedule
+    summary: Delete a schedule (v2)
+    tags: 
+        - Schedules
+        - _For Study Coordinators
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+        - $ref: ../../index.yml#/parameters/physical
+    description: Delete an existing schedule. This is a logical delete unless the API is called by an admin with the physical parameter set to `true`.
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_developer.yml
+        410:
+            $ref: ../../responses/410.yml

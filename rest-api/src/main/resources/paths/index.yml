@@ -455,6 +455,14 @@
 /v4/schedules:
     $ref: ./schedules/v4_schedules.yml
 
+# Schedules v2
+/v5/schedules:
+    $ref: ./schedules/v5_schedules.yml
+/v5/schedules/{guid}:
+    $ref: ./schedules/v5_schedules_guid.yml
+/v5/schedules/{guid}/publish:
+    $ref: ./schedules/v5_schedules_guid_publish.yml
+
 # Uploads
 /v3/uploads:
     $ref: ./uploads/v3_uploads.yml

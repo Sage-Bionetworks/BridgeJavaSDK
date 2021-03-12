@@ -1,0 +1,71 @@
+description: |
+    A design-time representation of a schedule for participants to perform (for the v2 of our scheduling API).
+type: object
+required:
+    - name
+    - duration
+properties:
+    ownerId:
+        type: string
+        description: |
+            The identifier of the organization that owns this schedule. 
+        x-nullable: false
+    name:
+        type: string
+        description: The name of the schedule as shown to a study designer.
+        x-nullable: false
+    guid:
+        type: string
+        description: The unique identifier for this model.
+        x-nullable: false
+    duration:
+        type: string
+        description: |
+            The length of time this schedule will run for. Only minute, hour, day, and week values are allowed (although these can be mixed).
+        format: iso8601
+        example: P52W
+        x-nullable: false
+    published:
+        type: boolean
+        description: |
+            Has this schedule been published? Mo further changes can be made to the schedule after publication.
+        x-nullable: false
+    deleted:
+        type: boolean
+        description: |
+            Has this schedule been logically deleted? An admin can restore it.
+        x-nullable: false
+    clientData:
+        type: object
+        description: |
+            Client data for a schedule should be in a syntactically valid JSON format. It will be returned as is to the client (as JSON). It can contain any information that is useful to authoring tools or administration tools that is not part of the Bridge data model.
+        additionalProperties: true
+    sessions:
+        type: array
+        description: An ordered collection of sessions.
+        items:
+            $ref: ./session.yml
+        x-nullable: false
+    createdOn:
+        type: string
+        format: date-time
+        readOnly: true
+        description: The date and time the schedule was created.
+        x-nullable: false
+    modifiedOn:
+        type: string
+        format: date-time
+        readOnly: true
+        description: The date and time the schedule was last modified.
+        x-nullable: false
+    version:
+        type: integer
+        format: int64
+        description: |
+            The optimistic locking version of the schedule. This value must be submitted as part of the next update of the model. If it does not match the value on the server, a 409 error (Conflict) will prevent the update from occurring. It can also serve as a key to determine if a local cache of this model is out-of-date.
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "Schedule"
+        x-nullable: false    

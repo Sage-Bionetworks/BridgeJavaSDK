@@ -1,8 +1,8 @@
 get:
-    operationId: getSchedules
-    summary: Get schedules for user
+    operationId: getSchedulesV1
+    summary: Get schedules (v1) for user
     tags: 
-        - Schedules
+        - Schedules v1
         - _For Consented Users
     security:
         -   BridgeSecurity: []

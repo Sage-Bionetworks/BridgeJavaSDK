@@ -1,0 +1,31 @@
+description: |
+    A group of activities to be performed together in a study by a participant. The session can describe a repeating sequence that can repeat up to the length of a schedule.
+type: object
+required:
+    - startTime
+properties:
+    guid:
+        type: string
+        description: The unique identifier for this model.
+        x-nullable: false
+    startTime:
+        type: string
+        format: time
+        description: |
+            The start time in a local time format (HH:MM), to be interpreted in the participant’s current time zone.
+        x-nullable: false
+    expiration:
+        type: string
+        description: |
+            After the start time, how long until this assessment should no longer be available to the participant to peform? This value can be longer than a day, but only minute, hour, day, and week values are allowed (although these can be mixed).
+        format: iso8601
+        example: P7D
+    persistent:
+        type: boolean
+        description: Is this time window persistent? If true, then this assessment should remain available for the participant to perform more than once.
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "TimeWindow"
+        x-nullable: false

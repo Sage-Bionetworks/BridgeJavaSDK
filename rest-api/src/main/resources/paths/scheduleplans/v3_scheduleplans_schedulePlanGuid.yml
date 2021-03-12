@@ -2,7 +2,7 @@ get:
     operationId: getSchedulePlan
     summary: Get a schedule plan
     tags: 
-        - Schedules
+        - Schedules v1
         - _For Developers
         - _For Admins
     security:
@@ -22,7 +22,7 @@ post:
     operationId: updateSchedulePlan
     summary: Update a schedule plan
     tags: 
-        - Schedules
+        - Schedules v1
         - _For Developers
     security:
         - BridgeSecurity: []
@@ -46,7 +46,7 @@ delete:
     operationId: deleteSchedulePlan
     summary: Get a schedule plan
     tags: 
-        - Schedules
+        - Schedules v1
         - _For Developers
         - _For Admins
     security:

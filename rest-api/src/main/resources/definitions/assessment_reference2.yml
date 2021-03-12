@@ -1,0 +1,38 @@
+type: object
+description: |
+    A pointer to an assessment revision.
+required:
+    - appId
+    - guid
+properties:
+    appId:
+        type: string
+        description: Schedules can refer to assessments in the shared library (appId = shared) or in their own local assessment library (appId will be the appId of the app in which the study is running).
+        x-nullable: false
+    guid:
+        type: string
+        description: The assessment revision guid
+        x-nullable: false
+    title:
+        type: string
+        description: A title for this assessment to show to schedule authors
+    identifier:
+        type: string
+        readOnly: true
+        description: The identifier of the assessment (which stays the same regardless of the revision or GUID of the assessment).
+        x-nullable: false
+    minutesToComplete:
+        type: integer
+        format: int32 
+        description: The number of minutes it takes for a participant to complete this assessment.
+    labels:
+        type: array
+        description: A collection of labels for this assessment. Only one label can be included for each language, and if the user’s language cannot be selected, English will be selected instead. If an English label does not exist in the list of labels, then the assessment title will be used as a label.
+        items:
+            $ref: ./label.yml
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "AssessmentReference"
+        x-nullable: false

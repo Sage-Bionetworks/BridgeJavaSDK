@@ -1,0 +1,83 @@
+description: |
+    A group of activities to be performed together in a study by a participant. The session can describe a repeating sequence that can repeat up to the length of a schedule.
+type: object
+required:
+    - name
+    - startEventId
+    - performanceOrder
+properties:
+    guid:
+        type: string
+        description: The unique identifier for this model.
+        x-nullable: false
+    name:
+        type: string
+        description: A required name for this session that will be shown to schedule authors, and can be used as a label for participants if no label can be found.
+        x-nullable: false
+    labels:
+        type: array
+        description: A collection of labels for this schedule. Only one label can be included for each language, and if the user’s language cannot be selected, English will be selected instead. If an English label does not exist in the list of labels, then the schedule name will be used as a label.
+        items:
+            $ref: ./label.yml
+        x-nullable: false
+    startEventId:
+        x-nullable: false
+    delay:
+        type: string
+        description: |
+            A period of time after the start event before the session should appear in the schedule. Only minute, hour, day, and week values are allowed (although these can be mixed).
+        format: iso8601
+        example: P7D
+    interval:
+        type: string
+        description: |
+            After the start time of the first session, a period of time before the session should be performed again. Only minute, hour, day, and week values are allowed (although these can be mixed).
+        format: iso8601
+        example: P7D
+    occurrences:
+        type: integer
+        format: int32
+        description: If the session has an interval, the user should perform the session until the end of the schedule’s duration, unless a smaller number of repetitions is specified via `occurrences`.
+    performanceOrder:
+        $ref: ./enums/performance_order.yml
+        x-nullable: false
+    timeWindows:
+        type: array
+        description: A collection of time windows.
+        items:
+            $ref: ./time_window.yml
+        x-nullable: false
+    assessments:
+        type: array
+        description: A collection of assessment references. When creating a schedule, information from an assessment can be used to populate these reference objects, or they can be filled out by the study designer.
+        items:
+            $ref: ./assessment_reference2.yml
+        x-nullable: false
+    notifyAt:
+        $ref: ./enums/notification_type.yml
+        x-nullable: false
+    remindAt:
+        $ref: ./enums/reminder_type.yml
+        x-nullable: false
+    remindPeriod:
+        type: string
+        description: |
+            The time after a window starts or before it ends (based on the `remindAt` property) when a reminder should be issued to the client. Only minute, hour, day, and week values are allowed (although these can be mixed).
+        format: iso8601
+        example: PT10M
+    allowSnooze:
+        type: boolean
+        description: |
+            Allow the participant to “snooze” a notification or reminder (dismiss it with some amount of time before it occurs again). Cannot be true if notifyAt is null.
+        default: false
+    messages:
+        type: array
+        description: The message to use for a local notification and reminder, if these have been specified.
+        items:
+            $ref: ./notification_message.yml
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "Session"
+        x-nullable: false
