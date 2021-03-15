@@ -6,6 +6,7 @@ get:
         - _For Developers
         - _For Researchers
         - _For Study Coordinators
+        - _For Study Designers
         - _For Org Admins
         - _For Admins
     security:
@@ -29,6 +30,7 @@ post:
     tags:
         - Studies
         - _For Study Coordinators
+        - _For Study Designers
         - _For Developers
     security:
         - BridgeSecurity: []
