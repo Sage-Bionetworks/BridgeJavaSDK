@@ -3,6 +3,7 @@ get:
     summary: Get an assessment external resource description
     tags: 
         - _For Developers
+        - _For Study Designers
         - Assessments
     security:
         - BridgeSecurity: []

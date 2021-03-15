@@ -4,6 +4,7 @@ get:
     tags:
         - Study Participants
         - _For Study Coordinators
+        - _For Study Designers
         - _For Researchers
     security:
         - BridgeSecurity: []

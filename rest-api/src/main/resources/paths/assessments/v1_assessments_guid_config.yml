@@ -3,6 +3,8 @@ get:
     summary: Get the JSON config for this assessment
     tags: 
         - Assessments
+        - _For Developers
+        - _For Study Designers
     security:
         - BridgeSecurity: []
     parameters:

@@ -4,6 +4,7 @@ get:
     description: This revision is one with the “latest” (highest) revision number, using the assessment’s identifier.
     tags:
         - _For Developers
+        - _For Study Designers
         - Assessments
     security:
         - BridgeSecurity: []

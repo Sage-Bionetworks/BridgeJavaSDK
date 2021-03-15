@@ -3,6 +3,7 @@ get:
     summary: Get an assessment revision by identifier and revision number.
     tags:
         - _For Developers
+        - _For Study Designers
         - Assessments
     security:
         - BridgeSecurity: []
