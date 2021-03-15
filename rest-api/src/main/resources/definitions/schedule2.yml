@@ -21,8 +21,8 @@ properties:
     duration:
         type: string
         description: |
-            The length of time this schedule will run for. Only minute, hour, day, and week values are allowed (although these can be mixed).
-        format: iso8601
+            The length of time this schedule will run for. Only day and week values are allowed (although these can be mixed).
+        format: ISO 8601 Duration
         example: P52W
         x-nullable: false
     published:
@@ -62,7 +62,7 @@ properties:
         type: integer
         format: int64
         description: |
-            The optimistic locking version of the schedule. This value must be submitted as part of the next update of the model. If it does not match the value on the server, a 409 error (Conflict) will prevent the update from occurring. It can also serve as a key to determine if a local cache of this model is out-of-date.
+            The optimistic locking version of the schedule. This value must be submitted as part of the next update of the model. If it does not match the value on the server, a 409 error (Conflict) will prevent the update from occurring.
         x-nullable: false
     type:
         type: string

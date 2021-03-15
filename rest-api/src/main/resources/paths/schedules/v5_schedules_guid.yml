@@ -1,8 +1,8 @@
 get:
     operationId: getSchedule
-    summary: Get schedule (v2)
+    summary: Get schedule
     tags: 
-        - Schedules
+        - Schedules (v2)
         - _For Study Coordinators
     security:
         -   BridgeSecurity: []
@@ -22,15 +22,15 @@ get:
             $ref: ../../responses/410.yml
 post:
     operationId: updateSchedule
-    summary: Update a schedule (v2)
+    summary: Update a schedule
     tags: 
-        - Schedules
+        - Schedules (v2)
         - _For Study Coordinators
     security:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/guid
-    description: Update an existing schedule and return the updated copy. Published or (logically) deleted schedules cannot be updated, however, a logical delete or undelete can be accomplished by updating the schedule.
+    description: Update an existing schedule and return the updated copy. Published or (logically) deleted schedules cannot be updated, however, the schedule can be logically deleted or undeleted by updating the schedule’s `deleted` property.
     responses:
         200:
             description: OK
@@ -44,9 +44,9 @@ post:
             $ref: ../../responses/410.yml
 delete:
     operationId: deleteSchedule
-    summary: Delete a schedule (v2)
+    summary: Delete a schedule
     tags: 
-        - Schedules
+        - Schedules (v2)
         - _For Study Coordinators
     security:
         - BridgeSecurity: []
@@ -63,5 +63,3 @@ delete:
             $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_study_coordinator_developer.yml
-        410:
-            $ref: ../../responses/410.yml

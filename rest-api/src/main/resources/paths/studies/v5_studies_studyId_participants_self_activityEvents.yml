@@ -21,6 +21,7 @@ get:
 post:
     operationId: createActivityEventForSelf
     summary: Create a new activity event for the caller in this study.
+    description: Create a new activity event for the caller in this study. A 201 is returned whether the event updates or not, to support concurrent and out-of-order POSTs from the client.
     tags:
         - Studies
         - Activity Events

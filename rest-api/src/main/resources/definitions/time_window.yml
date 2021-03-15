@@ -17,12 +17,12 @@ properties:
     expiration:
         type: string
         description: |
-            After the start time, how long until this assessment should no longer be available to the participant to peform? This value can be longer than a day, but only minute, hour, day, and week values are allowed (although these can be mixed).
-        format: iso8601
+            After the start time, how long until this assessment should no longer be available to the participant to peform? This value can be longer than a day, but only minute, hour, day, and week values are allowed (although these can be mixed). The expiration period of a time window cannot be longer in duration than the interval of the session itself.
+        format: ISO 8601 Duration
         example: P7D
     persistent:
         type: boolean
-        description: Is this time window persistent? If true, then this assessment should remain available for the participant to perform more than once.
+        description: Is this time window persistent? If true, then this assessment should remain available for the participant to perform more than once until the window expires.
         x-nullable: false
     type:
         type: string

@@ -4,7 +4,7 @@ type: object
 properties:
     lang:
         type: string
-        description: A valid ISO 639 alpha-2 or alpha-3 language code specifying the language of the notification.
+        description: A valid ISO 639 alpha-2 or alpha-3 language code specifying the language of the label.
         x-nullable: false
     value:
         type: string

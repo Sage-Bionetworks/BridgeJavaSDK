@@ -13,7 +13,7 @@ get:
 post:
     operationId: createCustomActivityEvent
     summary: Create an app-scoped activity event for the current user
-    description: Create an app-scoped activity event for the current user. The eventId must be defined in the app.
+    description: Create an app-scoped activity event for the current user. The eventId must be defined in the app. A 201 is returned whether the event updates or not, to support concurrent and out-of-order POSTs from the client.
     tags:
         - Activity Events
         - _For Consented Users

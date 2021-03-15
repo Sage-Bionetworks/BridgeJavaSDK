@@ -16,31 +16,33 @@ properties:
         x-nullable: false
     labels:
         type: array
-        description: A collection of labels for this schedule. Only one label can be included for each language, and if the user’s language cannot be selected, English will be selected instead. If an English label does not exist in the list of labels, then the schedule name will be used as a label.
+        description: A collection of labels for this schedule. Only one label can be included for a given language. The system will first try and select the participant’s preferred languages (from most to least preferred), then it will select an English (“en”) language default message. If an English label does not exist in the list of labels, then the schedule name will be used as a label.
         items:
             $ref: ./label.yml
         x-nullable: false
     startEventId:
         x-nullable: false
+        description: An identifier for the event which should be used to schedule this sequence of sessions. The identifier may be mapped to a timestamp for a user. If the event ID does not exist for the user, the client should ignore this session and schedule nothing. If the event ID exists, the client should start with that timestamp and schedule forward in time according to the information in the session and its schedule.
     delay:
         type: string
         description: |
-            A period of time after the start event before the session should appear in the schedule. Only minute, hour, day, and week values are allowed (although these can be mixed).
-        format: iso8601
+            A period of time after the start event timestamp before the session should be presented to the participant. Only minute, hour, day, and week values are allowed (although these can be mixed).
+        format: ISO 8601 Duration
         example: P7D
     interval:
         type: string
         description: |
-            After the start time of the first session, a period of time before the session should be performed again. Only minute, hour, day, and week values are allowed (although these can be mixed).
-        format: iso8601
+            After the start time of the first session (which is measured from an event timestamp plus the delay period), a period of time before the session should be presented to the participant again. Note that this interval is separate from the time window start and expiration. Only day and week values are allowed (although these can be mixed). The expiration period of a time window cannot be longer in duration than the interval of the session itself.
+        format: ISO 8601 Duration
         example: P7D
     occurrences:
         type: integer
         format: int32
-        description: If the session has an interval, the user should perform the session until the end of the schedule’s duration, unless a smaller number of repetitions is specified via `occurrences`.
+        description: If the session has an interval, the user should perform the session until the end of the schedule’s duration, *unless* a smaller number of repetitions is specified via `occurrences`.
     performanceOrder:
         $ref: ./enums/performance_order.yml
         x-nullable: false
+        description: The assessments in a session can be presented in a fixed and sequential order, in a randomized order the participant cannot choose, or the participant may be allowed to pick and choose the assessments to do them in an order of their choosing.
     timeWindows:
         type: array
         description: A collection of time windows.
@@ -49,30 +51,32 @@ properties:
         x-nullable: false
     assessments:
         type: array
-        description: A collection of assessment references. When creating a schedule, information from an assessment can be used to populate these reference objects, or they can be filled out by the study designer.
+        description: A collection of assessment references. When creating a schedule, default values from an assessment can be used to populate these reference objects, which can then be changed by the study designer. *Therefore if an assessment is changed, the values will not be updated in the schedule.*
         items:
             $ref: ./assessment_reference2.yml
         x-nullable: false
     notifyAt:
         $ref: ./enums/notification_type.yml
         x-nullable: false
+        description: If a notification should be show to the participant every time a time window starts, when relative to the window should it be displayed to the user? If null, no notification should be shown.
     remindAt:
         $ref: ./enums/reminder_type.yml
         x-nullable: false
-    remindPeriod:
+        description: If a second notification (a reminder) should be show to the participant every time a time window starts, when relative to the window should it occur? This value works with `reminderPeriod` to determine the time. If null, no reminder should be shown.
+    reminderPeriod:
         type: string
         description: |
             The time after a window starts or before it ends (based on the `remindAt` property) when a reminder should be issued to the client. Only minute, hour, day, and week values are allowed (although these can be mixed).
-        format: iso8601
+        format: ISO 8601 Duration
         example: PT10M
     allowSnooze:
         type: boolean
         description: |
-            Allow the participant to “snooze” a notification or reminder (dismiss it with some amount of time before it occurs again). Cannot be true if notifyAt is null.
+            Allow the participant to “snooze” a notification or reminder (dismiss it with some amount of time before it occurs again). Cannot be true if `notifyAt` is null.
         default: false
     messages:
         type: array
-        description: The message to use for a local notification and reminder, if these have been specified.
+        description: The message to use for a notification and reminder, if these have been specified. Whether these are enabled or not, notification messages will be validated. Only one message can be included for a given language. The system will first try and select the participant’s preferred languages (from most to least preferred), then it will select an English (“en”) language default message. An English language default message *must* be provided because there is no other reasonable fallback value.
         items:
             $ref: ./notification_message.yml
         x-nullable: false

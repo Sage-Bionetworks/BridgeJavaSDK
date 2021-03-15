@@ -1,8 +1,8 @@
 get:
     operationId: getSchedules
-    summary: Get schedules (v2)
+    summary: Get schedules
     tags: 
-        - Schedules
+        - Schedules (v2)
         - _For Study Coordinators
     security:
         -   BridgeSecurity: []
@@ -10,7 +10,7 @@ get:
         - $ref: ../../index.yml#/parameters/offsetBy
         - $ref: ../../index.yml#/parameters/pageSize
         - $ref: ../../index.yml#/parameters/includeDeleted
-    description: Get schedules (v2) owned by the caller’s organization, or all schedules in the app for a developer or admin making the call. Results are returned paginated and can be filtered to include or exclude deleted schedules.
+    description: Get schedules owned by the caller’s organization, or all schedules in the app for a developer or admin making the call. Results are returned paginated and can be filtered to include or exclude deleted schedules.
     responses:
         200:
             description: OK
@@ -20,13 +20,11 @@ get:
             $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_study_coordinator_developer.yml
-        410:
-            $ref: ../../responses/410.yml
 post:
     operationId: createSchedule
-    summary: Create a schedule (v2)
+    summary: Create a schedule
     tags: 
-        - Schedules
+        - Schedules (v2)
         - _For Study Coordinators
     security:
         - BridgeSecurity: []
@@ -40,5 +38,3 @@ post:
             $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_study_coordinator_developer.yml
-        410:
-            $ref: ../../responses/410.yml

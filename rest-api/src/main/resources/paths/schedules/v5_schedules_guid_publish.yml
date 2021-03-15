@@ -1,8 +1,8 @@
 post:
     operationId: publishSchedule
-    summary: Publish a schedule (v2)
+    summary: Publish a schedule
     tags: 
-        - Schedules
+        - Schedules (v2)
         - _For Study Coordinators
     security:
         - BridgeSecurity: []
@@ -13,10 +13,8 @@ post:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/schedule2.yml
+                $ref: ../../definitions/message.yml
         401:
             $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_study_coordinator_developer.yml
-        410:
-            $ref: ../../responses/410.yml
