@@ -1,0 +1,24 @@
+type: object
+description: Colors to differentiate this assessment in a UI.
+properties:
+    foreground:
+        type: string
+        format: hex color triplet (#CCC or #CCCCCC)
+        readOnly: false
+    background:
+        type: string
+        format: hex color triplet (#CCC or #CCCCCC)
+        readOnly: false
+    activated:
+        type: string
+        format: hex color triplet (#CCC or #CCCCCC)
+        readOnly: false
+    inactivated:
+        type: string
+        format: hex color triplet (#CCC or #CCCCCC)
+        readOnly: false
+    type:
+        type: string
+        readOnly: true
+        description: "ColorScheme"
+        x-nullable: false

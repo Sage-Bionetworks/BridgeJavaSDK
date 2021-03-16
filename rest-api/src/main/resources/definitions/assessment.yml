@@ -30,7 +30,16 @@ properties:
         x-nullable: false
     title:
         type: string
+        description: A name for the assessment that is shown to study designers, but not to study participants if there are labels that can be shown instead.
         x-nullable: false
+    labels:
+        type: array
+        description: A collection of labels for this assessment. Only one label can be included for each language, and if the user’s language cannot be selected, English will be selected as a default. If an English label does not exist, then the assessment title can be used instead.
+        items:
+            $ref: ./label.yml
+        x-nullable: false
+    colorScheme:
+        $ref: ./color_scheme.yml
     summary:
         type: string
     osName:
