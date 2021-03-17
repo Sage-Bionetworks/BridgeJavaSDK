@@ -4,12 +4,10 @@ properties:
     lang:
         type: string
         description: A valid ISO 639 alpha-2 or alpha-3 language code specifying the language of the notification.
-        readOnly: false
         x-nullable: false
     value:
         type: string
         description: The text of the label.
-        readOnly: false
         x-nullable: false
     type:
         type: string

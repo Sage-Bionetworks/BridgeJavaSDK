@@ -3,20 +3,16 @@ description: Colors to differentiate this assessment in a UI.
 properties:
     foreground:
         type: string
-        format: hex color triplet (#CCC or #CCCCCC)
-        readOnly: false
+        description: A color value (in hex color triplet  or #CCCCCC format) for text, icon, line, border and/or outline colors.
     background:
         type: string
-        format: hex color triplet (#CCC or #CCCCCC)
-        readOnly: false
+        description: A color value (in hex color triplet  or #CCCCCC format) for a background color.
     activated:
         type: string
-        format: hex color triplet (#CCC or #CCCCCC)
-        readOnly: false
+        description: A color value (in hex color triplet  or #CCCCCC format) for enabled, active, hover, focus, and/or completed colors.
     inactivated:
         type: string
-        format: hex color triplet (#CCC or #CCCCCC)
-        readOnly: false
+        description: A color value (in hex color triplet  or #CCCCCC format) for disabled, inactive, and/or incomplete colors.
     type:
         type: string
         readOnly: true
