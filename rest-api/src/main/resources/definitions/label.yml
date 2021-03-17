@@ -1,6 +1,5 @@
-description: |
-    Payload returned with a 400 error when an entity submitted to the server is invalid.
 type: object
+description: A localizable string value to show study participants.
 properties:
     lang:
         type: string
