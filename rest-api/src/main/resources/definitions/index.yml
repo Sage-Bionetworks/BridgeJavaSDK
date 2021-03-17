@@ -91,6 +91,8 @@ ClientInfo:
     $ref: ./client_info.yml
 CmsPublicKey:
     $ref: ./cms_public_key.yml
+ColorScheme:
+    $ref: ./color_scheme.yml
 CompoundActivity:
     $ref: ./compound_activity.yml
 CompoundActivityDefinition:
@@ -159,6 +161,8 @@ IntentToParticipate:
     $ref: ./intent_to_participate.yml
 InvalidEntity:
     $ref: ./invalid_entity.yml
+Label:
+    $ref: ./label.yml
 MasterSchedulerConfig:
     $ref: ./master_scheduler_config.yml
 Message:
