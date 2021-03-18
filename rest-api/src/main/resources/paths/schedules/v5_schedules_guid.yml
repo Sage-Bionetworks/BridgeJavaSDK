@@ -30,12 +30,19 @@ post:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/guid
+        - name: Schedule
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/schedule2.yml
     description: Update an existing schedule and return the updated copy. Published or (logically) deleted schedules cannot be updated, however, the schedule can be logically deleted or undeleted by updating the schedule’s `deleted` property.
     responses:
         200:
             description: OK
             schema:
                 $ref: ../../definitions/schedule2.yml
+        400:
+            $ref: ../../responses/400_published_entity.yml
         401:
             $ref: ../../responses/401.yml
         403:

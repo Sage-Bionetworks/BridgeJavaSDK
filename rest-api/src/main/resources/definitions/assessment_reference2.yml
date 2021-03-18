@@ -18,7 +18,6 @@ properties:
         description: A title for this assessment to show to study designers.
     identifier:
         type: string
-        readOnly: true
         description: The identifier of the assessment (which stays the same regardless of the revision or GUID of the assessment). This token can be used, for example, to load an icon for the assessment from an app binary.
         x-nullable: false
     minutesToComplete:
@@ -31,6 +30,8 @@ properties:
         items:
             $ref: ./label.yml
         x-nullable: false
+    colorScheme:
+        $ref: ./color_scheme.yml
     type:
         type: string
         readOnly: true
