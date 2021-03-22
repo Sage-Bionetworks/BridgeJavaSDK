@@ -1,6 +1,6 @@
 get:
     operationId: getAssessmentConfig
-    summary: Get the JSON config for this assessment
+    summary: Get the JSON config for this assessment.
     tags: 
         - Assessments
         - _For Developers
@@ -18,7 +18,7 @@ get:
             $ref: ../../responses/401.yml
 post:
     operationId: updateAssessmentConfig
-    summary: Update the JSON config for this assessment
+    summary: Update the JSON config for this assessment.
     tags: 
         - Assessments
         - _For Developers
