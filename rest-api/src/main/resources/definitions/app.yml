@@ -19,9 +19,9 @@ properties:
         x-nullable: false
     customEvents:
         type: object
-        description: Define one or more custom activity events that the client can send to the server, which can be used for scheduling. The key in this map is the eventId, and the value is an enumerated type of update behavior that is allowed for this specific key. Note that this API will automatically pre-pend "custom:" in front of the event key when generating the eventId (eg, eventId "studyBurstStart" becomes event ID "custom:studyBurstStart").
+        description: Define one or more custom activity events that the client can send to the server, which can be used for scheduling. The key in this map is the eventId, and the value is an enumerated type of update behavior that is allowed for this specific key.
         additionalProperties:
-            $ref: ./enums/activity_event_update_type.yml
+            $ref: ../enums/activity_event_update_type.yml
         x-nullable: false
     automaticCustomEvents:
         type: object
@@ -133,6 +133,13 @@ properties:
         type: array
         description: |
             An enumerated list of **unique** strings that can be used to identify tasks when creating schedules. These mostly serve to prevent typos when designing schedules, which would prevent client scheduling from working. There's no hard limit on the string content (e.g. "Tapping Test" is fine as a task identifier, as long as it uniquely identifies a task known to the application).
+        items:
+            type: string
+        x-nullable: false
+    activityEventKeys:
+        type: array
+        description: |
+            The enumerated activity event IDs for timestamps that can be recorded for use when scheduling tasks. These are provided through the UI to prevent errors when creating schedules. These form a whitelist for custom activity events that may be recorded for a participant.
         items:
             type: string
         x-nullable: false
