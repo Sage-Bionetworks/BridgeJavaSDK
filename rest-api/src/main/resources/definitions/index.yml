@@ -2,6 +2,8 @@ SharingScope:
     $ref: ./enums/sharing_scope.yml
 AccountStatus:
     $ref: ./enums/account_status.yml
+ActivityEventUpdateType:
+    $ref: ./enums/activity_event_update_type.yml
 CountryCode:
     $ref: ./enums/country_code.yml
 DataType:

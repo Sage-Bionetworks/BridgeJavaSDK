@@ -1,0 +1,13 @@
+type: string
+description: |
+    The type of update that is allowed on a type of event ID.
+
+    |Type|Description|
+    |---|---|
+    |mutable|The event can be updated or deleted.|
+    |immutable|After the event is created, it cannot be deleted or updated with a new timestamp value.|
+    |future_only|After the event is created, it can only be updated if the new timestamp is later in time than the currently stored timestamp. It cannot be deleted.|
+enum:
+    - mutable
+    - immutable
+    - future_only
