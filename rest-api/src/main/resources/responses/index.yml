@@ -8,6 +8,8 @@
      $ref: ./302_found.yml    
 400:
     $ref: ./400_invalid_entity.yml
+400_published_entity:
+    $ref: ./400_published_entity.yml
 400_message:
     $ref: ./400_message.yml
 401:

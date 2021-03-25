@@ -1,0 +1,22 @@
+post:
+    operationId: publishSchedule
+    summary: Publish a schedule
+    tags: 
+        - Schedules (v2)
+        - _For Study Coordinators
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/guid
+    description: Publish a schedule. At that point, the schedule can no longer be updated with changes. A schedule should be published before it is used in a study that begins enrolling study participants.
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        400:
+            $ref: ../../responses/400_published_entity.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_developer.yml

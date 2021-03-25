@@ -1,0 +1,13 @@
+type: string
+description: |
+    The order in which the assessments of a session should be performed.
+
+    |Status|Description|
+    |---|---|
+    |participant_choice|The participant can perform the assessments in any order.|
+    |sequential|The participant must perform the assessments in the order they are specified in the session.|
+    |randomized|The assessments should be presented to the user in a randomized order.|
+enum:
+    - participant_choice
+    - sequential
+    - randomized

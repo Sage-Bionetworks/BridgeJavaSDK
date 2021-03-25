@@ -1,0 +1,11 @@
+type: string
+description: |
+    If the app should issue a second reminder notification, when should this reminder be issued?
+
+    |Status|Description|
+    |---|---|
+    |after_window_start|Issue the reminder `reminderPeriod` after the window starts|
+    |before_window_end|Issue the reminder `reminderPeriod` before the window ends|
+enum:
+    - after_window_start
+    - before_window_end

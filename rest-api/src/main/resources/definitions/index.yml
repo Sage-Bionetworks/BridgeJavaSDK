@@ -16,6 +16,12 @@ FileRevisionStatus:
     $ref: ./enums/file_revision_status.yml
 NotificationProtocol:
     $ref: ./enums/notification_protocol.yml
+NotificationType:
+    $ref: ./enums/notification_type.yml
+PerformanceOrder:
+    $ref: ./enums/performance_order.yml
+ReminderType:
+    $ref: ./enums/reminder_type.yml
 ScheduleType:
     $ref: ./enums/schedule_type.yml
 SmsType:
@@ -89,6 +95,8 @@ AssessmentConfig:
     $ref: ./assessment_config.yml
 AssessmentReference:
     $ref: ./assessment_reference.yml
+AssessmentReference2:
+    $ref: ./assessment_reference2.yml
 ClientInfo:
     $ref: ./client_info.yml
 CmsPublicKey:
@@ -211,6 +219,8 @@ RequestParams:
     $ref: ./request_params.yml
 Schedule:
     $ref: ./schedule.yml
+Schedule2:
+    $ref: ./schedule2.yml
 ScheduleCriteria:
     $ref: ./schedule_criteria.yml
 SchedulePlan:
@@ -221,6 +231,8 @@ ScheduledActivity:
     $ref: ./scheduled_activity.yml
 SchemaReference:
     $ref: ./schema_reference.yml
+Session:
+    $ref: ./session.yml
 SharedModuleImportStatus:
     $ref: ./shared_module_import_status.yml
 SharedModuleMetadata:
@@ -269,6 +281,8 @@ Template:
     $ref: ./template.yml
 TemplateRevision:
     $ref: ./template_revision.yml
+TimeWindow:
+    $ref: ./time_window.yml
 DateTimeHolder:
     $ref: ./date_time_holder.yml
 Upload:
@@ -353,6 +367,8 @@ ReportIndexList:
     $ref: ./paged_resources/report_index.yml
 ScheduleList:
     $ref: ./paged_resources/schedule.yml
+Schedule2List:
+    $ref: ./paged_resources/schedule2.yml
 ScheduledActivityList:
     $ref: ./paged_resources/scheduled_activity.yml
 ScheduledActivityListV4:

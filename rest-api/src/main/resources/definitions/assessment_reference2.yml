@@ -1,0 +1,39 @@
+type: object
+description: |
+    A pointer to an assessment revision. When a schedule is created, many of these fields should be populated with the default values provided by an `Assessment` (including labels, minutes to complete, and the color scheme). This information is part of the `Schedule` and the `Timeline` so mobile apps can render a UI to access an assessment before it needs to be fully loaded and executed. However, given a particular app’s design, some or all of these values may not be needed, and are not required. These values can then be changed by the study designer as part of the schedule. *As a result however, subsequent updates to the original assessment’s fields will not be reflected in the schedules where the assessment is used.*
+required:
+    - appId
+    - guid
+properties:
+    appId:
+        type: string
+        description: Schedules can refer to assessments in the shared library (appId = shared) or in their own local assessment library (appId will be the appId of the app in which the study is running).
+        x-nullable: false
+    guid:
+        type: string
+        description: The assessment revision guid.
+        x-nullable: false
+    title:
+        type: string
+        description: A title for this assessment to show to study designers.
+    identifier:
+        type: string
+        description: The identifier of the assessment (which stays the same regardless of the revision or GUID of the assessment). This token can be used, for example, to load an icon for the assessment from an app binary.
+        x-nullable: false
+    minutesToComplete:
+        type: integer
+        format: int32 
+        description: The number of minutes it takes for a participant to complete this assessment.
+    labels:
+        type: array
+        description: A collection of labels for this assessment. Only one label can be included for a given language. The system will first try and select the participant’s preferred languages (from most to least preferred), then it will select an English (“en”) language default label. If an English label does not exist in the list of labels, then the assessment’s title will be used as a label.
+        items:
+            $ref: ./label.yml
+        x-nullable: false
+    colorScheme:
+        $ref: ./color_scheme.yml
+    type:
+        type: string
+        readOnly: true
+        description: "AssessmentReference"
+        x-nullable: false

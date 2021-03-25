@@ -2,7 +2,7 @@ get:
     operationId: getSchedulePlans
     summary: Get schedule plans
     tags: 
-        - Schedules
+        - Schedules (v1)
         - _For Developers
         - _For Researchers
     security:
@@ -22,7 +22,7 @@ post:
     operationId: createSchedulePlan
     summary: Create a schedule plan
     tags: 
-        - Schedules
+        - Schedules (v1)
         - _For Developers
     security:
         -   BridgeSecurity: []

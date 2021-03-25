@@ -1,0 +1,8 @@
+description: Bad Request. The request cannot be completed because the entity is in a published (locked) state. 
+schema:
+    properties:
+        message:
+            type: string
+        statusCode:
+            type: number
+            description: HTTP status code
