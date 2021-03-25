@@ -1,15 +1,15 @@
 package org.sagebionetworks.bridge.rest.exceptions;
 
 @SuppressWarnings("serial")
-public class PublishedSurveyException extends PublishedEntityException {
+public class PublishedEntityException extends BridgeSDKException {
 
-    public PublishedSurveyException(String message, String url) {
-        super(message, url);
+    public PublishedEntityException(String message, String url) {
+        super(message, 400, url);
     }
 
     @Override
     public String toString() {
-        return "PublishedSurveyException[message=" + getMessage() +
+        return "PublishedEntityException[message=" + getMessage() +
                 ", statusCode=" + getStatusCode() +
                 ", endpoint=" + getRestEndpoint() + "]";
     }

@@ -21,6 +21,7 @@ get:
 post:
     operationId: createStudyParticipantActivityEvent
     summary: Create a new activity event for a participant in this study.
+    description: Create a new activity event for a participant in this study. A 201 is returned whether the event updates or not, to support concurrent and out-of-order POSTs from the client.
     tags:
         - Study Participants
         - Activity Events

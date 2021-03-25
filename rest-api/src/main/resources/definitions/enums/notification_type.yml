@@ -1,0 +1,13 @@
+type: string
+description: |
+    They type of notification to provide relative to a session.
+
+    |Status|Description|
+    |---|---|
+    |participant_choice|The participant can specify when to receive the notification.|
+    |start_of_window|The notification should be delivered at the start of each session window instance.|
+    |random|The notification should be delivered at a random point in time during each session window instance.|
+enum:
+    - participant_choice
+    - start_of_window
+    - random

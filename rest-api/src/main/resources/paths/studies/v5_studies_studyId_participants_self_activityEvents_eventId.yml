@@ -1,4 +1,4 @@
-get:
+delete:
     operationId: deleteActivityEventsForSelf
     summary: Delete a custom activity event (for the caller).
     tags:

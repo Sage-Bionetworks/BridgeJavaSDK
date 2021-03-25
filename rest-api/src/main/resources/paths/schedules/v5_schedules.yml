@@ -1,0 +1,46 @@
+get:
+    operationId: getSchedules
+    summary: Get schedules
+    tags: 
+        - Schedules (v2)
+        - _For Study Coordinators
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/offsetBy
+        - $ref: ../../index.yml#/parameters/pageSize
+        - $ref: ../../index.yml#/parameters/includeDeleted
+    description: Get schedules owned by the caller’s organization, or all schedules in the app for a developer or admin making the call. Results are returned paginated and can be filtered to include or exclude deleted schedules.
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/schedule2.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_developer.yml
+post:
+    operationId: createSchedule
+    summary: Create a schedule
+    tags: 
+        - Schedules (v2)
+        - _For Study Coordinators
+    security:
+        - BridgeSecurity: []
+    description: Create a schedule, which will be owned by the caller’s organization unless the caller is an admin or superadmin (these users can set another `ownerId` value on the schedule). If the schedule is a copy of an existing schedule, it will be copied and a new schedule will be returned.
+    parameters:
+        - name: Schedule
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/schedule2.yml
+    responses:
+        201:
+            description: OK
+            schema:
+                $ref: ../../definitions/schedule2.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_developer.yml
