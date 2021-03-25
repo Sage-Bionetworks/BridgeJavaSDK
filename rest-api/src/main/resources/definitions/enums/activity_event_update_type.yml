@@ -1,6 +1,6 @@
 type: string
 description: |
-    The type of update that is allowed on a type of event ID.
+    The type of update that is allowed on an activity event.
 
     |Type|Description|
     |---|---|
