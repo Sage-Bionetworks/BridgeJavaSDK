@@ -1,6 +1,6 @@
 type: string
 description: |
-    They type of notification to provide relative to a session.
+    They type of notification to provide relative to a session. If present, this enum specifies when the notification should be shown to the participant.
 
     |Status|Description|
     |---|---|

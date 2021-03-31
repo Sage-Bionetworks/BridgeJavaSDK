@@ -1,0 +1,47 @@
+description: An individual session instance the participant should perform as part of the study. The `refGuid` property will refer to a session in the list of sessions in this timeline. The `instanceGuid` is a unique GUID to identify any data that is generated from the execution of this scheduled session. This allows scientists to contextualize data based on when it was gathered in the execution of the study’s schedule. Further details about how a client should interpret a timeline can be found at the Bridge developer portal.
+type: object
+properties:
+    refGuid:
+        type: string
+        readOnly: true
+        x-nullable: false
+    instanceGuid:
+        type: string
+        readOnly: true
+    startDay:
+        type: integer
+        format: int32
+        readOnly: true
+    endDay:
+        type: integer
+        format: int32
+        readOnly: true
+    startTime:
+        type: string
+        format: ISO 8601 Local Time, hours and minutes only
+        example: 14:15
+        readOnly: true
+    delayTime:
+        type: string
+        format: ISO 8601 Duration
+        example: PT2H
+        readOnly: true
+    expiration:
+        type: string
+        format: ISO 8601 Duration
+        example: P52W
+        readOnly: true
+    persistent:
+        type: boolean
+        readOnly: true
+    assessments:
+        type: array
+        items:
+            $ref: ./scheduled_assessment.yml
+        readOnly: true
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "ScheduledSession"
+        x-nullable: false
