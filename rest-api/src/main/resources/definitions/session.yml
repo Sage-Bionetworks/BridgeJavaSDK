@@ -42,7 +42,6 @@ properties:
     performanceOrder:
         $ref: ./enums/performance_order.yml
         x-nullable: false
-        description: The assessments in a session can be presented in a fixed and sequential order, in a randomized order the participant cannot choose, or the participant may be allowed to pick and choose the assessments to do them in an order of their choosing.
     timeWindows:
         type: array
         description: A collection of time windows.
@@ -58,7 +57,6 @@ properties:
     notifyAt:
         $ref: ./enums/notification_type.yml
         x-nullable: false
-        description: If a notification should be show to the participant every time a time window starts, when relative to the window should it be displayed to the user? If null, no notification should be shown.
     remindAt:
         $ref: ./enums/reminder_type.yml
         x-nullable: false

@@ -91,6 +91,8 @@ Assessment:
     $ref: ./assessment.yml
 AssessmentConfig:
     $ref: ./assessment_config.yml
+AssessmentInfo:
+    $ref: ./assessment_info.yml
 AssessmentReference:
     $ref: ./assessment_reference.yml
 AssessmentReference2:
@@ -221,6 +223,10 @@ Schedule2:
     $ref: ./schedule2.yml
 ScheduleCriteria:
     $ref: ./schedule_criteria.yml
+ScheduledAssessment:
+    $ref: ./scheduled_assessment.yml
+ScheduledSession:
+    $ref: ./scheduled_session.yml
 SchedulePlan:
     $ref: ./schedule_plan.yml
 ScheduleStrategy:
@@ -231,6 +237,8 @@ SchemaReference:
     $ref: ./schema_reference.yml
 Session:
     $ref: ./session.yml
+SessionInfo:
+    $ref: ./session_info.yml
 SharedModuleImportStatus:
     $ref: ./shared_module_import_status.yml
 SharedModuleMetadata:
@@ -279,6 +287,8 @@ Template:
     $ref: ./template.yml
 TemplateRevision:
     $ref: ./template_revision.yml
+Timeline:
+    $ref: ./timeline.yml
 TimeWindow:
     $ref: ./time_window.yml
 DateTimeHolder:

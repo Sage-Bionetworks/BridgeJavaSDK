@@ -1,6 +1,6 @@
 type: string
 description: |
-    The order in which the assessments of a session should be performed.
+    The assessments in a session can be presented in a fixed and sequential order, in a randomized order the participant cannot choose, or the participant may be allowed to pick and choose the assessments to do them in an order of their choosing. This enum specifies which method must be presented to the participant.
 
     |Status|Description|
     |---|---|
