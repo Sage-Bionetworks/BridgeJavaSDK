@@ -6,6 +6,7 @@ required:
 properties:
     role:
         $ref: ./enums/contact_role.yml
+        x-nullable: false
     name:
         type: string
         x-nullable: false
