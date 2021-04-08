@@ -1,0 +1,28 @@
+description: A contact for the study. This is for display to the participants of the study, and in other catalogs of the studies that are available.
+type: object
+required:
+    - name
+    - role
+properties:
+    role:
+        $ref: ./enums/contact_role.yml
+    name:
+        type: string
+        x-nullable: false
+    position:
+        type: string
+    affiliation:
+        type: string
+    address:
+        $ref: ./address.yml
+    email:
+        type: string
+    phone:
+        $ref: ./phone.yml
+    jurisdiction:
+        type: string
+    type:
+        type: string
+        readOnly: true
+        description: "Contact"
+        x-nullable: false    

@@ -2,6 +2,8 @@ SharingScope:
     $ref: ./enums/sharing_scope.yml
 AccountStatus:
     $ref: ./enums/account_status.yml
+ContactRole:
+    $ref: ./enums/contact_role.yml
 CountryCode:
     $ref: ./enums/country_code.yml
 DataType:
@@ -24,6 +26,8 @@ ScheduleType:
     $ref: ./enums/schedule_type.yml
 SmsType:
     $ref: ./enums/sms_type.yml
+StudyPhase:
+    $ref: ./enums/study_phase.yml
 Role:
     $ref: ./enums/role.yml
 ActivityType:
@@ -75,6 +79,8 @@ Activity:
     $ref: ./activity.yml
 ActivityEvent:
     $ref: ./activity_event.yml
+Address:
+    $ref: ./address.yml
 AndroidAppLink:
     $ref: ./android_app_link.yml
 App:
@@ -113,6 +119,8 @@ ConsentSignature:
     $ref: ./consent_signature.yml
 ConsentStatus:
     $ref: ./consent_status.yml
+Contact:
+    $ref: ./contact.yml
 CreatedOnHolder:
     $ref: ./created_on_holder.yml
 Criteria:

@@ -1,0 +1,19 @@
+type: string
+description: |
+    The purpose of this contact.
+
+    |Type|Description|
+    |---|---|
+    |irb|Either the IRB that approved the research, or in secondary jurisdictions, an “assenting” IRB that reviewed the initial approval and accepted it for their own jurisdiction.|
+    |principal_investigator|Principal investigator of the study. Conceivably there can be one of these for every jurisdiction, but this is rare.|
+    |investigator|Position could be co-investigator, medical monitor, repository guardian, etc. Nevertheless, this person is not presented as a point of contact (use a support role for that).|
+    |sponsor|The institution funding the study and/or providing IRB oversight. Sometimes the institution the Principal Investigator is affiliated with.|
+    |study_support|Position could be study coordinator or study contact—the person the participant should contact about participation in the study.|
+    |technical_support|Support person or department for the technology being utilized (mobile app, website, device provisioning, etc.).|
+enum:
+    - irb
+    - principal_investigator
+    - investigator
+    - sponsor
+    - study_support
+    - technical_support
