@@ -1,0 +1,16 @@
+description: The `refKey` of this object will refer to the `key` value of an AssessmentInfo object in the assessments of the timeline. The `instanceGuid` is a unique GUID to identify any data that is generated from the execution of this scheduled assessment. This allows scientists to contextualize data based on when it was gathered in the execution of the study’s schedule.
+type: object
+properties:
+    refKey:
+        type: string
+        readOnly: true
+        x-nullable: false
+    instanceGuid:
+        type: string
+        readOnly: true
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "ScheduledAssessment"
+        x-nullable: false

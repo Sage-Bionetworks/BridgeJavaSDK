@@ -3,7 +3,8 @@ get:
     summary: Get schedule
     tags: 
         - Schedules (v2)
-        - _For Study Coordinators
+        - _For Developers
+        - _For Study Designers
     security:
         -   BridgeSecurity: []
     parameters:
@@ -17,15 +18,14 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_study_coordinator_developer.yml
-        410:
-            $ref: ../../responses/410.yml
+            $ref: ../../responses/403_not_study_designer_developer.yml
 post:
     operationId: updateSchedule
     summary: Update a schedule
     tags: 
         - Schedules (v2)
-        - _For Study Coordinators
+        - _For Developers
+        - _For Study Designers
     security:
         - BridgeSecurity: []
     parameters:
@@ -46,15 +46,14 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_study_coordinator_developer.yml
-        410:
-            $ref: ../../responses/410.yml
+            $ref: ../../responses/403_not_study_designer_developer.yml
 delete:
     operationId: deleteSchedule
     summary: Delete a schedule
     tags: 
         - Schedules (v2)
-        - _For Study Coordinators
+        - _For Developers
+        - _For Study Designers
     security:
         - BridgeSecurity: []
     parameters:
@@ -69,4 +68,4 @@ delete:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_study_coordinator_developer.yml
+            $ref: ../../responses/403_not_study_designer_developer.yml

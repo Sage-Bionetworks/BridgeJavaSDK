@@ -462,6 +462,8 @@
     $ref: ./schedules/v5_schedules_guid.yml
 /v5/schedules/{guid}/publish:
     $ref: ./schedules/v5_schedules_guid_publish.yml
+/v5/schedules/{guid}/timeline:
+    $ref: ./schedules/v5_schedules_guid_timeline.yml
 
 # Uploads
 /v3/uploads:

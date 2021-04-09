@@ -1,0 +1,42 @@
+description: Information about an assessment in order to render it in a UI prior to execution.
+type: object
+properties:
+    key:
+        type: string
+        description: Because assessments can be configured with different display information, they are not referenced in the schedule portion of a timeline by their GUIDs. Instead they are given a unique string key that is used to look up the assessment.
+        readOnly: false
+        x-nullable: false
+    guid:
+        type: string
+        description: Each assessment revision is assigned a unique GUID which can be used to retrieve it through the API. Assessments will also have a unique combination of an identifier and a revision, and can be retrieved as a set of revisions under a given identifier.
+        readOnly: true
+        x-nullable: false
+    appId:
+        type: string
+        readOnly: true
+        x-nullable: false
+    identifier:
+        type: string
+        description: A human-readable identifier for an assessment, which can have one or more revisions.
+        readOnly: true
+    revision:
+        type: integer
+        format: int32
+        description: The revision of the assessment under the given identifier (the identifier and the revision together are mapped to a single GUID which can be used to reference the assessment; only the GUID is required in this object).
+        readOnly: true
+    label:
+        type: string
+        readOnly: true
+        x-nullable: false
+    minutesToComplete:
+        type: integer
+        format: int32 
+        readOnly: true
+        description: The number of minutes it takes for a participant to complete this assessment.
+    colorScheme:
+        $ref: ./color_scheme.yml
+    type:
+        type: string
+        readOnly: true
+        description: "AssessmentInfo"
+        x-nullable: false
