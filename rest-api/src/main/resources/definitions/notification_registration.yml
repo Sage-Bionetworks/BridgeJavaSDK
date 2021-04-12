@@ -30,6 +30,7 @@ properties:
             Date the client registered for push notifications with Bridge.
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
         x-nullable: false
     modifiedOn:
@@ -37,6 +38,7 @@ properties:
             The last time the registration was updated based on a new device identifier being issued by the client operating system (iOS or Android). If an updated registration is submitted but the deviceId has not changed, the record is not modified.
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
         x-nullable: false
     type:

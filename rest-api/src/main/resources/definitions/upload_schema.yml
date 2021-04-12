@@ -54,6 +54,7 @@ properties:
     surveyCreatedOn:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         description: |
             If this schema is created from a survey, this is the createdOn timestamp 
             (in ISO 8601 format) of the survey it represents.

@@ -23,18 +23,21 @@ properties:
     createdOn:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
         description: The date and time the template was created.
         x-nullable: false
     modifiedOn:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
         description: The date and time the template was last modified.
         x-nullable: false
     publishedCreatedOn:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         description: The date and time of the template revision that is the published revision to use.
     deleted:
         type: boolean

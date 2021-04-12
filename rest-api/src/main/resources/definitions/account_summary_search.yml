@@ -36,10 +36,12 @@ properties:
         description: return record created on or after this day
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
     endTime:
         description: return record on or before this day
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
     orgMembership:
         description: If no organizational ID is supplied, all accounts will be returned. If an ID is supplied, only accounts assigned to that organization are returned. If the keyword value "<none>" is supplied, only accounts are returned that are *not* assigned to any organization. adminOnly=true and orgMembership=<none> will return admin accounts that still need to be assigned to an organization (a useful query for user interfaces).
         type: string

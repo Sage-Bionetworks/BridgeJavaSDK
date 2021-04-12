@@ -5,6 +5,7 @@ properties:
     dateTime:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
         description: The datetime of an entity.
     type:

@@ -62,12 +62,14 @@ properties:
     createdOn:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
         description: The date and time the app config was created.
         x-nullable: false
     modifiedOn:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
         description: The date and time the app config was last modified.
         x-nullable: false

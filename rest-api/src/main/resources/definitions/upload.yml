@@ -45,6 +45,7 @@ properties:
         type: string
         readOnly: true
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         description: |
             The date and time (ISO 8601 format) that the client requested an URL to make an upload to the server.
         x-nullable: false
@@ -52,6 +53,7 @@ properties:
         type: string
         readOnly: true
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         description: |
             The date and time (ISO 8601 format) that the upload was completed.
     completedBy:

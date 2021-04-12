@@ -30,10 +30,12 @@ properties:
     irbApprovedOn:
         type: string
         description: Before the study can launch, the IRB’s approval must be recorded for the study.
+        example: '2021-04-31'
         format: date 
     irbApprovedUntil:
         type: string
         description: Before the study can launch, the IRB’s approval must be recorded for the study.
+        example: '2021-04-31'
         format: date 
     studyLogoUrl:
         type: string
@@ -68,6 +70,7 @@ properties:
         x-nullable: false
     createdOn:
         type: string
+        example: '2020-08-28T14:28:13.386Z'
         format: date-time
         readOnly: true
         description: The date and time the app config was created.
@@ -75,6 +78,7 @@ properties:
     modifiedOn:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
         description: The date and time the app config was last modified.
         x-nullable: false

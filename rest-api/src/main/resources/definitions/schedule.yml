@@ -43,11 +43,13 @@ properties:
         type: string
         description: The scheduler will not create a task before this date and time.
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
     endsOn:
         type: string
         description: |
             The scheduler will not create a task after this date and time. **Note that this takes precedence over the minimumPerSchedule setting that can be provided via the API. Tasks will not be "topped up" to this minimum if they extend outside of this time window.**
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
     times:
         type: array
         description: |

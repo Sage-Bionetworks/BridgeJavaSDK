@@ -10,6 +10,7 @@ properties:
     createdOn:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
         description: The createdOn value of the survey (added when survey is created).
         x-nullable: false

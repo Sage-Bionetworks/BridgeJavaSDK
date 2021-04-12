@@ -22,6 +22,7 @@ properties:
     birthdate:
         type: string
         format: date
+        example: '2021-04-31'
         description: The participant's date of birth in ISO 8601 format (YYYY-MM-DD).
     imageData:
         type: string
@@ -34,12 +35,14 @@ properties:
     signedOn:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
         description: The date and time the referenced consent was signed and agreed to by the participant.
         x-nullable: false
     withdrewOn:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
         description: The date and time the participant withdrew consent (can be blank).
     scope:
