@@ -18,12 +18,14 @@ properties:
         description: The date and time this organization was created.
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
         x-nullable: false
     modifiedOn:
         description: The date and time this organization was last modified.
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
         x-nullable: false
     version:

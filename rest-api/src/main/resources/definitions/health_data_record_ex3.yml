@@ -22,6 +22,7 @@ properties:
     createdOn:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         description: ISO timestamp of when this record was submitted to Bridge.
     clientInfo:
         type: string

@@ -10,6 +10,7 @@ properties:
     timestamp:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         description:  ISO 8601 date and time to record for event
     type:
         type: string
