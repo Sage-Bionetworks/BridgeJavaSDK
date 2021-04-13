@@ -1,0 +1,16 @@
+description:
+    The JSON data for a participant roster download request.
+type: object
+required:
+    - password
+properties:
+    password:
+        type: string
+        description: User defined password.
+    studyId:
+        type: string
+        description: The studyId to filter the participant roster by.
+    type: string
+    readOnly: true
+    description: "ParticipantRosterRequest"
+    x-nullable: false

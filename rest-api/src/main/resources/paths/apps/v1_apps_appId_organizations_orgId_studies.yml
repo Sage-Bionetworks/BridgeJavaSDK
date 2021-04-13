@@ -3,8 +3,8 @@ get:
     summary: Get the studies that are sponsored by the organization
     tags:
         - _For Workers
-        - Organizations
         - Apps
+        - Organizations
     security:
         - BridgeSecurity: []
     parameters:
@@ -20,4 +20,4 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_developer_researcher_admin.yml
+            $ref: ../../responses/403_not_worker.yml

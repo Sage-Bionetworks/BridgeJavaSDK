@@ -132,6 +132,8 @@
     $ref: ./apps/v1_apps_appId_participants_userId_data.yml
 /v1/apps/{appId}/participants/{userId}/data/{identifier}:
     $ref: ./apps/v1_apps_appId_participants_userId_data_identifier.yml
+/v1/apps/{appId}/organizations/{orgId}/studies:
+    $ref: ./apps/v1_apps_appId_organizations_orgId_studies.yml
 
 # Assessments
 /v1/assessments:
@@ -338,6 +340,8 @@
     $ref: ./participants/v3_participants_userId_activities_compoundactivities_taskId.yml
 /v4/participants/{userId}/reports/{identifier}:
     $ref: ./participants/v4_participants_userId_reports_identifier.yml
+/v3/participants/emailRoster:
+    $ref: ./participants/v3_participants_emailRoster.yml
 
 # Shared Modules
 /v3/sharedmodules/{moduleId}/import:
