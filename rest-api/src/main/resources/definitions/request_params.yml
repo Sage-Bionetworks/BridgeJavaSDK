@@ -16,10 +16,12 @@ properties:
     endDate:
         type: string
         format: date
+        example: '2021-04-31'
         readOnly: true
     endTime:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
     idFilter:
         type: string
@@ -55,18 +57,22 @@ properties:
     scheduledOnStart:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
     scheduledOnEnd:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
     startDate:
         type: string
         format: date
+        example: '2021-04-31'
         readOnly: true
     startTime:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
     total:
         type: integer

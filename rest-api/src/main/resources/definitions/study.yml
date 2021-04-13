@@ -5,6 +5,7 @@ required:
     - identifier
     - name
     - version
+    - phase
 properties:
     identifier:
         type: string
@@ -14,11 +15,54 @@ properties:
         type: string
         description: The name of the study.
         x-nullable: false
+    details:
+        type: string
+        description: An in-depth description of this study for prospective participants, or to show participants after they have joined a study (the “about” screen for the study).
+    phase:
+        $ref: ./enums/study_phase.yml
+        description: The lifecycle phase this study is in.
+        x-nullable: false
     clientData:
         type: object
         description: |
             Client data for a study should be in a syntactically valid JSON format. It will be returned as is to the client (as JSON). It can contain any information that is useful to study authoring tools or administration tools that is not part of the Bridge data model.
         additionalProperties: true
+    irbApprovedOn:
+        type: string
+        description: Before the study can launch, the IRB’s approval must be recorded for the study.
+        example: '2021-04-31'
+        format: date 
+    irbApprovedUntil:
+        type: string
+        description: Before the study can launch, the IRB’s approval must be recorded for the study.
+        example: '2021-04-31'
+        format: date 
+    studyLogoUrl:
+        type: string
+        description: An URL to a logo for the study. 
+    colorScheme:
+        $ref: ./color_scheme.yml
+    institutionId:
+        type: string
+        description: An identification number for the study that has been assigned by the sponsor or institution running the study.
+    irbProtocolId:
+        type: string
+        description: An identification number for the study that has been assigned by the IRB.
+    scheduleGuid:
+        type: string
+        description: |
+            The GUID of the schedule to use for this study. **NOTE: this is temporary, and will be replaced with a model of the study protocol that can include multiple arms in the study.**
+    disease:
+        type: string
+        description: The disease condition being studied. 
+    studyDesignType:
+        type: string
+        description: The type of study (at the least, observation or intervention).
+    contacts:
+        type: array
+        items:
+            $ref: ./contact.yml
+        x-nullable: false
     deleted:
         type: boolean
         description: |
@@ -26,6 +70,7 @@ properties:
         x-nullable: false
     createdOn:
         type: string
+        example: '2020-08-28T14:28:13.386Z'
         format: date-time
         readOnly: true
         description: The date and time the app config was created.
@@ -33,6 +78,7 @@ properties:
     modifiedOn:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
         description: The date and time the app config was last modified.
         x-nullable: false

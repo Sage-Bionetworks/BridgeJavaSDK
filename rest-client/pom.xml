@@ -85,6 +85,7 @@
                 <configuration>
                     <links>
                         <link>http://joda-time.sourceforge.net/apidocs/</link>
+                        <link>https://javadoc.io/doc/joda-time/joda-time/2.9.4/</link>
                         <link>http://square.github.io/retrofit/2.x/retrofit/</link>
                     </links>
                     <show>public</show>

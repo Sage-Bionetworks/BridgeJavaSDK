@@ -16,6 +16,7 @@ properties:
     createdOn:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         description: |
             The time the document was created on the server. Each update of the consent document creates a new revision at a new `createdOn` timestamp.
         x-nullable: false

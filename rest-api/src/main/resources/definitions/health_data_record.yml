@@ -15,6 +15,7 @@ properties:
         type: string
         readOnly: true
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         description: ISO timestamp of when the data record was created, as reported by the submitting app
         x-nullable: false
     createdOnTimeZone:
@@ -75,6 +76,7 @@ properties:
     uploadDate:
         type: string
         format: date
+        example: '2021-04-31'
         readOnly: true
         description: |
             Calendar date in YYYY-MM-DD format representing when the server received the upload, using the server's local time zone (US Pacific timezone).
@@ -88,6 +90,7 @@ properties:
         type: string
         readOnly: true
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         description: The date and time of the upload.
         x-nullable: false
     userMetadata:

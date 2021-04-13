@@ -21,6 +21,7 @@ properties:
     signedOn:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
         description: The date and time the referenced consent was signed and agreed to by the participant. If there is a signedOn value, consented will be equal to true.
     consented:

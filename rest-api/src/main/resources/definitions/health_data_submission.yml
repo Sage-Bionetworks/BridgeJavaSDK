@@ -12,6 +12,7 @@ properties:
     createdOn:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         description: ISO timestamp of when the data record was created, as reported by the submitting app
     data:
         type: object
@@ -35,6 +36,7 @@ properties:
     surveyCreatedOn:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         description: |
             If the health data is a survey response, this is the createdOn timestamp that specifies the survey version. The timestamp is in ISO8601 format.
     surveyGuid:

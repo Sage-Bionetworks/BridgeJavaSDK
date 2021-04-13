@@ -12,10 +12,12 @@ properties:
     date:
         type: string
         format: date
+        example: '2021-04-31'
         description: The date (YYYY-MM-DD) of the report data. 
     dateTime:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         description: The date expressed as an ISO 8601 timestamp.
     data:
         type: object
