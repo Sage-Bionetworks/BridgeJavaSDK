@@ -10,7 +10,8 @@ properties:
     studyId:
         type: string
         description: The studyId to filter the participant roster by.
-    type: string
-    readOnly: true
-    description: "ParticipantRosterRequest"
-    x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "ParticipantRosterRequest"
+        x-nullable: false
