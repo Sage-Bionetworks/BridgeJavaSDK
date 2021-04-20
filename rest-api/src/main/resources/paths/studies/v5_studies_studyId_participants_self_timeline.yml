@@ -1,6 +1,6 @@
 get:
     operationId: getTimelineForSelf
-    summary: Get the caller’s timeline of scheduled assessments in this study. Note that this endpoint supports the return of `Not Modified` responses, if the client provides an `If-Modified-Since` header in their request. Timelines rarely change and can be large, though they are sent compressed by the server and usually compress well for transfer.
+    summary: Get the caller’s timeline of scheduled assessments in this study. Timelines rarely change and can be large, though they are sent compressed by the server and usually compress well for transfer. This method supports long-term caching by accepting an optional timestamp. It will return a 304 `Not Modified` response if the schedule has not been updated after the given timestamp.
     tags:
         - _For Consented Users
     security:

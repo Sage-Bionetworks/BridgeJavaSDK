@@ -1,6 +1,6 @@
 get:
     operationId: getStudyParticipantTimeline
-    summary: Get the timeline that is being assigned to the specific study participant. (Currently all users in a study are assigned the same timeline, but this will change with the introduction of study arms).
+    summary: Get the timeline that is being assigned to the specific study participant. (Currently all users in a study are assigned the same timeline, but this will change with the introduction of study arms.)
     tags:
         - Study Participants
         - Schedules (v2)
