@@ -5,7 +5,9 @@
 202_message:
     $ref: ./202_message.yml
 302_found:
-     $ref: ./302_found.yml    
+    $ref: ./302_found.yml
+304:
+    $ref: ./304.yml
 400:
     $ref: ./400_invalid_entity.yml
 400_published_entity:
