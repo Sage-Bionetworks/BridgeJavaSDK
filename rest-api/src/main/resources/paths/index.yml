@@ -560,14 +560,18 @@
     $ref: ./studies/v5_studies_studyId_participants_userId_notifications.yml
 /v5/studies/{studyId}/participants/{userId}/sendNotification:
     $ref: ./studies/v5_studies_studyId_participants_userId_sendNotification.yml
-/v5/studies/{studyId}/participants/self/activityEvents:
-    $ref: ./studies/v5_studies_studyId_participants_self_activityEvents.yml
-/v5/studies/{studyId}/participants/self/activityEvents/{eventId}:
-    $ref: ./studies/v5_studies_studyId_participants_self_activityEvents_eventId.yml
+/v5/studies/{studyId}/participants/{userId}/timeline:
+    $ref: ./studies/v5_studies_studyId_participants_userId_timeline.yml
 /v5/studies/{studyId}/participants/{userId}/activityEvents:
     $ref: ./studies/v5_studies_studyId_participants_userId_activityEvents.yml
 /v5/studies/{studyId}/participants/{userId}/activityEvents/{eventId}:
     $ref: ./studies/v5_studies_studyId_participants_userId_activityEvents_eventId.yml
+/v5/studies/{studyId}/participants/self/activityEvents:
+    $ref: ./studies/v5_studies_studyId_participants_self_activityEvents.yml
+/v5/studies/{studyId}/participants/self/activityEvents/{eventId}:
+    $ref: ./studies/v5_studies_studyId_participants_self_activityEvents_eventId.yml
+/v5/studies/{studyId}/participants/self/timeline:
+    $ref: ./studies/v5_studies_studyId_participants_self_timeline.yml
 
 # Templates
 /v3/templates:
