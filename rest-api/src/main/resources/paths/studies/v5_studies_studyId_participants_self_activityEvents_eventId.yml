@@ -1,5 +1,5 @@
 delete:
-    operationId: deleteActivityEventsForSelf
+    operationId: deleteActivityEventForSelf
     summary: Delete a custom activity event (for the caller).
     tags:
         - Studies
