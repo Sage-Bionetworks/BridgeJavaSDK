@@ -1,0 +1,21 @@
+type: object
+properties:
+    placeName:
+        type: string
+    street:
+        type: string
+    mailRouting:
+        type: string
+    city:
+        type: string
+    division:
+        type: string
+    postalCode:
+        type: string
+    country:
+        type: string
+    type:
+        type: string
+        readOnly: true
+        description: "Address"
+        x-nullable: false

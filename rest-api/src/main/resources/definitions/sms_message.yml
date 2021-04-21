@@ -8,6 +8,7 @@ properties:
     sentOn:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         description: Timestamp in ISO8601 format when we sent the message.
         x-nullable: false
     healthCode:

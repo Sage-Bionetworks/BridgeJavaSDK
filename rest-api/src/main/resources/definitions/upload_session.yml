@@ -15,6 +15,7 @@ properties:
     expires:
         type: string
         readOnly: true
+        example: '2020-08-28T14:28:13.386Z'
         format: date-time
         description: |
             The ISO 8601 date and time stamp at which this session will expire.

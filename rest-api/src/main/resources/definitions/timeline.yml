@@ -1,0 +1,34 @@
+description: |
+    A detailed description of when a participant should perform specific sessions and assessments as part of a study, along with the metadata to show UI to the participant before loading and executing code for the assessments.
+type: object
+properties:
+    duration:
+        type: string
+        description: The length of time of the study’s protocol, after which the participant has completed the study. Events in the timeline will not extend past this duration in time.
+        format: ISO 8601 Duration
+        readOnly: true
+        example: P52W
+        x-nullable: false
+    schedule:
+        type: array
+        items:
+            $ref: ./scheduled_session.yml
+        readOnly: true
+        x-nullable: false
+    assessments:
+        type: array
+        items:
+            $ref: ./assessment_info.yml
+        readOnly: true
+        x-nullable: false
+    sessions:
+        type: array
+        items:
+            $ref: ./session_info.yml
+        readOnly: true
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "Timeline"
+        x-nullable: false

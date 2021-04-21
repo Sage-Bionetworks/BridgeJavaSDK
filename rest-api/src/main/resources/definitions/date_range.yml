@@ -5,8 +5,10 @@ properties:
     startDate:
         type: string
         format: date
+        example: '2021-04-31'
         description: Start date of the date range (YYYY-MM-DD).
     endDate:
         type: string
         format: date
+        example: '2021-04-31'
         description: Start date of the date range (YYYY-MM-DD).

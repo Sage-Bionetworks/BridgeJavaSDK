@@ -1,0 +1,44 @@
+description: Information about a session in order to render it in a UI prior to execution.
+type: object
+properties:
+    guid:
+        type: string
+        description: The unique identifier for this model.
+        x-nullable: false
+    label:
+        type: string
+        description: A required name for this session that will be shown to schedule authors, and can be used as a label for participants if no label can be found.
+        x-nullable: false
+    startEventId:
+        x-nullable: false
+        description: An identifier for the event which should be used to schedule this sequence of sessions. The identifier may be mapped to a timestamp for a user. If the event ID does not exist for the user, the client should ignore this session and schedule nothing. If the event ID exists, the client should start with that timestamp and schedule forward in time according to the information in the session and its schedule.
+    performanceOrder:
+        $ref: ./enums/performance_order.yml
+        x-nullable: false
+    notifyAt:
+        $ref: ./enums/notification_type.yml
+        x-nullable: false
+    remindAt:
+        $ref: ./enums/reminder_type.yml
+        x-nullable: false
+    reminderPeriod:
+        type: string
+        description: |
+            The time after a window starts or before it ends (based on the `remindAt` property) when a reminder should be issued to the client. Only minute, hour, day, and week values are allowed (although these can be mixed).
+        format: ISO 8601 Duration
+        example: PT10M
+    allowSnooze:
+        type: boolean
+        description: |
+            Allow the participant to “snooze” a notification or reminder (dismiss it with some amount of time before it occurs again). Cannot be true if `notifyAt` is null.
+        default: false
+    minutesToComplete:
+        type: integer
+        format: int32 
+    message:
+        $ref: ./notification_message.yml
+    type:
+        type: string
+        readOnly: true
+        description: "SessionInfo"
+        x-nullable: false

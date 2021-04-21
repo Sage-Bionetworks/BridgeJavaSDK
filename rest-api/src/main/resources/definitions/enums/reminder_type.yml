@@ -1,6 +1,6 @@
 type: string
 description: |
-    If the app should issue a second reminder notification, when should this reminder be issued?
+    If the app should issue a second reminder notification, when should this reminder be issued? If null, no reminder should be shown. If present, it can be relative to when a time window starts, or relative to when the window ends. This value works with `reminderPeriod` to determine the time. 
 
     |Status|Description|
     |---|---|

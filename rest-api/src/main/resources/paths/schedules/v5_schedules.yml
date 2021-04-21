@@ -3,7 +3,8 @@ get:
     summary: Get schedules
     tags: 
         - Schedules (v2)
-        - _For Study Coordinators
+        - _For Developers
+        - _For Study Designers
     security:
         -   BridgeSecurity: []
     parameters:
@@ -25,7 +26,8 @@ post:
     summary: Create a schedule
     tags: 
         - Schedules (v2)
-        - _For Study Coordinators
+        - _For Developers
+        - _For Study Designers
     security:
         - BridgeSecurity: []
     description: Create a schedule, which will be owned by the caller’s organization unless the caller is an admin or superadmin (these users can set another `ownerId` value on the schedule). If the schedule is a copy of an existing schedule, it will be copied and a new schedule will be returned.
@@ -43,4 +45,4 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_study_coordinator_developer.yml
+            $ref: ../../responses/403_not_study_designer_developer.yml

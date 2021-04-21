@@ -52,6 +52,7 @@ properties:
     publishedConsentCreatedOn:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         description: |
             The creation date (ISO 8601 timestamp) of the version of the consent agreement for this subpopulation that is published, ie. that is presented to users for their signature. The subpopulation guid and this createdOn timestamp can be used to retrieve the consent document.
         x-nullable: false

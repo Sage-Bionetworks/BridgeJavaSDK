@@ -19,6 +19,7 @@ properties:
     enrolledOn:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         description: The timestamp of enrollment (either the timestamp of the consent signature if self-enrolled, or the time the enrollment record was created).
     enrolledBy:
         type: string
@@ -26,6 +27,7 @@ properties:
     withdrawnOn:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         description: The timestamp of withdrawal from the study (either the timestamp of the revocation of the  consent signature if self-enrolled, or the time the enrollment record was withdrawn).
     withdrawnBy:
         type: string

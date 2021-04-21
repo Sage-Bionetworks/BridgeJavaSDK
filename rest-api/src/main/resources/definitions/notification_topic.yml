@@ -26,6 +26,7 @@ properties:
             The date and time this topic was created.
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
         x-nullable: false
     modifiedOn:
@@ -33,6 +34,7 @@ properties:
             The date and time this topic was last modified.
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
         x-nullable: false
     deleted:
