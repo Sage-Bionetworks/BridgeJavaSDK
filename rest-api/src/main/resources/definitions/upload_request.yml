@@ -26,6 +26,10 @@ properties:
         type: boolean
         default: true
         description: True if the upload is encrypted. False if it is not encrypted. If not specified, defaults to true.
+    metadata:
+        type: object
+        description: |
+            JSON map with key value pairs representing metadata for this upload, as submitted by the app. This corresponds with the uploadMetadataFieldDefinitions configured in the app.
     zipped:
         type: boolean
         default: true
