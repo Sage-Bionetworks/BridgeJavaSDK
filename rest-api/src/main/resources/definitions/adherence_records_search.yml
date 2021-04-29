@@ -1,0 +1,60 @@
+type: object
+properties:
+    instanceGuids:
+        type: array
+        description: Session or assessment instance GUIDs (or GUIDs created by the client); any records that exist under these GUIDs for the caller will be returned. If the assessment is a persistent assessment, all adherence records for that assessment will be returned unless includeRepeats = false.
+        items:
+            type: string
+        x-nullable: false
+    assessmentIds:
+        type: array
+        description: Return adhRrence records for these assessments (as types).
+        items:
+            type: string
+        x-nullable: false
+    sessionGuids:
+        type: array
+        description: Return adherence records for these sessions (as types).
+        items:
+            type: string
+        x-nullable: false
+    timeWindowGuids:
+        type: array
+        description: Return adherence records for these time windows (as types).
+        items:
+            type: string
+        x-nullable: false
+    recordType:
+        $ref: ./enums/adherence_record_type.yml
+    includeRepeats:
+        type: boolean
+        description: Include multiple runs of assessments in persistent time windows? These will have the same GUIDs but must have different startedOn timestamps.
+    eventTimestamps:
+        type: object
+        additionalProperties:
+            type: string
+            format: date-time
+        x-nullable: false
+    startTime:
+        type: string
+        format: date-time
+    endTime:
+        type: string
+        format: date-time
+    pageSize:
+        description: maximum number of records in each returned page
+        type: integer
+        format: int32
+        default: 500
+    offsetBy:
+        description: next page start offset for pagination 
+        type: integer
+        format: int32
+        default: 0
+    sortOrder:
+        $ref: ./enums/sort_order.yml
+    type:
+        type: string
+        readOnly: true
+        description: "AdherenceRecordsSearch"
+        x-nullable: false

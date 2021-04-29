@@ -1,0 +1,9 @@
+type: string
+description: |
+    |Enum|Description|
+    |---|---|
+    |assessment||
+    |session||
+enum:
+    - assessment
+    - session

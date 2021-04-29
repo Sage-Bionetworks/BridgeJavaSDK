@@ -1,0 +1,29 @@
+post:
+    operationId: updateAdherenceRecords
+    summary: Create or update one or more adherence records.
+    tags:
+        - _For Consented Users
+        - Adherence Records
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - name: AdherenceRecord
+          in: body
+          description: One ore more adherence records
+          required: true
+          schema:
+              type: array
+              items:
+                  $ref: ../../definitions/adherence_record.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml

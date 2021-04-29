@@ -10,6 +10,9 @@ properties:
     assignmentFilter:
         type: boolean
         readOnly: true
+    currentTimeseriesOnly:
+        type: boolean
+        readOnly: true
     emailFilter:
         type: string
         readOnly: true
@@ -17,6 +20,9 @@ properties:
         type: string
         format: date
         example: '2021-04-31'
+        readOnly: true
+    endDay:
+        type: integer
         readOnly: true
     endTime:
         type: string
@@ -27,6 +33,9 @@ properties:
         type: string
         readOnly: true
     includeDeleted:
+        type: boolean
+        readOnly: true
+    includeRepeats:
         type: boolean
         readOnly: true
     language:
@@ -69,10 +78,19 @@ properties:
         format: date
         example: '2021-04-31'
         readOnly: true
+    startDay:
+        type: integer
+        readOnly: true
+    startEventId:
+        type: string
+        readOnly: true
     startTime:
         type: string
         format: date-time
         example: '2020-08-28T14:28:13.386Z'
+        readOnly: true
+    studyId:
+        type: string
         readOnly: true
     total:
         type: integer

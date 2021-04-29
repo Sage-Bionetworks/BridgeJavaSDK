@@ -24,10 +24,14 @@ PerformanceOrder:
     $ref: ./enums/performance_order.yml
 ReminderType:
     $ref: ./enums/reminder_type.yml
+AdherenceRecordType:
+    $ref: ./enums/adherence_record_type.yml
 ScheduleType:
     $ref: ./enums/schedule_type.yml
 SmsType:
     $ref: ./enums/sms_type.yml
+SortOrder:
+    $ref: ./enums/sort_order.yml
 StudyPhase:
     $ref: ./enums/study_phase.yml
 Role:
@@ -83,6 +87,10 @@ ActivityEvent:
     $ref: ./activity_event.yml
 Address:
     $ref: ./address.yml
+AdherenceRecord:
+    $ref: ./adherence_record.yml
+AdherenceRecordsSearch:
+    $ref: ./adherence_records_search.yml
 AndroidAppLink:
     $ref: ./android_app_link.yml
 App:
@@ -339,6 +347,8 @@ ActivityList:
     $ref: ./paged_resources/activity.yml
 ActivityEventList:
     $ref: ./paged_resources/activity_event.yml
+AdherenceRecordList:
+    $ref: ./paged_resources/adherence_record.yml
 AppConfigList:
     $ref: ./paged_resources/app_config.yml
 AppConfigElementList:
