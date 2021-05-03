@@ -1,5 +1,6 @@
 type: string
 description: |
+    The AdherenceRecordType can be used to limit search results for adherence records to either assessment or session records. If not present, both records will be returned according to the criteria of the search.
     |Enum|Description|
     |---|---|
     |assessment||

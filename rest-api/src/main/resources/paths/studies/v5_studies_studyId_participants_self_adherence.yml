@@ -13,9 +13,7 @@ post:
           description: One ore more adherence records
           required: true
           schema:
-              type: array
-              items:
-                  $ref: ../../definitions/adherence_record.yml
+              $ref: ../../definitions/adherence_record_updates.yml
     responses:
         200:
             description: OK

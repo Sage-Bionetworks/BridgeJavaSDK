@@ -7,10 +7,15 @@ properties:
         readOnly: true
         items:
             type: string
+    assessmentIds:
+        type: array
+        readOnly: true
+        items:
+            type: string
     assignmentFilter:
         type: boolean
         readOnly: true
-    currentTimeseriesOnly:
+    currentTimestampsOnly:
         type: boolean
         readOnly: true
     emailFilter:
@@ -21,14 +26,16 @@ properties:
         format: date
         example: '2021-04-31'
         readOnly: true
-    endDay:
-        type: integer
-        readOnly: true
     endTime:
         type: string
         format: date-time
         example: '2020-08-28T14:28:13.386Z'
         readOnly: true
+    eventTimestamps:
+        type: object
+        readOnly: true
+        additionalProperties:
+            type: string
     idFilter:
         type: string
         readOnly: true
@@ -38,6 +45,11 @@ properties:
     includeRepeats:
         type: boolean
         readOnly: true
+    instanceGuids:
+        type: array
+        readOnly: true
+        items:
+            type: string
     language:
         type: string
         readOnly: true
@@ -60,6 +72,9 @@ properties:
     phoneFilter:
         type: string
         readOnly: true
+    recordType:
+        $ref: ./enums/adherence_record_type.yml
+        readOnly: true
     reportType:
         $ref: ./enums/report_type.yml
         readOnly: true
@@ -73,16 +88,18 @@ properties:
         format: date-time
         example: '2020-08-28T14:28:13.386Z'
         readOnly: true
+    sessionGuids:
+        type: array
+        readOnly: true
+        items:
+            type: string
+    sortOrder:
+        $ref: ./enums/sort_order.yml
+        readOnly: true
     startDate:
         type: string
         format: date
         example: '2021-04-31'
-        readOnly: true
-    startDay:
-        type: integer
-        readOnly: true
-    startEventId:
-        type: string
         readOnly: true
     startTime:
         type: string
@@ -92,6 +109,11 @@ properties:
     studyId:
         type: string
         readOnly: true
+    timeWindowGuids:
+        type: array
+        readOnly: true
+        items:
+            type: string
     total:
         type: integer
         format: int32

@@ -2,8 +2,8 @@ type: string
 description: |
     |Enum|Description|
     |---|---|
-    |asc| Sort earliest startedOn time to most recent startedOn timestamp. |
-    |desc| Sort most recent startedOn time to earliest startedOn timestamp. |
+    |asc| Sort so that the earliest startedOn time is the first record in the returned list. |
+    |desc| Sort so that the most recent startedOn time is the first record in the returned list. |
 enum:
     - asc
     - desc

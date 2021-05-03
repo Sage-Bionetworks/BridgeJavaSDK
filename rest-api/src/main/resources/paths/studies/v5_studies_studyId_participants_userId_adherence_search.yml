@@ -1,6 +1,6 @@
 post:
     operationId: searchForStudyParticipantAdherenceRecords
-    summary: Search for adherence records through a number of different strategies.
+    summary: Search for adherence records.
     tags:
         - Study Participants
         - _For Study Coordinators

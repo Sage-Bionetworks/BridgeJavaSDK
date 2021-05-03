@@ -1,6 +1,6 @@
 post:
     operationId: searchForAdherenceRecords
-    summary: Search for adherence records through a number of different strategies.
+    summary: Search for adherence records.
     tags:
         - _For Consented Users
         - Adherence Records

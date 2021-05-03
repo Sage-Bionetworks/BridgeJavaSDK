@@ -89,6 +89,8 @@ Address:
     $ref: ./address.yml
 AdherenceRecord:
     $ref: ./adherence_record.yml
+AdherenceRecordUpdates:
+    $ref: ./adherence_record_updates.yml
 AdherenceRecordsSearch:
     $ref: ./adherence_records_search.yml
 AndroidAppLink:
