@@ -30,6 +30,8 @@ properties:
         type: object
         description: |
             JSON map with key value pairs representing metadata for this upload, as submitted by the app. This corresponds with the uploadMetadataFieldDefinitions configured in the app.
+        additionalProperties:
+            type: object
     zipped:
         type: boolean
         default: true
