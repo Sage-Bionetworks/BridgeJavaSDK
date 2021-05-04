@@ -2,7 +2,7 @@ type: object
 properties:
     instanceGuids:
         type: array
-        description: Session or assessment instance GUIDs. Any records that exist with these GUIDs will be returned (scoped to a specifical participant in a specific study). If the assessment is a persistent assessment, all adherence records for that assessment will be returned unless includeRepeats is false. This array cannot contain more than 500 items.
+        description: Session or assessment instance GUIDs. Any records that exist with these GUIDs will be returned (scoped to a specific participant in a specific study). If the assessment is a persistent assessment, all adherence records for that assessment will be returned unless includeRepeats is false. This array cannot contain more than 500 items.
         items:
             type: string
         x-nullable: false
@@ -24,7 +24,7 @@ properties:
         items:
             type: string
         x-nullable: false
-    recordType:
+    adherenceRecordType:
         $ref: ./enums/adherence_record_type.yml
     includeRepeats:
         type: boolean
