@@ -1,9 +1,9 @@
 get:
-    operationId: getActivityEventsForSelf
+    operationId: getStudyActivityEvents
     summary: Get the activity events for this study (for the caller).
     tags:
         - Studies
-        - Activity Events
+        - Study Activity Events
         - _For Consented Users
     security:
         - BridgeSecurity: []
@@ -13,28 +13,28 @@ get:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/paged_resources/activity_event.yml
+                $ref: ../../definitions/paged_resources/study_activity_event.yml
         401:
             $ref: ../../responses/401.yml
         412:
             $ref: ../../responses/412.yml
 post:
-    operationId: createActivityEventForSelf
+    operationId: createStudyActivityEvent
     summary: Create a new activity event for the caller in this study.
     description: Create a new activity event for the caller in this study. A 201 is returned whether the event updates or not, to support concurrent and out-of-order POSTs from the client.
     tags:
         - Studies
-        - Activity Events
+        - Study Activity Events
         - _For Consented Users
     security:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
-        - name: CustomActivityEventRequest
+        - name: StudyActivityEventRequest
           required: true
           in: body
           schema:
-              $ref: ../../definitions/custom_activity_event_request.yml
+              $ref: ../../definitions/study_activity_event_request.yml
     responses:
         201:
             description: Created
