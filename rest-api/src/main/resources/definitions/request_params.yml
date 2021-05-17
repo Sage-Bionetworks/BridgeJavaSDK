@@ -7,7 +7,15 @@ properties:
         readOnly: true
         items:
             type: string
+    assessmentIds:
+        type: array
+        readOnly: true
+        items:
+            type: string
     assignmentFilter:
+        type: boolean
+        readOnly: true
+    currentTimestampsOnly:
         type: boolean
         readOnly: true
     emailFilter:
@@ -23,12 +31,25 @@ properties:
         format: date-time
         example: '2020-08-28T14:28:13.386Z'
         readOnly: true
+    eventTimestamps:
+        type: object
+        readOnly: true
+        additionalProperties:
+            type: string
     idFilter:
         type: string
         readOnly: true
     includeDeleted:
         type: boolean
         readOnly: true
+    includeRepeats:
+        type: boolean
+        readOnly: true
+    instanceGuids:
+        type: array
+        readOnly: true
+        items:
+            type: string
     language:
         type: string
         readOnly: true
@@ -51,6 +72,9 @@ properties:
     phoneFilter:
         type: string
         readOnly: true
+    recordType:
+        $ref: ./enums/adherence_record_type.yml
+        readOnly: true
     reportType:
         $ref: ./enums/report_type.yml
         readOnly: true
@@ -64,6 +88,14 @@ properties:
         format: date-time
         example: '2020-08-28T14:28:13.386Z'
         readOnly: true
+    sessionGuids:
+        type: array
+        readOnly: true
+        items:
+            type: string
+    sortOrder:
+        $ref: ./enums/sort_order.yml
+        readOnly: true
     startDate:
         type: string
         format: date
@@ -74,6 +106,14 @@ properties:
         format: date-time
         example: '2020-08-28T14:28:13.386Z'
         readOnly: true
+    studyId:
+        type: string
+        readOnly: true
+    timeWindowGuids:
+        type: array
+        readOnly: true
+        items:
+            type: string
     total:
         type: integer
         format: int32

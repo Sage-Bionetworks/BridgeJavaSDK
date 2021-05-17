@@ -1,9 +1,32 @@
+get:
+    operationId: getStudyActivityEventHistory
+    summary: Get the history of past timestamps for this event (for the caller).
+    tags:
+        - Studies
+        - Study Activity Events
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/eventId
+        - $ref: ../../index.yml#/parameters/offsetBy
+        - $ref: ../../index.yml#/parameters/pageSize
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/study_activity_event_paged.yml
+        401:
+            $ref: ../../responses/401.yml
+        412:
+            $ref: ../../responses/412.yml
 delete:
-    operationId: deleteActivityEventsForSelf
+    operationId: deleteStudyActivityEvent
     summary: Delete a custom activity event (for the caller).
     tags:
         - Studies
-        - Activity Events
+        - Study Activity Events
         - _For Consented Users
     security:
         - BridgeSecurity: []

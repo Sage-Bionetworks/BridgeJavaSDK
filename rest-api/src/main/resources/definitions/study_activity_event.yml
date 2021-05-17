@@ -1,0 +1,41 @@
+description: |
+    Activity event for a participant in a specific study, used for scheduling activities.
+type: object
+required:
+    - eventId
+    - timestamp
+properties:
+    eventId:
+        type: string
+        description: event identifier
+        x-nullable: false
+    answerValue:
+        type: string
+        description: answer value for a question event
+        readOnly: true
+    timestamp:
+        type: string
+        format: date-time
+        example: '2020-08-28T14:28:13.386Z'
+        description: ISO 8601 date and time that the event occurred
+        x-nullable: false
+    clientTimeZone:
+        type: string
+        example: 'America/Los_Angeles'
+        description: An IANA Time Zone Database (TZDB) name for the participant’s time zone at the time the record is submitted. If present, this field will be validated to be a valid time zone name.
+    recordCount:
+        type: integer
+        format: int32
+        description: The number of unique timestamp values that have been recorded for this events. Immutable events should only ever have one record, while mutable events (`future_only` and `mutable`) can have any number of historical values.
+    createdOn:
+        type: string
+        format: date-time
+        example: '2020-08-28T14:28:13.386Z'
+        readOnly: true
+        description: ISO 8601 date and time that the user account was created.
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "StudyActivityEvent"
+        x-nullable: false        

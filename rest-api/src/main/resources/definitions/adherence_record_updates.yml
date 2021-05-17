@@ -1,0 +1,14 @@
+type: object
+required:
+    - records
+properties:
+    records:
+        type: array
+        items:
+            $ref: ./adherence_record.yml
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "AdherenceRecordUpdates"
+        x-nullable: false

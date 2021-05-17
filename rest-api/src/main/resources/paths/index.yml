@@ -110,8 +110,8 @@
     $ref: ./apps/v1_apps_appId_participants_userId_reports_reportId.yml
 /v1/apps/{appId}/participants/{userId}/sendSmsMessage:
     $ref: ./apps/v1_apps_appId_participants_userId_sendSmsMessage.yml
-/v1/apps/{appId}/participants/{userId}/activityEvents:
-    $ref: ./apps/v1_apps_appId_participants_userId_activityEvents.yml
+/v1/apps/{appId}/participants/{userId}/activityevents:
+    $ref: ./apps/v1_apps_appId_participants_userId_activityevents.yml
 /v1/apps/{appId}/participants/{userId}/activities/{activityGuid}:
     $ref: ./apps/v1_apps_appId_participants_userId_activities_activityGuid.yml
 /v1/apps/{appId}/participants/{userId}/activities/tasks/{taskId}:
@@ -326,8 +326,8 @@
     $ref: ./participants/v3_participants_userId_reports_identifier.yml
 /v3/participants/{userId}/reports/{identifier}/{date}:
     $ref: ./participants/v3_participants_userId_reports_identifier_date.yml
-/v3/participants/{userId}/activityEvents:
-    $ref: ./participants/v3_participants_userId_activityEvents.yml
+/v3/participants/{userId}/activityevents:
+    $ref: ./participants/v3_participants_userId_activityevents.yml
 /v3/participants/reports/{identifier}:
     $ref: ./participants/v3_participants_reports_identifier.yml
 /v3/participants/reports/{identifier}/index:
@@ -564,14 +564,24 @@
     $ref: ./studies/v5_studies_studyId_participants_userId_notifications.yml
 /v5/studies/{studyId}/participants/{userId}/sendNotification:
     $ref: ./studies/v5_studies_studyId_participants_userId_sendNotification.yml
-/v5/studies/{studyId}/participants/self/activityEvents:
-    $ref: ./studies/v5_studies_studyId_participants_self_activityEvents.yml
-/v5/studies/{studyId}/participants/self/activityEvents/{eventId}:
-    $ref: ./studies/v5_studies_studyId_participants_self_activityEvents_eventId.yml
-/v5/studies/{studyId}/participants/{userId}/activityEvents:
-    $ref: ./studies/v5_studies_studyId_participants_userId_activityEvents.yml
-/v5/studies/{studyId}/participants/{userId}/activityEvents/{eventId}:
-    $ref: ./studies/v5_studies_studyId_participants_userId_activityEvents_eventId.yml
+/v5/studies/{studyId}/participants/{userId}/timeline:
+    $ref: ./studies/v5_studies_studyId_participants_userId_timeline.yml
+/v5/studies/{studyId}/participants/{userId}/activityevents:
+    $ref: ./studies/v5_studies_studyId_participants_userId_activityevents.yml
+/v5/studies/{studyId}/participants/{userId}/adherence/search:
+    $ref: ./studies/v5_studies_studyId_participants_userId_adherence_search.yml
+/v5/studies/{studyId}/participants/{userId}/activityevents/{eventId}:
+    $ref: ./studies/v5_studies_studyId_participants_userId_activityevents_eventId.yml
+/v5/studies/{studyId}/participants/self/activityevents:
+    $ref: ./studies/v5_studies_studyId_participants_self_activityevents.yml
+/v5/studies/{studyId}/participants/self/activityevents/{eventId}:
+    $ref: ./studies/v5_studies_studyId_participants_self_activityevents_eventId.yml
+/v5/studies/{studyId}/participants/self/adherence/search:
+    $ref: ./studies/v5_studies_studyId_participants_self_adherence_search.yml
+/v5/studies/{studyId}/participants/self/adherence:
+    $ref: ./studies/v5_studies_studyId_participants_self_adherence.yml
+/v5/studies/{studyId}/participants/self/timeline:
+    $ref: ./studies/v5_studies_studyId_participants_self_timeline.yml
 
 # Templates
 /v3/templates:

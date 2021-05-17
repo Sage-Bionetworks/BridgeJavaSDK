@@ -2,6 +2,8 @@ SharingScope:
     $ref: ./enums/sharing_scope.yml
 AccountStatus:
     $ref: ./enums/account_status.yml
+ActivityEventUpdateType:
+    $ref: ./enums/activity_event_update_type.yml
 ContactRole:
     $ref: ./enums/contact_role.yml
 CountryCode:
@@ -22,10 +24,14 @@ PerformanceOrder:
     $ref: ./enums/performance_order.yml
 ReminderType:
     $ref: ./enums/reminder_type.yml
+AdherenceRecordType:
+    $ref: ./enums/adherence_record_type.yml
 ScheduleType:
     $ref: ./enums/schedule_type.yml
 SmsType:
     $ref: ./enums/sms_type.yml
+SortOrder:
+    $ref: ./enums/sort_order.yml
 StudyPhase:
     $ref: ./enums/study_phase.yml
 Role:
@@ -81,6 +87,12 @@ ActivityEvent:
     $ref: ./activity_event.yml
 Address:
     $ref: ./address.yml
+AdherenceRecord:
+    $ref: ./adherence_record.yml
+AdherenceRecordUpdates:
+    $ref: ./adherence_record_updates.yml
+AdherenceRecordsSearch:
+    $ref: ./adherence_records_search.yml
 AndroidAppLink:
     $ref: ./android_app_link.yml
 App:
@@ -265,6 +277,8 @@ SmsMessage:
     $ref: ./sms_message.yml
 SmsTemplate:
     $ref: ./sms_template.yml
+StudyActivityEventRequest:
+    $ref: ./study_activity_event_request.yml
 StudyConsent:
     $ref: ./study_consent.yml
 StudyParticipant:
@@ -277,6 +291,8 @@ SubscriptionStatus:
     $ref: ./subscription_status.yml
 Study:
     $ref: ./study.yml
+StudyActivityEvent:
+    $ref: ./study_activity_event.yml
 Survey:
     $ref: ./survey.yml
 SurveyElement:
@@ -339,6 +355,8 @@ ActivityList:
     $ref: ./paged_resources/activity.yml
 ActivityEventList:
     $ref: ./paged_resources/activity_event.yml
+AdherenceRecordList:
+    $ref: ./paged_resources/adherence_record.yml
 AppConfigList:
     $ref: ./paged_resources/app_config.yml
 AppConfigElementList:
@@ -401,6 +419,10 @@ SharedModuleMetadataList:
     $ref: ./paged_resources/shared_module_metadata.yml
 StringList:
     $ref: ./paged_resources/string.yml
+StudyActivityEventList:
+    $ref: ./paged_resources/study_activity_event.yml
+StudyActivityEventPagedList:
+    $ref: ./paged_resources/study_activity_event_paged.yml
 StudyConsentList:
     $ref: ./paged_resources/study_consent.yml
 StudyList:
