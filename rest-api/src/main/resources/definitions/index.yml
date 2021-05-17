@@ -275,6 +275,8 @@ SmsMessage:
     $ref: ./sms_message.yml
 SmsTemplate:
     $ref: ./sms_template.yml
+StudyActivityEventRequest:
+    $ref: ./study_activity_event_request.yml
 StudyConsent:
     $ref: ./study_consent.yml
 StudyParticipant:
@@ -287,6 +289,8 @@ SubscriptionStatus:
     $ref: ./subscription_status.yml
 Study:
     $ref: ./study.yml
+StudyActivityEvent:
+    $ref: ./study_activity_event.yml
 Survey:
     $ref: ./survey.yml
 SurveyElement:
@@ -413,6 +417,10 @@ SharedModuleMetadataList:
     $ref: ./paged_resources/shared_module_metadata.yml
 StringList:
     $ref: ./paged_resources/string.yml
+StudyActivityEventList:
+    $ref: ./paged_resources/study_activity_event.yml
+StudyActivityEventPagedList:
+    $ref: ./paged_resources/study_activity_event_paged.yml
 StudyConsentList:
     $ref: ./paged_resources/study_consent.yml
 StudyList:
