@@ -215,6 +215,8 @@ ParticipantData:
     $ref: ./participant_data.yml
 ParticipantFile:
      $ref: ./participant_file.yml
+ParticipantRosterRequest:
+    $ref: ./participant_roster_request.yml
 PasswordPolicy:
     $ref: ./password_policy.yml
 PasswordReset:

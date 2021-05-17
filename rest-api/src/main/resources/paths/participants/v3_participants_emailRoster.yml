@@ -1,0 +1,22 @@
+post:
+    operationId: getParticipantRoster
+    summary: Get a roster of participants within an app, and optionally within a studyId.
+    tags:
+        - _For Researchers
+        - _For Study Coordinators
+        - Participants
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - name: ParticipantRosterRequest
+          required: true
+          in: body
+          schema:
+              $ref: ../../definitions/participant_roster_request.yml
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml
