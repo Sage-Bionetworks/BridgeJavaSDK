@@ -36,3 +36,6 @@ allOf:
             readOnly: true
             description: "StudyParticipant"
             x-nullable: false
+        note:
+            type: string
+            description: Optional note related to user account.

@@ -89,3 +89,6 @@ properties:
         readOnly: true
         description: "Account"
         x-nullable: false
+    note:
+        type: string
+        description: Optional note related to user account.
