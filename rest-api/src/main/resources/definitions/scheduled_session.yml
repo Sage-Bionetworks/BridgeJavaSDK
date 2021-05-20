@@ -34,6 +34,9 @@ properties:
     persistent:
         type: boolean
         readOnly: true
+    timeWindowGuid:
+        type: string
+        readOnly: true
     assessments:
         type: array
         items:

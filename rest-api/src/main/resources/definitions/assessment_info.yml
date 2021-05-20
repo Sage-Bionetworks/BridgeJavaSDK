@@ -35,6 +35,11 @@ properties:
         description: The number of minutes it takes for a participant to complete this assessment.
     colorScheme:
         $ref: ./color_scheme.yml
+    configUrl:
+        type: string
+        readOnly: true
+        x-nullable: false
+        description: The URL to download the configuration associated with this assessment.
     type:
         type: string
         readOnly: true
