@@ -19,6 +19,7 @@ properties:
         type: string
         description: A human-readable identifier for an assessment, which can have one or more revisions.
         readOnly: true
+        x-nullable: false
     revision:
         type: integer
         format: int32
@@ -38,8 +39,8 @@ properties:
     configUrl:
         type: string
         readOnly: true
-        x-nullable: false
         description: The URL to download the configuration associated with this assessment.
+        x-nullable: false
     type:
         type: string
         readOnly: true
