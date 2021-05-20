@@ -8,19 +8,23 @@ properties:
     instanceGuid:
         type: string
         readOnly: true
+        x-nullable: false
     startDay:
         type: integer
         format: int32
         readOnly: true
+        x-nullable: false
     endDay:
         type: integer
         format: int32
         readOnly: true
+        x-nullable: false
     startTime:
         type: string
         format: ISO 8601 Local Time, hours and minutes only
         example: 14:15
         readOnly: true
+        x-nullable: false
     delayTime:
         type: string
         format: ISO 8601 Duration
@@ -31,12 +35,14 @@ properties:
         format: ISO 8601 Duration
         example: P52W
         readOnly: true
+        x-nullable: false
     persistent:
         type: boolean
         readOnly: true
     timeWindowGuid:
         type: string
         readOnly: true
+        x-nullable: false
     assessments:
         type: array
         items:
