@@ -48,6 +48,9 @@ properties:
     adminOnly:
         description: Administrative accounts are accounts with any roles that allow them to operate against our administrative APIs (not participant-facing, and not requiring consent). When null, the search returns all accounts. When true, returns accounts with at least one assigned role. When false, returns accounts with no administrative roles.
         type: boolean
+    enrolledInStudyId:
+        description: If no study ID is supplied, all accounts will be returned. If an ID is supplied, only accounts assigned to that study are returned.
+        type: string
     type:
         type: string
         readOnly: true

@@ -1,0 +1,46 @@
+get:
+    operationId: getStudyParticipantStudyActivityEventHistory
+    summary: Get the history of past timestamps for this event (for the caller).
+    tags:
+        - Study Participants
+        - Study Activity Events
+        - _For Study Coordinators
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/eventId
+        - $ref: ../../index.yml#/parameters/offsetBy
+        - $ref: ../../index.yml#/parameters/pageSize
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/study_activity_event_paged.yml
+        401:
+            $ref: ../../responses/401.yml
+        412:
+            $ref: ../../responses/412.yml
+delete:
+    operationId: deleteStudyParticipantStudyActivityEvent
+    summary: Delete custom activity event for a study participant
+    tags:
+        - Study Participants
+        - Study Activity Events
+        - _For Study Coordinators
+        - _For Researchers
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/eventId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml                

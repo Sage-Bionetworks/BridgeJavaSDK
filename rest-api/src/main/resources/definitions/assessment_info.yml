@@ -19,6 +19,7 @@ properties:
         type: string
         description: A human-readable identifier for an assessment, which can have one or more revisions.
         readOnly: true
+        x-nullable: false
     revision:
         type: integer
         format: int32
@@ -35,6 +36,11 @@ properties:
         description: The number of minutes it takes for a participant to complete this assessment.
     colorScheme:
         $ref: ./color_scheme.yml
+    configUrl:
+        type: string
+        readOnly: true
+        description: The URL to download the configuration associated with this assessment.
+        x-nullable: false
     type:
         type: string
         readOnly: true
