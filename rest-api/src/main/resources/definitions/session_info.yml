@@ -15,28 +15,14 @@ properties:
     performanceOrder:
         $ref: ./enums/performance_order.yml
         x-nullable: false
-    notifyAt:
-        $ref: ./enums/notification_type.yml
-        x-nullable: false
-    remindAt:
-        $ref: ./enums/reminder_type.yml
-        x-nullable: false
-    reminderPeriod:
-        type: string
-        description: |
-            The time after a window starts or before it ends (based on the `remindAt` property) when a reminder should be issued to the client. Only minute, hour, day, and week values are allowed (although these can be mixed).
-        format: ISO 8601 Duration
-        example: PT10M
-    allowSnooze:
-        type: boolean
-        description: |
-            Allow the participant to “snooze” a notification or reminder (dismiss it with some amount of time before it occurs again). Cannot be true if `notifyAt` is null.
-        default: false
     minutesToComplete:
         type: integer
         format: int32 
-    message:
-        $ref: ./notification_message.yml
+    notifications:
+        type: array
+        items:
+            $ref: ./notification_info.yml
+        x-nullable: false
     type:
         type: string
         readOnly: true

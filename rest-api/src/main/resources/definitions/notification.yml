@@ -1,0 +1,37 @@
+description: |
+    A notification to show to a participant as part of the execution of a scheduled session.
+type: object
+required:
+    - notifyAt
+    - offset
+properties:
+    notifyAt:
+        $ref: ./enums/notification_type.yml
+        x-nullable: false
+    offset:
+        type: string
+        description: The time after a window starts or before it ends (based on the `notifyAt` property) when a notification should be shown to the user.
+        format: ISO 8601 Duration
+        example: PT10M
+    interval:
+        type: string
+        description: If a window lasts for more thatn twenty-four hours, a notification can be repeated on a daily repeat value. Only day values are allowed.
+        format: ISO 8601 Duration
+        example: P1D
+    allowSnooze:
+        type: boolean
+        description: Allow the participant to “snooze” a notification or reminder (dismiss it with some amount of time before it occurs again). Cannot be true if `notifyAt` is null.
+        default: false
+    messages:
+        type: array
+        description: The message to use for a notification and reminder, if these have been specified. Whether these are enabled or not, notification messages will be validated. Only one message can be included for a given language. The system will first try and select the participant’s preferred languages (from most to least preferred), then it will select an English (“en”) language default message. An English language default message *must* be provided because there is no other reasonable fallback value.
+        items:
+            $ref: ./notification_message.yml
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "Notification"
+        x-nullable: false
+
+
