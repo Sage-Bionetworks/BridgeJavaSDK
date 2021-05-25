@@ -26,6 +26,7 @@ properties:
         description: Allow the participant to “snooze” a notification or reminder (dismiss it with some amount of time before it occurs again). Cannot be true if `notifyAt` is null.
         default: false
         readOnly: true
+        x-nullable: false
     message:
         $ref: ./notification_message.yml
         description: The message to use for a notification and reminder, if these have been specified. This message will be the message selected for the caller based on their language preferences.
