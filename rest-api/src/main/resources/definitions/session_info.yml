@@ -19,6 +19,13 @@ properties:
         $ref: ./enums/performance_order.yml
         x-nullable: false
         readOnly: true
+    timeWindowGuids:
+        type: array
+        items:
+            type: string
+        description: A list of all the time window GUIDs for this session. The number of time windows in a session can be useful information for some UI grouping tasks.
+        x-nullable: false
+        readOnly: true
     minutesToComplete:
         type: integer
         format: int32 

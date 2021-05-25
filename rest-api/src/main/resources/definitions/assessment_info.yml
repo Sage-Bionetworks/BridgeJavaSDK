@@ -37,6 +37,11 @@ properties:
     colorScheme:
         $ref: ./color_scheme.yml
         readOnly: true
+    configUrl:
+        type: string
+        readOnly: true
+        description: The URL to download the configuration associated with this assessment.
+        x-nullable: false
     type:
         type: string
         readOnly: true
