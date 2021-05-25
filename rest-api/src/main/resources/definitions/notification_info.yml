@@ -8,23 +8,28 @@ properties:
     notifyAt:
         $ref: ./enums/notification_type.yml
         x-nullable: false
+        readOnly: true
     offset:
         type: string
         description: The time after a window starts or before it ends (based on the `notifyAt` property) when a notification should be shown to the user.
         format: ISO 8601 Duration
         example: PT10M
+        readOnly: true
     interval:
         type: string
         description: If a window lasts for more thatn twenty-four hours, a notification can be repeated on a daily repeat value. Only day values are allowed.
         format: ISO 8601 Duration
         example: P1D
+        readOnly: true
     allowSnooze:
         type: boolean
         description: Allow the participant to “snooze” a notification or reminder (dismiss it with some amount of time before it occurs again). Cannot be true if `notifyAt` is null.
         default: false
+        readOnly: true
     message:
         $ref: ./notification_message.yml
         description: The message to use for a notification and reminder, if these have been specified. This message will be the message selected for the caller based on their language preferences.
+        readOnly: true
     type:
         type: string
         readOnly: true

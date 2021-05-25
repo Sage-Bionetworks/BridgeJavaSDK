@@ -4,7 +4,7 @@ properties:
     key:
         type: string
         description: Because assessments can be configured with different display information, they are not referenced in the schedule portion of a timeline by their GUIDs. Instead they are given a unique string key that is used to look up the assessment.
-        readOnly: false
+        readOnly: true
         x-nullable: false
     guid:
         type: string
@@ -19,6 +19,7 @@ properties:
         type: string
         description: A human-readable identifier for an assessment, which can have one or more revisions.
         readOnly: true
+        x-nullable: false
     revision:
         type: integer
         format: int32
@@ -35,6 +36,7 @@ properties:
         description: The number of minutes it takes for a participant to complete this assessment.
     colorScheme:
         $ref: ./color_scheme.yml
+        readOnly: true
     type:
         type: string
         readOnly: true

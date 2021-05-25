@@ -5,24 +5,30 @@ properties:
         type: string
         description: The unique identifier for this model.
         x-nullable: false
+        readOnly: true
     label:
         type: string
         description: A required name for this session that will be shown to schedule authors, and can be used as a label for participants if no label can be found.
         x-nullable: false
+        readOnly: true
     startEventId:
         x-nullable: false
         description: An identifier for the event which should be used to schedule this sequence of sessions. The identifier may be mapped to a timestamp for a user. If the event ID does not exist for the user, the client should ignore this session and schedule nothing. If the event ID exists, the client should start with that timestamp and schedule forward in time according to the information in the session and its schedule.
+        readOnly: true
     performanceOrder:
         $ref: ./enums/performance_order.yml
         x-nullable: false
+        readOnly: true
     minutesToComplete:
         type: integer
         format: int32 
+        readOnly: true
     notifications:
         type: array
         items:
             $ref: ./notification_info.yml
         x-nullable: false
+        readOnly: true
     type:
         type: string
         readOnly: true
