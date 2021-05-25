@@ -1,13 +1,11 @@
 type: string
 description: |
-    They type of notification to provide relative to a session. If present, this enum specifies when the notification should be shown to the participant.
+    They type of notification to provide relative to a session’s time window. This enum specifies when the notification should be shown to the participant.
 
     |Status|Description|
     |---|---|
-    |participant_choice|The participant can specify when to receive the notification.|
-    |start_of_window|The notification should be delivered at the start of each session window instance.|
-    |random|The notification should be delivered at a random point in time during each session window instance.|
+    |after_window_start|Issue the notification the `offset` after the window starts|
+    |before_window_end|Issue the notification the `offset` before the window ends|
 enum:
-    - participant_choice
-    - start_of_window
-    - random
+    - after_window_start
+    - before_window_end

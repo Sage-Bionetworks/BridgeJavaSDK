@@ -22,8 +22,6 @@ NotificationType:
     $ref: ./enums/notification_type.yml
 PerformanceOrder:
     $ref: ./enums/performance_order.yml
-ReminderType:
-    $ref: ./enums/reminder_type.yml
 AdherenceRecordType:
     $ref: ./enums/adherence_record_type.yml
 ScheduleType:
@@ -197,6 +195,10 @@ MasterSchedulerConfig:
     $ref: ./master_scheduler_config.yml
 Message:
     $ref: ./message.yml
+Notification:
+    $ref: ./notification.yml
+NotificationInfo:
+    $ref: ./notification_info.yml
 NotificationMessage:
     $ref: ./notification_message.yml
 NotificationRegistration:
