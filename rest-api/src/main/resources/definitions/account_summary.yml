@@ -71,3 +71,7 @@ properties:
         readOnly: true
         description: "AccountSummary"
         x-nullable: false
+    note:
+        type: string
+        readOnly: true
+        description: Optional note related to user account.
