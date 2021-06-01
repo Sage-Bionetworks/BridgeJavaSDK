@@ -27,16 +27,27 @@ properties:
         description: |
             Client data for a study should be in a syntactically valid JSON format. It will be returned as is to the client (as JSON). It can contain any information that is useful to study authoring tools or administration tools that is not part of the Bridge data model.
         additionalProperties: true
-    irbApprovedOn:
+    irbName:
         type: string
-        description: Before the study can launch, the IRB’s approval must be recorded for the study.
+        description: The name of the IRB that approved the study or decided it was exempt from human subjects research guidelines. Optional, but can be used to identify one of several IRBs if more than one is included in the study’s contact information.
+    irbDecisionOn:
+        type: string
+        description: Before the study can launch, it must be reviewed by your IRB and either be approved, or considered exepmpt from human subjects research guidelines.
         example: '2021-04-31'
         format: date 
-    irbApprovedUntil:
+    irbExpiresOn:
         type: string
-        description: Before the study can launch, the IRB’s approval must be recorded for the study.
+        description: The last date that the IRB’s review is considered up-to-date for this study.
         example: '2021-04-31'
         format: date 
+    irbDecisionType:
+        $ref: ./enums/irb_decision_type.yml
+    irbProtocolName:
+        type: string
+        description: The name of the protocol as it was submitted to the IRB for approval.
+    irbProtocolId:
+        type: string
+        description: An identification number for the study that has been assigned by the IRB.
     studyLogoUrl:
         type: string
         description: An URL to a logo for the study. 
@@ -45,9 +56,6 @@ properties:
     institutionId:
         type: string
         description: An identification number for the study that has been assigned by the sponsor or institution running the study.
-    irbProtocolId:
-        type: string
-        description: An identification number for the study that has been assigned by the IRB.
     scheduleGuid:
         type: string
         description: |
