@@ -50,7 +50,7 @@ delete:
         - _For Researchers
         - _For Developers
     security:
-        -   BridgeSecurity: [ ]
+        -   BridgeSecurity: []
     parameters:
         -   $ref: ../../index.yml#/parameters/parentId
     responses:

@@ -26,12 +26,11 @@ delete:
         - _For Researchers
         - _For Developers
     security:
-        -   BridgeSecurity: [ ]
+        -   BridgeSecurity: []
     parameters:
-        -   $ref: ../../index.yml#/parameters/identifier
+        - $ref: ../../index.yml#/parameters/identifier
     responses:
         200:
-            schema:
-                $ref: ../../responses/200_message.yml
+            $ref: ../../responses/200_message.yml
         401:
             $ref: ../../responses/401.yml

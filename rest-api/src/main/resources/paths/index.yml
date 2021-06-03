@@ -268,7 +268,7 @@
 # Health Data Documentation
 /v3/healthdata_documentation:
     $ref: ./healthdata_documentation/v3_healthdata_documentation.yml
-/v3/healthdata_documentation_identifier:
+/v3/healthdata_documentation/{identifier}:
     $ref: ./healthdata_documentation/v3_healthdata_documentation_identifier.yml
 
 # Intent to participate
