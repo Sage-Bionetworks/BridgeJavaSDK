@@ -422,6 +422,11 @@ parameters:
         in: query
         type: string
         description: The reason given for a user’s withdrawal from a study.
+    parentId:
+        name: parentId
+        in: query
+        type: string
+        description: The id used in place of appId, and in the future, studyId.
 paths:
     $ref: ./paths/index.yml
 definitions:

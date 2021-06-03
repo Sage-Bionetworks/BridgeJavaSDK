@@ -1,0 +1,60 @@
+post:
+    operationId: createOrUpdateHealthDataDocumentation
+    summary: Create or update health data documentation.
+    tags:
+        - Health Data Documentation
+        - _For Researchers
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - name: HealthDataDocumentation
+          in: body
+          description: Health data documentation submitted by the user
+          required: true
+          schema:
+              $ref: ../../definitions/health_data_documentation.yml
+    responses:
+        201:
+            description: Created or updated
+            schema:
+                $ref: ../../definitions/health_data_documentation.yml
+        401:
+            $ref: ../../responses/401.yml
+get:
+    operationId: getAllHealthDataDocumentationForParentId
+    summary: Get all health data documentation by parentId.
+    description: Gets a list of health data documentation for the given parentId.
+    tags:
+        - Health Data Documentation
+        - _For Researchers
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/parentId
+        - $ref: ../../index.yml#/parameters/offsetKey
+        - $ref: ../../index.yml#/parameters/pageSize
+    responses:
+        201:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/health_data_documentation.yml
+        401:
+            $ref: ../../responses/401.yml
+delete:
+    operationId: deleteAllHealthDataDocumentationForParentId
+    summary: Delete all documentation associated with given parentId
+    tags:
+        - Health Data Documentation
+        - _For Researchers
+        - _For Developers
+    security:
+        -   BridgeSecurity: [ ]
+    parameters:
+        -   $ref: ../../index.yml#/parameters/parentId
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
