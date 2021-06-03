@@ -1,0 +1,36 @@
+description:
+    The documentation to be associated with participant health data.
+
+type: object
+required:
+    - documentation
+properties:
+    title:
+        type: string
+        description: The title of the documentation.
+    parentId:
+        type: string
+        description: The parentId of the documentation.
+    identifier:
+        type: string
+        description: The unique identifier of the documentation.
+    version:
+        type: integer
+        format: int64
+        description: |
+            A version number used for optimistic locking of the object these keys represent; this value must be passed back to the server on updates. If the version doesn't match the version in the database, an error will be returned (409 Conflict) and the documntation will not be saved.
+    documentation:
+        type: string
+        description: The documentation, which is limited to a maximum size of 100 K.
+    createdBy:
+        type: string
+        description: The userId of the author of the documentation.
+    createdOn:
+        type: object
+        description: The date time of creation of the documentation.
+    modifiedBy:
+        type: string
+        description: The userId of the user who modified the documentation.
+    modifiedOn:
+        type: object
+        description: The date time of the modification of the documentation.
