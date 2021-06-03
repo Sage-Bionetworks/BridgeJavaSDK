@@ -149,6 +149,8 @@ GuidHolder:
     $ref: ./guid_holder.yml
 GuidVersionHolder:
     $ref: ./guid_version_holder.yml
+HealthDataDocumentation:
+    $ref: ./health_data_documentation.yml
 HealthDataRecord:
     $ref: ./health_data_record.yml
 HealthDataRecordEx3:
