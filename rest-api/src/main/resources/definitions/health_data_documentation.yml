@@ -27,10 +27,17 @@ properties:
         description: The userId of the author of the documentation.
     createdOn:
         type: object
+        format: date-time
         description: The date time of creation of the documentation.
     modifiedBy:
         type: string
         description: The userId of the user who modified the documentation.
     modifiedOn:
         type: object
+        format: date-time
         description: The date time of the modification of the documentation.
+    type:
+        type: string
+        readOnly: true
+        description: "HealthDataDocumentation"
+        x-nullable: false
