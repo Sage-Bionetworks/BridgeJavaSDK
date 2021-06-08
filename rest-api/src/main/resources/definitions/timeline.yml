@@ -27,6 +27,16 @@ properties:
             $ref: ./session_info.yml
         readOnly: true
         x-nullable: false
+    totalMinutes:
+        type: integer
+        description: The total number of minutes to perform all the sessions in the timeline. This information is provided for informational purposes to schedule designers.
+        readOnly: true
+        x-nullable: false
+    totalNotifications:
+        type: integer
+        description: The total number of notifications that could be shown to the participant (if all possible notifications are shown; fewer notifications may be shown since the participant may complete sessions before all reminders are shown for the session). This information is provided for informational purposes to schedule designers.
+        readOnly: true
+        x-nullable: false
     type:
         type: string
         readOnly: true
