@@ -1,0 +1,11 @@
+type: string
+description: |
+    The outcome of IRB approval that allows this study to be executed on the Bridge platform.
+
+    |Type|Description|
+    |---|---|
+    |exempt|The study is considered to be exempt from human subjects research guidelines.|
+    |approved|The study was reviewed by the IRB and its protocol is approved.|
+enum:
+    - exempt
+    - approved

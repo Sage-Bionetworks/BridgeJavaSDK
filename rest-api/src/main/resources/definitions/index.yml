@@ -16,6 +16,8 @@ Environment:
     $ref: ./enums/environment.yml
 FileRevisionStatus:
     $ref: ./enums/file_revision_status.yml
+IrbDecisionType:
+    $ref: ./enums/irb_decision_type.yml
 NotificationProtocol:
     $ref: ./enums/notification_protocol.yml
 NotificationType:
