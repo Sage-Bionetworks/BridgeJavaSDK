@@ -24,6 +24,8 @@
     $ref: ./403_not_admin.yml
 403_not_admin_developer:
     $ref: ./403_not_admin_developer.yml
+403_not_admin_study_designer_developer.yml:
+    $ref: ./403_not_admin_study_designer_developer.yml
 403_not_admin_worker:
     $ref: ./403_not_admin_worker.yml
 403_not_developer:

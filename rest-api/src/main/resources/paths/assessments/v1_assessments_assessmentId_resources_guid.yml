@@ -66,4 +66,4 @@ delete:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_admin_developer.yml
+            $ref: ../../responses/403_not_admin_study_designer_developer.yml
