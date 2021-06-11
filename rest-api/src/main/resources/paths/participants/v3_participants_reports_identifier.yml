@@ -1,5 +1,5 @@
 post:
-    operationId: addParticipantReportRecord
+    operationId: addParticipantReportRecordForWorker
     summary: Add a participant report record
     description: |
         Endpoint for a worker to add a report record for a participant. Unlike other endpoints, 

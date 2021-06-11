@@ -21,3 +21,27 @@ get:
             $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_researcher.yml
+post:
+    operationId: addParticipantReportRecord
+    summary: Add a participant report record
+    tags:
+        - Participant Reports
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/identifier
+        - name: ReportData
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/report_data.yml
+
+    responses:
+        201:
+            $ref: ../../responses/201_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher.yml

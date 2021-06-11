@@ -46,7 +46,7 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_developer.yml            
+            $ref: ../../responses/403_not_developer_researcher.yml
 delete:
     operationId: deleteAllParticipantReportRecords
     summary: Delete a participant report (all records)
@@ -65,4 +65,4 @@ delete:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_developer_worker.yml
+            $ref: ../../responses/403_not_developer_researcher_worker.yml
