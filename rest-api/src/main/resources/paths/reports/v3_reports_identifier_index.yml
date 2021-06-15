@@ -2,7 +2,7 @@ get:
     operationId: getStudyReportIndex
     summary: Get a  report index
     description: |
-        Get the index (or metadata) for a set of report records. 
+        Get the index (or metadata) for a set of report records. The caller must be authenticated to retrieve indices.
     tags:
         - Study Reports
         - _For Developers
@@ -18,13 +18,10 @@ get:
                 $ref: ../../definitions/report_index.yml
         401:
             $ref: ../../responses/401.yml
-        403:
-            $ref: ../../responses/403_not_developer_researcher.yml
 post:
     operationId: updateStudyReportIndex
     summary: Update an existing study report index
-    description: |
-        Update the index (or metadata) for a set of report records.
+    description: Update the index (or metadata) for a set of report records. Any member of an organization sponsoring a study, or any app-scoped administrative user, can update a study index.
     tags:
         - Study Reports
         - _For Developers
@@ -43,5 +40,3 @@ post:
             $ref: ../../responses/200_message.yml
         401:
             $ref: ../../responses/401.yml
-        403:
-            $ref: ../../responses/403_not_developer.yml                

@@ -1,7 +1,7 @@
 get:
     operationId: getUsersParticipantReportRecords
     summary: Get participant report records
-    description: This endpoint can be called by researchers, and by other administrators for their own account. 
+    description: The report can be accessed if the participant is requesting their own report, or the caller is a researcher, worker, or admin, or the caller is a study coordinator for a study that includes the participant.
     tags:
         - Participant Reports
         - _For Researchers
@@ -19,11 +19,10 @@ get:
                 $ref: ../../definitions/paged_resources/report_data.yml
         401:
             $ref: ../../responses/401.yml
-        403:
-            $ref: ../../responses/403_not_researcher.yml
 post:
     operationId: addParticipantReportRecord
     summary: Add a participant report record
+    description: The report can be accessed if the participant is requesting their own report, or the caller is a researcher, worker, or admin, or the caller is a study coordinator for a study that includes the participant.
     tags:
         - Participant Reports
         - _For Developers
