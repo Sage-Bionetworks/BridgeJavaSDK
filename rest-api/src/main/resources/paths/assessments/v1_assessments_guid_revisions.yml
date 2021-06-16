@@ -30,6 +30,7 @@ post:
     description: The identifier of the assessment must already exist (and the revision number of this assessment must be unique). This operation returns the new assessment revision.
     tags:
         - _For Developers
+        - _For Study Designers
         - Assessments
     security:
         -   BridgeSecurity: []

@@ -22,6 +22,7 @@ post:
     tags: 
         - Assessments
         - _For Developers
+        - _For Study Designers
     security:
         - BridgeSecurity: []
     parameters:

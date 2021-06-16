@@ -3,6 +3,7 @@ post:
     summary: Copy these shared resources to your app context
     tags:
         - _For Developers
+        - _For Study Designers
         - Shared Assessments
     description: |
         The shared assessment these resources relate to must have been imported at least one time to the local app context before the resources can be imported. If the resource has already been imported, it'll be updated with the local version. Note that the imported assessment has a link to the shared assessment and thus, you can refer to all the resource links of the shared assessment rather than importing them.
