@@ -30,6 +30,8 @@ post:
     tags:
         - Participant Reports
         - _For Developers
+        - _For Workers
+        - _For Study Coordinators
     security:
         - BridgeSecurity: []
     parameters:
@@ -47,7 +49,7 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_developer_researcher.yml
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml
 delete:
     operationId: deleteAllParticipantReportRecords
     summary: Delete a participant report (all records)

@@ -3,6 +3,7 @@ get:
     summary: Get participant report records by date
     tags: 
         - _For Workers
+        - Participant Reports
     security:
         -   BridgeSecurity: []
     parameters:

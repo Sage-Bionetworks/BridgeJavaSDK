@@ -1,5 +1,5 @@
 post:
-    operationId: addParticipantReportRecordForWorker
+    operationId: addParticipantReportRecord
     summary: Add a participant report record
     description: |
         Endpoint for a worker to add a report record for a participant. Unlike other endpoints, 
@@ -7,6 +7,7 @@ post:
         processes working with data from Synapse to write reports back to Bridge). 
     tags:
         - _For Workers
+        - Participant Reports
     security:
         - BridgeSecurity: []
     parameters:

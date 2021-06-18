@@ -19,28 +19,5 @@ get:
                 $ref: ../../definitions/paged_resources/report_data.yml
         401:
             $ref: ../../responses/401.yml
-post:
-    operationId: addParticipantReportRecord
-    summary: Add a participant report record
-    description: The report can be accessed if the participant is requesting their own report, or the caller is a researcher, worker, or admin, or the caller is a study coordinator for a study that includes the participant.
-    tags:
-        - Participant Reports
-        - _For Developers
-    security:
-        - BridgeSecurity: []
-    parameters:
-        - $ref: ../../index.yml#/parameters/userId
-        - $ref: ../../index.yml#/parameters/identifier
-        - name: ReportData
-          required: true
-          in: body
-          schema:
-            $ref: ../../definitions/report_data.yml
-
-    responses:
-        201:
-            $ref: ../../responses/201_message.yml
-        401:
-            $ref: ../../responses/401.yml
-        403:
-            $ref: ../../responses/403_not_developer_researcher.yml
+# Post is not covered here because it has the identical functionality to 
+# /v4/participants/{userId}/reports/{identifier}

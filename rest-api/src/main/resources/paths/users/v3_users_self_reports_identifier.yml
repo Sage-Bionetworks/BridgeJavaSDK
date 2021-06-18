@@ -21,21 +21,3 @@ get:
                 $ref: ../../definitions/paged_resources/report_data.yml
         401:
             $ref: ../../responses/401.yml
-post:
-    operationId: saveParticipantReportRecord
-    summary: Create a participant report
-    description: |
-        Create a record for this specific participant and participant report. 
-    tags:
-        - Users
-        - Participant Reports
-        - _For Consented Users
-    security:
-        - BridgeSecurity: []
-    parameters:
-        - $ref: ../../index.yml#/parameters/identifier
-    responses:
-        201:
-            $ref: ../../responses/201_message.yml
-        401:
-            $ref: ../../responses/401.yml
