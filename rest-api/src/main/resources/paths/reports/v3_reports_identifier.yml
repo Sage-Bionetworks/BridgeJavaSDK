@@ -1,6 +1,7 @@
 get:
     operationId: getStudyReportRecords
     summary: Get study report records
+    description: Any member of an organization sponsoring a study, or any app-scoped administrative user, can access a study report record.
     tags:
         - Study Reports
         - _For Consented Users

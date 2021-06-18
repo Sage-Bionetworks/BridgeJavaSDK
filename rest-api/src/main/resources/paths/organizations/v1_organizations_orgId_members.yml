@@ -1,6 +1,6 @@
 post:
     operationId: getMembers
-    summary: Get members of organization (using search terms)
+    summary: Get members of organization (using search terms). Caller must be a member of the organization.
     tags:
         - _For Admins
         - _For Developers
@@ -25,4 +25,4 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_org_admin_admin.yml
+            $ref: ../../responses/403_not_administrative.yml

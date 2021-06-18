@@ -1,21 +1,22 @@
 get:
-    operationId: getParticipantReportsForParticipant
-    summary: Get participant report records by date. 
+    operationId: getParticipantReportForWorkerV4
+    summary: Get participant report records by date
     tags: 
         - _For Workers
+        - Participant Reports
     security:
         -   BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/appId
         - $ref: ../../index.yml#/parameters/userId
         - $ref: ../../index.yml#/parameters/reportId
-        - $ref: ../../index.yml#/parameters/startDate
-        - $ref: ../../index.yml#/parameters/endDate
+        - $ref: ../../index.yml#/parameters/startTime
+        - $ref: ../../index.yml#/parameters/endTime
     responses:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/paged_resources/report_data.yml
+                $ref: ../../definitions/paged_resources/forward_cursor_report_data.yml
         401:
             $ref: ../../responses/401.yml
         403:

@@ -18,7 +18,7 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_developer.yml
+            $ref: ../../responses/403_not_study_designer_developer.yml
         410:
             $ref: ../../responses/410.yml
 post:
@@ -27,6 +27,7 @@ post:
     description: A GUID uniquely identifies a specific assessment revision. Only members of the organization that own this assessment can update it. This operation returns the updated assessment revision.
     tags:
         - _For Developers
+        - _For Study Designers
         - Assessments
     security:
         - BridgeSecurity: []
@@ -46,7 +47,7 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_developer.yml
+            $ref: ../../responses/403_not_study_designer_developer.yml
         410:
             $ref: ../../responses/410.yml
 delete:
@@ -56,6 +57,7 @@ delete:
     tags:
         - Assessments
         - _For Developers
+        - _For Study Designers
         - _For Admins
     security:
         - BridgeSecurity: []
@@ -70,4 +72,4 @@ delete:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_admin_developer.yml
+            $ref: ../../responses/403_not_admin_study_designer_developer.yml

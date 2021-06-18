@@ -7,6 +7,7 @@ post:
         processes working with data from Synapse to write reports back to Bridge). 
     tags:
         - _For Workers
+        - Participant Reports
     security:
         - BridgeSecurity: []
     parameters:

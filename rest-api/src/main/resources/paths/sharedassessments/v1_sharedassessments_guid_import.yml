@@ -6,6 +6,7 @@ post:
     tags: 
         - Shared Assessments
         - _For Developers
+        - _For Study Designers
     security:
         - BridgeSecurity: []
     parameters:
@@ -28,6 +29,6 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_developer.yml
+            $ref: ../../responses/403_not_study_designer_developer.yml
         412:
             $ref: ../../responses/412.yml

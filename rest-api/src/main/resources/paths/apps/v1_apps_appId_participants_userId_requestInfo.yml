@@ -6,7 +6,8 @@ get:
         effect the last time this participant contacted the Bridge server. Also provides the last 
         time activities were retrieved and uploads were sent back to the server.
     tags:
-        - _For Workers    
+        - _For Workers
+        - Participant Reports
     security:
         - BridgeSecurity: []
     parameters:

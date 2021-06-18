@@ -524,6 +524,10 @@
     $ref: ./externalIds/v3_externalIds_externalId_password.yml
 
 # Studies
+/v3/studies/{appId}/participants/{userId}/reports/{reportId}:
+    $ref: ./studies/v3_studies_appId_participants_userId_reports_reportId.yml
+/v4/studies/{appId}/participants/{userId}/reports/{reportId}:
+    $ref: ./studies/v4_studies_appId_participants_userId_reports_reportId.yml
 /v5/studies:
     $ref: ./studies/v5_studies.yml
 /v5/studies/{studyId}:
