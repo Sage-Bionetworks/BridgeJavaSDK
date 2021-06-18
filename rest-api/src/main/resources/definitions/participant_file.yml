@@ -24,5 +24,5 @@ properties:
         type: string
         format: date-time
         readOnly: true
-        description: The time when downloadUrl or uploadUrl expires.
+        description: The time when the downloadUrl or uploadUrl expires.
         example: '2020-08-28T14:28:13.386Z'
