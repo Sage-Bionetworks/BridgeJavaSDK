@@ -1,0 +1,28 @@
+post:
+    operationId: finishStudyLogoUpload
+    summary: Confirm with the Bridge server that the logo has been uploaded to S3.
+    tags:
+        - Studies
+        - _For Developers
+        - _For Study Designers
+    security:
+        - BridgeSecurity: []
+    description: |
+        Create a new logo revision. The record returned contains the `uploadURL` field, where the logo must be PUT using an HTTP library with the following two headers:
+
+        - **Content-Type** The mime type of the resource that was posted to this endpoint;
+        - **Content-Disposition** A content disposition header with the value of `inline`.
+
+        This upload URL expires in 10 minutes. When this upload has been completed, the client should then call the `finishLogoUpload` API (these steps are also encapsulated in the `RestUtils.uploadStudyLogoToS3` method).
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/createdOn
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/study.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_designer_developer.yml
