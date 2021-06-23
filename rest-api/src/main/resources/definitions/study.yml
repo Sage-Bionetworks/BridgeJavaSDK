@@ -60,6 +60,9 @@ properties:
         type: string
         description: |
             The GUID of the schedule to use for this study. **NOTE: this is temporary, and will be replaced with a model of the study protocol that can include multiple arms in the study.**
+    keywords:
+        type: string
+        description: Free text that can be used in searches to locate studies.
     diseases:
         type: array
         items:
