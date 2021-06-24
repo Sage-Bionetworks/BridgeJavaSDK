@@ -13,9 +13,17 @@ post:
         - **Content-Type** The mime type of the resource that was posted to this endpoint;
         - **Content-Disposition** A content disposition header with the value of `inline`.
 
-        This upload URL expires in 10 minutes. When this upload has been completed, the client should then call the `finishLogoUpload` API (these steps are also encapsulated in the `RestUtils.uploadStudyLogoToS3` method). The `createdOn` value from the FileRevision object returned by this request should be used to call this finish method.
+        This upload URL expires in 10 minutes. When this upload has been completed, the client should then call the `finishLogoUpload` API (these steps are also encapsulated in the `RestUtils.uploadStudyLogoToS3` method). The `createdOn` value from the FileRevision object returned by this request should be used to call this finish method. Thereafter, an URL to download the logo will be available in the study’s `studyLogoUrl` field.
+
+        A new logo can be uploaded by repeating this process.
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
+        - name: FileRevision
+          in: body
+          description: New file revision
+          required: true
+          schema:
+              $ref: ../../definitions/file_revision.yml
     responses:
         201:
             description: Created

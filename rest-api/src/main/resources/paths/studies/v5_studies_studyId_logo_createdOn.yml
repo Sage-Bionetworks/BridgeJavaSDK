@@ -8,12 +8,7 @@ post:
     security:
         - BridgeSecurity: []
     description: |
-        Create a new logo revision. The record returned contains the `uploadURL` field, where the logo must be PUT using an HTTP library with the following two headers:
-
-        - **Content-Type** The mime type of the resource that was posted to this endpoint;
-        - **Content-Disposition** A content disposition header with the value of `inline`.
-
-        This upload URL expires in 10 minutes. When this upload has been completed, the client should then call the `finishLogoUpload` API (these steps are also encapsulated in the `RestUtils.uploadStudyLogoToS3` method).
+        After calling `createStudyLogo`, and uploading the logo to S3, a client must call this method to confirm that the file has been uploaded. An URL to the logo to download it will not be available in the study’s `studyLogoUrl` field until this method is called (the server does not validate that the file has in fact been uploaded to S3).
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
         - $ref: ../../index.yml#/parameters/createdOn
