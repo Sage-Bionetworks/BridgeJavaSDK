@@ -18,7 +18,7 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_developer.yml
+            $ref: ../../responses/403_not_study_designer_developer.yml
 post:
     operationId: updateAssessmentResource
     summary: Update an external resource link documenting an assessment

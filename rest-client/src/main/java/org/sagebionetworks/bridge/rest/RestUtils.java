@@ -453,7 +453,7 @@ public class RestUtils {
         return updated.getDownloadURL();
     }
     
-    public static String uploadStudyLogoToS3(StudiesApi studiesApi, String studyId, File file) throws Exception {
+    public static String uploadStudyLogoToS3(StudiesApi studiesApi, String studyId, File file) throws IOException {
         checkNotNull(studiesApi, "StudiesApi cannot be null");
         checkNotNull(studyId, "studyId cannot be null");
         checkNotNull(file, "File cannot be null");

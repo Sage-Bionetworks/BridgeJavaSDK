@@ -60,12 +60,26 @@ properties:
         type: string
         description: |
             The GUID of the schedule to use for this study. **NOTE: this is temporary, and will be replaced with a model of the study protocol that can include multiple arms in the study.**
-    disease:
+    keywords:
         type: string
-        description: The disease condition being studied. 
-    studyDesignType:
-        type: string
-        description: The type of study (at the least, observation or intervention).
+        description: Free text that can be used in searches to locate studies.
+    diseases:
+        type: array
+        items:
+            type: string
+        description: A list of the diseases that are the subject of this study.
+        x-nullable: false
+    studyDesignTypes:
+        type: array
+        items:
+            type: string
+        description: The type of study (e.g. observational, interventional, etc.).
+        x-nullable: false
+    signInTypes:
+        type: array
+        items:
+            $ref: ./enums/sign_in_type.yml
+        x-nullable: false
     contacts:
         type: array
         items:

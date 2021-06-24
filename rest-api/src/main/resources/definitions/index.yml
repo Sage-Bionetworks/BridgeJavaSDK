@@ -28,6 +28,8 @@ AdherenceRecordType:
     $ref: ./enums/adherence_record_type.yml
 ScheduleType:
     $ref: ./enums/schedule_type.yml
+SignInType:
+    $ref: ./enums/sign_in_type.yml
 SmsType:
     $ref: ./enums/sms_type.yml
 SortOrder:
