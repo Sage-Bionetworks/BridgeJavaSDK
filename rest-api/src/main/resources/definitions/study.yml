@@ -90,9 +90,6 @@ properties:
         description: |
             Has this study been logically deleted (an admin can restore it)?
         x-nullable: false
-    logoURL:
-        type: string
-        description: If present, an URL to download and display the logo for this study.
     createdOn:
         type: string
         example: '2020-08-28T14:28:13.386Z'
