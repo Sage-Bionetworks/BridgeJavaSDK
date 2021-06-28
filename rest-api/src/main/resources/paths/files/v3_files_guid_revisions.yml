@@ -30,12 +30,12 @@ post:
     security:
         - BridgeSecurity: []
     description: |
-        Create a new file resource revision. The record returns contains the `uploadURL` field, where the resource must be PUT using an HTTP library with the following two headers:
+        Create a new file resource revision. The record returned contains the `uploadURL` field, where the resource must be PUT using an HTTP library with the following two headers:
 
         - **Content-Type** The mime type of the resource that was posted to this endpoint;
         - **Content-Disposition** A content disposition header with the value of `attachment; filename="name"` where the name is the name included in the revision object posted to this endpoint.
 
-        This uplod URL expires in 10 minutes. When this upload has been completed, the client should then call the `finishFileRevision` API (these steps are also encapsulated in the `RestUtils.uploadHostedFileToS3` method).
+        This upload URL expires in 10 minutes. When this upload has been completed, the client should then call the `finishFileRevision` API (these steps are also encapsulated in the `RestUtils.uploadHostedFileToS3` method).
     parameters:
         - $ref: ../../index.yml#/parameters/guid
         - name: FileRevision

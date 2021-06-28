@@ -21,6 +21,7 @@ import org.joda.time.LocalDate;
 import org.sagebionetworks.bridge.rest.api.AuthenticationApi;
 import org.sagebionetworks.bridge.rest.api.FilesApi;
 import org.sagebionetworks.bridge.rest.api.ForConsentedUsersApi;
+import org.sagebionetworks.bridge.rest.api.StudiesApi;
 import org.sagebionetworks.bridge.rest.gson.ByteArrayToBase64TypeAdapter;
 import org.sagebionetworks.bridge.rest.gson.DateTimeTypeAdapter;
 import org.sagebionetworks.bridge.rest.gson.LocalDateTypeAdapter;
@@ -449,6 +450,50 @@ public class RestUtils {
                 updated.getUploadURL(), body, contentDisposition, updated.getMimeType()).execute();
         
         fileApi.finishFileRevision(fileGuid, updated.getCreatedOn()).execute();
+        return updated.getDownloadURL();
+    }
+    
+    public static String uploadStudyLogoToS3(StudiesApi studiesApi, String studyId, File file) throws IOException {
+        checkNotNull(studiesApi, "StudiesApi cannot be null");
+        checkNotNull(studyId, "studyId cannot be null");
+        checkNotNull(file, "File cannot be null");
+        checkArgument(file.exists(), "File does not exist: " + file.getAbsolutePath());
+        
+        FileNameMap fileNameMap = URLConnection.getFileNameMap();
+        String mimeType = fileNameMap.getContentTypeFor(file.getName());        
+        checkNotNull(mimeType, "Mime type cannot be detected: " + mimeType);
+        
+        long size = java.nio.file.Files.size(file.toPath());
+        checkArgument(size > 0, "File size cannot be detected: " + size);
+        
+        FileRevision revision = new FileRevision();
+        revision.setName(file.getName());
+        revision.setMimeType(mimeType);
+        revision.setSize(size);
+        
+        String contentDisposition = "inline";
+        RequestBody body = RequestBody.create(MediaType.parse(revision.getMimeType()), file);
+        
+        FileRevision updated = studiesApi.createStudyLogo(studyId, revision).execute().body();
+        
+        URI uri = URI.create(updated.getUploadURL());
+        String baseUrl = uri.getScheme()+"://"+uri.getHost()+"/";
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(5, MINUTES)
+                .readTimeout(5, MINUTES)
+                .writeTimeout(5, MINUTES)
+                .addInterceptor(new ErrorResponseInterceptor())
+                .addInterceptor(new LoggingInterceptor())
+                .retryOnConnectionFailure(false).build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .client(client).build();
+
+        retrofit.create(HostS3Service.class).uploadToS3(
+                updated.getUploadURL(), body, contentDisposition, updated.getMimeType()).execute();
+
+        studiesApi.finishStudyLogoUpload(studyId, updated.getCreatedOn()).execute();
         return updated.getDownloadURL();
     }
     

@@ -17,7 +17,7 @@ properties:
         readOnly: true
     interval:
         type: string
-        description: If a window lasts for more thatn twenty-four hours, a notification can be repeated on a daily repeat value. Only day values are allowed.
+        description: If a window lasts for more than twenty-four hours, a notification can be repeated on a daily repeat value. Only day values are allowed.
         format: ISO 8601 Duration
         example: P1D
         readOnly: true
