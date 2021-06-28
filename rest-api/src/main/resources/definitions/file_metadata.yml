@@ -12,6 +12,11 @@ properties:
         x-nullable:  false
     description:
         type: string
+    disposition:
+        $ref: ./enums/file_disposition.yml
+        default: attachment
+        description: When served by the host server, files can be sent with a `Content-Disposition` header that indicates to web clients how the file should be displayed. By default this value is set to `attachment` which indicates the file should be downloaded to local storage; `inline` indicates the file will be embedded in a web page (most commonly used for images).
+        x-nullable: false
     createdOn:
         type: string
         format: date-time
