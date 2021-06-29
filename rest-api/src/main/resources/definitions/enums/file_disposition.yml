@@ -1,0 +1,12 @@
+type: string
+description: |
+    When served by the host server, files can be sent with a `Content-Disposition` header that indicates to web clients how the file should be displayed.
+
+    |Type|Description|
+    |---|---|
+    |inline|The file will be embedded in a web page; used most often for images.|
+    |attachment|The file should be returned as a download, with the name of the file to be downloaded set to the name of the file as it was when it was uploaded to the Bridge server. This value is the default. |
+
+enum:
+    - inline
+    - attachment

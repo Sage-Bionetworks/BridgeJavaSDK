@@ -534,6 +534,11 @@
     $ref: ./studies/v5_studies.yml
 /v5/studies/{studyId}:
     $ref: ./studies/v5_studies_studyId.yml
+
+/v5/studies/{studyId}/logo:
+    $ref: ./studies/v5_studies_studyId_logo.yml
+/v5/studies/{studyId}/logo/{createdOn}:
+    $ref: ./studies/v5_studies_studyId_logo_createdOn.yml
 /v5/studies/{studyId}/sponsors:
     $ref: ./studies/v5_studies_studyId_sponsors.yml
 /v5/studies/{studyId}/sponsors/{orgId}:

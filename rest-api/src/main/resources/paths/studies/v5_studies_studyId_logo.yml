@@ -1,0 +1,35 @@
+post:
+    operationId: createStudyLogo
+    summary: Create a new study logo handle for uploading a study logo.
+    tags:
+        - Studies
+        - _For Developers
+        - _For Study Designers
+    security:
+        - BridgeSecurity: []
+    description: |
+        Create a new logo revision. The record returned contains the `uploadURL` field, where the logo must be PUT using an HTTP library with the following two headers:
+
+        - **Content-Type** The mime type of the resource that was posted to this endpoint;
+        - **Content-Disposition** A content disposition header with the value of `inline`.
+
+        This upload URL expires in 10 minutes. When this upload has been completed, the client should then call the `finishLogoUpload` API (these steps are also encapsulated in the `RestUtils.uploadStudyLogoToS3` method). The `createdOn` value from the FileRevision object returned by this request should be used to call this finish method. Thereafter, an URL to download the logo will be available in the study’s `studyLogoUrl` field.
+
+        A new logo can be uploaded by repeating this process.
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - name: FileRevision
+          in: body
+          description: New file revision
+          required: true
+          schema:
+              $ref: ../../definitions/file_revision.yml
+    responses:
+        202:
+            description: Accepted
+            schema:
+                $ref: ../../definitions/file_revision.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_designer_developer.yml
