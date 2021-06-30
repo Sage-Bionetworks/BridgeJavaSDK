@@ -1,0 +1,22 @@
+post:
+    operationId: sendStudyParticipantInstallLinkMessage
+    summary: Send a message (SMS or email) to a participant explaining how to download and install the app
+    description: |
+        When called, sends either an SMS message or an email message (depending on whether the account has a verified email address or phone number. If both are present, it sends an SMS message. The message uses the "install app" templates for email and SMS. If the user account has neither a verified email address or phone number, this call will fail and return 400. This call can also return 400 if no install links have been configured for the app on the Bridge server.
+    tags:
+        - Study Participants
+        - _For Study Coordinators
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        202:
+            $ref: ../../responses/202_message.yml
+        400:
+            $ref: ../../responses/400_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml                
