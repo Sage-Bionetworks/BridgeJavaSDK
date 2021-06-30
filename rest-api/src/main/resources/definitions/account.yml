@@ -91,4 +91,4 @@ properties:
         x-nullable: false
     note:
         type: string
-        description: Optional note related to user account.
+        description: Optional note related to user account. Can only be edited and viewed by an administrative account.

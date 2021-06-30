@@ -93,4 +93,4 @@ properties:
         description: The identifier of the organization this account is a member of (this will be an administrative account and not a study participant). Once set, it cannot be changed on an update (there are separate organization membership APIs to change organizational membership).
     note:
         type: string
-        description: Optional note related to user account.
+        description: Optional note related to user account. Can only be edited and viewed by an administrative account.
