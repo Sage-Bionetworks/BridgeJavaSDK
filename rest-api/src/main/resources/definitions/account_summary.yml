@@ -41,14 +41,14 @@ properties:
     studyIds:
         type: array
         readOnly: true
-        description: The studies this participant is associated to.
+        description: The studies this participant is associated to. This array does not include studies the participant has withdrawn from.
         items:
             type: string
         x-nullable: false
     externalIds:
         type: object
         readOnly: true
-        description: A map of study ID to external ID for all the external IDs that have been assigned to this participant.
+        description: A map of study ID to external ID for all the external IDs that have been assigned to this participant. This mapping does not include studies the participant has withdrawn from.
         additionalProperties:
             type: string
         x-nullable: false
