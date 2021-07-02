@@ -145,6 +145,21 @@ properties:
     orgMembership:
         type: string
         readOnly: true
+    externalIdFilter:
+        type: string
+        readOnly: true
+    status:
+        $ref: ./enums/account_status.yml
+        readOnly: true
+    enrollment:
+        $ref: ./enums/enrollment_filter.yml
+        readOnly: true
+    attributeKey:
+        type: string
+        readOnly: true
+    attributeValueFilter:
+        type: string
+        readOnly: true
     type:
         type: string
         readOnly: true
