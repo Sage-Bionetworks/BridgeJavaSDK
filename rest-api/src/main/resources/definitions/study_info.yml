@@ -1,5 +1,5 @@
 description: |
-    A study (an outside organization providing participants for a study).
+    An abridged study object with information that is useful for displaying, selecting, and signing into the study.
 type: object
 properties:
     identifier:
