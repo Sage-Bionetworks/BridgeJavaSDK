@@ -160,6 +160,12 @@ properties:
     attributeValueFilter:
         type: string
         readOnly: true
+    predicate:
+        $ref: ./enums/search_term_predicate.yml
+        readOnly: true
+    stringSearchPosition:
+        $ref: ./enums/string_search_position.yml
+        readOnly: true
     type:
         type: string
         readOnly: true

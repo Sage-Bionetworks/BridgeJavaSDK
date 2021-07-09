@@ -52,6 +52,10 @@ Operator:
     $ref: ./enums/operator.yml
 ReportType:
     $ref: ./enums/report_type.yml
+SearchTermPredicate:
+    $ref: ./enums/search_term_predicate.yml
+StringSearchPosition:
+    $ref: ./enums/string_search_position.yml
 SharedModuleType:
     $ref: ./enums/shared_module_type.yml
 TemplateType:
