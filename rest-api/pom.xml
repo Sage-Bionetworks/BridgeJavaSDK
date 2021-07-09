@@ -3,7 +3,7 @@
     <parent>
         <artifactId>sdk-group</artifactId>
         <groupId>org.sagebionetworks.bridge</groupId>
-        <version>0.22.14</version>
+        <version>0.22.16</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

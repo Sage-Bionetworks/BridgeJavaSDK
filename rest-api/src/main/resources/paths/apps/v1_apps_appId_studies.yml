@@ -1,0 +1,18 @@
+get:
+    operationId: getPublicStudyList
+    summary: "Get a list of the studies in this app, with only those fields that are useful for displaying and selecting studies (the fields included are: identifier, name, details, phase, createdOn, modifiedOn, studyLogoUrl, colorScheme, and signInTypes). Deleted studies are not returned."
+    tags:
+        - Studies
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/appId
+        - $ref: ../../index.yml#/parameters/offsetBy
+        - $ref: ../../index.yml#/parameters/pageSize
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/study.yml
+        404:
+            description: Not Found, if the app ID is not valid.
