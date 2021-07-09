@@ -95,14 +95,14 @@ properties:
         example: '2020-08-28T14:28:13.386Z'
         format: date-time
         readOnly: true
-        description: The date and time the app config was created.
+        description: The date and time the study was created.
         x-nullable: false
     modifiedOn:
         type: string
         format: date-time
         example: '2020-08-28T14:28:13.386Z'
         readOnly: true
-        description: The date and time the app config was last modified.
+        description: The date and time the study was last modified.
         x-nullable: false
     version:
         type: integer
