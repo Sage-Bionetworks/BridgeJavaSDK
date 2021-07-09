@@ -34,20 +34,6 @@ properties:
             $ref: ./enums/sign_in_type.yml
         x-nullable: false
         readOnly: true
-    createdOn:
-        type: string
-        example: '2020-08-28T14:28:13.386Z'
-        format: date-time
-        readOnly: true
-        description: The date and time the study was created.
-        x-nullable: false
-    modifiedOn:
-        type: string
-        format: date-time
-        example: '2020-08-28T14:28:13.386Z'
-        readOnly: true
-        description: The date and time the study was last modified.
-        x-nullable: false
     type:
         type: string
         readOnly: true
