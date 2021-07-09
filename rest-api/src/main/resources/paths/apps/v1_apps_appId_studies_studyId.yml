@@ -1,6 +1,6 @@
 get:
-    operationId: getPublicStudy
-    summary: "Get a study model in the given app, with only those fields that are useful for displaying and selecting the study (fields include identifier, name, details, phase, createdOn, modifiedOn, studyLogoUrl, colorScheme, and signInTypes)."
+    operationId: getStudyInfo
+    summary: Get the information on a study that is useful for displaying, selecting, and signing into the study.
     tags:
         - Studies
         - Public
@@ -13,6 +13,6 @@ get:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/study.yml
+                $ref: ../../definitions/study_info.yml
         404:
             description: Not Found, if the app ID or study ID is not valid.

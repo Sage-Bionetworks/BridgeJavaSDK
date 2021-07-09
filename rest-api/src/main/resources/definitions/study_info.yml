@@ -1,0 +1,55 @@
+description: |
+    A study (an outside organization providing participants for a study).
+type: object
+properties:
+    identifier:
+        type: string
+        description: The identifier for this study.
+        x-nullable: false
+        readOnly: true
+    name:
+        type: string
+        description: The name of the study.
+        x-nullable: false
+        readOnly: true
+    details:
+        type: string
+        description: An in-depth description of this study for prospective participants, or to show participants after they have joined a study (the “about” screen for the study).
+        readOnly: true
+    phase:
+        $ref: ./enums/study_phase.yml
+        description: The lifecycle phase this study is in.
+        x-nullable: false
+        readOnly: true
+    studyLogoUrl:
+        type: string
+        description: An URL to a logo for the study. 
+        readOnly: true
+    colorScheme:
+        $ref: ./color_scheme.yml
+        readOnly: true
+    signInTypes:
+        type: array
+        items:
+            $ref: ./enums/sign_in_type.yml
+        x-nullable: false
+        readOnly: true
+    createdOn:
+        type: string
+        example: '2020-08-28T14:28:13.386Z'
+        format: date-time
+        readOnly: true
+        description: The date and time the study was created.
+        x-nullable: false
+    modifiedOn:
+        type: string
+        format: date-time
+        example: '2020-08-28T14:28:13.386Z'
+        readOnly: true
+        description: The date and time the study was last modified.
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "StudyInfo"
+        x-nullable: false

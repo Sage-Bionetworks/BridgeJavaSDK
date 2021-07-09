@@ -301,6 +301,8 @@ Study:
     $ref: ./study.yml
 StudyActivityEvent:
     $ref: ./study_activity_event.yml
+StudyInfo:
+    $ref: ./study_info.yml
 Survey:
     $ref: ./survey.yml
 SurveyElement:
