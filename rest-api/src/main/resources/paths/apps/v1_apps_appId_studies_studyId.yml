@@ -1,8 +1,9 @@
 get:
     operationId: getPublicStudy
-    summary: "Get a study model in the given app, with only those fields that are useful for displaying and selecting the study (the fields included are: identifier, name, details, phase, createdOn, modifiedOn, studyLogoUrl, colorScheme, and signInTypes)."
+    summary: "Get a study model in the given app, with only those fields that are useful for displaying and selecting the study (fields include identifier, name, details, phase, createdOn, modifiedOn, studyLogoUrl, colorScheme, and signInTypes)."
     tags:
         - Studies
+        - Public
     security:
         - BridgeSecurity: []
     parameters:
