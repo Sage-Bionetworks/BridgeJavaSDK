@@ -69,9 +69,11 @@ properties:
     predicate:
         $ref: ./enums/search_term_predicate.yml
         description: How search criteria should be evaluated in a search (whether any criteria or all criteria must match).
+        default: and
     stringSearchPosition:
         $ref: ./enums/string_search_position.yml
         description: How string-based search criteria will be compared to values in a record.
+        default: infix
     type:
         type: string
         readOnly: true
