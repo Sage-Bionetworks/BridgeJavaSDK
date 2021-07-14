@@ -12,23 +12,9 @@ delete:
   parameters:
     - $ref: ../../index.yml#/parameters/studyId
     - $ref: ../../index.yml#/parameters/userId
-    - name: instanceGuid
-      description: Instance GUID of the adherence record
-      required: true
-      in: path
-      type: string
-    - name: eventTimestamp
-      description: Event timestamp of the adherence record
-      require: true
-      in: path
-      type: string
-      format: date-time
-    - name: startedOn
-      description: Starting timestamp of the adherence record
-      require: true
-      in: path
-      type: string
-      format: date-time
+    - $ref: ../../index.yml#/parameters/instanceGuid
+    - $ref: ../../index.yml#/parameters/eventTimestamp
+    - $ref: ../../index.yml#/parameters/startedOn
   responses:
     200:
       description: OK

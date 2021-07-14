@@ -422,6 +422,26 @@ parameters:
         in: query
         type: string
         description: The reason given for a user’s withdrawal from a study.
+    instanceGuid:
+        name: instanceGuid
+        description: Instance GUID of the adherence record
+        required: true
+        in: path
+        type: string
+    eventTimestamp:
+        name: eventTimestamp
+        description: Event timestamp (ISO 8601) of the adherence record
+        required: true
+        in: path
+        type: string
+        format: date-time
+    startedOn:
+        name: startedOn
+        description: Starting timestamp (ISO 8601) of the adherence record
+        required: true
+        in: path
+        type: string
+        format: date-time
 paths:
     $ref: ./paths/index.yml
 definitions:
