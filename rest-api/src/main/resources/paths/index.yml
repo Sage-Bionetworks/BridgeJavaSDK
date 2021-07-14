@@ -585,6 +585,8 @@
     $ref: ./studies/v5_studies_studyId_participants_userId_activityevents.yml
 /v5/studies/{studyId}/participants/{userId}/adherence/search:
     $ref: ./studies/v5_studies_studyId_participants_userId_adherence_search.yml
+/v5/studies/{studyId}/participants/{userId}/adherence/{instanceGuid}/{eventTimestamp}/{startedOn}:
+    $ref: ./studies/v5_studies_studyId_participants_userId_adherence_instanceGuid_eventTimestamp_startedOn.yml
 /v5/studies/{studyId}/participants/{userId}/activityevents/{eventId}:
     $ref: ./studies/v5_studies_studyId_participants_userId_activityevents_eventId.yml
 /v5/studies/{studyId}/participants/self/activityevents:
