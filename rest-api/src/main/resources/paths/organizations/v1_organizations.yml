@@ -2,7 +2,7 @@ get:
     operationId: getOrganizations
     summary: Get all of the organizations in an app
     description: |
-        Return all the organizations that have been defined for the app context of the caller. These organization objects only contain the name and identifier of the organization (for the full record, call `getOrganization()`).
+        Return all the organizations that have been defined for the app context of the caller. For most roles this will only return the caller’s organization, but admins can view all organizations. These organization objects only contain the name and identifier of the organization (for the full record, call `getOrganization()`).
     tags:
         - Organizations
     security:
