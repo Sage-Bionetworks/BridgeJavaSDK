@@ -2,10 +2,6 @@ post:
     operationId: getMembers
     summary: Get members of organization (using search terms). Caller must be a member of the organization.
     tags:
-        - _For Admins
-        - _For Developers
-        - _For Researchers
-        - _For Org Admins
         - Organizations
     security:
         - BridgeSecurity: []

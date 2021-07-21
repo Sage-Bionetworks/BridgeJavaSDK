@@ -1,10 +1,8 @@
 get:
     operationId: getOrganization
     summary: Get an organization
-    description: Get a single organization record.
+    description: Get a single organization record. Caller must be a member of the organization to retrieve the record (or an admin).
     tags:
-        - _For Superadmins
-        - _For Org Admins
         - Organizations
     security:
         - BridgeSecurity: []
@@ -18,17 +16,15 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_superadmin.yml
-        410:
-            $ref: ../../responses/410.yml
+            $ref: ../../responses/403_not_administrative.yml
 post:
     operationId: updateOrganization
     summary: Update an organization
     description: |
         Update an existing organization.
     tags:
-        - _For Superadmins
         - _For Org Admins
+        - _For Admins
         - Organizations
     security:
         -   BridgeSecurity: []
@@ -47,9 +43,7 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_superadmin.yml
-        410:
-            $ref: ../../responses/410.yml
+            $ref: ../../responses/403_not_org_admin_admin.yml
 delete:
     operationId: deleteOrganization
     summary: Delete an organization.
