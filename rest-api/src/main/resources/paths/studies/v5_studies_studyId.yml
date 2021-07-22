@@ -56,10 +56,12 @@ post:
             $ref: ../../responses/403_not_study_coordinator_developer.yml
 delete:
     operationId: deleteStudy
-    summary: Delete a study
+    summary: Delete a study. Admins can always logically or physically delete a study, while developers and study designers can logically delete a study if it is in the “legacy,” “design,” “completed,” or “withdrawn” phases.
     tags:
         - Studies
         - _For Admins
+        - _For Study Designers
+        - _For Developers
     security:
         - BridgeSecurity: []
     description: |

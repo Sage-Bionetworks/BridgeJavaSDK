@@ -1,0 +1,20 @@
+post:
+    operationId: transitionStudyToWithdrawn
+    summary: Transition a study’s phase to “withdrawn.” This can be done with a study that is currently in “design,” “recruitment,” “in flight,” or “analysis” phases.
+    tags:
+        - _For Study Coordinators
+        - _For Researchers
+        - Studies
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/study.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml      

@@ -1,0 +1,20 @@
+post:
+    operationId: transitionStudyToDesign
+    summary: Transition a study’s phase to “design.” This can only be done with a study that is currently in the “legacy” phase.
+    tags:
+        - _For Study Coordinators
+        - _For Researchers
+        - Studies
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/study.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml      
