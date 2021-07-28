@@ -1,0 +1,32 @@
+description: |
+    This class holds Exporter 3.0 configuration for a given app.
+type: object
+properties:
+    configured:
+        type: boolean
+        readOnly: true
+        description: |
+            True if all configuration attributes are specified.
+    dataAccessTeamId:
+        type: integer
+        format: int64
+        description: |
+            Synapse team ID that is granted read access to exported health data records.
+    projectId:
+        type: string
+        description: |
+            The Synapse project to export health data records to. It is recommended (but not required) that this is a different project than the one used for Exporter 2.0.
+    rawDataFolderId:
+        type: string
+        description: |
+            The Synapse folder to export raw health data to.
+    storageLocationId:
+        type: integer
+        format: int64
+        description: |
+            The Synapse storage location that represents our External S3 bucket. This storage location should be STS-enabled.
+    type:
+        type: string
+        readOnly: true
+        description: "Exporter3Configuration"
+        x-nullable: false

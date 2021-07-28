@@ -38,6 +38,10 @@ properties:
     consentNotificationEmailVerified:
         description: True if the consent notification email is verified. False if not.
         type: boolean
+    exporter3Configuration:
+        description: |
+            Configuration required for Exporter 3.0.
+        $ref: ./exporter3_configuration.yml
     fitBitScopes:
         type: array
         description: List of FitBit scopes that are configured for this app.

@@ -163,6 +163,12 @@
 /v1/assessments/identifier:{assessmentId}/resources/publish:
     $ref: ./assessments/v1_assessments_assessmentId_resources_publish.yml
 
+# Exporter 3
+/v1/exporter3/healthdata:
+    $ref: ./exporter3/v1_exporter3_healthdata.yml
+/v1/exporter3/healthdata/{recordId}:
+    $ref: ./exporter3/v1_exporter3_healthdata_recordId.yml
+
 # Shared Assessments
 /v1/sharedassessments:
     $ref: ./sharedassessments/v1_sharedassessments.yml
