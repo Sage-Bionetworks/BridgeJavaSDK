@@ -417,8 +417,6 @@ ReportIndexList:
     $ref: ./paged_resources/report_index.yml
 ScheduleList:
     $ref: ./paged_resources/schedule.yml
-Schedule2List:
-    $ref: ./paged_resources/schedule2.yml
 ScheduledActivityList:
     $ref: ./paged_resources/scheduled_activity.yml
 ScheduledActivityListV4:

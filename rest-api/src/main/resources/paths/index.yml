@@ -463,16 +463,8 @@
 /v4/schedules:
     $ref: ./schedules/v4_schedules.yml
 
-# Schedules v2
-/v5/schedules:
-    $ref: ./schedules/v5_schedules.yml
 /v5/schedules/{guid}:
     $ref: ./schedules/v5_schedules_guid.yml
-/v5/schedules/{guid}/publish:
-    $ref: ./schedules/v5_schedules_guid_publish.yml
-/v5/schedules/{guid}/timeline:
-    $ref: ./schedules/v5_schedules_guid_timeline.yml
-
 # Uploads
 /v3/uploads:
     $ref: ./uploads/v3_uploads.yml
@@ -611,6 +603,10 @@
     $ref: ./studies/v5_studies_studyId_complete.yml
 /v5/studies/{studyId}/withdraw:
     $ref: ./studies/v5_studies_studyId_withdraw.yml
+/v5/studies/{studyId}/schedule:
+    $ref: ./studies/v5_studies_studyId_schedule.yml
+/v5/studies/{studyId}/timeline:
+    $ref: ./studies/v5_studies_studyId_timeline.yml
 
 # Templates
 /v3/templates:
