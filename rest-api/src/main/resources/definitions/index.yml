@@ -293,6 +293,8 @@ StudyActivityEventRequest:
     $ref: ./study_activity_event_request.yml
 StudyConsent:
     $ref: ./study_consent.yml
+StudyCustomEvent:
+    $ref: ./study_custom_event.yml
 StudyParticipant:
     $ref: ./study_participant.yml
 Subpopulation:

@@ -1,0 +1,16 @@
+type: object
+required:
+    - eventId
+    - updateType
+properties:
+    eventId:
+        type: string
+        x-nullable: false
+    updateType:
+        $ref: ./enums/activity_event_update_type.yml
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "StudyCustomEvent"
+        x-nullable: false
