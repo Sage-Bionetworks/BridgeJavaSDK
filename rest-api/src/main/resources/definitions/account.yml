@@ -92,3 +92,7 @@ properties:
     note:
         type: string
         description: Optional note related to user account. Can only be edited and viewed by an administrative account.
+    clientTimeZone:
+        type: string
+        description: |
+            Participant's time zone. Can be updated or deleted. Must be an IANA time zone name (eg. "America/Los_Angeles").
