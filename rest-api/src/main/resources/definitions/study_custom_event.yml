@@ -1,10 +1,12 @@
 type: object
+description: A study can define one or more unique event identifiers against which a schedule can be designed. The API allows for client applications to submit timestamps for these events, and they are referenced as triggers for specific schedule sessions. All the events defined in a study object must have a unique eventId.
 required:
     - eventId
     - updateType
 properties:
     eventId:
         type: string
+        description: To ensure portability across information systems, the eventId must only contain upper- and lower-case letters, numbers, underscores, and/or dashes.
         x-nullable: false
     updateType:
         $ref: ./enums/activity_event_update_type.yml
