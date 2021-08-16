@@ -3,8 +3,7 @@ delete:
     summary: Delete a schedule.
     tags: 
         - Schedules (v2)
-        - _For Developers
-        - _For Study Designers
+        - _For Admins
     security:
         - BridgeSecurity: []
     parameters:
