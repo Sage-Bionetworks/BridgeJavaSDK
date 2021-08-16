@@ -86,6 +86,11 @@ properties:
         items:
             $ref: ./contact.yml
         x-nullable: false
+    customEvents:
+        type: array
+        items:
+            $ref: ./custom_event.yml
+        x-nullable: false
     deleted:
         type: boolean
         description: |

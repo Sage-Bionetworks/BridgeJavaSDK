@@ -149,6 +149,8 @@ CriteriaScheduleStrategy:
     $ref: ./criteria_schedule_strategy.yml
 CustomActivityEventRequest:
     $ref: ./custom_activity_event_request.yml
+CustomEvent:
+    $ref: ./custom_event.yml
 DataGroups:
     $ref: ./data_groups.yml
 DateRange:
