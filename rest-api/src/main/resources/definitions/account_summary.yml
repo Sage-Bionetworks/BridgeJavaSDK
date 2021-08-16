@@ -78,5 +78,6 @@ properties:
     clientTimeZone:
         type: string
         readOnly: true
+        example: 'America/Los_Angeles'
         description: |
-            Participant's time zone. Can be updated or deleted. Must be an IANA time zone name (eg. "America/Los_Angeles").
+            Participant's time zone. Can be updated or deleted. Must be an IANA time zone name.
