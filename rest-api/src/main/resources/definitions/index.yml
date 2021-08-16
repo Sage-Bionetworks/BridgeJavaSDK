@@ -149,6 +149,8 @@ CriteriaScheduleStrategy:
     $ref: ./criteria_schedule_strategy.yml
 CustomActivityEventRequest:
     $ref: ./custom_activity_event_request.yml
+CustomEvent:
+    $ref: ./custom_event.yml
 DataGroups:
     $ref: ./data_groups.yml
 DateRange:
@@ -293,8 +295,6 @@ StudyActivityEventRequest:
     $ref: ./study_activity_event_request.yml
 StudyConsent:
     $ref: ./study_consent.yml
-StudyCustomEvent:
-    $ref: ./study_custom_event.yml
 StudyParticipant:
     $ref: ./study_participant.yml
 Subpopulation:
