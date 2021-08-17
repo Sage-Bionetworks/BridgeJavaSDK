@@ -30,7 +30,7 @@ allOf:
             x-nullable: false
         timeZone:
             type: string
-            description: User's original time zone, as measured by the timezone used to request activities, as a string offset in ISO8601 format.
+            description: User's original time zone, as measured by the timezone used to request activities, as a string offset in ISO8601 format. Related to the v3 scheduling API, it is not always set or reliable.
         type:
             type: string
             readOnly: true
