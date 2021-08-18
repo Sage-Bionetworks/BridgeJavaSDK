@@ -3,7 +3,7 @@ description: |
 type: object
 required:
     - name
-    - startEventId
+    - startEventIds
     - performanceOrder
 properties:
     guid:
@@ -20,9 +20,12 @@ properties:
         items:
             $ref: ./label.yml
         x-nullable: false
-    startEventId:
+    startEventIds:
+        type: array
+        items:
+            type: string
+        description: One or more event IDs, either system defined or custom-defined for the study. If they are custom events, prepend them with the "custom:" string (this is not absolutely necessary, but if your custom event ID ever conflicts with a system ID, it will be interpreted as a system ID). If the event ID does not exist in the map of event to timestamp IDs for a participant, this session and the series of scheduled assessments to perform should be ignored. 
         x-nullable: false
-        description: An identifier for the event which should be used to schedule this sequence of sessions. The identifier may be mapped to a timestamp for a user. If the event ID does not exist for the user, the client should ignore this session and schedule nothing. If the event ID exists, the client should start with that timestamp and schedule forward in time according to the information in the session and its schedule.
     delay:
         type: string
         description: |

@@ -9,6 +9,10 @@ properties:
         type: string
         readOnly: true
         x-nullable: false
+    startEventId:
+        x-nullable: false
+        description: An event ID for this scheduled session. The event ID may be mapped to a timestamp for a user. If the event ID does not exist for the user, the client should ignore this scheduled session. Otherwise, it should be shown to the user according to the scheduling information.
+        readOnly: true
     startDay:
         type: integer
         format: int32
