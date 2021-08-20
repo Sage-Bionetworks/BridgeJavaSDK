@@ -1,12 +1,13 @@
 get:
-    operationId: getRecordsEx3ForCurrentApp
-    summary: Retrieves all records from the Exporter 3 implemention in the current app for the given time range.
+    operationId: getRecordsEx3ForStudy
+    summary: Retrieves all records from the Exporter 3 implementation in the given app and study and time range.
     tags:
-        - _Internal
-        - _For Superadmins
+        - _For Workers
     security:
         - BridgeSecurity: []
     parameters:
+        - $ref: ../../index.yml#/parameters/appId
+        - $ref: ../../index.yml#/parameters/studyId
         - $ref: ../../index.yml#/parameters/createdOnStart
         - $ref: ../../index.yml#/parameters/createdOnEnd
         - $ref: ../../index.yml#/parameters/pageSize
@@ -19,4 +20,4 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_superadmin.yml
+            $ref: ../../responses/403_not_worker.yml

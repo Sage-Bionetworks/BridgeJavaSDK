@@ -1,15 +1,3 @@
-# Admin Exporter 3
-/v1/admin/exporter3/apps/self/healthdata:
-    $ref: ./admin_exporter3/v1_admin_exporter3_apps_self_healthdata.yml
-/v1/admin/exporter3/apps/self/studies/{studyId}/healthdata:
-    $ref: ./admin_exporter3/v1_admin_exporter3_apps_self_studies_studyId_healthdata.yml
-/v1/admin/exporter3/healthdata:
-    $ref: ./admin_exporter3/v1_admin_exporter3_healthdata.yml
-/v1/admin/exporter3/healthdata/{recordId}:
-    $ref: ./admin_exporter3/v1_admin_exporter3_healthdata_recordId.yml
-/v1/admin/exporter3/participants/{userId}/healthdata:
-    $ref: ./admin_exporter3/v1_admin_exporter3_participants_userId_healthdata.yml
-
 # Authentication
 /v3/auth/signIn:
     $ref: ./auth/v3_auth_signIn.yml
@@ -86,6 +74,10 @@
 /v1/apps/self/synapseProject:
     $ref: ./apps/v1_apps_self_synapseProject.yml
 # APIs for getting entities across apps
+/v1/apps/{appId}/exporter3/healthdata:
+    $ref: ./apps/v1_apps_appId_exporter3_healthdata.yml
+/v1/apps/{appId}/exporter3/healthdata/{recordId}:
+    $ref: ./apps/v1_apps_appId_exporter3_healthdata_recordId.yml
 /v1/apps/{appId}/surveys/published:
     $ref: ./apps/v1_apps_appId_surveys_published.yml
 /v1/apps/{appId}/uploadschemas/{schemaId}/revisions/{revision}:
@@ -108,6 +100,8 @@
     $ref: ./apps/v1_apps_appId_participants_externalId.yml
 /v1/apps/{appId}/participants/syn:{synapseUserId}:
     $ref: ./apps/v1_apps_appId_participants_synapseUserId.yml
+/v1/apps/{appId}/participants/{userId}/exporter3/healthdata:
+    $ref: ./apps/v1_apps_appId_participants_userId_exporter3_healthdata.yml
 /v1/apps/{appId}/participants/{userId}/reports/{reportId}:
     $ref: ./apps/v1_apps_appId_participants_userId_reports_reportId.yml
 /v1/apps/{appId}/participants/{userId}/sendSmsMessage:
@@ -136,6 +130,8 @@
     $ref: ./apps/v1_apps_appId_participants_userId_data_identifier.yml
 /v1/apps/{appId}/organizations/{orgId}/studies:
     $ref: ./apps/v1_apps_appId_organizations_orgId_studies.yml
+/v1/apps/{appId}/studies/{studyId}/exporter3/healthdata:
+    $ref: ./apps/v1_apps_appId_studies_studyId_exporter3_healthdata.yml
 
 # Assessments
 /v1/assessments:
@@ -162,12 +158,6 @@
     $ref: ./assessments/v1_assessments_assessmentId_resources_guid.yml
 /v1/assessments/identifier:{assessmentId}/resources/publish:
     $ref: ./assessments/v1_assessments_assessmentId_resources_publish.yml
-
-# Exporter 3
-/v1/exporter3/healthdata:
-    $ref: ./exporter3/v1_exporter3_healthdata.yml
-/v1/exporter3/healthdata/{recordId}:
-    $ref: ./exporter3/v1_exporter3_healthdata_recordId.yml
 
 # Shared Assessments
 /v1/sharedassessments:
