@@ -9,7 +9,6 @@ required:
 properties:
     uploadId:
         type: string
-        readOnly: true
         description: The GUID assigned to this upoad.
         x-nullable: false
     encrypted:
@@ -17,45 +16,35 @@ properties:
         description: True if the upload is encrypted. False if it is not encrypted.
     schemaId:
         type: string
-        readOnly: true
         description: The ID of the schema for this upload.
     schemaRevision:
         type: integer
-        readOnly: true
         format: int64
         description: The revision for the schema of this upload.
     recordId:
         type: string
-        readOnly: true
         description: The record ID of the upload in Synapse.
     healthData:
         $ref: ./health_data_record.yml
-        readOnly: true
     contentLength:
         type: integer
-        readOnly: true
         format: int64
         description: |
             The size of the object in bytes. A standard HTTP header. For more information, go to [http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13)
     contentMd5:
         type: string
-        readOnly: true
         description: The base64-encoded, 128-bit MD5 digest of the upload.
     contentType:
         type: string
-        readOnly: true
         description: MIME content type.
     filename:
         type: string
-        readOnly: true
         description: Name of the uploaded file.
     status:
         $ref: ./enums/upload_status.yml
-        readOnly: true
         x-nullable: false
     requestedOn:
         type: string
-        readOnly: true
         format: date-time
         example: '2020-08-28T14:28:13.386Z'
         description: |
@@ -63,20 +52,17 @@ properties:
         x-nullable: false
     completedOn:
         type: string
-        readOnly: true
         format: date-time
         example: '2020-08-28T14:28:13.386Z'
         description: |
             The date and time (ISO 8601 format) that the upload was completed.
     completedBy:
         type: string
-        readOnly: true
         description: |
             Currently the API has an endpoint for the client to call and mark an upload completed. However, there is also a process that detects uploads to S3 and marks the uploads complete. This field indicates which client completed the upload.
         enum: [app, s3_worker]
     validationMessageList:
         type: array
-        readOnly: true
         description: |
             An array of error messages if this upload did not pass validation.
         items:
@@ -84,7 +70,6 @@ properties:
         x-nullable: false
     healthRecordExporterStatus:
         $ref: ./enums/synapse_exporter_status.yml
-        readOnly: true
         x-nullable: false
     zipped:
         type: boolean
