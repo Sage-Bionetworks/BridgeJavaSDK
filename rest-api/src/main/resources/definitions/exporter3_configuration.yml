@@ -4,7 +4,6 @@ type: object
 properties:
     configured:
         type: boolean
-        readOnly: true
         description: |
             True if all configuration attributes are specified.
     dataAccessTeamId:
