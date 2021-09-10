@@ -1,10 +1,12 @@
 post:
     operationId: createStudyParticipant
-    summary: Create a new study participant who will be enrolled (but not consented) in this study.
+    summary: Create a new study participant who will be enrolled (but not consented) in this study. If the caller is a developer or study designer account, then the participant record will automatically be created as a test user (marked with the “test_user” data group).
     tags:
         - Study Participants
-        - _For Study Coordinators
+        - _For Developers
         - _For Researchers
+        - _For Study Designers
+        - _For Study Coordinators
     security:
         - BridgeSecurity: []
     parameters:
