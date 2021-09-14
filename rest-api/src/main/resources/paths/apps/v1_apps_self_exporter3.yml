@@ -1,0 +1,16 @@
+post:
+    operationId: initExporter3
+    summary: Initializes configs and Synapse resources for Exporter 3.0.
+    tags:
+        - Apps
+        - _For Admins
+        - _For Developers
+    security:
+        -   BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/exporter3_configuration.yml
+        403:
+            $ref: ../../responses/403_not_admin_developer.yml

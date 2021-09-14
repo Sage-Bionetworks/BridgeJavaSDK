@@ -165,6 +165,8 @@ Enrollment:
     $ref: ./enrollment.yml
 EnrollmentDetail:
     $ref: ./enrollment_detail.yml
+Exporter3Configuration:
+    $ref: ./exporter3_configuration.yml
 ExternalIdentifier:
     $ref: ./external_identifier.yml
 ExternalResource:
