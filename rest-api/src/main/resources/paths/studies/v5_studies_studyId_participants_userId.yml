@@ -46,8 +46,8 @@ post:
         403:
             $ref: ../../responses/403_not_study_coordinator_admin.yml
 delete:
-    operationId: deleteTestStudyParticipant
-    summary: Delete a study participant with a `test_user` data group. 
+    operationId: deleteStudyParticipant
+    summary: Delete a study participant if the record has the `test_user` data group, or the account has not been used by the participant (the participant has never signed in to Bridge using the account) and it is only enrolled in one study.
     tags:
         - Study Participants
         - _For Study Coordinators
