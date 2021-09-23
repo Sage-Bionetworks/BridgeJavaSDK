@@ -295,6 +295,8 @@ SmsTemplate:
     $ref: ./sms_template.yml
 StudyActivityEventRequest:
     $ref: ./study_activity_event_request.yml
+StudyBurst:
+    $ref: ./study_burst.yml
 StudyConsent:
     $ref: ./study_consent.yml
 StudyParticipant:

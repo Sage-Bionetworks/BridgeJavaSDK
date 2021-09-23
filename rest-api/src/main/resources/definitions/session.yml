@@ -3,7 +3,6 @@ description: |
 type: object
 required:
     - name
-    - startEventIds
     - performanceOrder
 properties:
     guid:
@@ -24,8 +23,13 @@ properties:
         type: array
         items:
             type: string
-        description: One or more event IDs, either system defined or custom-defined for the study. If they are custom events, prepend them with the "custom:" string (this is not absolutely necessary, but if your custom event ID ever conflicts with a system ID, it will be interpreted as a system ID). If the event ID does not exist in the map of event to timestamp IDs for a participant, this session and the series of scheduled assessments to perform should be ignored. 
+        description: One or more event IDs, either system defined or custom-defined for the study. If they are custom events, prepend them with the "custom:" string (this is not absolutely necessary, but if your custom event ID ever conflicts with a system ID, it will be interpreted as a system ID). If the event ID does not exist in the map of event to timestamp IDs for a participant, this session and the series of scheduled assessments to perform should be ignored. A session must declare at least one start event or study burst ID.
         x-nullable: false
+    studyBurstIds:
+        type: array
+        items:
+            type: string
+        description: One ore\ more study bursts that can generate events that should trigger the scheduling of this session. If the study burst has not fired, then the events it creates will not exist, so they will not be in the map of event to timestamp IDs for a participant, and this session and and the series of scheduled assessments to perform should be ignored. A session must declare at least one start event or study burst ID.
     delay:
         type: string
         description: |
