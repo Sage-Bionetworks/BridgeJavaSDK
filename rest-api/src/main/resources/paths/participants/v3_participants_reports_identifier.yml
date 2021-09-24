@@ -32,9 +32,7 @@ delete:
         are not normally deleted, but this endpoint allows the index identifiers to be deleted 
         during testing.
     tags:
-        - _For Developers
-        - _For Researchers
-        - _For Workers
+        - _For Admins
     security:
         - BridgeSecurity: []
     parameters:

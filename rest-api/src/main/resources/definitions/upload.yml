@@ -14,6 +14,7 @@ properties:
         x-nullable: false
     encrypted:
         type: boolean
+        readOnly: true
         description: True if the upload is encrypted. False if it is not encrypted.
     schemaId:
         type: string
@@ -37,6 +38,18 @@ properties:
         format: int64
         description: |
             The size of the object in bytes. A standard HTTP header. For more information, go to [http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13)
+    contentMd5:
+        type: string
+        readOnly: true
+        description: The base64-encoded, 128-bit MD5 digest of the upload.
+    contentType:
+        type: string
+        readOnly: true
+        description: MIME content type.
+    filename:
+        type: string
+        readOnly: true
+        description: Name of the uploaded file.
     status:
         $ref: ./enums/upload_status.yml
         readOnly: true
@@ -76,6 +89,7 @@ properties:
         x-nullable: false
     zipped:
         type: boolean
+        readOnly: true
         description: True if the upload is zipped. False if it is a single file.
     type:
         type: string
