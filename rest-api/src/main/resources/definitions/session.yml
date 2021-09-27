@@ -29,7 +29,7 @@ properties:
         type: array
         items:
             type: string
-        description: One ore\ more study bursts that can generate events that should trigger the scheduling of this session. If the study burst has not fired, then the events it creates will not exist, so they will not be in the map of event to timestamp IDs for a participant, and this session and and the series of scheduled assessments to perform should be ignored. A session must declare at least one start event or study burst ID.
+        description: One or more study bursts that can generate events that should trigger the scheduling of this session. If the study burst has not fired, then the events it creates will not exist, so they will not be in the map of event to timestamp IDs for a participant; this session and the series of scheduled assessments to perform should be ignored. A session must declare at least one start event or study burst ID.
     delay:
         type: string
         description: |
