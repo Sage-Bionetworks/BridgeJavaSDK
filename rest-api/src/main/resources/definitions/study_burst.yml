@@ -1,0 +1,37 @@
+description: |
+    The description of a repeating burst of events, against which a study can schedule repeating sets of activities. A study burst is triggered by an `originEventId`, it then occurs at an `interval` period of time after that event for a specific number of `occurrences`. For example, a study burst of "foo" that is triggered by the `timeline_retrieved` event, with an interval of "P1W" and an occurrence of 3 would generate three events: `study_burst:foo:01` (a week after the `timeline_retrieved` event), `study_burst:foo:02` (two weeks after `timeline_retrieved` event), and `study_burst:foo:03` (three weeks after the `timeline_retrieved` event).
+type: object
+required:
+    - identifier
+    - originEventId
+    - interval
+    - occurrences
+    - updateType
+properties:
+    identifier:
+        type: string
+        description: Identifier for the study burst
+        x-nullable: false
+    originEventId:
+        type: string
+        description: The event ID that will trigger the generation of a set of study burst events
+        x-nullable: false
+    interval:
+        type: string
+        description: ISO 8601 duration between the timestamps of this burst.
+        format: ISO 8601 Duration
+        example: P1W
+        x-nullable: false
+    occurrences:
+        type: integer
+        example: 3
+        description: The number of timestamps that should be generated with the `originEventId` occurs.
+        x-nullable: false
+    updateType:
+        $ref: ./enums/activity_event_update_type.yml
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "StudyBurst"
+        x-nullable: false        
