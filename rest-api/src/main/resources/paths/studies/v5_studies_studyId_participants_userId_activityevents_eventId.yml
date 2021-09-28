@@ -25,7 +25,7 @@ get:
             $ref: ../../responses/412.yml
 delete:
     operationId: deleteStudyParticipantStudyActivityEvent
-    summary: Delete custom activity event for a study participant
+    summary: Delete activity event for a study participant if it is mutable.
     tags:
         - Study Participants
         - Study Activity Events
