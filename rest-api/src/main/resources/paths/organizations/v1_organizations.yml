@@ -2,12 +2,8 @@ get:
     operationId: getOrganizations
     summary: Get all of the organizations in an app
     description: |
-        Return all the organizations that have been defined for the app context of the caller. These organization objects only contain the name and identifier of the organization (for the full record, call `getOrganization()`).
+        Return all the organizations that have been defined for the app context of the caller. For most roles this will only return the caller’s organization, but admins can view all organizations. These organization objects only contain the name and identifier of the organization (for the full record, call `getOrganization()`).
     tags:
-        - _For Admins
-        - _For Researchers
-        - _For Developers
-        - _For Org Admins
         - Organizations
     security:
         - BridgeSecurity: []
@@ -22,15 +18,13 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_superadmin.yml
-        410:
-            $ref: ../../responses/410.yml
+            $ref: ../../responses/403_not_administrative.yml
 post:
     operationId: createOrganization
     summary: Create a new organization
     description: Create a new organization.
     tags:
-        - _For Superadmins
+        - _For Admins
         - Organizations
     security:
         -   BridgeSecurity: []
@@ -48,6 +42,4 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_superadmin.yml
-        410:
-            $ref: ../../responses/410.yml
+            $ref: ../../responses/403_not_admin.yml

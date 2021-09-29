@@ -17,7 +17,7 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_developer.yml
+            $ref: ../../responses/403_not_study_designer_developer.yml
 post:
     operationId: updateSharedAssessmentResource
     summary: Update an external resource link documenting a shared assessment
@@ -43,7 +43,7 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_developer.yml
+            $ref: ../../responses/403_not_study_designer_developer.yml
 delete:
     operationId: deleteSharedAssessmentResource
     summary: Delete an external resource link documenting a shared assessment
@@ -64,4 +64,4 @@ delete:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_admin_developer.yml
+            $ref: ../../responses/403_not_admin_study_designer_developer.yml

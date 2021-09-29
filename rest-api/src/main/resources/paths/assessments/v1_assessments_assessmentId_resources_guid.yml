@@ -18,12 +18,13 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_developer.yml
+            $ref: ../../responses/403_not_study_designer_developer.yml
 post:
     operationId: updateAssessmentResource
     summary: Update an external resource link documenting an assessment
     tags:
         - _For Developers
+        - _For Study Designers
         - Assessments
     security:
         - BridgeSecurity: []
@@ -44,13 +45,14 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_developer.yml
+            $ref: ../../responses/403_not_study_designer_developer.yml
 delete:
     operationId: deleteAssessmentResource
     summary: Delete an external resource link documenting an assessment
     tags:
         - Assessments
         - _For Developers
+        - _For Study Designers
         - _For Admins
     security:
         - BridgeSecurity: []
@@ -66,4 +68,4 @@ delete:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_admin_developer.yml
+            $ref: ../../responses/403_not_admin_study_designer_developer.yml

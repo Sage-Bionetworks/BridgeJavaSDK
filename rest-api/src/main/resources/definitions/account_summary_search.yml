@@ -1,54 +1,79 @@
 description: |
-    Search criteria to retrieve account summaries of study participants. This payload is sent to the server but is never returned via the API.
+    Search criteria to retrieve account summaries of study participants. All of these search fields are filters. All records will bre returned unless a search criteria is provided, which will be used to filter the accounts that are returned (all supplied filter criteria must match). Fields that end with `filter` are interpreted as strings that can be matched anywhere in the target field (so for example, `emailFilter` can match accounts with the `@gmail.com` domain).
 type: object
 properties:
     pageSize:
-        description: maximum number of records in each returned page
+        description: Maximum number of records in each returned page
         type: integer
         format: int32
         default: 50
         maximum: 100
     offsetBy:
-        description: next page start offset for pagination 
+        description: Next page start offset for pagination 
         type: integer
         format: int32
         default: 0
     emailFilter:
-        description: return records that have email addresses that match this substring
+        description: Return records that match this substring in their email address
         type: string
     phoneFilter:
-        description: return records that have phone numbers that match this substring
+        description: Return records that match this substring in their phone number
         type: string
     allOfGroups:
-        description: return records that have all of these data groups
+        description: Return records that have all of these data groups
         type: array
         items:
             type: string
     noneOfGroups:
-        description: return records that have none of these data groups
+        description: Return records that have none of these data groups
         type: array
         items:
             type: string
     language:
-        description: return records that have this record as a declared language
+        description: Return records that declare this language as a language preference
         type: string
     startTime:
-        description: return record created on or after this day
+        description: Return record created on or after this day
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
     endTime:
-        description: return record on or before this day
+        description: Return record created on or before this day
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
     orgMembership:
-        description: If no organizational ID is supplied, all accounts will be returned. If an ID is supplied, only accounts assigned to that organization are returned. If the keyword value "<none>" is supplied, only accounts are returned that are *not* assigned to any organization. adminOnly=true and orgMembership=<none> will return admin accounts that still need to be assigned to an organization (a useful query for user interfaces).
+        description: Return records that are members of this organization (specified by the organization’s ID). The keyword "<none>" can be used to retrieve accounts that are *not* assigned to any organization.
         type: string
     adminOnly:
-        description: Administrative accounts are accounts with any roles that allow them to operate against our administrative APIs (not participant-facing, and not requiring consent). When null, the search returns all accounts. When true, returns accounts with at least one assigned role. When false, returns accounts with no administrative roles.
+        description: Return records that have one or more administrative roles.
         type: boolean
     enrolledInStudyId:
-        description: If no study ID is supplied, all accounts will be returned. If an ID is supplied, only accounts assigned to that study are returned.
+        description: Return records that are enrolled in a study (specified by the study’s ID). These accounts have an enrollment record, but they may be enrolled or withdrawn from the study.
         type: string
+    externalIdFilter:
+        description: Return records that match this value as a substring of an external ID. In the context of a specific study, this search will only be conducted on the external IDs for that study (in app-scoped APIs, it matches against all external IDs assigned to the account).
+        type: string
+    status:
+        description: Return records that match this status.
+        $ref: ./enums/account_status.yml
+    enrollment:
+        description: Return records that match this enrollment state. In the context of a specific study, this search will only be conducted on accounts enrolled in that study. In app-scoped APIs, it matches any account that has at least one enrollment in the selected enrollment state.
+        $ref: ./enums/enrollment_filter.yml
+    attributeKey:
+        description: Return records that have an attribute with this key and a value that matches the substring value specified by `attributeValueFilter`.
+        type: string
+    attributeValueFilter:
+        type: string
+        description: Return records that have an attribute key specified by `attributeKey` and a value that matches the substring value of `attributeValueFilter`.
+    predicate:
+        $ref: ./enums/search_term_predicate.yml
+        description: How search criteria should be evaluated in a search (whether any criteria or all criteria must match).
+        default: and
+    stringSearchPosition:
+        $ref: ./enums/string_search_position.yml
+        description: How string-based search criteria will be compared to values in a record.
+        default: infix
     type:
         type: string
         readOnly: true

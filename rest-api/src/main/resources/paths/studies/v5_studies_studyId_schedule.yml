@@ -1,0 +1,49 @@
+get:
+    operationId: getScheduleForStudy
+    summary: Get the schedule for this study (returns 404 if a schedule has not been created for the study).
+    tags:
+        - _For Study Designers
+        - _For Developers
+        - Schedules (v2)
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/schedule2.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_designer_developer.yml      
+post:
+    operationId: saveScheduleForStudy
+    summary: Create or update a schedule associated with a study. This endpoint will return a status of 200 if the call is an update, or 201 if the schedule is being created for the first time.
+    tags:
+        - _For Study Designers
+        - _For Developers
+        - Schedules (v2)
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - name: Schedule
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/schedule2.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/schedule2.yml
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/schedule2.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_designer_developer.yml      

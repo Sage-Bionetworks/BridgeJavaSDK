@@ -4,6 +4,7 @@ type: object
 required:
     - name
     - mimeType
+    - size
 properties:
     name:
         type: string
@@ -14,15 +15,17 @@ properties:
         type: string
     mimeType:
         type: string
-        description: An optional declaration of the MIME type of this file (if none is provided, one will be autodetected from the file when requested).
+        description: The MIME type of this file.
     createdOn:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
         description: The date and time the account was created.
         x-nullable: false
     size:
         type: integer
+        description: The size of the file in bytes.
         format: int64
     uploadURL:
         type: string

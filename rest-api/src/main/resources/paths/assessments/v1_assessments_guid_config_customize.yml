@@ -22,4 +22,6 @@ post:
             schema:
                 $ref: ../../definitions/assessment_config.yml
         401:
-            $ref: ../../responses/401.yml    
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_designer_developer.yml

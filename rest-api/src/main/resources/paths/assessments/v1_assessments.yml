@@ -21,7 +21,7 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_developer.yml
+            $ref: ../../responses/403_not_study_designer_developer.yml
         410:
             $ref: ../../responses/410.yml
 post:
@@ -30,6 +30,7 @@ post:
     description: This assessment must have a unique identifier in the app context (if the identifier is not unique, call the `createAssessmentRevision` API to create a new revision of an existing assessment). The assessment must specify one of the caller’s organizational IDs; this organization owns the new assessment and only members of that organization can update the assessment further.
     tags:
         - _For Developers
+        - _For Study Designers
         - Assessments
     security:
         -   BridgeSecurity: []
@@ -47,7 +48,7 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_developer.yml
+            $ref: ../../responses/403_not_study_designer_developer.yml
         410:
             $ref: ../../responses/410.yml
         501:

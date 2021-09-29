@@ -1,0 +1,12 @@
+type: string
+description: |
+    How search criteria should be evaluated in a search.
+    
+    |Status|Description|
+    |---|---|
+    |and|All the search parameters must match to return a record.|
+    |or|Any of the search parameters must match to return a record.|
+enum:
+    - and
+    - or
+readOnly: true

@@ -1,11 +1,7 @@
 post:
     operationId: getMembers
-    summary: Get members of organization (using search terms)
+    summary: Get members of organization (using search terms). Caller must be a member of the organization.
     tags:
-        - _For Admins
-        - _For Developers
-        - _For Researchers
-        - _For Org Admins
         - Organizations
     security:
         - BridgeSecurity: []
@@ -25,4 +21,4 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_developer_researcher_org_admin.yml
+            $ref: ../../responses/403_not_administrative.yml

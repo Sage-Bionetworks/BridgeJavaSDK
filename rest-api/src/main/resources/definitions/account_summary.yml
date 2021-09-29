@@ -26,6 +26,7 @@ properties:
     createdOn: 
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
         description: ISO 8601 date and time that the user account was created.
         x-nullable: false
@@ -40,14 +41,14 @@ properties:
     studyIds:
         type: array
         readOnly: true
-        description: The studies this participant is associated to.
+        description: The studies this participant is associated to. This array does not include studies the participant has withdrawn from.
         items:
             type: string
         x-nullable: false
     externalIds:
         type: object
         readOnly: true
-        description: A map of study ID to external ID for all the external IDs that have been assigned to this participant.
+        description: A map of study ID to external ID for all the external IDs that have been assigned to this participant. This mapping does not include studies the participant has withdrawn from.
         additionalProperties:
             type: string
         x-nullable: false
@@ -70,3 +71,13 @@ properties:
         readOnly: true
         description: "AccountSummary"
         x-nullable: false
+    note:
+        type: string
+        readOnly: true
+        description: Optional note related to user account.
+    clientTimeZone:
+        type: string
+        readOnly: true
+        example: 'America/Los_Angeles'
+        description: |
+            Participant's time zone. Can be updated or deleted. Must be an IANA time zone name.

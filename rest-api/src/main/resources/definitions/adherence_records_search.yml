@@ -1,0 +1,72 @@
+type: object
+properties:
+    instanceGuids:
+        type: array
+        description: Session or assessment instance GUIDs. Any records that exist with these GUIDs will be returned (scoped to a specific participant in a specific study). If the assessment is a persistent assessment, all adherence records for that assessment will be returned unless includeRepeats is false. This array cannot contain more than 500 items.
+        items:
+            type: string
+        x-nullable: false
+    assessmentIds:
+        type: array
+        description: Return adherence records for assessments with these IDs (the assessment ID is used to define a type of assessment). This array cannot contain more than 500 items.
+        items:
+            type: string
+        x-nullable: false
+    sessionGuids:
+        type: array
+        description: Return adherence records for sessions with these GUIDs (this is the session’s GUID in a schedule and not an instance GUID, and is used to define a type of session). This array cannot contain more than 500 items.
+        items:
+            type: string
+        x-nullable: false
+    timeWindowGuids:
+        type: array
+        description: Return adherence records for assessments in these time windows (using the time window’s GUID in a schedule to define a type of time window). This array cannot contain more than 500 items.
+        items:
+            type: string
+        x-nullable: false
+    adherenceRecordType:
+        $ref: ./enums/adherence_record_type.yml
+    includeRepeats:
+        type: boolean
+        description: Where an assessment can be performed multiple times under an instance GUID, all records will be returned unless this flag is set to true. In this case, the first or last record only will be returned (depending on sort order).
+    currentTimestampsOnly:
+        type: boolean
+        description: Where a time series can be performed multiple times because a session’s trigger event is mutable, all records will be returned, unless this flag is set to true. When true, only records with recent event timestamp values will be returned. This is equivalent to sending back the user’s entire map of current event ID timestamp values via the `eventTimestamps` map in this search object. If values are also provided in the `eventTimestamps` map, each of those event IDs will override its associated event ID timestamp value, as it is provided by setting this flag to true.
+    eventTimestamps:
+        type: object
+        description: A mapping of event IDs to timestamp values to use when retrieving adherence records that are from sessions triggered by that ID. Only records with that exact timestamp value in their `eventTimestamp` field will be returned. In general, mobile clients will only want to retrieve records for current timestamp values when calculating schedules, so the `currentTimestampsOnly` flag provides an easy way to request that all current timestamps be used to limit search results. This map cannot contain more than 50 entries.
+        additionalProperties:
+            type: string
+            format: date-time
+        x-nullable: false
+    startTime:
+        type: string
+        description: Limit search results to records with `startedOn` values that are equal to or later than this start time (no earlier than January 1st, 2020).
+        format: date-time
+    endTime:
+        type: string
+        description: Limit search results to records with `startedOn` values that are equal to or earlier than this end time (no later than January 1st, 2120).
+        format: date-time
+    pageSize:
+        description: The maximum number of records in each returned page. Range can be from 1-500 records.
+        type: integer
+        format: int32
+        default: 250
+    offsetBy:
+        description: The next page start offset for pagination. 
+        type: integer
+        format: int32
+        default: 0
+    sortOrder:
+        $ref: ./enums/sort_order.yml
+    predicate:
+        $ref: ./enums/search_term_predicate.yml
+        description: How search criteria should be evaluated in a search (whether any criteria or all criteria must match).
+    stringSearchPosition:
+        $ref: ./enums/string_search_position.yml
+        description: How string-based search criteria will be compared to values in a record.
+    type:
+        type: string
+        readOnly: true
+        description: "AdherenceRecordsSearch"
+        x-nullable: false

@@ -1,0 +1,15 @@
+type: string
+description: |
+    How string-based search criteria will be compared to values in a record.
+
+    |Type|Description|
+    |---|---|
+    |prefix|The string must match the start of a string field|
+    |infix|The string can match anywhere in a string field|
+    |postfix|The string must match the end of a string field|
+    |exact|The string must match the string field exactly|
+enum:
+    - prefix
+    - infix
+    - postfix
+    - exact

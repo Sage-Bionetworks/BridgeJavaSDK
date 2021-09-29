@@ -5,7 +5,9 @@
 202_message:
     $ref: ./202_message.yml
 302_found:
-     $ref: ./302_found.yml    
+    $ref: ./302_found.yml
+304:
+    $ref: ./304.yml
 400:
     $ref: ./400_invalid_entity.yml
 400_published_entity:
@@ -22,12 +24,16 @@
     $ref: ./403_not_admin.yml
 403_not_admin_developer:
     $ref: ./403_not_admin_developer.yml
+403_not_admin_study_designer_developer.yml:
+    $ref: ./403_not_admin_study_designer_developer.yml
 403_not_admin_worker:
     $ref: ./403_not_admin_worker.yml
 403_not_developer:
     $ref: ./403_not_developer.yml
 403_not_developer_researcher:
     $ref: ./403_not_developer_researcher.yml
+403_not_developer_researcher_worker:
+    $ref: ./403_not_developer_researcher_worker.yml
 403_not_developer_researcher_admin:
     $ref: ./403_not_developer_researcher_admin.yml
 403_not_developer_worker:

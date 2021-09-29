@@ -40,6 +40,11 @@ properties:
         description: |
             Client data for a schedule should be in a syntactically valid JSON format. It will be returned as is to the client (as JSON). It can contain any information that is useful to authoring tools or administration tools that is not part of the Bridge data model.
         additionalProperties: true
+    studyBursts:
+        type: array
+        items:
+            $ref: ./study_burst.yml
+        x-nullable: false
     sessions:
         type: array
         description: An ordered collection of sessions.
@@ -49,12 +54,14 @@ properties:
     createdOn:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
         description: The date and time the schedule was created.
         x-nullable: false
     modifiedOn:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
         description: The date and time the schedule was last modified.
         x-nullable: false

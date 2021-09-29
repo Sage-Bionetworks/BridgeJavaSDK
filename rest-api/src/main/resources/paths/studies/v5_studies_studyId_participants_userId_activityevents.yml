@@ -1,9 +1,9 @@
 get:
-    operationId: getStudyParticipantActivityEvents
+    operationId: getStudyParticipantStudyActivityEvents
     summary: Get activity events for the participants
     tags:
         - Study Participants
-        - Activity Events
+        - Study Activity Events
         - _For Study Coordinators
         - _For Researchers
     parameters:
@@ -13,18 +13,18 @@ get:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/paged_resources/activity_event.yml
+                $ref: ../../definitions/paged_resources/study_activity_event.yml
         401:
             $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_study_coordinator_researcher.yml                
 post:
-    operationId: createStudyParticipantActivityEvent
+    operationId: createStudyParticipantStudyActivityEvent
     summary: Create a new activity event for a participant in this study.
     description: Create a new activity event for a participant in this study. A 201 is returned whether the event updates or not, to support concurrent and out-of-order POSTs from the client.
     tags:
         - Study Participants
-        - Activity Events
+        - Study Activity Events
         - _For Study Coordinators
         - _For Researchers
     security:
@@ -36,7 +36,7 @@ post:
           required: true
           in: body
           schema:
-              $ref: ../../definitions/custom_activity_event_request.yml
+              $ref: ../../definitions/study_activity_event_request.yml
     responses:
         201:
             description: Created

@@ -1,6 +1,6 @@
 get:
     operationId: getParticipantReportsForParticipant
-    summary: Get participant report records by date
+    summary: Get participant report records by date. 
     tags: 
         - _For Workers
     security:

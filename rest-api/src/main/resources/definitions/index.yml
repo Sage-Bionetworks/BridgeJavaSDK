@@ -2,6 +2,10 @@ SharingScope:
     $ref: ./enums/sharing_scope.yml
 AccountStatus:
     $ref: ./enums/account_status.yml
+ActivityEventUpdateType:
+    $ref: ./enums/activity_event_update_type.yml
+ContactRole:
+    $ref: ./enums/contact_role.yml
 CountryCode:
     $ref: ./enums/country_code.yml
 DataType:
@@ -10,20 +14,30 @@ EnrollmentFilter:
     $ref: ./enums/enrollment_filter.yml
 Environment:
     $ref: ./enums/environment.yml
+FileDisposition:
+    $ref: ./enums/file_disposition.yml
 FileRevisionStatus:
     $ref: ./enums/file_revision_status.yml
+IrbDecisionType:
+    $ref: ./enums/irb_decision_type.yml
 NotificationProtocol:
     $ref: ./enums/notification_protocol.yml
 NotificationType:
     $ref: ./enums/notification_type.yml
 PerformanceOrder:
     $ref: ./enums/performance_order.yml
-ReminderType:
-    $ref: ./enums/reminder_type.yml
+AdherenceRecordType:
+    $ref: ./enums/adherence_record_type.yml
 ScheduleType:
     $ref: ./enums/schedule_type.yml
+SignInType:
+    $ref: ./enums/sign_in_type.yml
 SmsType:
     $ref: ./enums/sms_type.yml
+SortOrder:
+    $ref: ./enums/sort_order.yml
+StudyPhase:
+    $ref: ./enums/study_phase.yml
 Role:
     $ref: ./enums/role.yml
 ActivityType:
@@ -38,6 +52,10 @@ Operator:
     $ref: ./enums/operator.yml
 ReportType:
     $ref: ./enums/report_type.yml
+SearchTermPredicate:
+    $ref: ./enums/search_term_predicate.yml
+StringSearchPosition:
+    $ref: ./enums/string_search_position.yml
 SharedModuleType:
     $ref: ./enums/shared_module_type.yml
 TemplateType:
@@ -75,6 +93,14 @@ Activity:
     $ref: ./activity.yml
 ActivityEvent:
     $ref: ./activity_event.yml
+Address:
+    $ref: ./address.yml
+AdherenceRecord:
+    $ref: ./adherence_record.yml
+AdherenceRecordUpdates:
+    $ref: ./adherence_record_updates.yml
+AdherenceRecordsSearch:
+    $ref: ./adherence_records_search.yml
 AndroidAppLink:
     $ref: ./android_app_link.yml
 App:
@@ -113,6 +139,8 @@ ConsentSignature:
     $ref: ./consent_signature.yml
 ConsentStatus:
     $ref: ./consent_status.yml
+Contact:
+    $ref: ./contact.yml
 CreatedOnHolder:
     $ref: ./created_on_holder.yml
 Criteria:
@@ -121,6 +149,8 @@ CriteriaScheduleStrategy:
     $ref: ./criteria_schedule_strategy.yml
 CustomActivityEventRequest:
     $ref: ./custom_activity_event_request.yml
+CustomEvent:
+    $ref: ./custom_event.yml
 DataGroups:
     $ref: ./data_groups.yml
 DateRange:
@@ -135,6 +165,8 @@ Enrollment:
     $ref: ./enrollment.yml
 EnrollmentDetail:
     $ref: ./enrollment_detail.yml
+Exporter3Configuration:
+    $ref: ./exporter3_configuration.yml
 ExternalIdentifier:
     $ref: ./external_identifier.yml
 ExternalResource:
@@ -179,6 +211,10 @@ MasterSchedulerConfig:
     $ref: ./master_scheduler_config.yml
 Message:
     $ref: ./message.yml
+Notification:
+    $ref: ./notification.yml
+NotificationInfo:
+    $ref: ./notification_info.yml
 NotificationMessage:
     $ref: ./notification_message.yml
 NotificationRegistration:
@@ -259,6 +295,10 @@ SmsMessage:
     $ref: ./sms_message.yml
 SmsTemplate:
     $ref: ./sms_template.yml
+StudyActivityEventRequest:
+    $ref: ./study_activity_event_request.yml
+StudyBurst:
+    $ref: ./study_burst.yml
 StudyConsent:
     $ref: ./study_consent.yml
 StudyParticipant:
@@ -271,6 +311,10 @@ SubscriptionStatus:
     $ref: ./subscription_status.yml
 Study:
     $ref: ./study.yml
+StudyActivityEvent:
+    $ref: ./study_activity_event.yml
+StudyInfo:
+    $ref: ./study_info.yml
 Survey:
     $ref: ./survey.yml
 SurveyElement:
@@ -333,6 +377,8 @@ ActivityList:
     $ref: ./paged_resources/activity.yml
 ActivityEventList:
     $ref: ./paged_resources/activity_event.yml
+AdherenceRecordList:
+    $ref: ./paged_resources/adherence_record.yml
 AppConfigList:
     $ref: ./paged_resources/app_config.yml
 AppConfigElementList:
@@ -379,8 +425,6 @@ ReportIndexList:
     $ref: ./paged_resources/report_index.yml
 ScheduleList:
     $ref: ./paged_resources/schedule.yml
-Schedule2List:
-    $ref: ./paged_resources/schedule2.yml
 ScheduledActivityList:
     $ref: ./paged_resources/scheduled_activity.yml
 ScheduledActivityListV4:
@@ -395,6 +439,10 @@ SharedModuleMetadataList:
     $ref: ./paged_resources/shared_module_metadata.yml
 StringList:
     $ref: ./paged_resources/string.yml
+StudyActivityEventList:
+    $ref: ./paged_resources/study_activity_event.yml
+StudyActivityEventPagedList:
+    $ref: ./paged_resources/study_activity_event_paged.yml
 StudyConsentList:
     $ref: ./paged_resources/study_consent.yml
 StudyList:

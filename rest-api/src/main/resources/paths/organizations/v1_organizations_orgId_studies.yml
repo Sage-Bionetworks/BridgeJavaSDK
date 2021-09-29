@@ -2,10 +2,6 @@ get:
     operationId: getSponsoredStudies
     summary: Get the studies that are sponsored by this organization.
     tags:
-        - _For Admins
-        - _For Developers
-        - _For Researchers
-        - _For Org Admins
         - Organizations
     security:
         - BridgeSecurity: []
@@ -21,4 +17,4 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_developer_researcher_admin.yml
+            $ref: ../../responses/403_not_administrative.yml

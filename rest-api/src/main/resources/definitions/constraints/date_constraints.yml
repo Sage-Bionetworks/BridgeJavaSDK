@@ -16,10 +16,12 @@ allOf:
         earliestValue:
             type: string
             format: date
+            example: '2021-04-31'
             description: |
                 ISO 8601 date value that is the earliest value that may be set for this question. If allowFuture is false, that constraint should also be applied regardless of earliest/latestValue constraints.
         latestValue:
             type: string
             format: date
+            example: '2021-04-31'
             description: |
                 ISO 8601 date value that is the earliest value that may be set for this question. If allowFuture is false, that constraint should also be applied regardless of earliest/latestValue constraints.

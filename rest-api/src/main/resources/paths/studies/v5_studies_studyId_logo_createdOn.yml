@@ -1,0 +1,23 @@
+post:
+    operationId: finishStudyLogoUpload
+    summary: Confirm with the Bridge server that the logo has been uploaded to S3.
+    tags:
+        - Studies
+        - _For Developers
+        - _For Study Designers
+    security:
+        - BridgeSecurity: []
+    description: |
+        After calling `createStudyLogo`, and uploading the logo to S3, a client must call this method to confirm that the file has been uploaded. An URL to the logo to download it will not be available in the study’s `studyLogoUrl` field until this method is called (the server does not validate that the file has in fact been uploaded to S3).
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/createdOn
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/study.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_designer_developer.yml

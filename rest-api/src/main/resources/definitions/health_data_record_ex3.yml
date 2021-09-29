@@ -22,6 +22,7 @@ properties:
     createdOn:
         type: string
         format: date-time
+        example: '2020-08-28T14:28:13.386Z'
         description: ISO timestamp of when this record was submitted to Bridge.
     clientInfo:
         type: string
@@ -31,6 +32,12 @@ properties:
         default: false
         x-nullable: false
         description: This is set to true when the record is exported to Synapse.
+    exportedOn:
+        type: string
+        format: date-time
+        example: '2020-08-28T14:28:13.386Z'
+        description: ISO timestamp of when this record was exported to Synapse. Due to redrives and re-exports, this
+            may be different than createdOn.
     metadata:
         type: object
         additionalProperties:

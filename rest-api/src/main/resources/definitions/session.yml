@@ -3,7 +3,6 @@ description: |
 type: object
 required:
     - name
-    - startEventId
     - performanceOrder
 properties:
     guid:
@@ -20,9 +19,17 @@ properties:
         items:
             $ref: ./label.yml
         x-nullable: false
-    startEventId:
+    startEventIds:
+        type: array
+        items:
+            type: string
+        description: One or more event IDs, either system defined or custom-defined for the study. If they are custom events, prepend them with the "custom:" string (this is not absolutely necessary, but if your custom event ID ever conflicts with a system ID, it will be interpreted as a system ID). If the event ID does not exist in the map of event to timestamp IDs for a participant, this session and the series of scheduled assessments to perform should be ignored. A session must declare at least one start event or study burst ID.
         x-nullable: false
-        description: An identifier for the event which should be used to schedule this sequence of sessions. The identifier may be mapped to a timestamp for a user. If the event ID does not exist for the user, the client should ignore this session and schedule nothing. If the event ID exists, the client should start with that timestamp and schedule forward in time according to the information in the session and its schedule.
+    studyBurstIds:
+        type: array
+        items:
+            type: string
+        description: One or more study bursts that can generate events that should trigger the scheduling of this session. If the study burst has not fired, then the events it creates will not exist, so they will not be in the map of event to timestamp IDs for a participant; this session and the series of scheduled assessments to perform should be ignored. A session must declare at least one start event or study burst ID.
     delay:
         type: string
         description: |
@@ -54,29 +61,11 @@ properties:
         items:
             $ref: ./assessment_reference2.yml
         x-nullable: false
-    notifyAt:
-        $ref: ./enums/notification_type.yml
-        x-nullable: false
-    remindAt:
-        $ref: ./enums/reminder_type.yml
-        x-nullable: false
-        description: If a second notification (a reminder) should be show to the participant every time a time window starts, when relative to the window should it occur? This value works with `reminderPeriod` to determine the time. If null, no reminder should be shown.
-    reminderPeriod:
-        type: string
-        description: |
-            The time after a window starts or before it ends (based on the `remindAt` property) when a reminder should be issued to the client. Only minute, hour, day, and week values are allowed (although these can be mixed).
-        format: ISO 8601 Duration
-        example: PT10M
-    allowSnooze:
-        type: boolean
-        description: |
-            Allow the participant to “snooze” a notification or reminder (dismiss it with some amount of time before it occurs again). Cannot be true if `notifyAt` is null.
-        default: false
-    messages:
+    notifications:
         type: array
-        description: The message to use for a notification and reminder, if these have been specified. Whether these are enabled or not, notification messages will be validated. Only one message can be included for a given language. The system will first try and select the participant’s preferred languages (from most to least preferred), then it will select an English (“en”) language default message. An English language default message *must* be provided because there is no other reasonable fallback value.
+        description: A collection of notifications to show around the execution of a session window.
         items:
-            $ref: ./notification_message.yml
+            $ref: ./notification.yml
         x-nullable: false
     type:
         type: string

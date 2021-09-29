@@ -44,8 +44,8 @@ post:
         403:
             $ref: ../../responses/403_not_researcher.yml                
 delete:
-    operationId: deleteTestParticipant
-    summary: Delete an account with a `test_user` data group. 
+    operationId: deleteParticipant
+    summary: Delete a study participant if the record has the `test_user` data group, or the account has not been used by the participant (the participant has never signed in to Bridge using the account) and it is only enrolled in one study.
     tags:
         - Participants
         - _For Researchers

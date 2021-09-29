@@ -1,7 +1,7 @@
 get:
     operationId: getUsersParticipantReportRecordsV4
     summary: Get participant report records
-    description: This endpoint can be called by researchers, and by other administrators for their own account. 
+    description: The report can be accessed if the participant is requesting their own report, or the caller is a researcher, worker, or admin, or the caller is a study coordinator for a study that includes the participant.
     tags:
         - Participant Reports
         - _For Researchers
@@ -26,9 +26,12 @@ get:
 post:
     operationId: addParticipantReportRecordV4
     summary: Add a participant report record
+    description: The report can be accessed if the participant is requesting their own report, or the caller is a researcher, worker, or admin, or the caller is a study coordinator for a study that includes the participant.
     tags:
         - Participant Reports
         - _For Developers
+        - _For Workers
+        - _For Study Coordinators
     security:
         - BridgeSecurity: []
     parameters:
@@ -46,7 +49,7 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_developer.yml            
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml
 delete:
     operationId: deleteAllParticipantReportRecords
     summary: Delete a participant report (all records)
@@ -65,4 +68,4 @@ delete:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_developer_worker.yml
+            $ref: ../../responses/403_not_developer_researcher_worker.yml

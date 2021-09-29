@@ -20,7 +20,7 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_developer.yml
+            $ref: ../../responses/403_not_administrative.yml
 post:
     operationId: createFile
     summary: Create a new file resource

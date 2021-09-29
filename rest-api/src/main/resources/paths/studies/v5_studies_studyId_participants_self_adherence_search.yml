@@ -1,0 +1,27 @@
+post:
+    operationId: searchForAdherenceRecords
+    summary: Search for adherence records.
+    tags:
+        - _For Consented Users
+        - Adherence Records
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - name: AdherenceRecordsSearch
+          in: body
+          description: The search criteria.
+          required: true
+          schema:
+                $ref: ../../definitions/adherence_records_search.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/adherence_record.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml

@@ -1,0 +1,26 @@
+delete:
+  operationId: deleteAdherenceRecord
+  summary: Delete an adherence record
+  tags:
+    - Adherence Records
+    - _For Researchers
+    - _For Study Coordinators
+  security:
+    - BridgeSecurity: []
+  description: |
+    Delete an existing adherence record
+  parameters:
+    - $ref: ../../index.yml#/parameters/studyId
+    - $ref: ../../index.yml#/parameters/userId
+    - $ref: ../../index.yml#/parameters/instanceGuid
+    - $ref: ../../index.yml#/parameters/eventTimestamp
+    - $ref: ../../index.yml#/parameters/startedOn
+  responses:
+    200:
+      description: OK
+      schema:
+        $ref: ../../definitions/message.yml
+    401:
+      $ref: ../../responses/401.yml
+    403:
+      $ref: ../../responses/403_not_study_coordinator_researcher.yml

@@ -1,6 +1,7 @@
 get:
     operationId: getStudyReportRecordsV4
     summary: Get study report records
+    description: Any member of an organization sponsoring a study, or any app-scoped administrative user, can access a study report.
     tags:
         - Study Reports
         - _For Consented Users
@@ -22,6 +23,7 @@ get:
 post:
     operationId: addStudyReportRecord
     summary: Add a record to a study report
+    description: Any member of an organization sponsoring a study, or any app-scoped administrative user, can access a study report.
     tags:
         - Study Reports
         - _For Developers
@@ -41,8 +43,6 @@ post:
             $ref: ../../responses/201_message.yml
         401:
             $ref: ../../responses/401.yml
-        403:
-            $ref: ../../responses/403_not_developer_worker.yml
 delete:
     operationId: deleteAllStudyReportRecords
     summary: Delete a study report (all records)
