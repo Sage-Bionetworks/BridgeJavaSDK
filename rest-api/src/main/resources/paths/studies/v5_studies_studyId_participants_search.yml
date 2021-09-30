@@ -1,10 +1,13 @@
 post:
     operationId: getStudyParticipants
     summary: Search for account summaries of study participants.
+    description: For developers and study designers, this API only returns test accounts (accounts marked with the “test_user” data group).
     tags:
         - Study Participants
-        - _For Study Coordinators
+        - _For Developers
         - _For Researchers
+        - _For Study Designers
+        - _For Study Coordinators
     security:
         - BridgeSecurity: []
     parameters:

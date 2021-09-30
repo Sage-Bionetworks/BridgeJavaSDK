@@ -1,0 +1,4 @@
+description: |
+    User cannot access this service because they do not have an administrative role (no developer, researcher, study designer or coordinator, or the developer/study designer is not operating on a test account or their own account).
+schema:
+    $ref: ../definitions/message.yml

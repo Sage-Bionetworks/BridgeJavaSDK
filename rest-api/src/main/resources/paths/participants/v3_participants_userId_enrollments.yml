@@ -3,6 +3,7 @@ get:
     summary: Get enrollment records for this user
     tags:
         - _For Researchers
+        - _For Developers
         - Consents
     security:
         - BridgeSecurity: []
@@ -16,4 +17,4 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_researcher.yml
+            $ref: ../../responses/403_not_developer_researcher.yml

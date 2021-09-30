@@ -1,13 +1,18 @@
 post:
-    operationId: updateAdherenceRecords
-    summary: Create or update one or more adherence records.
+    operationId: updateStudyParticipantAdherenceRecords
+    summary: Update one or more adherence records for a participant
     tags:
-        - _For Consented Users
+        - Study Participants
+        - _For Study Coordinators
+        - _For Researchers
+        - _For Developers
+        - _For Study Designers
         - Adherence Records
     security:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
         - name: AdherenceRecordUpdates
           in: body
           description: One ore more adherence records
@@ -21,7 +26,5 @@ post:
                 $ref: ../../definitions/message.yml
         401:
             $ref: ../../responses/401.yml
-        410:
-            $ref: ../../responses/410.yml
-        412:
-            $ref: ../../responses/412.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_dev_researcher.yml
