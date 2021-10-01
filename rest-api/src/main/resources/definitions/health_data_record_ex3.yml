@@ -43,6 +43,8 @@ properties:
         additionalProperties:
             type: string
         description: Client-submitted metadata, as a map of key-value pairs.
+    sharingScope:
+        $ref: ./enums/sharing_scope.yml
     version:
         type: integer
         format: int64
