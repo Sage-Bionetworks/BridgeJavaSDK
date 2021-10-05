@@ -13,6 +13,7 @@ properties:
         format: date-time
         example: '2020-08-28T14:28:13.386Z'
         readOnly: true
+        x-nullable: false
     withdrawnOn:
         type: string
         format: date-time
@@ -21,9 +22,11 @@ properties:
     enrolledBySelf:
         type: boolean
         readOnly: true
+        description: If true, will be present and true. Otherwise, property will not be in JSON.
     withdrawnBySelf:
         type: boolean
         readOnly: true
+        description: If true, will be present and true. Otherwise, property will not be in JSON.
     type:
         type: string
         readOnly: true
