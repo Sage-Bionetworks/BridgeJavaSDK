@@ -23,6 +23,13 @@ allOf:
                 items:
                     $ref: ../definitions/user_consent_history.yml
             x-nullable: false
+        enrollments:
+            type: object
+            readOnly: true
+            description: Records of every enrollment (whether withdrawn or not) in every study for this participant. The key of this mapping is the studyId, and the value is the record of the enrollment.
+            additionalProperties:
+                $ref: ../definitions/enrollment_info.yml
+            x-nullable: false
         consented:
             description: |
                 True if the user has consented to all required consents, based on the user's most recent request info (client info, languages, data groups). May be null if this object was not constructed with consent histories, or if consent status is indeterminate.
