@@ -399,6 +399,8 @@ FileMetadataList:
     $ref: ./paged_resources/file_metadata.yml
 FileRevisionList:
     $ref: ./paged_resources/file_revision.yml
+HealthDataDocumentationList:
+    $ref: ./paged_resources/health_data_documentation.yml
 HealthDataRecordList:
     $ref: ./paged_resources/health_data_record.yml
 HealthDataRecordEx3List:

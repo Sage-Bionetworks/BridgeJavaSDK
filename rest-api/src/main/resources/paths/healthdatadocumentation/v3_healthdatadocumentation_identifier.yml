@@ -23,8 +23,7 @@ delete:
     description: This endpoint can be called by researchers and developers to delete a specific documentation.
     tags:
         - Health Data Documentation
-        - _For Researchers
-        - _For Developers
+        - _For Admins
     security:
         -   BridgeSecurity: []
     parameters:

@@ -47,8 +47,7 @@ delete:
     summary: Delete all documentation associated with given parentId
     tags:
         - Health Data Documentation
-        - _For Researchers
-        - _For Developers
+        - _For Admins
     security:
         -   BridgeSecurity: []
     parameters:
