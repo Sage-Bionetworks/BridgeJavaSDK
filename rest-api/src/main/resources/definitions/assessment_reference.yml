@@ -4,6 +4,10 @@ description: |
 required:
     - guid
 properties:
+    appId:
+        type: string
+        description: The identifier of the assessment's app. For a shared assessment, the shared app's ID.
+        x-nullable: false
     guid:
         type: string
         description: The assessment revision guid
@@ -13,10 +17,10 @@ properties:
         readOnly: true
         description: The identifier of the assessment (should be unique in the set of references)
         x-nullable: false
-    sharedId:
+    originSharedId:
         type: string
         readOnly: true
-        description: If imported from a shared assessment, the identifier of the shard assessment (this may not be unique between two different references in the set of references)
+        description: If imported from a shared assessment, the identifier of the shared assessment (this may not be unique between two different references in the set of references)
         x-nullable: false
     configHref:
         type: string
