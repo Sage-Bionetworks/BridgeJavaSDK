@@ -1,4 +1,4 @@
 description: |
-    User cannot access this service because they are not a developer or researcher (no developer, researcher or worker role on account).
+    User cannot access this service because they are not a developer or researcher (no developer, researcher or worker role on account, or a developer is attempting an operation on a non-test account that is not the developer account itself).
 schema:
     $ref: ../definitions/message.yml

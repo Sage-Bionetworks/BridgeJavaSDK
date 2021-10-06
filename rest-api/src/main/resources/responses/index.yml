@@ -38,6 +38,8 @@
     $ref: ./403_not_developer_researcher_admin.yml
 403_not_developer_worker:
     $ref: ./403_not_developer_worker.yml
+403_not_developer_researcher_study_designer_study_coordinator:
+    $ref: ./403_not_developer_researcher_study_designer_study_coordinator.yml
 403_not_researcher:
     $ref: ./403_not_researcher.yml
 403_not_study_coordinator_developer:

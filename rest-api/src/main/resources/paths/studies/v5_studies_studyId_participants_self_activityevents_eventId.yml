@@ -23,7 +23,7 @@ get:
             $ref: ../../responses/412.yml
 delete:
     operationId: deleteStudyActivityEvent
-    summary: Delete a custom activity event (for the caller).
+    summary: Delete an activity event (for the caller) if it is mutable.
     tags:
         - Studies
         - Study Activity Events
