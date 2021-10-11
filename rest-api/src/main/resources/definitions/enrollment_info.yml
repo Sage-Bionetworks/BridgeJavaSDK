@@ -22,11 +22,11 @@ properties:
     enrolledBySelf:
         type: boolean
         readOnly: true
-        description: If true, will be present and true. Otherwise, property will not be in JSON.
+        description: If the participant enrolled themselves, the property will be present and true. Otherwise, property will not be in JSON.
     withdrawnBySelf:
         type: boolean
         readOnly: true
-        description: If true, will be present and true. Otherwise, property will not be in JSON.
+        description: If the participant withdrew themselves, the property will be present and true. Otherwise, property will not be in JSON.
     type:
         type: string
         readOnly: true
