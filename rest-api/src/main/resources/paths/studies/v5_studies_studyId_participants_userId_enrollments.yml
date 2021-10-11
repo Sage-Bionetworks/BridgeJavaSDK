@@ -1,6 +1,6 @@
 get:
     operationId: getStudyParticipantEnrollments
-    summary: Get enrollment records for this user. This endpoint is accessible if the caller can retrieve the participant’s record, and will only include enrollment records for studies that are visible to the caller (through their membership in a sponsoring organization). Admins can see all enrollments. 
+    summary: Get enrollment records for this user. This endpoint is accessible if the caller can retrieve the participant’s record, and will only include enrollment records for studies that are visible to the caller (through their membership in a sponsoring organization). App-scoped roles (developer, researcher, admin) can see all enrollments. 
     tags:
         - Study Participants
         - _For Study Coordinators
