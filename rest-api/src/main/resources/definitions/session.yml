@@ -13,6 +13,9 @@ properties:
         type: string
         description: A required name for this session that will be shown to schedule authors, and can be used as a label for participants if no label can be found.
         x-nullable: false
+    symbol:
+        type: string
+        description: A unicode symbol or token identifier (32 characters or less) for a compact/symbolic representation of the session in UI tools.
     labels:
         type: array
         description: A collection of labels for this schedule. Only one label can be included for a given language. The system will first try and select the participant’s preferred languages (from most to least preferred), then it will select an English (“en”) language default message. If an English label does not exist in the list of labels, then the schedule name will be used as a label.
