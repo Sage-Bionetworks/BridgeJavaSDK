@@ -265,6 +265,12 @@
 /v3/healthdata:
     $ref: ./healthdata/v3_healthdata.yml
 
+# Health Data Documentation
+/v3/healthdatadocumentation:
+    $ref: ./healthdatadocumentation/v3_healthdatadocumentation.yml
+/v3/healthdatadocumentation/{identifier}:
+    $ref: ./healthdatadocumentation/v3_healthdatadocumentation_identifier.yml
+
 # Intent to participate
 /v3/itp:
     $ref: ./itp.yml

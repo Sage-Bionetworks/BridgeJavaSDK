@@ -183,6 +183,8 @@ GuidHolder:
     $ref: ./guid_holder.yml
 GuidVersionHolder:
     $ref: ./guid_version_holder.yml
+HealthDataDocumentation:
+    $ref: ./health_data_documentation.yml
 HealthDataRecord:
     $ref: ./health_data_record.yml
 HealthDataRecordEx3:
@@ -399,6 +401,8 @@ FileMetadataList:
     $ref: ./paged_resources/file_metadata.yml
 FileRevisionList:
     $ref: ./paged_resources/file_revision.yml
+HealthDataDocumentationList:
+    $ref: ./paged_resources/health_data_documentation.yml
 HealthDataRecordList:
     $ref: ./paged_resources/health_data_record.yml
 HealthDataRecordEx3List:
