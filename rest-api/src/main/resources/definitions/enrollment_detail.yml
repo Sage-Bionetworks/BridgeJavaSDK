@@ -21,6 +21,7 @@ properties:
         readOnly: true
     enrolledBy:
         $ref: ./account_ref.yml
+        description: This field will be absent if the participant enrolled themselves, otherwise it will contain a reference to the account that enrolled the participant.
         readOnly: true
     withdrawnOn:
         type: string
@@ -29,6 +30,7 @@ properties:
         readOnly: true
     withdrawnBy:
         $ref: ./account_ref.yml
+        description: This field will be absent if the participant withdrew themselves from the study, otherwise it will contain a reference to the account that withdrew the participant.
         readOnly: true
     withdrawalNote:
         type: string

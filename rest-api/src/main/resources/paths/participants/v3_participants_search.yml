@@ -1,8 +1,10 @@
 post:
     operationId: searchAccountSummaries
     summary: Search for account summaries (participants)
+    description: For developers, this API only returns test accounts (accounts marked with the “test_user” data group).
     tags:
         - Participants
+        - _For Developers
         - _For Researchers
     security:
         - BridgeSecurity: []
@@ -21,4 +23,4 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_researcher.yml
+            $ref: ../../responses/403_not_developer_researcher.yml

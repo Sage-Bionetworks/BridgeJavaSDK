@@ -1,4 +1,4 @@
 description: |
-    User cannot access this service because they do not have an administrative role (no developer, researcher, or org admin role on account).
+    User cannot access this service because they do not have an administrative role (no developer, researcher, or org admin role on account, or a developer is attempting an operation on a non-test account that is not the developer account itself).
 schema:
     $ref: ../definitions/message.yml

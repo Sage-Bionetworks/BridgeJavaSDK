@@ -1,5 +1,5 @@
 description: |
     User cannot access this service because they are not a developer or worker process 
-    (no developer or worker role on account).
+    (no developer or worker role on account, or a developer is attempting an operation on a non-test account that is not the developer account itself).
 schema:
     $ref: ../definitions/message.yml

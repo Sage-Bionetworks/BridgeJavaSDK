@@ -159,6 +159,13 @@ allOf:
             additionalProperties:
                 $ref: ../definitions/consent_status.yml
             x-nullable: false
+        enrollments:
+            type: object
+            readOnly: true
+            description: Records of every enrollment (whether withdrawn or not) in every study for this participant. The key of this mapping is the studyId, and the value is the record of the enrollment.
+            additionalProperties:
+                $ref: ../definitions/enrollment_info.yml
+            x-nullable: false
         orgMembership:
             type: string
             readOnly: true

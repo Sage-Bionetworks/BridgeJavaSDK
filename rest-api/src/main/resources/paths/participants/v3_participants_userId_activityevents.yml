@@ -21,6 +21,7 @@ post:
     description: This endpoint can be called by researchers in order to create an activity event for a participant. This is an event name and a timestamp for the event. A 201 is returned whether the event updates or not, to support concurrent and out-of-order POSTs from the client.
     tags:
         - Activity Events
+        - _For Developers
         - _For Researchers
     parameters:
         - name: userId
@@ -37,3 +38,6 @@ post:
             description: Created
             schema:
                 $ref: ../../definitions/message.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher.yml                
+        

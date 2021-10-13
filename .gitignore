@@ -9,6 +9,7 @@ target
 'SDK Notes'
 bin
 .vscode
+rest-api/package-lock.json
 
 # IntelliJ project files
 *.iml

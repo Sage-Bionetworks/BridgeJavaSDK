@@ -26,9 +26,11 @@ get:
 post:
     operationId: createParticipant
     summary: Create a new study participant (user)
+    description: If the caller is a developer account, then the participant record will automatically be created as a test user (marked with the “test_user” data group).
     tags:
         - Participants
         - _For Researchers
+        - _For Developers
     security:
         - BridgeSecurity: []
     parameters:
@@ -46,4 +48,4 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_researcher.yml
+            $ref: ../../responses/403_not_developer_researcher.yml

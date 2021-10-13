@@ -38,9 +38,9 @@ This project requires that you have Java and Maven installed, and you'll need to
 
 ## Updating this SDK
 
-* Clone the [BridgeDocs](../BridgeDocs/) repository and add the markdown description of service changes to the `bridge-api/` folder. then run the tools in that project to produce an updated swagger.json file (this is documented in the project's README file);
+* Clone the [BridgeDocs](https://github.com/Sage-Bionetworks/BridgeDocs/) repository and add the markdown description of service changes to the `bridge-api/` folder. then run the tools in that project to produce an updated swagger.json file (this is documented in the project's README file);
 * Increment the build number of all sub-projects using the command `mvn versions:set -DnewVersion=x.y.z`
 * Copy the swagger.json file to `api-codegen/swagger.json`;
 * Run the build so that all three projects are rebuilt, and the new REST API and model classes should be part of the REST and Java SDKs.
-* After checking in this project, [BridgeIntegrationTests](../BridgeIntegrationTests/) can be updated to the new Java SDK version and tests can be written for the new end-to-end functionality;
+* After checking in this project, [BridgeIntegrationTests](https://github.com/Sage-Bionetworks/BridgeIntegrationTests/) can be updated to the new Java SDK version and tests can be written for the new end-to-end functionality;
 * The BridgeDocs project should be deployed to update the documentation, after you update the client libraries.
