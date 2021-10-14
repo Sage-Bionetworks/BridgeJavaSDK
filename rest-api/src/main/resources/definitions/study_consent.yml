@@ -28,9 +28,16 @@ properties:
             |Template variable|Substituted with|
             |---|---|
             |${appName}|The name of the app|
+            |${appShortName}||
             |${supportEmail}|The support email address for the app|
             |${technicalEmail}|The technical contact/support email address for the app|
             |${sponsorName}|The name of the sponsor for this app (the institution or research team name)|
+            |${participantFirstName}|The participant’s first name|
+            |${participantLastName}|The participant’s last name|
+            |${participantEmail}|The participant’s email address|
+            |${participantPhone}|The participant’s phone number in E.164 format (e.g. “+16175551212”)|
+            |${participantPhoneRegion}|The participant’s phone number region code (e.g. “US”)|
+            |${participantPhoneNationalFormat}|The participant’s phone number in a regional format (e.g. “(617) 555-1212”)|
 
             The signature block will be appended to the end of your consent document. **It is not possible to remove or change the signature block at this time.**
         x-nullable: false
