@@ -1,3 +1,30 @@
+post:
+    operationId: updateEnrollment
+    summary: Update a participant's enrollment record for a study
+    tags:
+        - Study Participants
+        - Studies
+        - _For Study Coordinators
+        - _For Researchers
+        - _For Study Designers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+        - name: Enrollment
+          in: body
+          description: Updated enrollment
+          required: true
+          schema:
+              $ref: ../../definitions/enrollment.yml
+    responses:
+        200:
+            description: OK
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml
 delete:
     operationId: withdrawParticipant
     summary: Withdraw a participant from the study

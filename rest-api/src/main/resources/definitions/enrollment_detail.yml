@@ -35,6 +35,10 @@ properties:
     withdrawalNote:
         type: string
         readOnly: true
+    note:
+        type: string
+        description: An optional, study-scoped participant note.
+        readOnly: true
     type:
         type: string
         readOnly: true
