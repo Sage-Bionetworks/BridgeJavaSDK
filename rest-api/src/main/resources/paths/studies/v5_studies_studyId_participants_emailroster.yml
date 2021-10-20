@@ -1,6 +1,6 @@
 post:
-    operationId: getStudyParticipantRoster
-    summary: Get a roster of participants for a specific study.
+    operationId: requestStudyParticipantRoster
+    summary: Request a roster of participants for a specific study.
     tags:
         - Study Participants
         - _For Study Coordinators

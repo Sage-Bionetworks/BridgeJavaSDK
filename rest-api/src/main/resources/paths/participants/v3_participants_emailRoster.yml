@@ -1,6 +1,6 @@
 post:
-    operationId: getParticipantRoster
-    summary: Get a roster of participants within an app, and optionally within a study if a studyId is provided.
+    operationId: requestParticipantRoster
+    summary: Request a roster of participants within an app, and optionally within a study if a studyId is provided.
     tags:
         - _For Researchers
         - Participants
