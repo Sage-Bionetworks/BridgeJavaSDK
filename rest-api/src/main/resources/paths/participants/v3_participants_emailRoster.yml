@@ -19,4 +19,4 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_study_coordinator_researcher.yml
+            $ref: ../../responses/403_not_researcher.yml
