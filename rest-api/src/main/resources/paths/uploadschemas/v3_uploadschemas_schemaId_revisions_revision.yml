@@ -1,6 +1,7 @@
 get:
     operationId: getUploadSchema
     summary: Get the specific revision of an upload schema
+    deprecated: true
     tags: 
         - Upload Schemas
         - _For Developers
@@ -22,6 +23,7 @@ get:
 delete:
     operationId: deleteUploadSchema
     summary: Delete the specific revision of an upload schema
+    deprecated: true
     tags:
         - Upload Schemas
         - _For Developers

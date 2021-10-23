@@ -1,6 +1,7 @@
 get:
     operationId: getActivityEvents
     summary: Get activity events for current user
+    deprecated: true
     description: Gets all activity events for the current user.
     tags: 
         - Activity Events
@@ -13,6 +14,7 @@ get:
 post:
     operationId: createCustomActivityEvent
     summary: Create an app-scoped activity event for the current user
+    deprecated: true
     description: Create an app-scoped activity event for the current user. The eventId must be defined in the app. A 201 is returned whether the event updates or not, to support concurrent and out-of-order POSTs from the client.
     tags:
         - Activity Events

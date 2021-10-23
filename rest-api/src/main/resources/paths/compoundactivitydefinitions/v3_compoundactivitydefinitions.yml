@@ -1,6 +1,7 @@
 get:
     operationId: getAllCompoundActivityDefinitions
     summary: List all compound activity definitions in the app
+    deprecated: true
     tags: 
         - Compound Activity Definitions
         - _For Developers
@@ -18,6 +19,7 @@ get:
 post:
     operationId: createCompoundActivityDefinition
     summary: Create a compound activity definition
+    deprecated: true
     tags: 
         - Compound Activity Definitions
         - _For Developers

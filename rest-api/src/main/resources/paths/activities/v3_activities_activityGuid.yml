@@ -1,6 +1,7 @@
 get:
     operationId: getActivityHistory
     summary: Get a history of activities
+    deprecated: true
     tags:
         - Activities
         - _For Consented Users

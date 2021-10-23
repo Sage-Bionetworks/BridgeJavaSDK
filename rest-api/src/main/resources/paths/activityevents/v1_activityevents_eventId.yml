@@ -1,5 +1,6 @@
 delete:
     operationId: deleteCustomActivityEvent
+    deprecated: true
     description: Delete a custom activity event. The eventId must be defined in the app.
     tags:
         - Activity Events

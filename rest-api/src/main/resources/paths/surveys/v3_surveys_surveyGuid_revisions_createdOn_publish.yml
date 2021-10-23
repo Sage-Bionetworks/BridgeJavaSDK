@@ -1,6 +1,7 @@
 post:
     operationId: publishSurvey
     summary: Publish a survey
+    deprecated: true
     tags:
         - Surveys
         - _For Developers

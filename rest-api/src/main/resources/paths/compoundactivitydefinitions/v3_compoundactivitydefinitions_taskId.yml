@@ -1,6 +1,7 @@
 get:
     operationId: getCompoundActivityDefinition
     summary: Get a compound activity definition by ID
+    deprecated: true
     tags: 
         - Compound Activity Definitions
         - _For Developers
@@ -20,6 +21,7 @@ get:
 delete:
     operationId: deleteCompoundActivityDefinition
     summary: Delete a compound activity definition
+    deprecated: true
     tags: 
         - Compound Activity Definitions
         - _For Developers
@@ -37,6 +39,7 @@ delete:
 post:
     operationId: updateCompoundActivityDefinition
     summary: Update a compound activity definition
+    deprecated: true
     tags: 
         - Compound Activity Definitions
         - _For Developers

@@ -1,6 +1,7 @@
 post:
     operationId: createUploadSchema
     summary: Create an upload schema
+    deprecated: true
     tags: 
         - Upload Schemas
         - _For Developers
