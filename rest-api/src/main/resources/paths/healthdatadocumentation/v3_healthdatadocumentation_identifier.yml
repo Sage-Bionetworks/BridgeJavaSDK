@@ -1,0 +1,35 @@
+get:
+    operationId: getHealthDataDocumentationForId
+    summary: Get a health data documentation with the given identifier
+    description: This endpoint can be called by researchers and developers to get a specific documentation by identifier.
+    tags:
+        - Health Data Documentation
+        - _For Researchers
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/identifier
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/health_data_documentation.yml
+        401:
+            $ref: ../../responses/401.yml
+delete:
+    operationId: deleteHealthDataDocumentationForIdentifier
+    summary: Delete a health data documentation with the given identifier.
+    description: This endpoint can be called by researchers and developers to delete a specific documentation.
+    tags:
+        - Health Data Documentation
+        - _For Admins
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/identifier
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml

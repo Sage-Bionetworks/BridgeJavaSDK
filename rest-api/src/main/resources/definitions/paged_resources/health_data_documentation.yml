@@ -1,0 +1,13 @@
+type: object
+readOnly: true
+description: |
+    List of health data documentation.
+allOf:
+    - $ref: ./forward_cursor_paged_resource_list.yml
+    - properties:
+          items:
+              type: array
+              readOnly: true
+              x-nullable: false
+              items:
+                  $ref: ../health_data_documentation.yml

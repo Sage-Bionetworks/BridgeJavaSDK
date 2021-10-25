@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-    version: "0.22.20"
+    version: "0.22.33"
     title: Bridge Server API
 host: webservices.sagebridge.org
 basePath: /
@@ -422,6 +422,11 @@ parameters:
         in: query
         type: string
         description: The reason given for a user’s withdrawal from a study.
+    parentId:
+        name: parentId
+        in: query
+        type: string
+        description: The id used in place of appId, and in the future, studyId.
     instanceGuid:
         name: instanceGuid
         description: Instance GUID of the adherence record
