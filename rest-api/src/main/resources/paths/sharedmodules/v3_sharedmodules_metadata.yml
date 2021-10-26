@@ -3,7 +3,6 @@ get:
     summary: Queries module metadata using the set of given parameters.
     deprecated: true
     tags:
-        - Shared Modules
         - Public
         - _For Developers
     security:
@@ -29,7 +28,6 @@ post:
     summary: Creates the specified module metadata.
     deprecated: true
     tags:
-        - Shared Modules
         - _For Developers
     security:
         -   BridgeSecurity: []

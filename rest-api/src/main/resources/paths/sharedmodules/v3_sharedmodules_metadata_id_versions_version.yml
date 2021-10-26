@@ -3,7 +3,6 @@ get:
     summary: Gets metadata for the specified version of the specified module.
     deprecated: true
     tags:
-        - Shared Modules
         - Public
         - _For Developers
     security:
@@ -25,7 +24,6 @@ post:
     summary: Updates metadata for the specified module version.
     deprecated: true
     tags:
-        - Shared Modules
         - _For Developers
     security:
         -   BridgeSecurity: []
@@ -51,7 +49,6 @@ delete:
     summary: Deletes metadata for the specified module ID and version.
     deprecated: true  
     tags:
-        - Shared Modules
         - _For Developers
         - _For Admins
     security:
