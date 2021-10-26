@@ -3,7 +3,6 @@ get:
     summary: Get a compound activity definition by ID
     deprecated: true
     tags: 
-        - Compound Activity Definitions
         - _For Developers
     security:
         -   BridgeSecurity: []
@@ -23,7 +22,6 @@ delete:
     summary: Delete a compound activity definition
     deprecated: true
     tags: 
-        - Compound Activity Definitions
         - _For Developers
     security:
         -   BridgeSecurity: []
@@ -41,7 +39,6 @@ post:
     summary: Update a compound activity definition
     deprecated: true
     tags: 
-        - Compound Activity Definitions
         - _For Developers
     security:
         -   BridgeSecurity: []

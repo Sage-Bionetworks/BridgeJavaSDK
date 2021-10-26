@@ -2,7 +2,7 @@ get:
     operationId: getFile
     summary: Get a file resource
     tags:
-        - Files
+        - Hosted Files
         - _For Developers
     security:
         - BridgeSecurity: []
@@ -23,7 +23,7 @@ post:
     operationId: updateFile
     summary: Update an existing file resource
     tags:
-        - Files
+        - Hosted Files
         - _For Developers
     security:
         - BridgeSecurity: []
@@ -50,7 +50,7 @@ delete:
     operationId: deleteFile
     summary: Delete file resource (and all revisions) 
     tags:
-        - Files
+        - Hosted Files
         - _For Developers
         - _For Admins
     security:

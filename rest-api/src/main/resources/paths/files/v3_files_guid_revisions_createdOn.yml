@@ -2,7 +2,7 @@ get:
     operationId: getFileRevision
     summary: Get a single file revision of a file.
     tags:
-        - Files
+        - Hosted Files
         - _For Developers
     security:
         - BridgeSecurity: []
@@ -22,7 +22,7 @@ post:
     operationId: finishFileRevision
     summary: Indicate to the server that a file revision upload has been completed.
     tags:
-        - Files
+        - Hosted Files
         - _For Developers
     security:
         - BridgeSecurity: []
