@@ -1,6 +1,7 @@
 get:
     operationId: getParticipantSurveyHistory
     summary: Get a study participant's history of a survey
+    deprecated: true
     description: This endpoint can be called by researchers, and by other administrators for their own account. 
     tags:
         - Participants

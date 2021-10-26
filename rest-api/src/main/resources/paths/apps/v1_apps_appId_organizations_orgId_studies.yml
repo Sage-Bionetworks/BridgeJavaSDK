@@ -3,8 +3,6 @@ get:
     summary: Get the studies that are sponsored by the organization
     tags:
         - _For Workers
-        - Apps
-        - Organizations
     security:
         - BridgeSecurity: []
     parameters:

@@ -1,6 +1,7 @@
 get:
     operationId: queryAllMetadata
     summary: Queries module metadata using the set of given parameters.
+    deprecated: true
     tags:
         - Shared Modules
         - Public
@@ -26,6 +27,7 @@ get:
 post:
     operationId: createMetadata
     summary: Creates the specified module metadata.
+    deprecated: true
     tags:
         - Shared Modules
         - _For Developers

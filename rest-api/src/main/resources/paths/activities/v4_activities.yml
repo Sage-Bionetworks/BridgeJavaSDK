@@ -1,6 +1,7 @@
 get:
     operationId: getScheduledActivitiesByDateRange
     summary: Get a list of the participant's scheduled activities
+    deprecated: true
     tags: 
         - Activities
         - _For Consented Users
@@ -25,6 +26,7 @@ get:
 post:
     operationId: updateScheduledActivities
     summary: Update the status of one or more scheduled activities.
+    deprecated: true
     tags: 
         - Activities
         - _For Consented Users

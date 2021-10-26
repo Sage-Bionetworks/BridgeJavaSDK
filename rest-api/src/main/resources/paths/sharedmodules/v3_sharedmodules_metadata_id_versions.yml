@@ -1,6 +1,7 @@
 get:
     operationId: queryMetadataById
     summary: Similar to queryAllMetadata, except this only queries on module versions of the specified ID.
+    deprecated: true
     tags:
         - Shared Modules
         - Public
@@ -27,6 +28,7 @@ get:
 delete:
     operationId: deleteMetadataByIdAllVersions
     summary: Deletes all metadata for module versions with the given ID.
+    deprecated: true
     tags:
         - Shared Modules
         - _For Developers

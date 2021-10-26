@@ -1,6 +1,7 @@
 get:
     operationId: getPublishedSurveys
     summary: Get the most recently published version of each survey
+    deprecated: true
     tags:
         - Surveys
         - _For Developers

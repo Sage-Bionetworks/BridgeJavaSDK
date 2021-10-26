@@ -1,6 +1,7 @@
 delete:
     operationId: deleteExternalId
     summary: Delete an external ID
+    deprecated: true
     tags: 
         - Studies
         - _For Admins

@@ -1,6 +1,7 @@
 get:
     operationId: getActivityEventsForParticipant
     summary: Get activity events mapping for a participant
+    deprecated: true
     description: This endpoint can be called by researchers, and by other administrators for their own account. 
     tags:
         - Activity Events
@@ -18,6 +19,7 @@ get:
 post:
     operationId: createActivityEventForParticipant
     summary: Create a custom event for a participant
+    deprecated: true
     description: This endpoint can be called by researchers in order to create an activity event for a participant. This is an event name and a timestamp for the event. A 201 is returned whether the event updates or not, to support concurrent and out-of-order POSTs from the client.
     tags:
         - Activity Events

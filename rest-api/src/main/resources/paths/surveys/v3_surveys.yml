@@ -1,6 +1,7 @@
 get:
     operationId: getMostRecentSurveys
     summary: Get most recent version of each survey
+    deprecated: true
     tags:
         - Surveys
         - _For Developers
@@ -21,6 +22,7 @@ get:
 post:
     operationId: createSurvey
     summary: Create a new survey
+    deprecated: true
     tags:
         - Surveys
         - _For Developers
