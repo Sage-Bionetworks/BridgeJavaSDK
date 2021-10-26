@@ -1,7 +1,6 @@
 get:
     operationId: getParticipants
     summary: Get a paged list of study participants (users)
-    deprecated: true
     tags:
         - Participants
         - _For Researchers
