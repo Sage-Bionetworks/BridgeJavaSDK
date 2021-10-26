@@ -547,6 +547,8 @@
     $ref: ./studies/v5_studies_studyId_enrollments_userId.yml
 /v5/studies/{studyId}/externalids:
     $ref: ./studies/v5_studies_studyId_externalids.yml
+/v5/studies/{studyId}/participants/emailRoster:
+    $ref: ./studies/v5_studies_studyId_participants_emailroster.yml
 /v5/studies/{studyId}/participants/{userId}/enrollments:
     $ref: ./studies/v5_studies_studyId_participants_userId_enrollments.yml
 /v5/studies/{studyId}/participants/search:

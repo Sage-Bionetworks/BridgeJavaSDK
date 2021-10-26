@@ -1,0 +1,24 @@
+post:
+    operationId: requestStudyParticipantRoster
+    summary: Request a roster of participants for a specific study.
+    tags:
+        - Study Participants
+        - _For Study Coordinators
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - name: ParticipantRosterRequest
+          in: body
+          description: Account summary search parameters
+          required: true
+          schema:
+                $ref: ../../definitions/participant_roster_request.yml
+    responses:
+        202:
+            description: ACCEPTED
+            $ref: ../../responses/202_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator.yml
