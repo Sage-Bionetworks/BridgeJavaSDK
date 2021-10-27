@@ -1,5 +1,11 @@
 description: Details about the enrollment of a user in a study
 type: object
+required:
+    - studyId
+    - participant
+    - consentRequired
+    - enrolledOn
+    - enrolledBy
 properties:
     studyId:
         type: string

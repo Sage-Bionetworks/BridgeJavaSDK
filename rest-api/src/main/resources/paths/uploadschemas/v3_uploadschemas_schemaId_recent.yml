@@ -1,6 +1,7 @@
 get:
     operationId: getMostRecentUploadSchema
     summary: Get the most recent revision of an upload schema
+    deprecated: true
     tags: 
         - Upload Schemas
         - _For Developers

@@ -2,12 +2,9 @@ get:
     operationId: getRequestInfoForWorker
     summary: Get information about the last request made by this participant
     description: |
-        Retrieves information about the user agent headers and participant settings that were in 
-        effect the last time this participant contacted the Bridge server. Also provides the last 
-        time activities were retrieved and uploads were sent back to the server.
+        Retrieves information about the user agent headers and participant settings that were in effect the last time this participant contacted the Bridge server. Also provides the last time activities were retrieved and uploads were sent back to the server.
     tags:
         - _For Workers
-        - Participant Reports
     security:
         - BridgeSecurity: []
     parameters:

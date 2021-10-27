@@ -1,8 +1,8 @@
 get:
     operationId: getMetadataByIdAndVersion
     summary: Gets metadata for the specified version of the specified module.
+    deprecated: true
     tags:
-        - Shared Modules
         - Public
         - _For Developers
     security:
@@ -22,8 +22,8 @@ get:
 post:
     operationId: updateMetadata
     summary: Updates metadata for the specified module version.
+    deprecated: true
     tags:
-        - Shared Modules
         - _For Developers
     security:
         -   BridgeSecurity: []
@@ -47,8 +47,8 @@ post:
 delete:
     operationId: deleteMetadataByIdAndVersion
     summary: Deletes metadata for the specified module ID and version.
+    deprecated: true  
     tags:
-        - Shared Modules
         - _For Developers
         - _For Admins
     security:

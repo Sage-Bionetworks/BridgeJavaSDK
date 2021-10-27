@@ -2,7 +2,6 @@ get:
     operationId: getAllDataForSelf
     summary: Get list of identifiers for participant data
     tags:
-        - Users
         - Participant Data
         - _For Consented Users
     security:

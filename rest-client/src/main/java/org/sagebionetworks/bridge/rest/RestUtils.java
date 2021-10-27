@@ -19,7 +19,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import org.sagebionetworks.bridge.rest.api.AuthenticationApi;
-import org.sagebionetworks.bridge.rest.api.FilesApi;
+import org.sagebionetworks.bridge.rest.api.HostedFilesApi;
 import org.sagebionetworks.bridge.rest.api.ForConsentedUsersApi;
 import org.sagebionetworks.bridge.rest.api.StudiesApi;
 import org.sagebionetworks.bridge.rest.gson.ByteArrayToBase64TypeAdapter;
@@ -408,7 +408,7 @@ public class RestUtils {
      *  a download URL for any client to request and download the file via HTTP GET.
      * @throws IOException
      */
-    public static String uploadHostedFileToS3(FilesApi fileApi, String fileGuid, File file) throws IOException {
+    public static String uploadHostedFileToS3(HostedFilesApi fileApi, String fileGuid, File file) throws IOException {
         checkNotNull(fileApi, "FileApi cannot be null");
         checkNotNull(fileGuid, "FileMetadata guid cannot be null");
         checkNotNull(file, "File cannot be null");

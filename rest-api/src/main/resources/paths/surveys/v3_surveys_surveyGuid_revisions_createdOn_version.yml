@@ -1,6 +1,7 @@
 post:
     operationId: versionSurvey
     summary: Version a survey
+    deprecated: true
     tags:
         - Surveys
         - _For Developers

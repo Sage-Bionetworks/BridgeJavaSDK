@@ -1,6 +1,7 @@
 get:
     operationId: getScheduledActivities
     summary: Get a list of the participant's scheduled activities
+    deprecated: true
     tags: 
         - Activities
         - _For Consented Users

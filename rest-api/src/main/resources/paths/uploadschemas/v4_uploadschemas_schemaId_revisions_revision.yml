@@ -1,6 +1,7 @@
 post:
     operationId: updateUploadSchema
     summary: Update an upload schema
+    deprecated: true
     tags: 
         - Upload Schemas
         - _For Developers

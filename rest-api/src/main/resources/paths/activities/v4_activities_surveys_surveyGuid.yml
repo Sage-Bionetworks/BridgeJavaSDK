@@ -1,6 +1,7 @@
 get:
     operationId: getSurveyHistory
     summary: Get a history of surveys
+    deprecated: true
     tags:
         - Activities
         - _For Consented Users

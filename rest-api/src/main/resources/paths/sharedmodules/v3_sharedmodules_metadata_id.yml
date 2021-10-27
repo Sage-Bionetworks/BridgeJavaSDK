@@ -1,8 +1,8 @@
 get:
     operationId: getMetadataByIdLatestVersion
     summary: Gets metadata for the latest version of the specified module.
+    deprecated: true
     tags:
-        - Shared Modules
         - Public
         - _For Developers
     security:

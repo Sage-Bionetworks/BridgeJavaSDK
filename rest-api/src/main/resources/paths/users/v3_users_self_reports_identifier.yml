@@ -5,7 +5,6 @@ get:
         Get the records for a specific participant report. Participants can get reports for their own 
         account. Note that this call does not require consent, but does require authentication. 
     tags:
-        - Users
         - Participant Reports
         - _For Consented Users
     security:

@@ -1,6 +1,7 @@
 get:
     operationId: getSchedulesV1
     summary: Get schedules for user
+    deprecated: true
     tags: 
         - Schedules (v1)
         - _For Consented Users

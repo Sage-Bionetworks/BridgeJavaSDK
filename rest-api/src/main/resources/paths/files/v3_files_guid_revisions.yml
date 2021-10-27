@@ -2,7 +2,7 @@ get:
     operationId: getFileRevisions
     summary: Get the revision history of a file resource
     tags:
-        - Files
+        - Hosted Files
         - _For Developers
     security:
         - BridgeSecurity: []
@@ -25,7 +25,7 @@ post:
     operationId: createFileRevision
     summary: Create a new file resource revision.
     tags:
-        - Files
+        - Hosted Files
         - _For Developers
     security:
         - BridgeSecurity: []

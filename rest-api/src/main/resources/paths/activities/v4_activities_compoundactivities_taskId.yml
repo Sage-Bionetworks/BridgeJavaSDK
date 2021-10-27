@@ -1,6 +1,7 @@
 get:
     operationId: getCompoundActivityHistory
     summary: Get a history of compound activities
+    deprecated: true
     tags:
         - Activities
         - _For Consented Users
