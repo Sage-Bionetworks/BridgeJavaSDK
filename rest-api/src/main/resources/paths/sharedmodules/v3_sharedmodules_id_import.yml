@@ -1,8 +1,8 @@
 post:
     operationId: importModuleByIdLatestPublishedVersion
     summary: Imports the latest published version of a module into the current app.
+    deprecated: true
     tags:
-        - Shared Modules
         - _For Developers
     security:
         -   BridgeSecurity: []

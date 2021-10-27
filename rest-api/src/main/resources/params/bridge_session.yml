@@ -1,5 +1,0 @@
-name: Bridge-Session
-description: Session token
-in: header
-required: true
-type: string

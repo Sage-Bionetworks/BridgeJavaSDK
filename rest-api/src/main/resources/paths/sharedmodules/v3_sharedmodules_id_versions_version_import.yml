@@ -1,8 +1,8 @@
 post:
     operationId: importModuleByIdAndVersion
     summary: Imports a specific module version into the current app.
+    deprecated: true
     tags:
-        - Shared Modules
         - _For Developers
     security:
         -   BridgeSecurity: []

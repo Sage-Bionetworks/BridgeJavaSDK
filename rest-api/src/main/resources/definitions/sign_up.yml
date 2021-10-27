@@ -27,11 +27,6 @@ allOf:
             type: boolean
             description: |
                 **Create user API for admins only.** Create this user consented to all required consents. For testing purposes only.
-        checkForConsent:
-            type: boolean
-            default: false
-            description: |
-                If sign ups for your app may include a consent to participate submitted prior to sign up, this field should be set to true to check for and finalize that consent. Otherwise this should be left false.
         type:
             type: string
             readOnly: true

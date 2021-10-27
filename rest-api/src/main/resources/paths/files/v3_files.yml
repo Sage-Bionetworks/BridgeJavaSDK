@@ -2,7 +2,7 @@ get:
     operationId: getFiles
     summary: Get a list of static files
     tags:
-        - Files
+        - Hosted Files
         - _For Developers
     security:
         - BridgeSecurity: []
@@ -25,7 +25,7 @@ post:
     operationId: createFile
     summary: Create a new file resource
     tags:
-        - Files
+        - Hosted Files
         - _For Developers
     security:
         - BridgeSecurity: []

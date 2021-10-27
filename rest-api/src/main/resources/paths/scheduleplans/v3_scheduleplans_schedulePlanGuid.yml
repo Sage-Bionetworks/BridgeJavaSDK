@@ -1,6 +1,7 @@
 get:
     operationId: getSchedulePlan
     summary: Get a schedule plan
+    deprecated: true
     tags: 
         - Schedules (v1)
         - _For Developers
@@ -21,6 +22,7 @@ get:
 post:
     operationId: updateSchedulePlan
     summary: Update a schedule plan
+    deprecated: true
     tags: 
         - Schedules (v1)
         - _For Developers
@@ -45,6 +47,7 @@ post:
 delete:
     operationId: deleteSchedulePlan
     summary: Get a schedule plan
+    deprecated: true
     tags: 
         - Schedules (v1)
         - _For Developers

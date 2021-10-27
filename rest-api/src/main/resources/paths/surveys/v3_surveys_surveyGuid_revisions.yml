@@ -1,6 +1,7 @@
 get:
     operationId: getAllVersionsOfSurvey
     summary: Get all revisions of a survey
+    deprecated: true
     tags:
         - Surveys
         - _For Developers

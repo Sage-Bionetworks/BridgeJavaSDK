@@ -4,7 +4,6 @@ post:
     description: |
         Asynchronously request the uploaded data for this user, in a given time range (inclusive). Bridge server will gather the user's data for the given time zone and either email or SMS a secure link to the user's registered email address.
     tags:
-        - Users
         - _For Consented Users
     security:
         - BridgeSecurity: []

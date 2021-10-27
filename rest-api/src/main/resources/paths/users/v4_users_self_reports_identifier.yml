@@ -3,7 +3,6 @@ get:
     summary: Get a participant report
     description: Get the records for a specific participant report. Note that this call does not require consent, but does require authentication. 
     tags:
-        - Users
         - Participant Reports
         - _For Consented Users
     security:
@@ -28,7 +27,6 @@ post:
         Save a report record. If a record exists at the given DateTime value, it will be replaced with this 
         report record. Note that this call does not require consent, but does require authentication. 
     tags:
-        - Users
         - Participant Reports
         - _For Consented Users
     security:

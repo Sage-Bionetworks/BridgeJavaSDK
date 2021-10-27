@@ -1,6 +1,7 @@
 get:
     operationId: getSurvey
     summary: Get a survey revision
+    deprecated: true
     tags:
         - Surveys
         - _For Consented Users
@@ -27,6 +28,7 @@ get:
 post:
     operationId: updateSurvey
     summary: Update a non-published survey revision
+    deprecated: true
     tags:
         - Surveys
         - _For Developers
@@ -53,6 +55,7 @@ post:
 delete:
     operationId: deleteSurvey
     summary: Delete a survey version
+    deprecated: true
     tags:
         - Surveys
         - _For Developers
