@@ -35,6 +35,9 @@ properties:
     withdrawalNote:
         type: string
         description: An optional note that can be supplied by the person doing a withdrawal as to why a participant is being removed from the study.
+    note:
+        type: string
+        description: An optional, study-scoped participant note. Can only be set and accessed by users with administrative roles and access to the study. (eg. Study Coordinators, Researchers, Developers, Study Designers)
     type:
         type: string
         readOnly: true
