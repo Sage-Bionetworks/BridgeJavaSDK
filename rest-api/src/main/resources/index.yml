@@ -447,6 +447,13 @@ parameters:
         in: path
         type: string
         format: date-time
+    showError:
+        name: showError
+        description: Should this API return 400 if the submission cannot be persisted?
+        required: false
+        in: query
+        type: boolean
+        default: false
 paths:
     $ref: ./paths/index.yml
 definitions:

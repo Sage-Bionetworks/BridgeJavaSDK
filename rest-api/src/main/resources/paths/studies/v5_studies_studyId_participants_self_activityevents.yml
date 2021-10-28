@@ -30,6 +30,7 @@ post:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/showError
         - name: StudyActivityEventRequest
           required: true
           in: body

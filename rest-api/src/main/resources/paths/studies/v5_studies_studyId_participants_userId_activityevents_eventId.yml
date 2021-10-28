@@ -35,6 +35,7 @@ delete:
         - $ref: ../../index.yml#/parameters/studyId
         - $ref: ../../index.yml#/parameters/userId
         - $ref: ../../index.yml#/parameters/eventId
+        - $ref: ../../index.yml#/parameters/showError
     responses:
         200:
             description: OK
