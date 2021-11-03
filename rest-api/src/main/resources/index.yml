@@ -449,7 +449,7 @@ parameters:
         format: date-time
     showError:
         name: showError
-        description: Should this API return 400 if the submission cannot be persisted?
+        description: Return a 400 status if the submission cannot be persisted
         required: false
         in: query
         type: boolean
