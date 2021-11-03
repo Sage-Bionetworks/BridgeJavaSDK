@@ -88,8 +88,12 @@ public class RestUtils {
     private static final Predicate<String> LANG_PREDICATE = Predicates.and(Predicates.notNull(),
             Predicates.containsPattern(".+"));
     private static final String BRIDGE_UPLOAD_MIME_TYPE = "application/zip";
-    private static final String SYNAPSE_LOGIN_URL = "https://repo-prod.prod.sagebase.org/auth/v1/login";
-    private static final String SYNAPSE_OAUTH_CONSENT = "https://repo-prod.prod.sagebase.org/auth/v1/oauth2/consent";
+    private static final String SYNAPSE_BASE_URL_DEV = "https://repo-dev.dev.sagebase.org/";
+    private static final String SYNAPSE_BASE_URL_PROD = "https://repo-prod.prod.sagebase.org/";
+    private static final String SYNAPSE_LOGIN_URL = "auth/v1/login";
+    private static final String SYNAPSE_OAUTH_CLIENT_ID_DEV = "100001";
+    private static final String SYNAPSE_OAUTH_CLIENT_ID_PROD = "100018";
+    private static final String SYNAPSE_OAUTH_CONSENT = "auth/v1/oauth2/consent";
     private static final String OAUTH_CALLBACK_URL = "https://research.sagebridge.org";
 
     // It's unfortunate but we need to specify subtypes for GSON.
@@ -508,9 +512,20 @@ public class RestUtils {
      * @return a Bridge user session if you successfully authenticate with Synapse
      */
     public static UserSessionInfo signInWithSynapse(AuthenticationApi authApi, SignIn signIn) throws Exception {
-        URI uri = URI.create(SYNAPSE_LOGIN_URL);
-        String baseUrl = uri.getScheme()+"://"+uri.getHost()+"/";
-        
+        return signInWithSynapse(authApi, signIn, SYNAPSE_BASE_URL_PROD, SYNAPSE_OAUTH_CLIENT_ID_PROD);
+    }
+
+    /** Sign in to Bridge using Synapse Dev. This is used when connecting to Bridge Dev or Staging. */
+    public static UserSessionInfo signInWithSynapseDev(AuthenticationApi authApi, SignIn signIn) throws Exception {
+        return signInWithSynapse(authApi, signIn, SYNAPSE_BASE_URL_DEV, SYNAPSE_OAUTH_CLIENT_ID_DEV);
+    }
+
+    /**
+     * Helper method, which signs in to Bridge using Synapse using the given endpoint and OAuth client ID. This allows
+     * calls to Bridge in non-production environments.
+     */
+    private static UserSessionInfo signInWithSynapse(AuthenticationApi authApi, SignIn signIn, String synapseBaseUrl,
+            String synapseOAuthClientId) throws Exception {
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
@@ -518,7 +533,7 @@ public class RestUtils {
                 .addInterceptor(new ErrorResponseInterceptor())
                 .addInterceptor(new LoggingInterceptor())
                 .retryOnConnectionFailure(false).build();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(baseUrl)
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(synapseBaseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client).build();
 
@@ -528,7 +543,7 @@ public class RestUtils {
 
         // Sign in to Synapse
         JsonObject object = retrofit.create(SynapseSignIn.class)
-                .synapseSignIn(SYNAPSE_LOGIN_URL, body).execute().body();
+                .synapseSignIn(synapseBaseUrl + SYNAPSE_LOGIN_URL, body).execute().body();
         String sessionToken = object.get("sessionToken").getAsString();
 
         JsonObject idClaim = new JsonObject();
@@ -537,13 +552,13 @@ public class RestUtils {
         claims.add("id_token", idClaim);
 
         body = makeRequestBody(claims, 
-                "clientId", "100018", 
+                "clientId", synapseOAuthClientId,
                 "scope", "openid", 
                 "responseType", "code",
                 "redirectUri", OAUTH_CALLBACK_URL);
         
         object = retrofit.create(OauthConsent.class)
-                .oauthConsent(SYNAPSE_OAUTH_CONSENT, body, sessionToken).execute().body();
+                .oauthConsent(synapseBaseUrl + SYNAPSE_OAUTH_CONSENT, body, sessionToken).execute().body();
         String authToken = object.get("access_code").getAsString();
         
         OAuthAuthorizationToken token = new OAuthAuthorizationToken()
