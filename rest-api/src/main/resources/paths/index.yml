@@ -599,6 +599,16 @@
     $ref: ./studies/v5_studies_studyId_participants_self_adherence.yml
 /v5/studies/{studyId}/participants/self/timeline:
     $ref: ./studies/v5_studies_studyId_participants_self_timeline.yml
+/v5/studies/{studyId}/participants/reports:
+    $ref: ./studies/v5_studies_studyId_participants_reports.yml
+/v5/studies/{studyId}/participants/reports/{identifier}:
+    $ref: ./studies/v5_studies_studyId_participants_reports_identifier.yml
+/v5/studies/{studyId}/participants/{userId}/reports/{identifier}:
+    $ref: ./studies/v5_studies_studyId_participants_userId_reports_identifier.yml
+/v5/studies/{studyId}/participants/{userId}/reports/{identifier}/{date}:
+    $ref: ./studies/v5_studies_studyId_participants_userId_reports_identifier_date.yml
+/v5/studies/{studyId}/participants/self/reports/{identifier}:
+    $ref: ./studies/v5_studies_studyId_participants_self_reports_identifier.yml
 /v5/studies/{studyId}/design:
     $ref: ./studies/v5_studies_studyId_design.yml
 /v5/studies/{studyId}/recruit:

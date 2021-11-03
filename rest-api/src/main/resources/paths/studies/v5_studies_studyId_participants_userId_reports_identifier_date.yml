@@ -1,0 +1,28 @@
+delete:
+    operationId: deleteStudyParticipantReportRecord
+    summary: Delete one record for a report for one member of the study.
+    tags:
+        - Study Participants
+        - _For Study Coordinators
+        - _For Study Designers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/identifier
+        - name: date
+          in: path
+          description: The date and time of the record to delete
+          type: string
+          format: date-time
+          required: true
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_designer_coordinator.yml

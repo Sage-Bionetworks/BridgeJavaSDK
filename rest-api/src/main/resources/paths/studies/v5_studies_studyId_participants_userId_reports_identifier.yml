@@ -1,0 +1,75 @@
+get:
+    operationId: getStudyParticipantReport
+    summary: Get a series of report records for a specific date and time range (this API uses dates and times and not just dates; use a standard time of day portion like “T00:00:00.000Z” if a time portion is unnecessary, being sure to create and retrieve records with the same set time).
+    tags:
+        - Study Participants
+        - _For Study Coordinators
+        - _For Study Designers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/identifier
+        - $ref: ../../index.yml#/parameters/startTime
+        - $ref: ../../index.yml#/parameters/endTime
+        - $ref: ../../index.yml#/parameters/offsetKey
+        - $ref: ../../index.yml#/parameters/pageSize
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/forward_cursor_report_data.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_designer_coordinator.yml
+post:
+    operationId: saveStudyParticipantReportRecord
+    summary: Add a participant report for a single date and time (this API uses dates and times and not just dates; use a standard time of day portion like “T00:00:00.000Z” if a time portion is unnecessary, being sure to create and retrieve records with the same set time).
+    tags:
+        - Study Participants
+        - _For Study Coordinators
+        - _For Study Designers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/identifier
+        - name: ReportData
+          required: true
+          in: body
+          schema:
+            $ref: ../../definitions/report_data.yml
+    responses:
+        201:
+            description: CREATED
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_designer_coordinator.yml
+delete:
+    operationId: deleteStudyParticipantReport
+    summary: Delete all records for a report for one member of the study.
+    tags:
+        - Study Participants
+        - _For Study Coordinators
+        - _For Study Designers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/identifier
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_designer_coordinator.yml
