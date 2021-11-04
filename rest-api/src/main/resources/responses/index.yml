@@ -50,6 +50,8 @@
     $ref: ./403_not_study_coordinator_researcher.yml
 403_not_study_coordinator_admin:
     $ref: ./403_not_study_coordinator_admin.yml
+403_not_study_designer_coordinator.yml:
+    $ref: ./403_not_study_designer_coordinator.yml
 403_not_study_designer_developer.yml:
     $ref: ./403_not_study_designer_developer.yml
 403_not_superadmin:

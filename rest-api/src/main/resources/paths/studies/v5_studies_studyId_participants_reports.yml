@@ -1,0 +1,20 @@
+get:
+    operationId: getStudyParticipantReportIndices
+    summary: Get the indices (identifiers) of all the reports available for participants in the given study.
+    tags:
+        - Study Participants
+        - _For Study Coordinators
+        - _For Study Designers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/report_index.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_designer_coordinator.yml
