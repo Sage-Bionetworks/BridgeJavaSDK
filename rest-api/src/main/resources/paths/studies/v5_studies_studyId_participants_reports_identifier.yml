@@ -1,0 +1,42 @@
+get:
+    operationId: getStudyParticipantReportIndex
+    summary: Get a single report index with some additional metadata about the report series.
+    tags:
+        - Study Participants
+        - _For Study Coordinators
+        - _For Study Designers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/identifier
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/report_index.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_designer_coordinator.yml
+delete:
+    operationId: deleteStudyParticipantReportIndex
+    summary: Delete a single report index (note that deleting an index in effect makes all report records under that identifier less accessible...the reports are not deleted, but they are not listed in the indices, either).
+    tags:
+        - Study Participants
+        - _For Study Coordinators
+        - _For Study Designers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/identifier
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_designer_coordinator.yml

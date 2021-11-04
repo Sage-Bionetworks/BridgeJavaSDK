@@ -31,7 +31,6 @@ post:
         - Participant Reports
         - _For Developers
         - _For Workers
-        - _For Study Coordinators
     security:
         - BridgeSecurity: []
     parameters:
@@ -42,7 +41,6 @@ post:
           in: body
           schema:
             $ref: ../../definitions/report_data.yml
-
     responses:
         201:
             $ref: ../../responses/201_message.yml
