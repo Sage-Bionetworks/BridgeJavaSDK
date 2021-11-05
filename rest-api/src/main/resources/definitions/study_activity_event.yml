@@ -31,8 +31,7 @@ properties:
         description: If the event is generated from a study burst, the identifier of the study burst (note that this is also part of the value of the event ID itself).
     periodFromOrigin:
         type: string
-        description: |
-            If the event is generated from a study burst, An ISO 8601 duration, describing the period after the originating event’s timestamp when this event has been scheduled to occur. This value increments with each study burst event in the sequence by the interval value of the study burst itself.
+        description: If the event is generated from a study burst, An ISO 8601 duration, describing the period after the originating event’s timestamp when this event has been scheduled to occur. This value increments with each study burst event in the sequence by the interval value of the study burst itself.
     recordCount:
         type: integer
         format: int32
