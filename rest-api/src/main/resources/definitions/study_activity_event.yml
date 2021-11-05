@@ -23,6 +23,16 @@ properties:
         type: string
         example: 'America/Los_Angeles'
         description: An IANA Time Zone Database (TZDB) name for the participant’s time zone at the time the record is submitted. If present, this field will be validated to be a valid time zone name.
+    originEventId:
+        type: string
+        description: If this event is generated from a study burst, the originating event ID that triggers the study burst to occur. Available for tools to order events in UIs.
+    studyBurstId:
+        type: string
+        description: If the event is generated from a study burst, the identifier of the study burst (note that this is also part of the value of the event ID itself).
+    periodFromOrigin:
+        type: string
+        description: |
+            If the event is generated from a study burst, An ISO 8601 duration, describing the period after the originating event’s timestamp when this event has been scheduled to occur. This value increments with each study burst event in the sequence by the interval value of the study burst itself.
     recordCount:
         type: integer
         format: int32
