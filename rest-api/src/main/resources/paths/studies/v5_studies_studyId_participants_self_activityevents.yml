@@ -31,6 +31,7 @@ post:
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
         - $ref: ../../index.yml#/parameters/showError
+        - $ref: ../../index.yml#/parameters/updateBursts
         - name: StudyActivityEventRequest
           required: true
           in: body
