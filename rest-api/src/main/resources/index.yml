@@ -454,6 +454,13 @@ parameters:
         in: query
         type: boolean
         default: false
+    updateBursts:
+        name: updateBursts
+        description: If this event is an originating event for a study burst, update the study burst events (while following their update type rules)
+        required: false
+        in: query
+        type: boolean
+        default: true
 paths:
     $ref: ./paths/index.yml
 definitions:

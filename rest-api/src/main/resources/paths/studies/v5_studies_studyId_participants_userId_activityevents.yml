@@ -33,6 +33,7 @@ post:
         - $ref: ../../index.yml#/parameters/studyId
         - $ref: ../../index.yml#/parameters/userId
         - $ref: ../../index.yml#/parameters/showError
+        - $ref: ../../index.yml#/parameters/updateBursts
         - name: CustomActivityEventRequest
           required: true
           in: body
