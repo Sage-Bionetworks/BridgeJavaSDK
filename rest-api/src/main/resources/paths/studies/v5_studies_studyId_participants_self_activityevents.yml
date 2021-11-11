@@ -21,7 +21,7 @@ get:
 post:
     operationId: createStudyActivityEvent
     summary: Create a new activity event for the caller in this study.
-    description: Create a new activity event for the caller in this study. A 201 is returned whether the event updates or not, to support concurrent and out-of-order POSTs from the client.
+    description: Create a new activity event for the caller in this study. This call returns 201 whether the event updates or not, to support concurrent and out-of-order POSTs from the client. To return 400 if an event fails to publish, set the `showError` parameter to true. The creation or update of an event that triggers a study burst will update the study burst events as well, even to the point of recreating study burst events that have been deleted (depending on the update type of the bursts). To decouple these events and update the origin event without changing the study burst events, set the `updateBursts` parameter to false.
     tags:
         - Studies
         - Study Activity Events
