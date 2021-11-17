@@ -16,9 +16,14 @@ properties:
         type: string
         description: The event ID that will trigger the generation of a set of study burst events
         x-nullable: false
+    delay:
+        type: string
+        description: ISO 8601 duration between the origin event timestamp and the first burst in the study burst sequence (days or weeks)
+        format: ISO 8601 Duration
+        example: P1W
     interval:
         type: string
-        description: ISO 8601 duration between the timestamps of this burst.
+        description: ISO 8601 duration between the burst event timestamps in days or weeks
         format: ISO 8601 Duration
         example: P1W
         x-nullable: false
