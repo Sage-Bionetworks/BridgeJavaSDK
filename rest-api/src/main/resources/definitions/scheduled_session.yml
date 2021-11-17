@@ -44,6 +44,13 @@ properties:
     persistent:
         type: boolean
         readOnly: true
+    studyBurstId:
+        type: string
+        readOnly: true
+    studyBurstNum:
+        type: integer
+        format: int32
+        readOnly: true
     timeWindowGuid:
         type: string
         readOnly: true

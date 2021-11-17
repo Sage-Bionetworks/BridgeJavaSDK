@@ -1,0 +1,25 @@
+description: |
+    Information about a study burst from which some of the timeline is being derived.
+type: object
+properties:
+    identifier:
+        type: string
+        description: Identifier for the study burst
+        x-nullable: false
+    interval:
+        type: string
+        description: ISO 8601 duration between the burst event timestamps in days or weeks
+        format: ISO 8601 Duration
+        example: P1W
+        x-nullable: false
+    occurrences:
+        type: integer
+        format: int32
+        example: 3
+        description: The number of timestamps that should be generated with the `originEventId` occurs.
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "StudyBurstInfo"
+        x-nullable: false

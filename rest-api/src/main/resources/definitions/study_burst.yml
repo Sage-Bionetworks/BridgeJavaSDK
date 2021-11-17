@@ -29,6 +29,7 @@ properties:
         x-nullable: false
     occurrences:
         type: integer
+        format: int32
         example: 3
         description: The number of timestamps that should be generated with the `originEventId` occurs.
         x-nullable: false
