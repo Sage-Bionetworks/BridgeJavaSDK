@@ -27,6 +27,12 @@ properties:
             $ref: ./session_info.yml
         readOnly: true
         x-nullable: false
+    studyBursts:
+        type: array
+        items:
+            $ref: ./study_burst_info.yml
+        readOnly: true
+        x-nullable: false
     totalMinutes:
         type: integer
         description: The total number of minutes to perform all the sessions in the timeline. This information is provided for informational purposes to schedule designers.
