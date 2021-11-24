@@ -93,6 +93,12 @@ parameters:
         required: true
         in: path
         type: string
+    version:
+        name: version
+        description: version number
+        required: true
+        in: path
+        type: integer
     revision:
         name: revision
         description: Revision number

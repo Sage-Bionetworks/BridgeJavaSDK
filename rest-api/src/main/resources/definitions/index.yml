@@ -237,6 +237,8 @@ ParticipantFile:
      $ref: ./participant_file.yml
 ParticipantRosterRequest:
     $ref: ./participant_roster_request.yml
+ParticipantVersion:
+    $ref: ./participant_version.yml
 PasswordPolicy:
     $ref: ./password_policy.yml
 PasswordReset:
@@ -425,6 +427,8 @@ ParticipantDataList:
     $ref: ./paged_resources/participant_data.yml
 ParticipantFileList:
     $ref: ./paged_resources/participant_file.yml
+ParticipantVersionList:
+    $ref: ./paged_resources/participant_version.yml
 ReportIndexList:
     $ref: ./paged_resources/report_index.yml
 ScheduleList:

@@ -1,0 +1,36 @@
+get:
+    operationId: getAllParticipantVersionsForUser
+    summary: Get all participant versions for health code.
+    tags:
+        - _For Workers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/appId
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/participant_version.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_worker.yml
+delete:
+    operationId: deleteAllParticipantVersionsForUser
+    summary: Delete all participant versions for the given user.
+    tags:
+        - _Internal
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/appId
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml

@@ -122,6 +122,10 @@
     $ref: ./apps/v1_apps_appId_participants_userId_requestInfo.yml
 /v2/apps/{appId}/participants/{userId}/reports/{reportId}:
     $ref: ./apps/v2_apps_appId_participants_userId_reports_reportId.yml
+/v1/apps/{appId}/participants/{userId}/versions:
+    $ref: ./apps/v1_apps_appId_participants_userId_versions.yml
+/v1/apps/{appId}/participants/{userId}/versions/{version}:
+    $ref: ./apps/v1_apps_appId_participants_userId_versions_version.yml
 /v1/apps/{appId}/oauth/{vendorId}:
     $ref: ./apps/v1_apps_appId_oauth_vendorId.yml
 /v1/apps/{appId}/oauth/{vendorId}/{healthCode}:
@@ -408,6 +412,8 @@
     $ref: ./users/v3_users.yml
 /v3/users/{userId}:
     $ref: ./users/v3_users_userId.yml
+/v3/users/self/dataSharing:
+    $ref: ./users/v3_users_self_dataSharing.yml
 /v3/users/self/sendData:
     $ref: ./users/v3_users_self_sendData.yml
 /v3/users/self/reports/{identifier}:
