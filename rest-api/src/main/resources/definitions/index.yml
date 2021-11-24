@@ -303,6 +303,8 @@ StudyActivityEventRequest:
     $ref: ./study_activity_event_request.yml
 StudyBurst:
     $ref: ./study_burst.yml
+StudyBurstInfo:
+    $ref: ./study_burst_info.yml
 StudyConsent:
     $ref: ./study_consent.yml
 StudyParticipant:
