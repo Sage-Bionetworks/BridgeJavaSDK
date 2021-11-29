@@ -10,7 +10,7 @@ required:
 properties:
     identifier:
         type: string
-        description: Identifier for the study burst. May contain any characters except a colon.
+        description: Identifier for the study burst
         x-nullable: false
     originEventId:
         type: string
