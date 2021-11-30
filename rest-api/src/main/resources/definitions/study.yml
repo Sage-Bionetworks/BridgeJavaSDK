@@ -29,8 +29,9 @@ properties:
         additionalProperties: true
     studyTimeZone:
         type: string
-        example: 'America/Los_Angeles'
-        description: The time zone of the study. Reports for this study (including adherence reporting) will be run by Bridge based on this time zone. Must be an IANA time zone name. If left null, reports will be run in the time zone of the west coast of the United States.
+        example: 'America/Chicago'
+        default: 'America/Los_Angeles'
+        description: The time zone of the study. Reports for this study (including adherence reporting) will be run by Bridge based on this time zone. Must be an IANA time zone name. 
     adherenceThresholdPercentage:
         type: integer
         format: int32
