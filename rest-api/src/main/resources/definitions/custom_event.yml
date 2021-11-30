@@ -6,7 +6,7 @@ required:
 properties:
     eventId:
         type: string
-        description: To ensure portability across information systems, the eventId must only contain upper- and lower-case letters, numbers, underscores, and/or dashes.
+        description: May contain any characters except a colon.
         x-nullable: false
     updateType:
         $ref: ./enums/activity_event_update_type.yml
