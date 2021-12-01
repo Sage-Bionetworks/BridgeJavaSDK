@@ -1,0 +1,62 @@
+description: |
+    Represents a de-identified snapshot of a study participant at a moment in time. This is used by Exporter 3.0 to
+    generate the de-identified participant roster.
+type: object
+required:
+    - appId
+    - healthCode
+    - participantVersion
+properties:
+    appId:
+        type: string
+        description: App that the participant lives in.
+    healthCode:
+        type: string
+        description: Participant's health code.
+    participantVersion:
+        type: integer
+        x-nullable: false
+        description: Participant version. This is incremented every time the participant is updated and we create a new row.
+    createdOn:
+        type: string
+        format: date-time
+        example: '2020-08-28T14:28:13.386Z'
+        description: ISO timestamp of when any version of this participant was first created.
+    modifiedOn:
+        type: string
+        format: date-time
+        example: '2020-08-28T14:28:13.386Z'
+        description: ISO timestamp of when this participant was last updated (ie, when this participant version was created).
+    dataGroups:
+        type: array
+        items:
+            type: string
+        description: Data groups assigned to this participant.
+    languages:
+        type: array
+        items:
+            type: string
+        description: |
+            Languages captured from a request by this user's Accept-Language header. This should be an ordered list of
+            unique ISO 639-1 language codes.
+    sharingScope:
+        $ref: ./enums/sharing_scope.yml
+    studyMemberships:
+        type: object
+        additionalProperties:
+            type: string
+        description: |
+            The studies assigned to the user, and the optional external ID being used for each assignment, if any. The
+            keys of this map are study IDs, and the values are either the associated external ID, or null if there is
+            no associated external ID.
+
+            When exporting to Synapse, if the project is study specific, the Exporter will only export that specific
+            study's external ID.
+    timeZone:
+        type: string
+        description: Participant's time zone, as an IANA time zone name (eg "America/Los_Angeles").
+    type:
+        type: string
+        readOnly: true
+        description: "ParticipantVersion"
+        x-nullable: false
