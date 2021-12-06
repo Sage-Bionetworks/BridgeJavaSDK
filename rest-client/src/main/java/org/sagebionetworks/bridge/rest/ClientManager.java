@@ -19,14 +19,31 @@ import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
  * file (~/bridge-sdk.properties), from environment variables, or from Java system variables. The 
  * key values you can set:</p>
  *  <dl>
+ *      <dt>ENV (env in properties file) or HOST (host in properties file</dt>
+ *      <dd>Bridge knows the location of four Bridge servers based on an <code>ENV</code> 
+ *      property (local, develop, staging, and production). An alternative to setting the 
+ *      host server through the <code>ENV</code> property, you can also set the service 
+ *      host directly (e.g. "https://bridge.deployment.com/").</dd>
+ *      
+ *      <dt>LOG_LEVEL (log.level in properties file)</dt>
+ *      <dd>The Bridge Java REST SDK uses the [LF4J](http://www.slf4j.org/) logging library, and the SDK is set by default to 
+ *      only log messages of WARN level or higher to the console. If you wish to see more details about 
+ *      the SDK’s behavior, you can set this property.</dd>
+ *      
+ *      <dt>LANGUAGES (languages in properties file)</dt>
+ *      <dd>A comma-separated list of preferred languages for this client (most to least preferred). Optional.</dd>
+ *      
  *      <dt>ACCOUNT_EMAIL (account.email in properties file)</dt>
  *      <dd>The email address of your account.</dd>
  *  
  *      <dt>ACCOUNT_PASSWORD (account.password in properties file)</dt> 
  *      <dd>The password of your account.</dd>
- *      
+ *
+ *      <dt>ACCOUNT_APP_ID (account.app.id in properties file)</dt>
+ *      <dd>The identifier of the app your account is in (not the name, but the ID).</dd>
+
  *      <dt>APP_NAME (app.name in properties file)</dt>
- *      <dd>The name of your application.</dd>
+ *      <dd>The name of your application as sent in the User-Agent header.</dd>
  *      
  *      <dt>APP_VERSION (app.version in properties file)</dt>
  *      <dd>The version of your application (must be a positive integer that increases with each app release, 
@@ -35,21 +52,14 @@ import org.sagebionetworks.bridge.rest.model.UserSessionInfo;
  *      <dt>DEVICE_NAME (device.name in properties file)</dt>
  *      <dd>The name of the device/device hardware your app is running on.</dd>
  *      
- *      <dt>LANGUAGES (languages in properties file)</dt>
- *      <dd>A comma-separated list of preferred languages for this client (most to least preferred). Optional.</dd>
- *      
  *      <dt>OS_NAME (os.name in properties file)</dt>
  *      <dd>The name of the operating system (Bridge will filter content based on "iPhone OS" or "Android" as a value for this setting.</dd>
  *      
  *      <dt>OS_VERSION (os.version in properties file)</dt>
  *      <dd>The operating system version of the client (a string in any format).</dd>
  *      
- *      <dt>APP_IDENTIFIER (app.identifier in properties file)</dt>
- *      <dd>The identifier of your app (not the name, but the ID).</dd>
- *      
- *      <dt>HOST</dt>
- *      <dd>An alternative to setting the host server through the <code>Environment</code> 
- *          constant, you can also set the service host directly (e.g. "https://bridge.deployment.com/").</dd>
+ *      <dt>SDK_VERSION</dt>
+ *      <dd>The build version number for the Bridge Java REST SDK. This value should not need to be set (it is set by the SDK).</dd>
  *  </dl> 
  * 
  * <p>Once you provide credentials (through configuration or programmatically), clients retrieved 
