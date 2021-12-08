@@ -6,6 +6,10 @@ properties:
         type: string
         description: Identifier for the study burst
         x-nullable: false
+    originEventId:
+        type: string
+        description: The event ID that triggered the generation of these study burst events
+        x-nullable: false
     delay:
         type: string
         description: ISO 8601 duration between the origin event timestamp and the first burst in the study burst sequence (days or weeks)
