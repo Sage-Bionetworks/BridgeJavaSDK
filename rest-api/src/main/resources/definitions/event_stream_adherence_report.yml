@@ -9,9 +9,13 @@ properties:
     timestamp:
         type: string
         format: date-time
-        description: The timestamp used to calculate this report (adjusted to use the `clientTimeZone` of the participant, if that is persisted on the server).
+        description: The timestamp used as “the current time” (or “now”) to calculate this report (adjusted to use the `clientTimeZone` of the participant, if that is persisted on the server).
         readOnly: true
         x-nullable: false
+    clientTimeZone:
+        type: string
+        description: The IANA time zone name of the participant’s time zone. This value, if it has been persisted for the account, will be used for time calculations of the report on the server.
+        readOnly: true
     adherencePercent:
         type: integer
         description: A percentage value of compliance for the entire study for this participant.
