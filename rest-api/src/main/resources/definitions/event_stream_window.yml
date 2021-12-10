@@ -1,0 +1,29 @@
+description: asdf
+type: object
+properties:
+    sessionInstanceGuid:
+        type: string
+        readOnly: true
+        x-nullable: false
+    timeWindowGuid:
+        type: string
+        readOnly: true
+        x-nullable: false
+    state:
+        $ref: ./enums/session_completion_state.yml
+        readOnly: true
+        x-nullable: false
+    endDay:
+        type: integer
+        readOnly: true
+        x-nullable: false
+    endDate:
+        type: string
+        format: date
+        readOnly: true
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "EventStreamWindow"
+        x-nullable: false

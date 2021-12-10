@@ -1,0 +1,39 @@
+description: One stream of activities that should be performed during a study that are triggered by the presence of a single event in the participant’s map of events.
+type: object
+properties:
+    startEventId:
+        type: string
+        readOnly: true
+    sessionGuids:
+        type: array
+        description: All the sessions (by GUID) in the `byDayEntries` of this event stream. Potentially useful for UI displays.
+        items:
+            type: string
+    eventTimestamp:
+        type: string
+        format: date-time
+        example: '2020-08-28T14:28:13.386Z'
+        readOnly: true
+        x-nullable: false
+    daysSinceEvent:
+        type: integer
+        readOnly: true
+    studyBurstId:
+        type: string
+        readOnly: true
+    studyBurstNum:
+        type: integer
+        readOnly: true
+    byDayEntries:
+        type: object
+        description: A map of activities to be performed at specific days since the event occurred. The map is sparse (days without activities do not have entries). The keys are string integers that correspond to the day on which activities occur, and the value is a detailed description of the activities to be performed on that day.
+        additionalProperties:
+            type: array
+            items:
+                $ref: ./event_stream_day.yml
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "EventStream"
+        x-nullable: false
