@@ -39,8 +39,6 @@
 # Admin authentication methods
 /v3/auth/admin/signIn:
     $ref: ./auth/v3_auth_admin_signIn.yml
-/v3/auth/admin/app:
-    $ref: ./auth/v3_auth_admin_app.yml
 
 # Apps
 /v1/apps:
@@ -88,8 +86,6 @@
     $ref: ./apps/v1_apps_appId_reports_identifier.yml
 /v1/apps/{appId}/uploads:
     $ref: ./apps/v1_apps_appId_uploads.yml
-/v1/apps/{appId}/users:
-    $ref: ./apps/v1_apps_appId_users.yml
 /v1/apps/{appId}/participants:
     $ref: ./apps/v1_apps_appId_participants.yml
 /v1/apps/{appId}/participants/search:

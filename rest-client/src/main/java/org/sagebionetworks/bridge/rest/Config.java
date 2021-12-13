@@ -30,31 +30,24 @@ public final class Config {
     private static final String USER_CONFIG_FILE = System.getProperty("user.home") + "/bridge-sdk.properties";
 
     public enum Props {
-        ACCOUNT_EMAIL, 
-        ACCOUNT_PASSWORD, 
-        ADMIN_EMAIL, 
-        ADMIN_PASSWORD,
-        API_DEVELOPER_EMAIL,
-        API_DEVELOPER_PASSWORD,
-        API_DEVELOPER_STUDY,
-        APP_IDENTIFIER,
-        APP_NAME,
-        APP_VERSION,
-        DEV_NAME,
-        DEVICE_NAME,
+        // Base properties
         ENV, 
         HOST,
         LANGUAGES,
         LOG_LEVEL, 
+
+        // Convenience properties to set an account to execute SDK with
+        ACCOUNT_APP_ID,
+        ACCOUNT_EMAIL, 
+        ACCOUNT_PASSWORD, 
+        
+        // Properties for the User-Agent header
+        APP_NAME,
+        APP_VERSION,
+        DEVICE_NAME,
         OS_NAME,
         OS_VERSION,
-        SDK_VERSION,
-        SHARED_DEVELOPER_EMAIL,
-        SHARED_DEVELOPER_PASSWORD,
-        SHARED_DEVELOPER_STUDY,
-        SYNAPSE_TEST_USER,
-        SYNAPSE_TEST_USER_PASSWORD,
-        SYNAPSE_TEST_USER_ID;
+        SDK_VERSION;
 
         public String getPropertyName() {
             return this.name().replace("_", ".").toLowerCase();
@@ -65,17 +58,19 @@ public final class Config {
     private Environment environment;
 
     public Config() {
+        this(CONFIG_FILE, USER_CONFIG_FILE);
+    }
+    
+    public Config(String... paths) {
         config = new Properties();
-
-        // Load from default configuration file
-        try (InputStream in = this.getClass().getResourceAsStream(CONFIG_FILE)) {
-            config.load(in);
-        } catch (IOException e) {
-            // This is okay, we'll fall back to examining environmental variables.
-            System.err.println(e.getMessage());
+        
+        for (String onePath : paths) {
+            try (InputStream in = this.getClass().getResourceAsStream(onePath)) {
+                config.load(in);
+            } catch (NullPointerException | IOException e) {
+                loadProperties(onePath, config);
+            }
         }
-        // Overwrite from user's local file
-        loadProperties(USER_CONFIG_FILE, config);
 
         // Finally, overwrite from environment variables and system properties
         for (Props key : Props.values()) {
@@ -141,15 +136,11 @@ public final class Config {
     }
 
     public SignIn getAccountSignIn() {
-        return new SignIn().appId(getAppId()).email(getAccountEmail()).password(getAccountPassword());
+        return new SignIn().appId(getAccountAppId()).email(getAccountEmail()).password(getAccountPassword());
     }
 
-    public SignIn getAdminSignIn() {
-        return new SignIn().appId(getAppId()).email(getAdminEmail()).password(getAdminPassword());
-    }
-    
-    public String getAppId() {
-        return fromProperty(Props.APP_IDENTIFIER);
+    public String getAccountAppId() {
+        return fromProperty(Props.ACCOUNT_APP_ID);
     }
     
     public String getSdkVersion() {
@@ -164,20 +155,8 @@ public final class Config {
         return fromProperty(Props.ACCOUNT_PASSWORD);
     }
 
-    public String getAdminEmail() {
-        return fromProperty(Props.ADMIN_EMAIL);
-    }
-
-    public String getAdminPassword() {
-        return fromProperty(Props.ADMIN_PASSWORD);
-    }
-
     public String getLanguages() {
         return fromProperty(Props.LANGUAGES);
-    }
-    
-    public String getDevName() {
-        return fromProperty(Props.DEV_NAME);
     }
     
     public String getAppName() {
