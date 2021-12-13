@@ -47,7 +47,16 @@ public final class Config {
         DEVICE_NAME,
         OS_NAME,
         OS_VERSION,
-        SDK_VERSION;
+        SDK_VERSION,
+        
+        // test properties... not documented for public use
+        DEV_NAME,
+        ADMIN_EMAIL,
+        ADMIN_PASSWORD,
+        SYNAPSE_TEST_USER,
+        SYNAPSE_TEST_USER_ID,
+        SYNAPSE_TEST_USER_PASSWORD,
+        SYNAPSE_TEST_USER_API_KEY;
 
         public String getPropertyName() {
             return this.name().replace("_", ".").toLowerCase();
