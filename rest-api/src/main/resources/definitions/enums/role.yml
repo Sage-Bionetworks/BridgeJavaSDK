@@ -1,18 +1,17 @@
 type: string
 description: |
-    The roles assigned to this user. Normal users do not have any roles assigned, but for developers, 
-    researchers, etc. their roles will appear hear (see main API documentation about the roles 
-    assigned by the Bridge server).
+    The roles assigned to this user. Only administrative accounts are assigned roles, which break down into two main categories: app-scoped permissions (developer, researcher) and study-scoped permissions conferred by organization membership (study coordinator, study designer). 
 
     |Role|Description|
     |---|---|
-    |developer|A user with the rights to use the app configuration APIs (all admin APIs except for those APIs which expose information about study participants).|
-    |researcher|The research role is assigned to users who have permission to see the users in a study and the activity of participants. We will assign this role to developers during the initial development of the application so they can view the uploads of test accounts, etc.|
-    |study_coordinator|A specialized researcher who manages and coordinates research with participants.|
-    |study_designer|An individual tasked with modeling the portions of a scientific protocol that are supported by Bridge (consents, studies, protocols, schedules), using the Bridge system.|
-    |admin|A Sage Bionetworks Bridge administrator (internal to Bridge).|
-    |org_admin|An administrator who can manage an organization and the member accounts of that organization.|
+    |developer|An administrative account that can configure an entire Bridge app (often the role assigned to developers of the mobile app itself). Many APIs that involve participants are accessible to developers as long as they are operating on test accounts.|
+    |researcher|An administrator who can see all the  participants in all studies in an app. Less used now in favor of study coordinators.|
+    |study_coordinator|A researcher who manages and coordinates research with participants in a specific set of studies, defined by the coordinator’s membership in an organization and the organization’s sponsorship of one or more studies.|
+    |study_designer|An individual tasked with modeling the portions of a scientific protocol in one or more studies (consents, studies, protocols, schedules), defined by the designer’s membership in an organization and the organization’s sponsorship of one or more studies.|
+    |org_admin|An administrator who can manage an organization and the member accounts of that organization. The organization in turn grants access to the studies that are sponsored by the organization.|
+    |admin|An administrator of a Bridge application. An administrator can call any API accessible to a developer, researcher, study coordinator, study designer, or organization admin.|
     |worker|A Sage Bionetworks worker process (internal to Bridge).|
+    |superadmin|A Sage Bionetworks administrator (internal to Sage Bionetworks).|
 enum:
     - developer
     - researcher
