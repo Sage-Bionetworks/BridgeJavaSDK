@@ -122,10 +122,11 @@ public final class Config {
             }
         }
 
-        // Finally, overwrite from environment variables and system properties
-        String envName = sysReader.read("env");
+        // Finally, overwrite from environment variables and system properties. property values 
+        // are overridden by environment variables, which are overridden by system properties.
+        String envName = envReader.read("env");
         if (envName == null) {
-            envName = envReader.read("env");
+            envName = sysReader.read("env");
         }
         if (envName == null) {
             envName = config.getProperty("env");    
@@ -137,10 +138,6 @@ public final class Config {
             LOG.info("SDK Config environment: " + environment);    
         }
         this.config = new Properties(collapse(config, environment.name().toLowerCase()));
-        
-        for (String prop : config.stringPropertyNames()) {
-            System.out.println(prop + " = " + config.getProperty(prop));
-        }
     }
     
     private void loadProperties(final String fileName, final Properties properties) {
@@ -161,6 +158,8 @@ public final class Config {
      * directory 3) Merge the properties to the current environment 4) Overwrite
      * with properties read from the environment variables. 5) Overwrite with
      * properties read from the command-line arguments.
+     * 
+     * 
      */
     private Properties collapse(final Properties properties, final String envName) {
         Properties collapsed = new Properties();
@@ -177,6 +176,10 @@ public final class Config {
                 collapsed.setProperty(strippedName, properties.getProperty(key));
             }
         }
+        
+        // Finally, overwrite from environment variables and system properties. property values 
+        // are overridden by environment variables, which are overridden by system properties.
+
         // Overwrite with environment variables and system properties
         for (final String key : properties.stringPropertyNames()) {
             String value = envReader.read(key);
