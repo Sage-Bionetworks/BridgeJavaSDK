@@ -13,7 +13,6 @@ public class ConfigTest {
         assertEquals("5", config.getSdkVersion());
         assertEquals("testName", config.getAppName());
         assertEquals("testName", config.fromProperty(Config.Props.APP_NAME));
-        assertNotNull(config.getLogLevel());
+        assertEquals("warn", config.getLogLevel());
     }
-    
 }

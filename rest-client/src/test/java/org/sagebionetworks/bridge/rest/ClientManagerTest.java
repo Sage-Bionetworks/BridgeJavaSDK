@@ -31,27 +31,21 @@ public class ClientManagerTest {
         SignIn adminSignIn = new SignIn().appId("app-identifier").email("admin@email.com").password("admin-password");
         
         doReturn(accountSignIn).when(config).getAccountSignIn();
-        doReturn(adminSignIn).when(config).getAdminSignIn();
-        doReturn("app-identifier").when(config).getAppId();
+        doReturn("app-identifier").when(config).getAccountAppId();
         doReturn("1").when(config).getSdkVersion();
         doReturn("account@email.com").when(config).getAccountEmail();
         doReturn("account-password").when(config).getAccountPassword();
-        doReturn("admin@email.com").when(config).getAdminEmail();
-        doReturn("admin-password").when(config).getAdminPassword();
         doReturn("fr,en").when(config).getLanguages();
-        doReturn("dudeski").when(config).getDevName();
         doReturn(Environment.PRODUCTION).when(config).getEnvironment();
         doReturn("debug").when(config).getLogLevel();
         
         ClientManager manager = new ClientManager.Builder().withConfig(config).build();
         
-        assertEquals("app-identifier", manager.getConfig().getAppId());
+        assertEquals("app-identifier", manager.getConfig().getAccountAppId());
         assertEquals("1", manager.getConfig().getSdkVersion());
         assertEquals(accountSignIn, manager.getConfig().getAccountSignIn());
-        assertEquals(adminSignIn, manager.getConfig().getAdminSignIn());
         assertEquals(Lists.newArrayList("fr","en"), manager.getAcceptedLanguages());
         assertEquals(Environment.PRODUCTION, manager.getConfig().getEnvironment());
-        assertEquals("dudeski", manager.getConfig().getDevName());
         assertEquals("debug", manager.getConfig().getLogLevel());
     }
     
@@ -96,11 +90,11 @@ public class ClientManagerTest {
         Config config = new Config();
         config.set(Props.HOST, "https://aws.bridgeserver.com");
         config.set(Environment.PRODUCTION);
+        config.set(Props.ACCOUNT_APP_ID, "appId");
+        config.set(Props.ACCOUNT_EMAIL, "email@email.com");
+        config.set(Props.ACCOUNT_PASSWORD, "Password1");
 
-        config.set(Props.APP_IDENTIFIER, "appId");
-        config.set(Props.ADMIN_EMAIL, "account@example.com");
-
-        SignIn signIn = config.getAdminSignIn();
+        SignIn signIn = config.getAccountSignIn();
         ClientManager manager = new ClientManager.Builder()
                 .withSignIn(signIn)
                 .withConfig(config)
