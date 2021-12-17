@@ -98,6 +98,8 @@
     $ref: ./apps/v1_apps_appId_participants_userId.yml
 /v1/apps/{appId}/participants/healthCode:{healthCode}:
     $ref: ./apps/v1_apps_appId_participants_healthCode.yml
+/v1/apps/{appId}/participants/healthCode:{healthCode}/versions/{version}:
+    $ref: ./apps/v1_apps_appId_participants_healthCode_versions_version.yml
 /v1/apps/{appId}/participants/externalId:{externalId}:
     $ref: ./apps/v1_apps_appId_participants_externalId.yml
 /v1/apps/{appId}/participants/syn:{synapseUserId}:

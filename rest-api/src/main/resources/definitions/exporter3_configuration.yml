@@ -11,6 +11,10 @@ properties:
         format: int64
         description: |
             Synapse team ID that is granted read access to exported health data records.
+    participantVersionTableId:
+        type: string
+        description: |
+            The Synapse table to where we export Participant Versions.
     projectId:
         type: string
         description: |
