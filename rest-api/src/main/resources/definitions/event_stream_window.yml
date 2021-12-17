@@ -1,4 +1,4 @@
-description: asdf
+description: A single session that starts on the day of the `EventStreamDay` it is included in, and ends on the day or date given by this entry. It also contains the current state of the session as known to the server.
 type: object
 properties:
     sessionInstanceGuid:

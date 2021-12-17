@@ -1,4 +1,4 @@
-description: asdf
+description: One day of activities to perform on day N from a specific event (combining all sessions that are triggered by the same event).
 type: object
 properties:
     sessionGuid:
