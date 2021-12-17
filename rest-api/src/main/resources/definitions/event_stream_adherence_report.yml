@@ -22,10 +22,7 @@ properties:
         readOnly: true
         x-nullable: false
     dayRangeOfAllStreams:
-        type: array
-        description: The first day and the last day mentioned across all streams in the report, and across all event streams (the lowest `days since event X` value and the highest `days since event X` value without regard to the specific event). Potentially useful for UI displays.
-        items:
-            type: integer
+        $ref: ./day_range.yml
     streams:
         type: array
         items:

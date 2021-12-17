@@ -157,6 +157,8 @@ DataGroups:
     $ref: ./data_groups.yml
 DateRange:
     $ref: ./date_range.yml
+DayRange:
+    $ref: ./day_range.yml
 EmailSignIn:
     $ref: ./email_signin.yml
 EmailSignInRequest:
