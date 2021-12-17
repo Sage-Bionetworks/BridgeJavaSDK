@@ -1,0 +1,33 @@
+get:
+    operationId: getStudyParticipantEventStreamAdherenceReport
+    summary: Get a detailed report on a participant’s adherence to the entire study protocol’s schedule.
+    tags:
+        - Study Participants
+        - Adherence Records
+        - _For Study Coordinators
+        - _For Researchers
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+        - name: datetime
+          in: query
+          description: The timestamp to use as “now” for the calculation of adherence. This timestamp will be adjusted to the participant’s `clientTimeZone` value if this value has been persisted for the participant.
+          required: false
+          type: string
+          format: date-time
+          default: The date and time on the server at the time of the request
+        - name: activeOnly
+          in: query
+          description: Only return records that are currently actionable by the participant
+          required: false
+          type: boolean
+          default: false
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/event_stream_adherence_report.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher_study_designer_study_coordinator.yml
