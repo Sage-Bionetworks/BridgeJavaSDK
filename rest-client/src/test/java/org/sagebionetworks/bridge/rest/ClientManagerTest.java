@@ -28,7 +28,6 @@ public class ClientManagerTest {
     public void testInitFromConfig() {
         SignIn accountSignIn = new SignIn().appId("app-identifier").email("account@email.com")
                 .password("account-password");
-        SignIn adminSignIn = new SignIn().appId("app-identifier").email("admin@email.com").password("admin-password");
         
         doReturn(accountSignIn).when(config).getAccountSignIn();
         doReturn("app-identifier").when(config).getAccountAppId();
