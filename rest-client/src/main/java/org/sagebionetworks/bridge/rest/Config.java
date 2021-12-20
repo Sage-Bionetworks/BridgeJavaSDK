@@ -7,9 +7,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.Set;
 
 import org.sagebionetworks.bridge.rest.model.Environment;
 import org.sagebionetworks.bridge.rest.model.SignIn;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.collect.ImmutableSet;
 
 /**
  * <p>The Config class provides the implementation for loading configuration for the ClientManager. The 
@@ -25,10 +30,18 @@ import org.sagebionetworks.bridge.rest.model.SignIn;
  * </pre>
  */
 public final class Config {
+    private static final Logger LOG = LoggerFactory.getLogger(Config.class);
 
     private static final String CONFIG_FILE = "/bridge-sdk.properties";
     private static final String USER_CONFIG_FILE = System.getProperty("user.home") + "/bridge-sdk.properties";
-
+    /**
+     * We chose two property names that are identical to System properties that are set in a Java environment. 
+     * For backwards compatibility reasons, we do not want to pick up these values from the environment (e.g.
+     * if this is being used in a Java environment, the setting of these properties in bridge-sdk.properties
+     * would just be ignored).
+     */
+    private static final Set<String> OVERLOADED_SYSTEM_PROPERTIES = ImmutableSet.of("os.name", "os.version");
+    
     public enum Props {
         // Base properties
         ENV, 
@@ -62,9 +75,37 @@ public final class Config {
             return this.name().replace("_", ".").toLowerCase();
         }
     }
+    
+    private static interface ConfigReader {
+        String read(String name);
+    }
+    
+    private final ConfigReader envReader = new ConfigReader() {
+        @Override
+        public String read(String name) {
+            try {
+                // Change to a valid environment variable name
+                name = name.toUpperCase().replace('.', '_');
+                return System.getenv(name);
+            } catch (SecurityException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    };
+
+    private final ConfigReader sysReader = new ConfigReader() {
+        @Override
+        public String read(String name) {
+            try {
+                return System.getProperty(name);
+            } catch (SecurityException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    };
 
     private Properties config;
-    private Environment environment;
+    private Environment environment = Environment.LOCAL;
 
     public Config() {
         this(CONFIG_FILE, USER_CONFIG_FILE);
@@ -81,22 +122,24 @@ public final class Config {
             }
         }
 
-        // Finally, overwrite from environment variables and system properties
-        for (Props key : Props.values()) {
-            String value = System.getenv(key.name());
-            if (value == null) {
-                value = System.getProperty(key.name());
-            }
-            if (value != null) {
-                config.setProperty(key.getPropertyName(), value);
-            }
+        // Finally, overwrite from environment variables and system properties. property values 
+        // are overridden by environment variables, which are overridden by system properties.
+        String envName = envReader.read("env");
+        if (envName == null) {
+            envName = sysReader.read("env");
         }
-        String envName = config.getProperty("env");
+        if (envName == null) {
+            envName = config.getProperty("env");    
+        }
         if (envName != null) {
             environment = Environment.valueOf(envName.toUpperCase());
         }
+        if (LOG.isInfoEnabled()) {
+            LOG.info("SDK Config environment: " + environment);    
+        }
+        this.config = new Properties(collapse(config, environment.name().toLowerCase()));
     }
-
+    
     private void loadProperties(final String fileName, final Properties properties) {
         File file = new File(fileName);
         if (file.exists()) {
@@ -106,6 +149,66 @@ public final class Config {
                 throw new RuntimeException(e);
             }
         }
+    }
+    
+    /**
+     * Collapses the properties into new properties relevant to the current
+     * environment. 1) Default properties usually bundled in the code base as
+     * resources. 2) Overwrite with properties read from the user's home
+     * directory 3) Merge the properties to the current environment 4) Overwrite
+     * with properties read from the environment variables. 5) Overwrite with
+     * properties read from the command-line arguments.
+     * 
+     * 
+     */
+    private Properties collapse(final Properties properties, final String envName) {
+        Properties collapsed = new Properties();
+        // Read the default properties
+        for (final String key : properties.stringPropertyNames()) {
+            if (isDefaultProperty(key)) {
+                collapsed.setProperty(key, properties.getProperty(key));
+            }
+        }
+        // Overwrite with properties for the current environment
+        for (final String key : properties.stringPropertyNames()) {
+            if (key.startsWith(envName + ".")) {
+                String strippedName = key.substring(envName.length() + 1);
+                collapsed.setProperty(strippedName, properties.getProperty(key));
+            }
+        }
+        
+        // Finally, overwrite from environment variables and system properties. property values 
+        // are overridden by environment variables, which are overridden by system properties.
+
+        // Overwrite with environment variables and system properties
+        for (final String key : properties.stringPropertyNames()) {
+            String value = envReader.read(key);
+            if (value == null && !OVERLOADED_SYSTEM_PROPERTIES.contains(key)) {
+                value = sysReader.read(key);
+            }
+            if (value != null) {
+                if (key.startsWith(envName + ".")) {
+                    String strippedName = key.substring(envName.length() + 1);
+                    collapsed.setProperty(strippedName, value);
+                } else {
+                    collapsed.setProperty(key, value);
+                }
+            }
+        }
+        return collapsed;
+    }
+    
+    /**
+     * When the property is not bound to a particular environment.
+     */
+    private boolean isDefaultProperty(final String propName) {
+        for (Environment env : Environment.values()) {
+            String envPrefix = env.name().toLowerCase() + ".";
+            if (propName.startsWith(envPrefix)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
