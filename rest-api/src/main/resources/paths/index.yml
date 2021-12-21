@@ -553,6 +553,24 @@
     $ref: ./studies/v5_studies_studyId_enrollments_userId.yml
 /v5/studies/{studyId}/externalids:
     $ref: ./studies/v5_studies_studyId_externalids.yml
+/v5/studies/{studyId}/design:
+    $ref: ./studies/v5_studies_studyId_design.yml
+/v5/studies/{studyId}/recruit:
+    $ref: ./studies/v5_studies_studyId_recruit.yml
+/v5/studies/{studyId}/conduct:
+    $ref: ./studies/v5_studies_studyId_conduct.yml
+/v5/studies/{studyId}/analyze:
+    $ref: ./studies/v5_studies_studyId_analyze.yml
+/v5/studies/{studyId}/complete:
+    $ref: ./studies/v5_studies_studyId_complete.yml
+/v5/studies/{studyId}/withdraw:
+    $ref: ./studies/v5_studies_studyId_withdraw.yml
+/v5/studies/{studyId}/schedule:
+    $ref: ./studies/v5_studies_studyId_schedule.yml
+/v5/studies/{studyId}/timeline:
+    $ref: ./studies/v5_studies_studyId_timeline.yml
+
+# Study Participants
 /v5/studies/{studyId}/participants/emailRoster:
     $ref: ./studies/v5_studies_studyId_participants_emailroster.yml
 /v5/studies/{studyId}/participants/{userId}/enrollments:
@@ -615,22 +633,10 @@
     $ref: ./studies/v5_studies_studyId_participants_userId_reports_identifier_date.yml
 /v5/studies/{studyId}/participants/self/reports/{identifier}:
     $ref: ./studies/v5_studies_studyId_participants_self_reports_identifier.yml
-/v5/studies/{studyId}/design:
-    $ref: ./studies/v5_studies_studyId_design.yml
-/v5/studies/{studyId}/recruit:
-    $ref: ./studies/v5_studies_studyId_recruit.yml
-/v5/studies/{studyId}/conduct:
-    $ref: ./studies/v5_studies_studyId_conduct.yml
-/v5/studies/{studyId}/analyze:
-    $ref: ./studies/v5_studies_studyId_analyze.yml
-/v5/studies/{studyId}/complete:
-    $ref: ./studies/v5_studies_studyId_complete.yml
-/v5/studies/{studyId}/withdraw:
-    $ref: ./studies/v5_studies_studyId_withdraw.yml
-/v5/studies/{studyId}/schedule:
-    $ref: ./studies/v5_studies_studyId_schedule.yml
-/v5/studies/{studyId}/timeline:
-    $ref: ./studies/v5_studies_studyId_timeline.yml
+/v5/studies/{studyId}/participants/{userId}/adherence/eventstream:
+    $ref: ./studies/v5_studies_studyId_participants_userId_adherence_eventstream.yml
+/v5/studies/{studyId}/participants/self/adherence/eventstream:
+    $ref: ./studies/v5_studies_studyId_participants_self_adherence_eventstream.yml
 
 # Templates
 /v3/templates:

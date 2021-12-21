@@ -1,0 +1,43 @@
+description: One day of activities to perform on day N from a specific event (combining all sessions that are triggered by the same event).
+type: object
+properties:
+    sessionGuid:
+        type: string
+        readOnly: true
+        x-nullable: false
+    sessionName:
+        type: string
+        readOnly: true
+        x-nullable: false
+    sessionSymbol:
+        type: string
+        readOnly: true
+    week:
+        type: integer
+        readOnly: true
+        x-nullable: false
+    studyBurstId:
+        type: string
+        readOnly: true
+    studyBurstNum:
+        type: integer
+        readOnly: true
+    startDay:
+        type: integer
+        readOnly: true
+        x-nullable: false
+    startDate:
+        readOnly: true
+        format: date
+        x-nullable: false
+    timeWindows:
+        type: array
+        items:
+            $ref: ./event_stream_window.yml
+        readOnly: true
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "EventStreamDay"
+        x-nullable: false

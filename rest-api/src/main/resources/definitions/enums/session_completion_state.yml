@@ -1,0 +1,24 @@
+type: string
+description: |
+    How search criteria should be evaluated in a search.
+    
+    |Status|Description|
+    |---|---|
+    | not_yet_available | Session will occur but is still in the future for the participant. |
+    | unstarted | Session is currently available to be started by the participant. |
+    | started | Session is available and started. |
+    | completed | Session was completed before it expired. |
+    | abandoned | Session was started, but it expired before it was finished; it is not in compliance. |
+    | expired | Session is now in the past for the participant and never started; it is not in compliance. |
+    | not_applicable | Session will not occur for this participant because they don't have the triggering event. |
+    | declined | After becoming available but before expiring, the session was declined; it is not in compliance. |
+enum:
+    - not_yet_available
+    - unstarted
+    - started
+    - completed
+    - abandoned
+    - expired
+    - not_applicable
+    - declined
+readOnly: true

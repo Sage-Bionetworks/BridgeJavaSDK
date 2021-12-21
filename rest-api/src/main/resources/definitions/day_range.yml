@@ -1,0 +1,19 @@
+description: |
+    An object that provides a timestamp.
+type: object
+properties:
+    min:
+        type: integer
+        x-nullable: false
+        readOnly: true
+        description: The lowest `startDay` entry across all streams (the lowest `days since event X` value without regard to the specific event). Potentially useful for UI displays.
+    max:
+        type: integer
+        x-nullable: false
+        readOnly: true
+        description: The highest `startDay` entry across all stream (the highest `days since event X` value without regard to the specific event). Potentially useful for UI displays.
+    type:
+        type: string
+        readOnly: true
+        description: "DayRange"
+        x-nullable: false

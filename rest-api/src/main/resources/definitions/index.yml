@@ -30,6 +30,8 @@ AdherenceRecordType:
     $ref: ./enums/adherence_record_type.yml
 ScheduleType:
     $ref: ./enums/schedule_type.yml
+SessionCompletionState:
+    $ref: ./enums/session_completion_state.yml
 SignInType:
     $ref: ./enums/sign_in_type.yml
 SmsType:
@@ -155,6 +157,8 @@ DataGroups:
     $ref: ./data_groups.yml
 DateRange:
     $ref: ./date_range.yml
+DayRange:
+    $ref: ./day_range.yml
 EmailSignIn:
     $ref: ./email_signin.yml
 EmailSignInRequest:
@@ -167,6 +171,14 @@ EnrollmentDetail:
     $ref: ./enrollment_detail.yml
 EnrollmentInfo:
     $ref: ./enrollment_info.yml
+EventStream:
+    $ref: ./event_stream.yml
+EventStreamAdherenceReport:
+    $ref: ./event_stream_adherence_report.yml
+EventStreamDay:
+    $ref: ./event_stream_day.yml
+EventStreamWindow:
+    $ref: ./event_stream_window.yml
 Exporter3Configuration:
     $ref: ./exporter3_configuration.yml
 ExternalIdentifier:
