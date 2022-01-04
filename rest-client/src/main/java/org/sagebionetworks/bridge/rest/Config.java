@@ -29,7 +29,7 @@ import com.google.common.collect.ImmutableSet;
  * config.setProperty(Config.Props.ACCOUNT_EMAIL, "email@email.com");
  * </pre>
  */
-public final class Config {
+public class Config {
     private static final Logger LOG = LoggerFactory.getLogger(Config.class);
 
     private static final String CONFIG_FILE = "/bridge-sdk.properties";
@@ -64,46 +64,12 @@ public final class Config {
         
         // test properties... not documented for public use
         DEV_NAME,
-        ADMIN_EMAIL,
-        ADMIN_PASSWORD,
         SYNAPSE_TEST_USER,
         SYNAPSE_TEST_USER_ID,
         SYNAPSE_TEST_USER_PASSWORD,
         SYNAPSE_TEST_USER_API_KEY;
-
-        public String getPropertyName() {
-            return this.name().replace("_", ".").toLowerCase();
-        }
     }
     
-    private static interface ConfigReader {
-        String read(String name);
-    }
-    
-    private final ConfigReader envReader = new ConfigReader() {
-        @Override
-        public String read(String name) {
-            try {
-                // Change to a valid environment variable name
-                name = name.toUpperCase().replace('.', '_');
-                return System.getenv(name);
-            } catch (SecurityException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    };
-
-    private final ConfigReader sysReader = new ConfigReader() {
-        @Override
-        public String read(String name) {
-            try {
-                return System.getProperty(name);
-            } catch (SecurityException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    };
-
     private Properties config;
     private Environment environment = Environment.LOCAL;
 
@@ -124,18 +90,12 @@ public final class Config {
 
         // Finally, overwrite from environment variables and system properties. property values 
         // are overridden by environment variables, which are overridden by system properties.
-        String envName = envReader.read("env");
-        if (envName == null) {
-            envName = sysReader.read("env");
-        }
-        if (envName == null) {
-            envName = config.getProperty("env");    
-        }
+        String envName = read("env", config.getProperty("env"));
         if (envName != null) {
             environment = Environment.valueOf(envName.toUpperCase());
         }
-        if (LOG.isInfoEnabled()) {
-            LOG.info("SDK Config environment: " + environment);    
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("SDK Config environment: " + environment);    
         }
         this.config = new Properties(collapse(config, environment.name().toLowerCase()));
     }
@@ -151,15 +111,60 @@ public final class Config {
         }
     }
     
+    protected String read(String key, String defaultValue) {
+        String envProp = key.toUpperCase().replace(".", "_");
+        String sysProp = key.toLowerCase().replace("_", ".");
+        
+        String value = firstNonNull(readEnv(envProp), readEnv(sysProp));
+        if (value == null && !OVERLOADED_SYSTEM_PROPERTIES.contains(sysProp)) {
+            value = firstNonNull(readSystemProp(envProp), readSystemProp(sysProp));
+        }
+        
+        // Is there an environment-specific value that overrides this? I don't know that
+        // we ever use environment/system properties to do this, but it's been supported
+        // from the first implementation of Config.
+        envProp = environment.name() + "_" + envProp;
+        sysProp = environment.name().toLowerCase() + "." + sysProp;
+        
+        String scopedValue = firstNonNull(readEnv(envProp), readEnv(sysProp));
+        if (scopedValue == null) {
+            scopedValue = firstNonNull(readSystemProp(sysProp), readSystemProp(envProp));
+        }
+        if (scopedValue != null) {
+            value = scopedValue;
+        }
+        if (value == null) {
+            value = defaultValue;
+        }
+        return value;
+    }
+    
+    protected String firstNonNull(String... values) {
+        for (String value : values) {
+            if (value != null) {
+                return value;
+            }
+        }
+        return null;
+    }
+
+    // In order to stub System class calls without powermock
+    protected String readEnv(String name) {
+        return System.getenv(name);
+    }
+    
+    // In order to stub System class calls without powermock
+    protected String readSystemProp(String name) {
+        return System.getProperty(name);
+    }
+    
     /**
-     * Collapses the properties into new properties relevant to the current
-     * environment. 1) Default properties usually bundled in the code base as
-     * resources. 2) Overwrite with properties read from the user's home
-     * directory 3) Merge the properties to the current environment 4) Overwrite
-     * with properties read from the environment variables. 5) Overwrite with
-     * properties read from the command-line arguments.
-     * 
-     * 
+     * Starting with a set of properties, override any base properties with their 
+     * environment-specific (environment prefixed) values. Then override these values
+     * from values in system properties or the environment (the environment overrides
+     * system properties if both are present). In these cases, environment-scoped values
+     * will continue to override base values. So for example, Maven system properties 
+     * ("-DENV=production") override property files on the host machine.
      */
     private Properties collapse(final Properties properties, final String envName) {
         Properties collapsed = new Properties();
@@ -176,23 +181,10 @@ public final class Config {
                 collapsed.setProperty(strippedName, properties.getProperty(key));
             }
         }
-        
-        // Finally, overwrite from environment variables and system properties. property values 
-        // are overridden by environment variables, which are overridden by system properties.
-
-        // Overwrite with environment variables and system properties
-        for (final String key : properties.stringPropertyNames()) {
-            String value = envReader.read(key);
-            if (value == null && !OVERLOADED_SYSTEM_PROPERTIES.contains(key)) {
-                value = sysReader.read(key);
-            }
+        for (final Props prop : Props.values()) {
+            String value = read(prop.name(), null);
             if (value != null) {
-                if (key.startsWith(envName + ".")) {
-                    String strippedName = key.substring(envName.length() + 1);
-                    collapsed.setProperty(strippedName, value);
-                } else {
-                    collapsed.setProperty(key, value);
-                }
+                collapsed.setProperty(propName(prop.name()), value);
             }
         }
         return collapsed;
@@ -210,6 +202,10 @@ public final class Config {
         }
         return true;
     }
+    
+    private String propName(String key) {
+        return key.toLowerCase().replaceAll("_", ".");
+    }
 
     /**
      * Method to reset any of the default values that are defined in the bridge-sdk.properties configuration file.
@@ -222,7 +218,7 @@ public final class Config {
     public void set(Props property, String value) {
         checkNotNull(property, "Must specify a property");
         checkNotNull(value, "Must specify a value");
-        config.setProperty(property.getPropertyName(), value);
+        config.setProperty(propName(property.name()), value);
     }
 
     /**
@@ -310,8 +306,8 @@ public final class Config {
      *         The property you are getting
      * @return The value for the property
      */
-    public String fromProperty(Props property) {
-        String value = config.getProperty(property.getPropertyName());
+    String fromProperty(Props property) {
+        String value = config.getProperty(propName(property.name()));
         return (value == null || value.trim().length() == 0) ? null : value.trim();
     }
 }
