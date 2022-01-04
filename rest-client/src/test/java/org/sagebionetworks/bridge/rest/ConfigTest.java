@@ -2,6 +2,7 @@ package org.sagebionetworks.bridge.rest;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.sagebionetworks.bridge.rest.model.Environment;
@@ -109,24 +110,5 @@ public class ConfigTest extends Mockito {
         
         String retValue = config.read("foo.bar", "A");
         assertEquals("A", retValue);
-    }
-    
-    @Test
-    public void testEnvironmentSubstitutionWithProperty() {
-        Config config = new Config("/bridge-sdk-staging.properties");
-        assertEquals("staging testName", config.getAppName());
-        assertEquals("33", config.getAppVersion());
-    }
-
-    @Test
-    public void testEnvironmentSubstitutionWithSystemProp() {
-        try {
-            System.setProperty("env", "production");
-            Config config = new Config("/bridge-sdk.properties");
-            assertEquals("production testName", config.getAppName());
-            assertEquals("33", config.getAppVersion());
-        } finally {
-            System.setProperty("env", "local");
-        }
     }
 }
