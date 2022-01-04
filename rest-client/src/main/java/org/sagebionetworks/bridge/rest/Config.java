@@ -113,7 +113,7 @@ public class Config {
     
     protected String read(String key, String defaultValue) {
         String envProp = key.toUpperCase().replace(".", "_");
-        String sysProp = key.toLowerCase().replace("_", ".");
+        String sysProp = propName(key);
         
         String value = firstNonNull(readEnv(envProp), readEnv(sysProp));
         if (value == null && !OVERLOADED_SYSTEM_PROPERTIES.contains(sysProp)) {
@@ -204,7 +204,7 @@ public class Config {
     }
     
     private String propName(String key) {
-        return key.toLowerCase().replaceAll("_", ".");
+        return key.toLowerCase().replace("_", ".");
     }
 
     /**
