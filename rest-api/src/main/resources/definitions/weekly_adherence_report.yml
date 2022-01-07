@@ -1,0 +1,47 @@
+description: A report on one participant’s adherence to a study’s entire schedule protocol.
+type: object
+properties:
+    participant:
+        $ref: ./account_ref.yml
+        readOnly: true
+        x-nullable: false
+    weeklyAdherencePercent:
+        type: integer
+        description: The percentage of actionable sessions that have been successfully completed by the participant, not including sessions that are available but not yet finished.
+        readOnly: true
+        x-nullable: false
+    timestamp:
+        type: string
+        format: date-time
+        example: '2020-08-28T14:28:13.386Z'
+        description: ISO 8601 date and time that the event occurred, in the `clientTimeZone` of the user.
+        readOnly: true
+        x-nullable: false
+    clientTimeZone:
+        type: string
+        description: The IANA time zone name of the participant’s time zone. This value, if it has been persisted for the account, will be used for time calculations of the report on the server.
+        readOnly: true
+    createdOn:
+        type: string
+        format: date-time
+        example: '2020-08-28T14:28:13.386Z'
+        readOnly: true
+        description: ISO 8601 date and time that the report was generated.
+        x-nullable: false
+    byDayEntries:
+        type: object
+        description: A map of activities to be performed at specific days since the event occurred. The map is sparse (days without activities do not have entries). The keys are string integers that correspond to the day on which activities occur, and the value is a detailed description of the activities to be performed on that day.
+        additionalProperties:
+            type: array
+            items:
+                $ref: ./event_stream_day.yml
+        readOnly: true
+        x-nullable: false
+    nextActivity:
+        $ref: ./next_activity.yml
+        readOnly: true
+    type:
+        type: string
+        readOnly: true
+        description: "WeeklyAdherenceReport"
+        x-nullable: false

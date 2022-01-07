@@ -9,6 +9,8 @@ properties:
         description: All the sessions (by GUID) in the `byDayEntries` of this event stream. Potentially useful for UI displays.
         items:
             type: string
+        readOnly: true
+        x-nullable: false
     eventTimestamp:
         type: string
         format: date-time
@@ -31,6 +33,7 @@ properties:
             type: array
             items:
                 $ref: ./event_stream_day.yml
+        readOnly: true
         x-nullable: false
     type:
         type: string
