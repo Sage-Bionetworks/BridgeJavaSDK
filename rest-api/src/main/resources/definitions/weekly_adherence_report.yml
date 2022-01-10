@@ -5,6 +5,11 @@ properties:
         $ref: ./account_ref.yml
         readOnly: true
         x-nullable: false
+    rowLabels:
+        type: array
+        description: This is a sorted list of all row labels all time streams that occur for this user for the given week. This indicates how many rows there will be for this report for this user.
+        items:
+            type: string
     weeklyAdherencePercent:
         type: integer
         description: The percentage of actionable sessions that have been successfully completed by the participant, not including sessions that are available but not yet finished.
