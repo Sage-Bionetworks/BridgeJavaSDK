@@ -10,13 +10,6 @@ properties:
         description: The percentage of actionable sessions that have been successfully completed by the participant, not including sessions that are available but not yet finished.
         readOnly: true
         x-nullable: false
-    timestamp:
-        type: string
-        format: date-time
-        example: '2020-08-28T14:28:13.386Z'
-        description: ISO 8601 date and time that the event occurred, in the `clientTimeZone` of the user.
-        readOnly: true
-        x-nullable: false
     clientTimeZone:
         type: string
         description: The IANA time zone name of the participant’s time zone. This value, if it has been persisted for the account, will be used for time calculations of the report on the server.
@@ -26,7 +19,7 @@ properties:
         format: date-time
         example: '2020-08-28T14:28:13.386Z'
         readOnly: true
-        description: ISO 8601 date and time that the report was generated.
+        description: ISO 8601 date and time that the report was generated, indicating the week for which the report was generated.
         x-nullable: false
     byDayEntries:
         type: object
