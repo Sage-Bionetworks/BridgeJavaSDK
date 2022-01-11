@@ -225,6 +225,8 @@ MasterSchedulerConfig:
     $ref: ./master_scheduler_config.yml
 Message:
     $ref: ./message.yml
+NextActivity:
+    $ref: ./next_activity.yml
 Notification:
     $ref: ./notification.yml
 NotificationInfo:
@@ -379,6 +381,8 @@ Verification:
     $ref: ./verification.yml
 VersionHolder:
     $ref: ./version_holder.yml
+WeeklyAdherenceReport:
+    $ref: ./weekly_adherence_report.yml
 Withdrawal:
     $ref: ./withdrawal.yml
 

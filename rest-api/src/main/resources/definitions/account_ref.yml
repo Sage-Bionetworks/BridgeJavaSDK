@@ -1,5 +1,5 @@
 type: object
-description: Identifying fields for an account
+description: Identifying fields for an account. If the account is referenced for a participant in the context of a study, it will include an `externalId` if one was assigned to the participant in that study.
 properties:
     firstName:
         type: string
@@ -22,6 +22,9 @@ properties:
         readOnly: true
     phone:
         $ref: ./phone.yml
+        readOnly: true
+    externalId:
+        type: string
         readOnly: true
     type:
         type: string

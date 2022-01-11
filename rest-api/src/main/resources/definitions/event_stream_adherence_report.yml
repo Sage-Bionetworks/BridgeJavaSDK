@@ -18,11 +18,13 @@ properties:
         readOnly: true
     adherencePercent:
         type: integer
-        description: A percentage value of compliance for the entire study for this participant.
+        description: The percentage of all actionable sessions for the entire study that have been successfully completed by the participant, not including sessions that are available but not yet finished.
         readOnly: true
         x-nullable: false
     dayRangeOfAllStreams:
         $ref: ./day_range.yml
+        readOnly: true
+        x-nullable: false
     streams:
         type: array
         items:
