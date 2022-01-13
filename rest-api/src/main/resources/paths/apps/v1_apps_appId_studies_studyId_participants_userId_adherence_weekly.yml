@@ -1,0 +1,20 @@
+get:
+    operationId: getWeeklyAdherenceReportForWorker
+    summary: Get the weekly adherence report for a participant (which also persists this report for the paginated API of reports for an entire study)
+    tags:
+        - _For Workers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/appId
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/weekly_adherence_report.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_worker.yml
