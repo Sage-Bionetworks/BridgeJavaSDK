@@ -1,0 +1,33 @@
+type: object
+description: For participants who do not have any activities for their current week, this object will be included in reports to provide information on when the participant will next be engaged by the study.
+properties:
+    sessionGuid:
+        type: string
+        readOnly: true
+        x-nullable: false
+    sessionName:
+        type: string
+        readOnly: true
+        x-nullable: false
+    sessionSymbol:
+        type: string
+        readOnly: true
+    week:
+        type: integer
+        readOnly: true
+        x-nullable: false
+    studyBurstId:
+        type: string
+        readOnly: true
+    studyBurstNum:
+        type: integer
+        readOnly: true
+    startDate:
+        readOnly: true
+        format: date
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "NextActivity"
+        x-nullable: false
