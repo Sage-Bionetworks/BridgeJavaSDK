@@ -3,7 +3,7 @@ post:
     summary: Search for adherence records.
     tags:
         - _For Consented Users
-        - Adherence Records
+        - Study Adherence
     security:
         - BridgeSecurity: []
     parameters:

@@ -3,7 +3,7 @@ get:
     summary: Get a detailed report on the caller’s adherence to the entire study protocol’s schedule.
     tags:
         - Study Participants
-        - Adherence Records
+        - Study Adherence
         - _For Consented Users
     parameters:
         - $ref: ../../index.yml#/parameters/studyId

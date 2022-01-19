@@ -1,0 +1,13 @@
+type: string
+description: |
+    What type of participants should be returned by this API?
+
+    |Value|Description|
+    |---|---|
+    |test|Only return test accounts (for developers and study designers, this will always be test accounts)|
+    |production|Only return production accounts|
+    |both|Return both test and production accounts|
+enum:
+    - test
+    - production
+    - both

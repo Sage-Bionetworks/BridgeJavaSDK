@@ -2,7 +2,7 @@ delete:
   operationId: deleteAdherenceRecord
   summary: Delete an adherence record
   tags:
-    - Adherence Records
+    - Study Adherence
     - _For Researchers
     - _For Study Coordinators
   security:

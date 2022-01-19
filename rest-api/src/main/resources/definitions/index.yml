@@ -76,6 +76,8 @@ UploadFieldType:
     $ref: ./enums/upload_field_type.yml
 ResourceCategory:
     $ref: ./enums/resource_category.yml
+TestFilter:
+    $ref: ./enums/test_filter.yml
     
 ABTestGroup:
     $ref: ./ab_test_group.yml
@@ -487,6 +489,8 @@ UploadList:
     $ref: ./paged_resources/upload.yml
 UploadSchemaList:
     $ref: ./paged_resources/upload_schema.yml
+WeeklyAdherenceReportList:
+    $ref: ./paged_resources/weekly_adherence_report.yml
 
 # Constraints
 Constraints:
