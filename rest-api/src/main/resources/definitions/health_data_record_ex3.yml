@@ -19,6 +19,11 @@ properties:
     healthCode:
         type: string
         description: Health code of the participant that submitted the record.
+    participantVersion:
+        type: integer
+        description: |
+            Participant version of the participant at the time the upload was submitted. May be null if the participant
+            version doesn't exist.
     createdOn:
         type: string
         format: date-time
