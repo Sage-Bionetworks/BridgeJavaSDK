@@ -3,11 +3,11 @@ post:
     summary: Update one or more adherence records for a participant
     tags:
         - Study Participants
+        - Study Adherence
         - _For Study Coordinators
         - _For Researchers
         - _For Developers
         - _For Study Designers
-        - Adherence Records
     security:
         - BridgeSecurity: []
     parameters:

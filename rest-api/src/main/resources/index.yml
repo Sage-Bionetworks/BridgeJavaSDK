@@ -422,7 +422,7 @@ parameters:
         in: query
         type: integer
         format: int32
-        description: If this parameter is set, only resoures with a `createdAtRevision` value <= maxRevision will be returned from the API (if the parameter is left null, all resources will be considered to match).
+        description: If this parameter is set, only resources with a `createdAtRevision` value <= maxRevision will be returned from the API (if the parameter is left null, all resources will be considered to match).
     withdrawalNote:
         name: withdrawalNote
         in: query
@@ -467,6 +467,23 @@ parameters:
         in: query
         type: boolean
         default: true
+    testFilter:
+        name: testFilter
+        in: query
+        type: string
+        enum: [test, production, both]
+        default: production
+    labelFilter:
+        name: labelFilter
+        in: query
+        type: array
+        collectionFormat: multi
+        items:
+            type: string
+    complianceUnder:
+        name: complianceUnder
+        in: query
+        type: integer
 paths:
     $ref: ./paths/index.yml
 definitions:

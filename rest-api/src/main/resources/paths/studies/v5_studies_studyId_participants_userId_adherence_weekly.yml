@@ -3,9 +3,11 @@ get:
     summary: Get a detailed report on a participant’s current week of scheduled activities.
     tags:
         - Study Participants
-        - Adherence Records
+        - Study Adherence
         - _For Study Coordinators
         - _For Researchers
+        - _For Developers
+        - _For Study Designers
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
         - $ref: ../../index.yml#/parameters/userId

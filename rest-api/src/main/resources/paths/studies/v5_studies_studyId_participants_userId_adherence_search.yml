@@ -3,9 +3,9 @@ post:
     summary: Search for adherence records.
     tags:
         - Study Participants
+        - Study Adherence
         - _For Study Coordinators
         - _For Researchers
-        - Adherence Records
     security:
         - BridgeSecurity: []
     parameters:
