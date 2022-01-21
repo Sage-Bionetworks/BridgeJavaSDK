@@ -57,6 +57,8 @@
     $ref: ./apps/v1_apps_appId_appconfig.yml
 /v1/apps/{appId}/scheduleplans:
     $ref: ./apps/v1_apps_appId_scheduleplans.yml
+/v1/apps/{appId}/studies:
+    $ref: ./apps/v1_apps_appId_studies.yml
 /v1/apps/{appId}/studies/{studyId}:
     $ref: ./apps/v1_apps_appId_studies_studyId.yml
 /v1/apps/self/publicKey:

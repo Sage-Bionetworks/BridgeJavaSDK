@@ -35,7 +35,6 @@ properties:
     adherenceThresholdPercentage:
         type: integer
         format: int32
-        default: 75
         minimum: 0
         maximum: 100
         description: If a participant’s adherence percentage drops under the adherence threshold percentage, Bridge will take action (for example, send a message to administrators for follow-up).
