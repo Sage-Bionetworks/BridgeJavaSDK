@@ -57,6 +57,8 @@
     $ref: ./apps/v1_apps_appId_appconfig.yml
 /v1/apps/{appId}/scheduleplans:
     $ref: ./apps/v1_apps_appId_scheduleplans.yml
+/v1/apps/{appId}/studies:
+    $ref: ./apps/v1_apps_appId_studies.yml
 /v1/apps/{appId}/studies/{studyId}:
     $ref: ./apps/v1_apps_appId_studies_studyId.yml
 /v1/apps/self/publicKey:
@@ -134,6 +136,8 @@
     $ref: ./apps/v1_apps_appId_organizations_orgId_studies.yml
 /v1/apps/{appId}/studies/{studyId}/exporter3/healthdata:
     $ref: ./apps/v1_apps_appId_studies_studyId_exporter3_healthdata.yml
+/v1/apps/{appId}/studies/{studyId}/participants/{userId}/adherence/weekly:
+    $ref: ./apps/v1_apps_appId_studies_studyId_participants_userId_adherence_weekly.yml
 
 # Assessments
 /v1/assessments:
