@@ -22,6 +22,9 @@ properties:
     sessionSymbol:
         type: string
         readOnly: true
+    startEventId:
+        type: string
+        readOnly: true
     week:
         type: integer
         readOnly: true
