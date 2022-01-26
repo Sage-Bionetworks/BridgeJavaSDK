@@ -16,11 +16,6 @@ properties:
         description: The percentage of actionable sessions that have been successfully completed by the participant, not including sessions that are available but not yet finished.
         readOnly: true
         x-nullable: false
-    done:
-        type: boolean
-        description: Has this user finished the entire study?
-        readOnly: true
-        x-nullable: false
     clientTimeZone:
         type: string
         description: The IANA time zone name of the participant’s time zone. This value, if it has been persisted for the account, will be used for time calculations of the report on the server.
