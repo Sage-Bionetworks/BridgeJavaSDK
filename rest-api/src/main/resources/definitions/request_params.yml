@@ -114,6 +114,9 @@ properties:
     predicate:
         $ref: ./enums/search_term_predicate.yml
         readOnly: true
+    progressionFilter:
+        $ref: ./enums/participant_progression_state.yml
+        readOnly: true
     recordType:
         $ref: ./enums/adherence_record_type.yml
         readOnly: true

@@ -1,4 +1,4 @@
-get:
+post:
     operationId: getStudyParticipantWeeklyAdherenceReports
     summary: Get the adherence for all study participants in their current week of the study. 
     tags:
@@ -12,11 +12,12 @@ get:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
-        - $ref: ../../index.yml#/parameters/testFilter
-        - $ref: ../../index.yml#/parameters/labelFilter
-        - $ref: ../../index.yml#/parameters/complianceUnder
-        - $ref: ../../index.yml#/parameters/offsetBy
-        - $ref: ../../index.yml#/parameters/pageSize
+        - name: AdherenceReportSearch
+          in: body
+          description: Search parameters for weekly adherence report
+          required: true
+          schema:
+              $ref: ../../definitions/adherence_report_search.yml
     responses:
         200:
             description: OK

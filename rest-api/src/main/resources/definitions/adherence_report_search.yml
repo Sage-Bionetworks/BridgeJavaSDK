@@ -1,0 +1,18 @@
+type: object
+properties:
+    testFilter:
+        $ref: ./enums/test_filter.yml
+    labelFilters:
+        type: array
+        items:
+            type: string
+    complianceUnder:
+        type: integer
+    progressionFilter:
+        $ref: ./enums/participant_progression_state.yml
+    idFilter:
+        type: string
+    offsetBy:
+        type: integer
+    pageSize:
+        type: integer
