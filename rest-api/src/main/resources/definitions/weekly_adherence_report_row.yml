@@ -1,0 +1,38 @@
+type: object
+description: Properties of the entries in the array under each day of the weekly adherence report (0-6). These row descriptions are in the same position as the entries they describe in these arrays (when there is no entry for that position in the array, there is an empty EventStreamDay entry with an empty timeWindows array).
+properties:
+    label:
+        type: string
+        readOnly: true
+    searchableLabel:
+        type: string
+        readOnly: true
+    sessionGuid:
+        type: string
+        readOnly: true
+        x-nullable: false
+    sessionName:
+        type: string
+        readOnly: true
+        x-nullable: false
+    sessionSymbol:
+        type: string
+        readOnly: true
+    startEventId:
+        type: string
+        readOnly: true
+    week:
+        type: integer
+        readOnly: true
+        x-nullable: false
+    studyBurstId:
+        type: string
+        readOnly: true
+    studyBurstNum:
+        type: integer
+        readOnly: true
+    type:
+        type: string
+        readOnly: true
+        description: "WeeklyAdherenceReportRow"
+        x-nullable: false

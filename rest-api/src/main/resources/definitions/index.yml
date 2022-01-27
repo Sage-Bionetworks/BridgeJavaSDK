@@ -181,6 +181,8 @@ EventStreamDay:
     $ref: ./event_stream_day.yml
 EventStreamWindow:
     $ref: ./event_stream_window.yml
+WeeklyEventStreamDay:
+    $ref: ./weekly_event_stream_day.yml
 Exporter3Configuration:
     $ref: ./exporter3_configuration.yml
 ExternalIdentifier:
@@ -385,6 +387,8 @@ VersionHolder:
     $ref: ./version_holder.yml
 WeeklyAdherenceReport:
     $ref: ./weekly_adherence_report.yml
+WeeklyAdherenceReportRow:
+    $ref: ./weekly_adherence_report_row.yml
 Withdrawal:
     $ref: ./withdrawal.yml
 

@@ -5,11 +5,12 @@ properties:
         $ref: ./account_ref.yml
         readOnly: true
         x-nullable: false
-    rowLabels:
+    rows:
         type: array
-        description: This is a sorted list of all row labels all time streams that occur for this user for the given week. This indicates how many rows there will be for this report for this user.
         items:
-            type: string
+            $ref: ./weekly_adherence_report_row.yml
+        readOnly: true
+        x-nullable: false
     weeklyAdherencePercent:
         type: integer
         description: The percentage of actionable sessions that have been successfully completed by the participant, not including sessions that are available but not yet finished.
@@ -28,11 +29,11 @@ properties:
         x-nullable: false
     byDayEntries:
         type: object
-        description: A map of activities to be performed at specific days since the event occurred. The map is sparse (days without activities do not have entries). The keys are string integers that correspond to the day on which activities occur, and the value is a detailed description of the activities to be performed on that day.
+        description: A map of activities to be performed at specific days since the event occurred. The keys are string integers that correspond to the day on which activities occur, and the value is a list of descriptions of the activities to be performed on that day. The records in the list are in the same position as their row descriptors in the `rows` array of this report (that is, first row record describes the first entry in the list that is the value of this map, the second describes the second, and so forth). 
         additionalProperties:
             type: array
             items:
-                $ref: ./event_stream_day.yml
+                $ref: ./weekly_event_stream_day.yml
         readOnly: true
         x-nullable: false
     nextActivity:
