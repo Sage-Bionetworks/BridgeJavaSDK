@@ -29,7 +29,7 @@ properties:
         x-nullable: false
     byDayEntries:
         type: object
-        description: A map of activities to be performed at specific days since the event occurred. The keys are string integers that correspond to the day on which activities occur, and the value is list of descriptions of the activities to be performed on that day. The records in the list are in the same position as their row descriptors in the `rows` array of this report (that his, first row record describes the first entry in the list that is the value of this map). 
+        description: A map of activities to be performed at specific days since the event occurred. The keys are string integers that correspond to the day on which activities occur, and the value is a list of descriptions of the activities to be performed on that day. The records in the list are in the same position as their row descriptors in the `rows` array of this report (that is, first row record describes the first entry in the list that is the value of this map, the second describes the second, and so forth). 
         additionalProperties:
             type: array
             items:

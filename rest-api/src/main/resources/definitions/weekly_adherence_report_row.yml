@@ -11,10 +11,6 @@ properties:
         type: string
         readOnly: true
         x-nullable: false
-    sessionInstanceGuid:
-        type: string
-        readOnly: true
-        x-nullable: false
     sessionName:
         type: string
         readOnly: true
