@@ -29,7 +29,10 @@ properties:
         readOnly: true
         items:
             $ref: ./enums/resource_category.yml
-    complianceUnder:
+    adherenceMin:
+        type: integer
+        readOnly: true
+    adherenceMax:
         type: integer
         readOnly: true
     currentTimestampsOnly:
