@@ -117,8 +117,11 @@ properties:
     predicate:
         $ref: ./enums/search_term_predicate.yml
         readOnly: true
-    progressionFilter:
-        $ref: ./enums/participant_progression_state.yml
+    progressionFilters:
+        type: array
+        items: 
+            $ref: ./enums/participant_study_progress.yml
+            type: string
         readOnly: true
     recordType:
         $ref: ./enums/adherence_record_type.yml

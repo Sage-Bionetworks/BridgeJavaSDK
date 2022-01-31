@@ -16,9 +16,11 @@ properties:
         description: Only return records with a weekly adherence at or below this value.
         type: integer
         format: int32        
-    progressionFilter:
-        description: Filter records by whether the participant has finished, not yet begun, or is in the process of participating in the study.
-        $ref: ./enums/participant_progression_state.yml
+    progressionFilters:
+        description: Filter records by whether the participant has finished, not yet begun, and/or is currently participating in the study.
+        type: array
+        items:
+            $ref: ./enums/participant_study_progress.yml
     idFilter:
         description: Only return records where one of the participant’s identifier fields (externalId, identifier, firstName, lastName, email, or phone number) includes the `idFilter` string.
         type: string

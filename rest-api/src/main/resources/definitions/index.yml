@@ -26,8 +26,8 @@ NotificationProtocol:
     $ref: ./enums/notification_protocol.yml
 NotificationType:
     $ref: ./enums/notification_type.yml
-ParticipantProgressionState:
-    $ref: ./enums/participant_progression_state.yml
+ParticipantStudyProgress:
+    $ref: ./enums/participant_study_progress.yml
 PerformanceOrder:
     $ref: ./enums/performance_order.yml
 ScheduleType:

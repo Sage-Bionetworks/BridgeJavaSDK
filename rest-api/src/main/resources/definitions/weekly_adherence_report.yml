@@ -11,7 +11,7 @@ properties:
         x-nullable: false
         readOnly: true
     progression:
-        $ref: ./enums/participant_progression_state.yml
+        $ref: ./enums/participant_study_progress.yml
         readOnly: true
         x-nullable: false
     weeklyAdherencePercent:
