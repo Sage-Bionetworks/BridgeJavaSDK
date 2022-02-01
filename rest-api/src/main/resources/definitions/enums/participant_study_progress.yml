@@ -1,6 +1,6 @@
 type: string
 description: |
-    They type of notification to provide relative to a session’s time window. This enum specifies when the notification should be shown to the participant.
+    Based on an analysis of the participant’s schedule, including completed sessions and assessments, this is a marker of the participant’s overall progress in the study.
 
     |Status|Description|
     |---|---|
