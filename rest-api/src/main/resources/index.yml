@@ -51,19 +51,6 @@ parameters:
         required: true
         in: path
         type: string
-    idFilter:
-        name: idFilter
-        description: A case-sensitive string used to filter matching records that have the value anywhere in the participant’s first name, last name, email address, phone number, external ID or user ID.
-        required: false
-        in: query
-        type: string
-    progressionFilter:
-        name: progressionFilter
-        description: Filter participants by whether they have started or completed the study.
-        required: false
-        in: query
-        type: string
-        enum: [unstarted,in_progress,done]
     synapseUserId:
         name: synapseUserId
         description: User's Synapse user ID
