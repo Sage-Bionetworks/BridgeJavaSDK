@@ -50,14 +50,6 @@ properties:
         description: Client-submitted metadata, as a map of key-value pairs.
     sharingScope:
         $ref: ./enums/sharing_scope.yml
-    instanceGuid:
-        type: string
-        description: If this upload is based on an assessment specified by the v2 scheduler, this optional field should be the instance GUID of the assessment or session in the participant’s Timeline. This will be used to associate the upload with scheduling context information.
-    eventTimestamp:
-        type: string
-        format: date-time
-        example: '2020-08-28T14:28:13.386Z'
-        description: If this upload is based on an assessment specified by the v2 scheduler, this optional field should be the timestamp of the event that triggered this performance of the assessment or session in the participant’s Timeline. This will be used to associate the upload with scheduling context information.
     version:
         type: integer
         format: int64
