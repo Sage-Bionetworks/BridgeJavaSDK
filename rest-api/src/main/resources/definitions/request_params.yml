@@ -29,7 +29,10 @@ properties:
         readOnly: true
         items:
             $ref: ./enums/resource_category.yml
-    complianceUnder:
+    adherenceMin:
+        type: integer
+        readOnly: true
+    adherenceMax:
         type: integer
         readOnly: true
     currentTimestampsOnly:
@@ -113,6 +116,12 @@ properties:
         readOnly: true
     predicate:
         $ref: ./enums/search_term_predicate.yml
+        readOnly: true
+    progressionFilters:
+        type: array
+        items: 
+            $ref: ./enums/participant_study_progress.yml
+            type: string
         readOnly: true
     recordType:
         $ref: ./enums/adherence_record_type.yml

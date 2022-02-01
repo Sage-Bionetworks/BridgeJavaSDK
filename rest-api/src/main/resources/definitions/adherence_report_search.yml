@@ -1,0 +1,37 @@
+type: object
+properties:
+    testFilter:
+        description: Return test, production, or both kinds of records. If the caller is a developer without access to production records, this field will be ignored and only test records will be returned.
+        $ref: ./enums/test_filter.yml
+    labelFilters:
+        description: Return records where the labels of the entries includes one or more of the labels in this array.
+        type: array
+        items:
+            type: string
+    adherenceMin:
+        description: Only return records with a weekly adherence at or above this value.
+        type: integer
+        format: int32        
+    adherenceMax:
+        description: Only return records with a weekly adherence at or below this value.
+        type: integer
+        format: int32        
+    progressionFilters:
+        description: Filter records by whether the participant has finished, not yet begun, and/or is currently participating in the study.
+        type: array
+        items:
+            $ref: ./enums/participant_study_progress.yml
+    idFilter:
+        description: Only return records where one of the participant’s identifier fields (externalId, identifier, firstName, lastName, email, or phone number) includes the `idFilter` string.
+        type: string
+    offsetBy:
+        type: integer
+        format: int32        
+    pageSize:
+        type: integer
+        format: int32        
+    type:
+        type: string
+        readOnly: true
+        description: "AdherenceReportSearch"
+        x-nullable: false

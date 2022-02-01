@@ -5,10 +5,13 @@ properties:
         $ref: ./account_ref.yml
         readOnly: true
         x-nullable: false
-    rows:
-        type: array
-        items:
-            $ref: ./weekly_adherence_report_row.yml
+    testAccount:
+        type: boolean
+        description: Will be true if the account is a test account,  with the “test_user” data group assigned to it. Developer roles without access to production accounts can only see test accounts regardless of their API query.
+        x-nullable: false
+        readOnly: true
+    progression:
+        $ref: ./enums/participant_study_progress.yml
         readOnly: true
         x-nullable: false
     weeklyAdherencePercent:
@@ -26,6 +29,12 @@ properties:
         example: '2020-08-28T14:28:13.386Z'
         readOnly: true
         description: ISO 8601 date and time that the report was generated, indicating the week for which the report was generated.
+        x-nullable: false
+    rows:
+        type: array
+        items:
+            $ref: ./weekly_adherence_report_row.yml
+        readOnly: true
         x-nullable: false
     byDayEntries:
         type: object
