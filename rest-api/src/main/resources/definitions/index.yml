@@ -365,6 +365,8 @@ TemplateRevision:
     $ref: ./template_revision.yml
 Timeline:
     $ref: ./timeline.yml
+TimelineMetadata:
+    $ref: ./timeline_metadata.yml
 TimeWindow:
     $ref: ./time_window.yml
 DateTimeHolder:

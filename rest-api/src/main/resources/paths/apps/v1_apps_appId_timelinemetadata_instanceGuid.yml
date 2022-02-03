@@ -1,0 +1,19 @@
+get:
+    operationId: getTimelineMetadata
+    summary: For a given instance guid, get all the contextual information available for that assessment or session from the participant’s schedule.
+    tags: 
+        - _For Workers
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/appId
+        - $ref: ../../index.yml#/parameters/instanceGuid
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/timeline_metadata.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_worker.yml

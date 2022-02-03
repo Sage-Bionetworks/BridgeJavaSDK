@@ -1,0 +1,15 @@
+type: object
+properties:
+    metadata:
+        type: object
+        additionalProperties:
+            type: string
+        description: |
+            A map of field values from the timeline (schedule v2) that prompted the user to perform an assessment and upload this data. Not all uploads will have this information since not all data collected is based on a schedule of assessments the participant is asked to perform. See “Timelines” (https://developer.sagebridge.org/articles/v2/scheduling.html#timelines) for information on interpreting the values in this map.
+        x-nullable: false
+        readOnly: true
+    type:
+        type: string
+        readOnly: true
+        description: "TimelineMetadata"
+        x-nullable: false
