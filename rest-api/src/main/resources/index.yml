@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-    version: "0.23.23"
+    version: "0.23.24"
     title: Bridge Server API
 host: webservices.sagebridge.org
 basePath: /
@@ -473,8 +473,8 @@ parameters:
         type: string
         enum: [test, production, both]
         default: production
-    labelFilter:
-        name: labelFilter
+    labelFilters:
+        name: labelFilters
         in: query
         type: array
         collectionFormat: multi
