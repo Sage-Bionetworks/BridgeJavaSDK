@@ -467,23 +467,6 @@ parameters:
         in: query
         type: boolean
         default: true
-    testFilter:
-        name: testFilter
-        in: query
-        type: string
-        enum: [test, production, both]
-        default: production
-    labelFilters:
-        name: labelFilters
-        in: query
-        type: array
-        collectionFormat: multi
-        items:
-            type: string
-    complianceUnder:
-        name: complianceUnder
-        in: query
-        type: integer
 paths:
     $ref: ./paths/index.yml
 definitions:
