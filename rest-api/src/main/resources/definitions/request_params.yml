@@ -76,6 +76,11 @@ properties:
         readOnly: true
         items:
             type: string
+    labelFilters:
+        type: array
+        items: 
+            type: string
+        readOnly: true
     language:
         type: string
         readOnly: true
