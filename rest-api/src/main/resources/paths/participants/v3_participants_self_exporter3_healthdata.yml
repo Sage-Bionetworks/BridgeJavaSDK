@@ -1,0 +1,19 @@
+get:
+    operationId: getRecordsEx3ForUserForDeveloperTest
+    summary: Retrieves all records from the Exporter 3 implementation for the current user and time range - For developers to validate uploads from the app.
+    tags:
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/createdOnStart
+        - $ref: ../../index.yml#/parameters/createdOnEnd
+        - $ref: ../../index.yml#/parameters/pageSize
+        - $ref: ../../index.yml#/parameters/offsetKey
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/health_data_record_ex3.yml
+        401:
+            $ref: ../../responses/401.yml

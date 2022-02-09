@@ -1,0 +1,19 @@
+get:
+    operationId: getRecordEx3ForDeveloperTest
+    summary: Retrieves the record for the given ID from the Exporter 3 implemention - For developers to validate uploads from the app.
+    description: Retrieves the record for the given ID from the Exporter 3 implemention if the given ID belongs to the current user.
+    tags:
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/recordId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/health_data_record_ex3.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403.yml
