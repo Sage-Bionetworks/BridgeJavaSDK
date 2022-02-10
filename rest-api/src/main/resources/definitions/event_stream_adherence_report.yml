@@ -25,6 +25,10 @@ properties:
         $ref: ./day_range.yml
         readOnly: true
         x-nullable: false
+    progression:
+        $ref: ./enums/participant_study_progress.yml
+        readOnly: true
+        x-nullable: false
     streams:
         type: array
         items:

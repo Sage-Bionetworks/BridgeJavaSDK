@@ -76,7 +76,7 @@ properties:
         readOnly: true
         items:
             type: string
-    labelFilter:
+    labelFilters:
         type: array
         items: 
             type: string

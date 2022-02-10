@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-    version: "0.23.23"
+    version: "0.23.26"
     title: Bridge Server API
 host: webservices.sagebridge.org
 basePath: /
@@ -467,23 +467,6 @@ parameters:
         in: query
         type: boolean
         default: true
-    testFilter:
-        name: testFilter
-        in: query
-        type: string
-        enum: [test, production, both]
-        default: production
-    labelFilter:
-        name: labelFilter
-        in: query
-        type: array
-        collectionFormat: multi
-        items:
-            type: string
-    complianceUnder:
-        name: complianceUnder
-        in: query
-        type: integer
 paths:
     $ref: ./paths/index.yml
 definitions:

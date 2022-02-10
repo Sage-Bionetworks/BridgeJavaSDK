@@ -4,10 +4,12 @@ description: |
 
     |Status|Description|
     |---|---|
-    |unstarted|Although account has been created and enrolled in the study, the participant has not yet triggered any event (like signing into the app) that would start the study for them.|
+    |no_schedule|There is no schedule for this study, and so no adherence information can be calculated for this participant (a weekly adherence report will not exist for participants in this state, unless the report is specifically requested for this user through the API).|
+    |unstarted|Although account has been created and enrolled in the study, the participant has not yet triggered any event (like signing into the app) that would start the study for them (a weekly adherence report will not exist for participants in this state, unless the report is specifically requested for this user through the API).|
     |in_progress|The study has been started by the participant.|
     |done|The study has been completed for the participant (this does not indicate anything about the adherence of the participant to the protocol).|
 enum:
+    - no_schedule
     - unstarted
     - in_progress
     - done
