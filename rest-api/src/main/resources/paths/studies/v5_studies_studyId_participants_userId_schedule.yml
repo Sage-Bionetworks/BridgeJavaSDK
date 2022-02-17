@@ -1,0 +1,22 @@
+get:
+    operationId: getParticipantSchedule
+    summary: Get the caller’s scheduled assessments in this study. 
+    tags:
+        - Study Participants
+        - Schedules (v2)
+        - _For Study Coordinators
+        - _For Researchers        
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/participant_schedule.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml

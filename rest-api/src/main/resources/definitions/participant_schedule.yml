@@ -1,0 +1,50 @@
+description: |
+    A detailed description of when a participant should perform specific assessments as part of a study, along with the metadata to show a UI to the participant before loading and executing code for the assessments. The participant schedule is similar to the Timeline, but whereas the timeline is an abstraction, this version is specific to a single participant, and includes dates when activities should be performed, and the state of activities in sessions (unstarted, completed, etc.).
+type: object
+properties:
+    createdOn:
+        type: string
+        format: date-time
+        example: '2020-08-28T14:28:13.386Z'
+        readOnly: true
+        description: The date and time this schedule was calculated.
+        x-nullable: false    
+    clientTimeZone:
+        type: string
+        readOnly: true
+        example: 'America/Los_Angeles'
+        description: |
+            Participant's time zone. If the value was provided in the request for the participant schedule, that time zone will be used and persisted as part of the StudyParticipant record. Otherwise, this value will use the participant’s existing `clientTimeZone` value. Must be an IANA time zone name.
+    dateRange:
+        $ref: ./date_range.yml
+        readOnly: true
+        x-nullable: false    
+    schedule:
+        type: array
+        items:
+            $ref: ./scheduled_session.yml
+        readOnly: true
+        x-nullable: false
+    assessments:
+        type: array
+        items:
+            $ref: ./assessment_info.yml
+        readOnly: true
+        x-nullable: false
+    sessions:
+        type: array
+        items:
+            $ref: ./session_info.yml
+        readOnly: true
+        x-nullable: false
+    studyBursts:
+        type: array
+        items:
+            $ref: ./study_burst_info.yml
+        readOnly: true
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "ParticipantSchedule"
+        x-nullable: false

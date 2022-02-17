@@ -609,6 +609,8 @@
     $ref: ./studies/v5_studies_studyId_participants_userId_sendInstallLink.yml
 /v5/studies/{studyId}/participants/{userId}/timeline:
     $ref: ./studies/v5_studies_studyId_participants_userId_timeline.yml
+/v5/studies/{studyId}/participants/{userId}/schedule:
+    $ref: ./studies/v5_studies_studyId_participants_userId_schedule.yml
 /v5/studies/{studyId}/participants/{userId}/activityevents:
     $ref: ./studies/v5_studies_studyId_participants_userId_activityevents.yml
 /v5/studies/{studyId}/participants/{userId}/adherence:
@@ -629,6 +631,8 @@
     $ref: ./studies/v5_studies_studyId_participants_self_adherence.yml
 /v5/studies/{studyId}/participants/self/timeline:
     $ref: ./studies/v5_studies_studyId_participants_self_timeline.yml
+/v5/studies/{studyId}/participants/self/schedule:
+    $ref: ./studies/v5_studies_studyId_participants_self_schedule.yml
 /v5/studies/{studyId}/participants/reports:
     $ref: ./studies/v5_studies_studyId_participants_reports.yml
 /v5/studies/{studyId}/participants/reports/{identifier}:

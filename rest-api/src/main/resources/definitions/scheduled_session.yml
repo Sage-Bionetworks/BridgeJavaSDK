@@ -11,16 +11,18 @@ properties:
         x-nullable: false
     startEventId:
         type: string
-        description: An event ID for this scheduled session. The event ID may be mapped to a timestamp for a user. If the event ID does not exist for the user, the client should ignore this scheduled session. Otherwise, it should be shown to the user according to the scheduling information.
+        description: An event ID for this scheduled session. The event ID may be mapped to a timestamp for a user. If the event ID does not exist for the user, the client should ignore this scheduled session. Otherwise, it should be shown to the user according to the scheduling information. Only set for the timeline.
         readOnly: true
         x-nullable: false
     startDay:
         type: integer
+        description: The day since the `startEventId` for this session stream when this session should start. Only set for the timeline. 
         format: int32
         readOnly: true
         x-nullable: false
     endDay:
         type: integer
+        description: The day since the `startEventId` for this session stream when this session should end. Only set for the timeline. 
         format: int32
         readOnly: true
         x-nullable: false
@@ -53,6 +55,7 @@ properties:
         readOnly: true
     timeWindowGuid:
         type: string
+        description: The time window GUID for the time window that generated this scheduled session. Only set for the timeline. 
         readOnly: true
         x-nullable: false
     assessments:
@@ -61,6 +64,20 @@ properties:
             $ref: ./scheduled_assessment.yml
         readOnly: true
         x-nullable: false
+    startDate:
+        type: string
+        description: Only set for the participant schedule.
+        readOnly: true
+        format: date
+    endDate:
+        type: string
+        readOnly: true
+        description: Only set for the participant schedule.
+        format: date
+    state:
+        $ref: ./enums/session_completion_state.yml
+        description: Only set for the participant schedule (unless the session is persistent; in this case no state is given since the session can be done repeatedly by the participant).
+        readOnly: true
     type:
         type: string
         readOnly: true

@@ -14,6 +14,7 @@ properties:
     symbol:
         type: string
         description: A unicode symbol or token identifier (32 characters or less) for a compact/symbolic representation of a session in UI tools.
+        readOnly: true
     performanceOrder:
         $ref: ./enums/performance_order.yml
         x-nullable: false
