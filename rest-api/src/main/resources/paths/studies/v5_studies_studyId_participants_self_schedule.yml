@@ -12,12 +12,6 @@ get:
           in: query
           description: An IANA time zone name that should be used to calculate this schedule (the participant’s local time zone). This value will be persisted for the participant if it differs from the participant’s currently set time zone.
           type: string
-        - name: If-Modified-Since
-          in: header
-          description: ISO 8601 timestamp value
-          required: false
-          type: string
-          format: date-time
     responses:
         200:
             description: OK
