@@ -1,8 +1,9 @@
 get:
-    operationId: getRecordsEx3ForUserForDeveloperTest
+    operationId: getAllRecordsEx3ForSelf
     summary: Retrieves all records from the Exporter 3 implementation for the current user and time range - For developers to validate uploads from the app.
     tags:
-        - _For Developers
+        - Health Data
+        - _For Consented Users
     security:
         - BridgeSecurity: []
     parameters:

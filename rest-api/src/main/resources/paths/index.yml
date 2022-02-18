@@ -359,9 +359,9 @@
 /v3/participants/emailRoster:
     $ref: ./participants/v3_participants_emailRoster.yml
 /v3/participants/self/exporter3/healthdata/{recordId}:
-    $ref: v3_participants_self_exporter3_healthdata_recordId.yml
+    $ref: ./participants/v3_participants_self_exporter3_healthdata_recordId.yml
 /v3/participants/self/exporter3/healthdata:
-    $ref: v3_participants_self_exporter3_healthdata.yml
+    $ref: ./participants/v3_participants_self_exporter3_healthdata.yml
 
 # Shared Modules
 /v3/sharedmodules/{moduleId}/import:
