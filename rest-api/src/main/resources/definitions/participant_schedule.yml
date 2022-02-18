@@ -1,0 +1,50 @@
+description: |
+    A detailed description of when a participant should perform specific sessions as part of a study. The ParticipantSchedule is similar to the Timeline in structure, but includes the specific dates when this participant should perform each session, as well as state information about the participant’s completion of the schedule. Entries in the `schedule` collection should be ordered by `startDate` and `startTime`, and entries that are not available to the participant are not included in the collection (ie. entries that have the state `not_applicable`). However, definitions for those sessions are still included in the `sessions`, `assessments`, and `studyBursts` collections for future reference. *Persistent* time windows do not have state (they should always be available to the participant so they are never shown as finished, even if one or more adherence records have been filed for that session). 
+type: object
+properties:
+    createdOn:
+        type: string
+        format: date-time
+        example: '2020-08-28T14:28:13.386Z'
+        readOnly: true
+        description: The date and time this schedule was calculated.
+        x-nullable: false    
+    clientTimeZone:
+        type: string
+        readOnly: true
+        example: 'America/Los_Angeles'
+        description: |
+            Participant's time zone. If the value was provided in the request for the participant schedule, that time zone will be used and persisted as part of the StudyParticipant record. Otherwise, this value will use the participant’s existing `clientTimeZone` value. Must be an IANA time zone name.
+    dateRange:
+        $ref: ./date_range.yml
+        readOnly: true
+        x-nullable: false    
+    schedule:
+        type: array
+        items:
+            $ref: ./scheduled_session.yml
+        readOnly: true
+        x-nullable: false
+    assessments:
+        type: array
+        items:
+            $ref: ./assessment_info.yml
+        readOnly: true
+        x-nullable: false
+    sessions:
+        type: array
+        items:
+            $ref: ./session_info.yml
+        readOnly: true
+        x-nullable: false
+    studyBursts:
+        type: array
+        items:
+            $ref: ./study_burst_info.yml
+        readOnly: true
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "ParticipantSchedule"
+        x-nullable: false
