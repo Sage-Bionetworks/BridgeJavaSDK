@@ -9,6 +9,21 @@ properties:
         type: string
         readOnly: true
         x-nullable: false
+    state:
+        $ref: ./enums/session_completion_state.yml
+        description: Only set for the participant schedule (unless the session is persistent; in this case no state is given since the session can be done repeatedly by the participant).
+        readOnly: true
+    finishedOn:
+        type: string
+        format: date-time
+        example: '2020-08-28T14:28:13.386Z'
+        description: The client-supplied time when the activity was recorded as finished (this time comes from the client and is not validated by the server). Only set for the participant schedule.
+        readOnly: true
+    clientTimeZone:
+        type: string
+        description: An IANA Time Zone Database (TZDB) name for the participant’s time zone at the time the record is submitted. Only set for the participant schedule. 
+        example: 'America/Los_Angeles'
+        readOnly: true
     type:
         type: string
         readOnly: true

@@ -1,5 +1,5 @@
 type: object
-description: A record describing the performance state of a scheduled session or assessment, as requested in a `Timeline`. Each record describes the state of a session or an assessment.
+description: A record describing the performance state of a scheduled session or assessment, as defined in a `Timeline`. Each record describes the state of a session or an assessment with a link back to that entry via an `instanceGuid`.
 required:
     - instanceGuid
     - eventTimestamp
@@ -40,6 +40,12 @@ properties:
     clientData:
         type: object
         description: An arbitrary JSON structure that the client can use to record information about this schedule item (maximum size 65k).
+    assessmentGuid:
+        type: string
+        description: The GUID of the assessment for this adherence record (as distinct from the `instanceGuid` for the instance of the performance of the assessment). Either this value or `sessionGuid` should be filled out for each record.
+    sessionGuid:
+        type: string
+        description: The GUID of the session in which an assessment was performed for this adherence record (as distinct from the `instanceGuid` for the instance of the session). Either this value or `assessmentGuid` should be filled out for each record.
     type:
         type: string
         readOnly: true

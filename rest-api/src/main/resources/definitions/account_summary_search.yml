@@ -74,6 +74,9 @@ properties:
         $ref: ./enums/string_search_position.yml
         description: How string-based search criteria will be compared to values in a record.
         default: infix
+    inUse:
+        type: boolean
+        description: If true, the accounts returned will have signed in to the Bridge server at least once; if false, the accounts returned will never have signed in to the Bridge server. If omitted, all accounts are returned regardless of sign-in status.
     type:
         type: string
         readOnly: true

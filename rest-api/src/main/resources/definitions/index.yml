@@ -259,6 +259,8 @@ ParticipantFile:
      $ref: ./participant_file.yml
 ParticipantRosterRequest:
     $ref: ./participant_roster_request.yml
+ParticipantSchedule:
+    $ref: ./participant_schedule.yml
 ParticipantVersion:
     $ref: ./participant_version.yml
 PasswordPolicy:
