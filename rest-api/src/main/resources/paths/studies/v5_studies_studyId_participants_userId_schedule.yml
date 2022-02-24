@@ -1,6 +1,6 @@
 get:
     operationId: getParticipantSchedule
-    summary: Get the caller’s scheduled assessments in this study. 
+    summary: Get the caller’s scheduled activities in this study. 
     tags:
         - Study Participants
         - Schedules (v2)
@@ -16,6 +16,8 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/participant_schedule.yml
+        304:
+            $ref: ../../responses/304.yml
         401:
             $ref: ../../responses/401.yml
         403:
