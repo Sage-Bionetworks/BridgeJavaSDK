@@ -1,5 +1,5 @@
 description: |
-    A detailed description of when a participant should perform specific sessions as part of a study. The ParticipantSchedule is similar to the Timeline in structure, but includes the specific dates when this participant should perform each session, as well as state information about the participant’s completion of the schedule. Entries in the `schedule` collection should be ordered by `startDate` and `startTime`, and entries that are not available to the participant are not included in the collection (ie. entries that have the state `not_applicable`). However, definitions for those sessions are still included in the `sessions`, `assessments`, and `studyBursts` collections for future reference. *Persistent* time windows do not have state (they should always be available to the participant so they are never shown as finished, even if one or more adherence records have been filed for that session). 
+    The ParticipantSchedule is similar to the Timeline in structure, but includes the specific dates when this participant should perform each session, based on this participant’s events. Entries in the `schedule` are ordered by `startDate` and `startTime`, and entries that are not available to the participant are not included in the schedule. However, definitions for those sessions are still included in the `sessions`, `assessments`, and `studyBursts` collections for future reference. The schedule is calculated based on the participant’s `clientTimeZone` value which is saved as part of their account record. 
 type: object
 properties:
     createdOn:
@@ -13,8 +13,7 @@ properties:
         type: string
         readOnly: true
         example: 'America/Los_Angeles'
-        description: |
-            Participant's time zone. If the value was provided in the request for the participant schedule, that time zone will be used and persisted as part of the StudyParticipant record. Otherwise, this value will use the participant’s existing `clientTimeZone` value. Must be an IANA time zone name.
+        description: An IANA time zone name. Participant's time zone. If no time zone has been set for the participant, the default time zone of the Bridge server will be used and that value will be returned in this field. 
     dateRange:
         $ref: ./date_range.yml
         readOnly: true
