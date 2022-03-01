@@ -22,6 +22,11 @@ properties:
         $ref: ./enums/study_phase.yml
         description: The lifecycle phase this study is in.
         x-nullable: false
+    studyStartEventId:
+        type: string
+        description: The event that starts the study for a participant. This must be a system event ID or a custom event ID for the study. If not set, Bridge will use the first time the participant requests their timeline or schedule (`timeline_retrieved`).
+        default: timeline_retrieved
+        x-nullable: false
     clientData:
         type: object
         description: |
