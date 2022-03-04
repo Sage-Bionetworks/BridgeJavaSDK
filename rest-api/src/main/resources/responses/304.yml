@@ -1,1 +1,1 @@
-description: The requested resource has not been modified since the last time it was requested. Bridge server support for 3xx responses is limited to a few endpoints intended to be used by mobile clients, through the use of the `If-Modified-Since` header.
+description: The requested resource has not been modified since the last time it was requested. Bridge server support for 3xx responses is limited to specific documented endpoints, and can be used by clients through the use of the `ETag` and `If-None-Match` headers.

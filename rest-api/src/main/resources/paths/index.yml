@@ -651,6 +651,8 @@
     $ref: ./studies/v5_studies_studyId_participants_userId_adherence_eventstream.yml
 /v5/studies/{studyId}/participants/{userId}/adherence/weekly:
     $ref: ./studies/v5_studies_studyId_participants_userId_adherence_weekly.yml
+/v5/studies/{studyId}/participants/{userId}/adherence/study:
+    $ref: ./studies/v5_studies_studyId_participants_userId_adherence_study.yml
 /v5/studies/{studyId}/participants/self/adherence/eventstream:
     $ref: ./studies/v5_studies_studyId_participants_self_adherence_eventstream.yml
 
