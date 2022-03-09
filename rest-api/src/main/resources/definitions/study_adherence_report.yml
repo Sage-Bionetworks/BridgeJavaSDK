@@ -16,6 +16,7 @@ properties:
         x-nullable: false
     dateRange:
         $ref: ./date_range.yml
+        readOnly: true
     adherencePercent:
         type: integer
         description: The percentage of actionable sessions that have been successfully completed by the participant for the whole study, rounded down to the nearest percent. Only sessions that have been completed are considered to be in adherence.

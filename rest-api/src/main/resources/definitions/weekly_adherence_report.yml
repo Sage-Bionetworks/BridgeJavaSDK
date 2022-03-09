@@ -14,6 +14,12 @@ properties:
         $ref: ./enums/participant_study_progress.yml
         readOnly: true
         x-nullable: false
+    startDate:
+        type: string
+        description: The first day (local date format) of this week.
+        readOnly: true
+        format: date
+        x-nullable: false
     weeklyAdherencePercent:
         type: integer
         description: The percentage of actionable sessions that have been successfully completed by the participant, not including sessions that are available but not yet finished.
