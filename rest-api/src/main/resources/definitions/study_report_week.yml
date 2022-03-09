@@ -1,0 +1,36 @@
+type: object
+description: One week of activities to be performed in this study by the participant, measuring weeks from the `studyStartEventId` of the study if it exists for the user (this defaults to `timeline_retrieved` for studies that do not define another event), or the first event the scheduler can find for the participant that is used by the schedule if `studyStartEventId` does not exist for the participant.
+properties:
+    weekInStudy:
+        type: integer
+        readOnly: true
+        x-nullable: false
+    startDate:
+        type: string
+        format: date
+        readOnly: true
+        x-nullable: false
+    adherencePercent:
+        type: integer
+        description: The percentage of actionable sessions that have been successfully completed by the participant for the whole study, rounded down to the nearest percent. Only sessions that have been completed are considered to be in adherence.
+        readOnly: true
+        x-nullable: false
+    rows:
+        type: array
+        items:
+            $ref: ./weekly_adherence_report_row.yml
+        x-nullable: false
+    byDayEntries:
+        type: object
+        description: A map of activities to be performed at specific days (in this case, of one week, or 0-6 days of the week). The keys are string integers that correspond to the day on which activities occur, and the value is a detailed description of the activities to be performed on that day.
+        additionalProperties:
+            type: array
+            items:
+                $ref: ./event_stream_day.yml
+        readOnly: true
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "StudyReportWeek"
+        x-nullable: false    

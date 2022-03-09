@@ -1,0 +1,22 @@
+get:
+    operationId: getStudyParticipantAdherenceReport
+    summary: Get a detailed report on a participant’s full schedule of activities.
+    tags:
+        - Study Participants
+        - Study Adherence
+        - _For Study Coordinators
+        - _For Researchers
+        - _For Developers
+        - _For Study Designers
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/study_adherence_report.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher_study_designer_study_coordinator.yml

@@ -1,0 +1,67 @@
+description: A report on one participant’s adherence to a study’s entire schedule protocol.
+type: object
+properties:
+    participant:
+        $ref: ./account_ref.yml
+        readOnly: true
+        x-nullable: false
+    testAccount:
+        type: boolean
+        description: Will be true if the account is a test account,  with the “test_user” data group assigned to it. Developer roles without access to production accounts can only see test accounts regardless of their API query.
+        x-nullable: false
+        readOnly: true
+    progression:
+        $ref: ./enums/participant_study_progress.yml
+        readOnly: true
+        x-nullable: false
+    dateRange:
+        $ref: ./date_range.yml
+    adherencePercent:
+        type: integer
+        description: The percentage of actionable sessions that have been successfully completed by the participant for the whole study, rounded down to the nearest percent. Only sessions that have been completed are considered to be in adherence.
+        readOnly: true
+        x-nullable: false
+    clientTimeZone:
+        type: string
+        description: The IANA time zone name of the participant’s time zone. This value, if it has been persisted for the account, will be used for time calculations of the report on the server.
+        readOnly: true
+    createdOn:
+        type: string
+        format: date-time
+        example: '2020-08-28T14:28:13.386Z'
+        readOnly: true 
+        description: ISO 8601 date and time that the report was generated. The current week is cached as the weekly report when this full report is requested.
+        x-nullable: false
+    weeks:
+        type: array
+        items:
+            $ref: ./study_report_week.yml
+        readOnly: true
+        x-nullable: false
+    nextActivity:
+        $ref: ./next_activity.yml
+        readOnly: true
+    unsetEventIds:
+        type: array
+        items:
+            type: string
+        readOnly: true
+        x-nullable: false
+    unscheduledSessions:
+        type: array
+        items:
+            type: string
+        readOnly: true
+        x-nullable: false
+    eventTimestamps:
+        type: object
+        description: A mapping of event IDs to the most recent timestamp value for that event. This value is necessary to submit adherence records to the server.
+        additionalProperties:
+            type: string
+            format: date-time
+        x-nullable: false    
+    type:
+        type: string
+        readOnly: true
+        description: "StudyAdherenceReport"
+        x-nullable: false
