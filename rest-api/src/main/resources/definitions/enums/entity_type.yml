@@ -1,0 +1,13 @@
+type: string
+description: |
+    Types of entities with managed permissions.
+enum:
+    - assessment
+    - assessment_library
+    - members
+    - organization
+    - participants
+    - sponsored_studies
+    - study
+    - study_pi
+    

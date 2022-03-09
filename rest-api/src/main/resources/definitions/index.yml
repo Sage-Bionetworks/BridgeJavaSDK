@@ -80,6 +80,10 @@ ResourceCategory:
     $ref: ./enums/resource_category.yml
 TestFilter:
     $ref: ./enums/test_filter.yml
+AccessLevel:
+    $ref: ./enums/access_level.yml
+EntityType:
+    $ref: ./enums/entity_type.yml
     
 ABTestGroup:
     $ref: ./ab_test_group.yml
@@ -267,6 +271,10 @@ PasswordPolicy:
     $ref: ./password_policy.yml
 PasswordReset:
     $ref: ./password_reset.yml
+Permission:
+    $ref: ./permission.yml
+PermissionDetail:
+    $ref: ./permission_detail.yml
 Phone:
     $ref: ./phone.yml
 PhoneSignInRequest:

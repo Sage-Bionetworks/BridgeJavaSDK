@@ -1,0 +1,32 @@
+description: |
+    An object describing an individual user's level of access to an entity or group of items.
+type: object
+required:
+    - userId
+    - accessLevel
+    - entityType
+    - entityId
+properties:
+    guid:
+        description: A unique ID automatically generated on creation of a Permission.
+        type: string
+        x-nullable: false
+    userId:
+        description: The ID of the user granted this Permission.
+        type: string
+        x-nullable: false
+    accessLevel:
+        $ref: ./enums/access_level.yml
+        x-nullable: false
+    entityType:
+        $ref: ./enums/entity_type.yml
+        x-nullable: false
+    entityId:
+        description: The ID of the entity which requires permissions to access. The ID can belong to differing types of entities depending on the entity type. (eg. a study would require a study ID vs an assessment would require an assessment GUID.)
+        type: string
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "Permission"
+        x-nullable: false

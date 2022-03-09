@@ -1,0 +1,22 @@
+get:
+    operationId: getPermissionsForEntity
+    description: Get a set of permission records for an entity.
+    tags:
+        - Permissions
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/entityType
+        - $ref: ../../index.yml#/parameters/entityId
+    responses:
+        200:
+            description: OK
+            schema:
+                type: array
+                items:
+                    $ref: ../../definitions/permission.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml
