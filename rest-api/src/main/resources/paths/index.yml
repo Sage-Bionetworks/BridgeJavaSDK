@@ -55,12 +55,16 @@
     $ref: ./apps/v1_apps_appId_emails_verify.yml
 /v1/apps/{appId}/appconfig:
     $ref: ./apps/v1_apps_appId_appconfig.yml
+/v1/apps/{appId}/schedules/{scheduleGuid}/studies:
+    $ref: ./apps/v1_apps_appId_schedules_scheduleGuid_studies.yml
 /v1/apps/{appId}/scheduleplans:
     $ref: ./apps/v1_apps_appId_scheduleplans.yml
 /v1/apps/{appId}/studies:
     $ref: ./apps/v1_apps_appId_studies.yml
 /v1/apps/{appId}/studies/{studyId}:
     $ref: ./apps/v1_apps_appId_studies_studyId.yml
+/v1/apps/{appId}/studies/{studyId}?full=true:
+    $ref: ./apps/v1_apps_appId_studies_studyId_full.yml
 /v1/apps/{appId}/timelinemetadata/{instanceGuid}:
     $ref: ./apps/v1_apps_appId_timelinemetadata_instanceGuid.yml
 /v1/apps/self/publicKey:
