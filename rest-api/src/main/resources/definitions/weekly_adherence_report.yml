@@ -1,4 +1,4 @@
-description: A report on one participant’s adherence to a study’s entire schedule protocol.
+description: A report on one participant’s adherence to a study’s schedule protocol for a specific week. 
 type: object
 properties:
     participant:
@@ -13,6 +13,12 @@ properties:
     progression:
         $ref: ./enums/participant_study_progress.yml
         readOnly: true
+        x-nullable: false
+    startDate:
+        type: string
+        description: The first day (local date format) of this week.
+        readOnly: true
+        format: date
         x-nullable: false
     weeklyAdherencePercent:
         type: integer
