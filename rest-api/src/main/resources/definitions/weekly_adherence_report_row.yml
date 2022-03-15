@@ -21,7 +21,7 @@ properties:
     startEventId:
         type: string
         readOnly: true
-    week:
+    weekInStudy:
         type: integer
         readOnly: true
         x-nullable: false

@@ -362,6 +362,10 @@
     $ref: ./participants/v4_participants_userId_reports_identifier.yml
 /v3/participants/emailRoster:
     $ref: ./participants/v3_participants_emailRoster.yml
+/v3/participants/self/exporter3/healthdata/{recordId}:
+    $ref: ./participants/v3_participants_self_exporter3_healthdata_recordId.yml
+/v3/participants/self/exporter3/healthdata:
+    $ref: ./participants/v3_participants_self_exporter3_healthdata.yml
 
 # Shared Modules
 /v3/sharedmodules/{moduleId}/import:
@@ -651,6 +655,8 @@
     $ref: ./studies/v5_studies_studyId_participants_userId_adherence_eventstream.yml
 /v5/studies/{studyId}/participants/{userId}/adherence/weekly:
     $ref: ./studies/v5_studies_studyId_participants_userId_adherence_weekly.yml
+/v5/studies/{studyId}/participants/{userId}/adherence/study:
+    $ref: ./studies/v5_studies_studyId_participants_userId_adherence_study.yml
 /v5/studies/{studyId}/participants/self/adherence/eventstream:
     $ref: ./studies/v5_studies_studyId_participants_self_adherence_eventstream.yml
 

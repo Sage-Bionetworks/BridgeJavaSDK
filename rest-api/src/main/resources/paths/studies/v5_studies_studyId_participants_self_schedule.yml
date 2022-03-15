@@ -1,17 +1,12 @@
 get:
     operationId: getParticipantScheduleForSelf
-    summary: Get the caller’s scheduled assessments in this study. This method supports long-term caching by accepting an optional timestamp. It will return a 304 `Not Modified` response if the schedule has not been updated after the given timestamp.
+    summary: Get the caller’s scheduled activities in this study.
     tags:
         - _For Consented Users
     security:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
-        - name: clientTimeZone
-          required: false
-          in: query
-          description: An IANA time zone name that should be used to calculate this schedule (the participant’s local time zone). This value will be persisted for the participant if it differs from the participant’s currently set time zone.
-          type: string
     responses:
         200:
             description: OK
