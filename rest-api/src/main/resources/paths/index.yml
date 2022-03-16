@@ -63,8 +63,8 @@
     $ref: ./apps/v1_apps_appId_studies.yml
 /v1/apps/{appId}/studies/{studyId}:
     $ref: ./apps/v1_apps_appId_studies_studyId.yml
-/v1/apps/{appId}/studies/{studyId}?full=true:
-    $ref: ./apps/v1_apps_appId_studies_studyId_full.yml
+/v2/apps/{appId}/studies/{studyId}:
+    $ref: ./apps/v2_apps_appId_studies_studyId.yml
 /v1/apps/{appId}/timelinemetadata/{instanceGuid}:
     $ref: ./apps/v1_apps_appId_timelinemetadata_instanceGuid.yml
 /v1/apps/self/publicKey:
@@ -563,6 +563,8 @@
     $ref: ./studies/v5_studies_studyId_enrollments.yml
 /v5/studies/{studyId}/enrollments/{userId}:
     $ref: ./studies/v5_studies_studyId_enrollments_userId.yml
+/v5/studies/{studyId}/exporter3:
+    $ref: ./studies/v5_studies_studyId_exporter3.yml
 /v5/studies/{studyId}/externalids:
     $ref: ./studies/v5_studies_studyId_externalids.yml
 /v5/studies/{studyId}/design:
