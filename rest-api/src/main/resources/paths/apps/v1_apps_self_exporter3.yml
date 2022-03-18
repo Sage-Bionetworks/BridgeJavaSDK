@@ -8,9 +8,11 @@ post:
     security:
         -   BridgeSecurity: []
     responses:
-        200:
-            description: OK
+        201:
+            description: Created
             schema:
                 $ref: ../../definitions/exporter3_configuration.yml
+        401:
+            $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_admin_developer.yml

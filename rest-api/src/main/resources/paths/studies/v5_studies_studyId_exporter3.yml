@@ -3,7 +3,6 @@ post:
     summary: Initializes configs and Synapse resources for Exporter 3.0.
     tags:
         - Studies
-        - _For Study Coordinators
         - _For Study Designers
         - _For Developers
         - _For Admins
@@ -12,9 +11,11 @@ post:
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
     responses:
-        200:
-            description: OK
+        201:
+            description: Created
             schema:
                 $ref: ../../definitions/exporter3_configuration.yml
+        401:
+            $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_study_coordinator_developer.yml
