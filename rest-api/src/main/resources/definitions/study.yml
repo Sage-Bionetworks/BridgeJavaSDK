@@ -18,6 +18,14 @@ properties:
     details:
         type: string
         description: An in-depth description of this study for prospective participants, or to show participants after they have joined a study (the “about” screen for the study).
+    exporter3Configuration:
+        description: |
+            Configuration required for Exporter 3.0.
+        $ref: ./exporter3_configuration.yml
+    exporter3Enabled:
+        description: |
+            True if Exporter 3.0 is enabled for this study.
+        type: boolean
     phase:
         $ref: ./enums/study_phase.yml
         description: The lifecycle phase this study is in.

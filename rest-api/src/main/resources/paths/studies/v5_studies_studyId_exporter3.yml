@@ -1,12 +1,15 @@
 post:
-    operationId: initExporter3
+    operationId: initExporter3ForStudy
     summary: Initializes configs and Synapse resources for Exporter 3.0.
     tags:
-        - Apps
-        - _For Admins
+        - Studies
+        - _For Study Designers
         - _For Developers
+        - _For Admins
     security:
         -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
     responses:
         201:
             description: Created
@@ -15,4 +18,4 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_admin_developer.yml
+            $ref: ../../responses/403_not_study_coordinator_developer.yml
