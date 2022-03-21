@@ -14,8 +14,7 @@ get:
             schema:
                 type: array
                 items:
-                    $ref: ../../definitions/permission.yml
-                uniqueItems: true
+                    $ref: ../../definitions/permission_detail.yml
         401:
             $ref: ../../responses/401.yml
         403:
