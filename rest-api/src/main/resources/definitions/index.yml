@@ -109,6 +109,10 @@ AdherenceRecordsSearch:
     $ref: ./adherence_records_search.yml
 AdherenceReportSearch:
     $ref: ./adherence_report_search.yml
+AdherenceStatistics:
+    $ref: ./adherence_statistics.yml
+AdherenceStatisticsEntry:
+    $ref: ./adherence_statistics_entry.yml
 AndroidAppLink:
     $ref: ./android_app_link.yml
 App:

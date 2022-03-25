@@ -1,0 +1,30 @@
+type: object
+description: A report on the current adherence of all active participants in a study during the current week of the study. Participants who have not started the study are not included in these reports. The `adherenceThresholdPercentage` will be set to the `Study.adherenceThresholdPercentage` value unless a different value is provided as a query parameter, and the number of participants at or above that threshold, and under it, will be returned in the `compliant` and `noncompliant` counts (these should equal the `totalActive` count). The entries array includes a count of participants at every unique moment in the study (e.g., week 3 of a particular session). Because participants can be in more than one part of the schedule on a given week, these counts will probably be greater in sum than the `totalActive` value.
+properties:
+    adherenceThresholdPercentage:
+        type: integer
+        x-nullable: false
+        readOnly: true
+    compliant:
+        type: integer
+        x-nullable: false
+        readOnly: true
+    noncompliant:
+        type: integer
+        x-nullable: false
+        readOnly: true
+    totalActive:
+        type: integer
+        x-nullable: false
+        readOnly: true
+    entries:
+        type: array
+        items:
+            $ref: ./adherence_statistics_entry.yml
+        x-nullable: false
+        readOnly: true
+    type:
+        type: string
+        readOnly: true
+        description: "AdherenceStatistics"
+        x-nullable: false
