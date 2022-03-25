@@ -12,9 +12,7 @@ get:
         200:
             description: OK
             schema:
-                type: array
-                items:
-                    $ref: ../../definitions/permission_detail.yml
+                $ref: ../../definitions/paged_resources/permission_detail.yml
         401:
             $ref: ../../responses/401.yml
         403:

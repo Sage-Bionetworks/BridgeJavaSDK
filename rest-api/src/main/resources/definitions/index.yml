@@ -461,6 +461,8 @@ MasterSchedulerConfigList:
     $ref: ./paged_resources/master_scheduler_config.yml
 PagedExternalResourceList:
     $ref: ./paged_resources/external_resource.yml
+PermissionDetailResourceList:
+    $ref: ./paged_resources/permission_detail.yml
 ReportDataList:
     $ref: ./paged_resources/report_data.yml
 ForwardCursorReportDataList:
