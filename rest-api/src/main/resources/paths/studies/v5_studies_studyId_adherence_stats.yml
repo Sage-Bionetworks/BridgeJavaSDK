@@ -1,6 +1,6 @@
-post:
-    operationId: getWeeklyAdherenceReports
-    summary: Get the adherence for all study participants in their current week of the study. 
+get:
+    operationId: getAdherenceStatistics
+    summary: Get summary stats of the adherence situation for all participants who are active in the study during the current week of the study.
     tags:
         - Study Participants
         - Study Adherence
@@ -12,17 +12,15 @@ post:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
-        - name: AdherenceReportSearch
-          in: body
-          description: Search parameters for weekly adherence report
-          required: true
-          schema:
-              $ref: ../../definitions/adherence_report_search.yml
+        - name: adherenceThreshold
+          in: query
+          description: The percentage cutoff to use to determine totals of compliant and noncompliant participants.
+          type: integer
     responses:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/paged_resources/weekly_adherence_report.yml
+                $ref: ../../definitions/adherence_statistics.yml
         401:
             $ref: ../../responses/401.yml
         403:

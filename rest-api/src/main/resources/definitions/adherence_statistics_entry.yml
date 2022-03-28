@@ -1,0 +1,33 @@
+type: object
+properties:
+    label:
+        type: string
+        readOnly: true
+        x-nullable: false
+    searchableLabel:
+        type: string
+        readOnly: true
+        x-nullable: false
+    sessionName:
+        type: string
+        readOnly: true
+        x-nullable: false
+    weekInStudy:
+        type: integer
+        readOnly: true
+        x-nullable: false
+    studyBurstId:
+        type: string
+        readOnly: true
+    studyBurstNum:
+        type: integer
+        readOnly: true
+    totalActive:
+        type: integer
+        readOnly: true
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "AdherenceStatisticsEntry"
+        x-nullable: false
