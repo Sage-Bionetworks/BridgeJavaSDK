@@ -1,5 +1,5 @@
 get:
-    operationId: getWeeklyAdherenceStatistics
+    operationId: getAdherenceStatistics
     summary: Get summary stats of the adherence situation for all participants who are active in the study during the current week of the study.
     tags:
         - Study Participants
