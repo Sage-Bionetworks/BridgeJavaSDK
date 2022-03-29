@@ -62,3 +62,10 @@ properties:
         readOnly: true
         description: "HealthDataRecordEx3"
         x-nullable: false
+    downloadUrl:
+        type: string
+        description: Download url for record.
+    downloadExpiration:
+        type: string
+        format: date-time
+        description: Expiration for record download url.

@@ -467,6 +467,13 @@ parameters:
         in: query
         type: boolean
         default: true
+    download:
+        name: download
+        in: query
+        type: string
+        required: false
+        default: false
+        description: If the user requires to download their record.
 paths:
     $ref: ./paths/index.yml
 definitions:
