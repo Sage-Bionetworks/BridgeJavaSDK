@@ -55,12 +55,16 @@
     $ref: ./apps/v1_apps_appId_emails_verify.yml
 /v1/apps/{appId}/appconfig:
     $ref: ./apps/v1_apps_appId_appconfig.yml
+/v1/apps/{appId}/schedules/{scheduleGuid}/studies:
+    $ref: ./apps/v1_apps_appId_schedules_scheduleGuid_studies.yml
 /v1/apps/{appId}/scheduleplans:
     $ref: ./apps/v1_apps_appId_scheduleplans.yml
 /v1/apps/{appId}/studies:
     $ref: ./apps/v1_apps_appId_studies.yml
 /v1/apps/{appId}/studies/{studyId}:
     $ref: ./apps/v1_apps_appId_studies_studyId.yml
+/v2/apps/{appId}/studies/{studyId}:
+    $ref: ./apps/v2_apps_appId_studies_studyId.yml
 /v1/apps/{appId}/timelinemetadata/{instanceGuid}:
     $ref: ./apps/v1_apps_appId_timelinemetadata_instanceGuid.yml
 /v1/apps/self/publicKey:
@@ -559,6 +563,8 @@
     $ref: ./studies/v5_studies_studyId_enrollments.yml
 /v5/studies/{studyId}/enrollments/{userId}:
     $ref: ./studies/v5_studies_studyId_enrollments_userId.yml
+/v5/studies/{studyId}/exporter3:
+    $ref: ./studies/v5_studies_studyId_exporter3.yml
 /v5/studies/{studyId}/externalids:
     $ref: ./studies/v5_studies_studyId_externalids.yml
 /v5/studies/{studyId}/design:
@@ -579,6 +585,8 @@
     $ref: ./studies/v5_studies_studyId_timeline.yml
 /v5/studies/{studyId}/adherence/weekly:
     $ref: ./studies/v5_studies_studyId_adherence_weekly.yml
+/v5/studies/{studyId}/adherence/stats:
+    $ref: ./studies/v5_studies_studyId_adherence_stats.yml
 
 # Study Participants
 /v5/studies/{studyId}/participants/emailRoster:
@@ -651,6 +659,8 @@
     $ref: ./studies/v5_studies_studyId_participants_userId_adherence_eventstream.yml
 /v5/studies/{studyId}/participants/{userId}/adherence/weekly:
     $ref: ./studies/v5_studies_studyId_participants_userId_adherence_weekly.yml
+/v5/studies/{studyId}/participants/{userId}/adherence/study:
+    $ref: ./studies/v5_studies_studyId_participants_userId_adherence_study.yml
 /v5/studies/{studyId}/participants/self/adherence/eventstream:
     $ref: ./studies/v5_studies_studyId_participants_self_adherence_eventstream.yml
 

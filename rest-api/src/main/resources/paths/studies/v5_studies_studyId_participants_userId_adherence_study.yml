@@ -1,6 +1,6 @@
 get:
-    operationId: getWeeklyAdherenceReport
-    summary: Get a detailed report on a participant’s current week of scheduled activities.
+    operationId: getStudyParticipantAdherenceReport
+    summary: Get a detailed report on a participant’s full schedule of activities.
     tags:
         - Study Participants
         - Study Adherence
@@ -15,7 +15,7 @@ get:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/weekly_adherence_report.yml
+                $ref: ../../definitions/study_adherence_report.yml
         401:
             $ref: ../../responses/401.yml
         403:

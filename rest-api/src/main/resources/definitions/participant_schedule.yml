@@ -17,7 +17,6 @@ properties:
     dateRange:
         $ref: ./date_range.yml
         readOnly: true
-        x-nullable: false    
     schedule:
         type: array
         items:
@@ -42,6 +41,13 @@ properties:
             $ref: ./study_burst_info.yml
         readOnly: true
         x-nullable: false
+    eventTimestamps:
+        type: object
+        description: The most recent timestamps that are being used to calculate this schedule. These values are needed to submit new adherence records to the server.
+        additionalProperties:
+            type: string
+            format: date-time
+        x-nullable: false        
     type:
         type: string
         readOnly: true

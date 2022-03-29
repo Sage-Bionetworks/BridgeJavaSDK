@@ -109,6 +109,10 @@ AdherenceRecordsSearch:
     $ref: ./adherence_records_search.yml
 AdherenceReportSearch:
     $ref: ./adherence_report_search.yml
+AdherenceStatistics:
+    $ref: ./adherence_statistics.yml
+AdherenceStatisticsEntry:
+    $ref: ./adherence_statistics_entry.yml
 AndroidAppLink:
     $ref: ./android_app_link.yml
 App:
@@ -343,8 +347,12 @@ Study:
     $ref: ./study.yml
 StudyActivityEvent:
     $ref: ./study_activity_event.yml
+StudyAdherenceReport:
+    $ref: ./study_adherence_report.yml
 StudyInfo:
     $ref: ./study_info.yml
+StudyReportWeek:
+    $ref: ./study_report_week.yml
 Survey:
     $ref: ./survey.yml
 SurveyElement:

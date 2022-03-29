@@ -1,7 +1,10 @@
 type: object
-description: For participants who do not have any activities for their current week, this object will be included in reports to provide information on when the participant will next be engaged by the study.
 properties:
-    sessionGuid:
+    label:
+        type: string
+        readOnly: true
+        x-nullable: false
+    searchableLabel:
         type: string
         readOnly: true
         x-nullable: false
@@ -9,9 +12,6 @@ properties:
         type: string
         readOnly: true
         x-nullable: false
-    sessionSymbol:
-        type: string
-        readOnly: true
     weekInStudy:
         type: integer
         readOnly: true
@@ -22,12 +22,12 @@ properties:
     studyBurstNum:
         type: integer
         readOnly: true
-    startDate:
+    totalActive:
+        type: integer
         readOnly: true
-        format: date
         x-nullable: false
     type:
         type: string
         readOnly: true
-        description: "NextActivity"
+        description: "AdherenceStatisticsEntry"
         x-nullable: false
