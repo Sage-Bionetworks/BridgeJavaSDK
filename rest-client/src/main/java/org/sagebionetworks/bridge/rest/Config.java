@@ -67,7 +67,8 @@ public class Config {
         SYNAPSE_TEST_USER,
         SYNAPSE_TEST_USER_ID,
         SYNAPSE_TEST_USER_PASSWORD,
-        SYNAPSE_TEST_USER_API_KEY;
+        SYNAPSE_TEST_USER_API_KEY,
+        SYNAPSE_TEST_USER_ACCESS_TOKEN;
     }
     
     private Properties config;
