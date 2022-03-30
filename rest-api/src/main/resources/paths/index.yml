@@ -699,13 +699,3 @@
 # Exporter Status
 /v3/recordexportstatuses:
     $ref: ./recordexportstatuses/v3_recordexportstatuses.yml
-
-# Permissions
-/v1/permissions/{userId}:
-    $ref: ./permissions/v1_permissions_userid.yml
-/v1/permissions/{entityType}/{entityId}:
-    $ref: ./permissions/v1_permissions_entitytype_entityid.yml
-/v1/permissions:
-    $ref: ./permissions/v1_permissions.yml
-/v1/permissions/{guid}:
-    $ref: ./permissions/v1_permissions_guid.yml
