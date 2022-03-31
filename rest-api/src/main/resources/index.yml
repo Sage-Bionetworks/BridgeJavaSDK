@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-    version: "0.24.7"
+    version: "0.24.8"
     title: Bridge Server API
 host: webservices.sagebridge.org
 basePath: /
