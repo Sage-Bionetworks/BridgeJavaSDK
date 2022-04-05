@@ -1,0 +1,21 @@
+description: |
+    A reference to an entity with access controlled through permissions.
+type: object
+properties:
+    entityType:
+        $ref: ./enums/entity_type.yml
+        readOnly: true
+        x-nullable: false
+    entityId:
+        description: The ID of the entity which requires permissions to access. The ID can belong to differing types of entities depending on the entity type. (eg. a study would require a study ID vs an assessment would require an assessment GUID.)
+        type: string
+        readOnly: true
+        x-nullable: false
+    entityName:
+        description: The name or title of the entity.
+        readOnly: true
+    type:
+        type: string
+        readOnly: true
+        description: "EntityRef"
+        x-nullable: false 
