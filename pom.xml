@@ -5,7 +5,7 @@
     <groupId>org.sagebionetworks.bridge</groupId>
     <artifactId>sdk-group</artifactId>
     <!-- Please use the maven versions plugin to manage this, e.g.`mvn versions:set -DnewVersion=0.8.1`-->
-    <version>0.24.6</version>
+    <version>0.24.9</version>
     <packaging>pom</packaging>
     <url>https://api.sagebridge.org</url>
 
@@ -28,7 +28,7 @@
         <javadoc.version>2.10.4</javadoc.version>
         <joda-time.version>2.9.4</joda-time.version>
         <junit.version>4.13.1</junit.version>
-        <logback.version>1.2.0</logback.version>
+        <logback.version>1.2.9</logback.version>
         <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
         <maven-resources-plugin.version>2.6</maven-resources-plugin.version>
         <maven-s3-wagon.version>1.2.1</maven-s3-wagon.version>
