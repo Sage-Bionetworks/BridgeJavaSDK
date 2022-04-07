@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-    version: "0.24.5"
+    version: "0.24.9"
     title: Bridge Server API
 host: webservices.sagebridge.org
 basePath: /
@@ -480,6 +480,19 @@ parameters:
         required: false
         default: false
         description: If the user requires to download their record.
+    entityType:
+        name: entityType
+        description: The type of entity that a permission record is addressing.
+        required: true
+        in: path
+        type: string
+        enum: [ assessment, assessment_library, members, organization, participants, sponsored_studies, study, study_pi ]
+    entityId:
+        name: entityId
+        description: The ID of the entity that a permission record grants access to.
+        required: true
+        in: path
+        type: string
 paths:
     $ref: ./paths/index.yml
 definitions:
