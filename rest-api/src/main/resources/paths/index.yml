@@ -214,6 +214,8 @@
 # Accounts
 /v1/accounts:
     $ref: ./accounts/v1_accounts.yml
+/v1/accounts/self:
+    $ref: ./accounts/v1_accounts_self.yml
 /v1/accounts/{userId}:
     $ref: ./accounts/v1_accounts_userId.yml
 /v1/accounts/{userId}/requestInfo:

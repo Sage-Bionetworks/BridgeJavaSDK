@@ -1,0 +1,39 @@
+get:
+    operationId: getAccountForSelf
+    summary: Get the caller’s account (for admin accounts only).
+    tags:
+        - Accounts
+    security:
+        - BridgeSecurity: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/account.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_administrative.yml
+post:
+    operationId: updateAccountForSelf
+    summary: Update the caller’s account (for admin accounts only).
+    tags:
+        - Accounts
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - name: Account
+          in: body
+          description: Account record to update
+          required: true
+          schema:
+              $ref: ../../definitions/account.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_administrative.yml
