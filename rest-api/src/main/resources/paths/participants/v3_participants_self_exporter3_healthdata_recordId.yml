@@ -1,7 +1,7 @@
 get:
     operationId: getRecordEx3ById
-    summary: Retrieves the record for the given ID from the Exporter 3 implemention - For developers to validate uploads from the app.
-    description: Retrieves the record for the given ID from the Exporter 3 implemention if the given ID belongs to the current user.
+    summary: Retrieves the record for the given ID from the Exporter 3 implemention, provides a dowload link for the record if requested - For developers to validate uploads from the app.
+    description: Retrieves the record for the given ID from the Exporter 3 implemention if the given ID belongs to the current user, , provides a dowload link for the record if requested.
     tags:
         - Health Data
         - _For Consented Users
@@ -9,6 +9,7 @@ get:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/recordId
+        - $ref: ../../index.yml#/parameters/download
     responses:
         200:
             description: OK
