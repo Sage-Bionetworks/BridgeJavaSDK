@@ -28,6 +28,12 @@ parameters:
         required: true
         in: path
         type: string
+    clientTimeZone:
+        name: clientTimeZone
+        description: Participant's time zone. Must be an IANA time zone name.
+        required: true
+        in: query
+        type: string
     consents:
         name: consents
         description: Should consent histories be included with this participant record?
