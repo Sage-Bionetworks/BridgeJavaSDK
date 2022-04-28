@@ -22,3 +22,7 @@ get:
             $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_study_coordinator_researcher.yml
+        404:
+            description: The study does not have a defined schedule.
+            schema:
+                $ref: ../../definitions/message.yml

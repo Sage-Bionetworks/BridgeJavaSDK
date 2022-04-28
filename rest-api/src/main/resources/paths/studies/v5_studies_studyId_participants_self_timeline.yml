@@ -1,6 +1,6 @@
 get:
     operationId: getTimelineForSelf
-    summary: Get the caller’s timeline of scheduled assessments in this study. Timelines rarely change and can be large, though they are sent compressed by the server and usually compress well for transfer. This method supports long-term caching by accepting an optional timestamp. It will return a 304 `Not Modified` response if the schedule has not been updated after the given timestamp.
+    summary: Get the caller’s timeline of scheduled assessments in this study. Timelines rarely change and can be large, though they are sent compressed by the server. This method also supports long-term caching through both the `If-Modified-Since` (timestamp) and `If-None-Match` (etag) HTTP request headers.
     tags:
         - _For Consented Users
     security:
@@ -22,6 +22,10 @@ get:
             $ref: ../../responses/304.yml
         401:
             $ref: ../../responses/401.yml
+        404:
+            description: The study does not have a defined schedule.
+            schema:
+                $ref: ../../definitions/message.yml
         410:
             $ref: ../../responses/410.yml
         412:
