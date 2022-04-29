@@ -18,3 +18,5 @@ get:
             $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_worker.yml
+        404:
+            $ref: ../../responses/404_no_schedule.yml
