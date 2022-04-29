@@ -19,6 +19,4 @@ get:
         403:
             $ref: ../../responses/403_not_worker.yml
         404:
-            description: The study does not have a defined schedule.
-            schema:
-                $ref: ../../definitions/message.yml
+            $ref: ../../responses/404_no_schedule.yml

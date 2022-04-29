@@ -18,9 +18,7 @@ get:
         401:
             $ref: ../../responses/401.yml
         404:
-            description: The study does not have a defined schedule.
-            schema:
-                $ref: ../../definitions/message.yml            
+            $ref: ../../responses/404_no_schedule.yml
         410:
             $ref: ../../responses/410.yml
         412:
