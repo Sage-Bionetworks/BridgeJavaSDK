@@ -21,9 +21,7 @@ get:
         403:
             $ref: ../../responses/403_not_study_designer_developer.yml      
         404:
-            description: The study does not have a defined schedule.
-            schema:
-                $ref: ../../definitions/message.yml
+            $ref: ../../responses/404_no_schedule.yml
 post:
     operationId: saveScheduleForStudy
     summary: Create or update a schedule associated with a study. This endpoint will return a status of 200 if the call is an update, or 201 if the schedule is being created for the first time.
