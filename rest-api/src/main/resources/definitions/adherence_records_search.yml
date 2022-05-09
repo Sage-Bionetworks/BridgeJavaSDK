@@ -65,6 +65,9 @@ properties:
     stringSearchPosition:
         $ref: ./enums/string_search_position.yml
         description: How string-based search criteria will be compared to values in a record.
+    declined:
+        type: boolean
+        description: Return records that were declined or that were not declined. Assessments are directly declined by participants; a session record will be marked declined if all of its assessments were declined.
     type:
         type: string
         readOnly: true
