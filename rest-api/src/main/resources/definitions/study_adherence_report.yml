@@ -39,9 +39,6 @@ properties:
             $ref: ./study_report_week.yml
         readOnly: true
         x-nullable: false
-    nextActivity:
-        $ref: ./next_activity.yml
-        readOnly: true
     unsetEventIds:
         type: array
         items:

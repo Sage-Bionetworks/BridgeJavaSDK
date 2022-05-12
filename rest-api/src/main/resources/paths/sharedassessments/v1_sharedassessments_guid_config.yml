@@ -1,6 +1,6 @@
 get:
     operationId: getSharedAssessmentConfig
-    summary: Get the configuration JSON for a shared assessmentapp context.
+    summary: Get the configuration JSON for a shared assessment app context.
     tags: 
         - Shared Assessments
         - Public
@@ -13,3 +13,8 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/assessment_config.yml
+        304:
+            $ref: ../../responses/304.yml
+        401:
+            $ref: ../../responses/401.yml
+
