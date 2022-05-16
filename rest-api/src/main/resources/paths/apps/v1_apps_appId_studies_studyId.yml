@@ -14,5 +14,7 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/study_info.yml
+        304:
+            $ref: ../../responses/304.yml
         404:
             description: Not Found, if the app ID or study ID is not valid.
