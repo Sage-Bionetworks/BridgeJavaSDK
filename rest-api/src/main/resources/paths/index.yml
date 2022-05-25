@@ -587,6 +587,8 @@
     $ref: ./studies/v5_studies_studyId_adherence_weekly.yml
 /v5/studies/{studyId}/adherence/stats:
     $ref: ./studies/v5_studies_studyId_adherence_stats.yml
+/v5/studies/{studyId}/timeline/export:
+    $ref: ./studies/v5_studies_studyId_timeline_export.yml
 
 # Study Participants
 /v5/studies/{studyId}/participants/emailRoster:

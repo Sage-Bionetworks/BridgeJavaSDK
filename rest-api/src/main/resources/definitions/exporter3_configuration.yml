@@ -28,6 +28,10 @@ properties:
         format: int64
         description: |
             The Synapse storage location that represents our External S3 bucket. This storage location should be STS-enabled.
+    wikiPageId:
+        type: string
+        description: |
+            The wiki page id for the wiki where we export timeline for study.
     type:
         type: string
         readOnly: true
