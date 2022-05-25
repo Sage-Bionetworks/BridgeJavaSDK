@@ -3,7 +3,11 @@ description: A record describing the performance state of a scheduled session or
 required:
     - instanceGuid
     - eventTimestamp
+    - userId
 properties:
+    userId:
+        type: string
+        description: The user this adherence record is about. For participant-specific APIs this value will be the same for all records; in the study-scoped search for adherence records, these IDs will be for different participants in the study.
     instanceGuid:
         type: string
         description: The session or assessment instance GUID from the timeline that led to the generation of this record. There can be more than one record under a given instance GUID if that guid is for a persistent assessment, which can be performed more than once. In this case, each record must have a unique `startedOn` timestamp (time zone differences are not enough to make it unique, it must be a unique instant in time).

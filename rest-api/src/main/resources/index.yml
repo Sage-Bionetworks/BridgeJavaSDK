@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-    version: "0.24.9"
+    version: "0.25.7"
     title: Bridge Server API
 host: webservices.sagebridge.org
 basePath: /
@@ -27,6 +27,12 @@ parameters:
         description: Cache key
         required: true
         in: path
+        type: string
+    clientTimeZone:
+        name: clientTimeZone
+        description: Participant's time zone. Must be an IANA time zone name.
+        required: true
+        in: query
         type: string
     consents:
         name: consents

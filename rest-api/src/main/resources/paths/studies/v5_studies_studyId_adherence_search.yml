@@ -1,0 +1,24 @@
+post:
+    operationId: searchForAdherenceRecordsForStudy
+    summary: Search for adherence records in a study (irrespective of user).
+    tags:
+        - Study Adherence
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - name: AdherenceRecordsSearch
+          in: body
+          description: The search criteria.
+          required: true
+          schema:
+                $ref: ../../definitions/adherence_records_search.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/adherence_record.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher_study_designer_study_coordinator.yml

@@ -84,11 +84,6 @@ properties:
     orgMembership:
         type: string
         description: The identifier of the organization this account is a member of (this will be an administrative account and not a study participant). Once set, it cannot be changed on an update (there are separate organization membership APIs to change organizational membership).
-    type:
-        type: string
-        readOnly: true
-        description: "Account"
-        x-nullable: false
     note:
         type: string
         description: Optional note related to user account. Can only be edited and viewed by an administrative account.
@@ -97,3 +92,18 @@ properties:
         example: 'America/Los_Angeles'
         description: |
             Participant's time zone. Can be updated or deleted. Must be an IANA time zone name.
+    admin:
+        type: boolean
+        description: True if this is an administrative account (usually with roles and an association to an organization), or false if this is a study participant account. An account is an admin account if it is created through the administrative account APIs.
+        readOnly: true
+    version:
+        type: integer
+        format: int64
+        description: |
+            The optimistic locking version of the account. This value must be submitted as part of the next update of the model. If it does not match the value on the server, a 409 error (Conflict) will prevent the update from occurring. It can also serve as a key to determine if a local cache of this `Account` needs to be updated.
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "Account"
+        x-nullable: false
