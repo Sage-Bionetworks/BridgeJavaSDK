@@ -6,6 +6,10 @@ properties:
         type: boolean
         description: |
             True if all configuration attributes are specified.
+    createStudyNotificationTopicArn:
+        type: string
+        description: |
+            SNS topic to publish to when a study is initialized in this app. (This is not used for study configs.)
     dataAccessTeamId:
         type: integer
         format: int64
