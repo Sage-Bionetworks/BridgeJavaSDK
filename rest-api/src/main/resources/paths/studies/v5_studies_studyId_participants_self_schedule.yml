@@ -7,6 +7,7 @@ get:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/clientTimeZone
     responses:
         200:
             description: OK
@@ -16,6 +17,8 @@ get:
             $ref: ../../responses/304.yml
         401:
             $ref: ../../responses/401.yml
+        404:
+            $ref: ../../responses/404_no_schedule.yml
         410:
             $ref: ../../responses/410.yml
         412:

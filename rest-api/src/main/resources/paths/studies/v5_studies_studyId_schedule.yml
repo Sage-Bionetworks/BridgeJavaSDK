@@ -1,6 +1,6 @@
 get:
     operationId: getScheduleForStudy
-    summary: Get the schedule for this study (returns 404 if a schedule has not been created for the study).
+    summary: Get the schedule for this study.
     tags:
         - _For Study Designers
         - _For Developers
@@ -20,6 +20,8 @@ get:
             $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_study_designer_developer.yml      
+        404:
+            $ref: ../../responses/404_no_schedule.yml
 post:
     operationId: saveScheduleForStudy
     summary: Create or update a schedule associated with a study. This endpoint will return a status of 200 if the call is an update, or 201 if the schedule is being created for the first time.

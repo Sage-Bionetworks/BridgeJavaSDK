@@ -106,8 +106,6 @@
     $ref: ./apps/v1_apps_appId_participants_healthCode.yml
 /v1/apps/{appId}/participants/externalId:{externalId}:
     $ref: ./apps/v1_apps_appId_participants_externalId.yml
-/v1/apps/{appId}/participants/syn:{synapseUserId}:
-    $ref: ./apps/v1_apps_appId_participants_synapseUserId.yml
 /v1/apps/{appId}/participants/{userId}/exporter3/healthdata:
     $ref: ./apps/v1_apps_appId_participants_userId_exporter3_healthdata.yml
 /v1/apps/{appId}/participants/{userId}/reports/{reportId}:
@@ -216,6 +214,8 @@
 # Accounts
 /v1/accounts:
     $ref: ./accounts/v1_accounts.yml
+/v1/accounts/self:
+    $ref: ./accounts/v1_accounts_self.yml
 /v1/accounts/{userId}:
     $ref: ./accounts/v1_accounts_userId.yml
 /v1/accounts/{userId}/requestInfo:
@@ -304,8 +304,6 @@
     $ref: ./participants/v3_participants_externalId.yml
 /v3/participants/healthCode:{healthCode}:
     $ref: ./participants/v3_participants_healthCode.yml
-/v3/participants/syn:{synapseUserId}:
-    $ref: ./participants/v3_participants_synapseUserId.yml
 /v3/participants/{userId}/enrollments:
     $ref: ./participants/v3_participants_userId_enrollments.yml
 /v3/participants/{userId}/healthdata:
@@ -665,6 +663,8 @@
     $ref: ./studies/v5_studies_studyId_participants_userId_adherence_study.yml
 /v5/studies/{studyId}/participants/self/adherence/eventstream:
     $ref: ./studies/v5_studies_studyId_participants_self_adherence_eventstream.yml
+/v5/studies/{studyId}/adherence/search:
+    $ref: ./studies/v5_studies_studyId_adherence_search.yml
 
 # Templates
 /v3/templates:

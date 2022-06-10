@@ -21,6 +21,8 @@ get:
             description: OK
             schema:
                 $ref: ../../definitions/study.yml
+        304:
+            $ref: ../../responses/304.yml
         401:
             $ref: ../../responses/401.yml
         403:

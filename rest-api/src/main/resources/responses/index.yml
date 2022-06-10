@@ -60,6 +60,8 @@
     $ref: ./403_not_superadmin_worker.yml
 403_not_worker:
     $ref: ./403_not_worker.yml
+404_no_schedule:
+    $ref: ./404_no_schedule.yml
 410:
     $ref: ./410.yml
 412:
