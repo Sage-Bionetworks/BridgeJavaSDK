@@ -24,6 +24,8 @@ get:
             $ref: ../../responses/410.yml
         412:
             $ref: ../../responses/412.yml
+        429:
+            $ref: ../../responses/429.yml
 post:
     operationId: createParticipantFile
     summary: Create a new participant file
