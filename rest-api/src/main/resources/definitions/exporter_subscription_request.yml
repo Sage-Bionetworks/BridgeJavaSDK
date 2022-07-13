@@ -1,0 +1,23 @@
+description: |
+    Represents a subscription request to be notified when a study is initialized for Exporter 3.0 in an app. This class
+    is a wrapper for SNS attributes. See SNS documentation for additional details.
+type: object
+properties:
+    attributes:
+        type: object
+        additionalProperties:
+            type: string
+        description: SNS subscription attributes.
+    endpoint:
+        type: string
+        description: |
+            Endpoint to receive notifications. Format is protocol dependent.
+    protocol:
+        type: string
+        description: |
+            Protocol to receive notifications.
+    type:
+        type: string
+        readOnly: true
+        description: "ExporterSubscriptionRequest"
+        x-nullable: false

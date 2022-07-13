@@ -75,6 +75,8 @@
     $ref: ./apps/v1_apps_self_emails_resendVerify.yml
 /v1/apps/self/exporter3:
     $ref: ./apps/v1_apps_self_exporter3.yml
+/v1/apps/self/exporter3/notifications/study/subscribe:
+    $ref: ./apps/v1_apps_self_exporter3_notifications_study_subscribe.yml
 /v1/apps/self/verifyEmail:
     $ref: ./apps/v1_apps_self_verifyEmail.yml
 /v1/apps/self/uploads:

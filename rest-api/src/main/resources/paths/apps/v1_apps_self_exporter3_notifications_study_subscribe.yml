@@ -1,0 +1,25 @@
+post:
+    operationId: subscribeToCreateStudyNotifications
+    summary: Subscribe to be notified when a study is initialized for Exporter 3.0 in caller's app.
+    tags:
+        - Apps
+        - _For Admins
+        - _For Developers
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - name: ExporterSubscriptionRequest
+          in: body
+          description: Subscription request attributes.
+          required: true
+          schema:
+              $ref: ../../definitions/exporter_subscription_request.yml
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/exporter_subscription_result.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin_developer.yml

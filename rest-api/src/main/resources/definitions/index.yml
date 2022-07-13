@@ -197,6 +197,10 @@ WeeklyEventStreamDay:
     $ref: ./weekly_event_stream_day.yml
 Exporter3Configuration:
     $ref: ./exporter3_configuration.yml
+ExporterSubscriptionRequest:
+    $ref: ./exporter_subscription_request.yml
+ExporterSubscriptionResult:
+    $ref: ./exporter_subscription_result.yml
 ExternalIdentifier:
     $ref: ./external_identifier.yml
 ExternalResource:

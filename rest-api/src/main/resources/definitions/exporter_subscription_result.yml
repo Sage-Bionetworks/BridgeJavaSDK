@@ -1,0 +1,13 @@
+description: |
+    The result of a subscription request to be notified when a study is initialized for Exporter 3.0 in an app.
+type: object
+properties:
+    subscriptionArn:
+        type: string
+        description: |
+            ARN representing the subscription in SNS.
+    type:
+        type: string
+        readOnly: true
+        description: "ExporterSubscriptionResult"
+        x-nullable: false
