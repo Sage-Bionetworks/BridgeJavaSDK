@@ -1,0 +1,4 @@
+description: |
+    User has requested too much data too quickly. Retry the request at a later time.
+schema:
+    $ref: ../definitions/message.yml
