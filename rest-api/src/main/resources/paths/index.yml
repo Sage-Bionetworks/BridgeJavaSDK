@@ -108,6 +108,8 @@
     $ref: ./apps/v1_apps_appId_participants_externalId.yml
 /v1/apps/{appId}/participants/{userId}/exporter3/healthdata:
     $ref: ./apps/v1_apps_appId_participants_userId_exporter3_healthdata.yml
+/v1/apps/{appId}/participants/{userId}/exporter3/versions/backfill:
+    $ref: ./apps/v1_apps_appId_participants_userId_exporter3_versions_backfill.yml
 /v1/apps/{appId}/participants/{userId}/reports/{reportId}:
     $ref: ./apps/v1_apps_appId_participants_userId_reports_reportId.yml
 /v1/apps/{appId}/participants/{userId}/sendSmsMessage:
