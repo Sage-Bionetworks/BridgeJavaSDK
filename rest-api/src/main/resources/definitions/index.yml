@@ -173,6 +173,12 @@ DateRange:
     $ref: ./date_range.yml
 DayRange:
     $ref: ./day_range.yml
+Demographic:
+    $ref: ./demographic.yml
+DemographicUser:
+    $ref: ./demographic_user.yml
+DemographicUserAssessment:
+    $ref: ./demographic_user_assessment.yml
 EmailSignIn:
     $ref: ./email_signin.yml
 EmailSignInRequest:

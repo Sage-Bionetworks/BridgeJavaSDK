@@ -1,0 +1,33 @@
+post:
+    operationId: saveDemographicUserAssessment
+    summary: Save/overwrite all demographics for a user
+    description: Save/overwrite all demographics for a user (study-level, posted on the user's behalf by researcher, study coordinator), uses the assessment JSON model
+    tags:
+        - Study Participants
+        - _For Study Coordinators
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+        - name: DemographicUserAssessment
+          required: true
+          in: body
+          schema:
+                $ref: ../../definitions/demographic_user_assessment.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/demographic_user.yml
+        400:
+            $ref: ../../responses/400_message.yml # or - $ref: ../../responses/400_invalid_entity.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml
+        404:
+            description: Account does not exist or is not in this study.
+            schema:
+                $ref: ../../definitions/message.yml

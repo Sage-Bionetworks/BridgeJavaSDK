@@ -1,0 +1,24 @@
+get:
+    operationId: getDemographicUsersAppLevel
+    summary: Fetches all app-level demographics for all users within an app
+    description: Fetches all app-level demographics for all users within an app (app-level, done by app admin)
+    tags:
+        - Apps
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters: []
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        400:
+            # bad pageSize or offsetKey
+            $ref: ../../responses/400_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml

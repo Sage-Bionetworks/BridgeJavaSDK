@@ -1,0 +1,18 @@
+description: A collection of demographics associated with a user (assessment format).
+type: object
+properties:
+    stepHistory:
+        type: array
+        items:
+            type: object
+            properties:
+                identifier:
+                    type: string
+                answerType:
+                    type: object
+                    additionalProperties:
+                        type: string
+                value:
+                    # string, number, integer, boolean
+                    # OR array of string, number, integer, boolean
+                    type: object

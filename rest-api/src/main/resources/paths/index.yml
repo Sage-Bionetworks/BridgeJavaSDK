@@ -146,6 +146,18 @@
     $ref: ./apps/v1_apps_appId_studies_studyId_exporter3_healthdata.yml
 /v1/apps/{appId}/studies/{studyId}/participants/{userId}/adherence/weekly:
     $ref: ./apps/v1_apps_appId_studies_studyId_participants_userId_adherence_weekly.yml
+/v1/apps/self/participants/{userId}/demographics:
+    $ref: ./apps/v1_apps_self_participants_userId_demographics.yml
+/v1/apps/self/participants/self/demographics:
+    $ref: ./apps/v1_apps_self_participants_self_demographics.yml
+/v1/apps/self/participants/{userId}/demographics/assessment:
+    $ref: ./apps/v1_apps_self_participants_userId_demographics_assessment.yml
+/v1/apps/self/participants/self/demographics/assessment:
+    $ref: ./apps/v1_apps_self_participants_self_demographics_assessment.yml
+/v1/apps/self/participants/{userId}/demographics/{demographicId}:
+    $ref: ./apps/v1_apps_self_participants_userId_demographics_demographicId.yml
+/v1/apps/self/participants/demographics:
+    $ref: ./apps/v1_apps_self_participants_demographics.yml
 
 # Assessments
 /v1/assessments:
@@ -667,6 +679,18 @@
     $ref: ./studies/v5_studies_studyId_participants_self_adherence_eventstream.yml
 /v5/studies/{studyId}/adherence/search:
     $ref: ./studies/v5_studies_studyId_adherence_search.yml
+/v5/studies/{studyId}/participants/{userId}/demographics:
+    $ref: ./studies/v5_studies_studyId_participants_userId_demographics.yml
+/v5/studies/{studyId}/participants/self/demographics:
+    $ref: ./studies/v5_studies_studyId_participants_self_demographics.yml
+/v5/studies/{studyId}/participants/{userId}/demographics/assessment:
+    $ref: ./studies/v5_studies_studyId_participants_userId_demographics_assessment.yml
+/v5/studies/{studyId}/participants/self/demographics/assessment:
+    $ref: ./studies/v5_studies_studyId_participants_self_demographics_assessment.yml
+/v5/studies/{studyId}/participants/{userId}/demographics/{demographicId}:
+    $ref: ./studies/v5_studies_studyId_participants_userId_demographics_demographicId.yml
+/v5/studies/{studyId}/participants/demographics:
+    $ref: ./studies/v5_studies_studyId_participants_demographics.yml
 
 # Templates
 /v3/templates:

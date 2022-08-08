@@ -1,0 +1,32 @@
+post:
+    operationId: saveDemographicUserSelfAppLevel
+    summary: Save/overwrite all demographics for a user
+    description: Save/overwrite all demographics for a user (app-level, posted by the user)
+    tags:
+        - Apps
+        - _For Consented Users
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - name: DemographicUser
+          required: true
+          in: body
+          schema:
+                $ref: ../../definitions/demographic_user.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/demographic_user.yml
+        400:
+            $ref: ../../responses/400_message.yml # also - $ref: ../../responses/400_invalid_entity.yml
+        401:
+            $ref: ../../responses/401.yml
+        404:
+            description: Account does not exist.
+            schema:
+                $ref: ../../definitions/message.yml
+        410:
+            $ref: ../../responses/410.yml
+        412:
+            $ref: ../../responses/412.yml
