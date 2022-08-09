@@ -72,7 +72,7 @@ get:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/message.yml
+                $ref: ../../definitions/demographic_user.yml
         401:
             $ref: ../../responses/401.yml
         404:
