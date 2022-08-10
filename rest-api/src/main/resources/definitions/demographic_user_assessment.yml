@@ -3,16 +3,6 @@ type: object
 properties:
     stepHistory:
         type: array
+        description: The step history for this assessment.
         items:
-            type: object
-            properties:
-                identifier:
-                    type: string
-                answerType:
-                    type: object
-                    additionalProperties:
-                        type: string
-                value:
-                    # string, number, integer, boolean
-                    # OR array of string, number, integer, boolean
-                    type: object
+            $ref: ./demographic_user_assessment_step.yml

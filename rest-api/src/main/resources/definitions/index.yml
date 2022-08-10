@@ -179,6 +179,8 @@ DemographicUser:
     $ref: ./demographic_user.yml
 DemographicUserAssessment:
     $ref: ./demographic_user_assessment.yml
+DemographicUserAssessmentStep:
+    $ref: ./demographic_user_assessment_step.yml
 EmailSignIn:
     $ref: ./email_signin.yml
 EmailSignInRequest:
