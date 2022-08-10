@@ -7,9 +7,10 @@ properties:
     answerType:
         type: object
         description: The container for "type".
-        additionalProperties:
-            type: string
-            description: The type of "value". Must be "array" if there are multiple values.
+        properties:
+            type:
+                type: string
+                description: The type of "value". Must be "array" if there are multiple values.
     value:
         type: object
         description: The value of the demographic assessment question answer. Can be string, number, integer, or boolean. Can also be array of string, number, integer, or boolean.
