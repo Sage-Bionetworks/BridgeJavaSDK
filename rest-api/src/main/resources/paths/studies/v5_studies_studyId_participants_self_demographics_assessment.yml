@@ -1,5 +1,5 @@
 post:
-    operationId: saveDemographicUserAssessmentSelf
+    operationId: saveDemographicUserSelfAssessment
     summary: Save/overwrite all demographics for a user
     description: Save/overwrite all demographics for a user (study-level, posted by the user), uses the assessment JSON model
     tags:
