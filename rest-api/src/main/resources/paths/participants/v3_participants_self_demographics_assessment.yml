@@ -3,7 +3,7 @@ post:
     summary: Save/overwrite all demographics for a user
     description: Save/overwrite all demographics for a user (app-level, posted by the user), uses the assessment JSON model
     tags:
-        - Apps
+        - Demographics
         - _For Consented Users
     security:
         - BridgeSecurity: []

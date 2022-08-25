@@ -10,6 +10,8 @@ get:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/offsetBy
+        - $ref: ../../index.yml#/parameters/pageSize
     responses:
         200:
             description: OK

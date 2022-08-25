@@ -3,7 +3,7 @@ post:
     summary: Save/overwrite all demographics for a user
     description: Save/overwrite all demographics for a user (app-level, posted on the user's behalf (by app admin))
     tags:
-        - Apps
+        - Demographics
         - _For Admins
     security:
         - BridgeSecurity: []

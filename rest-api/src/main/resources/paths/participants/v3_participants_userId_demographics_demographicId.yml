@@ -3,7 +3,7 @@ delete:
     summary: Deletes a specific demographic (single category) for a particular user
     description: Deletes a specific demographic (single category) for a particular user (app-level, done by app admin)
     tags:
-        - Apps
+        - Demographics
         - _For Admins
     security:
         - BridgeSecurity: []

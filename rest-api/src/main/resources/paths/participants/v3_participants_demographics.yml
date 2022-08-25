@@ -3,11 +3,13 @@ get:
     summary: Fetches all app-level demographics for all users within an app
     description: Fetches all app-level demographics for all users within an app (app-level, done by app admin)
     tags:
-        - Apps
+        - Demographics
         - _For Admins
     security:
         - BridgeSecurity: []
-    parameters: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/offsetBy
+        - $ref: ../../index.yml#/parameters/pageSize
     responses:
         200:
             description: OK
