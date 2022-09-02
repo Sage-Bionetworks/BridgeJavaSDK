@@ -585,6 +585,8 @@
     $ref: ./studies/v5_studies_studyId_schedule.yml
 /v5/studies/{studyId}/timeline:
     $ref: ./studies/v5_studies_studyId_timeline.yml
+/v5/studies/{studyId}/reverttodesign:
+    $ref: ./studies/v5_studies_studyId_reverttodesign.yml
 /v5/studies/{studyId}/adherence/weekly:
     $ref: ./studies/v5_studies_studyId_adherence_weekly.yml
 /v5/studies/{studyId}/adherence/stats:
