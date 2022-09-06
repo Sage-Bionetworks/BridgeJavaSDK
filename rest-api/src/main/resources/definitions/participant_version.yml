@@ -55,6 +55,19 @@ properties:
     timeZone:
         type: string
         description: Participant's time zone, as an IANA time zone name (eg "America/Los_Angeles").
+    appDemographics:
+        type: object
+        description: Maps demographic category name to demographic information for a specific category of app demographics.
+        additionalProperties:
+            $ref: ./demographic.yml
+    studyDemographics:
+        type: object
+        description: Maps studyId to the user's demographic information for a particular study.
+        additionalProperties:
+            type: object
+            description: Maps demographic category name to demographic information for a specific category of study demographics.
+            additionalProperties:
+                $ref: ./demographic.yml
     type:
         type: string
         readOnly: true
