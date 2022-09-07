@@ -8,4 +8,4 @@ allOf:
             readOnly: true
             x-nullable: false
             items:
-                $ref: ../demographic_user.yml
+                $ref: ../demographic_user_response.yml
