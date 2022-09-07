@@ -4,6 +4,7 @@ post:
     description: Save/overwrite all demographics for a user (study-level, posted by the user)
     tags:
         - Study Participants
+        - Demographics
         - _For Consented Users
     security:
         - BridgeSecurity: []

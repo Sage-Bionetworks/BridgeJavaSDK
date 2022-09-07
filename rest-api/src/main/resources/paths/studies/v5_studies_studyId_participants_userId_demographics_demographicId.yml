@@ -4,6 +4,7 @@ delete:
     description: Deletes a specific demographic (single category) for a particular user (study-level, done by researcher or study coordinator)
     tags:
         - Study Participants
+        - Demographics
         - _For Study Coordinators
         - _For Researchers
     security:

@@ -34,7 +34,7 @@ delete:
     summary: Deletes all of a user's demographics
     description: Deletes all of a user's demographics (app-level, done by app admin)
     tags:
-        - Apps
+        - Demographics
         - _For Admins
     security:
         - BridgeSecurity: []
@@ -58,7 +58,7 @@ get:
     summary: Fetches all demographics for a user
     description: Fetches all demographics for a user (app-level, done by app admin)
     tags:
-        - Apps
+        - Demographics
         - _For Admins
     security:
         - BridgeSecurity: []
