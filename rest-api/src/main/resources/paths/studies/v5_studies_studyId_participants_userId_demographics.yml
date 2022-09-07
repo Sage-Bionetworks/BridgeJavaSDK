@@ -4,6 +4,7 @@ post:
     description: Save/overwrite all demographics for a user (study-level, posted on the user's behalf by researcher, study coordinator)
     tags:
         - Study Participants
+        - Demographics
         - _For Study Coordinators
         - _For Researchers
     security:
@@ -37,6 +38,7 @@ delete:
     description: Deletes all of a user's demographics (study-level, done by researcher or study coordinator)
     tags:
         - Study Participants
+        - Demographics
         - _For Study Coordinators
         - _For Researchers
     security:
@@ -63,6 +65,7 @@ get:
     description: Fetches all demographics for a user (study-level, done by researcher/study-coordinator)
     tags:
         - Study Participants
+        - Demographics
         - _For Study Coordinators
         - _For Researchers
     security:

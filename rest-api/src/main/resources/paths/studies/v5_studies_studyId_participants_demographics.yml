@@ -4,6 +4,7 @@ get:
     description: Fetches all study-level demographics for all users within a study (study-level, done by researcher/study-coordinator)
     tags:
         - Study Participants
+        - Demographics
         - _For Study Coordinators
         - _For Researchers
     security:
