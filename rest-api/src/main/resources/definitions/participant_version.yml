@@ -59,7 +59,7 @@ properties:
         type: object
         description: Maps demographic category name to demographic information for a specific category of app demographics.
         additionalProperties:
-            $ref: ./demographic.yml
+            $ref: ./demographic_response.yml
     studyDemographics:
         type: object
         description: Maps studyId to the user's demographic information for a particular study.
@@ -67,7 +67,7 @@ properties:
             type: object
             description: Maps demographic category name to demographic information for a specific category of study demographics.
             additionalProperties:
-                $ref: ./demographic.yml
+                $ref: ./demographic_response.yml
     type:
         type: string
         readOnly: true
