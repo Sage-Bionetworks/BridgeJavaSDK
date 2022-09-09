@@ -173,6 +173,18 @@ DateRange:
     $ref: ./date_range.yml
 DayRange:
     $ref: ./day_range.yml
+Demographic:
+    $ref: ./demographic.yml
+DemographicResponse:
+    $ref: ./demographic_response.yml
+DemographicUser:
+    $ref: ./demographic_user.yml
+DemographicUserResponse:
+    $ref: ./demographic_user_response.yml
+DemographicUserAssessment:
+    $ref: ./demographic_user_assessment.yml
+DemographicUserAssessmentStep:
+    $ref: ./demographic_user_assessment_step.yml
 EmailSignIn:
     $ref: ./email_signin.yml
 EmailSignInRequest:
@@ -445,6 +457,8 @@ AssessmentList:
     $ref: ./paged_resources/assessment.yml
 CompoundActivityDefinitionList:
     $ref: ./paged_resources/compound_activity_definition.yml
+DemographicUserList:
+    $ref: ./paged_resources/demographic_user.yml
 EnrollmentDetailList:
     $ref: ./paged_resources/enrollment_detail.yml
 ExternalIdentifierList:

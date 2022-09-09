@@ -1,0 +1,31 @@
+post:
+    operationId: saveDemographicUserAssessmentAppLevel
+    summary: Save/overwrite all demographics for a user
+    description: Save/overwrite all demographics for a user (app-level, posted on the user's behalf (by app admin)), Uses the assessment JSON model
+    tags:
+        - Demographics
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+        - name: DemographicUserAssessment
+          required: true
+          in: body
+          schema:
+                $ref: ../../definitions/demographic_user_assessment.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/demographic_user_response.yml
+        400:
+            $ref: ../../responses/400_message.yml # also - $ref: ../../responses/400_invalid_entity.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml
+        404:
+            description: Account does not exist.
+            schema:
+                $ref: ../../definitions/message.yml

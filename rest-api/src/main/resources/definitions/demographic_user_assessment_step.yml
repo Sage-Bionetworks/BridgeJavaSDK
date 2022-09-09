@@ -1,0 +1,16 @@
+description: A single step in the demographic user assessment step history.
+type: object
+properties:
+    identifier:
+        type: string
+        description: The identifier for this demographic assessment question (category name).
+    answerType:
+        type: object
+        description: The container for "type".
+        properties:
+            type:
+                type: string
+                description: The type of "value". Must be "array" if there are multiple values.
+    value:
+        type: object
+        description: The value of the demographic assessment question answer. Can be string, number, integer, or boolean. Can also be array of string, number, integer, or boolean.

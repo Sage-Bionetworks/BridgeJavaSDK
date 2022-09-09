@@ -1,0 +1,28 @@
+delete:
+    operationId: deleteDemographic
+    summary: Deletes a specific demographic (single category) for a particular user
+    description: Deletes a specific demographic (single category) for a particular user (study-level, done by researcher or study coordinator)
+    tags:
+        - Study Participants
+        - Demographics
+        - _For Study Coordinators
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/demographicId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml
+        404:
+            description: Account does not exist or is not in this study, or the demographic to delete does not exist for this user.
+            schema:
+                $ref: ../../definitions/message.yml

@@ -1,0 +1,79 @@
+post:
+    operationId: saveDemographicUserAppLevel
+    summary: Save/overwrite all demographics for a user
+    description: Save/overwrite all demographics for a user (app-level, posted on the user's behalf (by app admin))
+    tags:
+        - Demographics
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+        - name: DemographicUser
+          required: true
+          in: body
+          schema:
+                $ref: ../../definitions/demographic_user.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/demographic_user_response.yml
+        400:
+            $ref: ../../responses/400_message.yml # also $ref: ../../responses/400_invalid_entity.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml
+        404:
+            description: Account does not exist or is not in this study.
+            schema:
+                $ref: ../../definitions/message.yml
+delete:
+    operationId: deleteDemographicUserAppLevel
+    summary: Deletes all of a user's demographics
+    description: Deletes all of a user's demographics (app-level, done by app admin)
+    tags:
+        - Demographics
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml
+        404:
+            description: Account does not exist.
+            schema:
+                $ref: ../../definitions/message.yml
+get:
+    operationId: getDemographicUserAppLevel
+    summary: Fetches all demographics for a user
+    description: Fetches all demographics for a user (app-level, done by app admin)
+    tags:
+        - Demographics
+        - _For Admins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/demographic_user_response.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_admin.yml
+        404:
+            description: Account does not exist.
+            schema:
+                $ref: ../../definitions/message.yml

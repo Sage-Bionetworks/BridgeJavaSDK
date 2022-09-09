@@ -368,6 +368,18 @@
     $ref: ./participants/v3_participants_self_exporter3_healthdata_recordId.yml
 /v3/participants/self/exporter3/healthdata:
     $ref: ./participants/v3_participants_self_exporter3_healthdata.yml
+/v3/participants/{userId}/demographics:
+    $ref: ./participants/v3_participants_userId_demographics.yml
+/v3/participants/self/demographics:
+    $ref: ./participants/v3_participants_self_demographics.yml
+/v3/participants/{userId}/demographics/assessment:
+    $ref: ./participants/v3_participants_userId_demographics_assessment.yml
+/v3/participants/self/demographics/assessment:
+    $ref: ./participants/v3_participants_self_demographics_assessment.yml
+/v3/participants/{userId}/demographics/{demographicId}:
+    $ref: ./participants/v3_participants_userId_demographics_demographicId.yml
+/v3/participants/demographics:
+    $ref: ./participants/v3_participants_demographics.yml
 
 # Shared Modules
 /v3/sharedmodules/{moduleId}/import:
@@ -669,6 +681,18 @@
     $ref: ./studies/v5_studies_studyId_participants_self_adherence_eventstream.yml
 /v5/studies/{studyId}/adherence/search:
     $ref: ./studies/v5_studies_studyId_adherence_search.yml
+/v5/studies/{studyId}/participants/{userId}/demographics:
+    $ref: ./studies/v5_studies_studyId_participants_userId_demographics.yml
+/v5/studies/{studyId}/participants/self/demographics:
+    $ref: ./studies/v5_studies_studyId_participants_self_demographics.yml
+/v5/studies/{studyId}/participants/{userId}/demographics/assessment:
+    $ref: ./studies/v5_studies_studyId_participants_userId_demographics_assessment.yml
+/v5/studies/{studyId}/participants/self/demographics/assessment:
+    $ref: ./studies/v5_studies_studyId_participants_self_demographics_assessment.yml
+/v5/studies/{studyId}/participants/{userId}/demographics/{demographicId}:
+    $ref: ./studies/v5_studies_studyId_participants_userId_demographics_demographicId.yml
+/v5/studies/{studyId}/participants/demographics:
+    $ref: ./studies/v5_studies_studyId_participants_demographics.yml
 
 # Templates
 /v3/templates:
