@@ -1,0 +1,8 @@
+description: A collection holding series of answers to demographics questions in an assessment format.
+type: object
+properties:
+    children:
+        description: A series of answers to demographics questions in an assessment format.
+        type: array
+        items:
+            $ref: ./demographic_user_assessment_answer.yml
