@@ -1,0 +1,16 @@
+description: A single answer in a demographics assessment.
+type: object
+properties:
+    identifier:
+        type: string
+        description: The identifier for this demographic assessment question (category name).
+    answerType:
+        type: object
+        description: The container for "type".
+        properties:
+            unit:
+                type: string
+                description: The units of "value".
+    value:
+        type: object
+        description: The value of the demographic assessment question answer. Can be string; number; integer; boolean; array of string, number, integer, or boolean; or object with fields of string, number, integer, or boolean.

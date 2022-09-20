@@ -183,8 +183,10 @@ DemographicUserResponse:
     $ref: ./demographic_user_response.yml
 DemographicUserAssessment:
     $ref: ./demographic_user_assessment.yml
-DemographicUserAssessmentStep:
-    $ref: ./demographic_user_assessment_step.yml
+DemographicUserAssessmentAnswer:
+    $ref: ./demographic_user_assessment_answer.yml
+DemographicUserAssessmentAnswerCollection:
+    $ref: ./demographic_user_assessment_answer_collection.yml
 EmailSignIn:
     $ref: ./email_signin.yml
 EmailSignInRequest:
