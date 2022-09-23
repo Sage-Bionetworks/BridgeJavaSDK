@@ -2,7 +2,7 @@ description: A collection of demographics associated with a user (assessment for
 type: object
 properties:
     stepHistory:
+        description: The step history for this assessment. One of these objects should be a DemographicUserAssessmentAnswerCollection.
         type: array
-        description: The step history for this assessment.
         items:
-            $ref: ./demographic_user_assessment_step.yml
+            type: object
