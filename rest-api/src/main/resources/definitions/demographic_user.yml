@@ -1,11 +1,6 @@
 description: A collection of demographics associated with a user.
 type: object
 properties:
-    userId:
-        type: string
-        readOnly: true
-        description: The ID of the user who these demographics belong to.
-        x-nullable: false
     demographics:
         type: object
         additionalProperties:

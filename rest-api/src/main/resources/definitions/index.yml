@@ -459,8 +459,8 @@ AssessmentList:
     $ref: ./paged_resources/assessment.yml
 CompoundActivityDefinitionList:
     $ref: ./paged_resources/compound_activity_definition.yml
-DemographicUserList:
-    $ref: ./paged_resources/demographic_user.yml
+DemographicUserResponseList:
+    $ref: ./paged_resources/demographic_user_response.yml
 EnrollmentDetailList:
     $ref: ./paged_resources/enrollment_detail.yml
 ExternalIdentifierList:
