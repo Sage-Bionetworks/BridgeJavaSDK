@@ -19,3 +19,26 @@ get:
             $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_researcher.yml                
+post:
+    operationId: updateParticipantRequestInfo
+    summary: Superadmin API to update a participant's request info.
+    description: Superadmin API to update a participant's request info.
+    tags:
+        - _For Superadmins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/userId
+        - name: RequestInfo
+          in: body
+          description: Request info to update
+          required: true
+          schema:
+              $ref: ../../definitions/request_info.yml
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_superadmin.yml
