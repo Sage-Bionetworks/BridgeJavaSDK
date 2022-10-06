@@ -19,6 +19,14 @@ properties:
         type: string
         description: |
             The Synapse table to where we export Participant Versions.
+    participantVersionDemographicsTableId:
+        type: string
+        description: |
+            The Synapse table to where we exporter Participant Version Demographics.
+    participantVersionDemographicsViewId:
+        type: string
+        description: |
+            The Synapse materialized view which joins the Participant Versions table and the Demographics table.
     projectId:
         type: string
         description: |

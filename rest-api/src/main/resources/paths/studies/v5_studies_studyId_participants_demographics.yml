@@ -17,7 +17,7 @@ get:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/paged_resources/demographic_user.yml
+                $ref: ../../definitions/paged_resources/demographic_user_response.yml
         400:
             # bad pageSize or offsetKey
             $ref: ../../responses/400_message.yml
