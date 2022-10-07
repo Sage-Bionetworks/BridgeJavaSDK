@@ -35,6 +35,9 @@ properties:
         x-nullable: false
     colorScheme:
         $ref: ./color_scheme.yml
+    imageResource:
+        $ref: ./image_resource.yml
+        x-nullable: true
     type:
         type: string
         readOnly: true

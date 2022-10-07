@@ -249,6 +249,8 @@ IdentifierUpdate:
     $ref: ./identifier_update.yml
 Image:
     $ref: ./image.yml
+imageResource:
+    $ref: ./image_resource.yml
 IntentToParticipate:
     $ref: ./intent_to_participate.yml
 InvalidEntity:
