@@ -1,0 +1,13 @@
+description: Validation for rules for validating enum demographics.
+type: object
+properties:
+  min:
+    description: The minimum allowed value for numbers in this category (optional).
+    type: number
+    format: double
+    x-nullable: true
+  max:
+    description: The maximum allowed value for numbers in this category (optional).
+    type: number
+    format: double
+    x-nullable: true

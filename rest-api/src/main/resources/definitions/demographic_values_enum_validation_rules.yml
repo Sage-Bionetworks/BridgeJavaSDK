@@ -1,0 +1,10 @@
+description: >
+  Validation for rules for validating enum demographics.
+  Maps language codes to lists of values allowed for that language.
+  Currently only English (key "en") will be used.
+type: object
+additionalProperties:
+  description: The allowed values for this category.
+  type: array
+  items:
+    type: string
