@@ -1,4 +1,4 @@
-description: Validation for rules for validating enum demographics.
+description: Validation for rules for validating enum demographics. This validation ignores non-number values.
 type: object
 properties:
   min:
