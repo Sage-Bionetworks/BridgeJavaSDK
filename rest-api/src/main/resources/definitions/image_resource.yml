@@ -12,9 +12,12 @@ properties:
     type: string
     description: The module of the image to display.
     x-nullable: true
-  label:
-    $ref: ./label.yml
-    x-nullable: true
+  labels:
+    type: array
+    description: A collection of labels for this ImageResource. Only one label can be included for each language, and if the user’s language cannot be selected, English will be selected as a default.
+    items:
+      $ref: ./label.yml
+    x-nullable: false
   type:
     type: string
     readOnly: true
