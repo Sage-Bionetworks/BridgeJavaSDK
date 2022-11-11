@@ -117,6 +117,8 @@ AdherenceStatistics:
     $ref: ./adherence_statistics.yml
 AdherenceStatisticsEntry:
     $ref: ./adherence_statistics_entry.yml
+Alert:
+    $ref: ./alert.yml
 AndroidAppLink:
     $ref: ./android_app_link.yml
 App:
@@ -437,6 +439,8 @@ Withdrawal:
     $ref: ./withdrawal.yml
 
 # Paged resources
+AlertList:
+    $ref: ./paged_resources/alert.yml
 ResourceList:
     $ref: ./paged_resources/resource_list.yml
 PagedResourceList:

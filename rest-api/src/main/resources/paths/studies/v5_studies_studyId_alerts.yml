@@ -1,0 +1,26 @@
+get:
+    operationId: getAlerts
+    summary: Fetches all alerts for a study.
+    tags:
+        - Alerts
+        - Studies
+        - _For Study Coordinators
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/offsetBy
+        - $ref: ../../index.yml#/parameters/pageSize
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/alert.yml
+        400:
+            # bad pageSize or offsetKey
+            $ref: ../../responses/400_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml
