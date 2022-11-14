@@ -13,6 +13,13 @@ properties:
         $ref: ./enums/session_completion_state.yml
         readOnly: true
         x-nullable: false
+    startDate:
+        type: string
+        format: date
+        readOnly: true
+    startTime:
+        type: string
+        readOnly: true
     endDay:
         type: integer
         readOnly: true
@@ -22,6 +29,9 @@ properties:
         format: date
         readOnly: true
         x-nullable: false
+    endTime:
+        type: string
+        readOnly: true
     type:
         type: string
         readOnly: true
