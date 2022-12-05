@@ -187,6 +187,8 @@ DemographicUserAssessmentAnswer:
     $ref: ./demographic_user_assessment_answer.yml
 DemographicUserAssessmentAnswerCollection:
     $ref: ./demographic_user_assessment_answer_collection.yml
+DemographicValueResponse:
+    $ref: ./demographic_value_response.yml
 DemographicValuesValidationConfiguration:
     $ref: ./demographic_values_validation_configuration.yml
 DemographicValuesEnumValidationRules:
