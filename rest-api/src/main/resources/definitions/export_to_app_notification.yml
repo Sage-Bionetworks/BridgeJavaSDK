@@ -2,6 +2,8 @@ description: |
     Notification for when a health data is exported to an app-wide Synapse project for Exporter 3.0. This is also used
     by the worker to trigger notifications and generate study-specific notifications.
 type: object
+required:
+    - studyRecords
 properties:
     appId:
         type: string
