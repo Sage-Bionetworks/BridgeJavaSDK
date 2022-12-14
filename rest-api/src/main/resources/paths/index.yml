@@ -380,6 +380,8 @@
     $ref: ./participants/v3_participants_userId_demographics_demographicId.yml
 /v3/participants/demographics:
     $ref: ./participants/v3_participants_demographics.yml
+/v3/participants/demographics/validation/{categoryName}:
+    $ref: ./participants/v3_participants_demographics_validation_categoryName.yml
 
 # Shared Modules
 /v3/sharedmodules/{moduleId}/import:
@@ -693,6 +695,8 @@
     $ref: ./studies/v5_studies_studyId_participants_userId_demographics_demographicId.yml
 /v5/studies/{studyId}/participants/demographics:
     $ref: ./studies/v5_studies_studyId_participants_demographics.yml
+/v5/studies/{studyId}/participants/demographics/validation/{categoryName}:
+    $ref: ./studies/v5_studies_studyId_participants_demographics_validation_categoryName.yml
 
 # Templates
 /v3/templates:
