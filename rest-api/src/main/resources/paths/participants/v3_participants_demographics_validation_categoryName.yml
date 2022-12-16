@@ -5,6 +5,7 @@ post:
     tags:
         - Demographics
         - _For Admins
+        - _For Developers
     security:
         - BridgeSecurity: []
     parameters:
@@ -24,7 +25,7 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_admin.yml
+            $ref: ../../responses/403_not_admin_developer.yml
 get:
     operationId: getDemographicsValidationConfigAppLevel
     summary: Fetch a DemographicValuesValidationConfig at the app level
@@ -32,6 +33,7 @@ get:
     tags:
         - Demographics
         - _For Admins
+        - _For Developers
     security:
         - BridgeSecurity: []
     parameters:
@@ -44,7 +46,7 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_admin.yml
+            $ref: ../../responses/403_not_admin_developer.yml
         404:
             description: DemographicValuesValidationConfig does not exist.
             schema:
@@ -56,6 +58,7 @@ delete:
     tags:
         - Demographics
         - _For Admins
+        - _For Developers
     security:
         - BridgeSecurity: []
     parameters:
@@ -68,7 +71,7 @@ delete:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_admin.yml
+            $ref: ../../responses/403_not_admin_developer.yml
         404:
             description: DemographicValuesValidationConfig does not exist.
             schema:

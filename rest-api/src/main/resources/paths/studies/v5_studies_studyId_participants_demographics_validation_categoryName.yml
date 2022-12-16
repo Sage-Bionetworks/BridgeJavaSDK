@@ -5,8 +5,8 @@ post:
     tags:
         - Study Participants
         - Demographics
-        - _For Study Coordinators
-        - _For Researchers
+        - _For Study Designers
+        - _For Developers
     security:
         - BridgeSecurity: []
     parameters:
@@ -27,7 +27,7 @@ post:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_study_coordinator_researcher.yml
+            $ref: ../../responses/403_not_study_designer_developer.yml
 get:
     operationId: getDemographicsValidationConfig
     summary: Fetch a DemographicValuesValidationConfig
@@ -37,6 +37,8 @@ get:
         - Demographics
         - _For Study Coordinators
         - _For Researchers
+        - _For Developers
+        - _For Study Designers
     security:
         - BridgeSecurity: []
     parameters:
@@ -50,7 +52,7 @@ get:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_study_coordinator_researcher.yml
+            $ref: ../../responses/403_not_developer_researcher_study_designer_study_coordinator.yml
         404:
             description: DemographicValuesValidationConfig does not exist.
             schema:
@@ -62,8 +64,8 @@ delete:
     tags:
         - Study Participants
         - Demographics
-        - _For Study Coordinators
-        - _For Researchers
+        - _For Study Designers
+        - _For Developers
     security:
         - BridgeSecurity: []
     parameters:
@@ -77,7 +79,7 @@ delete:
         401:
             $ref: ../../responses/401.yml
         403:
-            $ref: ../../responses/403_not_study_coordinator_researcher.yml
+            $ref: ../../responses/403_not_study_designer_developer.yml
         404:
             description: DemographicValuesValidationConfig does not exist.
             schema:
