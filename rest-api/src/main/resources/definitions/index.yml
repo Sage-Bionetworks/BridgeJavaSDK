@@ -217,6 +217,10 @@ EventStreamWindow:
     $ref: ./event_stream_window.yml
 WeeklyEventStreamDay:
     $ref: ./weekly_event_stream_day.yml
+ExportNotificationRecordInfo:
+    $ref: ./export_notification_record_info.yml
+ExportToAppNotification:
+    $ref: ./export_to_app_notification.yml
 Exporter3Configuration:
     $ref: ./exporter3_configuration.yml
 ExporterSubscriptionRequest:

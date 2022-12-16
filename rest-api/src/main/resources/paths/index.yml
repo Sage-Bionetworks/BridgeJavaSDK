@@ -75,6 +75,8 @@
     $ref: ./apps/v1_apps_self_emails_resendVerify.yml
 /v1/apps/self/exporter3:
     $ref: ./apps/v1_apps_self_exporter3.yml
+/v1/apps/self/exporter3/notifications/export/subscribe:
+    $ref: ./apps/v1_apps_self_exporter3_notifications_export_subscribe.yml
 /v1/apps/self/exporter3/notifications/study/subscribe:
     $ref: ./apps/v1_apps_self_exporter3_notifications_study_subscribe.yml
 /v1/apps/self/verifyEmail:
@@ -172,6 +174,10 @@
     $ref: ./assessments/v1_assessments_assessmentId_resources_guid.yml
 /v1/assessments/identifier:{assessmentId}/resources/publish:
     $ref: ./assessments/v1_assessments_assessmentId_resources_publish.yml
+
+# Exporter 3
+/v1/exporter3/notifications/export:
+    $ref: ./exporter3/v1_exporter3_notifications_export.yml
 
 # Shared Assessments
 /v1/sharedassessments:
@@ -581,6 +587,8 @@
     $ref: ./studies/v5_studies_studyId_enrollments_userId.yml
 /v5/studies/{studyId}/exporter3:
     $ref: ./studies/v5_studies_studyId_exporter3.yml
+/v5/studies/{studyId}/exporter3/notifications/export/subscribe:
+    $ref: ./studies/v5_studies_studyId_exporter3_notifications_export_subscribe.yml
 /v5/studies/{studyId}/externalids:
     $ref: ./studies/v5_studies_studyId_externalids.yml
 /v5/studies/{studyId}/design:
