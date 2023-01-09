@@ -1,0 +1,29 @@
+description: |
+    Information about records exported to Synapse, for use in sending notifications.
+type: object
+properties:
+    parentProjectId:
+        type: string
+        description: |
+            Synapse project that the health data is exported to.
+    rawFolderId:
+        type: string
+        description: |
+            Synapse folder that the health data is exported to.
+    fileEntityId:
+        type: string
+        description: |
+            Synapse file entity of the health data that is exported.
+    s3Bucket:
+        type: string
+        description: |
+            S3 bucket that contains the exported health data.
+    s3Key:
+        type: string
+        description: |
+            S3 key that of the exported health data.
+    type:
+        type: string
+        readOnly: true
+        description: "RecordInfo"
+        x-nullable: false
