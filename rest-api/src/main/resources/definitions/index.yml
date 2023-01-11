@@ -187,6 +187,14 @@ DemographicUserAssessmentAnswer:
     $ref: ./demographic_user_assessment_answer.yml
 DemographicUserAssessmentAnswerCollection:
     $ref: ./demographic_user_assessment_answer_collection.yml
+DemographicValueResponse:
+    $ref: ./demographic_value_response.yml
+DemographicValuesValidationConfig:
+    $ref: ./demographic_values_validation_config.yml
+DemographicValuesEnumValidationRules:
+    $ref: ./demographic_values_enum_validation_rules.yml
+DemographicValuesNumberRangeValidationRules:
+    $ref: ./demographic_values_number_range_validation_rules.yml
 EmailSignIn:
     $ref: ./email_signin.yml
 EmailSignInRequest:

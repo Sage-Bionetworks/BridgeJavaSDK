@@ -1,0 +1,13 @@
+description: A single value for a demographic within a category.
+type: object
+required:
+    - value
+properties:
+    value:
+        description: A single demographic value.
+        type: string
+        x-nullable: false
+    invalidity:
+        description: The reason that this value might be invalid. If null, it is valid.
+        type: string
+        x-nullable: true
