@@ -13,7 +13,7 @@ properties:
     values:
         type: array
         items:
-            type: string
+            $ref: ./demographic_value_response.yml
         description: The values of the specific user's demographic information for the specific category.
         x-nullable: false
     units:
