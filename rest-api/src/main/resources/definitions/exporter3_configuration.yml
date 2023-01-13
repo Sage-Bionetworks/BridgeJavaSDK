@@ -15,6 +15,11 @@ properties:
         format: int64
         description: |
             Synapse team ID that is granted read access to exported health data records.
+    exportNotificationTopicArn:
+        type: string
+        description: |
+            SNS topic to publish to when health data is exported to Synapse. This can be configured both for app-wide
+            notifications and for study-specific notifications.
     participantVersionTableId:
         type: string
         description: |
