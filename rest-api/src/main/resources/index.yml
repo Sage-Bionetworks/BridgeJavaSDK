@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-    version: "0.25.17"
+    version: "0.25.18"
     title: Bridge Server API
 host: webservices.sagebridge.org
 basePath: /
@@ -502,6 +502,12 @@ parameters:
     demographicId:
         name: demographicId
         description: ID of a particular demographic for a specific category associated with a specific user
+        required: true
+        in: path
+        type: string
+    categoryName:
+        name: categoryName
+        description: Name of a demographics category.
         required: true
         in: path
         type: string
