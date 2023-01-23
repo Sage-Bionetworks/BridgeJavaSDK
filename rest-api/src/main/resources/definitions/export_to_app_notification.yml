@@ -1,0 +1,33 @@
+description: |
+    Notification for when a health data is exported to an app-wide Synapse project for Exporter 3.0. This is also used
+    by the worker to trigger notifications and generate study-specific notifications.
+type: object
+required:
+    - studyRecords
+properties:
+    appId:
+        type: string
+        description: |
+            App that the health data is exported for.
+    recordId:
+        type: string
+        description: |
+            Record ID of the health data that is exported.
+    record:
+        description: |
+            Record that is exported to the app-wide Synapse project. May be null if there is no app-wide Synapse
+            project configured.
+        $ref: ./export_notification_record_info.yml
+    studyRecords:
+        type: object
+        description: |
+            Records that are exported to the study-specific Synapse project, keyed by study ID. May be empty if there
+            are no study-specific Synapse projects configured.
+        additionalProperties:
+            $ref: ./export_notification_record_info.yml
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "ExportToAppNotification"
+        x-nullable: false

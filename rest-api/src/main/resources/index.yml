@@ -505,6 +505,12 @@ parameters:
         required: true
         in: path
         type: string
+    categoryName:
+        name: categoryName
+        description: Name of a demographics category.
+        required: true
+        in: path
+        type: string
 paths:
     $ref: ./paths/index.yml
 definitions:

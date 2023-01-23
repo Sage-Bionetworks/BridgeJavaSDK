@@ -1,0 +1,86 @@
+post:
+    operationId: saveDemographicsValidationConfig
+    summary: Save a DemographicValuesValidationConfig
+    description: Save a DemographicValuesValidationConfig to configure demographics validation.
+    tags:
+        - Study Participants
+        - Demographics
+        - _For Study Designers
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/categoryName
+        - name: DemographicValuesValidationConfig
+          required: true
+          in: body
+          schema:
+              $ref: ../../definitions/demographic_values_validation_config.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/demographic_values_validation_config.yml
+        400:
+            $ref: ../../responses/400_message.yml # also - $ref: ../../responses/400_invalid_entity.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_designer_developer.yml
+get:
+    operationId: getDemographicsValidationConfig
+    summary: Fetch a DemographicValuesValidationConfig
+    description: Fetch an existing DemographicValuesValidationConfig which is used to configure demographics validation.
+    tags:
+        - Study Participants
+        - Demographics
+        - _For Study Coordinators
+        - _For Researchers
+        - _For Developers
+        - _For Study Designers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/categoryName
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/demographic_values_validation_config.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher_study_designer_study_coordinator.yml
+        404:
+            description: DemographicValuesValidationConfig does not exist.
+            schema:
+                $ref: ../../definitions/message.yml
+delete:
+    operationId: deleteDemographicsValidationConfig
+    summary: Delete a DemographicValuesValidationConfig
+    description: Delete an existing DemographicValuesValidationConfig which is used to configure demographics validation.
+    tags:
+        - Study Participants
+        - Demographics
+        - _For Study Designers
+        - _For Developers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/categoryName
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_designer_developer.yml
+        404:
+            description: DemographicValuesValidationConfig does not exist.
+            schema:
+                $ref: ../../definitions/message.yml
