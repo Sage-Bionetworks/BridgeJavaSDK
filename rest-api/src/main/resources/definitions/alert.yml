@@ -24,7 +24,7 @@ properties:
         x-nullable: false
     category:
         type: string
-        enum: [new_enrollment, timeline_accessed, low_adherence, upcoming_study_burst, test_window_change]
+        enum: [new_enrollment, timeline_accessed, low_adherence, upcoming_study_burst, study_burst_change]
         description: The category of this alert.
         readOnly: true
         x-nullable: false
