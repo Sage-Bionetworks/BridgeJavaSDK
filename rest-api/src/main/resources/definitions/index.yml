@@ -119,6 +119,10 @@ AdherenceStatisticsEntry:
     $ref: ./adherence_statistics_entry.yml
 Alert:
     $ref: ./alert.yml
+AlertIdCollection:
+    $ref: ./alert_id_collection.yml
+AlertFilter:
+    $ref: ./alert_filter.yml
 AndroidAppLink:
     $ref: ./android_app_link.yml
 App:
