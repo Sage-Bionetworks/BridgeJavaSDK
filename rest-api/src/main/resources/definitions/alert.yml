@@ -10,26 +10,25 @@ properties:
         type: string
         description: The unique ID of this alert.
         readOnly: true
-        x-nullable: false
     createdOn:
         type: string
         format: date-time
         example: '2020-08-28T14:28:13.386Z'
         description: The date and time this alert was created.
         readOnly: true
-        x-nullable: false
     participant:
         $ref: ./account_ref.yml
         readOnly: true
-        x-nullable: false
     category:
         type: string
         enum: [new_enrollment, timeline_accessed, low_adherence, upcoming_study_burst, study_burst_change]
         description: The category of this alert.
         readOnly: true
-        x-nullable: false
     data:
         type: object
         description: Data required to properly format and display the alert. Schema depends on category.
         readOnly: true
-        x-nullable: true
+    type:
+        type: string
+        readOnly: true
+        description: "Alert"

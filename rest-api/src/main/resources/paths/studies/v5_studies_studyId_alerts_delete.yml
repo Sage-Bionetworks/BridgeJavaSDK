@@ -10,14 +10,11 @@ post:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
-        - name: Alerts
+        - name: AlertIdCollection
           required: true
           in: body
           schema:
-                type: array
-                description: The IDs of alerts to delete.
-                items:
-                    type: string
+                $ref: ../../definitions/alert_id_collection.yml
     responses:
         200:
             description: OK

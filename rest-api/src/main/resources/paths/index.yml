@@ -615,8 +615,8 @@
     $ref: ./studies/v5_studies_studyId_adherence_stats.yml
 /v5/studies/{studyId}/alerts:
     $ref: ./studies/v5_studies_studyId_alerts.yml
-/v5/studies/{studyId}/deleteAlerts:
-    $ref: ./studies/v5_studies_studyId_deleteAlerts.yml
+/v5/studies/{studyId}/alerts/delete:
+    $ref: ./studies/v5_studies_studyId_alerts_delete.yml
 
 # Study Participants
 /v5/studies/{studyId}/participants/emailRoster:
