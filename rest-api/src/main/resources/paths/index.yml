@@ -617,6 +617,12 @@
     $ref: ./studies/v5_studies_studyId_alerts.yml
 /v5/studies/{studyId}/alerts/delete:
     $ref: ./studies/v5_studies_studyId_alerts_delete.yml
+/v5/studies/{studyId}/alerts/read:
+    $ref: ./studies/v5_studies_studyId_alerts_read.yml
+/v5/studies/{studyId}/alerts/unread:
+    $ref: ./studies/v5_studies_studyId_alerts_unread.yml
+/v5/studies/{studyId}/alerts/categories/counts:
+    $ref: ./studies/v5_studies_studyId_alerts_categories_counts.yml
 
 # Study Participants
 /v5/studies/{studyId}/participants/emailRoster:

@@ -13,7 +13,7 @@ properties:
     createdOn:
         type: string
         format: date-time
-        example: '2020-08-28T14:28:13.386Z'
+        example: "2020-08-28T14:28:13.386Z"
         description: The date and time this alert was created.
         readOnly: true
     participant:
@@ -21,12 +21,23 @@ properties:
         readOnly: true
     category:
         type: string
-        enum: [new_enrollment, timeline_accessed, low_adherence, upcoming_study_burst, study_burst_change]
+        enum:
+            [
+                new_enrollment,
+                timeline_accessed,
+                low_adherence,
+                upcoming_study_burst,
+                study_burst_change,
+            ]
         description: The category of this alert.
         readOnly: true
     data:
         type: object
         description: Data required to properly format and display the alert. Schema depends on category.
+        readOnly: true
+    read:
+        type: boolean
+        description: Whether this alert has been marked as read.
         readOnly: true
     type:
         type: string

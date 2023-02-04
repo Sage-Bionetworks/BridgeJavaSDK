@@ -1,6 +1,6 @@
 post:
-    operationId: getAlerts
-    summary: Fetches all alerts for a study.
+    operationId: markAlertsUnread
+    summary: Mark alerts as unread.
     tags:
         - Alerts
         - Studies
@@ -10,22 +10,21 @@ post:
         - BridgeSecurity: []
     parameters:
         - $ref: ../../index.yml#/parameters/studyId
-        - $ref: ../../index.yml#/parameters/offsetBy
-        - $ref: ../../index.yml#/parameters/pageSize
-        - name: AlertFilter
+        - name: AlertIdCollection
           required: true
           in: body
           schema:
-              $ref: ../../definitions/alert_filter.yml
+              $ref: ../../definitions/alert_id_collection.yml
     responses:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/paged_resources/alert.yml
-        400:
-            # bad pageSize or offsetKey
-            $ref: ../../responses/400_message.yml
+                $ref: ../../definitions/message.yml
         401:
             $ref: ../../responses/401.yml
         403:
             $ref: ../../responses/403_not_study_coordinator_researcher.yml
+        404:
+            description: Alert does not exist or is not in this study.
+            schema:
+                $ref: ../../definitions/message.yml

@@ -119,6 +119,10 @@ AdherenceStatisticsEntry:
     $ref: ./adherence_statistics_entry.yml
 Alert:
     $ref: ./alert.yml
+AlertCategoryAndCount:
+    $ref: ./alert_category_and_count.yml
+AlertCategoriesAndCounts:
+    $ref: ./alert_categories_and_counts.yml
 AlertIdCollection:
     $ref: ./alert_id_collection.yml
 AlertFilter:
