@@ -1,0 +1,14 @@
+description: A list of categories of alerts and the number of alerts in those categories for a particular study.
+type: object
+required:
+    - alertCategoriesAndCounts
+properties:
+    alertCategoriesAndCounts:
+        type: array
+        description: An array of categories of alerts and the number of alerts in those categories for a particular study.
+        items:
+            $ref: ./alert_category_and_count.yml
+    type:
+        type: string
+        readOnly: true
+        description: "AlertCategoriesAndCounts"
