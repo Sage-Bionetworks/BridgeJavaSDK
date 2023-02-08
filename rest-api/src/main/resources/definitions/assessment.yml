@@ -100,6 +100,36 @@ properties:
     imageResource:
         $ref: ./image_resource.yml
         x-nullable: true
+    age:
+        type: string
+    longDescription:
+        type: string
+    scores:
+        type: string
+    reliability:
+        type: string
+    category:
+        type: string
+    technicalManualUrl:
+        type: string
+    publicationUrls:
+        type: array
+        items:
+            type: string
+    caption:
+        type: string
+    videoUrl:
+        type: string
+    phoneOrientation:
+        type: string
+    soundRequired:
+        type: boolean
+    multiPart:
+        type: boolean
+    assessmentType:
+        type: string
+    metadataJsonSchemaUrl:
+        type: string
     type:
         type: string
         readOnly: true
