@@ -100,36 +100,19 @@ properties:
     imageResource:
         $ref: ./image_resource.yml
         x-nullable: true
-    age:
+    frameworkIdentifier:
         type: string
-    longDescription:
-        type: string
-    scores:
-        type: string
-    reliability:
+    jsonSchemaUrl:
         type: string
     category:
         type: string
-    technicalManualUrl:
-        type: string
-    publicationUrls:
-        type: array
-        items:
-            type: string
-    caption:
-        type: string
-    videoUrl:
-        type: string
-    phoneOrientation:
-        type: string
-    soundRequired:
-        type: boolean
-    multiPart:
-        type: boolean
-    assessmentType:
-        type: string
-    metadataJsonSchemaUrl:
-        type: string
+    minAge:
+        type: integer
+    maxAge:
+        type: integer
+    additionalMetadata:
+        type: object
+        description: Additional metadata fields, expressed as a key-value blob.
     type:
         type: string
         readOnly: true
