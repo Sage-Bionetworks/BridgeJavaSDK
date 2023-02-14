@@ -102,14 +102,19 @@ properties:
         x-nullable: true
     frameworkIdentifier:
         type: string
+        description: The framework this assessment belongs to.
     jsonSchemaUrl:
         type: string
+        description: A URL for a resource specifying a JSON schema for metadata.
     category:
         type: string
+        description: The category of assessment.
     minAge:
         type: integer
+        description: The minimum age of someone taking this assessment.
     maxAge:
         type: integer
+        description: The maximum age of someone taking this assessment.
     additionalMetadata:
         type: object
         description: Additional metadata fields, expressed as a key-value blob.
