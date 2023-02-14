@@ -1,8 +1,8 @@
 description: >
-  Configuration stored in app config which configures the validation of demographic values.
-  To enable validation of demographics, this object should be stored in an app config element under
-  the key "bridge-validation-demographics-values-{categoryName}", where "categoryName" is the name
-  of the category which this validation configuration applies to.
+  Configuration which configures the validation of app-level and study-level demographic values.
+  When saved, it enables validation of demographics for a specific category to determine
+  whether submitted demographics match a specific set of values (enum validation)
+  or whether they are numbers that fall within a specified range (number_range validation).
 type: object
 properties:
   validationType:
