@@ -105,19 +105,19 @@ properties:
         description: The framework this assessment belongs to.
     jsonSchemaUrl:
         type: string
-        description: A URL for a resource specifying a JSON schema for metadata.
+        description: A URL for a resource specifying a JSON schema for the archived results.
     category:
         type: string
         description: The category of assessment.
     minAge:
         type: integer
-        description: The minimum age of someone taking this assessment.
+        description: The minimum age for which this assessment has been validated.
     maxAge:
         type: integer
-        description: The maximum age of someone taking this assessment.
+        description: The maximum age for which this assessment has been validated.
     additionalMetadata:
         type: object
-        description: Additional metadata fields, expressed as a key-value blob.
+        description: Additional metadata fields, expressed as a key-value map.
     type:
         type: string
         readOnly: true
