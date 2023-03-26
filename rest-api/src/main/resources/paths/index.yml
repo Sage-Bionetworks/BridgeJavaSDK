@@ -148,8 +148,6 @@
     $ref: ./apps/v1_apps_appId_studies_studyId_exporter3_healthdata.yml
 /v1/apps/{appId}/studies/{studyId}/participants/{userId}/adherence/weekly:
     $ref: ./apps/v1_apps_appId_studies_studyId_participants_userId_adherence_weekly.yml
-/v1/apps/{appId}/studies/{studyId}/participants/{userId}/adherence/detail:
-    $ref: ./apps/v1_apps_appId_studies_studyId_participants_userId_adherence_detail.yml
 
 # Assessments
 /v1/assessments:
@@ -611,8 +609,6 @@
     $ref: ./studies/v5_studies_studyId_timeline.yml
 /v5/studies/{studyId}/reverttodesign:
     $ref: ./studies/v5_studies_studyId_reverttodesign.yml
-/v5/studies/{studyId}/adherence/detail:
-    $ref: ./studies/v5_studies_studyId_adherence_detail.yml
 /v5/studies/{studyId}/adherence/weekly:
     $ref: ./studies/v5_studies_studyId_adherence_weekly.yml
 /v5/studies/{studyId}/adherence/stats:

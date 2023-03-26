@@ -209,8 +209,6 @@ DetailedAdherenceReport:
     $ref: ./detailed_adherence_report.yml
 DetailedAdherenceReportAssessmentRecord:
     $ref: ./detailed_adherence_report_assessment_record.yml
-DetailedAdherenceReportRequest:
-    $ref: ./detailed_adherence_report_request.yml
 DetailedAdherenceReportSessionRecord:
     $ref: ./detailed_adherence_report_session_record.yml
 EmailSignIn:
