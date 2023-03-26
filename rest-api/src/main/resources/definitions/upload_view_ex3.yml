@@ -1,0 +1,45 @@
+description: |
+    This helpful data structure includes the upload, health data record, adherence records, and timeline metadata for
+    a given upload/record ID, if they exist.
+type: object
+required:
+    - id
+    - healthCode
+    - userId
+properties:
+    id:
+        type: string
+        readOnly: true
+        description: |
+            Upload ID. This is the same as Record ID. Provided here for convenience, since the upload or record might
+            not always exist.
+    healthCode:
+        type: string
+        readOnly: true
+        description: Health code of the user that submitted the upload or record.
+    userId:
+        type: string
+        readOnly: true
+        description: ID of the user that submitted the upload or record.
+    adherenceRecords:
+        type: array
+        readOnly: true
+        items:
+            $ref: adherence_record.yml
+        description: Adherence records associated with this upload.
+    record:
+        readOnly: true
+        $ref: health_data_record_ex3.yml
+        description: Health data record corresponding to this upload, if it exists.
+    timelineMetadata:
+        readOnly: true
+        $ref: timeline_metadata.yml
+        description: Timeline metadata associated with this upload.
+    upload:
+        readOnly: true
+        $ref: upload_metadata.yml
+        description: Upload corresponding to the health data record, if it exists.
+    type:
+        type: string
+        readOnly: true
+        description: "Upload"
