@@ -36,7 +36,12 @@ properties:
         type: string
         format: date-time
         example: '2020-08-28T14:28:13.386Z'
-        description: The timestamp when an uploaded was recorded as successfully uploaded. If this timestamp is missing, the upload has not yet reached the server.
+        description: The timestamp when an upload was recorded as successfully uploaded. If this timestamp is missing, the upload has not yet reached the server.
+    uploadIds:
+        type: array
+        description: Identifiers of uploads related to this adherence record.
+        items:
+            type: string
     declined:
         type: boolean
         description: If the participant explicitly decides to skip a session or an assessment, this can be indicated by the mobile app by setting this flag to true. This can then used when considering adherence to the protocol.
