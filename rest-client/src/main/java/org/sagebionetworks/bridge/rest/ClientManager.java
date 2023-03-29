@@ -84,15 +84,29 @@ public class ClientManager {
     private final List<String> acceptLanguages;
     private final ApiClientProvider.AuthenticatedClientProvider authenticatedClientProvider;
     private final String hostURL;
+    private final boolean includeUserAgent;
+    private final String userAgentOverride;
     
-    private ClientManager(Config config, ClientInfo clientInfo, List<String> acceptLanguages, SignIn signIn, String hostURL) {
+    private ClientManager(Config config, ClientInfo clientInfo, List<String> acceptLanguages, SignIn signIn,
+            String hostURL, boolean includeUserAgent, String userAgentOverride) {
         checkNotNull(HOSTS.get(config.getEnvironment()));
         
         this.hostURL = hostURL;
         this.config = config;
         this.clientInfo = clientInfo;
         this.acceptLanguages = acceptLanguages;
-        String userAgent = RestUtils.getUserAgent(clientInfo);
+        this.includeUserAgent = includeUserAgent;
+        this.userAgentOverride = userAgentOverride;
+
+        String userAgent;
+        if (!includeUserAgent) {
+            userAgent = null;
+        } else if (userAgentOverride != null) {
+            userAgent = userAgentOverride;
+        } else {
+            userAgent = RestUtils.getUserAgent(clientInfo);
+        }
+
         String acceptLanguage = RestUtils.getAcceptLanguage(acceptLanguages);
 
         this.authenticatedClientProvider =
@@ -125,6 +139,11 @@ public class ClientManager {
         return hostURL;
     }
 
+    /** This User-Agent string will be used instead of ClientInfo. */
+    public String getUserAgentOverride() {
+        return userAgentOverride;
+    }
+
     public static String getUrl(Environment env) {
         return HOSTS.get(env);
     }
@@ -144,7 +163,9 @@ public class ClientManager {
         private Config config;
         private ClientInfo clientInfo;
         private List<String> acceptLanguages;
+        private boolean includeUserAgent = true;
         private SignIn signIn;
+        private String userAgentOverride;
 
         /**
          * Provide a configuration object for this ClientManager. A default configuration
@@ -190,6 +211,13 @@ public class ClientManager {
             this.acceptLanguages = acceptLanguages;
             return this;
         }
+
+        /** True if you want the ClientManager to include the User-Agent header in requests. Defaults to true. */
+        public Builder withIncludeUserAgent(boolean includeUserAgent) {
+            this.includeUserAgent = includeUserAgent;
+            return this;
+        }
+
         /**
          * Provide the sign in credentials for clients from this ClientManager. This information 
          * can be provided via configuration, or programmatically through this object.
@@ -201,6 +229,16 @@ public class ClientManager {
             this.signIn = signIn;
             return this;
         }
+
+        /**
+         * Provide a User-Agent string that will be used instead of the ClientInfo object. This is useful if you want
+         * to provide a custom User-Agent string.
+         */
+        public Builder withUserAgentOverride(String userAgentOverride) {
+            this.userAgentOverride = userAgentOverride;
+            return this;
+        }
+
         private ClientInfo getDefaultClientInfo() {
             ClientInfo info = new ClientInfo();
             info.setOsName(System.getProperty("os.name"));
@@ -265,7 +303,8 @@ public class ClientManager {
             }
 
             String hostURL = (config.getHost() != null) ? config.getHost() : HOSTS.get(config.getEnvironment());
-            return new ClientManager(config, info, acceptLanguages, signIn, hostURL);
+            return new ClientManager(config, info, acceptLanguages, signIn, hostURL, includeUserAgent,
+                    userAgentOverride);
         }
     }
     

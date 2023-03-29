@@ -30,6 +30,9 @@ class HeaderInterceptor implements Interceptor {
         Builder builder = chain.request().newBuilder();
         if (userAgent != null) {
             builder.header(USER_AGENT, userAgent);    
+        } else {
+            // Use a blank User-Agent. Otherwise, OkHttp will use the default User-Agent.
+            builder.header(USER_AGENT, "");
         }
         if (acceptLanguage != null) {
             builder.header(ACCEPT_LANGUAGE, acceptLanguage);

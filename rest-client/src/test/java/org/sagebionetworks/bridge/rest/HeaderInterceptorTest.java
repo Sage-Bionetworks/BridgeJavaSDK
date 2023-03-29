@@ -57,7 +57,8 @@ public class HeaderInterceptorTest {
         interceptor = new HeaderInterceptor(null, null);
         
         interceptor.intercept(chain);
-        
+
+        verify(builder).header(HeaderInterceptor.USER_AGENT, "");
         verify(builder).build();
         verifyNoMoreInteractions(builder);
         verify(chain).proceed(request);        

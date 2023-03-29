@@ -88,7 +88,6 @@ public class ApiClientProvider {
             SocketFactory socketFactory, List<Interceptor> networkInterceptors,
             List<Interceptor> applicationInterceptors) {
         checkState(!Strings.isNullOrEmpty(baseUrl));
-        checkState(!Strings.isNullOrEmpty(userAgent));
         checkState(!Strings.isNullOrEmpty(appId));
         checkNotNull(networkInterceptors);
         checkNotNull(applicationInterceptors);

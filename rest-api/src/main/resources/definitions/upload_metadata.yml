@@ -77,6 +77,9 @@ properties:
             majority of apps are done in the US, so if we partitioned based on date using UTC, we'd get a cut-off in
             the middle of the afternoon, likely in the middle of peak uploads. In the future, if we have apps outside
             of the US, the upload date timezone will be configurable per app.
+    userAgent:
+        type: string
+        description: Participant's User-Agent header.
     zipped:
         type: boolean
         readOnly: true
