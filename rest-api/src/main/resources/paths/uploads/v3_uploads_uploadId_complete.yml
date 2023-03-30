@@ -3,8 +3,13 @@ post:
     summary: Notify Bridge an upload is complete
     description: |
         Notify Bridge an upload is complete. Either a consented user or a worker 
-        process can access this endpoing, but failure to have the worker role will 
+        process can access this endpoint, but failure to have the worker role will 
         be treated like a consent error.
+        
+        If the upload metadata includes instanceGuid, eventTimestamp, and startedOn values matching an existing
+        adherence record in the participant's schedule, then the adherence record will be updated to include
+        this upload's identifier and uploadedOn date. If the adherence record does not exist then it will be
+        created.
 
         In synchronous mode, this API will poll until upload validation is complete (or failed or is otherwise in a
         non-transient state), and return the upload validation status. In asynchronous mode, this API will return
