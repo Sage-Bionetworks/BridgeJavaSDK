@@ -1,6 +1,10 @@
 package org.sagebionetworks.bridge.rest;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doReturn;
 
 import com.google.common.collect.Lists;
@@ -67,6 +71,11 @@ public class ClientManagerTest {
         assertEquals("ultimate", info.getOsVersion());
         assertEquals("BridgeJavaSDK", info.getSdkName());
         assertEquals((Integer)5, info.getSdkVersion());
+
+        // Verify user agent params.
+        assertTrue(manager.getIncludeUserAgent());
+        assertNull(manager.getUserAgentOverride());
+        assertEquals(RestUtils.getUserAgent(info), manager.getAuthenticatedClientProvider().getUserAgent());
     }
 
     @Test
@@ -100,5 +109,31 @@ public class ClientManagerTest {
                 .build();
         
         assertEquals("https://aws.bridgeserver.com", manager.getHostUrl());
+    }
+
+    @Test
+    public void excludeUserAgent() {
+        // Set up client manager. Create by sign-in so we pick up the default ClientInfo, which we override.
+        SignIn signIn = new SignIn().appId("app-identifier").email("account@email.com")
+                .password("account-password");
+        ClientManager manager = new ClientManager.Builder().withSignIn(signIn).withIncludeUserAgent(false)
+                .withUserAgentOverride("user-agent-override/1").build();
+        assertFalse(manager.getIncludeUserAgent());
+        assertEquals("user-agent-override/1", manager.getUserAgentOverride());
+        assertNotNull(manager.getClientInfo());
+        assertNull(manager.getAuthenticatedClientProvider().getUserAgent());
+    }
+
+    @Test
+    public void overrideUserAgent() {
+        // Set up client manager. Create by sign-in so we pick up the default ClientInfo, which we override.
+        SignIn signIn = new SignIn().appId("app-identifier").email("account@email.com")
+                .password("account-password");
+        ClientManager manager = new ClientManager.Builder().withSignIn(signIn)
+                .withUserAgentOverride("user-agent-override/1").build();
+        assertTrue(manager.getIncludeUserAgent());
+        assertEquals("user-agent-override/1", manager.getUserAgentOverride());
+        assertNotNull(manager.getClientInfo());
+        assertEquals("user-agent-override/1", manager.getAuthenticatedClientProvider().getUserAgent());
     }
 }
