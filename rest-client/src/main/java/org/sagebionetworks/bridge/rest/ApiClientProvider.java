@@ -252,6 +252,11 @@ public class ApiClientProvider {
             //noinspection unchecked
             return (T) authenticatedServices.getUnchecked(service);
         }
+
+        /** This will be sent as the User-Agent header for all requests. May be null. */
+        public String getUserAgent() {
+            return userAgent;
+        }
     }
 
     /**

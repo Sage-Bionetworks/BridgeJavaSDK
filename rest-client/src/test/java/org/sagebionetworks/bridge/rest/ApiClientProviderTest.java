@@ -1,5 +1,6 @@
 package org.sagebionetworks.bridge.rest;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.spy;
 
@@ -33,6 +34,8 @@ public class ApiClientProviderTest {
 
         UserSessionInfoProvider sessionProvider = provider.getUserSessionInfoProvider();
         assertNotNull(sessionProvider);
+
+        assertEquals(USER_AGENT, provider.getUserAgent());
     }
     
 }

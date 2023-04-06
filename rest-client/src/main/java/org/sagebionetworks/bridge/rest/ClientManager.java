@@ -139,6 +139,11 @@ public class ClientManager {
         return hostURL;
     }
 
+    /** True if you want the ClientManager to include the User-Agent header in requests. Defaults to true. */
+    public boolean getIncludeUserAgent() {
+        return includeUserAgent;
+    }
+
     /** This User-Agent string will be used instead of ClientInfo. */
     public String getUserAgentOverride() {
         return userAgentOverride;
@@ -157,6 +162,11 @@ public class ClientManager {
      */
     public <T> T getClient(Class<T> service) {
         return authenticatedClientProvider.getClient(service);
+    }
+
+    // Package-scoped for unit tests.
+    ApiClientProvider.AuthenticatedClientProvider getAuthenticatedClientProvider() {
+        return authenticatedClientProvider;
     }
 
     public final static class Builder {
