@@ -1,0 +1,90 @@
+# Note: This corresponds to Upload on Bridge Server. It's called UploadMetadata in the JavaSDK because, for legacy
+# reasons, Upload in JavaSDK is actually UploadView in BridgeServer.
+description: Metadata for Bridge uploads.
+type: object
+required:
+    - uploadId
+properties:
+    uploadId:
+        type: string
+        readOnly: true
+        description: The GUID assigned to this upload.
+    clientInfo:
+        type: string
+        readOnly: true
+        description: Uploader's client info, in JSON format.
+    contentLength:
+        type: integer
+        readOnly: true
+        format: int64
+        description: |
+            The size of the object in bytes. A standard HTTP header. For more information, go to
+            [http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13)
+    contentMd5:
+        type: string
+        readOnly: true
+        description: The base64-encoded, 128-bit MD5 digest of the upload.
+    contentType:
+        type: string
+        readOnly: true
+        description: MIME content type.
+    encrypted:
+        type: boolean
+        readOnly: true
+        description: True if the upload is encrypted. False if it is not encrypted.
+    filename:
+        type: string
+        readOnly: true
+        description: Name of the uploaded file.
+    healthCode:
+        type: string
+        readOnly: true
+        description: Health code of the user from which this upload originates from.
+    metadata:
+        type: object
+        readOnly: true
+        description: |
+            Metadata fields for this upload, as submitted by the app. This corresponds with the
+            uploadMetadataFieldDefinitions configured in the app.
+    requestedOn:
+        type: string
+        readOnly: true
+        format: date-time
+        example: '2020-08-28T14:28:13.386Z'
+        description: The date and time (ISO 8601 format) that the client requested an URL to make an upload to the server.
+    completedOn:
+        type: string
+        readOnly: true
+        format: date-time
+        example: '2020-08-28T14:28:13.386Z'
+        description: |
+            The date and time (ISO 8601 format) that the upload was completed.
+    completedBy:
+        type: string
+        readOnly: true
+        enum: [app, s3_worker]
+        description: |
+            Currently the API has an endpoint for the client to call and mark an upload completed. However, there is
+            also a process that detects uploads to S3 and marks the uploads complete. This field indicates which client
+            completed the upload.
+    uploadDate:
+        type: string
+        format: date
+        example: '2021-04-30'
+        description: |
+            Calendar date the file was uploaded (specifically, the uploadComplete() call.
+            Date is determined using Pacific local time. Pacific local time was chosen because currently, the vast
+            majority of apps are done in the US, so if we partitioned based on date using UTC, we'd get a cut-off in
+            the middle of the afternoon, likely in the middle of peak uploads. In the future, if we have apps outside
+            of the US, the upload date timezone will be configurable per app.
+    userAgent:
+        type: string
+        description: Participant's User-Agent header.
+    zipped:
+        type: boolean
+        readOnly: true
+        description: True if the upload is zipped. False if it is a single file.
+    type:
+        type: string
+        readOnly: true
+        description: "Upload"

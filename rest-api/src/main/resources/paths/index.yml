@@ -148,6 +148,10 @@
     $ref: ./apps/v1_apps_appId_studies_studyId_exporter3_healthdata.yml
 /v1/apps/{appId}/studies/{studyId}/participants/{userId}/adherence/weekly:
     $ref: ./apps/v1_apps_appId_studies_studyId_participants_userId_adherence_weekly.yml
+/v1/apps/{appId}/studies/{studyId}/uploads/{uploadId}/exporter3:
+    $ref: ./apps/v1_apps_appId_studies_studyId_uploads_uploadId_exporter3.yml
+/v1/apps/{appId}/uploads/{uploadId}/exporter3:
+    $ref: ./apps/v1_apps_appId_uploads_uploadId_exporter3.yml
 
 # Assessments
 /v1/assessments:
@@ -514,6 +518,8 @@
     $ref: ./uploads/v3_uploads.yml
 /v3/uploads/{uploadId}/complete:
     $ref: ./uploads/v3_uploads_uploadId_complete.yml
+/v3/uploads/{uploadId}/exporter3:
+    $ref: ./uploads/v3_uploads_uploadId_exporter3.yml
 /v3/uploadstatuses/{uploadId}:
     $ref: ./uploads/v3_uploadstatuses_uploadId.yml
 /v3/uploads/{uploadId}:
@@ -601,6 +607,8 @@
     $ref: ./studies/v5_studies_studyId_analyze.yml
 /v5/studies/{studyId}/complete:
     $ref: ./studies/v5_studies_studyId_complete.yml
+/v5/studies/{studyId}/uploads/{uploadId}/exporter3:
+    $ref: ./studies/v5_studies_studyId_uploads_uploadId_exporter3.yml
 /v5/studies/{studyId}/withdraw:
     $ref: ./studies/v5_studies_studyId_withdraw.yml
 /v5/studies/{studyId}/schedule:

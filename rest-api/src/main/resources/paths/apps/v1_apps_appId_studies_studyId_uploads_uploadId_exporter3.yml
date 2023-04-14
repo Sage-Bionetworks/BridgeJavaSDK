@@ -1,0 +1,33 @@
+get:
+    operationId: getUploadEx3ForStudyForWorker
+    summary: Worker API to get an upload in a study for Exporter 3.0, optionally with timeline metadata and adherence records.
+    tags:
+        - Uploads
+        - _For Workers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/appId
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/uploadId
+        - name: fetchTimeline
+          description: True if this API should fetch timeline metadata corresponding to this upload
+          default: false
+          required: false
+          in: query
+          type: boolean
+        - name: fetchAdherence
+          description: True if this API should fetch adherence records corresponding to this upload
+          default: false
+          required: false
+          in: query
+          type: boolean
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/upload_view_ex3.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_worker.yml

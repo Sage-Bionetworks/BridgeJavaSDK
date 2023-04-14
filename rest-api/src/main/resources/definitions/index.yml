@@ -233,8 +233,8 @@ EventStreamWindow:
     $ref: ./event_stream_window.yml
 WeeklyEventStreamDay:
     $ref: ./weekly_event_stream_day.yml
-ExportNotificationRecordInfo:
-    $ref: ./export_notification_record_info.yml
+ExportedRecordInfo:
+    $ref: ./exported_record_info.yml
 ExportToAppNotification:
     $ref: ./export_to_app_notification.yml
 Exporter3Configuration:
@@ -439,8 +439,12 @@ DateTimeHolder:
     $ref: ./date_time_holder.yml
 Upload:
     $ref: ./upload.yml
+UploadViewEx3:
+    $ref: ./upload_view_ex3.yml
 UploadFieldDefinition:
     $ref: ./upload_field_definition.yml
+UploadMetadata:
+    $ref: ./upload_metadata.yml
 UploadRequest:
     $ref: ./upload_request.yml
 UploadSchema:
