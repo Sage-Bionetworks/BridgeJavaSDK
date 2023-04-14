@@ -35,7 +35,9 @@ properties:
         readOnly: true
     assessmentUploadedOn:
         type: string
+        format: date-time
         description: The first date and time when an upload to Bridge was successfully completed for the scheduled assessment instance.
+        example: '2020-08-28T14:28:13.386Z'
         readOnly: true
     type:
         type: string
