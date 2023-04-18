@@ -39,6 +39,14 @@ properties:
             type: string
             format: date-time
         x-nullable: false
+    eventTimestampStart:
+        type: string
+        description: Return records where the `eventTimestamp` value of the record is on or after the timestamp provided.
+        format: date-time
+    eventTimestampEnd:
+        type: string
+        description: Return records where the `eventTimestamp` value of the record is before the timestamp provided, but not on.
+        format: date-time
     startTime:
         type: string
         description: Limit search results to records with `startedOn` values that are equal to or later than this start time (no earlier than January 1st, 2020).
@@ -68,6 +76,15 @@ properties:
     declined:
         type: boolean
         description: Return records that were declined or that were not declined. Assessments are directly declined by participants; a session record will be marked declined if all of its assessments were declined.
+    uploadId:
+        type: string
+        description: Search for a specific upload ID.
+    hasMultipleUploadIds:
+        type: boolean
+        description: Return only adherence records associated with multiple upload IDs. If not specified, defaults to false.
+    hasNoUploadIds:
+        type: boolean
+        description: Return only adherence records associated with no upload IDs. If not specified, defaults to false.
     type:
         type: string
         readOnly: true
