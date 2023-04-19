@@ -1,0 +1,45 @@
+description: Adherence record information related to one instance of an assessment from a participant's timeline.
+type: object
+properties:
+    assessmentName:
+        type: string
+        description: The related assessment's name.
+        readOnly: true
+    assessmentId:
+        type: string
+        description: The human readable name of the related assessment.
+        readOnly: true
+    assessmentGuid:
+        type: string
+        description: The related assessment's GUID.
+        readOnly: true
+    assessmentInstanceGuid:
+        type: string
+        description: The GUID of the scheduled assessment instance from the participant's timeline.
+        readOnly: true
+    assessmentStatus:
+        type: string
+        description: The participant's progression status for the scheduled assessment instance.
+        readOnly: true
+    assessmentStart:
+        type: string
+        format: date-time
+        description: The date and time when the participant started the scheduled assessment instance.
+        example: '2020-08-28T14:28:13.386Z'
+        readOnly: true
+    assessmentCompleted:
+        type: string
+        format: date-time
+        description: The date and time when the participant finished the scheduled assessment instance.
+        example: '2020-08-28T14:28:13.386Z'
+        readOnly: true
+    assessmentUploadedOn:
+        type: string
+        format: date-time
+        description: The first date and time when an upload to Bridge was successfully completed for the scheduled assessment instance.
+        example: '2020-08-28T14:28:13.386Z'
+        readOnly: true
+    type:
+        type: string
+        readOnly: true
+        description: "DetailedAdherenceReportAssessmentRecord"

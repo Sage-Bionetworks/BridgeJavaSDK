@@ -1,0 +1,31 @@
+description: Adherence report including details from the related schedule, sessions, and assessments for a participant.
+type: object
+properties:
+    participant:
+        $ref: ./account_ref.yml
+        description: The related burst's name.
+        readOnly: true
+    testAccount:
+        type: boolean
+        description: Will be true if the account is a test account,  with the “test_user” data group assigned to it. Developer roles without access to production accounts can only see test accounts regardless of their API query.
+        readOnly: true
+    clientTimeZone:
+        type: string
+        description: The IANA time zone name of the participant’s time zone.
+        readOnly: true
+    joinedDate:
+        type: string
+        format: date-time
+        description: The participant's enrollment date.
+        example: '2020-08-28T14:28:13.386Z'
+        readOnly: true
+    sessionRecords:
+        type: array
+        description: A list of reports for session and burst instances in this schedule instance.
+        items:
+            $ref: ./detailed_adherence_report_session_record.yml
+        readOnly: true
+    type:
+        type: string
+        readOnly: true
+        description: "DetailedAdherenceReport"
