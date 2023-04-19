@@ -21,12 +21,18 @@ properties:
         type: string
         readOnly: true
         description: ID of the user that submitted the upload or record.
-    adherenceRecords:
+    adherenceRecordsForSchedule:
         type: array
         readOnly: true
         items:
             $ref: adherence_record.yml
-        description: Adherence records associated with this upload.
+        description: Adherence records associated with this upload via the associated instanceGuid.
+    adherenceRecordsForUpload:
+        type: array
+        readOnly: true
+        items:
+            $ref: adherence_record.yml
+        description: Adherence records associated with this upload via the upload ID.
     record:
         readOnly: true
         $ref: health_data_record_ex3.yml
