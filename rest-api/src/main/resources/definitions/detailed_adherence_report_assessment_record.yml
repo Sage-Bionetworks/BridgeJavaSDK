@@ -18,7 +18,7 @@ properties:
         description: The GUID of the scheduled assessment instance from the participant's timeline.
         readOnly: true
     assessmentStatus:
-        type: string
+        $ref: ./enums/assessment_completion_state.yml
         description: The participant's progression status for the scheduled assessment instance.
         readOnly: true
     assessmentStart:
