@@ -84,6 +84,8 @@ AccessLevel:
     $ref: ./enums/access_level.yml
 EntityType:
     $ref: ./enums/entity_type.yml
+AssessmentCompletionState:
+    $ref: ./enums/assessment_completion_state.yml
     
 ABTestGroup:
     $ref: ./ab_test_group.yml

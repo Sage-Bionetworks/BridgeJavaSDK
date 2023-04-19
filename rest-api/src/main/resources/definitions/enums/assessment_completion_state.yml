@@ -1,0 +1,14 @@
+type: string
+description: |
+    The completion state of an assessment.
+    
+    |Status|Description|
+    |---|---|
+    | completed | Assessment was finished by the participant. |
+    | not_completed | Assessment was started but not finished. |
+    | declined | Assessment was declined by the participant. |
+enum:
+    - completed
+    - not_completed
+    - declined
+readOnly: true
