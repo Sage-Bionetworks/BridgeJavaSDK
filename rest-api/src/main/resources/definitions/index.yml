@@ -84,6 +84,8 @@ AccessLevel:
     $ref: ./enums/access_level.yml
 EntityType:
     $ref: ./enums/entity_type.yml
+AssessmentCompletionState:
+    $ref: ./enums/assessment_completion_state.yml
     
 ABTestGroup:
     $ref: ./ab_test_group.yml
@@ -205,6 +207,12 @@ DemographicValuesEnumValidationRules:
     $ref: ./demographic_values_enum_validation_rules.yml
 DemographicValuesNumberRangeValidationRules:
     $ref: ./demographic_values_number_range_validation_rules.yml
+DetailedAdherenceReport:
+    $ref: ./detailed_adherence_report.yml
+DetailedAdherenceReportAssessmentRecord:
+    $ref: ./detailed_adherence_report_assessment_record.yml
+DetailedAdherenceReportSessionRecord:
+    $ref: ./detailed_adherence_report_session_record.yml
 EmailSignIn:
     $ref: ./email_signin.yml
 EmailSignInRequest:
