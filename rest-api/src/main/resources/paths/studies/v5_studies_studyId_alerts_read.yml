@@ -1,0 +1,30 @@
+post:
+    operationId: markAlertsRead
+    summary: Mark alerts as read.
+    tags:
+        - Alerts
+        - Studies
+        - _For Study Coordinators
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - name: AlertIdCollection
+          required: true
+          in: body
+          schema:
+              $ref: ../../definitions/alert_id_collection.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml
+        404:
+            description: Alert does not exist or is not in this study.
+            schema:
+                $ref: ../../definitions/message.yml

@@ -1,0 +1,9 @@
+description: A collection of demographics associated with a user.
+type: object
+properties:
+    demographics:
+        type: object
+        additionalProperties:
+            $ref: ./demographic.yml
+        description: Maps demographic category names to Demographic objects.
+        x-nullable: false

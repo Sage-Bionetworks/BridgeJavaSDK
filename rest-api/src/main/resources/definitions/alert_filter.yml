@@ -1,0 +1,16 @@
+description: A filter for fetching alerts.
+type: object
+required:
+    - alertCategories
+properties:
+    alertCategories:
+        type: array
+        description: The alert categories to be included in the fetch.
+        items:
+            type: string
+            description: An category of alerts to be included in the fetch.
+            enum: [new_enrollment, timeline_accessed, low_adherence, upcoming_study_burst, study_burst_change]
+    type:
+        type: string
+        readOnly: true
+        description: "AlertFilter"

@@ -84,6 +84,8 @@ AccessLevel:
     $ref: ./enums/access_level.yml
 EntityType:
     $ref: ./enums/entity_type.yml
+AssessmentCompletionState:
+    $ref: ./enums/assessment_completion_state.yml
     
 ABTestGroup:
     $ref: ./ab_test_group.yml
@@ -117,6 +119,16 @@ AdherenceStatistics:
     $ref: ./adherence_statistics.yml
 AdherenceStatisticsEntry:
     $ref: ./adherence_statistics_entry.yml
+Alert:
+    $ref: ./alert.yml
+AlertCategoryAndCount:
+    $ref: ./alert_category_and_count.yml
+AlertCategoriesAndCounts:
+    $ref: ./alert_categories_and_counts.yml
+AlertIdCollection:
+    $ref: ./alert_id_collection.yml
+AlertFilter:
+    $ref: ./alert_filter.yml
 AndroidAppLink:
     $ref: ./android_app_link.yml
 App:
@@ -173,6 +185,34 @@ DateRange:
     $ref: ./date_range.yml
 DayRange:
     $ref: ./day_range.yml
+Demographic:
+    $ref: ./demographic.yml
+DemographicResponse:
+    $ref: ./demographic_response.yml
+DemographicUser:
+    $ref: ./demographic_user.yml
+DemographicUserResponse:
+    $ref: ./demographic_user_response.yml
+DemographicUserAssessment:
+    $ref: ./demographic_user_assessment.yml
+DemographicUserAssessmentAnswer:
+    $ref: ./demographic_user_assessment_answer.yml
+DemographicUserAssessmentAnswerCollection:
+    $ref: ./demographic_user_assessment_answer_collection.yml
+DemographicValueResponse:
+    $ref: ./demographic_value_response.yml
+DemographicValuesValidationConfig:
+    $ref: ./demographic_values_validation_config.yml
+DemographicValuesEnumValidationRules:
+    $ref: ./demographic_values_enum_validation_rules.yml
+DemographicValuesNumberRangeValidationRules:
+    $ref: ./demographic_values_number_range_validation_rules.yml
+DetailedAdherenceReport:
+    $ref: ./detailed_adherence_report.yml
+DetailedAdherenceReportAssessmentRecord:
+    $ref: ./detailed_adherence_report_assessment_record.yml
+DetailedAdherenceReportSessionRecord:
+    $ref: ./detailed_adherence_report_session_record.yml
 EmailSignIn:
     $ref: ./email_signin.yml
 EmailSignInRequest:
@@ -195,8 +235,16 @@ EventStreamWindow:
     $ref: ./event_stream_window.yml
 WeeklyEventStreamDay:
     $ref: ./weekly_event_stream_day.yml
+ExportedRecordInfo:
+    $ref: ./exported_record_info.yml
+ExportToAppNotification:
+    $ref: ./export_to_app_notification.yml
 Exporter3Configuration:
     $ref: ./exporter3_configuration.yml
+ExporterSubscriptionRequest:
+    $ref: ./exporter_subscription_request.yml
+ExporterSubscriptionResult:
+    $ref: ./exporter_subscription_result.yml
 ExternalIdentifier:
     $ref: ./external_identifier.yml
 ExternalResource:
@@ -231,6 +279,8 @@ IdentifierUpdate:
     $ref: ./identifier_update.yml
 Image:
     $ref: ./image.yml
+ImageResource:
+    $ref: ./image_resource.yml
 IntentToParticipate:
     $ref: ./intent_to_participate.yml
 InvalidEntity:
@@ -391,8 +441,12 @@ DateTimeHolder:
     $ref: ./date_time_holder.yml
 Upload:
     $ref: ./upload.yml
+UploadViewEx3:
+    $ref: ./upload_view_ex3.yml
 UploadFieldDefinition:
     $ref: ./upload_field_definition.yml
+UploadMetadata:
+    $ref: ./upload_metadata.yml
 UploadRequest:
     $ref: ./upload_request.yml
 UploadSchema:
@@ -417,6 +471,8 @@ Withdrawal:
     $ref: ./withdrawal.yml
 
 # Paged resources
+AlertList:
+    $ref: ./paged_resources/alert.yml
 ResourceList:
     $ref: ./paged_resources/resource_list.yml
 PagedResourceList:
@@ -441,6 +497,8 @@ AssessmentList:
     $ref: ./paged_resources/assessment.yml
 CompoundActivityDefinitionList:
     $ref: ./paged_resources/compound_activity_definition.yml
+DemographicUserResponseList:
+    $ref: ./paged_resources/demographic_user_response.yml
 EnrollmentDetailList:
     $ref: ./paged_resources/enrollment_detail.yml
 ExternalIdentifierList:

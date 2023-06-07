@@ -1,0 +1,16 @@
+description: A single demographic with a specific category for a specific user.
+type: object
+properties:
+    multipleSelect:
+        type: boolean
+        description: Indicates whether multiple simultaneous answer choices are possible for this demographic.
+        x-nullable: false
+    values:
+        type: array
+        items: {}
+        description: The values of the specific user's demographic information for the specific category. Can be any combination of string, number, boolean when uploading; however, they will be converted to strings when storing and retrieving.
+        x-nullable: false
+    units:
+        type: string
+        description: Units of the demographic values (optional).
+        x-nullable: true

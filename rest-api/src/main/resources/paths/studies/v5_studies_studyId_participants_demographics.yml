@@ -1,0 +1,27 @@
+get:
+    operationId: getDemographicUsers
+    summary: Fetches all study-level demographics for all users within a study
+    description: Fetches all study-level demographics for all users within a study (study-level, done by researcher/study-coordinator)
+    tags:
+        - Study Participants
+        - Demographics
+        - _For Study Coordinators
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/offsetBy
+        - $ref: ../../index.yml#/parameters/pageSize
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/demographic_user_response.yml
+        400:
+            # bad pageSize or offsetKey
+            $ref: ../../responses/400_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml

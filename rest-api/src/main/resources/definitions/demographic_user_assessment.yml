@@ -1,0 +1,8 @@
+description: A collection of demographics associated with a user (assessment format).
+type: object
+properties:
+    stepHistory:
+        description: The step history for this assessment. One of these objects should be a DemographicUserAssessmentAnswerCollection.
+        type: array
+        items:
+            type: object

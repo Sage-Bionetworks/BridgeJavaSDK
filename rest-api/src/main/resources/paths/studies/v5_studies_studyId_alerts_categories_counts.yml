@@ -1,0 +1,21 @@
+get:
+    operationId: getAlertCategoriesAndCounts
+    summary: Fetches a list of alert categories and the number of alerts in those categories for a particular study.
+    tags:
+        - Alerts
+        - Studies
+        - _For Study Coordinators
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/alert_categories_and_counts.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml

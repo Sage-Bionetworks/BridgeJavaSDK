@@ -1,0 +1,55 @@
+description: Adherence record information related to one instance of a session or burst from a participant's timeline.
+type: object
+properties:
+    burstName:
+        type: string
+        description: The related burst's name.
+        readOnly: true
+    burstId:
+        type: string
+        description: The related burst's ID.
+        readOnly: true
+    sessionName:
+        type: string
+        description: The related session's name.
+        readOnly: true
+    sessionGuid:
+        type: string
+        description: The related session's GUID.
+        readOnly: true
+    sessionInstanceGuid:
+        type: string
+        description: The GUID of the scheduled session instance from the participant's timeline.
+        readOnly: true
+    sessionStatus:
+        $ref: ./enums/session_completion_state.yml
+        description: The participant's progression status for the scheduled session instance.
+        readOnly: true
+    sessionStart:
+        type: string
+        format: date-time
+        description: The date and time when the participant started the scheduled session instance.
+        example: '2020-08-28T14:28:13.386Z'
+        readOnly: true
+    sessionCompleted:
+        type: string
+        format: date-time
+        description: The date and time when the participant finished the scheduled session instance.
+        example: '2020-08-28T14:28:13.386Z'
+        readOnly: true
+    sessionExpiration:
+        type: string
+        format: date-time
+        description: The date and time when the scheduled session instance's availability window expires.
+        example: '2020-08-28T14:28:13.386Z'
+        readOnly: true
+    assessmentRecords:
+        type: array
+        description: A list of reports for scheduled assessment instances in this scheduled session instance.
+        items:
+            $ref: ./detailed_adherence_report_assessment_record.yml
+        readOnly: true
+    type:
+        type: string
+        readOnly: true
+        description: "DetailedAdherenceReportSessionRecord"

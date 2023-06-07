@@ -75,6 +75,10 @@
     $ref: ./apps/v1_apps_self_emails_resendVerify.yml
 /v1/apps/self/exporter3:
     $ref: ./apps/v1_apps_self_exporter3.yml
+/v1/apps/self/exporter3/notifications/export/subscribe:
+    $ref: ./apps/v1_apps_self_exporter3_notifications_export_subscribe.yml
+/v1/apps/self/exporter3/notifications/study/subscribe:
+    $ref: ./apps/v1_apps_self_exporter3_notifications_study_subscribe.yml
 /v1/apps/self/verifyEmail:
     $ref: ./apps/v1_apps_self_verifyEmail.yml
 /v1/apps/self/uploads:
@@ -106,6 +110,8 @@
     $ref: ./apps/v1_apps_appId_participants_externalId.yml
 /v1/apps/{appId}/participants/{userId}/exporter3/healthdata:
     $ref: ./apps/v1_apps_appId_participants_userId_exporter3_healthdata.yml
+/v1/apps/{appId}/participants/{userId}/exporter3/versions/backfill:
+    $ref: ./apps/v1_apps_appId_participants_userId_exporter3_versions_backfill.yml
 /v1/apps/{appId}/participants/{userId}/reports/{reportId}:
     $ref: ./apps/v1_apps_appId_participants_userId_reports_reportId.yml
 /v1/apps/{appId}/participants/{userId}/sendSmsMessage:
@@ -142,6 +148,10 @@
     $ref: ./apps/v1_apps_appId_studies_studyId_exporter3_healthdata.yml
 /v1/apps/{appId}/studies/{studyId}/participants/{userId}/adherence/weekly:
     $ref: ./apps/v1_apps_appId_studies_studyId_participants_userId_adherence_weekly.yml
+/v1/apps/{appId}/studies/{studyId}/uploads/{uploadId}/exporter3:
+    $ref: ./apps/v1_apps_appId_studies_studyId_uploads_uploadId_exporter3.yml
+/v1/apps/{appId}/uploads/{uploadId}/exporter3:
+    $ref: ./apps/v1_apps_appId_uploads_uploadId_exporter3.yml
 
 # Assessments
 /v1/assessments:
@@ -168,6 +178,10 @@
     $ref: ./assessments/v1_assessments_assessmentId_resources_guid.yml
 /v1/assessments/identifier:{assessmentId}/resources/publish:
     $ref: ./assessments/v1_assessments_assessmentId_resources_publish.yml
+
+# Exporter 3
+/v1/exporter3/notifications/export:
+    $ref: ./exporter3/v1_exporter3_notifications_export.yml
 
 # Shared Assessments
 /v1/sharedassessments:
@@ -364,6 +378,20 @@
     $ref: ./participants/v3_participants_self_exporter3_healthdata_recordId.yml
 /v3/participants/self/exporter3/healthdata:
     $ref: ./participants/v3_participants_self_exporter3_healthdata.yml
+/v3/participants/{userId}/demographics:
+    $ref: ./participants/v3_participants_userId_demographics.yml
+/v3/participants/self/demographics:
+    $ref: ./participants/v3_participants_self_demographics.yml
+/v3/participants/{userId}/demographics/assessment:
+    $ref: ./participants/v3_participants_userId_demographics_assessment.yml
+/v3/participants/self/demographics/assessment:
+    $ref: ./participants/v3_participants_self_demographics_assessment.yml
+/v3/participants/{userId}/demographics/{demographicId}:
+    $ref: ./participants/v3_participants_userId_demographics_demographicId.yml
+/v3/participants/demographics:
+    $ref: ./participants/v3_participants_demographics.yml
+/v3/participants/demographics/validation/{categoryName}:
+    $ref: ./participants/v3_participants_demographics_validation_categoryName.yml
 
 # Shared Modules
 /v3/sharedmodules/{moduleId}/import:
@@ -490,6 +518,8 @@
     $ref: ./uploads/v3_uploads.yml
 /v3/uploads/{uploadId}/complete:
     $ref: ./uploads/v3_uploads_uploadId_complete.yml
+/v3/uploads/{uploadId}/exporter3:
+    $ref: ./uploads/v3_uploads_uploadId_exporter3.yml
 /v3/uploadstatuses/{uploadId}:
     $ref: ./uploads/v3_uploadstatuses_uploadId.yml
 /v3/uploads/{uploadId}:
@@ -563,6 +593,8 @@
     $ref: ./studies/v5_studies_studyId_enrollments_userId.yml
 /v5/studies/{studyId}/exporter3:
     $ref: ./studies/v5_studies_studyId_exporter3.yml
+/v5/studies/{studyId}/exporter3/notifications/export/subscribe:
+    $ref: ./studies/v5_studies_studyId_exporter3_notifications_export_subscribe.yml
 /v5/studies/{studyId}/externalids:
     $ref: ./studies/v5_studies_studyId_externalids.yml
 /v5/studies/{studyId}/design:
@@ -575,18 +607,32 @@
     $ref: ./studies/v5_studies_studyId_analyze.yml
 /v5/studies/{studyId}/complete:
     $ref: ./studies/v5_studies_studyId_complete.yml
+/v5/studies/{studyId}/uploads/{uploadId}/exporter3:
+    $ref: ./studies/v5_studies_studyId_uploads_uploadId_exporter3.yml
 /v5/studies/{studyId}/withdraw:
     $ref: ./studies/v5_studies_studyId_withdraw.yml
 /v5/studies/{studyId}/schedule:
     $ref: ./studies/v5_studies_studyId_schedule.yml
 /v5/studies/{studyId}/timeline:
     $ref: ./studies/v5_studies_studyId_timeline.yml
+/v5/studies/{studyId}/reverttodesign:
+    $ref: ./studies/v5_studies_studyId_reverttodesign.yml
 /v5/studies/{studyId}/adherence/weekly:
     $ref: ./studies/v5_studies_studyId_adherence_weekly.yml
 /v5/studies/{studyId}/adherence/stats:
     $ref: ./studies/v5_studies_studyId_adherence_stats.yml
 /v5/studies/{studyId}/timeline/export:
     $ref: ./studies/v5_studies_studyId_timeline_export.yml
+/v5/studies/{studyId}/alerts:
+    $ref: ./studies/v5_studies_studyId_alerts.yml
+/v5/studies/{studyId}/alerts/delete:
+    $ref: ./studies/v5_studies_studyId_alerts_delete.yml
+/v5/studies/{studyId}/alerts/read:
+    $ref: ./studies/v5_studies_studyId_alerts_read.yml
+/v5/studies/{studyId}/alerts/unread:
+    $ref: ./studies/v5_studies_studyId_alerts_unread.yml
+/v5/studies/{studyId}/alerts/categories/counts:
+    $ref: ./studies/v5_studies_studyId_alerts_categories_counts.yml
 
 # Study Participants
 /v5/studies/{studyId}/participants/emailRoster:
@@ -655,6 +701,8 @@
     $ref: ./studies/v5_studies_studyId_participants_userId_reports_identifier_date.yml
 /v5/studies/{studyId}/participants/self/reports/{identifier}:
     $ref: ./studies/v5_studies_studyId_participants_self_reports_identifier.yml
+/v5/studies/{studyId}/participants/{userId}/adherence/detail:
+    $ref: ./studies/v5_studies_studyId_participants_userId_adherence_detail.yml
 /v5/studies/{studyId}/participants/{userId}/adherence/eventstream:
     $ref: ./studies/v5_studies_studyId_participants_userId_adherence_eventstream.yml
 /v5/studies/{studyId}/participants/{userId}/adherence/weekly:
@@ -665,6 +713,20 @@
     $ref: ./studies/v5_studies_studyId_participants_self_adherence_eventstream.yml
 /v5/studies/{studyId}/adherence/search:
     $ref: ./studies/v5_studies_studyId_adherence_search.yml
+/v5/studies/{studyId}/participants/{userId}/demographics:
+    $ref: ./studies/v5_studies_studyId_participants_userId_demographics.yml
+/v5/studies/{studyId}/participants/self/demographics:
+    $ref: ./studies/v5_studies_studyId_participants_self_demographics.yml
+/v5/studies/{studyId}/participants/{userId}/demographics/assessment:
+    $ref: ./studies/v5_studies_studyId_participants_userId_demographics_assessment.yml
+/v5/studies/{studyId}/participants/self/demographics/assessment:
+    $ref: ./studies/v5_studies_studyId_participants_self_demographics_assessment.yml
+/v5/studies/{studyId}/participants/{userId}/demographics/{demographicId}:
+    $ref: ./studies/v5_studies_studyId_participants_userId_demographics_demographicId.yml
+/v5/studies/{studyId}/participants/demographics:
+    $ref: ./studies/v5_studies_studyId_participants_demographics.yml
+/v5/studies/{studyId}/participants/demographics/validation/{categoryName}:
+    $ref: ./studies/v5_studies_studyId_participants_demographics_validation_categoryName.yml
 
 # Templates
 /v3/templates:

@@ -97,6 +97,27 @@ properties:
         description: |
             The optimistic locking version of the assessment. This value must be submitted as part of the next update of the model. If it does not match the value on the server, a 409 error (Conflict) will prevent the update from occurring. It can also serve as a key to determine if a local cache of `Assessment` needs to be updated.
         x-nullable: false
+    imageResource:
+        $ref: ./image_resource.yml
+        x-nullable: true
+    frameworkIdentifier:
+        type: string
+        description: The framework this assessment belongs to.
+    jsonSchemaUrl:
+        type: string
+        description: A URL for a resource specifying a JSON schema for the archived results.
+    category:
+        type: string
+        description: The category of assessment.
+    minAge:
+        type: integer
+        description: The minimum age for which this assessment has been validated.
+    maxAge:
+        type: integer
+        description: The maximum age for which this assessment has been validated.
+    additionalMetadata:
+        type: object
+        description: Additional metadata fields, expressed as a key-value map.
     type:
         type: string
         readOnly: true

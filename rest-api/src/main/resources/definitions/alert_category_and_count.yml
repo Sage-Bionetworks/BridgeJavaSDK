@@ -1,0 +1,26 @@
+description: A single category of alerts and the number of alerts in that category for a particular study.
+type: object
+required:
+    - category
+    - count
+properties:
+    category:
+        type: string
+        enum:
+            [
+                new_enrollment,
+                timeline_accessed,
+                low_adherence,
+                upcoming_study_burst,
+                study_burst_change,
+            ]
+        description: A category of alerts.
+        readOnly: true
+    count:
+        type: integer
+        description: The number of alerts in the category.
+        readOnly: true
+    type:
+        type: string
+        readOnly: true
+        description: "AlertCategoryAndCount"

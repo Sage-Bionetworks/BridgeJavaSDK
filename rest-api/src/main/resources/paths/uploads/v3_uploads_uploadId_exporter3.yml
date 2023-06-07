@@ -1,0 +1,28 @@
+get:
+    operationId: getUploadEx3
+    summary: API to get an upload for Exporter 3.0, optionally with timeline metadata.
+    description: Caller must either be a participant getting their own uploads, or a developer or researcher.
+    tags:
+        - Uploads
+        - _For Consented Users
+        - _For Developers
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/uploadId
+        - name: fetchTimeline
+          description: True if this API should fetch timeline metadata corresponding to this upload
+          default: false
+          required: false
+          in: query
+          type: boolean
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/upload_view_ex3.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403.yml

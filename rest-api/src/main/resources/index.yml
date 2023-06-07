@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-    version: "0.25.7"
+    version: "0.25.27"
     title: Bridge Server API
 host: webservices.sagebridge.org
 basePath: /
@@ -496,6 +496,18 @@ parameters:
     entityId:
         name: entityId
         description: The ID of the entity that a permission record grants access to.
+        required: true
+        in: path
+        type: string
+    demographicId:
+        name: demographicId
+        description: ID of a particular demographic for a specific category associated with a specific user
+        required: true
+        in: path
+        type: string
+    categoryName:
+        name: categoryName
+        description: Name of a demographics category.
         required: true
         in: path
         type: string

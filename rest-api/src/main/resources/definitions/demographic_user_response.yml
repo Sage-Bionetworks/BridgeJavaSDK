@@ -1,0 +1,14 @@
+description: A collection of demographics associated with a user. Returned when fetching demographics.
+type: object
+properties:
+    userId:
+        type: string
+        readOnly: true
+        description: The ID of the user who these demographics belong to.
+        x-nullable: false
+    demographics:
+        type: object
+        additionalProperties:
+            $ref: ./demographic_response.yml
+        description: Maps demographic category names to Demographic objects.
+        x-nullable: false

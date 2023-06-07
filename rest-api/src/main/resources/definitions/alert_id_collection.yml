@@ -1,0 +1,15 @@
+description: A list of alert IDs.
+type: object
+required:
+    - alertIds
+properties:
+    alertIds:
+        type: array
+        description: The list of alert IDs.
+        items:
+            type: string
+            description: An ID for an alert.
+    type:
+        type: string
+        readOnly: true
+        description: "AlertIdCollection"

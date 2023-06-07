@@ -1,0 +1,88 @@
+post:
+    operationId: saveDemographicUser
+    summary: Save/overwrite all demographics for a user
+    description: Save/overwrite all demographics for a user (study-level, posted on the user's behalf by researcher, study coordinator)
+    tags:
+        - Study Participants
+        - Demographics
+        - _For Study Coordinators
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+        - name: DemographicUser
+          required: true
+          in: body
+          schema:
+                $ref: ../../definitions/demographic_user.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/demographic_user_response.yml
+        400:
+            $ref: ../../responses/400_message.yml # also - $ref: ../../responses/400_invalid_entity.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml
+        404:
+            description: Account does not exist or is not in this study.
+            schema:
+                $ref: ../../definitions/message.yml
+delete:
+    operationId: deleteDemographicUser
+    summary: Deletes all of a user's demographics
+    description: Deletes all of a user's demographics (study-level, done by researcher or study coordinator)
+    tags:
+        - Study Participants
+        - Demographics
+        - _For Study Coordinators
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml
+        404:
+            description: Account does not exist or is not in this study.
+            schema:
+                $ref: ../../definitions/message.yml
+get:
+    operationId: getDemographicUser
+    summary: Fetches all demographics for a user
+    description: Fetches all demographics for a user (study-level, done by researcher/study-coordinator)
+    tags:
+        - Study Participants
+        - Demographics
+        - _For Study Coordinators
+        - _For Researchers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/demographic_user_response.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_researcher.yml
+        404:
+            description: Account does not exist or is not in this study.
+            schema:
+                $ref: ../../definitions/message.yml

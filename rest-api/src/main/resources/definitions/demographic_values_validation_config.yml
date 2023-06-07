@@ -1,0 +1,22 @@
+description: >
+  Configuration which configures the validation of app-level and study-level demographic values.
+  When saved, it enables validation of demographics for a specific category to determine
+  whether submitted demographics match a specific set of values (enum validation)
+  or whether they are numbers that fall within a specified range (number_range validation).
+type: object
+properties:
+  validationType:
+    description: The type of validation to perform.
+    type: string
+    enum: [number_range, enum]
+    x-nullable: false
+  validationRules:
+    description: >
+      The rules of validation to perform.
+      If validationType is "number_range", this should be a DemographicValuesNumberRangeValidationRules.
+      If validationType is "enum", this should be a DemographicValuesEnumValidationRules.
+    type: object
+    x-nullable: false
+required:
+  - validationType
+  - validationRules

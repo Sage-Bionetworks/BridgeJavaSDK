@@ -6,15 +6,32 @@ properties:
         type: boolean
         description: |
             True if all configuration attributes are specified.
+    createStudyNotificationTopicArn:
+        type: string
+        description: |
+            SNS topic to publish to when a study is initialized in this app. (This is not used for study configs.)
     dataAccessTeamId:
         type: integer
         format: int64
         description: |
             Synapse team ID that is granted read access to exported health data records.
+    exportNotificationTopicArn:
+        type: string
+        description: |
+            SNS topic to publish to when health data is exported to Synapse. This can be configured both for app-wide
+            notifications and for study-specific notifications.
     participantVersionTableId:
         type: string
         description: |
             The Synapse table to where we export Participant Versions.
+    participantVersionDemographicsTableId:
+        type: string
+        description: |
+            The Synapse table to where we exporter Participant Version Demographics.
+    participantVersionDemographicsViewId:
+        type: string
+        description: |
+            The Synapse materialized view which joins the Participant Versions table and the Demographics table.
     projectId:
         type: string
         description: |
