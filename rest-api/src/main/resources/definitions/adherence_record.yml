@@ -52,6 +52,20 @@ properties:
     assessmentGuid:
         type: string
         description: The GUID of the assessment for this adherence record (as distinct from the `instanceGuid` for the instance of the performance of the assessment). Either this value or `sessionGuid` should be filled out for each record.
+    postProcessingAttributes:
+        type: object
+        description: Key-value pairs related to upload post-processing (maximum size 65k).
+    postProcessingCompletedOn:
+        type: string
+        format: date-time
+        example: '2020-08-28T14:28:13.386Z'
+        description: The timestamp when post-processing was completed.
+    postProcessingStatus:
+        type: string
+        description: |
+            Short string that represents the current status of the upload in the post-processing pipeline. This may be
+            app or study specific. Examples include: "Pending", "SchemaVerified", "SchemaVerificationFailed",
+            "DataInParquet", "DataScored". Must be 255 characters or less.
     sessionGuid:
         type: string
         description: The GUID of the session in which an assessment was performed for this adherence record (as distinct from the `instanceGuid` for the instance of the session). Either this value or `assessmentGuid` should be filled out for each record.

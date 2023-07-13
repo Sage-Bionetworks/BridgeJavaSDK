@@ -673,6 +673,8 @@
     $ref: ./studies/v5_studies_studyId_participants_userId_adherence.yml
 /v5/studies/{studyId}/participants/{userId}/adherence/search:
     $ref: ./studies/v5_studies_studyId_participants_userId_adherence_search.yml
+/v5/studies/{studyId}/participants/{userId}/adherence/{instanceGuid}/{eventTimestamp}/postprocessing:
+    $ref: ./studies/v5_studies_studyId_participants_userId_adherence_instanceGuid_eventTimestamp_postprocessing.yml
 /v5/studies/{studyId}/participants/{userId}/adherence/{instanceGuid}/{eventTimestamp}/{startedOn}:
     $ref: ./studies/v5_studies_studyId_participants_userId_adherence_instanceGuid_eventTimestamp_startedOn.yml
 /v5/studies/{studyId}/participants/{userId}/activityevents/{eventId}:
