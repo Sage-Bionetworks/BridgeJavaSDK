@@ -3,8 +3,10 @@ post:
     summary: Update just the specific post-processing attributes on the adherence record.
     tags:
         - Study Adherence
+        - _For Developers
         - _For Researchers
         - _For Study Coordinators
+        - _For Study Designers
     security:
         - BridgeSecurity: []
     parameters:
