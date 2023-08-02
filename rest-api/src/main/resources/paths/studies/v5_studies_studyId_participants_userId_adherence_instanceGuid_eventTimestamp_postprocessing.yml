@@ -1,0 +1,32 @@
+post:
+    operationId: updateAdherencePostProcessingAttributes
+    summary: Update just the specific post-processing attributes on the adherence record.
+    tags:
+        - Study Adherence
+        - _For Developers
+        - _For Researchers
+        - _For Study Coordinators
+        - _For Study Designers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/userId
+        - $ref: ../../index.yml#/parameters/instanceGuid
+        - $ref: ../../index.yml#/parameters/eventTimestamp
+        - name: AdherencePostProcessingAttributes
+          in: body
+          description: |
+                The adherence post-processing attributes to update.  Only the attributes specified will be updated.
+          required: true
+          schema:
+              $ref: ../../definitions/adherence_post_processing_attributes.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_dev_researcher.yml

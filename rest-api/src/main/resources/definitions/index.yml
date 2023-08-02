@@ -107,6 +107,8 @@ ActivityEvent:
     $ref: ./activity_event.yml
 Address:
     $ref: ./address.yml
+AdherencePostProcessingAttributes:
+    $ref: ./adherence_post_processing_attributes.yml
 AdherenceRecord:
     $ref: ./adherence_record.yml
 AdherenceRecordUpdates:
