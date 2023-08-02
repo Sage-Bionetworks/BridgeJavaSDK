@@ -1,0 +1,31 @@
+type: object
+description: |
+    This is used by the UpdateAdherencePostProcessingAttributes API to add these specific fields to the Adherence
+    Record.
+properties:
+    postProcessingAttributes:
+        type: object
+        description: Key-value pairs related to upload post-processing (maximum size 65k).
+    postProcessingCompletedOn:
+        type: string
+        format: date-time
+        example: '2020-08-28T14:28:13.386Z'
+        description: The timestamp when post-processing was completed.
+    postProcessingStatus:
+        type: string
+        description: |
+            Short string that represents the current status of the upload in the post-processing pipeline. This may be
+            app or study specific. Examples include: "Pending", "SchemaVerified", "SchemaVerificationFailed",
+            "DataInParquet", "DataScored". Must be 255 characters or less.
+    startedOn:
+        type: string
+        format: date-time
+        example: '2020-08-28T14:28:13.386Z'
+        description: |
+            When the adherence was started by the participant. If this is specified, this will be set as the startedOn
+            for the adherence record. If this is not specified, the startedOn will remain unchanged, or will be set to
+            the current time if it doesn't already exist.
+    type:
+        type: string
+        readOnly: true
+        description: "AdherencePostProcessingAttributes"
