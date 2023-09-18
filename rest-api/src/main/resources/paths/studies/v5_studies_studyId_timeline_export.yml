@@ -1,0 +1,21 @@
+post:
+    operationId: exportTimelineForStudy
+    summary: Export participant timeline for study.
+    tags:
+        - Studies
+        - _For Study Designers
+        - _For Developers
+        - _For Admins
+    security:
+        -   BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+    responses:
+        201:
+            description: Created
+            schema:
+                $ref: ../../definitions/exporter3_configuration.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_study_coordinator_developer.yml
