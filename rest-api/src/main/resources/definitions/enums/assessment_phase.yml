@@ -1,0 +1,13 @@
+type: string
+description: |
+    A a phase for an assessment.
+
+    |Type|Description|
+    |---|---|
+    |draft|Assessment is still being developed.|
+    |review|Assessment can be added to a schedule for review. Assessment config is not editable. To make changes move back to draft phase.|
+    |published|Assessment is locked, no more phase changes are allowed. Assessment config is not editable.|
+enum:
+    - draft
+    - review
+    - published

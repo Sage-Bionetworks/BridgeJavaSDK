@@ -7,6 +7,7 @@ required:
     - revision
     - title
     - osName
+    - phase
 properties:
     guid:
         type: string
@@ -118,6 +119,10 @@ properties:
     additionalMetadata:
         type: object
         description: Additional metadata fields, expressed as a key-value map.
+    phase:
+        $ref: ./enums/assessment_phase.yml
+        x-nullable: false
+        description: One of an enumerated list of states an assessment can be in.
     type:
         type: string
         readOnly: true
