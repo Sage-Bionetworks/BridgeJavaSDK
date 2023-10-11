@@ -541,6 +541,14 @@
 /v3/uploadschemas/{schemaId}/revisions/{revision}:
     $ref: ./uploadschemas/v3_uploadschemas_schemaId_revisions_revision.yml
 
+# Upload table rows
+/v1/apps/{appId}/studies/{studyId}/uploadtable:
+    $ref: ./apps/v1_apps_appId_studies_studyId_uploadtable.yml
+/v1/apps/{appId}/studies/{studyId}/uploadtable/query:
+    $ref: ./apps/v1_apps_appId_studies_studyId_uploadtable_query.yml
+/v1/apps/{appId}/studies/{studyId}/uploadtable/{recordId}:
+    $ref: ./apps/v1_apps_appId_studies_studyId_uploadtable_recordId.yml
+
 # Schedule plans
 /v3/scheduleplans:
     $ref: ./scheduleplans/v3_scheduleplans.yml

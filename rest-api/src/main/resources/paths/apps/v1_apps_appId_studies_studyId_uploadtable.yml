@@ -1,0 +1,25 @@
+post:
+    operationId: saveUploadTableRowForWorker
+    summary: |
+        Create a new upload table row, or overwrite it if the row already exists. This is called by the Exporter3Worker
+        to write rows for each upload.
+    tags:
+        - Uploads
+        - _For Workers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/appId
+        - $ref: ../../index.yml#/parameters/studyId
+        - name: UploadTableRow
+          in: body
+          required: true
+          schema:
+            $ref: ../../definitions/upload_table_row.yml
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_worker.yml

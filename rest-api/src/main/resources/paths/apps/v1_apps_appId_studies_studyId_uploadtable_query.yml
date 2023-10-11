@@ -1,0 +1,25 @@
+post:
+    operationId: queryUploadTableRowsForWorker
+    summary: Query for upload table rows. This is used by the worker to generate a CSV.
+    tags:
+        - Uploads
+        - _For Workers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/appId
+        - $ref: ../../index.yml#/parameters/studyId
+        - name: UploadTableRowQuery
+          in: body
+          required: true
+          schema:
+            $ref: ../../definitions/upload_table_row_query.yml
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/upload_table_row.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_worker.yml

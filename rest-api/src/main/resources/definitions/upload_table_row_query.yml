@@ -1,0 +1,35 @@
+description: Represents a query for upload table rows.
+type: object
+properties:
+    assessmentId:
+        type: string
+        description: Assessment ID to query for. If specified, so must assessment revision.
+    assessmentRevision:
+        type: integer
+        description: Assessment revision to query for. If specified, so must assessment ID.
+    startTime:
+        type: string
+        format: date-time
+        example: '2020-08-28T14:28:13.386Z'
+        description: Earliest date-time for rows to query for, inclusive.
+    endTime:
+        type: string
+        format: date-time
+        example: '2020-08-28T14:28:13.386Z'
+        description: Latest date-time for rows to query for, exclusive.
+    includeTestData:
+        type: boolean
+        default: false
+        description: Whether to include test data. If not specified, defaults to false.
+    start:
+        type: integer
+        description: Offset into the result set. If not specified, defaults to 0.
+    pageSize:
+        type: integer
+        description: |
+            Requested page size of the result set. Cannot be less than 5 or more than 100. If not specified, defaults
+            to 50. If there are fewer rows than requested, this will return all rows.
+    type:
+        type: string
+        readOnly: true
+        description: "UploadTableRowQuery"
