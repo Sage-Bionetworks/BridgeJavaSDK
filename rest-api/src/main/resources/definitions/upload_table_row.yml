@@ -4,8 +4,7 @@ required:
     - appId
     - studyId
     - recordId
-    - assessmentId
-    - assessmentRevision
+    - assessmentGuid
     - healthCode
 properties:
     appId:
@@ -25,12 +24,9 @@ properties:
         description: |
             Record ID represented by this table row. This is unique within a study, but a record may be exported to
             multiple studies, and thus the same record ID may appear in multiple studies. This is required.
-    assessmentId:
+    assessmentGuid:
         type: string
-        description: Assessment ID that this upload represents. This is required.
-    assessmentRevision:
-        type: integer
-        description: Assessment revision that this upload represents. This is required.
+        description: Assessment that this upload represents. This is required.
     createdOn:
         type: string
         format: date-time

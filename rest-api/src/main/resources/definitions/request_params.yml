@@ -10,7 +10,7 @@ properties:
         readOnly: true
         items:
             type: string
-    assessmentId:
+    assessmentGuid:
         type: string
         readOnly: true
     assessmentIds:
@@ -18,9 +18,6 @@ properties:
         readOnly: true
         items:
             type: string
-    assessmentRevision:
-        type: integer
-        readOnly: true
     assignmentFilter:
         type: boolean
         readOnly: true

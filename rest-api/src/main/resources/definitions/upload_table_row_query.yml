@@ -1,12 +1,9 @@
 description: Represents a query for upload table rows.
 type: object
 properties:
-    assessmentId:
+    assessmentGuid:
         type: string
-        description: Assessment ID to query for. If specified, so must assessment revision.
-    assessmentRevision:
-        type: integer
-        description: Assessment revision to query for. If specified, so must assessment ID.
+        description: Assessment to query for.
     startTime:
         type: string
         format: date-time
