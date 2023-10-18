@@ -455,6 +455,10 @@ UploadSchema:
     $ref: ./upload_schema.yml
 UploadSession:
     $ref: ./upload_session.yml
+UploadTableRow:
+    $ref: ./upload_table_row.yml
+UploadTableRowQuery:
+    $ref: ./upload_table_row_query.yml
 UploadValidationStatus:
     $ref: ./upload_validation_status.yml
 UserConsentHistory:
@@ -579,6 +583,8 @@ UploadList:
     $ref: ./paged_resources/upload.yml
 UploadSchemaList:
     $ref: ./paged_resources/upload_schema.yml
+UploadTableRowList:
+    $ref: ./paged_resources/upload_table_row.yml
 WeeklyAdherenceReportList:
     $ref: ./paged_resources/weekly_adherence_report.yml
 

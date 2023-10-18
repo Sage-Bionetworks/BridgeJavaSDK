@@ -1,0 +1,40 @@
+get:
+    operationId: getUploadTableRowForSuperadmin
+    summary: Get a single upload table row. This is currently only used by integration tests (so only superadmin).
+    tags:
+        - Uploads
+        - _For Superadmins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/appId
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/recordId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/upload_table_row.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_superadmin.yml
+delete:
+    operationId: deleteUploadTableRowForSuperadmin
+    summary: Delete a single upload table row. This is currently only used by integration tests (so only superadmin).
+    tags:
+        - Uploads
+        - _For Superadmins
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/appId
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/recordId
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_superadmin.yml
