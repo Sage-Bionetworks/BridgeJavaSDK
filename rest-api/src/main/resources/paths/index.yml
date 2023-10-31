@@ -158,6 +158,8 @@
 # Assessments
 /v1/apps/{appId}/assessments/{guid}:
     $ref: ./apps/v1_apps_appId_assessments_guid.yml
+/v1/apps/{appId}/assessments/{guid}/config:
+    $ref: ./apps/v1_apps_appId_assessments_guid_config.yml
 /v1/assessments:
     $ref: ./assessments/v1_assessments.yml
 /v1/assessments/{guid}:

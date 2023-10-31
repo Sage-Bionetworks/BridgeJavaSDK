@@ -2,8 +2,8 @@ get:
     operationId: getAssessmentByGuidForWorker
     summary: Get a specific assessment revision.
     tags:
-        - _For Workers
         - Assessments
+        - _For Workers
     security:
         - BridgeSecurity: []
     parameters:
