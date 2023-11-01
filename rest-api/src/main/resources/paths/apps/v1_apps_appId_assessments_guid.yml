@@ -1,0 +1,20 @@
+get:
+    operationId: getAssessmentByGuidForWorker
+    summary: Get a specific assessment revision.
+    tags:
+        - Assessments
+        - _For Workers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/appId
+        - $ref: ../../index.yml#/parameters/guid
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/assessment.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_worker.yml

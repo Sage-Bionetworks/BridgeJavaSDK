@@ -132,6 +132,8 @@
     $ref: ./apps/v2_apps_appId_participants_userId_reports_reportId.yml
 /v1/apps/{appId}/participants/{userId}/versions:
     $ref: ./apps/v1_apps_appId_participants_userId_versions.yml
+/v1/apps/{appId}/participants/{userId}/versions/latest:
+    $ref: ./apps/v1_apps_appId_participants_userId_versions_latest.yml
 /v1/apps/{appId}/participants/{userId}/versions/{version}:
     $ref: ./apps/v1_apps_appId_participants_userId_versions_version.yml
 /v1/apps/{appId}/oauth/{vendorId}:
@@ -154,6 +156,10 @@
     $ref: ./apps/v1_apps_appId_uploads_uploadId_exporter3.yml
 
 # Assessments
+/v1/apps/{appId}/assessments/{guid}:
+    $ref: ./apps/v1_apps_appId_assessments_guid.yml
+/v1/apps/{appId}/assessments/{guid}/config:
+    $ref: ./apps/v1_apps_appId_assessments_guid_config.yml
 /v1/assessments:
     $ref: ./assessments/v1_assessments.yml
 /v1/assessments/{guid}:
