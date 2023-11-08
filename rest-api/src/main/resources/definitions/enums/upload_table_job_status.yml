@@ -1,0 +1,13 @@
+type: string
+description: |
+    Status of the CSV generation job.
+
+    |Status|Description|
+    |---|---|
+    |in_progress|Job is in progress.|
+    |succeeded|Job is complete.|
+    |failed|Job failed.|
+enum:
+    - in_progress
+    - succeeded
+    - failed
