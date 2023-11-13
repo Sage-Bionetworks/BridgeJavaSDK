@@ -24,7 +24,7 @@ get:
             $ref: ../../responses/403_not_developer_researcher_study_designer_study_coordinator.yml
 post:
     operationId: requestUploadTableForStudy
-    summary: Request the CSV of all uploads in this app and study.
+    summary: Request the zip file with CSVs of all uploads in this app and study.
     tags:
         - Uploads
         - _For Developers

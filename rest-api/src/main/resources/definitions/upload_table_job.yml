@@ -1,4 +1,4 @@
-description: Represents a worker job to generate the CSV for uploads for a study.
+description: Represents a worker job to generate a zip file with CSVs for uploads for a study.
 type: object
 required:
     - jobGuid
@@ -37,7 +37,7 @@ properties:
         description: Current status of this job.
     s3Key:
         type: string
-        description: S3 key where the CSV file for this job is stored.
+        description: S3 key where the zip file with CSVs for this job is stored.
     type:
         type: string
         readOnly: true
