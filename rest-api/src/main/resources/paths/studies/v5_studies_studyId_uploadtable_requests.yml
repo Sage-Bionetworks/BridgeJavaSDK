@@ -1,0 +1,46 @@
+get:
+    operationId: listUploadTableJobsForStudy
+    summary: List upload table jobs for the given app and study. Does not include the downloadable S3 URL.
+    tags:
+        - Uploads
+        - _For Developers
+        - _For Researchers
+        - _For Study Coordinators
+        - _For Study Designers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/start
+        - $ref: ../../index.yml#/parameters/pageSize
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/paged_resources/upload_table_job.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher_study_designer_study_coordinator.yml
+post:
+    operationId: requestUploadTableForStudy
+    summary: Request the zip file with CSVs of all uploads in this app and study.
+    tags:
+        - Uploads
+        - _For Developers
+        - _For Researchers
+        - _For Study Coordinators
+        - _For Study Designers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/upload_table_job_guid_holder.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher_study_designer_study_coordinator.yml

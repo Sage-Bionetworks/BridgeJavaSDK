@@ -64,6 +64,8 @@ SharedModuleType:
     $ref: ./enums/shared_module_type.yml
 TemplateType:
     $ref: ./enums/template_type.yml
+UploadTableJobStatus:
+    $ref: ./enums/upload_table_job_status.yml
 UploadStatus:
     $ref: ./enums/upload_status.yml
 UploadSchemaType:
@@ -455,6 +457,12 @@ UploadSchema:
     $ref: ./upload_schema.yml
 UploadSession:
     $ref: ./upload_session.yml
+UploadTableJob:
+    $ref: ./upload_table_job.yml
+UploadTableJobGuidHolder:
+    $ref: ./upload_table_job_guid_holder.yml
+UploadTableJobResult:
+    $ref: ./upload_table_job_result.yml
 UploadTableRow:
     $ref: ./upload_table_row.yml
 UploadTableRowQuery:
@@ -583,6 +591,8 @@ UploadList:
     $ref: ./paged_resources/upload.yml
 UploadSchemaList:
     $ref: ./paged_resources/upload_schema.yml
+UploadTableJobList:
+    $ref: ./paged_resources/upload_table_job.yml
 UploadTableRowList:
     $ref: ./paged_resources/upload_table_row.yml
 WeeklyAdherenceReportList:
