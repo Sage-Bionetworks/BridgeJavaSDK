@@ -1,0 +1,11 @@
+type: object
+readOnly: true
+description: Payload returning a list of [UploadTableJobs](/#UploadTableJob).
+allOf:
+    - $ref: ./paged_resource_list.yml
+    - properties:
+        items:
+            type: array
+            readOnly: true
+            items:
+                $ref: ../upload_table_job.yml

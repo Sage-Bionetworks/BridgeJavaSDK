@@ -45,6 +45,12 @@ properties:
         format: int64
         description: |
             The Synapse storage location that represents our External S3 bucket. This storage location should be STS-enabled.
+    uploadTableEnabled:
+        type: boolean
+        description: |
+            Whether or not to enable the upload table, which involves converting raw JSON uploads to tabular format,
+            and to generate CSVs from this table. Defaults to false. Calling initExporter3 automatically flips this to
+            true.
     wikiPageId:
         type: string
         description: |

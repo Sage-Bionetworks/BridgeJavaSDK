@@ -5,6 +5,7 @@ get:
     tags:
         - Shared Assessments
         - Public
+        - _For Workers
     security:
         - BridgeSecurity: []
     parameters:

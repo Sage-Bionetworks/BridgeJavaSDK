@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-    version: "0.25.29"
+    version: "0.25.33"
     title: Bridge Server API
 host: webservices.sagebridge.org
 basePath: /
@@ -57,6 +57,12 @@ parameters:
         required: true
         in: path
         type: string
+    jobGuid:
+        name: jobGuid
+        description: Unique GUID for asynchronous job
+        required: true
+        in: path
+        type: string
     synapseUserId:
         name: synapseUserId
         description: User's Synapse user ID
@@ -93,6 +99,14 @@ parameters:
         required: true
         in: path
         type: string
+    start:
+        name: start
+        description: Start index for pagination
+        required: false
+        in: query
+        type: integer
+        format: int32
+        default: 0
     taskId:
         name: taskId
         description: Task ID

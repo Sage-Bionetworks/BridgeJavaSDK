@@ -1,0 +1,23 @@
+get:
+    operationId: getUploadTableJobResult
+    summary: Get the upload table job result, with the downloadable S3 URL if it's ready.
+    tags:
+        - Uploads
+        - _For Developers
+        - _For Researchers
+        - _For Study Coordinators
+        - _For Study Designers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/jobGuid
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/upload_table_job_result.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_developer_researcher_study_designer_study_coordinator.yml

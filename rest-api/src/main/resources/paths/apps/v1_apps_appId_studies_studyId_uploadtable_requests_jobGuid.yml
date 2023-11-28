@@ -1,0 +1,45 @@
+get:
+    operationId: getUploadTableJobForWorker
+    summary: Worker API to get the upload table job. Does not include the downloadable S3 URL.
+    tags:
+        - Uploads
+        - _For Workers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/appId
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/jobGuid
+    responses:
+        200:
+            description: OK
+            schema:
+                $ref: ../../definitions/upload_table_job.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_worker.yml
+post:
+    operationId: updateUploadTableJobForWorker
+    summary: Worker API to update the upload table job.
+    tags:
+        - Uploads
+        - _For Workers
+    security:
+        - BridgeSecurity: []
+    parameters:
+        - $ref: ../../index.yml#/parameters/appId
+        - $ref: ../../index.yml#/parameters/studyId
+        - $ref: ../../index.yml#/parameters/jobGuid
+        - name: UploadTableJob
+          in: body
+          required: true
+          schema:
+            $ref: ../../definitions/upload_table_job.yml
+    responses:
+        200:
+            $ref: ../../responses/200_message.yml
+        401:
+            $ref: ../../responses/401.yml
+        403:
+            $ref: ../../responses/403_not_worker.yml

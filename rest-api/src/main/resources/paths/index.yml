@@ -132,6 +132,8 @@
     $ref: ./apps/v2_apps_appId_participants_userId_reports_reportId.yml
 /v1/apps/{appId}/participants/{userId}/versions:
     $ref: ./apps/v1_apps_appId_participants_userId_versions.yml
+/v1/apps/{appId}/participants/{userId}/versions/latest:
+    $ref: ./apps/v1_apps_appId_participants_userId_versions_latest.yml
 /v1/apps/{appId}/participants/{userId}/versions/{version}:
     $ref: ./apps/v1_apps_appId_participants_userId_versions_version.yml
 /v1/apps/{appId}/oauth/{vendorId}:
@@ -154,6 +156,10 @@
     $ref: ./apps/v1_apps_appId_uploads_uploadId_exporter3.yml
 
 # Assessments
+/v1/apps/{appId}/assessments/{guid}:
+    $ref: ./apps/v1_apps_appId_assessments_guid.yml
+/v1/apps/{appId}/assessments/{guid}/config:
+    $ref: ./apps/v1_apps_appId_assessments_guid_config.yml
 /v1/assessments:
     $ref: ./assessments/v1_assessments.yml
 /v1/assessments/{guid}:
@@ -542,6 +548,20 @@
     $ref: ./uploadschemas/v3_uploadschemas_schemaId_recent.yml
 /v3/uploadschemas/{schemaId}/revisions/{revision}:
     $ref: ./uploadschemas/v3_uploadschemas_schemaId_revisions_revision.yml
+
+# Upload table rows
+/v1/apps/{appId}/studies/{studyId}/uploadtable:
+    $ref: ./apps/v1_apps_appId_studies_studyId_uploadtable.yml
+/v1/apps/{appId}/studies/{studyId}/uploadtable/query:
+    $ref: ./apps/v1_apps_appId_studies_studyId_uploadtable_query.yml
+/v1/apps/{appId}/studies/{studyId}/uploadtable/{recordId}:
+    $ref: ./apps/v1_apps_appId_studies_studyId_uploadtable_recordId.yml
+/v1/apps/{appId}/studies/{studyId}/uploadtable/requests/{jobGuid}:
+    $ref: ./apps/v1_apps_appId_studies_studyId_uploadtable_requests_jobGuid.yml
+/v5/studies/{studyId}/uploadtable/requests:
+    $ref: ./studies/v5_studies_studyId_uploadtable_requests.yml
+/v5/studies/{studyId}/uploadtable/requests/{jobGuid}:
+    $ref: ./studies/v5_studies_studyId_uploadtable_requests_jobGuid.yml
 
 # Schedule plans
 /v3/scheduleplans:

@@ -10,6 +10,9 @@ properties:
         readOnly: true
         items:
             type: string
+    assessmentGuid:
+        type: string
+        readOnly: true
     assessmentIds:
         type: array
         readOnly: true
@@ -66,6 +69,9 @@ properties:
         type: string
         readOnly: true
     includeDeleted:
+        type: boolean
+        readOnly: true
+    includeTestData:
         type: boolean
         readOnly: true
     includeRepeats:
@@ -146,6 +152,9 @@ properties:
             type: string
     sortOrder:
         $ref: ./enums/sort_order.yml
+        readOnly: true
+    start:
+        type: integer
         readOnly: true
     startDate:
         type: string
