@@ -5,7 +5,7 @@ post:
         Redrive uploads by providing a file with upload ids.
     tags:
         - Uploads
-        - _For Super Admin
+        - _For Superadmins
     security:
         - BridgeSecurity: []
     parameters:
@@ -19,7 +19,7 @@ post:
         200:
             description: OK
             schema:
-                $ref: ../../definitions/upload_validation_status.yml
+                $ref: ../../definitions/message.yml
         401:
             $ref: ../../responses/401.yml
         410:

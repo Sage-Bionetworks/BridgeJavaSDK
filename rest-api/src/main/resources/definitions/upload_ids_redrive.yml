@@ -4,7 +4,6 @@ required:
 properties:
     uploadIds:
         type: array
-        readOnly: true
         description: An array of upload ids to redrive
         items:
             type: string
