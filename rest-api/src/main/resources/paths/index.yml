@@ -532,6 +532,8 @@
     $ref: ./uploads/v3_uploads_uploadId.yml
 /v3/uploads/recordId:{recordId}:
     $ref: ./uploads/v3_uploads_recordId.yml
+/v3/uploads/redrive:
+    $ref: ./uploads/v3_uploads_redrive.yml
 
 # Upload schemas
 /v3/uploadschemas:

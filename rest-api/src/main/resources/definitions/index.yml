@@ -469,6 +469,8 @@ UploadTableRowQuery:
     $ref: ./upload_table_row_query.yml
 UploadValidationStatus:
     $ref: ./upload_validation_status.yml
+UploadRedriveList:
+    $ref: ./upload_redrive_list.yml
 UserConsentHistory:
     $ref: ./user_consent_history.yml
 UserSessionInfo:

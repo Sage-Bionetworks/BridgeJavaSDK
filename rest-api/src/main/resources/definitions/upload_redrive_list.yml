@@ -1,0 +1,16 @@
+type: object
+required:
+    - uploadIds
+properties:
+    uploadIds:
+        type: array
+        description: An array of upload ids to redrive
+        items:
+            type: string
+        x-nullable: false
+    type:
+        type: string
+        readOnly: true
+        description: "UploadRedriveList"
+        x-nullable: false
+
