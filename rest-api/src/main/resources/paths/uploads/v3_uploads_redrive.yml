@@ -9,12 +9,12 @@ post:
     security:
         - BridgeSecurity: []
     parameters:
-        - name: RedriveUploadIds
+        - name: UploadRedriveList
           description: One or more upload ids to redrive
           required: true
           in: body
           schema:
-            $ref: ../../definitions/upload_ids_redrive.yml
+            $ref: ../../definitions/upload_redrive_list.yml
     responses:
         200:
             description: OK

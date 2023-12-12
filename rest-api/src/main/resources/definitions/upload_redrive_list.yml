@@ -11,6 +11,6 @@ properties:
     type:
         type: string
         readOnly: true
-        description: "RedriveUploadIds"
+        description: "UploadRedriveList"
         x-nullable: false
 
