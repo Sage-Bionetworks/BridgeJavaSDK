@@ -23,6 +23,9 @@ properties:
         additionalProperties:
             $ref: ./enums/activity_event_update_type.yml
         x-nullable: false
+    adherenceReportEnabled:
+        type: boolean
+        description: True if adherence reports should be generated for this app.
     automaticCustomEvents:
         type: object
         description: |
